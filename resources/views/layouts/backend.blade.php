@@ -25,11 +25,8 @@
         <!-- Sweet Alert -->
         <link href="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
         
-          <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> -->
-    <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"> -->
         <!-- Toaster Msg -->
-        <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
 
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/icons.css') }}" rel="stylesheet" type="text/css">
@@ -88,6 +85,9 @@
         <script src="{{ asset('admin/js/jquery.scrollTo.min.js') }}"></script>
         <script src="{{ asset('admin/js/jquery.validate.js') }}"></script>
 
+        <!-- Toaster Msg -->
+        <script src="{{ asset('js/toastr.js') }}" ></script>
+
         <!-- skycons -->
         <script src="{{ asset('admin/plugins/skycons/skycons.min.js') }}"></script>
 
@@ -117,19 +117,37 @@
         <script src="{{ asset('admin/plugins/datatables/dataTables.responsive.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
 
-
         <!-- Form validate js -->        
         <script src="{{ asset('admin/plugins/parsleyjs/parsley.min.js') }}"></script>
 
         <!-- Sweet-Alert  -->
         <script src="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
         
-        <!-- Toaster Msg -->
-        <script href="{{ asset('js/toastr.min.js') }}" ></script>
-
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>
 
+<script>
+$(function () {
+    toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+});
+</script>
 @yield('script')
+
 </body>
 </html>

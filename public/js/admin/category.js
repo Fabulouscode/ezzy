@@ -1,20 +1,6 @@
 
-$(document).ready(function () {
-    // $("form[name='category_form']").validate({
-    //     rules: {
-    //         'name': { required: true },
-    //         'parent_id': { required: true },
-    //     },
-    //     messages: {
-    //         'name': "Please enter Category Name",
-    //         'parent_id': "Please select Parent Category",
-    //     },
-    //     submitHandler: function (form) {
-    //         form.submit();
-    //     }
-    // });
+$(function () {
     $("form[name='category_form']").parsley();
-    // toastr.success('We do have the Kapua suite available.', 'Success Alert', { timeOut: 5000 })
     $('#category_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -62,13 +48,13 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        // toastr.success(data.msg, 'EazzyCare App');
+                        toastr.success(data.msg, 'EazzyCare App');
                         var oTable = $('#category_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
                         console.log(error);
-                        // toastr.error(error.msg, 'EazzyCare App');
+                        toastr.error(error.msg, 'EazzyCare App');
                     }
                 });
             }

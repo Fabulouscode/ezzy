@@ -1,5 +1,5 @@
 
-$(document).ready(function () {
+$(function () {
     $('#user_datatable').DataTable({
         lengthChange: true,
         processing: true,
