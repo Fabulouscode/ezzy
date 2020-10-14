@@ -30,7 +30,7 @@
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="form-group">
                             <label>Category Name</label>
-                            <input id="name" type="text" required class="form-control @error('name') form-control-danger @enderror" name="name" value="{{!empty($data->name) ? $data->name : old('name') }}" autocomplete="name" autofocus/>
+                            <input id="name" type="text" required class="form-control @error('name') is-invalid @enderror" name="name" value="{{!empty($data->name) ? $data->name : old('name') }}" autocomplete="name" autofocus/>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label>Parent Category</label>
-                            <select id="parent_id"  type="text" class="form-control @error('parent_id') form-control-danger @enderror" name="parent_id" >
+                            <select id="parent_id"  type="text" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" >
                                 <option value="">Select Parent Category</option>
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}"  {{ !empty($data->parent_id) && $category->id == $data->parent_id ? 'selected' : '' }}>{{$category->name}}</option>

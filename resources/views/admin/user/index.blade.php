@@ -38,6 +38,7 @@
                                 <th>Mobile No.</th>
                                 <th>Category</th>
                                 <th>Subcategory</th>
+                                <th>User Extra Details</th>
                                 <th>Action</th>
                             </tr>
                         </thead>                        

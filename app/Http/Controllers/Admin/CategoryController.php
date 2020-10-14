@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\Admin\CategoryRequest;
+use App\Repositories\CategoryRepository;
 use Yajra\DataTables\DataTables;
 use Auth;
 
 class CategoryController extends Controller
 {
+    private $category_repo;
+
+    public function __construct(CategoryRepository $category_repo)
+    {
+        $this->category_repo = $category_repo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,22 +27,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if($request->all()){
-            $data = Category::with(['categoryParent'])->get();
-            return Datatables::of($data)
-                    ->addColumn('action',function($selected)
-                    {
-                        $data = '';
-                        $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
-                        return $data;
-                    })
-                    ->addColumn('categoryParent',function($selected){
-                        if(!empty($selected->categoryParent)){
-                            return $selected->categoryParent->name;
-                        }                            
-                    })
-                    ->rawColumns(['action','categoryParent'])
-                    ->make(true);
+            return $this->category_repo->getDatatable($request);
         }
         return view('admin.category.index');
     }
@@ -46,7 +39,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
+        $categories = $this->category_repo->get();
         return view('admin.category.add',compact('categories'));
     }
 
@@ -59,18 +52,12 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
          if(!empty($request->id)){
-            $category = Category::find($request->id);
-            $data = [
-                        'name' => $request->name,
-                        'parent_id' => $request->parent_id,
-                    ];
-            $category->update($data);       
+            $category = $this->category_repo->getById($request->id);
+            if(!empty($category)){
+                $this->category_repo->dataCrud($request, $request->id);
+            } 
         } else{
-        
-            Category::Create([
-                                'name' => $request->name,
-                                'parent_id' => $request->parent_id,
-                            ]);
+            $this->category_repo->dataCrud($request);
         }
 
         return redirect('/category');
@@ -84,8 +71,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::get();
-        $data = Category::find($id);
+        $categories = $this->category_repo->get();
+        $data = $this->category_repo->getById($id);
         return view('admin.category.add',compact('data','categories'));
     }
 
@@ -97,9 +84,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $data = Category::find($id);
-        if($data){
-            $data->delete(); 
+        $data = $this->category_repo->getById($id);
+        if(!empty($data)){
+            $this->category_repo->destroy($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

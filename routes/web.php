@@ -43,4 +43,5 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('user', 'UserController');
     });
     
+        
 });

@@ -1,5 +1,6 @@
 
 $(function () {
+    $("form[name='user_form']").parsley();
     $('#user_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -20,6 +21,7 @@ $(function () {
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'categoryParent', name: 'categoryParent' },
             { data: 'categoryChild', name: 'categoryChild' },
+            { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],

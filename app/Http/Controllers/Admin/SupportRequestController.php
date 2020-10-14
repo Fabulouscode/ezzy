@@ -2,36 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Category;
-use App\Repositories\UserRepository;
-use Yajra\DataTables\DataTables;
-use Auth;
+use App\Models\Support_request;
 
-
-class UserController extends Controller
+class SupportRequestController extends Controller
 {
-
-    private $user_repo;
-
-    public function __construct(UserRepository $user_repo)
-    {
-        $this->user_repo = $user_repo;
-    }
-     
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($request->all()){
-            return $this->user_repo->getDatatable($request);
-        }
-        return view('admin.user.index');
+        //
     }
 
     /**
@@ -56,6 +39,17 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -63,7 +57,19 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        //
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
     }
 
     /**
@@ -74,12 +80,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->user_repo->getById($id);
-        if($data){
-            $this->user_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
-        return response()->json(['msg'=>'Data Not success'], 500);
+        //
     }
 }

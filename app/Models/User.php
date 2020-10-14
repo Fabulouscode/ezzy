@@ -70,4 +70,20 @@ class User extends Authenticatable
     public function categoryChild() {
         return $this->hasOne('App\Models\Category', 'id', 'subcategory_id');
     }
+    
+    public function userDetails() {
+        return $this->hasOne('App\Models\User_details');
+    }
+    
+    public function userEduction() {
+        return $this->hasMany('App\Models\User_education');
+    }
+
+    public function userExperiance() {
+        return $this->hasMany('App\Models\User_experiance');
+    }
+
+    public function userBankAccount() {
+        return $this->hasMany('App\Models\User_bank_account');
+    }
 }

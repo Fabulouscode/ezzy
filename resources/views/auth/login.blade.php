@@ -23,7 +23,7 @@
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input required parsley-type="email"  class="form-control @error('email') form-control-danger @enderror" id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" autocomplete="email" autofocus>
+                                        <input required parsley-type="email"  class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" autocomplete="email" autofocus>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input required data-parsley-minlength="6"  class="form-control @error('password') form-control-danger @enderror" type="password" id="password" name="password" placeholder="Password" autocomplete="password">
+                                        <input required data-parsley-minlength="6"  class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" placeholder="Password" autocomplete="password">
                                     </div>
                                 </div>
 
