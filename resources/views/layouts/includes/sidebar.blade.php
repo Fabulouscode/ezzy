@@ -36,27 +36,78 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Elements </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="ui-alerts.html">Alerts</a></li>
-                        <li><a href="ui-buttons.html">Buttons</a></li>
-                        <li><a href="ui-badge.html">Badge</a></li>
-                        <li><a href="ui-cards.html">Cards</a></li>
-                        <li><a href="ui-dropdowns.html">Dropdowns</a></li>
-                        <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
-                        <li><a href="ui-modals.html">Modals</a></li>
-                        <li><a href="ui-images.html">Images</a></li>
-                        <li><a href="ui-progressbars.html">Progress Bars</a></li>
-                        <li><a href="ui-navs.html">Navs</a></li>
-                        <li><a href="ui-pagination.html">Pagination</a></li>
-                        <li><a href="ui-popover-tooltips.html">Popover & Tooltips</a></li>
-                        <li><a href="ui-carousel.html">Carousel</a></li>
-                        <li><a href="ui-video.html">Video</a></li>
-                        <li><a href="ui-typography.html">Typography</a></li>
-                        <li><a href="ui-grid.html">Grid</a></li>
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
+                        <li><a href="{{url('/user/healthcare/pending')}}">Pending HCP</a></li>
+                        <li><a href="{{url('/user/healthcare')}}">Approved HCP</a></li>
+                        <li><a href="">Patients</a></li>
                     </ul>
                 </li>
-
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
+                        <li><a href="{{url('/user/pharmacy/pending')}}">Pending Pharmacist</a></li>
+                        <li><a href="{{url('/user/pharmacy')}}">Pharmacist List</a></li>
+                        <li><a href="">Orders</a></li>
+                        <li><a href="">Manage Pharmacy</a></li>
+                    </ul>
+                </li>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{url('/')}}">Dashboard</a></li>
+                        <li><a href="{{url('/user/laboratories/pending')}}">Pending Laboratories</a></li>
+                        <li><a href="{{url('/user/laboratories')}}">Laboratories List</a></li>
+                        <li><a href="">Orders</a></li>
+                        <li><a href="">Manage Lab Reports</a></li>
+                    </ul>
+                </li>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="">Upcoming</a></li>
+                        <li><a href="">Completed</a></li>
+                    </ul>
+                </li>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="">Pending Payout</a></li>
+                        <li><a href="">Approved Payout</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Static Pages </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> HCP Types </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Manage Fees </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Discount Code </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Notifications </span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="clearfix"></div>

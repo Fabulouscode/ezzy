@@ -39,8 +39,15 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('/datatable', function () {
             return view('datatable');
         });
+        
+        Route::get('user/{category}', 'UserController@index');
+        Route::get('user/{category}/pending', 'UserController@getViewPending');
+
         Route::resource('category', 'CategoryController');
         Route::resource('user', 'UserController');
+        Route::post('user/data', 'UserController@getDatatable');
+    
+    
     });
     
         

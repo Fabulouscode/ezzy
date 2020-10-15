@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Repositories\UserRepository;
-use Yajra\DataTables\DataTables;
+use App\Repositories\CategoryRepository;
 use Auth;
 
 
@@ -15,10 +15,12 @@ class UserController extends Controller
 {
 
     private $user_repo;
+    private $category_repo;
 
-    public function __construct(UserRepository $user_repo)
+    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo)
     {
         $this->user_repo = $user_repo;
+        $this->category_repo = $category_repo;
     }
      
     /**
@@ -26,13 +28,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($category = '')
+    {
+        if($category == 'healthcare'){
+             return view('admin.healthcare.index');
+        }else if($category == 'pharmacy'){
+             return view('admin.pharmacy.index');
+        }else if($category == 'laboratories'){
+             return view('admin.laboratories.index');
+        }else{            
+            return view('admin.user.index');
+        }
+    }
+    
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getDatatable(Request $request)
     {
         if($request->all()){
-            return $this->user_repo->getDatatable($request);
+           return $this->user_repo->getDatatable($request);
         }
-        return view('admin.user.index');
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -63,7 +84,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-
+        $categories = $this->category_repo->get();
+        $data = $this->user_repo->getbyIdedit($id);
+        return view('admin.user.add',compact('data','categories'));
     }
 
     /**

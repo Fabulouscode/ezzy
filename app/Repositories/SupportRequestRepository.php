@@ -6,13 +6,12 @@ use App\Events\ForgotPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\DataTables;
-use App\Models\Category;
+use App\Models\Support_request;
 use Illuminate\Support\Str;
 
-class CategoryRepository extends Repository
+class SupportRequestRepository extends Repository
 {
-    protected $model_name = 'App\Models\Category';
+    protected $model_name = 'App\Models\Support_request';
     protected $model;
 
     public function __construct()
@@ -43,7 +42,7 @@ class CategoryRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getAll()
     {
        return $this->model->with(['categoryParent'])->get();
     }
@@ -60,16 +59,11 @@ class CategoryRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('support_ticket/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('categoryParent',function($selected){
-                    if(!empty($selected->categoryParent)){
-                        return $selected->categoryParent->name;
-                    }                            
-                })
-                ->rawColumns(['action','categoryParent'])
+                ->rawColumns(['action'])
                 ->make(true);
     }
 }

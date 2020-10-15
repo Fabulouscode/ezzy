@@ -21,6 +21,16 @@ class Repository
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAll()
+    {
+        return $this->model->all();
+    }
+
+    /**
      * FindOrFail Model and return the instance.
      *
      * @param int $id

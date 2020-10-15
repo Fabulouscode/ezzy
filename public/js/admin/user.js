@@ -8,10 +8,12 @@ $(function () {
         bPaginate: true,
         responsive: true,
         ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_url,
-            type: 'get',
+            type: 'post',
             dataType: "json",
             async: true,
+            data: data
         },
         columns: [
             { data: 'id', name: 'id' },
@@ -21,7 +23,8 @@ $(function () {
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'categoryParent', name: 'categoryParent' },
             { data: 'categoryChild', name: 'categoryChild' },
-            { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
+            { data: 'status', name: 'status' },
+            // { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
