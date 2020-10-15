@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Repositories\CategoryRepository;
-use Yajra\DataTables\DataTables;
 use Auth;
 
 class CategoryController extends Controller

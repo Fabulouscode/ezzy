@@ -35,18 +35,29 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
 
     Route::namespace('Admin')->middleware('auth:admin')->group(function(){
-        Route::get('/', 'HomeController@index');
-        Route::get('/datatable', function () {
-            return view('datatable');
-        });
+       
+       // Main Dashoard
+       Route::get('/', 'DashboardController@index');
         
-        Route::get('user/{category}', 'UserController@index');
-        Route::get('user/{category}/pending', 'UserController@getViewPending');
-
+       // Child Dashoard
+       Route::get('{provider}/dashboard', 'DashboardController@index');
+        
+        // Category routes(Provider)
         Route::resource('category', 'CategoryController');
+       
+        // Users routes
         Route::resource('user', 'UserController');
+        Route::post('user/change_status', 'UserController@changeStatus');
         Route::post('user/data', 'UserController@getDatatable');
     
+        // user listing using provider
+        Route::get('{provider}/users', 'UserController@index');
+        Route::get('{provider}/users/pending', 'UserController@getPending');
+        Route::get('users/patients', 'UserController@index');
+
+        // Appointment routes        
+        Route::get('appointment/{status}', 'AppointmentController@getAppointments');
+        Route::resource('appointment', 'AppointmentController');
     
     });
     

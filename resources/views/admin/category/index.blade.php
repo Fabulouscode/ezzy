@@ -10,11 +10,11 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Drixo</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Health Care Provider Types</li>
                 </ol>
             </div>
-            <h5 class="page-title">Dashboard</h5>
+            <h5 class="page-title">Health Care Provider Types</h5>
         </div>
     </div>
     <!-- end row -->
@@ -25,7 +25,7 @@
                 <div class="card-body">
                 
                     <div class="block-options-item mb-3 ml-3">
-                        <a href="{{url('/category/create')}}" class="btn btn-outline-info">Add Category</a>
+                        <a href="{{url('/category/create')}}" class="btn btn-outline-info">Add Health Care Provider Type</a>
                     </div>
 
                     <table id="category_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

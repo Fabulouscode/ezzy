@@ -40,9 +40,21 @@ class UserRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getWithRelationship($request)
     {
-        return $this->model->with(['categoryParent','categoryChild'])->get();
+
+        $query = $this->model->with(['categoryChild','categoryParent']);    
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                $query->where('parent_id', $request->category_id);
+            });
+            $query = $query->where('status', $request->status);
+        }else{
+            $query = $query->whereNull('category_id');
+            $query = $query->whereNull('subcategory_id');
+        }
+        $query->orderBy('id','desc')->get();
+        return $query;
     }
     
     /**
@@ -51,14 +63,27 @@ class UserRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function getDatatable($request)
-    {
-        $data = $this->getWithRelationship();
+    {   
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
+                ->addIndexColumn()
                 ->addColumn('action',function($selected)
                 {
+                    $change_status = $selected->status == '1' ? 0 : 1;
                     $data = '';
+                   
+                    // Edit
                     // $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    
+                    // View
+                    $data .= '<a href="'.url('user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                   
+                    // Delete
+                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    
+                    // Change Status
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-warning" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.','.$change_status.')"><i class="fa fa-user-circle-o"></i></a>';
+                    
                     return $data;
                 })
                 ->addColumn('status',function($selected)

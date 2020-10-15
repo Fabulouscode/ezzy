@@ -9,14 +9,14 @@ $(function () {
         responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: user_url,
+            url: user_url + "/data",
             type: 'post',
             dataType: "json",
             async: true,
             data: data
         },
         columns: [
-            { data: 'id', name: 'id' },
+            { data: 'DT_RowIndex', name: 'id', searchable: false },
             { data: 'first_name', name: 'first_name' },
             { data: 'last_name', name: 'last_name' },
             { data: 'email', name: 'email' },
@@ -28,9 +28,20 @@ $(function () {
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            if (data.category_id == '') {
+                api.columns([5, 6]).visible(showColumn);
+            } else if (data.category_id == '2' || data.category_id == '3') {
+                api.columns([6]).visible(showColumn);
+            }
+        }
     });
 
 });
+
+
 
 function deleteRow(row_id) {
     if (row_id) {
@@ -52,6 +63,42 @@ function deleteRow(row_id) {
                     success: function (data) {
                         swal(
                             'Deleted!',
+                            data.msg,
+                            'success'
+                        )
+                        var oTable = $('#user_datatable').dataTable();
+                        oTable.fnDraw(false);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    }
+}
+
+function changeStatusRow(row_id, status) {
+    if (row_id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to Change User Status!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            confirmButtonText: 'Yes, Change Status it!'
+        }).then(function () {
+            if (row_id) {
+                $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: user_url + "/change_status",
+                    type: "post",
+                    data: { 'user_id': row_id, 'status': status },
+                    dataType: 'json',
+                    success: function (data) {
+                        swal(
+                            'Status!',
                             data.msg,
                             'success'
                         )

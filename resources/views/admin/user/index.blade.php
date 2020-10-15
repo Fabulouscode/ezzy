@@ -23,7 +23,6 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                
                     <!-- <div class="block-options-item mb-3 ml-3">
                         <a href="{{url('/user/create')}}" class="btn btn-outline-info">Add User</a>
                     </div> -->
@@ -54,7 +53,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user/data')}}";
+    var user_url = "{{url('/user')}}";
     var data = {'category_id':'','status':'0'};
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>

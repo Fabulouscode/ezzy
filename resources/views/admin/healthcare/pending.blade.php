@@ -10,11 +10,11 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Approved Laboratories</li>
+                    <li class="breadcrumb-item"><a href="{{url('/healthcare/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Pending Health Care Providers</li>
                 </ol>
             </div>
-            <h5 class="page-title">Approved Laboratories</h5>
+            <h5 class="page-title">Pending Health Care Providers</h5>
         </div>
     </div>
     <!-- end row -->
@@ -55,7 +55,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
-    var data = {'status':'0', 'category_id':'3'};
+    var data = {'status':'1', 'category_id':'1'};
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection

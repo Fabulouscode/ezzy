@@ -28,19 +28,36 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($category = '')
+    public function index($provider = '')
     {
-        if($category == 'healthcare'){
+        if($provider == 'healthcare'){
              return view('admin.healthcare.index');
-        }else if($category == 'pharmacy'){
+        }else if($provider == 'pharmacy'){
              return view('admin.pharmacy.index');
-        }else if($category == 'laboratories'){
+        }else if($provider == 'laboratories'){
              return view('admin.laboratories.index');
         }else{            
-            return view('admin.user.index');
+            return view('admin.patients.index');
         }
     }
     
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPending($provider = '')
+    {
+        if($provider == 'healthcare'){
+             return view('admin.healthcare.pending');
+        }else if($provider == 'pharmacy'){
+             return view('admin.pharmacy.pending');
+        }else if($provider == 'laboratories'){
+             return view('admin.laboratories.pending');
+        }else{            
+            return view('admin.patients.index');
+        }
+    }
     
     /**
      * Display a listing of the resource.
@@ -54,16 +71,6 @@ class UserController extends Controller
         }
     }
     
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -90,6 +97,21 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $categories = $this->category_repo->get();
+        $data = $this->user_repo->getbyIdedit($id);
+        // dd($data->toArray());
+        return view('admin.user.view',compact('data','categories'));
+    }
+
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -101,6 +123,24 @@ class UserController extends Controller
         if($data){
             $this->user_repo->destroy($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
+        }
+        
+        return response()->json(['msg'=>'Data Not success'], 500);
+    }
+
+    /**
+     * editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Request $request)
+    {
+        $data = $this->user_repo->getById($request->user_id);
+        if(!empty($data)){
+            $data = ['status' => $request->status];
+            $this->user_repo->update($data, $request->user_id); 
+            return response()->json(['msg'=>'Status Change success'], 200);
         }
         
         return response()->json(['msg'=>'Data Not success'], 500);
