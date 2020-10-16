@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
-    use HasFactory;
-    
+    use HasFactory,SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,4 +32,18 @@ class Appointment extends Model
         'cancel_date',
         'status',
     ];
+
+
+    public function userDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
+
+    public function clientDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'client_id');
+    }
+    
+    public function cancelUserDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'cancel_user_id');
+    }
+
 }

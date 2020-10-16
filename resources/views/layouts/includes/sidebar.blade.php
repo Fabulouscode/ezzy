@@ -56,8 +56,8 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/appointment')}}">Upcoming</a></li>
-                        <li><a href="{{url('/appointment/completed')}}">Completed</a></li>
-                        <li><a href="{{url('/appointment/cancel')}}">Cancel</a></li>
+                        <li><a href="{{url('/appointments/completed')}}">Completed</a></li>
+                        <li><a href="{{url('/appointments/cancel')}}">Cancel</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">
@@ -101,6 +101,12 @@
                     <a href="javascript:void(0);" class="waves-effect">
                         <i class="dripicons-meter"></i>
                         <span> Notifications </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('/support_request')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Support Request </span>
                     </a>
                 </li>
             </ul>

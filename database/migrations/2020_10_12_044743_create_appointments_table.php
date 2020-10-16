@@ -29,6 +29,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('otp_code')->nullable();
             $table->text('cancel_reason')->nullable();
             $table->datetime('cancel_date')->nullable();
+            $table->bigInteger('cancel_user_id')->unsigned()->nullable();
             $table->integer('status')->default(0)->signed()->comment('0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel');
             $table->timestamps();
             $table->softDeletes();
@@ -39,6 +40,9 @@ class CreateAppointmentsTable extends Migration
                   ->references('id')
                   ->on('users');
             $table->foreign('client_id')
+                  ->references('id')
+                  ->on('users');
+            $table->foreign('cancel_user_id')
                   ->references('id')
                   ->on('users');
         });

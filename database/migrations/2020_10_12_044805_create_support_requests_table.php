@@ -16,11 +16,12 @@ class CreateSupportRequestsTable extends Migration
         Schema::create('support_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->string('name')->nullable();
+            $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('attachment')->nullable();
             $table->integer('status')->signed()->default(0)->comment('0-Pending, 1-Success, 2-Cancel');
             $table->timestamps();
+            $table->softDeletes();
 
             // Foregin Key add
             $table->foreign('user_id')

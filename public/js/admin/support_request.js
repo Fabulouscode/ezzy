@@ -1,28 +1,23 @@
 
 $(function () {
-    $("form[name='appointment_form']").parsley();
-    $('#appointments_datatable').DataTable({
+    $("form[name='support_request_form']").parsley();
+    $('#support_request_datatable').DataTable({
         lengthChange: true,
         processing: true,
         serverSide: true,
         bPaginate: true,
         responsive: true,
         ajax: {
-            url: appointment_url,
+            url: support_request_url,
             type: 'get',
             dataType: "json",
-            async: true,
-            data: data_obj
+            async: true
         },
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'mobile_no', name: 'mobile_no' },
-            { data: 'appointment_type', name: 'appointment_type' },
-            { data: 'appointment_category', name: 'appointment_category' },
-            { data: 'appointment_date', name: 'appointment_date' },
-            { data: 'appointment_time', name: 'appointment_time' },
+            { data: 'userDetails', name: 'userDetails' },
+            { data: 'title', name: 'title' },
+            { data: 'description', name: 'description' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
@@ -46,7 +41,7 @@ function deleteRow(row_id) {
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                    url: appointment_url + "/" + row_id,
+                    url: support_request_url + "/" + row_id,
                     type: "delete",
                     dataType: 'json',
                     success: function (data) {
@@ -56,7 +51,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         toastr.success(data.msg, 'EazzyCare App');
-                        var oTable = $('#appointments_datatable').dataTable();
+                        var oTable = $('#support_request_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {

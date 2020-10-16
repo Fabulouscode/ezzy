@@ -49,16 +49,22 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('user', 'UserController');
         Route::post('user/change_status', 'UserController@changeStatus');
         Route::post('user/data', 'UserController@getDatatable');
-    
-        // user listing using provider
         Route::get('{provider}/users', 'UserController@index');
         Route::get('{provider}/users/pending', 'UserController@getPending');
         Route::get('users/patients', 'UserController@index');
 
         // Appointment routes        
-        Route::get('appointment/{status}', 'AppointmentController@getAppointments');
-        Route::resource('appointment', 'AppointmentController');
+        Route::resource('appointment', 'AppointmentController');        
+        Route::get('appointments/{status}', 'AppointmentController@getAppointments');
+       
+        // Support request  routes        
+        Route::resource('support_request', 'SupportRequestController');        
     
+    });
+
+
+    Route::namespace('Admin')->group(function(){
+       Route::get('/card_generate', 'DashboardController@genrateCardNumber');
     });
     
         

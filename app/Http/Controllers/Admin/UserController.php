@@ -14,8 +14,7 @@ use Auth;
 class UserController extends Controller
 {
 
-    private $user_repo;
-    private $category_repo;
+    private $user_repo, $category_repo;
 
     public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo)
     {

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Support_request extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,4 +22,8 @@ class Support_request extends Model
         'attachment',
         'status',
     ];
+
+    public function userDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

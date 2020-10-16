@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Support_request;
-use Yajra\DataTables\DataTables;
+use App\Repositories\SupportRequestRepository;
+use App\Http\Requests\Admin\SupportRequest;
 
 class SupportRequestController extends Controller
 {
@@ -44,7 +45,7 @@ class SupportRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(SupportRequest $request)
     {
          if(!empty($request->id)){
             $category = $this->support_request_repo->getById($request->id);
@@ -66,8 +67,22 @@ class SupportRequestController extends Controller
      */
     public function edit($id)
     {
+        $status = $this->support_request_repo->status;
         $data = $this->support_request_repo->getById($id);
-        return view('admin.category.add',compact('data'));
+        return view('admin.support_request.add',compact('data','status'));
+    }
+    
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $status = $this->support_request_repo->status;
+        $data = $this->support_request_repo->getbyIdedit($id);
+        return view('admin.support_request.view',compact('data','status'));
     }
 
     /**

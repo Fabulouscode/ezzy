@@ -13,7 +13,7 @@ $(function () {
             type: 'post',
             dataType: "json",
             async: true,
-            data: data
+            data: data_obj
         },
         columns: [
             { data: 'DT_RowIndex', name: 'id', searchable: false },
@@ -31,9 +31,9 @@ $(function () {
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
-            if (data.category_id == '') {
+            if (data_obj.category_id == '') {
                 api.columns([5, 6]).visible(showColumn);
-            } else if (data.category_id == '2' || data.category_id == '3') {
+            } else if (data_obj.category_id == '2' || data_obj.category_id == '3') {
                 api.columns([6]).visible(showColumn);
             }
         }

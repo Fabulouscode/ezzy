@@ -14,6 +14,22 @@ class AppointmentRepository extends Repository
 {
     protected $model_name = 'App\Models\Appointment';
     protected $model;
+   
+    public $status = array(
+        '0' => 'Pending',
+        '1' => 'Upcoming',
+        '2' => 'in_progress',
+        '3' => 'Paid',
+        '4' => 'Unpaid',
+        '5' => 'Success',
+        '6' => 'Cancel'
+    );
+
+    public $appointment_types = array(
+        '0' => 'In Clinic',
+        '1' => 'Home Care',
+        '2' => 'Video Call'
+    );
 
     public function __construct()
     {
@@ -40,9 +56,19 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getWithRelationship($request)
     {
-       return $this->model->get();
+        $query = $this->model->with(['userDetails','clientDetails','userDetails.categoryParent','userDetails.categoryChild']);    
+        if(!empty($request->status)){
+            $query = $query->where('status', $request->status);
+        }else{
+            $query = $query->whereNotIn('status',['5','6']);
+        }
+        
+        $query->orderBy('id','desc')->get();
+        
+        return $query;
+
     }
     
     /**
@@ -52,7 +78,7 @@ class AppointmentRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -65,6 +91,17 @@ class AppointmentRepository extends Repository
                    
                     // Delete
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    
+                    return $data;
+                })
+                ->addColumn('appointment_category',function($selected)
+                {
+                    $data = '';
+                    if(!empty($selected->userDetails->categoryChild)){
+                        $data .= '<div class="text-success"><strong>'.$selected->userDetails->categoryChild->name.'</strong></div>';
+                    } else if(!empty($selected->userDetails->categoryParent)){
+                        $data .= '<div class="text-success"><strong>'.$selected->userDetails->categoryParent->name.'</strong></div>';
+                    }
                     
                     return $data;
                 })
@@ -104,7 +141,19 @@ class AppointmentRepository extends Repository
                     //  $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
                     return $data;
                 })
-                ->rawColumns(['action','appointment_type','status'])
+                ->rawColumns(['action','appointment_category','appointment_type','status'])
                 ->make(true);
     }
+
+     /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdedit($id)
+    {   
+        return $this->model->with(['userDetails','clientDetails','cancelUserDetails','userDetails.categoryParent','userDetails.categoryChild'])->find($id);
+
+    }
+
 }

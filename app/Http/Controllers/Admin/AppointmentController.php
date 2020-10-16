@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Repositories\AppointmentRepository;
+use App\Repositories\CategoryRepository;
 use Auth;
 
 class AppointmentController extends Controller
 {
-    private $appointment_repo;
+    private $appointment_repo, $category_repo;
 
-    public function __construct(AppointmentRepository $appointment_repo)
+    public function __construct(AppointmentRepository $appointment_repo, CategoryRepository $category_repo)
     {
         $this->appointment_repo = $appointment_repo;
+        $this->category_repo = $category_repo;
     }
 
     /**
@@ -76,8 +78,12 @@ class AppointmentController extends Controller
      */
     public function show($id)
     {
+        $appointment_types = $this->appointment_repo->appointment_types;
+        $status = $this->appointment_repo->status;
+        $categories = $this->category_repo->get();
         $data = $this->appointment_repo->getbyIdedit($id);
-        return view('admin.appointment.view',compact('data'));
+        // dd($data->toArray());
+        return view('admin.appointment.view',compact('data','categories','appointment_types','status'));
     }
 
     /**

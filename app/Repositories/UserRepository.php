@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Validator;
 
 class UserRepository extends Repository
 {
@@ -120,9 +121,8 @@ class UserRepository extends Repository
     }
 
      /**
-     * Store a newly created resource in storage.
+     * Display a edit of the record.
      *
-     * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
     public function getbyIdedit($id)
@@ -130,5 +130,29 @@ class UserRepository extends Repository
         return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount'])->find($id);
 
     }
+
+    /**
+     * generate card no for eazzy care card.
+     *
+     * @return \Illuminate\Http\Response
+     */   
+    function genrateCardNumber() 
+    {     
+        $length = 12;
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+        $card_number = 'EAZZY_'.substr(str_shuffle($str_result), 0, $length);
+        $validator = Validator::make(
+            [
+                'eazycare_card' => $card_number
+            ],
+            [
+                'eazycare_card' => 'required|unique:users',
+            ]
+        );
+        if ($validator->fails()) {
+            self::genrateCardNumber();
+        }
+        return $card_number; 
+    } 
 
 }

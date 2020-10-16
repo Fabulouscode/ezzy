@@ -91,7 +91,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Device Type</label>
-                                    <input disabled type="text" class="form-control" name="device_type" value="{{$data->device_type == '0' ? 'Android' : $data->device_type == '1' ? 'IOS' :  '' }}" />
+                                    <input disabled type="text" class="form-control" name="device_type" value="{{($data->device_type == '0') ? 'Android' : (($data->device_type == '1') ? 'IOS' :  '') }}" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Device Token</label>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                         
-                        @if($data->userDetails) 
+                        @if(!empty($data->userDetails)) 
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">User Extra Details</h4>
                             <div class="row">
@@ -138,7 +138,7 @@
                         </div>
                         @endif
 
-                        @if($data->userEduction)
+                        @if(count($data->userEduction) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Education Details</h4>
                             @foreach($data->userEduction as $user_eduction) 
@@ -171,7 +171,7 @@
                         </div>
                         @endif
 
-                        @if($data->userExperiance) 
+                        @if(count($data->userExperiance) > 0) 
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Experiance Details</h4>
                             @foreach($data->userExperiance as $user_experiance) 
@@ -204,7 +204,7 @@
                         </div>
                         @endif
 
-                        @if($data->userBankAccount) 
+                        @if(count($data->userBankAccount) > 0) 
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Experiance Details</h4>
                             @foreach($data->userBankAccount as $user_bank_account) 

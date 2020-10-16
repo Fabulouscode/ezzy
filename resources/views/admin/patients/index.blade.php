@@ -55,7 +55,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
-    var data = {'status':'0', 'category_id':''};
+    var data_obj = {'status':'0', 'category_id':''};
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection

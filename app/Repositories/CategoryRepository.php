@@ -45,7 +45,9 @@ class CategoryRepository extends Repository
      */
     public function getWithRelationship()
     {
-       return $this->model->with(['categoryParent'])->get();
+        $query = $this->model->with(['categoryParent']);
+        $query->orderBy('id','desc')->get();
+        return $query;
     }
     
     /**
