@@ -143,10 +143,10 @@ class UserRepository extends Repository
         $card_number = 'EAZZY_'.substr(str_shuffle($str_result), 0, $length);
         $validator = Validator::make(
             [
-                'eazycare_card' => $card_number
+                'eazzycare_card' => $card_number
             ],
             [
-                'eazycare_card' => 'required|unique:users',
+                'eazzycare_card' => 'required|unique:users',
             ]
         );
         if ($validator->fails()) {

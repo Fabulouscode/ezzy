@@ -20,7 +20,17 @@ class CreateUserDetailsTable extends Migration
             $table->string('country')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();
+            $table->string('emergency_contact')->nullable();
             $table->date('dob')->nullable();
+            $table->integer('marital_status')->signed()->nullable()->comment('0-Single, 1-Married');
+            $table->string('blood_group')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->text('allergies')->nullable();
+            $table->boolean('smoking_habbits')->default(0)->comment('0-No, 1-Yes');
+            $table->boolean('alcohole_consumption')->default(0)->comment('0-No, 1-Yes');
+            $table->integer('food_preference')->signed()->nullable()->comment('0-Veg., 1-Non Veg.');
+            $table->string('occupation')->nullable();
             $table->string('normal_fees')->nullable();
             $table->string('urgent_fees')->nullable();
             $table->string('home_visit_fees')->nullable();

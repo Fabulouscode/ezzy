@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('subcategory_id')->unsigned()->nullable();
-            $table->string('eazycare_card')->unique();    
+            $table->string('eazzycare_card')->unique();    
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');

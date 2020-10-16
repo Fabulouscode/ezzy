@@ -80,8 +80,8 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Eazzy Card</label>
-                                <input id="eazycare_card" type="text" required class="form-control @error('eazycare_card') form-control-danger @enderror" name="eazycare_card" value="{{!empty($data->eazycare_card) ? $data->eazycare_card : old('eazycare_card') }}" />
-                                @error('eazycare_card')
+                                <input id="eazzycare_card" type="text" required class="form-control @error('eazzycare_card') form-control-danger @enderror" name="eazzycare_card" value="{{!empty($data->eazzycare_card) ? $data->eazzycare_card : old('eazzycare_card') }}" />
+                                @error('eazzycare_card')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

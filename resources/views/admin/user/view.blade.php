@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Eazzy Card</label>
-                                <input disabled type="text"  class="form-control" name="eazycare_card" value="{{$data->eazycare_card}}" />
+                                <input disabled type="text"  class="form-control" name="eazzycare_card" value="{{$data->eazzycare_card}}" />
                             </div>
                         </div>
 

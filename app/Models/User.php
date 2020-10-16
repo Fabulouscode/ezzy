@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'category_id',
         'subcategory_id',
-        'eazycare_card',
+        'eazzycare_card',
         'first_name',
         'last_name',
         'email',
