@@ -4,22 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Category;
 use App\Repositories\UserRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\AppointmentRepository;
 use Auth;
 
 
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo;
+    private $user_repo, $category_repo, $appointment_repo;
 
-    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo)
+    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo, AppointmentRepository $appointment_repo)
     {
         $this->user_repo = $user_repo;
         $this->category_repo = $category_repo;
+        $this->appointment_repo = $appointment_repo;
     }
      
     /**
@@ -57,6 +57,7 @@ class UserController extends Controller
             return view('admin.patients.index');
         }
     }
+    
     
     /**
      * Display a listing of the resource.
@@ -103,10 +104,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $days = $this->user_repo->days;
+        $appointment_types = $this->appointment_repo->appointment_types;
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
         // dd($data->toArray());
-        return view('admin.user.view',compact('data','categories'));
+        return view('admin.user.view',compact('data','categories','days','appointment_types'));
     }
 
 

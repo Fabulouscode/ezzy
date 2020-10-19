@@ -155,5 +155,62 @@ class AppointmentRepository extends Repository
         return $this->model->with(['userDetails','clientDetails','cancelUserDetails','userDetails.categoryParent','userDetails.categoryChild'])->find($id);
 
     }
+    
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUpcomingAppointment($request)
+    {   $offset = $request->offset * $request->limit;
+        return $this->model->offset($offset)
+                           ->limit($request->limit)
+                           ->whereIn('status',['1','2'])
+                           ->get();
+
+    }
+   
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPendingAppointment($request)
+    {   $offset = $request->offset * $request->limit;
+        return $this->model->offset($offset)
+                           ->limit($request->limit)
+                           ->whereIn('status',['0'])
+                           ->get();
+
+    }
+   
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCancelledAppointment($request)
+    {   $offset = $request->offset * $request->limit;
+        return $this->model->offset($offset)
+                           ->limit($request->limit)
+                           ->whereIn('status',['6'])
+                           ->get();
+
+    }
+   
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCompletedAppointment($request)
+    {   $offset = $request->offset * $request->limit;
+        return $this->model->offset($offset)
+                           ->limit($request->limit)
+                           ->whereIn('status',['5'])
+                           ->get();
+
+    }
 
 }
+

@@ -15,7 +15,7 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'userDetails', name: 'userDetails' },
+            { data: 'userDetails', name: 'userDetails.firstname' },
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
             { data: 'status', name: 'status' },
@@ -50,13 +50,13 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        toastr.success(data.msg, 'EazzyCare App');
+                        toastr.success(data.msg, 'EzzyCare App');
                         var oTable = $('#support_request_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
                         console.log(error);
-                        toastr.error(error.msg, 'EazzyCare App');
+                        toastr.error(error.msg, 'EzzyCare App');
                     }
                 });
             }

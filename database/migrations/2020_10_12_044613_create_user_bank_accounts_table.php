@@ -17,6 +17,7 @@ class CreateUserBankAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->string('bank_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('bank_branch_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('ifsc_code')->nullable();

@@ -45,6 +45,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // Category routes(Provider)
         Route::resource('category', 'CategoryController');
        
+        // User review routes        
+        Route::get('user/reviews/{user_id}', 'UserReviewController@getReviewView');
+        Route::resource('user/review', 'UserReviewController');  
+
         // Users routes
         Route::resource('user', 'UserController');
         Route::post('user/change_status', 'UserController@changeStatus');
@@ -53,6 +57,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('{provider}/users/pending', 'UserController@getPending');
         Route::get('users/patients', 'UserController@index');
 
+        
+      
         // Appointment routes        
         Route::resource('appointment', 'AppointmentController');        
         Route::get('appointments/{status}', 'AppointmentController@getAppointments');

@@ -63,8 +63,8 @@
                                 <input disabled  type="text"  class="form-control" name="last_name" value="{{$data->last_name}}" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Eazzy Card</label>
-                                <input disabled type="text"  class="form-control" name="eazzycare_card" value="{{$data->eazzycare_card}}" />
+                                <label>Ezzy Card</label>
+                                <input disabled type="text"  class="form-control" name="ezzycare_card" value="{{$data->ezzycare_card}}" />
                             </div>
                         </div>
 
@@ -138,6 +138,32 @@
                         </div>
                         @endif
 
+                        @if(count($data->userAvailableTime) > 0)
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">Available Time Details</h4>
+                            @foreach($data->userAvailableTime as $user_avalibale_time) 
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Day</label>
+                                        <input disabled type="text" class="form-control" name="day" value="{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Appointment Type</label>
+                                        <input disabled type="text" class="form-control" name="appointment_type" value="{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Start Time</label>
+                                        <input disabled type="text" class="form-control" name="start_time" value="{{$user_avalibale_time->start_time}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>End Time</label>
+                                        <input disabled type="text" class="form-control" name="end_time" value="{{$user_avalibale_time->end_time}}" />
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        @endif
+                       
                         @if(count($data->userEduction) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Education Details</h4>
@@ -206,7 +232,7 @@
 
                         @if(count($data->userBankAccount) > 0) 
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Experiance Details</h4>
+                            <h4 class="mt-0 header-title">Bank Details</h4>
                             @foreach($data->userBankAccount as $user_bank_account) 
                                 <div class="row">
                                     <div class="form-group col-md-4">
@@ -217,13 +243,11 @@
                                         <label>Branch Name</label>
                                         <input disabled type="text" class="form-control" name="bank_branch_name" value="{{$user_bank_account->bank_branch_name}}" />
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-2">
                                         <label>Account No.</label>
                                         <input disabled type="text" class="form-control" name="account_number" value="{{$user_bank_account->account_number}}" />
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-2">
                                         <label>IFSC Code</label>
                                         <input disabled type="text" class="form-control" name="ifsc_code" value="{{$user_bank_account->ifsc_code}}" />
                                     </div>

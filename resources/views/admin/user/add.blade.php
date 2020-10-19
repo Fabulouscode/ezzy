@@ -79,9 +79,9 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Eazzy Card</label>
-                                <input id="eazzycare_card" type="text" required class="form-control @error('eazzycare_card') form-control-danger @enderror" name="eazzycare_card" value="{{!empty($data->eazzycare_card) ? $data->eazzycare_card : old('eazzycare_card') }}" />
-                                @error('eazzycare_card')
+                                <label>Ezzy Card</label>
+                                <input id="ezzycare_card" type="text" required class="form-control @error('ezzycare_card') form-control-danger @enderror" name=ezzycare_card" value="{{!empty($data->ezzycare_card) ? $data->ezzycare_card : old('ezzycare_card') }}" />
+                                @error('ezzycare_card')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

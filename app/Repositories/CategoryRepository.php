@@ -37,6 +37,29 @@ class CategoryRepository extends Repository
             return $this->store($data);
         }
     }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getByParentId($parent_id)
+    {
+        $query = $this->model->where('parent_id',$parent_id)->get();
+        return $query;
+    }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getByMultipleParentIds($parent_ids)
+    {
+        $query = $this->model->whereIn('parent_id',$parent_ids)->get();
+        return $query;
+    }
+    
 
     /**
      * Display a listing of the resource.

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Twilio\Rest\Client;
 
 class Repository
 {
@@ -43,6 +44,16 @@ class Repository
     {
         return $this->model->findOrFail($id);
     }
+   
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $ids
+     */
+    public function getByMultipleIds($ids)
+    {
+        return $this->model->whereIn('id', $ids)->get();
+    }
 
     /**
      * Delete the model from the database.
@@ -57,7 +68,7 @@ class Repository
     }
     
     /**
-     * Delete the model from the database.
+     * get the model from the database.
      *
      * @param int $id
      *
@@ -94,6 +105,32 @@ class Repository
         }else{
             return false;
         }
+    }
+
+    /**
+     * get the model from the database.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function getbyColumnWithValue($column_name, $value, $condition = '=')
+    {
+        return $this->model->where($column_name, $condition, $value)->get();
+    }
+   
+     /**
+     * Sends sms to user using Twilio's programmable sms client
+     * @param String $message Body of sms
+     * @param Number $recipients string or array of phone number of recepient
+     */  
+    public function sendMessage($message, $recipients)
+    {
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_number = getenv("TWILIO_NUMBER");
+        $client = new Client($account_sid, $auth_token);
+        $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
     }
 
 }

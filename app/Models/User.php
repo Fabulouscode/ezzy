@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,10 +21,12 @@ class User extends Authenticatable
     protected $fillable = [
         'category_id',
         'subcategory_id',
-        'eazzycare_card',
+        'ezzycare_card',
+        'mobile_verified_at',
         'first_name',
         'last_name',
         'email',
+        'country_code',
         'mobile_no',
         'gender',
         'password',
@@ -59,7 +62,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'mobile_verified_at' => 'datetime',
     ];
 
 
@@ -85,5 +87,13 @@ class User extends Authenticatable
 
     public function userBankAccount() {
         return $this->hasMany('App\Models\User_bank_account');
+    }
+    
+    public function userAvailableTime() {
+        return $this->hasMany('App\Models\User_available_time');
+    }
+    
+    public function userReview() {
+        return $this->hasMany('App\Models\User_review');
     }
 }

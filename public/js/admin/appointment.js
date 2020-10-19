@@ -55,13 +55,13 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        toastr.success(data.msg, 'EazzyCare App');
+                        toastr.success(data.msg, 'EzzyCare App');
                         var oTable = $('#appointments_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
                         console.log(error);
-                        toastr.error(error.msg, 'EazzyCare App');
+                        toastr.error(error.msg, 'EzzyCare App');
                     }
                 });
             }

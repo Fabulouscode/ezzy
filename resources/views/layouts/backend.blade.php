@@ -7,7 +7,7 @@
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>@yield('title','EazzyCare')</title>
+        <title>@yield('title','EzzyCare')</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
@@ -27,6 +27,9 @@
         
         <!-- Toaster Msg -->
         <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
+        
+        <!-- Bootstrap rating css -->
+        <link href="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.css') }}" rel="stylesheet" type="text/css">
 
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/icons.css') }}" rel="stylesheet" type="text/css">
@@ -122,6 +125,9 @@
 
         <!-- Sweet-Alert  -->
         <script src="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
+        
+        <!-- Bootstrap rating js -->
+        <script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>
         
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>

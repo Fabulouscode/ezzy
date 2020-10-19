@@ -1,4 +1,4 @@
-<h1>EazzyCare</h1>
+<h1>EzzyCare</h1>
 
 
 <h2>Deploy the project stepwise</h2>
