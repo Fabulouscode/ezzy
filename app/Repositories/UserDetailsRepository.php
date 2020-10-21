@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Events\ForgotPassword;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
+use App\Models\User_details;
+use Illuminate\Support\Str;
+use Validator;
+
+class UserDetailsRepository extends Repository
+{
+    protected $model_name = 'App\Models\User_details';
+    protected $model;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+     /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function getbyUserId($user_id)
+    {
+        return $this->model->where('user_id', $user_id)->first();
+    }
+
+    
+
+}

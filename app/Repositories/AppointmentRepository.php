@@ -43,7 +43,20 @@ class AppointmentRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function dataCrud($request, $id = '')
-    {   $data = [];
+    {   $data = [
+                    'client_id' => $request->user()->id,
+                    'user_id' => $request->user_id,
+                    'appointment_type' => $request->appointment_type,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'mobile_no' => $request->mobile_no,
+                    'age' => $request->age,
+                    'gender' => $request->gender,
+                    'reason' => $request->reason,
+                    'appointment_date' => $request->appointment_date,
+                    'appointment_time' => $request->appointment_time,
+                    'status' => '0'
+                ];
         if(!empty($id)){
             return $this->update($data, $id);
         } else {
@@ -157,59 +170,93 @@ class AppointmentRepository extends Repository
     }
     
     /**
-     * Display a list of the record.
+     * Display a list of Upcoming Appointment record.
      *
      * @return \Illuminate\Http\Response
      */
     public function getUpcomingAppointment($request)
-    {   $offset = $request->offset * $request->limit;
-        return $this->model->offset($offset)
-                           ->limit($request->limit)
-                           ->whereIn('status',['1','2'])
-                           ->get();
-
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+      
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+       
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereIn('status',['1','2'])->orderBy('id','desc')->get();
+        
+        return $query;
+       
     }
    
     /**
-     * Display a list of the record.
+     * Display a list of Pending Appointment record.
      *
      * @return \Illuminate\Http\Response
      */
     public function getPendingAppointment($request)
-    {   $offset = $request->offset * $request->limit;
-        return $this->model->offset($offset)
-                           ->limit($request->limit)
-                           ->whereIn('status',['0'])
-                           ->get();
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+       
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereIn('status',['0'])->orderBy('id','desc')->get();
+        
+        return $query;
 
     }
    
     /**
-     * Display a list of the record.
+     * Display a list of Cancelled Appointment record.
      *
      * @return \Illuminate\Http\Response
      */
     public function getCancelledAppointment($request)
-    {   $offset = $request->offset * $request->limit;
-        return $this->model->offset($offset)
-                           ->limit($request->limit)
-                           ->whereIn('status',['6'])
-                           ->get();
-
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+        
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+       
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereIn('status',['6'])->orderBy('id','desc')->get();
+        
+        return $query;
     }
    
     /**
-     * Display a list of the record.
+     * Display a list of Completed Appointment record.
      *
      * @return \Illuminate\Http\Response
      */
     public function getCompletedAppointment($request)
-    {   $offset = $request->offset * $request->limit;
-        return $this->model->offset($offset)
-                           ->limit($request->limit)
-                           ->whereIn('status',['5'])
-                           ->get();
+    {   
+        $offset = $request->offset * $this->api_data_limit;
 
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereIn('status',['5'])->orderBy('id','desc')->get();
+
+        return $query;
     }
 
 }

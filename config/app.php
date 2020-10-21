@@ -123,6 +123,18 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    /* Api response decrypt */
+    'API_ENC_KEY' => env('API_KEY_ENC'),
+    'API_ENC_VI_KEY' => env('API_ENCRYPT_VI_KEY'),
+
+    'API_DEC_KEY' => env('API_KEY_DEC'),
+    'API_DEC_VI_KEY' => env('API_DECRYPT_VI_KEY'),
+
+    /* Twilio sms */
+    'TWILIO_SID'=> env('TWILIO_SID'),
+    'TWILIO_AUTH_TOKEN'=> env('TWILIO_AUTH_TOKEN'),
+    'TWILIO_NUMBER'=> env('TWILIO_NUMBER'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

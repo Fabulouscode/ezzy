@@ -41,7 +41,7 @@ class UserRepository extends Repository
     public function registerWithRestore($request)
     {   
         $card_number = $this->genrateCardNumber();
-        $mobile_code = rand(1000, 9999);
+        $mobile_code = $this->generateOTPCode();
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'email' => $request->email,
                 'password' => Hash::make($request->password),

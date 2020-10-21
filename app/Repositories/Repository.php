@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Twilio\Rest\Client;
+use Storage;
 
 class Repository
 {
@@ -13,6 +14,13 @@ class Repository
      * @var \Illuminate\Database\Eloquent\Model;
      */
     protected $model;
+    
+    public $api_data_limit = 10;
+    
+    public $gender = array(
+        '0' => 'Male',
+        '1' => 'Female',
+    );
 
     protected $model_name = '';
 
@@ -126,11 +134,31 @@ class Repository
      */  
     public function sendMessage($message, $recipients)
     {
-        $account_sid = getenv("TWILIO_SID");
-        $auth_token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_number = getenv("TWILIO_NUMBER");
+        $account_sid = config("app.TWILIO_SID");
+        $auth_token = config("app.TWILIO_AUTH_TOKEN");
+        $twilio_number = config("app.TWILIO_NUMBER");
         $client = new Client($account_sid, $auth_token);
         $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+    }
+
+    /**
+     * generate OTP code
+     */  
+    public function generateOTPCode()
+    {
+        return rand(10000, 99999);
+    }
+   
+    /**
+     * File Upload
+     */  
+    public function uploadFolderWiseFile($file, $folderPath){
+         if(!empty($file)) {          
+            $orignalfileName = str_replace(' ', '', $file->getClientOriginalName());
+            $storagePath = $folderPath.'/'. time() .'_'.$orignalfileName;
+            Storage::disk('local')->put('/public/'.$storagePath, file_get_contents($file));
+            return $storagePath;
+        }
     }
 
 }

@@ -118,4 +118,22 @@ class SupportRequestRepository extends Repository
         return $this->model->with(['userDetails'])->find($id);
 
     }
+
+     /**
+     * Display a list of Cancelled Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSupportRequest($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+        
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+       
+        $query = $query->with(['userDetails'])->where('user_id',$request->user()->id);
+        
+        $query = $query->orderBy('id','desc')->get();
+        
+        return $query;
+    }
 }

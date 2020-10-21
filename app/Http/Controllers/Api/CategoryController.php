@@ -8,12 +8,6 @@ use App\Repositories\CategoryRepository;
 
 class CategoryController extends BaseApiController
 {
-    private $category_repo;
-
-    public function __construct(CategoryRepository $category_repo){
-        $this->category_repo = $category_repo;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +17,7 @@ class CategoryController extends BaseApiController
         $data = array();
         $ids=['1','2','3'];
         $data = $this->category_repo->getByMultipleParentIds($ids);
-        return self::sendSuccess($data, 'Main Category Health Care Provider');
+        return self::sendSuccess($data);
     }
 
     /**
@@ -34,7 +28,7 @@ class CategoryController extends BaseApiController
     public function getHCPSubTypes($id){
         $data = array();
         $data = $this->category_repo->getByParentId($id);
-        return self::sendSuccess($data, 'Sub Category Health Care Provider');
+        return self::sendSuccess($data);
     }
 
    

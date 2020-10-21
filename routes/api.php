@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-Route::namespace('App\Http\Controllers\Api')->group(function(){
+Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(function(){
 
     // without auth
     
@@ -45,11 +45,14 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
     // middleware add (with auth)
     Route::middleware('auth:api')->group(function(){
        
-       // Dashoard
-       Route::get('/', 'DashboardController@index');
+        // Dashoard
+        Route::get('/', 'DashboardController@index');
 
-       // User Profile
-       Route::get('/user/profile', 'UserController@getUserDetails');
+        // User details
+        Route::prefix('user')->group(function(){
+            Route::get('/profile', 'UserController@getUserDetails');
+            Route::get('/change/status/{status}', 'UserController@changeUserStatus');
+        });
         
         // bank details
         Route::prefix('user/bank_details')->group(function(){
@@ -93,6 +96,15 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
             Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
             Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
             Route::post('/completed', 'AppointmentController@getCompletedAppointment');
+            Route::post('/add', 'AppointmentController@addAppointment');
+            Route::post('/status/accept', 'AppointmentController@acceptAppointment');
+        });
+        
+        // support request
+        Route::prefix('support_request')->group(function(){            
+            Route::post('', 'SupportRequestController@getSupportRequest');
+            Route::post('/add', 'SupportRequestController@addSupportReques');
+            Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
         });
 
 

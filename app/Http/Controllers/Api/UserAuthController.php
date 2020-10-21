@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Repositories\UserRepository;
 use App\Http\Requests\Api\Auth\UserAuthRequest;
 use App\Http\Requests\Api\Auth\UserLoginRequest;
 use App\Http\Requests\Api\Auth\UserResendSMSRequest;
@@ -17,11 +16,6 @@ use Auth;
 
 class UserAuthController extends BaseApiController
 {
-    private $user_repo;
-
-    public function __construct(UserRepository $user_repo){
-        $this->user_repo = $user_repo;
-    }
 
      /**
      * Store a newly created resource in storage.
@@ -39,11 +33,11 @@ class UserAuthController extends BaseApiController
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
                     'user' => $user,
-                ], 'Welcome to '. config('app.name'));
+                ]);
             }
             return self::sendSuccess([
                 'user' => $user,
-                ], 'User Registered Successfully.');
+                ]);
         } else{
              return self::sendError('', 'User Already Registered.');
         }
@@ -63,7 +57,7 @@ class UserAuthController extends BaseApiController
             return self::sendSuccess([
                 'token' => $user->createToken('EzzyCare')->accessToken,
                 'user' => $user,
-            ],  'Welcome to '. config('app.name'));
+            ]);
         }else{
             return self::sendError('', 'User Mobile No. and Password Invalid');
         }
@@ -81,7 +75,7 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){   
             $user = $this->user_repo->getbyMobileNo($request); 
-            $mobile_code = rand(1000, 9999);
+            $mobile_code = $this->user_rep->generateOTPCode();
             $data = ['otp_code' => $mobile_code];
             $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
             $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
@@ -89,7 +83,7 @@ class UserAuthController extends BaseApiController
             $update_user = $this->user_repo->getById($user->id);
             return self::sendSuccess([
                 'user' => $update_user,
-            ],  'Resend The mobile verify code');
+            ]);
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }
@@ -110,7 +104,7 @@ class UserAuthController extends BaseApiController
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
-                ],  'The mobile no is verify success');
+                ]);
         }else{
             return self::sendError('', 'Verify OTP code is wrong please check');
         }
@@ -127,7 +121,7 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){   
             $user = $this->user_repo->getbyMobileNo($request); 
-            $mobile_code = rand(1000, 9999);
+            $mobile_code = $this->user_rep->generateOTPCode();
             $data = ['otp_code' => $mobile_code];
             $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
             $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
@@ -136,7 +130,7 @@ class UserAuthController extends BaseApiController
             return self::sendSuccess([
                 'token' => $user->createToken('EzzyCare')->accessToken,
                 'user' => $update_user,
-            ],  'Forget Password OTP code sent');
+                ]);
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }
@@ -157,7 +151,7 @@ class UserAuthController extends BaseApiController
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
-                ],  'Your account password changed successfully.');
+                ]);
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }

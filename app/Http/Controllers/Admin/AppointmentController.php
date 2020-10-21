@@ -26,12 +26,12 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->all()){
+        if ($request->all()) {
             return $this->appointment_repo->getDatatable($request);
         }
         return view('admin.appointment.index');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -39,14 +39,13 @@ class AppointmentController extends Controller
      */
     public function getAppointments($status)
     {
-        if($status == 'completed'){
+        if ($status == 'completed') {
             return view('admin.appointment.complete');
-        }else if($status == 'cancel'){
+        } else if ($status == 'cancel') {
             return view('admin.appointment.cancel');
-        }else{
+        } else {
             return view('admin.appointment.index');
         }
-       
     }
 
     /**
@@ -83,7 +82,7 @@ class AppointmentController extends Controller
         $categories = $this->category_repo->get();
         $data = $this->appointment_repo->getbyIdedit($id);
         // dd($data->toArray());
-        return view('admin.appointment.view',compact('data','categories','appointment_types','status'));
+        return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status'));
     }
 
     /**

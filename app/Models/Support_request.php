@@ -17,7 +17,7 @@ class Support_request extends Model
      */
     protected $fillable = [
         'user_id',
-        'name',
+        'title',
         'description',
         'attachment',
         'status',

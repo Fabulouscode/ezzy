@@ -8,15 +8,18 @@
 
 <h3>Step:2</h3>
 <h4>
-Run:- cp .env.example .env<br>
-Run:- php artisan key:generate
+    Run:- cp .env.example .env<br>
+    Run:- php artisan key:generate
 </h4>
 
 <h3>Step:3</h3>
 <h4>
-Run:- npm install<br>
-Run:- npm run dev
+    Run:- npm install<br>
+    Run:- npm run dev
 </h4>
 
 <h3>Step:5</h3>
-<h4>Run:- php artisan migrate --seed</h4>
+<h4>
+    Run:- php artisan migrate --seed <br>
+    Run:- php artisan passport:install
+</h4>

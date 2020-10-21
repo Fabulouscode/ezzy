@@ -64,6 +64,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
+                          'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment'
+                        ];
 
     public function categoryParent() {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
@@ -95,5 +98,46 @@ class User extends Authenticatable
     
     public function userReview() {
         return $this->hasMany('App\Models\User_review');
+    }
+
+    public function getWalletBalanceAttribute(){
+        $total_earning =  $credit_balance = $debit_balance  = 0;
+        $credit_balance = $this->hasOne('App\Models\Credit_transaction','user_id','id')
+                               ->where('status', '0')->sum('credit'); 
+        $debit_balance = $this->hasOne('App\Models\Debit_transaction','user_id','id')
+                               ->where('status', '0')->sum('debit');  
+        $total_earning = $debit_balance - $credit_balance;      
+        return $total_earning;
+
+    }
+
+    public function getUserCompletedAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','user_id','id')
+                    ->where('status', '5')->count('*');        
+    }
+
+    public function getUserCancelledAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','user_id','id')
+                    ->where('status', '6')->count('*');     
+    }
+    
+    public function getUserPendingAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','user_id','id')
+                    ->whereIn('status', ['1','2'])->count('*');     
+    }
+
+    public function getClientCompletedAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','client_id','id')
+                    ->where('status', '5')->count('*');    
+    }
+
+    public function getClientCancelledAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','client_id','id')
+                    ->where('status', '6')->count('*');    
+    }
+    
+    public function getClientPendingAppointmentAttribute(){
+        return $this->hasOne('App\Models\Appointment','client_id','id')
+                    ->whereIn('status', ['1','2'])->count('*');
     }
 }

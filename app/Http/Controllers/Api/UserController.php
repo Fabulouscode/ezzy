@@ -4,13 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
-use App\Repositories\UserRepository;
-use App\Repositories\UserAvailableTimeRepository;
-use App\Repositories\UserBankAccountRepository;
-use App\Repositories\UserCreditTransactionRepository;
-use App\Repositories\UserDebitTransactionRepository;
-use App\Repositories\UserEductaionRepository;
-use App\Repositories\UserExperianceRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -18,31 +11,23 @@ use App\Http\Requests\Api\UserExperianceDetailsRequest;
 
 class UserController extends BaseApiController
 {
-    private $user_repo, $user_available_time_repo, $user_bank_account_repo, $user_education_repo; 
-    private $user_credit_trans_repo, $user_debit_trans_repo, $user_experiance_repo;
-
-    public function __construct(
-        UserRepository $user_repo,
-        UserAvailableTimeRepository $user_available_time_repo,
-        UserBankAccountRepository $user_bank_account_repo,
-        UserCreditTransactionRepository $user_credit_trans_repo,
-        UserDebitTransactionRepository $user_debit_trans_repo,
-        UserEductaionRepository $user_education_repo,
-        UserExperianceRepository $user_experiance_repo
-        ){
-        $this->user_repo = $user_repo;
-        $this->user_available_time_repo = $user_available_time_repo;
-        $this->user_bank_account_repo = $user_bank_account_repo;
-        $this->user_credit_trans_repo = $user_credit_trans_repo;
-        $this->user_debit_trans_repo = $user_debit_trans_repo;
-        $this->user_education_repo = $user_education_repo;
-        $this->user_experiance_repo = $user_experiance_repo;
-    }
 
     public function getUserDetails(Request $request){
         $data = array();
         $data = $this->user_repo->getbyIdUserDetails($request->user()->id);
         return self::sendSuccess($data, 'User Details');
+    }
+    
+    public function changeUserStatus(Request $request, $status){
+        $data = array();
+        $user = $this->user_details_repo->getbyUserId($request->user()->id);
+        if(!empty($user)){
+            $update = ['urgent'=> $status];
+            $this->user_details_repo->update($update, $user->id);
+            $data = $this->user_repo->getbyIdUserDetails($request->user()->id);
+            return self::sendSuccess($data, 'User Status change Successfully');            
+        }
+        return self::sendError($data, 'User Status not change');
     }
    
     

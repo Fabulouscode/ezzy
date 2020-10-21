@@ -7,12 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
-use App\Models\User_debit_transaction;
+use App\Models\Credit_transaction;
 use Illuminate\Support\Str;
 
-class UserDebitTransactionRepository extends Repository
+class CreditTransactionRepository extends Repository
 {
-    protected $model_name = 'App\Models\User_debit_transaction';
+    protected $model_name = 'App\Models\Credit_transaction';
     protected $model;
 
     public function __construct()
@@ -45,5 +45,4 @@ class UserDebitTransactionRepository extends Repository
         return $this->model->where('user_id', $user_id)->get();
     }
     
-   
 }

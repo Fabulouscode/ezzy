@@ -67,6 +67,13 @@
                         <li><a href="javascript:void(0);">Approved Payout</a></li>
                     </ul>
                 </li>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Medicines </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{url('/medicine/categories')}}">Medicine Categories</a></li>
+                        <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href="{{url('/users/patients')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>

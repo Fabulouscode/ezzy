@@ -23,6 +23,7 @@ class Appointment extends Model
         'email',
         'mobile_no',
         'age',
+        'gender',
         'reason',
         'appointment_date',
         'appointment_time',
@@ -31,6 +32,8 @@ class Appointment extends Model
         'cancel_reason',
         'cancel_date',
         'status',
+        'credit_transaction_id',
+        'debit_transaction_id'
     ];
 
 

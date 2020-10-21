@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User_credit_transaction extends Model
+class Order_product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,11 +16,9 @@ class User_credit_transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'appointment_id',
-        'credit',
-        'transaction_date',
-        'payment_gateway_response',
-        'status'
+        'order_id',
+        'medicine_detail_id',
+        'shop_medicine_detail_id',
+        'quantity',
     ];
 }

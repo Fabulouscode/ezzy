@@ -27,6 +27,9 @@
         
         <!-- Toaster Msg -->
         <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
+
+        <!--  -->
+        <link href="{{ asset('admin/plugins/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css">
         
         <!-- Bootstrap rating css -->
         <link href="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.css') }}" rel="stylesheet" type="text/css">
@@ -89,7 +92,10 @@
         <script src="{{ asset('admin/js/jquery.validate.js') }}"></script>
 
         <!-- Toaster Msg -->
-        <script src="{{ asset('js/toastr.js') }}" ></script>
+        <script src="{{ asset('js/toastr.js') }}" ></script>dropzone.min.js
+    
+        <!-- Dropzone Image Upoload -->
+        <script src="{{ asset('admin/plugins/dropzone/dist/dropzone.js') }}" ></script>
 
         <!-- skycons -->
         <script src="{{ asset('admin/plugins/skycons/skycons.min.js') }}"></script>

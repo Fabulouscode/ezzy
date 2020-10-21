@@ -21,4 +21,5 @@ class User_available_time extends Model
         'start_time',
         'end_time',
     ];
+    
 }

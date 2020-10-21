@@ -57,7 +57,14 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('{provider}/users/pending', 'UserController@getPending');
         Route::get('users/patients', 'UserController@index');
 
-        
+        // Medicine Category routes
+        Route::resource('medicine/categories', 'MedicineCategoryController');
+       
+        // Medicine Subcategory routes
+        Route::resource('medicine/subcategories', 'MedicineSubcategoryController');
+       
+        // Medicine Details routes
+        Route::resource('medicine_details', 'MedicineDetailsController');
       
         // Appointment routes        
         Route::resource('appointment', 'AppointmentController');        
