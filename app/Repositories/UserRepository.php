@@ -66,8 +66,15 @@ class UserRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($data, $id = '')
-    {   if(!empty($id)){
+    public function dataCrud($request, $id = '')
+    {   $data = array();
+        if(!empty($request)){
+            $filter = $request->all();
+            foreach ($filter as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
+        if(!empty($id)){
             return $this->update($data, $id);
         } else {
             return $this->store($data);

@@ -95,7 +95,7 @@ class CustomEncrypt implements EncrypterContract {
 		// First we will encrypt the value using OpenSSL. After this is encrypted we
 		// will proceed to calculating a MAC for the encrypted value so that this
 		// value can be verified later as not having been changed by the users.
-        $data=$value;
+        $data2=$value;
 		$value = \openssl_encrypt(
 			$serialize ? serialize(json_encode($value)) : json_encode($value),
 			$this->cipher, $this->encryption_key, 0, $iv
@@ -116,7 +116,7 @@ class CustomEncrypt implements EncrypterContract {
 			return $this->sendException('EncryptException', 'Could not encrypt the data.');
 		}
 
-		return compact('value', 'mac','data');
+		return compact('value', 'mac','data2');
 	}
 
 	/**

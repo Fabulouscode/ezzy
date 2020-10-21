@@ -51,6 +51,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // User details
         Route::prefix('user')->group(function(){
             Route::get('/profile', 'UserController@getUserDetails');
+            Route::post('/profile/add', 'UserController@addUserDetails');
             Route::get('/change/status/{status}', 'UserController@changeUserStatus');
         });
         

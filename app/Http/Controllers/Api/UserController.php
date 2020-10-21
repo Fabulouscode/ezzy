@@ -8,6 +8,7 @@ use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
+use App\Http\Requests\Api\UserRequest;
 
 class UserController extends BaseApiController
 {
@@ -170,5 +171,9 @@ class UserController extends BaseApiController
         return self::sendError($data, 'Experiance details not Deleted', 500);
     }
 
-    
+    public function addUserDetails(Request $request){
+        $user = $this->user_repo->dataCrud($request, $request->user()->id);
+        $this->user_details_repo->dataCrud($request);
+        return self::sendSuccess($user, 'User Profile Add Successfully');
+    }
 }

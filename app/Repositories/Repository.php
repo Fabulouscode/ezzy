@@ -126,6 +126,18 @@ class Repository
     {
         return $this->model->where($column_name, $condition, $value)->get();
     }
+    
+    /**
+     * get the model from the database.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function getbyColumnWithFirstValue($column_name, $value, $condition = '=')
+    {
+        return $this->model->where($column_name, $condition, $value)->first();
+    }
    
      /**
      * Sends sms to user using Twilio's programmable sms client

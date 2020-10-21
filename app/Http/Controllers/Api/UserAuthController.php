@@ -54,10 +54,14 @@ class UserAuthController extends BaseApiController
     {
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
-            return self::sendSuccess([
-                'token' => $user->createToken('EzzyCare')->accessToken,
-                'user' => $user,
-            ]);
+            if(isset($user) && $user->status == '0'){
+                return self::sendSuccess([
+                    'token' => $user->createToken('EzzyCare')->accessToken,
+                    'user' => $user,
+                ]);
+            }else{
+                 return self::sendError('', 'User status is pending please wait for Approved');
+            }
         }else{
             return self::sendError('', 'User Mobile No. and Password Invalid');
         }

@@ -32,6 +32,27 @@ class UserDetailsRepository extends Repository
         return $this->model->where('user_id', $user_id)->first();
     }
 
-    
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function dataCrud($request, $id = '')
+    {   $data = array();
+        if(!empty($request)){
+            $filter = $request->all();
+            foreach ($filter as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
+        $user_details = $this->getbyColumnWithFirstValue('user_id', $request->user()->id);
+        if(!empty($user_details) && !empty($user_details->id)){
+            return $this->update($data, $user_details->id);
+        } else {
+            $data['user_id'] =  $request->user()->id;
+            return $this->store($data);
+        }
+    }
 
 }
