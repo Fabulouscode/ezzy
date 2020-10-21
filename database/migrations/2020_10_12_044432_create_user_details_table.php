@@ -51,11 +51,11 @@ class CreateUserDetailsTable extends Migration
             $table->text('health_facility_certificate')->nullable();
             $table->text('regstration_certificate')->nullable();
             $table->text('pharmacist_certificate')->nullable();
-            $table->integer('qualification_certificate_status')->default(0)->comment('0-Pending, 1-Rejected');
-            $table->integer('practicing_licence_status')->default(0)->comment('0-Pending, 1-Rejected');
-            $table->integer('health_facility_certificate_status')->default(0)->comment('0-Pending, 1-Rejected');
-            $table->integer('regstration_certificate_status')->default(0)->comment('0-Pending, 1-Rejected');
-            $table->integer('pharmacist_certificate_status')->default(0)->comment('0-Pending, 1-Rejected');
+            $table->integer('qualification_certificate_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
+            $table->integer('practicing_licence_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
+            $table->integer('health_facility_certificate_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
+            $table->integer('regstration_certificate_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
+            $table->integer('pharmacist_certificate_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
             $table->boolean('same_timing')->default(0)->comment('0-Same Time Not Available, 1-Same Time Available');
             $table->timestamps();
 
