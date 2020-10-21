@@ -106,7 +106,7 @@ class UserRepository extends Repository
         $data = $this->getWithRelationship($request);
         return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action',function($selected)
+                ->addColumn('action',function($selected) use ($request)
                 {
                     $change_status = $selected->status == '1' ? 0 : 1;
                     $data = '';
@@ -115,8 +115,10 @@ class UserRepository extends Repository
                     // $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
-                    $data .= '<a href="'.url('user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
-                   
+                    if(!empty($request->provider)){
+                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    }
+
                     // Delete
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
                     
@@ -124,7 +126,7 @@ class UserRepository extends Repository
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-warning" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.','.$change_status.')"><i class="fa fa-user-circle-o"></i></a>&nbsp;&nbsp;';
                   
                     // Show Review
-                    $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
           
                     return $data;
                 })

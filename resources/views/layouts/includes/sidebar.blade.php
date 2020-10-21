@@ -75,7 +75,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{url('/users/patients')}}" class="waves-effect">
+                    <a href="{{url('/patients/users')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
                         <span> Patients </span>
                     </a>

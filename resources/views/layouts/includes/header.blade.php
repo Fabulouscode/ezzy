@@ -3,7 +3,7 @@
     <div class="topbar-left	d-none d-lg-block">
         <div class="text-center">
             
-            <a href="index.html" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="20" alt="logo"></a>
+            <a href="{{url('/')}}" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="20" alt="logo"></a>
         </div>
     </div>
 

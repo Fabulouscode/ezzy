@@ -102,14 +102,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($provider='', $id)
     {
         $days = $this->user_repo->days;
         $appointment_types = $this->appointment_repo->appointment_types;
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
+        if($provider == 'healthcare'){
+             return view('admin.healthcare.view',compact('data','categories','days','appointment_types'));
+        }else if($provider == 'pharmacy'){
+             return view('admin.pharmacy.view',compact('data','categories','days','appointment_types'));
+        }else if($provider == 'laboratories'){
+             return view('admin.laboratories.view',compact('data','categories','days','appointment_types'));
+        }else{            
+            return view('admin.patients.view',compact('data','categories','days','appointment_types'));
+        }
+
         // dd($data->toArray());
-        return view('admin.user.view',compact('data','categories','days','appointment_types'));
+        // return view('admin.user.view',compact('data','categories','days','appointment_types'));
     }
 
 
