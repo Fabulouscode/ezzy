@@ -157,4 +157,5 @@ class UserController extends Controller
         
         return response()->json(['msg'=>'Data Not success'], 500);
     }
+
 }

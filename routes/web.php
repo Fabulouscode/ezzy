@@ -24,9 +24,11 @@ Route::namespace('App\Http\Controllers')->group(function(){
      Route::namespace('Auth')->group(function(){
         Route::get('/login', 'LoginController@showAdminLoginForm')->name('login');
         Route::get('/register', 'RegisterController@showAdminRegisterForm')->name('register');
+        Route::get('/lockscreen', 'LockScreenController@showAdminLockScreenForm')->name('lockscreen');
 
         Route::post('/admin/login', 'LoginController@adminLogin');
         Route::post('/admin/register', 'RegisterController@createAdmin');
+        Route::post('/admin/lockscreen', 'LockScreenController@adminLockscreen');
 
         Route::middleware('auth:admin')->group(function(){
             Route::post('/logout', 'LoginController@logout')->name('logout');
