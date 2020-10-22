@@ -1,5 +1,7 @@
 @extends('layouts.backend')
 
+@section('title','Laboratories Dashboard')
+
 @section('content')
 <!-- container fluid Start -->
 <div class="container-fluid">
@@ -17,7 +19,7 @@
     </div>
     <!-- end row -->
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card mini-stat m-b-30">
                 <div class="p-3 bg-primary text-white">
@@ -106,11 +108,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- end row -->
 
     <!-- end row -->
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-xl-8">
             <div class="card m-b-30">
                 <div class="card-body">
@@ -159,9 +161,9 @@
             </div>
         </div>
         
-    </div>
+    </div> -->
     <!-- end row -->
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-xl-4">
             <div class="card m-b-30">
                 <div class="card-body">
@@ -310,7 +312,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- end row -->
 
 </div><!-- container fluid End -->

@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Category List')
+@section('title','Medicine Subcategories')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,7 +11,6 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">Medicine</a></li>
                     <li class="breadcrumb-item active">Medicine Subcategories</li>
                 </ol>
             </div>

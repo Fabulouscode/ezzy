@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User List')
+@section('title','Support Request')
 
 @section('content')
 <!-- container fluid Start -->

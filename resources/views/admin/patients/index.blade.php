@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User List')
+@section('title','Patients')
 
 @section('content')
 <!-- container fluid Start -->
@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/healthcare/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Patients</li>
                 </ol>
             </div>

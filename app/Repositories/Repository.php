@@ -146,11 +146,16 @@ class Repository
      */  
     public function sendMessage($message, $recipients)
     {
-        $account_sid = config("app.TWILIO_SID");
-        $auth_token = config("app.TWILIO_AUTH_TOKEN");
-        $twilio_number = config("app.TWILIO_NUMBER");
-        $client = new Client($account_sid, $auth_token);
-        $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+        try{
+            $account_sid = config("app.TWILIO_SID");
+            $auth_token = config("app.TWILIO_AUTH_TOKEN");
+            $twilio_number = config("app.TWILIO_NUMBER");
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+            return '';
+         }catch(\Exception $e){
+             return $e->getMessage();
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
+use App\Http\Requests\Api\UploadFileRequest;
 use App\Http\Requests\Api\UserRequest;
 
 class UserController extends BaseApiController
@@ -175,5 +176,22 @@ class UserController extends BaseApiController
         $user = $this->user_repo->dataCrud($request, $request->user()->id);
         $this->user_details_repo->dataCrud($request);
         return self::sendSuccess($user, 'User Profile Add Successfully');
+    }
+ 
+    public function getHealthcareProviders(Request $request){
+        $user_list = $this->user_repo->getHealthcareProviders($request);
+        return self::sendSuccess($user_list, 'User Profile Add Successfully');
+    }
+    
+    public function uploadDocumentFile(UploadFileRequest $request){
+        $user_document = $this->user_details_repo->user_documents;
+        if(!empty($request->file('document'))) {          
+            $file = $request->file('document');
+            $storagePath = 'images/'.$user_document[$request->document_key];
+            $data['file'] = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
+            $data['url'] = url('storage/'.$data['file']);
+            return self::sendSuccess($data, 'file Upload Successfully');
+        }
+        return self::sendError('', 'File Not Uploaded', 500);
     }
 }

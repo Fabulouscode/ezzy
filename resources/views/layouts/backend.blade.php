@@ -92,7 +92,7 @@
         <script src="{{ asset('admin/js/jquery.validate.js') }}"></script>
 
         <!-- Toaster Msg -->
-        <script src="{{ asset('js/toastr.js') }}" ></script>dropzone.min.js
+        <script src="{{ asset('js/toastr.js') }}" ></script>
     
         <!-- Dropzone Image Upoload -->
         <script src="{{ asset('admin/plugins/dropzone/dist/dropzone.js') }}" ></script>

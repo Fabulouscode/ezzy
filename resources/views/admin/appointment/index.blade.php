@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Category List')
+@section('title','Appointments Upcoming')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Appointments</li>
+                    <li class="breadcrumb-item active">Appointments Upcoming</li>
                 </ol>
             </div>
-            <h5 class="page-title">Appointments</h5>
+            <h5 class="page-title">Appointments Upcoming</h5>
         </div>
     </div>
     <!-- end row -->

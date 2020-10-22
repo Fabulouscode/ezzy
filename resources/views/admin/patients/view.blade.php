@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User View')
+@section('title','View Patient Details')
 
 @section('content')
 <div class="container-fluid">
@@ -23,8 +23,6 @@
         <div class="col-lg-12">
             <div class="card m-b-30">
                 <div class="card-body">
-
-                    <h4 class="mt-0 header-title">View Patient Details</h4>
        
                     <form method="POST" action="{{ url('user') }}" id="user_form" name="user_form">
                         @csrf

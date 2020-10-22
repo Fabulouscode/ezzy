@@ -40,8 +40,14 @@ class UserRepository extends Repository
      */
     public function registerWithRestore($request)
     {   
+        
         $card_number = $this->genrateCardNumber();
         $mobile_code = $this->generateOTPCode();
+        $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+        $exception = $this->sendMessage($mobile_code, '+'.$request->country_code.$request->mobile_no);
+        if(!empty($exception)){
+            return $exception;
+        }
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -51,13 +57,11 @@ class UserRepository extends Repository
                 'deleted_at' => NULL
             ])->restore();    
     
-         $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-        $this->sendMessage($mobile_code, '+'.$request->country_code.$request->mobile_no);
         $user = $this->model->where('mobile_no', $request->mobile_no)->whereNull('ezzycare_card');
         if(!empty($user)){
             $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
         }
-
+        return '';
     }
     
     /**
@@ -229,6 +233,51 @@ class UserRepository extends Repository
     public function getbyUserIdEductionDetails($id)
     {   
         return $this->model->with(['userEduction'])->find($id);
+    }
+
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHealthcareProviders($request)
+    {   
+        DB::connection()->enableQueryLog(); 
+        $query = $this->model->select('users.*'); 
+
+        if(!empty($request->distance)){
+            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->client_latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->client_latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->client_longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                           ->where([
+                                    ['users.latitude', '!=', ''],
+                                    ['users.longitude', '!=', '']
+                                ])
+                           ->havingRaw('distance <= '. $request->distance)
+                           ->orderBy('distance','asc');
+        } else{
+            $query = $query->orderBy('id','desc');
+        }         
+        
+        if(isset($request->urgent)){
+           $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('urgent', $request->urgent);
+                    });
+        }          
+        
+        if(!empty($request->category_id)){
+            $query = $query->where('category_id', $request->category_id);
+        }          
+        
+        if(isset($request->offset)){
+            $offset = $request->offset * $this->api_data_limit;
+            $query = $query->offset($offset)->limit($this->api_data_limit);   
+        } else{
+            $query = $query->offset(0)->limit(5);  
+        }         
+        
+        $query = $query->where('status', '0')->get();
+        
+        // dd(DB::getQueryLog());
+        return $query;
     }
 
     /**

@@ -1,6 +1,10 @@
 @extends('layouts.backend')
 
-@section('title','Category Add')
+@if(!empty($data->id))
+    @section('title','Edit Category Details')
+@else
+    @section('title','Add Category Details')
+@endif
 
 @section('content')
 <div class="container-fluid">
@@ -9,11 +13,12 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Drixo</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/category')}}">Categories</a></li>
+                    <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
-            <h5 class="page-title">Dashboard</h5>
+            <h5 class="page-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Category Details</h5>
         </div>
     </div>
     <!-- end row -->
@@ -22,8 +27,6 @@
         <div class="col-lg-12">
             <div class="card m-b-30">
                 <div class="card-body">
-
-                    <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Health Care Provider Type</h4>
        
                     <form method="POST" action="{{ url('category') }}" id="category_form" name="category_form">
                         @csrf

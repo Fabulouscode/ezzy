@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User View')
+@section('title','View Appointment Details')
 
 @section('content')
 <div class="container-fluid">
@@ -11,10 +11,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{url('/appointment')}}">Appointment</a></li>
-                    <li class="breadcrumb-item active">Appointment View</li>
+                    <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>
-            <h5 class="page-title">Appointment View</h5>
+            <h5 class="page-title">View Appointment Details</h5>
         </div>
     </div>
     <!-- end row -->
@@ -23,8 +23,6 @@
         <div class="col-lg-12">
             <div class="card m-b-30">
                 <div class="card-body">
-
-                    <h4 class="mt-0 header-title">Appointment View</h4>
        
                     <form method="POST" action="{{ url('appointment') }}" id="appointment_form" name="appointment_form">
                         @csrf

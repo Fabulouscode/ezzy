@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User View')
+@section('title','View Support Request')
 
 @section('content')
 <div class="container-fluid">
@@ -11,10 +11,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{url('/support_request')}}">Support Request</a></li>
-                    <li class="breadcrumb-item active">Support Request View</li>
+                    <li class="breadcrumb-item active">View Support Request</li>
                 </ol>
             </div>
-            <h5 class="page-title">Support Request View</h5>
+            <h5 class="page-title">View Support Request</h5>
         </div>
     </div>
     <!-- end row -->
@@ -23,8 +23,6 @@
         <div class="col-lg-12">
             <div class="card m-b-30">
                 <div class="card-body">
-
-                    <h4 class="mt-0 header-title">View Support Request</h4>
        
                     <form method="POST" action="{{ url('support_request') }}" id="support_request_form" name="support_request_form">
                         @csrf

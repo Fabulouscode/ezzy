@@ -52,6 +52,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('user')->group(function(){
             Route::get('/profile', 'UserController@getUserDetails');
             Route::post('/profile/add', 'UserController@addUserDetails');
+            Route::post('/document/upload', 'UserController@uploadDocumentFile');
             Route::get('/change/status/{status}', 'UserController@changeUserStatus');
         });
         
@@ -105,6 +106,13 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('support_request')->group(function(){            
             Route::post('', 'SupportRequestController@getSupportRequest');
             Route::post('/add', 'SupportRequestController@addSupportReques');
+            Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
+        });
+  
+        // support request
+        Route::prefix('healthcare')->group(function(){            
+            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
+            Route::post('/list', 'UserController@getHealthcareProviders');
             Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
         });
 

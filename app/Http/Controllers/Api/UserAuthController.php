@@ -13,6 +13,7 @@ use App\Http\Requests\Api\Auth\UserForgetPasswordRequest;
 use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
 use Carbon\Carbon as Carbon;
 use Auth;
+use DB;
 
 class UserAuthController extends BaseApiController
 {
@@ -27,7 +28,10 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){
-            $this->user_repo->registerWithRestore($request);        
+            $exception = $this->user_repo->registerWithRestore($request);
+            if(!empty($exception)){
+                return self::sendError('', $exception);
+            }        
             $user = $this->user_repo->getbyMobileNo($request);   
             if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
                 return self::sendSuccess([

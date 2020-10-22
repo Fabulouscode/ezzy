@@ -19,7 +19,7 @@
                 <li>
                     <a href="{{url('/')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
-                        <span> Dashboard <span class="badge badge-success badge-pill float-right">3</span></span>
+                        <span> Dashboard </span>
                     </a>
                 </li>
 

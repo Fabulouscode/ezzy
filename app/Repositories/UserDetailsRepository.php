@@ -15,7 +15,16 @@ use Validator;
 class UserDetailsRepository extends Repository
 {
     protected $model_name = 'App\Models\User_details';
+    
     protected $model;
+    
+    public $user_documents = array(
+        '0' => 'qualification_certificate',
+        '1' => 'practicing_licence',
+        '2' => 'health_facility_certificate',
+        '3' => 'regstration_certificate',
+        '4' => 'pharmacist_certificate',
+    );
 
     public function __construct()
     {

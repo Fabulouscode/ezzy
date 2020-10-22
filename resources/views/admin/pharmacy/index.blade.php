@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','User List')
+@section('title','Approved Pharmacist')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/pharmacy/dashboard')}}">Pharmacy Dashboard</a></li>
-                    <li class="breadcrumb-item active">Approved Pharmacy</li>
+                    <li class="breadcrumb-item active">Approved Pharmacist</li>
                 </ol>
             </div>
-            <h5 class="page-title">Approved Pharmacy</h5>
+            <h5 class="page-title">Approved Pharmacist</h5>
         </div>
     </div>
     <!-- end row -->

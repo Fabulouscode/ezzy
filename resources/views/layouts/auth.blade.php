@@ -7,7 +7,7 @@
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>@yield('title','Demo App')</title>
+        <title>@yield('title','EzzyCare')</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
