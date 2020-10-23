@@ -52,6 +52,10 @@ class AdminController extends Controller
             $admin_user = $this->admin_repo->getById($request->id);
             if(!empty($admin_user)){
                 $this->admin_repo->dataCrud($request, $request->id);
+                if($request->password != '**********' && Auth::guard('admin')->user()->id == $request->id){
+                    Auth::guard('admin')->logout();
+                    return redirect('/');
+                }
             } 
         } else{
             $this->admin_repo->dataCrud($request);
