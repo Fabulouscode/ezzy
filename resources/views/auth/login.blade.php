@@ -11,7 +11,7 @@
                     <div class="card-body">
 
                         <h3 class="text-center mt-0 m-b-15">
-                            <a href="{{ url('/') }}" class="logo logo-admin"><img src="{{ asset('admin/images/new_logo-dark.png')}}" height="80" alt="logo"></a>
+                            <a href="{{ url('/') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
                         </h3>
 
                         <h4 class="text-muted text-center font-18"><b>{{ isset($url) ? ucwords($url) : ""}} Sign In</b></h4>
@@ -23,9 +23,14 @@
                             <form  class="form-horizontal m-t-20" name="login_form" method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                             @endisset
                                 @csrf
-                                <div class="form-group row">
+                               <div class="form-group row">
                                     <div class="col-12">
-                                        <input required parsley-type="email"  class="form-control @if (session('error')) is-invalid @endif" id="email" type="email" name="email" placeholder="Email" autocomplete="email" autofocus>
+                                        <input required parsley-type="email" value="{{old('email')}}"   class="form-control @if (session('error')) is-invalid @endif @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Email" autocomplete="email" autofocus>
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         @if (session('error'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ session('error') }}</strong>
@@ -36,7 +41,12 @@
 
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input required data-parsley-minlength="6"  class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" placeholder="Password" autocomplete="password">
+                                        <input  required data-parsley-minlength="6" class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" placeholder="Password" autocomplete="password">
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
 

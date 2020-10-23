@@ -10,11 +10,11 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Drixo</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Admin List</li>
                 </ol>
             </div>
-            <h5 class="page-title">Dashboard</h5>
+            <h5 class="page-title">Admin List</h5>
         </div>
     </div>
     <!-- end row -->
@@ -23,21 +23,16 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <!-- <div class="block-options-item mb-3 ml-3">
-                        <a href="{{url('/user/create')}}" class="btn btn-outline-info">Add User</a>
-                    </div> -->
+                    <div class="block-options-item mb-3 ml-3">
+                        <a href="{{url('/admin/users/create')}}" class="btn btn-outline-info">Add Admin </a>
+                    </div>
 
                     <table id="user_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Name</th>
                                 <th>Email</th>
-                                <th>Mobile No.</th>
-                                <th>Category</th>
-                                <th>Subcategory</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>                        
@@ -53,8 +48,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
-    var data_obj = {'category_id':'','status':'0'};
+    var admin_user_url = "{{url('/admin/users')}}";
 </script>
-<script src="{{ asset('js/admin/user.js') }}" ></script>
+<script src="{{ asset('js/admin/admin_user.js') }}" ></script>
 @endsection

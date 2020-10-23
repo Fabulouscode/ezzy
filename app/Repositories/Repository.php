@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Twilio\Rest\Client;
 use Storage;
 
@@ -154,7 +155,11 @@ class Repository
             $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
             return '';
          }catch(\Exception $e){
-             return $e->getMessage();
+              throw new HttpResponseException(response()->json([
+                'success' => false,
+                'errors' => $e->getMessage(),
+                'message' => 'The given data was invalid.',
+            ], 422));
         }
     }
 

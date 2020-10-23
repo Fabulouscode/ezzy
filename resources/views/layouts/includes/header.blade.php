@@ -3,7 +3,7 @@
     <div class="topbar-left	d-none d-lg-block">
         <div class="text-center">
             
-            <a href="{{url('/')}}" class="logo"><img src="{{ asset('admin/images/new_logo.png') }}" height="50" style="backgroun:white;" alt="logo"></a>
+            <a href="{{url('/')}}" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="50" style="backgroun:white;" alt="logo"></a>
         </div>
     </div>
 
@@ -83,10 +83,10 @@
             <li class="list-inline-item dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ asset('admin/images/users/user-1.jpg') }}" alt="user" class="rounded-circle">
+                    <img src="{{ asset('admin/images/avatar.jpg') }}" alt="user" class="rounded-circle">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
-                    <!-- <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a> -->
+                    <a class="dropdown-item" href="{{ url('admin/users').'/'.Auth::guard('admin')->user()->id.'/edit' }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
                     <!-- <a class="dropdown-item" href="#"><span class="badge badge-success mt-1 float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> -->
                     <a class="dropdown-item" href="{{ route('lockscreen') }}"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"

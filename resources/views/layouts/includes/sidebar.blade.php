@@ -22,7 +22,12 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
-
+                <li>
+                    <a href="{{url('/admin/users')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Admin List </span>
+                    </a>
+                </li>
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">

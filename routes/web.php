@@ -38,14 +38,17 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
     Route::namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
        
-       // Main Dashoard
-       Route::get('/', 'DashboardController@index');
+        // Main Dashoard
+        Route::get('/', 'DashboardController@index');
         
-       // Child Dashoard
-       Route::get('{provider}/dashboard', 'DashboardController@index');
+        // Child Dashoard
+        Route::get('{provider}/dashboard', 'DashboardController@index');
         
         // Category routes(Provider)
         Route::resource('category', 'CategoryController');
+       
+        // Admin User routes        
+        Route::resource('admin/users', 'AdminController');  
        
         // User review routes        
         Route::get('user/reviews/{user_id}', 'UserReviewController@getReviewView');

@@ -10,7 +10,7 @@
         <title>@yield('title','EzzyCare')</title>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('admin/images/new_favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
 
    
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">

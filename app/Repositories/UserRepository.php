@@ -44,10 +44,8 @@ class UserRepository extends Repository
         $card_number = $this->genrateCardNumber();
         $mobile_code = $this->generateOTPCode();
         $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-        $exception = $this->sendMessage($mobile_code, '+'.$request->country_code.$request->mobile_no);
-        if(!empty($exception)){
-            return $exception;
-        }
+        $this->sendMessage($mobile_code, '+'.$request->country_code.$request->mobile_no);
+
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -61,7 +59,6 @@ class UserRepository extends Repository
         if(!empty($user)){
             $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
         }
-        return '';
     }
     
     /**
