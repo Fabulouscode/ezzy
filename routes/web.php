@@ -36,7 +36,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
     });
 
 
-    Route::namespace('Admin')->middleware('auth:admin')->group(function(){
+    Route::namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
        
        // Main Dashoard
        Route::get('/', 'DashboardController@index');

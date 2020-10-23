@@ -319,5 +319,5 @@
 
 @endsection
 @section('script')
-<script src="{{ asset('admin/pages/dashboard.js') }}"></script>
+<!-- <script src="{{ asset('admin/pages/dashboard.js') }}"></script> -->
 @endsection

@@ -12,7 +12,7 @@ class LockScreenController extends Controller
 {
     public function showAdminLockScreenForm()
     {
-        if(!Auth::check()){
+        if(Auth::guard('admin')->check()){
             Session::put('locked', true);
             return view('auth.lock_screen');
         }
@@ -21,25 +21,19 @@ class LockScreenController extends Controller
 
     public function adminLockscreen(Request $request)
     {
-        
-        if(!Auth::check()){            
+
+        if(!Auth::guard('admin')->check()){            
             return redirect('/');
         }
+        $this->validate($request, [
+            'password' => 'required|string',
+        ]);
 
-        if(Hash::check($request->password,Auth::user()->password)){
-            Session::forget('locked');
+        if(Hash::check($request->password, Auth::guard('admin')->user()->password)){
+            $request->session()->forget('locked');
             return redirect('/');
         }
-        
-        return redirect('/lockscreen');
-        // $this->validate($request, [
-        //     'password' => 'required|min:6'
-        // ]);
+        return back()->withInput()->withError('Password does not match. Please try again.');
 
-        // if (Auth::guard('admin')->attempt(['email' => $request->user()->email, 'password' => $request->password])) {
-
-        //     return redirect()->intended('/');
-        // }
-        // return back()->withInput($request->only('email', 'remember'));
     }
 }

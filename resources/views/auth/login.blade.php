@@ -25,12 +25,12 @@
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input required parsley-type="email"  class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" autocomplete="email" autofocus>
-                                        @error('email')
+                                        <input required parsley-type="email"  class="form-control @if (session('error')) is-invalid @endif" id="email" type="email" name="email" placeholder="Email" autocomplete="email" autofocus>
+                                        @if (session('error'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                <strong>{{ session('error') }}</strong>
                                             </span>
-                                        @enderror
+                                        @endif
                                     </div>
                                 </div>
 
