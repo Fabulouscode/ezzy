@@ -185,7 +185,7 @@ class UserController extends BaseApiController
     
     public function uploadDocumentFile(UploadFileRequest $request){
         $user_document = $this->user_details_repo->user_documents;
-        if(!empty($request->file('document'))) {          
+        if(!empty($request->file('document')) && !empty($user_document)) {          
             $file = $request->file('document');
             $storagePath = 'images/'.$user_document[$request->document_key];
             $data['file'] = $this->user_repo->uploadFolderWiseFile($file, $storagePath);

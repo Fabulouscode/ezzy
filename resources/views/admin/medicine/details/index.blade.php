@@ -25,7 +25,7 @@
                 <div class="card-body">
                 
                     <div class="block-options-item mb-3 ml-3">
-                        <a href="{{url('/medicine_details/create')}}" class="btn btn-outline-info">Add Medicine Details</a>
+                        <a href="{{url('/medicine/details/create')}}" class="btn btn-outline-info">Add Medicine Details</a>
                     </div>
 
                     <table id="medicine_details_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -33,7 +33,9 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Medicine Name</th>
+                                <th>Medicine SKU</th>
                                 <th>Medicine Subcategory Name</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>                        
@@ -50,7 +52,7 @@
 
 @section('script')
 <script>
-    var medicine_details_url = "{{url('/medicine_details')}}";
+    var medicine_details_url = "{{url('/medicine/details')}}";
 </script>
 <script src="{{ asset('js/admin/medicine_details.js') }}" ></script>
 @endsection

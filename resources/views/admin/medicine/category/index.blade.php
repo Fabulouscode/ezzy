@@ -33,6 +33,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Category Name</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>                        

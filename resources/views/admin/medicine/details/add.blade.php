@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Category Add')
+@section('title','Add Medicine Details')
 
 @section('content')
 <div class="container-fluid">
@@ -10,10 +10,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Medicine Details</li>
+                    <li class="breadcrumb-item active">Add Medicine Details</li>
                 </ol>
             </div>
-            <h5 class="page-title">Medicine Details</h5>
+            <h5 class="page-title">Add Medicine Details</h5>
         </div>
     </div>
     <!-- end row -->
@@ -25,7 +25,7 @@
 
                     <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Medicine Details</h4>
        
-                    <form method="POST" action="{{ url('medicine_details') }}" id="medicine_details_form" name="medicine_details_form"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ url('medicine/details') }}" id="medicine_details_form" name="medicine_details_form"  enctype="multipart/form-data" >
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -78,26 +78,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Description</label>
-                                <textarea id="description" type="text" required class="form-control @error('description') is-invalid @enderror" name="description"  >{{!empty($data->description) ? $data->description : old('description') }}</textarea>
-                                @error('description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Image Upload</label>
-                                <input id="medicine_image" type="file" required class="form-control @error('medicine_image') is-invalid @enderror" name="medicine_image" value="{{!empty($data->medicine_image) ? $data->medicine_image : old('medicine_image') }}" />
-                                @error('medicine_image')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -132,9 +112,24 @@
                        
                         <div class="row">
                             <div class="form-group col-md-12">
+                                <label>Description</label>
+                                <textarea id="description" type="text" required class="form-control @error('description') is-invalid @enderror" name="description"  >{{!empty($data->description) ? $data->description : old('description') }}</textarea>
+                                @error('description')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
                                 <label for="image">Image Upload</label>
-                                <div class="needsclick dropzone" id="image-dropzone">
-                                </div>
+                               <div class="dropzone dz-clickable" id="image-dropzone">
+
+                                 </div>
                             </div>
                         </div>
 
@@ -143,8 +138,8 @@
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     {{!empty($data->id) ? 'Update' : 'Submit' }}
                                 </button>
-                                <a href="{{ url('medicine_details') }}">
-                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                <a href="{{ url('medicine/details') }}">
+                                    <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
                                 </a>
@@ -162,7 +157,59 @@
 @section('script')
 <script>
     var medicine_details_url = "{{url('/medicine_details')}}";
-    var medicine_image = "";
+    var file_upload_url = "{{url('/image/upload')}}";
+    var storage_url = "{{url('/storage')}}";
+    var medicine_images = '';
+    var medicine_subcategoy_id = '';
+    @if(!empty($data->medicineImages))
+        medicine_images = {!! json_encode($data->medicineImages) !!};
+    @endif
+    @if(!empty($data->medicine_subcategoy_id))
+        medicine_subcategoy_id = {{$data->medicine_subcategoy_id}};
+    @endif
+
+    var uploadedImageMap = {};
+    Dropzone.options.imageDropzone = {
+        url: file_upload_url,
+        acceptedFiles: ".png, .jpeg, .jpg, .gif",
+        maxFilesize: 2, // MB
+        maxFiles: 5,
+        addRemoveLinks: true,
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        success: function (file, response) {
+            $('form').append('<input type="hidden" name="medicine_images[]" value="' + response.name + '">');
+            uploadedImageMap[file.name] = response.name;
+        },
+        removedfile: function (file) {
+            file.previewElement.remove();
+            var name = '';
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name;
+            } else {
+                name = uploadedImageMap[file.name];
+            }
+            $('form').find('input[name="medicine_images[]"][value="' + name + '"]').remove();
+        },
+        init: function () {
+            if(medicine_images.length > 0){
+                for (var i in medicine_images) {
+                    var image_name = medicine_images[i]['product_image'].substring(medicine_images[i]['product_image'].lastIndexOf('/') + 1);
+                    var file = storage_url+'/'+medicine_images[i]['product_image'];
+                    var mockFile = { name:  image_name, size: '1234'};
+                    this.emit("addedfile", mockFile);
+                    this.emit("thumbnail", mockFile, file);
+                    this.emit("complete", mockFile);
+                    uploadedImageMap[image_name] = image_name;
+                    $('form').append('<input type="hidden" name="medicine_images[]" value="' + medicine_images[i]['product_image'] + '">');
+                }
+                
+            }
+            
+            this.on("sending", function(file, xhr, formData){
+                    formData.append("folder_name", "medicine_images");
+            });
+        }
+    }
 </script>
 <script src="{{ asset('js/admin/medicine_details.js') }}" ></script>
 @endsection

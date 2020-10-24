@@ -109,11 +109,24 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
         });
   
-        // support request
+        // healthcare request
         Route::prefix('healthcare')->group(function(){            
             Route::post('/top/list', 'UserController@getTopHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
-            Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
+        });
+        
+        // medicine request
+        Route::prefix('medicine')->group(function(){                        
+            Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
+            Route::get('/subcategories/get/{cate_id}', 'ShopMedicineDetailsController@getMedicineSubcategories');
+            Route::get('/product/get/{sub_id}', 'ShopMedicineDetailsController@getMedicineDetails'); 
+        });
+      
+        // medicine request
+        Route::prefix('medicine/shop')->group(function(){  
+            Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
+            Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
+            Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');       
         });
 
 

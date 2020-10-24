@@ -127,6 +127,18 @@ class Repository
     {
         return $this->model->where($column_name, $condition, $value)->get();
     }
+
+    /**
+     * get the model from the database.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function getbyMultipleColumnWithValue($condition_column_array)
+    {
+        return $this->model->where($condition_column_array)->get();
+    }
     
     /**
      * get the model from the database.
@@ -138,6 +150,18 @@ class Repository
     public function getbyColumnWithFirstValue($column_name, $value, $condition = '=')
     {
         return $this->model->where($column_name, $condition, $value)->first();
+    }
+
+    /**
+     * get the model from the database.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function getbyMultipleColumnWithFirstValue($condition_column_array)
+    {
+        return $this->model->where($condition_column_array)->first();
     }
    
      /**

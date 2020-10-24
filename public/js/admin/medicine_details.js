@@ -15,8 +15,10 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'categoryParent', name: 'categoryParent' },
+            { data: 'medicine_name', name: 'medicine_name' },
+            { data: 'medicine_sku', name: 'medicine_sku' },
+            { data: 'medicine_subcategory', name: 'medicineSubcategory.name' },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
@@ -29,45 +31,7 @@ $(function () {
     });
 
 
-    var uploadedImageMap = {};
-    Dropzone.autoDiscover = false;
-    Dropzone.options.documentDropzone = {
-        url: medicine_details_url,
-        maxFilesize: 2, // MB
-        maxFiles: 2,
-        addRemoveLinks: true,
-        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        success: function (file, response) {
-            // $('form').append('<input type="hidden" name="medicine_image[]" value="' + response.name + '">');
-            $('form').append('<input type="hidden" name="medicine_image" value="' + response.name + '">');
-            uploadedImageMap[file.name] = response.name;
-        },
-        removedfile: function (file) {
-            file.previewElement.remove()
-            var name = ''
-            if (typeof file.file_name !== 'undefined') {
-                name = file.file_name;
-            } else {
-                name = uploadedImageMap[file.name];
-            }
-            // $('form').find('input[name="medicine_image[]"][value="' + name + '"]').remove();
-            $('form').find('input[name="medicine_image"][value="' + name + '"]').remove();
-        },
-        init: function () {
-            if (medicine_image) {
-                // for (var i in medicine_image) {
-                //     var file = medicine_image[i];
-                //     this.options.addedfile.call(this, file);
-                //     file.previewElement.classList.add('dz-complete');
-                //     $('form').append('<input type="hidden" name="medicine_image[]" value="' + file.file_name + '">');
-                // }
-                var file = medicine_image;
-                this.options.addedfile.call(this, file);
-                file.previewElement.classList.add('dz-complete');
-                $('form').append('<input type="hidden" name="medicine_image[]" value="' + file.file_name + '">');
-            }
-        }
-    }
+
 });
 
 function deleteRow(row_id) {
@@ -117,4 +81,7 @@ function changeCategory(cat_id) {
             $(this).hide();
         }
     });
+    if (medicine_subcategoy_id != '') {
+        $("#medicine_subcategoy_id").val(medicine_subcategoy_id);
+    }
 }

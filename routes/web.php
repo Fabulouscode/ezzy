@@ -41,6 +41,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // Main Dashoard
         Route::get('/', 'DashboardController@index');
         
+        // upload image 
+        Route::post('image/upload', 'FileUploadController@fileUploadStorage');
+
         // Child Dashoard
         Route::get('{provider}/dashboard', 'DashboardController@index');
         
@@ -69,8 +72,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('medicine/subcategories', 'MedicineSubcategoryController');
        
         // Medicine Details routes
-        Route::resource('medicine_details', 'MedicineDetailsController');
-      
+        Route::resource('medicine/details', 'MedicineDetailsController');
+       
         // Appointment routes        
         Route::resource('appointment', 'AppointmentController');        
         Route::get('appointments/{status}', 'AppointmentController@getAppointments');

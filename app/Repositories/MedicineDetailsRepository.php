@@ -37,10 +37,13 @@ class MedicineDetailsRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function dataCrud($request, $id = '')
-    {   $data = [
-                    'name' => $request->name,
-                    'parent_id' => $request->parent_id,
-                ];
+    {   $data = array();
+        if(!empty($request)){
+            $filter = $request->all();
+            foreach ($filter as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
         if(!empty($id)){
             return $this->update($data, $id);
         } else {
@@ -49,28 +52,15 @@ class MedicineDetailsRepository extends Repository
     }
     
     /**
-     * Display a listing of the resource.
+     * Display a edit of the record.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getByParentId($parent_id)
-    {
-        $query = $this->model->where('parent_id',$parent_id)->get();
-        return $query;
-    }
-   
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getByMultipleParentIds($parent_ids)
-    {
-        $query = $this->model->whereIn('parent_id',$parent_ids)->get();
-        return $query;
-    }
-    
+    public function getbyIdedit($id)
+    {   
+        return $this->model->with(['medicineImages','medicineSubcategory','medicineCategory'])->find($id);
 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -78,7 +68,7 @@ class MedicineDetailsRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model->with(['categoryParent']);
+        $query = $this->model->with(['medicineSubcategory']);
         $query->orderBy('id','desc')->get();
         return $query;
     }
@@ -90,21 +80,36 @@ class MedicineDetailsRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    $data .= '<a href="'.url('medicine/details/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('categoryParent',function($selected){
-                    if(!empty($selected->categoryParent)){
-                        return $selected->categoryParent->name;
-                    }                            
+                ->addColumn('medicine_subcategory',function($selected)
+                {
+                    $data = '';
+                    if(!empty($selected->medicineSubcategory->name)){
+                        $data .= $selected->medicineSubcategory->name;
+                    } 
+                    
+                    return $data;
                 })
-                ->rawColumns(['action','categoryParent'])
+                ->addColumn('status',function($selected)
+                {
+                    //	0-Active, 1-Inactive	
+                    $data = '';
+                    if($selected->status == '0'){
+                        $data .= '<div class="text-success"><strong>Active</strong></div>';
+                    }else if($selected->status == '1'){
+                         $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';                    
+                    }
+                    return $data;
+                })
+                ->rawColumns(['action','medicine_subcategory','status'])
                 ->make(true);
     }
 }

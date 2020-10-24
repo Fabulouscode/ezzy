@@ -77,6 +77,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{url('/medicine/categories')}}">Medicine Categories</a></li>
                         <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
+                        <li><a href="{{url('/medicine/details')}}">Medicine Details</a></li>
                     </ul>
                 </li>
                 <li>

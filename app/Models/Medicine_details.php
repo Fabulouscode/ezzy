@@ -25,4 +25,17 @@ class Medicine_details extends Model
         'medicine_type',
         'status',
     ];
+
+
+    public function medicineImages() {
+        return $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id');
+    }
+
+    public function medicineCategory() {
+        return $this->belongsTo('App\Models\Medicine_category', 'medicine_category_id');
+    }
+
+    public function medicineSubcategory() {
+        return $this->belongsTo('App\Models\Medicine_category', 'medicine_subcategoy_id');
+    }
 }

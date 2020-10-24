@@ -17,13 +17,18 @@ use App\Repositories\CreditTransactionRepository;
 use App\Repositories\DebitTransactionRepository;
 use App\Repositories\UserEductaionRepository;
 use App\Repositories\UserExperianceRepository;
+use App\Repositories\MedicineCategoryRepository;
+use App\Repositories\MedicineSubcategoryRepository;
+use App\Repositories\MedicineDetailsRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
 
 class BaseApiController extends Controller
 {
     private $ecnrypter;
     public $user_repo, $category_repo, $appointment_repo, $support_request_repo,
             $user_available_time_repo, $user_bank_account_repo, $user_education_repo, 
-            $credit_trans_repo, $debit_trans_repo, $user_experiance_repo, $user_details_repo;
+            $credit_trans_repo, $debit_trans_repo, $user_experiance_repo, $user_details_repo,
+            $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo, $shop_medicine_repo;
 
     public function __construct(
         CategoryRepository $category_repo,
@@ -36,7 +41,11 @@ class BaseApiController extends Controller
         CreditTransactionRepository $credit_trans_repo,
         DebitTransactionRepository $debit_trans_repo,
         UserEductaionRepository $user_education_repo,
-        UserExperianceRepository $user_experiance_repo
+        UserExperianceRepository $user_experiance_repo,
+        MedicineSubcategoryRepository $medicine_subcategory_repo, 
+        MedicineCategoryRepository $medicine_category_repo,
+        MedicineDetailsRepository $medicine_details_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo
     ){
         
        $this->ecnrypter = new CustomEncrypt();   
@@ -51,13 +60,17 @@ class BaseApiController extends Controller
        $this->debit_trans_repo = $debit_trans_repo;
        $this->user_education_repo = $user_education_repo;
        $this->user_experiance_repo = $user_experiance_repo;
+       $this->medicine_details_repo = $medicine_details_repo;
+       $this->medicine_subcategory_repo = $medicine_subcategory_repo;
+       $this->medicine_category_repo = $medicine_category_repo;
+       $this->shop_medicine_repo = $shop_medicine_repo;
     }
 
     public function sendSuccess($result, $message = '') {
        return response()->json($this->ecnrypter->encrypt($result), 200);
     }
 
-    public function sendError($errors, $errorMessage, $code = 500) {
+    public function sendError($errors, $errorMessage='Some Internal Server Error', $code = 500) {
         return response()->json([
             'success' => false,
             'utc_time'=> Carbon::now()->format('Y-m-d H:i:s'),

@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Validator;
+use DB;
 
 class UserRepository extends Repository
 {
@@ -44,7 +45,7 @@ class UserRepository extends Repository
         $card_number = $this->genrateCardNumber();
         $mobile_code = $this->generateOTPCode();
         $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-        $this->sendMessage($mobile_code, '+'.$request->country_code.$request->mobile_no);
+        $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
 
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'email' => $request->email,
@@ -52,6 +53,7 @@ class UserRepository extends Repository
                 'category_id' => isset($request->category_id) ? $request->category_id : NULL,
                 'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
                 'otp_code' => $mobile_code,
+                'status' => !empty($request->category_id) ? 1 : 0,
                 'deleted_at' => NULL
             ])->restore();    
     
@@ -242,8 +244,9 @@ class UserRepository extends Repository
         DB::connection()->enableQueryLog(); 
         $query = $this->model->select('users.*'); 
 
-        if(!empty($request->distance)){
-            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->client_latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->client_latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->client_longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+        // distance filter
+        if(!empty($request->distance) && !empty($request->latitude) && !empty($request->longitude)){
+            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
                            ->where([
                                     ['users.latitude', '!=', ''],
                                     ['users.longitude', '!=', '']
@@ -254,16 +257,34 @@ class UserRepository extends Repository
             $query = $query->orderBy('id','desc');
         }         
         
+        
+        // urgent and not urgent filter
         if(isset($request->urgent)){
            $query = $query->whereHas('userDetails', function($query) use ($request){
                         $query->where('urgent', $request->urgent);
                     });
         }          
         
+         // category filter
         if(!empty($request->category_id)){
             $query = $query->where('category_id', $request->category_id);
         }          
         
+         // consultation filter
+        if(isset($request->consultation)){
+            $query = $query->whereHas('userAvailableTime', function($query) use ($request){
+                        $query->where('appointment_type', $request->consultation);
+                    });
+        }          
+        
+        // rating filter
+        if(isset($request->rating)){
+            $query = $query->withCount(['userReview as rating' => function ($query) {
+                        $query->select(DB::raw('avg(rating)'))->where('status', '0');
+                    }])->havingRaw('rating >= '. $request->rating);
+        }          
+        
+        // top listing
         if(isset($request->offset)){
             $offset = $request->offset * $this->api_data_limit;
             $query = $query->offset($offset)->limit($this->api_data_limit);   

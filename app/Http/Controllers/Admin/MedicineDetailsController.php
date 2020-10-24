@@ -7,20 +7,24 @@ use Illuminate\Http\Request;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\MedicineCategoryRepository;
 use App\Repositories\MedicineSubcategoryRepository;
+use App\Repositories\MedicineImagesRepository;
+use App\Http\Requests\Admin\MedicineDetailsRequest;
 
 class MedicineDetailsController extends Controller
 {
-    private $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo;
+    private $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo, $medicine_images_repo;
 
     public function __construct(
         MedicineDetailsRepository $medicine_details_repo,
         MedicineSubcategoryRepository $medicine_subcategory_repo, 
-        MedicineCategoryRepository $medicine_category_repo
+        MedicineCategoryRepository $medicine_category_repo,
+        MedicineImagesRepository $medicine_images_repo
         )
     {
         $this->medicine_details_repo = $medicine_details_repo;
         $this->medicine_subcategory_repo = $medicine_subcategory_repo;
         $this->medicine_category_repo = $medicine_category_repo;
+        $this->medicine_images_repo = $medicine_images_repo;
     }
 
     /**
@@ -56,18 +60,40 @@ class MedicineDetailsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(MedicineDetailsRequest $request)
     {
+       
          if(!empty($request->id)){
-            $category = $this->medicine_details_repo->getById($request->id);
-            if(!empty($category)){
+            $medicine_details = $this->medicine_details_repo->getById($request->id);
+            if(!empty($medicine_details)){
                 $this->medicine_details_repo->dataCrud($request, $request->id);
+                if(!empty($request->medicine_images) && !empty($request->id)){
+                $this->medicine_images_repo->deleteImages($request->id);
+                foreach ($request->medicine_images as $key => $value) {
+                        $temp_data=[    
+                                        'medicine_detail_id'=>$request->id,
+                                        'product_image'=>$value,
+                                        'sequence_no'=>$key+1
+                                    ];
+                        $this->medicine_images_repo->dataCrud($temp_data);
+                    }
+                }
             } 
         } else{
-            $this->medicine_details_repo->dataCrud($request);
+            $medicine =$this->medicine_details_repo->dataCrud($request);
+            if(!empty($request->medicine_images) && !empty($medicine)){
+                foreach ($request->medicine_images as $key => $value) {
+                    $temp_data=[    
+                                    'medicine_detail_id'=>$medicine->id,
+                                    'product_image'=>$value,
+                                    'sequence_no'=>$key+1
+                                ];
+                    $this->medicine_images_repo->dataCrud($temp_data);
+                }
+            }
         }
 
-        return redirect('/medicine_details');
+        return redirect('/medicine/details');
     }
 
     /**
@@ -82,7 +108,8 @@ class MedicineDetailsController extends Controller
         $subcategories = $this->medicine_subcategory_repo->get();
         $status = $this->medicine_details_repo->status;
         $medicine_types = $this->medicine_details_repo->medicine_types;
-        $data = $this->medicine_details_repo->getById($id);
+        $data = $this->medicine_details_repo->getbyIdedit($id);
+        // dd($data);
         return view('admin.medicine.details.add',compact('data','categories','subcategories','status','medicine_types'));
     }
 
@@ -94,9 +121,9 @@ class MedicineDetailsController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->medicine_category_repo->getById($id);
+        $data = $this->medicine_details_repo->getById($id);
         if(!empty($data)){
-            $this->medicine_category_repo->destroy($id); 
+            $this->medicine_details_repo->destroy($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

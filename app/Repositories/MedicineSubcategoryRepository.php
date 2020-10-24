@@ -77,7 +77,18 @@ class MedicineSubcategoryRepository extends Repository
                         return $selected->medicineCategory->name;
                     }                            
                 })
-                ->rawColumns(['action','medicineCategory'])
+                ->addColumn('status',function($selected)
+                {
+                    //	0-Active, 1-Inactive	
+                    $data = '';
+                    if($selected->status == '0'){
+                        $data .= '<div class="text-success"><strong>Active</strong></div>';
+                    }else if($selected->status == '1'){
+                         $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';                    
+                    }
+                    return $data;
+                })
+                ->rawColumns(['action','medicineCategory','status'])
                 ->make(true);
     }
 }

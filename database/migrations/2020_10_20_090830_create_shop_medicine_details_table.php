@@ -15,6 +15,7 @@ class CreateShopMedicineDetailsTable extends Migration
     {
         Schema::create('shop_medicine_details', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('medicine_category_id')->unsigned();
             $table->bigInteger('medicine_subcategoy_id')->unsigned();
             $table->bigInteger('medicine_detail_id')->unsigned();
@@ -29,6 +30,9 @@ class CreateShopMedicineDetailsTable extends Migration
 
 
             // Foregin Key add
+             $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users');
             $table->foreign('medicine_category_id')
                   ->references('id')
                   ->on('medicine_categories');

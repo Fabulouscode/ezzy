@@ -59,7 +59,18 @@ class MedicineCategoryRepository extends Repository
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('status',function($selected)
+                {
+                    //	0-Active, 1-Inactive	
+                    $data = '';
+                    if($selected->status == '0'){
+                        $data .= '<div class="text-success"><strong>Active</strong></div>';
+                    }else if($selected->status == '1'){
+                         $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';                    
+                    }
+                    return $data;
+                })
+                ->rawColumns(['action','status'])
                 ->make(true);
     }
 }

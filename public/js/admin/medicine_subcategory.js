@@ -17,6 +17,7 @@ $(function () {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'medicineCategory', name: 'medicineCategory.name' },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],

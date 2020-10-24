@@ -24,7 +24,7 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegister(UserAuthRequest $request)
+    public function saveRegister(Request $request)
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){
@@ -55,7 +55,7 @@ class UserAuthController extends BaseApiController
     {
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
-            if(isset($user) && $user->status == '0'){
+            if(isset($user) && (($user->category_id == '' && $user->subcategory_id == '') || $user->status == '0') ){
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
                     'user' => $user,
