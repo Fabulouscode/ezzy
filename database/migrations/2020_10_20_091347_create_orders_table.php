@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('client_id')->unsigned()->comment('patient');
-            $table->bigInteger('user_location_id')->unsigned();
+            $table->bigInteger('user_location_id')->unsigned()->nullable();
             $table->float('total_price')->default(0);
             $table->float('shipping_price')->default(0);
             $table->text('payment_res')->nullable();
@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->text('cancel_reason')->nullable();
             $table->datetime('cancel_date')->nullable();
             $table->bigInteger('cancel_user_id')->unsigned()->nullable();
+            $table->integer('delivery_type')->signed()->default(0)->comment('0-Home Delievry, 1-pick-up from store');
             $table->integer('status')->signed()->default(0)->comment('0-Pending, 1-Success, 2-Cancel');
             $table->timestamps();
             $table->softDeletes();

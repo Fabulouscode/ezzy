@@ -31,12 +31,14 @@ class UserReviewRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
-    {   $data = [];
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+    public function dataCrud($data, $id = '')
+    {   
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
     

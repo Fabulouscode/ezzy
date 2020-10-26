@@ -28,7 +28,7 @@ class Medicine_details extends Model
 
 
     public function medicineImages() {
-        return $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id');
+        return $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id')->orderBy('sequence_no');
     }
 
     public function medicineCategory() {

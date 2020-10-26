@@ -26,19 +26,14 @@ class UserExperianceRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
-    {    $data = [
-                    'user_id' => $request->user()->id,
-                    'name' => $request->name,
-                    'descritption' => $request->descritption,
-                    'start_year'=> $request->start_year,
-                    'end_year' => $request->end_year,
-                    'currently_work' => $request->currently_work,
-                ];
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+    public function dataCrud($data, $id = '')
+    {   
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
     

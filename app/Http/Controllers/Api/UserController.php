@@ -42,13 +42,28 @@ class UserController extends BaseApiController
 
     public function addUserBankDetails(UserBankAccountRequest $request){
         $data = array();
-        $data = $this->user_bank_account_repo->dataCrud($request);
+        $add_data = [
+                    'user_id' => $request->user()->id,
+                    'name' => $request->name,
+                    'bank_name' => $request->bank_name,
+                    'bank_branch_name'=> $request->bank_branch_name,
+                    'account_number' => $request->account_number,
+                    'ifsc_code' => $request->ifsc_code,
+                    ];
+        $data = $this->user_bank_account_repo->dataCrud($add_data);
         return self::sendSuccess($data, 'Bank account details Add Successfully');
     }
     
     public function updateUserBankDetails(UserBankAccountRequest $request){
         $data = array();
-        $data = $this->user_bank_account_repo->dataCrud($request, $request->id);
+        $update_data = [
+                        'name' => $request->name,
+                        'bank_name' => $request->bank_name,
+                        'bank_branch_name'=> $request->bank_branch_name,
+                        'account_number' => $request->account_number,
+                        'ifsc_code' => $request->ifsc_code,
+                        ];
+        $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
         return self::sendSuccess($data, 'Bank account details Update Successfully');
     }
 
@@ -77,13 +92,26 @@ class UserController extends BaseApiController
 
     public function addUserAvailableTimes(UserAvailableTimesRequest $request){
         $data = array();
-        $data = $this->user_available_time_repo->dataCrud($request);
+        $add_data = [
+                    'user_id' => $request->user()->id,
+                    'day' => $request->day,
+                    'appointment_type' => $request->appointment_type,
+                    'start_time'=> $request->start_time,
+                    'end_time' =>  $request->end_time,
+                    ];
+        $data = $this->user_available_time_repo->dataCrud($add_data);
         return self::sendSuccess($data, 'Available times details Add Successfully');
     }
     
     public function updateUserAvailableTimes(UserAvailableTimesRequest $request){
         $data = array();
-        $data = $this->user_available_time_repo->dataCrud($request, $request->id);
+        $update_data = [
+                    'day' => $request->day,
+                    'appointment_type' => $request->appointment_type,
+                    'start_time'=> $request->start_time,
+                    'end_time' =>  $request->end_time,
+                    ];
+        $data = $this->user_available_time_repo->dataCrud($update_data, $request->id);
         return self::sendSuccess($data, 'Available times details Update Successfully');
     }
 
@@ -112,13 +140,28 @@ class UserController extends BaseApiController
 
     public function addUserEducationDetails(UserEducationDetailsRequest $request){
         $data = array();
-        $data = $this->user_education_repo->dataCrud($request);
+        $add_data = [
+                    'user_id' => $request->user()->id,
+                    'college_name' => $request->college_name,
+                    'degree_name' => $request->degree_name,
+                    'start_year'=> $request->start_year,
+                    'end_year' => $request->end_year,
+                    'currently_work' => $request->currently_work,
+                    ];
+        $data = $this->user_education_repo->dataCrud($add_data);
         return self::sendSuccess($data, 'Education details Add Successfully');
     }
     
     public function updateUserEducationDetails(UserEducationDetailsRequest $request){
         $data = array();
-        $data = $this->user_education_repo->dataCrud($request, $request->id);
+        $update_data = [
+                        'college_name' => $request->college_name,
+                        'degree_name' => $request->degree_name,
+                        'start_year'=> $request->start_year,
+                        'end_year' => $request->end_year,
+                        'currently_work' => $request->currently_work,
+                        ];
+        $data = $this->user_education_repo->dataCrud($update_data, $request->id);
         return self::sendSuccess($data, 'Education details Update Successfully');
     }
 
@@ -147,13 +190,28 @@ class UserController extends BaseApiController
 
     public function addUserExperianceDetails(UserExperianceDetailsRequest $request){
         $data = array();
-        $data = $this->user_experiance_repo->dataCrud($request);
+        $add_data = [
+                    'user_id' => $request->user()->id,
+                    'name' => $request->name,
+                    'descritption' => $request->descritption,
+                    'start_year'=> $request->start_year,
+                    'end_year' => $request->end_year,
+                    'currently_work' => $request->currently_work,
+                    ];
+        $data = $this->user_experiance_repo->dataCrud($add_data);
         return self::sendSuccess($data, 'Experiance details Add Successfully');
     }
     
     public function updateUserExperianceDetails(UserExperianceDetailsRequest $request){
         $data = array();
-        $data = $this->user_experiance_repo->dataCrud($request, $request->id);
+        $update_data = [
+                        'name' => $request->name,
+                        'descritption' => $request->descritption,
+                        'start_year'=> $request->start_year,
+                        'end_year' => $request->end_year,
+                        'currently_work' => $request->currently_work,
+                        ];
+        $data = $this->user_experiance_repo->dataCrud($update_data, $request->id);
         return self::sendSuccess($data, 'Experiance details Update Successfully');
     }
 

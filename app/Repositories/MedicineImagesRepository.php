@@ -28,10 +28,12 @@ class MedicineImagesRepository extends Repository
      */
     public function dataCrud($data, $id = '')
     {  
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
  

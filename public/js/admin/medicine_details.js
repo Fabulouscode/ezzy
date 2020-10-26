@@ -23,6 +23,7 @@ $(function () {
         ],
         order: [[0, 'desc']],
     });
+
     if ($('#medicine_category_id').val()) {
         changeCategory($('#medicine_category_id').val());
     }
@@ -30,7 +31,22 @@ $(function () {
         changeCategory($('#medicine_category_id').val());
     });
 
-
+    $("#image-dropzone").sortable({
+        items: '.dz-preview',
+        cursor: 'grab',
+        opacity: 0.5,
+        containment: '#image-dropzone',
+        distance: 20,
+        tolerance: 'pointer',
+        stop: function () {
+            $('form').find('input[name="medicine_images[]"]').remove();
+            $('#image-dropzone .dz-preview .dz-filename [data-dz-name]').each(function (count, el) {
+                var name = el.innerHTML;
+                $('form').append('<input type="hidden" class="medicine_dropzone" name="medicine_images[]" value="' + uploadedImageMap[name] + '">');
+            });
+        }
+    });
+    $("#image-dropzone").disableSelection();
 
 });
 

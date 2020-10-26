@@ -54,10 +54,20 @@ class MedicineSubcategoryController extends Controller
          if(!empty($request->id)){
             $category = $this->medicine_subcategory_repo->getById($request->id);
             if(!empty($category)){
-                $this->medicine_subcategory_repo->dataCrud($request, $request->id);
+                $data = [
+                        'name' => $request->name,
+                        'medicine_category_id' => $request->medicine_category_id,
+                        'status' => $request->status,
+                        ];
+                $this->medicine_subcategory_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $this->medicine_subcategory_repo->dataCrud($request);
+            $data = [
+                    'name' => $request->name,
+                    'medicine_category_id' => $request->medicine_category_id,
+                    'status' => $request->status,
+                    ];
+            $this->medicine_subcategory_repo->dataCrud($data);
         }
 
         return redirect('/medicine/subcategories');

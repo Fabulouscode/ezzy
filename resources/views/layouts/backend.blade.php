@@ -28,8 +28,11 @@
         <!-- Toaster Msg -->
         <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
 
-        <!--  -->
+        <!-- dropzone -->
         <link href="{{ asset('admin/plugins/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css">
+
+        <!-- jquery-ui -->
+        <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
         
         <!-- Bootstrap rating css -->
         <link href="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.css') }}" rel="stylesheet" type="text/css">
@@ -96,6 +99,9 @@
     
         <!-- Dropzone Image Upoload -->
         <script src="{{ asset('admin/plugins/dropzone/dist/dropzone.js') }}" ></script>
+ 
+        <!-- jquery-ui -->
+        <script src="{{ asset('js/jquery-ui.js') }}" ></script>
 
         <!-- skycons -->
         <script src="{{ asset('admin/plugins/skycons/skycons.min.js') }}"></script>

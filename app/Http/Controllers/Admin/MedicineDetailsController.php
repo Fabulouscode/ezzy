@@ -62,11 +62,17 @@ class MedicineDetailsController extends Controller
      */
     public function store(MedicineDetailsRequest $request)
     {
-       
-         if(!empty($request->id)){
+        $filter = $request->all();
+        if(!empty($request->id)){
             $medicine_details = $this->medicine_details_repo->getById($request->id);
             if(!empty($medicine_details)){
-                $this->medicine_details_repo->dataCrud($request, $request->id);
+                $data = array();
+                if(!empty($request)){
+                    foreach ($filter as $key => $value) {
+                        $data[$key] = $value;
+                    }
+                }
+                $this->medicine_details_repo->dataCrud($data, $request->id);
                 if(!empty($request->medicine_images) && !empty($request->id)){
                 $this->medicine_images_repo->deleteImages($request->id);
                 foreach ($request->medicine_images as $key => $value) {
@@ -80,7 +86,13 @@ class MedicineDetailsController extends Controller
                 }
             } 
         } else{
-            $medicine =$this->medicine_details_repo->dataCrud($request);
+            $data = array();
+            if(!empty($request)){
+                foreach ($filter as $key => $value) {
+                    $data[$key] = $value;
+                }
+            }
+            $medicine =$this->medicine_details_repo->dataCrud($data);
             if(!empty($request->medicine_images) && !empty($medicine)){
                 foreach ($request->medicine_images as $key => $value) {
                     $temp_data=[    

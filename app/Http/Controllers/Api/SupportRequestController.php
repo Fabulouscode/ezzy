@@ -31,14 +31,14 @@ class SupportRequestController extends BaseApiController
             $storagePath = 'images/support_request';
             $upload_file = $this->support_request_repo->uploadFolderWiseFile($file, $storagePath);
         }
-        $data = [
+        $add_data = [
                     'user_id' => $request->user()->id,
                     'title' => $request->title,
                     'description' => $request->description,
                     'attachment' => $upload_file,
                     'status' => '0',
                 ];
-        $data = $this->support_request_repo->store($data);
+        $data = $this->support_request_repo->dataCrud($add_data);
         return self::sendSuccess($data, 'Support request add');
     }
 

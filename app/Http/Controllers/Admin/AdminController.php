@@ -48,17 +48,38 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
-         if(!empty($request->id)){
+        $filter = $request->all();
+        if(!empty($request->id)){
             $admin_user = $this->admin_repo->getById($request->id);
             if(!empty($admin_user)){
-                $this->admin_repo->dataCrud($request, $request->id);
+                $data = array();
+                if(!empty($filter)) {
+                    foreach ($filter as $key => $value) {
+                        if($key == 'password' && $value != '**********'){
+                            $data[$key] =  Hash::make($value);
+                        }else{                    
+                            $data[$key] = $value;
+                        }
+                    }
+                }
+                $this->admin_repo->dataCrud($data, $request->id);
                 if($request->password != '**********' && Auth::guard('admin')->user()->id == $request->id){
                     Auth::guard('admin')->logout();
                     return redirect('/');
                 }
             } 
         } else{
-            $this->admin_repo->dataCrud($request);
+            $data = array();
+            if(!empty($filter)) {
+                foreach ($filter as $key => $value) {
+                    if($key == 'password' && $value != '**********'){
+                        $data[$key] =  Hash::make($value);
+                    }else{                    
+                        $data[$key] = $value;
+                    }
+                }
+            }
+            $this->admin_repo->dataCrud($data);
         }
 
         return redirect('/admin/users');

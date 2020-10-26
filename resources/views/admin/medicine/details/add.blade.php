@@ -127,9 +127,8 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="image">Image Upload</label>
-                               <div class="dropzone dz-clickable" id="image-dropzone">
-
-                                 </div>
+                                <div class="dropzone dz-clickable" id="image-dropzone">
+                                </div>
                             </div>
                         </div>
 
@@ -155,9 +154,11 @@
 @endsection
 
 @section('script')
+
 <script>
-    var medicine_details_url = "{{url('/medicine_details')}}";
+    var medicine_details_url = "{{url('/medicine/details')}}";
     var file_upload_url = "{{url('/image/upload')}}";
+    var file_remove_url = "{{url('/image/remove')}}";
     var storage_url = "{{url('/storage')}}";
     var medicine_images = '';
     var medicine_subcategoy_id = '';
@@ -177,18 +178,33 @@
         addRemoveLinks: true,
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         success: function (file, response) {
-            $('form').append('<input type="hidden" name="medicine_images[]" value="' + response.name + '">');
+            $('form').append('<input type="hidden" class="medicine_dropzone" name="medicine_images[]" value="' + response.name + '">');
             uploadedImageMap[file.name] = response.name;
         },
         removedfile: function (file) {
             file.previewElement.remove();
             var name = '';
+            console.log(uploadedImageMap);
             if (typeof file.file_name !== 'undefined') {
                 name = file.file_name;
             } else {
                 name = uploadedImageMap[file.name];
             }
             $('form').find('input[name="medicine_images[]"][value="' + name + '"]').remove();
+              $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: file_remove_url,
+                    type: "post",
+                    dataType: 'json',
+                    data:{'file_name':name},
+                    success: function (data) {
+                        toastr.success(data.msg, 'EzzyCare App');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error(error.msg, 'EzzyCare App');
+                    }
+                });
         },
         init: function () {
             if(medicine_images.length > 0){
@@ -199,8 +215,8 @@
                     this.emit("addedfile", mockFile);
                     this.emit("thumbnail", mockFile, file);
                     this.emit("complete", mockFile);
-                    uploadedImageMap[image_name] = image_name;
-                    $('form').append('<input type="hidden" name="medicine_images[]" value="' + medicine_images[i]['product_image'] + '">');
+                    uploadedImageMap[image_name] = medicine_images[i]['product_image'];
+                    $('form').append('<input type="hidden" class="medicine_dropzone" name="medicine_images[]" value="' + medicine_images[i]['product_image'] + '">');
                 }
                 
             }

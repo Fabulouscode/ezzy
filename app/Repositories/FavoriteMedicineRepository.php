@@ -7,12 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
-use App\Models\Debit_transaction;
+use App\Models\Favorite_product;
 use Illuminate\Support\Str;
 
-class DebitTransactionRepository extends Repository
+class FavoriteMedicineRepository extends Repository
 {
-    protected $model_name = 'App\Models\Debit_transaction';
+    protected $model_name = 'App\Models\Favorite_product';
     protected $model;
 
     public function __construct()
@@ -27,7 +27,7 @@ class DebitTransactionRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function dataCrud($data, $id = '')
-    {  
+    {   
         if(!empty($data)){
             if(!empty($id)){
                 return $this->update($data, $id);
@@ -47,5 +47,23 @@ class DebitTransactionRepository extends Repository
         return $this->model->where('user_id', $user_id)->get();
     }
     
-   
+    /**
+     * Display a list of Upcoming Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getFavoriteMedicine($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+      
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+      
+        $query = $query->with(['medicineDetails','shopMedicineDetails','medicineDetails.medicineImages'])->where('user_id',$request->user()->id);
+      
+        $query = $query->orderBy('id','desc')->get();
+        
+        return $query;
+       
+    }
+    
 }

@@ -7,12 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
-use App\Models\Debit_transaction;
+use App\Models\Order_product;
 use Illuminate\Support\Str;
 
-class DebitTransactionRepository extends Repository
+class OrderProductRepository extends Repository
 {
-    protected $model_name = 'App\Models\Debit_transaction';
+    protected $model_name = 'App\Models\Order_product';
     protected $model;
 
     public function __construct()
@@ -27,7 +27,7 @@ class DebitTransactionRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function dataCrud($data, $id = '')
-    {  
+    {   
         if(!empty($data)){
             if(!empty($id)){
                 return $this->update($data, $id);
@@ -42,10 +42,10 @@ class DebitTransactionRepository extends Repository
      *
      * @param int $user_id
      */
-    public function getbyUserId($user_id)
+    public function getbyOrderId($order_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->where('order_id', $order_id)->get();
     }
     
-   
+    
 }

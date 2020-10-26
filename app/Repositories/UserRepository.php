@@ -322,4 +322,42 @@ class UserRepository extends Repository
         return $card_number; 
     } 
 
+
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserCategoryWiseApprovedCount($category_id)
+    {
+
+        $query = $this->model->where('status', '0');    
+        if(!empty($category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('parent_id', $category_id);
+            });
+        }
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserCategoryWisePendingCount($category_id)
+    {
+
+        $query = $this->model->where('status', '1');    
+        if(!empty($category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('parent_id', $category_id);
+            });
+        }
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+
 }

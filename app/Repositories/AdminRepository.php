@@ -27,23 +27,14 @@ class AdminRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
+    public function dataCrud($data, $id = '')
     {   
-        $data = array();
-        if(!empty($request)){
-            $filter = $request->all();
-            foreach ($filter as $key => $value) {
-                if($key == 'password' && $value != '**********'){
-                    $data[$key] =  Hash::make($value);
-                }else{                    
-                    $data[$key] = $value;
-                }
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
             }
-        }
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
         }
     }
 

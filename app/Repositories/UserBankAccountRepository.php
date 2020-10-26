@@ -26,19 +26,14 @@ class UserBankAccountRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
-    {   $data = [
-                    'user_id' => $request->user()->id,
-                    'name' => $request->name,
-                    'bank_name' => $request->bank_name,
-                    'bank_branch_name'=> $request->bank_branch_name,
-                    'account_number' => $request->account_number,
-                    'ifsc_code' => $request->ifsc_code,
-                ];
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+    public function dataCrud($data, $id = '')
+    {   
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
     

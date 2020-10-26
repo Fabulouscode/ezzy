@@ -50,10 +50,22 @@ class SupportRequestController extends Controller
          if(!empty($request->id)){
             $category = $this->support_request_repo->getById($request->id);
             if(!empty($category)){
-                $this->support_request_repo->dataCrud($request, $request->id);
+                $data = [
+                        'user_id' => $request->user_id,
+                        'title' => $request->title,
+                        'description' => $request->description,
+                        'status' => $request->status,
+                        ];
+                $this->support_request_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $this->support_request_repo->dataCrud($request);
+            $data = [
+                    'user_id' => $request->user_id,
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'status' => $request->status,
+                    ];
+            $this->support_request_repo->dataCrud($data);
         }
 
         return redirect('/support_request');

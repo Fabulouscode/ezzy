@@ -43,6 +43,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         
         // upload image 
         Route::post('image/upload', 'FileUploadController@fileUploadStorage');
+        Route::post('image/remove', 'FileUploadController@fileRemoveStorage');
 
         // Child Dashoard
         Route::get('{provider}/dashboard', 'DashboardController@index');

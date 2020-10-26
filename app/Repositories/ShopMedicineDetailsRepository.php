@@ -33,10 +33,12 @@ class ShopMedicineDetailsRepository extends Repository
      */
     public function dataCrud($data, $id = '')
     {  
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
 
@@ -78,6 +80,20 @@ class ShopMedicineDetailsRepository extends Repository
     public function getbyIdedit($id)
     {   
         return $this->model->with(['medicineDetails','medicineDetails.medicineImages','medicineSubcategory','medicineCategory'])->find($id);
+
+    }
+    
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkMeditionStock($data)
+    {   
+       
+        return $this->model->where('medicine_detail_id',$data['medicine_detail_id'])
+                    ->where('user_id', $data['shop_medicine_detail_id'])
+                    ->where('capsual_quantity','>=',$data['quantity'])->first();
 
     }
 

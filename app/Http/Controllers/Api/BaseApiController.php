@@ -21,6 +21,11 @@ use App\Repositories\MedicineCategoryRepository;
 use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\ShoppingCartRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\OrderProductRepository;
+use App\Repositories\OrderTrackingRepository;
+use App\Repositories\FavoriteMedicineRepository;
 
 class BaseApiController extends Controller
 {
@@ -28,7 +33,8 @@ class BaseApiController extends Controller
     public $user_repo, $category_repo, $appointment_repo, $support_request_repo,
             $user_available_time_repo, $user_bank_account_repo, $user_education_repo, 
             $credit_trans_repo, $debit_trans_repo, $user_experiance_repo, $user_details_repo,
-            $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo, $shop_medicine_repo;
+            $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo, $shop_medicine_repo,
+            $shop_cart_repo, $order_repo, $order_product_repo, $order_tracking_repo, $favorite_medicine_repo;
 
     public function __construct(
         CategoryRepository $category_repo,
@@ -45,7 +51,13 @@ class BaseApiController extends Controller
         MedicineSubcategoryRepository $medicine_subcategory_repo, 
         MedicineCategoryRepository $medicine_category_repo,
         MedicineDetailsRepository $medicine_details_repo,
-        ShopMedicineDetailsRepository $shop_medicine_repo
+        ShopMedicineDetailsRepository $shop_medicine_repo,        
+        ShoppingCartRepository $shop_cart_repo,
+        OrderRepository $order_repo,
+        OrderProductRepository $order_product_repo,
+        OrderTrackingRepository $order_tracking_repo,
+        FavoriteMedicineRepository $favorite_medicine_repo
+
     ){
         
        $this->ecnrypter = new CustomEncrypt();   
@@ -64,6 +76,11 @@ class BaseApiController extends Controller
        $this->medicine_subcategory_repo = $medicine_subcategory_repo;
        $this->medicine_category_repo = $medicine_category_repo;
        $this->shop_medicine_repo = $shop_medicine_repo;
+       $this->shop_cart_repo = $shop_cart_repo;
+       $this->order_repo = $order_repo;
+       $this->order_product_repo = $order_product_repo;
+       $this->order_tracking_repo = $order_tracking_repo;
+       $this->favorite_medicine_repo = $favorite_medicine_repo;
     }
 
     public function sendSuccess($result, $message = '') {

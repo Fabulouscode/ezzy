@@ -207,4 +207,15 @@ class Repository
         }
     }
 
+    /**
+     * File Remove from storage
+     */  
+    public function removeFolderWiseFile($file_path){
+        if(Storage::disk('public')->exists($file_path)) {          
+             Storage::disk('public')->delete($file_path);
+             return true;
+        }
+        return false;
+    }
+
 }

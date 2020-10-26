@@ -42,25 +42,14 @@ class AppointmentRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
-    {   $data = [
-                    'client_id' => $request->user()->id,
-                    'user_id' => $request->user_id,
-                    'appointment_type' => $request->appointment_type,
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'mobile_no' => $request->mobile_no,
-                    'age' => $request->age,
-                    'gender' => $request->gender,
-                    'reason' => $request->reason,
-                    'appointment_date' => $request->appointment_date,
-                    'appointment_time' => $request->appointment_time,
-                    'status' => '0'
-                ];
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+    public function dataCrud($data, $id = '')
+    {   
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
 

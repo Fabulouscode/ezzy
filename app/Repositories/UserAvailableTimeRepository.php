@@ -26,18 +26,14 @@ class UserAvailableTimeRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($request, $id = '')
-    {   $data = [
-                    'user_id' => $request->user()->id,
-                    'day' => $request->day,
-                    'appointment_type' => $request->appointment_type,
-                    'start_time'=> $request->start_time,
-                    'end_time' =>  $request->end_time,
-                ];
-        if(!empty($id)){
-            return $this->update($data, $id);
-        } else {
-            return $this->store($data);
+    public function dataCrud($data, $id = '')
+    {   
+        if(!empty($data)){
+            if(!empty($id)){
+                return $this->update($data, $id);
+            } else {
+                return $this->store($data);
+            }
         }
     }
 

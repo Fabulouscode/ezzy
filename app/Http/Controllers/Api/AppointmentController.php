@@ -44,7 +44,21 @@ class AppointmentController extends BaseApiController
     
     public function addAppointment(AppointmentRequest $request){
         $data = array();
-        $data = $this->appointment_repo->dataCrud($request);
+        $add_data = [
+                    'client_id' => $request->user()->id,
+                    'user_id' => $request->user_id,
+                    'appointment_type' => $request->appointment_type,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'mobile_no' => $request->mobile_no,
+                    'age' => $request->age,
+                    'gender' => $request->gender,
+                    'reason' => $request->reason,
+                    'appointment_date' => $request->appointment_date,
+                    'appointment_time' => $request->appointment_time,
+                    'status' => '0'
+                ];
+        $data = $this->appointment_repo->dataCrud($add_data);
         return self::sendSuccess($data);
     }
 

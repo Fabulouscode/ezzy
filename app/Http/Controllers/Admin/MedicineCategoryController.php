@@ -51,10 +51,18 @@ class MedicineCategoryController extends Controller
          if(!empty($request->id)){
             $category = $this->medicine_category_repo->getById($request->id);
             if(!empty($category)){
-                $this->medicine_category_repo->dataCrud($request, $request->id);
+                $data = [
+                        'name' => $request->name,
+                        'status' => $request->status,
+                        ];
+                $this->medicine_category_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $this->medicine_category_repo->dataCrud($request);
+            $data = [
+                    'name' => $request->name,
+                    'status' => $request->status,
+                    ];
+            $this->medicine_category_repo->dataCrud($data);
         }
 
         return redirect('/medicine/categories');

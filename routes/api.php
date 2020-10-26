@@ -128,6 +128,26 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
             Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');       
         });
+      
+        // cart request
+        Route::prefix('medicine/cart')->group(function(){  
+            Route::post('/add', 'ShoppingCartController@addToCart');
+            Route::get('/update/add/{id}', 'ShoppingCartController@updateToCartAddition');       
+            Route::get('/update/sub/{id}', 'ShoppingCartController@updateToCartSubtraction');       
+            Route::get('/list', 'ShoppingCartController@getUserCart');            
+            Route::get('/get/{id}', 'ShoppingCartController@getToCart');       
+            Route::get('/remove/{id}', 'ShoppingCartController@removeToCart');       
+            Route::get('/clear', 'ShoppingCartController@clearUserCart');       
+            Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');       
+            Route::post('/checkout', 'ShoppingCartController@saveCartCheckout');       
+        });
+       
+        // cart request
+        Route::prefix('medicine/favorite')->group(function(){  
+           Route::post('/add', 'ShoppingCartController@addFavoriteMedicine'); 
+           Route::post('/list', 'ShoppingCartController@getFavoriteMedicine'); 
+        });
+
 
 
 
