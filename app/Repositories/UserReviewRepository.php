@@ -31,13 +31,22 @@ class UserReviewRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function dataCrud($data, $id = '')
+    public function dataCrud($request, $id = '')
     {   
-        if(!empty($data)){
+        if(!empty($request)){
             if(!empty($id)){
                 return $this->update($data, $id);
             } else {
-                return $this->store($data);
+                return $this->model->updateOrCreate([
+                                                        'user_id'=>$request->user_id,
+                                                        'client_id'=>$request->user()->id
+                                                    ], 
+                                                    [
+                                                        'comment'=>$request->comment,
+                                                        'rating'=>$request->rating,
+                                                        'review_date'=>Carbon::now(),
+                                                        'status'=>'0'
+                                                    ]);
             }
         }
     }

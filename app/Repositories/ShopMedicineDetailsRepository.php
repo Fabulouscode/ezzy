@@ -108,7 +108,7 @@ class ShopMedicineDetailsRepository extends Repository
 
         $offset = $request->offset * $this->api_data_limit;      
         $query = $this->model->with(['medicineDetails'])->offset($offset)->limit($this->api_data_limit);       
-        $query = $query->where('user_id', $request->user()->id)->where('status','0');
+       
        
         //category filter
         if(!empty($request->medicine_category_id)){
@@ -123,6 +123,12 @@ class ShopMedicineDetailsRepository extends Repository
                             $query->orWhere('medicine_sku', 'LIKE', '%'.$request->search.'%');
                         });
                     });
+
+        }       
+  
+        //user filter for patient and client side 
+        if(!empty($request->user()->category_id)){
+            $query = $query->where('user_id', $request->user()->id);
 
         }       
 

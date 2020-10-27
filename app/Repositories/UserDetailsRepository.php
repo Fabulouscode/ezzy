@@ -19,11 +19,12 @@ class UserDetailsRepository extends Repository
     protected $model;
     
     public $user_documents = array(
-        '0' => 'qualification_certificate',
-        '1' => 'practicing_licence',
-        '2' => 'health_facility_certificate',
-        '3' => 'regstration_certificate',
-        '4' => 'pharmacist_certificate',
+        '0' => 'profile_picture',
+        '1' => 'qualification_certificate',
+        '2' => 'practicing_licence',
+        '3' => 'health_facility_certificate',
+        '4' => 'regstration_certificate',
+        '5' => 'pharmacist_certificate',
     );
 
     public function __construct()

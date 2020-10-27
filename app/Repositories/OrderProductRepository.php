@@ -44,7 +44,7 @@ class OrderProductRepository extends Repository
      */
     public function getbyOrderId($order_id)
     {
-        return $this->model->where('order_id', $order_id)->get();
+        return $this->model->with(['shopMedicineDetails', 'medicineDetails'])->where('order_id', $order_id)->get();
     }
     
     

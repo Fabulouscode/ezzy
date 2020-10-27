@@ -15,6 +15,17 @@ class OrderRepository extends Repository
     protected $model_name = 'App\Models\Order';
     protected $model;
 
+    public $status = array(
+        '0' => 'Active',
+        '1' => 'Success',
+        '2' => 'Cancel'
+    );
+
+    public $delivery_type = array(
+        '0' => 'Home Delievry',
+        '1' => 'pick-up from store'
+    );
+
     public function __construct()
     {
         parent::__construct();
@@ -37,15 +48,108 @@ class OrderRepository extends Repository
         }
     }
 
-     /**
+    /**
+     * Display a list of Order record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getOrderHistory($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->orderBy('id','desc')->get();
+
+        return $query;
+    }
+
+    /**
      * get Model and return the instance.
      *
      * @param int $user_id
      */
-    public function getbyUserId($user_id)
+    public function getbyEditId($order_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->with(['orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails'])->where('id', $order_id)->first();
     }
     
+     /**
+     * Display a list of Completed Order record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCompletedOrder($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+        
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+
+        // $query = $query->with(['orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails']);
+       
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->where('status','1')->orderBy('id','desc')->get();
+        
+        return $query;
+    }
+  
+    /**
+     * Display a list of Cancelled Order record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCancelledOrder($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+        
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+      
+        // $query = $query->with(['orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails']);
+       
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->where('status','2')->orderBy('id','desc')->get();
+        
+        return $query;
+    }
+
+    /**
+     * Display a list of Active Order record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getActiveOrder($request)
+    {   
+        $offset = $request->offset * $this->api_data_limit;
+        
+        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+       
+        // $query = $query->with(['orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails']);
+                
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->where('status','0')->orderBy('id','desc')->get();
+        
+        return $query;
+    }
     
 }

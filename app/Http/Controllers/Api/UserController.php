@@ -50,8 +50,12 @@ class UserController extends BaseApiController
                     'account_number' => $request->account_number,
                     'ifsc_code' => $request->ifsc_code,
                     ];
-        $data = $this->user_bank_account_repo->dataCrud($add_data);
-        return self::sendSuccess($data, 'Bank account details Add Successfully');
+        try{
+            $data = $this->user_bank_account_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Bank account details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
     
     public function updateUserBankDetails(UserBankAccountRequest $request){
@@ -63,8 +67,12 @@ class UserController extends BaseApiController
                         'account_number' => $request->account_number,
                         'ifsc_code' => $request->ifsc_code,
                         ];
-        $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
-        return self::sendSuccess($data, 'Bank account details Update Successfully');
+        try{
+            $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Bank account details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
 
     public function getByIdUserBankDetails($id){
@@ -99,8 +107,12 @@ class UserController extends BaseApiController
                     'start_time'=> $request->start_time,
                     'end_time' =>  $request->end_time,
                     ];
-        $data = $this->user_available_time_repo->dataCrud($add_data);
-        return self::sendSuccess($data, 'Available times details Add Successfully');
+        try{
+            $data = $this->user_available_time_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Available times details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
     
     public function updateUserAvailableTimes(UserAvailableTimesRequest $request){
@@ -111,8 +123,12 @@ class UserController extends BaseApiController
                     'start_time'=> $request->start_time,
                     'end_time' =>  $request->end_time,
                     ];
-        $data = $this->user_available_time_repo->dataCrud($update_data, $request->id);
-        return self::sendSuccess($data, 'Available times details Update Successfully');
+        try{
+            $data = $this->user_available_time_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Available times details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
 
     public function getByIdUserAvailableTimes($id){
@@ -148,8 +164,12 @@ class UserController extends BaseApiController
                     'end_year' => $request->end_year,
                     'currently_work' => $request->currently_work,
                     ];
-        $data = $this->user_education_repo->dataCrud($add_data);
-        return self::sendSuccess($data, 'Education details Add Successfully');
+        try{
+            $data = $this->user_education_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Education details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
     
     public function updateUserEducationDetails(UserEducationDetailsRequest $request){
@@ -161,8 +181,12 @@ class UserController extends BaseApiController
                         'end_year' => $request->end_year,
                         'currently_work' => $request->currently_work,
                         ];
-        $data = $this->user_education_repo->dataCrud($update_data, $request->id);
-        return self::sendSuccess($data, 'Education details Update Successfully');
+        try{
+            $data = $this->user_education_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Education details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
 
     public function getByIdUserEducationDetails($id){
@@ -198,8 +222,12 @@ class UserController extends BaseApiController
                     'end_year' => $request->end_year,
                     'currently_work' => $request->currently_work,
                     ];
-        $data = $this->user_experiance_repo->dataCrud($add_data);
-        return self::sendSuccess($data, 'Experiance details Add Successfully');
+        try{
+            $data = $this->user_experiance_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Experiance details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
     
     public function updateUserExperianceDetails(UserExperianceDetailsRequest $request){
@@ -211,8 +239,12 @@ class UserController extends BaseApiController
                         'end_year' => $request->end_year,
                         'currently_work' => $request->currently_work,
                         ];
-        $data = $this->user_experiance_repo->dataCrud($update_data, $request->id);
-        return self::sendSuccess($data, 'Experiance details Update Successfully');
+        try{
+            $data = $this->user_experiance_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Experiance details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
 
     public function getByIdUserExperianceDetails($id){
@@ -231,9 +263,13 @@ class UserController extends BaseApiController
     }
 
     public function addUserDetails(Request $request){
-        $user = $this->user_repo->dataCrud($request, $request->user()->id);
-        $this->user_details_repo->dataCrud($request);
-        return self::sendSuccess($user, 'User Profile Add Successfully');
+        try{
+            $user = $this->user_repo->dataCrud($request, $request->user()->id);
+            $this->user_details_repo->dataCrud($request);
+            return self::sendSuccess($user, 'User Profile Add Successfully');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
  
     public function getHealthcareProviders(Request $request){

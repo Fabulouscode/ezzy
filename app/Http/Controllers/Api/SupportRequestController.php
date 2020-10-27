@@ -38,8 +38,13 @@ class SupportRequestController extends BaseApiController
                     'attachment' => $upload_file,
                     'status' => '0',
                 ];
-        $data = $this->support_request_repo->dataCrud($add_data);
-        return self::sendSuccess($data, 'Support request add');
+
+        try{
+            $data = $this->support_request_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Support request add');
+        }catch(\Exception $e){
+            return self::sendError($e->getMessage());
+        }
     }
 
 }

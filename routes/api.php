@@ -35,7 +35,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
 
     Route::middleware('auth:api')->group(function(){
-        Route::post('/logout', 'UserAuthController@getLogout');
+        Route::post('/logout', 'UserAuthController@userLogout');
         Route::post('/otp/resend', 'UserAuthController@resendSMS');
         Route::post('/otp/verify', 'UserAuthController@verifyOTP');
         Route::post('/reset/password', 'UserAuthController@recoverPassword');
@@ -48,59 +48,130 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // Dashoard
         Route::get('/', 'DashboardController@index');
 
-        // User details
+        // User request
         Route::prefix('user')->group(function(){
             Route::get('/profile', 'UserController@getUserDetails');
             Route::post('/profile/add', 'UserController@addUserDetails');
             Route::post('/document/upload', 'UserController@uploadDocumentFile');
             Route::get('/change/status/{status}', 'UserController@changeUserStatus');
+
+
+             // bank details
+            Route::prefix('bank_details')->group(function(){
+                Route::get('', 'UserController@getUserBankDetails');
+                Route::post('/add', 'UserController@addUserBankDetails');
+                Route::post('/update', 'UserController@updateUserBankDetails');
+                Route::get('/get/{id}', 'UserController@getByIdUserBankDetails');
+                Route::get('/delete/{id}', 'UserController@deleteUserBankDetails');
+            });
+            
+            // available times
+            Route::prefix('available_times')->group(function(){
+                Route::get('', 'UserController@getUserAvailableTimes');
+                Route::post('/add', 'UserController@addUserAvailableTimes');
+                Route::post('/update', 'UserController@updateUserAvailableTimes');
+                Route::get('/get/{id}', 'UserController@getByIdUserAvailableTimes');
+                Route::get('/delete/{id}', 'UserController@deleteUserAvailableTimes');
+            });
+            
+            // eductaion details
+            Route::prefix('eductaion_details')->group(function(){
+                Route::get('', 'UserController@getUserEducationDetails');
+                Route::post('/add', 'UserController@addUserEducationDetails');
+                Route::post('/update', 'UserController@updateUserEducationDetails');
+                Route::get('/get/{id}', 'UserController@getByIdUserEducationDetails');
+                Route::get('/delete/{id}', 'UserController@deleteUserEducationDetails');
+            });
+            
+            // experiance details
+            Route::prefix('experiance_details')->group(function(){
+                Route::get('', 'UserController@getUserExperianceDetails');
+                Route::post('/add', 'UserController@addUserExperianceDetails');
+                Route::post('/update', 'UserController@updateUserExperianceDetails');
+                Route::get('/get/{id}', 'UserController@getByIdUserExperianceDetails');
+                Route::get('/delete/{id}', 'UserController@deleteUserExperianceDetails');
+            }); 
         });
         
-        // bank details
-        Route::prefix('user/bank_details')->group(function(){
-            Route::get('', 'UserController@getUserBankDetails');
-            Route::post('/add', 'UserController@addUserBankDetails');
-            Route::post('/update', 'UserController@updateUserBankDetails');
-            Route::get('/get/{id}', 'UserController@getByIdUserBankDetails');
-            Route::get('/delete/{id}', 'UserController@deleteUserBankDetails');
+       
+        // healthcare request
+        Route::prefix('healthcare')->group(function(){            
+            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
+            Route::post('/list', 'UserController@getHealthcareProviders');
+
+            // appointment
+            Route::prefix('appointment')->group(function(){            
+                Route::post('/pending', 'AppointmentController@getPendingAppointment');
+                Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
+                Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
+                Route::post('/completed', 'AppointmentController@getCompletedAppointment');
+                Route::post('/add', 'AppointmentController@addAppointment');
+                Route::post('/change/status', 'AppointmentController@changeStatusAppointment');
+            });
         });
+
+
         
-        // available times
-        Route::prefix('user/available_times')->group(function(){
-            Route::get('', 'UserController@getUserAvailableTimes');
-            Route::post('/add', 'UserController@addUserAvailableTimes');
-            Route::post('/update', 'UserController@updateUserAvailableTimes');
-            Route::get('/get/{id}', 'UserController@getByIdUserAvailableTimes');
-            Route::get('/delete/{id}', 'UserController@deleteUserAvailableTimes');
+        // pharmacy request
+        Route::prefix('pharmacy')->group(function(){                        
+            Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
+            Route::get('/subcategories/get/{cate_id}', 'ShopMedicineDetailsController@getMedicineSubcategories');
+            Route::get('/product/get/{sub_id}', 'ShopMedicineDetailsController@getMedicineDetails'); 
+
+
+            // shop request
+            Route::prefix('shop')->group(function(){  
+                Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
+                Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
+                Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');    
+                Route::post('/review/add', 'ShopMedicineDetailsController@addShopPharmacyReview');    
+            });
+
+             // cart request
+            Route::prefix('cart')->group(function(){  
+                Route::post('/add', 'ShoppingCartController@addToCart');
+                Route::get('/update/add/{id}', 'ShoppingCartController@updateToCartAddition');       
+                Route::get('/update/sub/{id}', 'ShoppingCartController@updateToCartSubtraction');       
+                Route::get('/list', 'ShoppingCartController@getUserCart');            
+                Route::get('/get/{id}', 'ShoppingCartController@getToCart');       
+                Route::get('/remove/{id}', 'ShoppingCartController@removeToCart');       
+                Route::get('/clear', 'ShoppingCartController@clearUserCart');       
+                Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');       
+                Route::post('/checkout', 'ShoppingCartController@saveCartCheckout');       
+            });
+
+
+            // favorite request
+            Route::prefix('favorite')->group(function(){  
+                Route::post('/remove', 'ShoppingCartController@removeFavoriteMedicine'); 
+                Route::post('/add', 'ShoppingCartController@addFavoriteMedicine'); 
+                Route::post('/list', 'ShoppingCartController@getFavoriteMedicine'); 
+            });
+
+
+            // order request
+            Route::prefix('order')->group(function(){  
+                Route::post('/history', 'OrderController@getOrderHistory'); 
+                Route::get('/get/{order_id}', 'OrderController@getOrderProduct'); 
+                Route::get('/invoice/{order_id}', 'OrderController@generateInvoice'); 
+
+                Route::post('/completed', 'OrderController@getCompletedOrder'); 
+                Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
+                Route::post('/active', 'OrderController@getActiveOrder'); 
+            });
+
+
         });
-        
-        // eductaion details
-        Route::prefix('user/eductaion_details')->group(function(){
-            Route::get('', 'UserController@getUserEducationDetails');
-            Route::post('/add', 'UserController@addUserEducationDetails');
-            Route::post('/update', 'UserController@updateUserEducationDetails');
-            Route::get('/get/{id}', 'UserController@getByIdUserEducationDetails');
-            Route::get('/delete/{id}', 'UserController@deleteUserEducationDetails');
+       
+
+     
+        // laboratories request
+        Route::prefix('laboratories')->group(function(){    
+
         });
-        
-        // experiance details
-        Route::prefix('user/experiance_details')->group(function(){
-            Route::get('', 'UserController@getUserExperianceDetails');
-            Route::post('/add', 'UserController@addUserExperianceDetails');
-            Route::post('/update', 'UserController@updateUserExperianceDetails');
-            Route::get('/get/{id}', 'UserController@getByIdUserExperianceDetails');
-            Route::get('/delete/{id}', 'UserController@deleteUserExperianceDetails');
-        }); 
-        
-        // appointment
-        Route::prefix('appointment')->group(function(){            
-            Route::post('/pending', 'AppointmentController@getPendingAppointment');
-            Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
-            Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
-            Route::post('/completed', 'AppointmentController@getCompletedAppointment');
-            Route::post('/add', 'AppointmentController@addAppointment');
-            Route::post('/status/accept', 'AppointmentController@acceptAppointment');
-        });
+  
+    
+
         
         // support request
         Route::prefix('support_request')->group(function(){            
@@ -109,44 +180,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
         });
   
-        // healthcare request
-        Route::prefix('healthcare')->group(function(){            
-            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
-            Route::post('/list', 'UserController@getHealthcareProviders');
-        });
-        
-        // medicine request
-        Route::prefix('medicine')->group(function(){                        
-            Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
-            Route::get('/subcategories/get/{cate_id}', 'ShopMedicineDetailsController@getMedicineSubcategories');
-            Route::get('/product/get/{sub_id}', 'ShopMedicineDetailsController@getMedicineDetails'); 
-        });
-      
-        // medicine request
-        Route::prefix('medicine/shop')->group(function(){  
-            Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
-            Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
-            Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');       
-        });
-      
-        // cart request
-        Route::prefix('medicine/cart')->group(function(){  
-            Route::post('/add', 'ShoppingCartController@addToCart');
-            Route::get('/update/add/{id}', 'ShoppingCartController@updateToCartAddition');       
-            Route::get('/update/sub/{id}', 'ShoppingCartController@updateToCartSubtraction');       
-            Route::get('/list', 'ShoppingCartController@getUserCart');            
-            Route::get('/get/{id}', 'ShoppingCartController@getToCart');       
-            Route::get('/remove/{id}', 'ShoppingCartController@removeToCart');       
-            Route::get('/clear', 'ShoppingCartController@clearUserCart');       
-            Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');       
-            Route::post('/checkout', 'ShoppingCartController@saveCartCheckout');       
-        });
-       
-        // cart request
-        Route::prefix('medicine/favorite')->group(function(){  
-           Route::post('/add', 'ShoppingCartController@addFavoriteMedicine'); 
-           Route::post('/list', 'ShoppingCartController@getFavoriteMedicine'); 
-        });
+
 
 
 

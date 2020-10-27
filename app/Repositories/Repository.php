@@ -208,6 +208,18 @@ class Repository
     }
 
     /**
+     * File Upload
+     */  
+    public function uploadPDFFile($file, $folderPath){
+         if(!empty($file)) {       
+            $orignalfileName = 'order_invoice.pdf';
+            $storagePath = $folderPath.'/'. time() .'_'.$orignalfileName;
+            Storage::disk('local')->put('/public/'.$storagePath, $file);
+            return $storagePath;
+        }
+    }
+
+    /**
      * File Remove from storage
      */  
     public function removeFolderWiseFile($file_path){

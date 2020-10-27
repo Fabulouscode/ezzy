@@ -48,7 +48,7 @@ class FavoriteMedicineRepository extends Repository
     }
     
     /**
-     * Display a list of Upcoming Appointment record.
+     * Display a list of Favorite Medicine record.
      *
      * @return \Illuminate\Http\Response
      */
@@ -63,6 +63,23 @@ class FavoriteMedicineRepository extends Repository
         $query = $query->orderBy('id','desc')->get();
         
         return $query;
+       
+    }
+   
+    /**
+     * remove favourite medicine.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function removeFavoriteMedicine($request)
+    {    
+      
+        $query = $query->where('user_id',$request->user()->id)
+                       ->where('medicine_detail_id',$request->medicine_detail_id)
+                       ->where('shop_medicine_detail_id',$request->shop_medicine_detail_id)->first();
+      
+        $this->destroy($query->id);
+        return true;
        
     }
     

@@ -21,4 +21,13 @@ class Order_product extends Model
         'shop_medicine_detail_id',
         'quantity',
     ];
+
+    public function medicineDetails() {
+        return $this->belongsTo('App\Models\Medicine_details', 'medicine_detail_id');
+    }
+
+    public function shopMedicineDetails() {
+        return $this->belongsTo('App\Models\Shop_medicine_details', 'shop_medicine_detail_id');
+    }
+
 }

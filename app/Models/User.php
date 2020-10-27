@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -65,7 +66,8 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
-                          'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment'
+                          'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
+                          'monthly_wallet_balance','total_wallet_balance'
                         ];
 
     public function categoryParent() {
@@ -100,7 +102,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_review');
     }
 
-    public function getWalletBalanceAttribute(){
+    public function getMonthlyWalletBalanceAttribute(){
+        $total_earning =  $credit_balance = $debit_balance  = 0;
+        $credit_balance = $this->hasOne('App\Models\Credit_transaction','user_id','id')
+                               ->where('status', '0')->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('credit'); 
+        $debit_balance = $this->hasOne('App\Models\Debit_transaction','user_id','id')
+                               ->where('status', '0')->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('debit');  
+        $total_earning = $debit_balance - $credit_balance;      
+        return $total_earning;
+
+    }
+   
+    public function getTotalWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
         $credit_balance = $this->hasOne('App\Models\Credit_transaction','user_id','id')
                                ->where('status', '0')->sum('credit'); 

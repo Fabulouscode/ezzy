@@ -30,6 +30,8 @@ class UserAuthRequest extends FormRequest
            'mobile_no' => 'required|string|max:255|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL',
            'country_code' => 'required',
            'password' => 'required|string|min:8|same:confirmed_password',
+           'device_type' => 'required',
+           'device_token' => 'required',
         ];
         
     }

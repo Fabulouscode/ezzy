@@ -56,6 +56,10 @@ class UserAuthController extends BaseApiController
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
             if(isset($user) && (($user->category_id == '' && $user->subcategory_id == '') || $user->status == '0') ){
+               DB::table('oauth_access_tokens')->where('user_id', $user->id)->delete();
+                $user->device_type = $request->device_type;
+                $user->device_token = $request->device_token;
+                $user->save();
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
                     'user' => $user,
@@ -79,16 +83,21 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){   
-            $user = $this->user_repo->getbyMobileNo($request); 
-            $mobile_code = $this->user_rep->generateOTPCode();
-            $data = ['otp_code' => $mobile_code];
-            $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-            $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
-            $this->user_repo->dataCrud($data, $user->id);
-            $update_user = $this->user_repo->getById($user->id);
-            return self::sendSuccess([
-                'user' => $update_user,
-            ]);
+            try{
+                $user = $this->user_repo->getbyMobileNo($request); 
+                $mobile_code = $this->user_rep->generateOTPCode();
+                $data = ['otp_code' => $mobile_code];
+                $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+                $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
+                $this->user_repo->dataCrud($data, $user->id);
+                $update_user = $this->user_repo->getById($user->id);
+                return self::sendSuccess([
+                    'user' => $update_user,
+                ]);
+        
+            }catch(\Exception $e){
+                return self::sendError($e->getMessage());
+            }
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }
@@ -104,12 +113,16 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->getbyMobileNo($request);   
         if(!empty($user) && $user->otp_code == $request->otp_code){   
+            try{
                 $data = ['mobile_verified_at' => Carbon::now(), 'status' => '1'];
                 $this->user_repo->dataCrud($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
                 ]);
+            }catch(\Exception $e){
+                return self::sendError($e->getMessage());
+            }
         }else{
             return self::sendError('', 'Verify OTP code is wrong please check');
         }
@@ -125,17 +138,22 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){   
-            $user = $this->user_repo->getbyMobileNo($request); 
-            $mobile_code = $this->user_rep->generateOTPCode();
-            $data = ['otp_code' => $mobile_code];
-            $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
-            $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
-            $this->user_repo->dataCrud($data, $user->id);
-            $update_user = $this->user_repo->getById($user->id);
-            return self::sendSuccess([
-                'token' => $user->createToken('EzzyCare')->accessToken,
-                'user' => $update_user,
-                ]);
+            try{
+                $user = $this->user_repo->getbyMobileNo($request); 
+                $mobile_code = $this->user_rep->generateOTPCode();
+                $data = ['otp_code' => $mobile_code];
+                $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
+                $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
+                $this->user_repo->dataCrud($data, $user->id);
+                $update_user = $this->user_repo->getById($user->id);
+                return self::sendSuccess([
+                    'token' => $user->createToken('EzzyCare')->accessToken,
+                    'user' => $update_user,
+                    ]);
+            }catch(\Exception $e){
+                return self::sendError($e->getMessage());
+            }
+
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }
@@ -151,14 +169,30 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->getbyMobileNo($request);   
         if(!empty($user) && $user->otp_code == $request->otp_code){   
+            try{
                 $data = ['password' => Hash::make($request->password)];
                 $this->user_repo->dataCrud($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
                 ]);
+            }catch(\Exception $e){
+                return self::sendError($e->getMessage());
+            }
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
         }
+    }
+
+    /*
+     * login user loogut.
+    */
+    public function userLogout(Request $request) {
+        $user = $request->user();
+        $user->device_type=null;
+        $user->device_token=null;
+        $user->save();
+        DB::table('oauth_access_tokens')->where('user_id', $request->user()->id)->delete();
+        return Self::sendSuccess('', 'Logout Successfull.');
     }
 }

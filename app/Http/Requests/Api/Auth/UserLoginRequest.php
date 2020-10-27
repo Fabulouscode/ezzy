@@ -29,6 +29,8 @@ class UserLoginRequest extends FormRequest
            'mobile_no' => 'required|string|max:255',
            'country_code'=> 'required',
            'password' => 'required|string|min:8',
+           'device_type' => 'required',
+           'device_token' => 'required',
         ];
     }
 

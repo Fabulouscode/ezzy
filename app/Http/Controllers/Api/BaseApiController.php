@@ -11,6 +11,7 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\SupportRequestRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\UserDetailsRepository;
+use App\Repositories\UserReviewRepository;
 use App\Repositories\UserAvailableTimeRepository;
 use App\Repositories\UserBankAccountRepository;
 use App\Repositories\CreditTransactionRepository;
@@ -32,7 +33,7 @@ class BaseApiController extends Controller
     private $ecnrypter;
     public $user_repo, $category_repo, $appointment_repo, $support_request_repo,
             $user_available_time_repo, $user_bank_account_repo, $user_education_repo, 
-            $credit_trans_repo, $debit_trans_repo, $user_experiance_repo, $user_details_repo,
+            $credit_trans_repo, $debit_trans_repo, $user_experiance_repo, $user_details_repo, $user_review_repo,
             $medicine_details_repo, $medicine_subcategory_repo, $medicine_category_repo, $shop_medicine_repo,
             $shop_cart_repo, $order_repo, $order_product_repo, $order_tracking_repo, $favorite_medicine_repo;
 
@@ -42,6 +43,7 @@ class BaseApiController extends Controller
         SupportRequestRepository $support_request_repo,
         UserRepository $user_repo,
         UserDetailsRepository $user_details_repo,
+        UserReviewRepository $user_review_repo,
         UserAvailableTimeRepository $user_available_time_repo,
         UserBankAccountRepository $user_bank_account_repo,
         CreditTransactionRepository $credit_trans_repo,
@@ -66,6 +68,7 @@ class BaseApiController extends Controller
        $this->support_request_repo = $support_request_repo;
        $this->user_repo = $user_repo;
        $this->user_details_repo = $user_details_repo;
+       $this->user_review_repo = $user_review_repo;
        $this->user_available_time_repo = $user_available_time_repo;
        $this->user_bank_account_repo = $user_bank_account_repo;
        $this->credit_trans_repo = $credit_trans_repo;

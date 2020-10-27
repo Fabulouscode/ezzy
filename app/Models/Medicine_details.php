@@ -36,6 +36,6 @@ class Medicine_details extends Model
     }
 
     public function medicineSubcategory() {
-        return $this->belongsTo('App\Models\Medicine_category', 'medicine_subcategoy_id');
+        return $this->belongsTo('App\Models\Medicine_subcategory', 'medicine_subcategoy_id');
     }
 }

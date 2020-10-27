@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\ShopMedicalDetailsRequest;
+use App\Http\Requests\Api\UserReviewRequest;
+use Carbon\Carbon;
 
 class ShopMedicineDetailsController extends BaseApiController
 {
@@ -15,12 +17,8 @@ class ShopMedicineDetailsController extends BaseApiController
      */
     public function getMedicineCategories(Request $request){
         $data = array();
-        try{
-            $data = $this->medicine_category_repo->getbyColumnWithValue('status','0');
-            return self::sendSuccess($data);
-        }catch(\Exception $e){
-            return self::sendError($e->getMessage());
-        }
+        $data = $this->medicine_category_repo->getbyColumnWithValue('status','0');
+        return self::sendSuccess($data);
     }
 
     /**
@@ -30,13 +28,9 @@ class ShopMedicineDetailsController extends BaseApiController
      */
     public function getMedicineSubcategories($cate_id){
         $data = array();
-        try{
-            $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
-            $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data);
-            return self::sendSuccess($data);
-        }catch(\Exception $e){
-            return self::sendError($e->getMessage());
-        }   
+        $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
+        $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data);
+        return self::sendSuccess($data);
     }
 
     /**
@@ -46,14 +40,9 @@ class ShopMedicineDetailsController extends BaseApiController
      */
     public function getMedicineDetails($sub_id){
         $data = array();
-        try{
-            $column_data = [['medicine_subcategoy_id', '=', $sub_id], ['status', '=', '0']];
-            $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data);
-            return self::sendSuccess($data);
-        }catch(\Exception $e){
-            return self::sendError($e->getMessage());
-        }
-   
+        $column_data = [['medicine_subcategoy_id', '=', $sub_id], ['status', '=', '0']];
+        $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data);
+        return self::sendSuccess($data);   
     }
 
     /**
@@ -63,12 +52,8 @@ class ShopMedicineDetailsController extends BaseApiController
      */
     public function getShopProductInfo($id){
         $data = array();
-        try{
-            $data = $this->shop_medicine_repo->getbyIdedit($id);
-            return self::sendSuccess($data);
-        }catch(\Exception $e){
-            return self::sendError($e->getMessage());
-        }
+        $data = $this->shop_medicine_repo->getbyIdedit($id);
+        return self::sendSuccess($data);
     }
  
     public function addShopProduct(ShopMedicalDetailsRequest $request){
@@ -102,9 +87,15 @@ class ShopMedicineDetailsController extends BaseApiController
    
     public function getShopProduct(Request $request){
         $data = array();            
+        $data = $this->shop_medicine_repo->getShopMedicineProducts($request);
+        return self::sendSuccess($data);
+    }
+
+    public function addShopPharmacyReview(UserReviewRequest $request){
+        $data = array();           
         try{
-            $data = $this->shop_medicine_repo->getShopMedicineProducts($request);
-            return self::sendSuccess($data);
+            $data = $this->user_review_repo->dataCrud($request);
+            return self::sendSuccess($data,'Review add success');
         }catch(\Exception $e){
             return self::sendError($e->getMessage());
         }

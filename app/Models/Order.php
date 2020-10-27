@@ -28,4 +28,24 @@ class Order extends Model
         'cancel_user_id',
         'status',
     ];
+
+    public function userDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
+
+    public function clientDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'client_id');
+    }
+    
+    public function cancelUserDetails() {
+        return $this->hasOne('App\Models\User', 'id', 'cancel_user_id');
+    }
+  
+    public function userLocationDetails() {
+        return $this->hasOne('App\Models\User_location', 'id', 'user_location_id');
+    }
+   
+    public function orderProductDetails() {
+        return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
+    }
 }
