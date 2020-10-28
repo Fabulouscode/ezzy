@@ -14,7 +14,10 @@ class CreateStaticPagesTable extends Migration
     public function up()
     {
         Schema::create('static_pages', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('page_name');
+            $table->text('page_description')->nullable();
+            $table->integer('status')->signed()->default(0)->comment('0-Active, 1-Inactive');
             $table->timestamps();
         });
     }

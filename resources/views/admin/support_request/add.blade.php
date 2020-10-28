@@ -62,13 +62,13 @@
                         </div>      
 
                        
-                        <div class="form-group">
-                            <div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     {{!empty($data->id) ? 'Update' : 'Submit' }}
                                 </button>
                                 <a href="{{ url('support_request') }}">
-                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                    <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
                                 </a>

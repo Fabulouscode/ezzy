@@ -65,7 +65,7 @@ class MedicineDetailsRepository extends Repository
     public function getWithRelationship()
     {
         $query = $this->model->with(['medicineSubcategory']);
-        $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -85,7 +85,7 @@ class MedicineDetailsRepository extends Repository
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('medicine_subcategory',function($selected)
+                ->editColumn('medicine_subcategory',function($selected)
                 {
                     $data = '';
                     if(!empty($selected->medicineSubcategory->name)){
@@ -94,7 +94,7 @@ class MedicineDetailsRepository extends Repository
                     
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
                     $data = '';

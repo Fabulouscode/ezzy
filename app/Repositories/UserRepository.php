@@ -102,7 +102,7 @@ class UserRepository extends Repository
             $query = $query->whereNull('category_id');
             $query = $query->whereNull('subcategory_id');
         }
-        $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -115,7 +115,6 @@ class UserRepository extends Repository
     {   
         $data = $this->getWithRelationship($request);
         return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action',function($selected) use ($request)
                 {
                     $change_status = $selected->status == '1' ? 0 : 1;
@@ -140,7 +139,7 @@ class UserRepository extends Repository
           
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     $data = '';
                     if($selected->status == '0'){
@@ -159,12 +158,12 @@ class UserRepository extends Repository
                 //     $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="User Bank Account"><i class="fa fa-bank"></i></a>&nbsp;&nbsp;';
                 //     return $data;
                 // })
-                ->addColumn('categoryParent',function($selected){
+                ->editColumn('categoryParent',function($selected){
                     if(!empty($selected->categoryParent)){
                         return $selected->categoryParent->name;
                     }                            
                 })
-                ->addColumn('categoryChild',function($selected){
+                ->editColumn('categoryChild',function($selected){
                     if(!empty($selected->categoryChild)){
                         return $selected->categoryChild->name;
                     }                            
@@ -181,6 +180,18 @@ class UserRepository extends Repository
     public function getbyIdedit($id)
     {   
         return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime'])->find($id);
+
+    }
+
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserbyCardNumber($card_number)
+    {   
+        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime'])
+                            ->where('ezzycare_card',$card_number)->first();
 
     }
 

@@ -51,7 +51,7 @@ class SupportRequestRepository extends Repository
     public function getWithRelationship()
     {
         $query = $this->model->with(['userDetails']);    
-        $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         return $query;
     }
 
@@ -72,7 +72,7 @@ class SupportRequestRepository extends Repository
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
@@ -85,7 +85,7 @@ class SupportRequestRepository extends Repository
                     }
                     return $data;
                 })
-                ->addColumn('description',function($selected)
+                ->editColumn('description',function($selected)
                 {
                     $data = '';
                     if(!empty($selected->description)){
@@ -93,7 +93,7 @@ class SupportRequestRepository extends Repository
                     }
                     return $data;
                 })
-                ->addColumn('userDetails',function($selected)
+                ->editColumn('userDetails',function($selected)
                 {	
                     $data = '';
                     if(!empty($selected->userDetails)){

@@ -14,9 +14,9 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
-            { data: 'medicineCategory', name: 'medicineCategory.name' },
+            { data: 'medicineCategory', name: 'medicineCategory' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],

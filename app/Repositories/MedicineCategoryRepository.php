@@ -58,7 +58,7 @@ class MedicineCategoryRepository extends Repository
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
                     $data = '';

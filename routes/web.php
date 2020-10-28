@@ -75,6 +75,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // Medicine Details routes
         Route::resource('medicine/details', 'MedicineDetailsController');
        
+        // pharmacy order Details routes
+        Route::resource('pharmacy/orders', 'OrderController');
+     
+        // static pages routes
+        Route::resource('static_pages', 'StaticPagesController');
+       
         // Appointment routes        
         Route::resource('appointment', 'AppointmentController');        
         Route::get('appointments/{status}', 'AppointmentController@getAppointments');

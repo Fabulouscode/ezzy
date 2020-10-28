@@ -78,7 +78,7 @@ class UserReviewRepository extends Repository
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
@@ -89,7 +89,7 @@ class UserReviewRepository extends Repository
                     }
                     return $data;
                 })
-                ->addColumn('comment',function($selected)
+                ->editColumn('comment',function($selected)
                 {
                     $data = '';
                     if(!empty($selected->comment)){
@@ -97,12 +97,12 @@ class UserReviewRepository extends Repository
                     }
                     return $data;
                 })
-                ->addColumn('userDetails_email',function($selected){
+                ->editColumn('userDetails_email',function($selected){
                     if(!empty($selected->userDetails)){
                         return $selected->userDetails->email;
                     }                            
                 })
-                ->addColumn('userDetails_mobile',function($selected){
+                ->editColumn('userDetails_mobile',function($selected){
                     if(!empty($selected->userDetails)){
                         return $selected->userDetails->mobile_no;
                     }                            

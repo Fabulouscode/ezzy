@@ -16,7 +16,7 @@ class CreateUserReviewsTable extends Migration
         Schema::create('user_reviews', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('client_id')->unsigned();
+            $table->bigInteger('client_id')->unsigned()->comment('patient');
             $table->text('comment')->nullable();
             $table->float('rating')->nullable();
             $table->datetime('review_date')->nullable();

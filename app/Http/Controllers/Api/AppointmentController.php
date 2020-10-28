@@ -66,13 +66,13 @@ class AppointmentController extends BaseApiController
         }
     }
 
-    public function changeStatusAppointment(AppointmentStatusRequest $request){
+    public function changeOrderStatus(Request $request){
         $data = array();
         $update = [
                     'status'=> $request->status,
                     'cancel_reason'=> !empty($request->cancel_reason) && $request->status == '6' ? $request->cancel_reason : NULL,
                     'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : NULL,
-                    'cancel_user_id'=> !empty($request->cancel_user_id) && $request->status == '6' ? $request->user()->id : NULL,
+                    'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : NULL,
                   ];
         $this->appointment_repo->update($update, $request->id);
         $data = $this->appointment_repo->getById($request->id);

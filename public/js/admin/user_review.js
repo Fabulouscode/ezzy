@@ -20,9 +20,9 @@ $(function () {
             data: { 'user_id': last_segment }
         },
         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'userDetails_email', name: 'userDetails.email' },
-            { data: 'userDetails_mobile', name: 'userDetails.mobile_no' },
+            { data: 'id', name: 'id', searchable: false },
+            { data: 'userDetails_email', name: 'userDetails_email' },
+            { data: 'userDetails_mobile', name: 'userDetails_mobile' },
             {
                 data: 'rating', name: 'rating',
                 render: function (data, type, row) {

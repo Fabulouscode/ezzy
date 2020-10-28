@@ -68,7 +68,7 @@ class CategoryRepository extends Repository
     public function getWithRelationship()
     {
         $query = $this->model->with(['categoryParent']);
-        $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -88,7 +88,7 @@ class CategoryRepository extends Repository
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('categoryParent',function($selected){
+                ->editColumn('categoryParent',function($selected){
                     if(!empty($selected->categoryParent)){
                         return $selected->categoryParent->name;
                     }                            

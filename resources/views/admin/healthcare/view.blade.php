@@ -257,8 +257,8 @@
                         
                         
 
-                        <div class="form-group">
-                            <div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
                                 <a href="#" onclick="history.go(-1)">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel

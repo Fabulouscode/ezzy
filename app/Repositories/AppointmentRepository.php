@@ -67,7 +67,7 @@ class AppointmentRepository extends Repository
             $query = $query->whereNotIn('status',['5','6']);
         }
         
-        $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         
         return $query;
 
@@ -96,7 +96,7 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
-                ->addColumn('appointment_category',function($selected)
+                ->editColumn('appointment_category',function($selected)
                 {
                     $data = '';
                     if(!empty($selected->userDetails->categoryChild)){
@@ -107,7 +107,7 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
-                ->addColumn('appointment_type',function($selected)
+                ->editColumn('appointment_type',function($selected)
                 {
                     //	0-In Clinic, 1-Home Care, 2-Video Call
                     $data = '';
@@ -121,7 +121,7 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //	0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel
                     $data = '';

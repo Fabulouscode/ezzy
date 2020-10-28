@@ -15,7 +15,7 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
             { data: 'mobile_no', name: 'mobile_no' },

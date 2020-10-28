@@ -42,7 +42,7 @@
                         <li><a href="{{url('/pharmacy/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('/pharmacy/users/pending')}}">Pending Pharmacist</a></li>
                         <li><a href="{{url('/pharmacy/users')}}">Pharmacist List</a></li>
-                        <li><a href="javascript:void(0);">Orders</a></li>
+                        <li><a href="{{url('/pharmacy/orders')}}">Orders</a></li>
                         <li><a href="javascript:void(0);">Manage Pharmacy</a></li>
                     </ul>
                 </li>

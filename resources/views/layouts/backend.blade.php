@@ -25,6 +25,9 @@
         <!-- Sweet Alert -->
         <link href="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
         
+        <!-- Summernote css -->
+        <link href="{{ asset('admin/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
+
         <!-- Toaster Msg -->
         <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
 
@@ -127,6 +130,9 @@
         <script src="{{ asset('admin/plugins/datatables/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/buttons.print.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/buttons.colVis.min.js') }}"></script>
+
+        <!--Summernote js-->
+        <script src="{{ asset('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
         <!-- Responsive examples -->
         <script src="{{ asset('admin/plugins/datatables/dataTables.responsive.min.js') }}"></script>

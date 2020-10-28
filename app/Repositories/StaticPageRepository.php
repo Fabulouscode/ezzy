@@ -7,12 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
-use App\Models\Medicine_subcategory;
+use App\Models\Static_pages;
 use Illuminate\Support\Str;
 
-class MedicineSubcategoryRepository extends Repository
+class StaticPageRepository extends Repository
 {
-    protected $model_name = 'App\Models\Medicine_subcategory';
+    protected $model_name = 'App\Models\Static_pages';
     protected $model;
     public $status = array(
         '0' => 'Active',
@@ -41,19 +41,6 @@ class MedicineSubcategoryRepository extends Repository
         }
     }
     
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getWithRelationship()
-    {
-        $query = $this->model->with(['medicineCategory']);
-        $query = $query->orderBy('id','desc')->get();
-        return $query;
-    }
-    
     /**
      * Display a listing of the Datatable.
      *
@@ -61,32 +48,28 @@ class MedicineSubcategoryRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship();
+        $data = $this->getAll();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('medicine/subcategories/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('static_pages/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->editColumn('medicineCategory',function($selected){
-                    if(!empty($selected->medicineCategory)){
-                        return $selected->medicineCategory->name;
-                    }                            
-                })
                 ->editColumn('status',function($selected)
                 {
-                    //	0-Active, 1-Inactive	
+                    //0-Active, 1-Inactive
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-success"><strong>Active</strong></div>';
+                        $data .= '<div class="text-info"><strong>Active</strong></div>';
                     }else if($selected->status == '1'){
-                         $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';                    
+                        $data .= '<div class="text-danger"><strong>Inactive</strong></div>';
                     }
                     return $data;
                 })
-                ->rawColumns(['action','medicineCategory','status'])
+                ->rawColumns(['action','status'])
                 ->make(true);
     }
+    
 }

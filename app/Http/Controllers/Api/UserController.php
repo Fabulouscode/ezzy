@@ -19,6 +19,18 @@ class UserController extends BaseApiController
         $data = $this->user_repo->getbyIdUserDetails($request->user()->id);
         return self::sendSuccess($data, 'User Details');
     }
+   
+    public function getUserbyIdDetails($id){
+        $data = array();
+        $data = $this->user_repo->getbyIdedit($id);
+        return self::sendSuccess($data, 'User Details');
+    }
+
+    public function getUserbyCardNumberDetails($card_num){
+        $data = array();
+        $data = $this->user_repo->getUserbyCardNumber($card_num);
+        return self::sendSuccess($data, 'User Details');
+    }
     
     public function changeUserStatus(Request $request, $status){
         $data = array();

@@ -20,6 +20,11 @@ class ShopMedicineDetailsRepository extends Repository
         '1' => 'Inactive',
     );
     
+    public $medicine_types = array(
+        '0' => 'Capsules',
+        '1' => 'Bottle',
+    );
+    
     public function __construct()
     {
         parent::__construct();
@@ -58,7 +63,7 @@ class ShopMedicineDetailsRepository extends Repository
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->addColumn('status',function($selected)
+                ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
                     $data = '';

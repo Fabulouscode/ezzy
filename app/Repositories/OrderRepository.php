@@ -70,15 +70,84 @@ class OrderRepository extends Repository
         return $query;
     }
 
-    /**
-     * get Model and return the instance.
+        
+     /**
+     * Display a edit of the record.
      *
-     * @param int $user_id
+     * @return \Illuminate\Http\Response
      */
-    public function getbyEditId($order_id)
-    {
-        return $this->model->with(['orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails'])->where('id', $order_id)->first();
+    public function getbyEditId($id)
+    {   
+        return $this->model->with(['clientDetails', 'userDetails', 'orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.medicineDetails','userLocationDetails'])->find($id);
+
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getWithRelationship($request)
+    {
+        $query = $this->model->with(['clientDetails','userDetails']);    
+        $query = $query->orderBy('id','desc')->get();
+        return $query;
+    }
+
+    /**
+     * Display a listing of the Datatable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getDatatable($request)
+    {
+        $data = $this->getWithRelationship($request);
+        return Datatables::of($data)
+                ->editColumn('status',function($selected)
+                {
+                    $data = '';
+                    if($selected->status == '0'){
+                        $data .= '<div class="text-info"><strong>Active</strong></div>';
+                    }else  if($selected->status == '1'){
+                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                    }else  if($selected->status == '2'){
+                        $data .= '<div class="text-danger"><strong>Cancel</strong></div>';
+                    }
+                    return $data;
+                })
+                ->addColumn('action',function($selected)
+                {
+                    $data = '';
+                    // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    $data .= '<a href="'.url('pharmacy/orders/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    return $data;
+                })                
+                ->editColumn('userDetailsFN',function($selected){
+                    if(!empty($selected->userDetails)){
+                        return $selected->userDetails->first_name;
+                    } 
+                })
+                ->editColumn('clientDetailsFN',function($selected){
+                    if(!empty($selected->clientDetails)){
+                        return $selected->clientDetails->first_name;
+                    } 
+                })
+                ->editColumn('clientDetailsEM',function($selected){
+                    if(!empty($selected->clientDetails)){
+                        return $selected->clientDetails->email;
+                    } 
+                })
+                ->editColumn('clientDetailsMO',function($selected){
+                    if(!empty($selected->clientDetails)){
+                        return $selected->clientDetails->mobile_no;
+                    } 
+                })
+                ->rawColumns(['action','status','userDetailsFN','clientDetailsFN','clientDetailsEM','clientDetailsMO'])
+                ->make(true);
+        
+    }
+
     
      /**
      * Display a list of Completed Order record.

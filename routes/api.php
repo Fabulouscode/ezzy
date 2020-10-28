@@ -51,6 +51,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // User request
         Route::prefix('user')->group(function(){
             Route::get('/profile', 'UserController@getUserDetails');
+            Route::get('/get/profile/{id}', 'UserController@getUserbyIdDetails');
+            Route::get('/get/card_nuber/{card_num}', 'UserController@getUserbyCardNumberDetails');
             Route::post('/profile/add', 'UserController@addUserDetails');
             Route::post('/document/upload', 'UserController@uploadDocumentFile');
             Route::get('/change/status/{status}', 'UserController@changeUserStatus');
@@ -154,6 +156,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/history', 'OrderController@getOrderHistory'); 
                 Route::get('/get/{order_id}', 'OrderController@getOrderProduct'); 
                 Route::get('/invoice/{order_id}', 'OrderController@generateInvoice'); 
+                Route::post('/change/status', 'OrderController@changeOrderStatus'); 
 
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 

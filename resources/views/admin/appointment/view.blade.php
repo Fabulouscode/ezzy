@@ -169,8 +169,8 @@
                         
                         
 
-                        <div class="form-group">
-                            <div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
                                 <a href="{{ url('appointment') }}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel

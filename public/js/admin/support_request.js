@@ -14,8 +14,8 @@ $(function () {
             async: true
         },
         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'userDetails', name: 'userDetails.firstname' },
+            { data: 'id', name: 'id', searchable: false },
+            { data: 'userDetails', name: 'userDetails' },
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
             { data: 'status', name: 'status' },

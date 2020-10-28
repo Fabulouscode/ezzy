@@ -1,28 +1,38 @@
 
 $(function () {
-    $("form[name='category_form']").parsley();
-    $('#category_datatable').DataTable({
+    $("form[name='pharmacy_order_form']").parsley();
+    $('#pharmacy_order_datatable').DataTable({
         lengthChange: true,
         processing: true,
         serverSide: true,
         bPaginate: true,
         responsive: true,
         ajax: {
-            url: category_url,
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: pharmacy_order_url,
             type: 'get',
             dataType: "json",
-            async: true,
+            async: true
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'categoryParent', name: 'categoryParent' },
+            { data: 'userDetailsFN', name: 'userDetailsFN' },
+            { data: 'clientDetailsFN', name: 'clientDetailsFN' },
+            { data: 'clientDetailsEM', name: 'clientDetailsEM' },
+            { data: 'clientDetailsMO', name: 'clientDetailsMO' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+        }
     });
 
 });
+
+
 
 function deleteRow(row_id) {
     if (row_id) {
@@ -35,11 +45,10 @@ function deleteRow(row_id) {
             cancelButtonClass: 'btn btn-danger m-l-10',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            console.log(row_id);
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                    url: category_url + "/" + row_id,
+                    url: pharmacy_order_url + "/" + row_id,
                     type: "delete",
                     dataType: 'json',
                     success: function (data) {
@@ -48,16 +57,15 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        toastr.success(data.msg, 'EzzyCare App');
-                        var oTable = $('#category_datatable').dataTable();
+                        var oTable = $('#pharmacy_order_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
                         console.log(error);
-                        toastr.error(error.msg, 'EzzyCare App');
                     }
                 });
             }
         });
     }
-}    
+}
+

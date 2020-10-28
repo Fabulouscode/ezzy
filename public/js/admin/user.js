@@ -16,13 +16,13 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'DT_RowIndex', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'first_name', name: 'first_name' },
             { data: 'last_name', name: 'last_name' },
             { data: 'email', name: 'email' },
             { data: 'mobile_no', name: 'mobile_no' },
-            { data: 'categoryParent', name: 'categoryParent.name' },
-            { data: 'categoryChild', name: 'categoryChild.name' },
+            { data: 'categoryParent', name: 'categoryParent' },
+            { data: 'categoryChild', name: 'categoryChild' },
             { data: 'status', name: 'status' },
             // { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
