@@ -1,4 +1,4 @@
-<div class="left side-menu">
+<div class="left side-menu d-print-none">
     <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
         <i class="ion-close"></i>
     </button>
@@ -43,7 +43,6 @@
                         <li><a href="{{url('/pharmacy/users/pending')}}">Pending Pharmacist</a></li>
                         <li><a href="{{url('/pharmacy/users')}}">Pharmacist List</a></li>
                         <li><a href="{{url('/pharmacy/orders')}}">Orders</a></li>
-                        <li><a href="javascript:void(0);">Manage Pharmacy</a></li>
                     </ul>
                 </li>
                 
@@ -73,7 +72,7 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Medicines </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Manage Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/medicine/categories')}}">Medicine Categories</a></li>
                         <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
@@ -87,7 +86,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect">
+                    <a href="{{url('/static_pages')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
                         <span> Static Pages </span>
                     </a>
@@ -96,6 +95,12 @@
                     <a href="{{url('/category')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
                         <span> HCP Types </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('/services')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Services </span>
                     </a>
                 </li>
                 <li>

@@ -30,15 +30,22 @@ class UserAuthController extends BaseApiController
         if(!empty($user)){
             $this->user_repo->registerWithRestore($request);
             $user = $this->user_repo->getbyMobileNo($request);   
-            if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
-                return self::sendSuccess([
-                    'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $user,
-                ]);
+            if(empty($user->category_id)){
+                if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password, 'status' => '0'])){
+                    if(!empty($user) && $user->status == '0'){
+                        return self::sendSuccess([
+                            'token' => $user->createToken('EzzyCare')->accessToken,
+                            'user' => $user,
+                        ]);
+                    }else{
+                        return self::sendError('', 'User status is pending please wait for Approved');
+                    }
+                }
             }
+
             return self::sendSuccess([
                 'user' => $user,
-                ]);
+            ]);
         } else{
              return self::sendError('', 'User Already Registered.');
         }
@@ -55,15 +62,18 @@ class UserAuthController extends BaseApiController
     {
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
-            if(isset($user) && (($user->category_id == '' && $user->subcategory_id == '') || $user->status == '0') ){
-               DB::table('oauth_access_tokens')->where('user_id', $user->id)->delete();
-                $user->device_type = $request->device_type;
-                $user->device_token = $request->device_token;
-                $user->save();
-                return self::sendSuccess([
-                    'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $user,
-                ]);
+            if(isset($user) && $user->status == '0'){
+                try{
+                    $this->user_repo->removeOauthAccessTokens($user->id);
+                    $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token];
+                    $this->user_repo->dataCrudUsingData($data, $user->id);
+                    return self::sendSuccess([
+                        'token' => $user->createToken('EzzyCare')->accessToken,
+                        'user' => $user,
+                    ]);
+                }catch(\Exception $e){
+                    return self::sendException($e);
+                }
             }else{
                  return self::sendError('', 'User status is pending please wait for Approved');
             }
@@ -88,15 +98,15 @@ class UserAuthController extends BaseApiController
                 $mobile_code = $this->user_rep->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
                 $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-                $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
-                $this->user_repo->dataCrud($data, $user->id);
+                $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
                     'user' => $update_user,
                 ]);
         
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
@@ -115,13 +125,13 @@ class UserAuthController extends BaseApiController
         if(!empty($user) && $user->otp_code == $request->otp_code){   
             try{
                 $data = ['mobile_verified_at' => Carbon::now(), 'status' => '1'];
-                $this->user_repo->dataCrud($data, $user->id);
+                $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
                 ]);
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
         }else{
             return self::sendError('', 'Verify OTP code is wrong please check');
@@ -144,14 +154,14 @@ class UserAuthController extends BaseApiController
                 $data = ['otp_code' => $mobile_code];
                 $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
                 $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
-                $this->user_repo->dataCrud($data, $user->id);
+                $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
                     'user' => $update_user,
                     ]);
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
 
         }else{
@@ -171,13 +181,13 @@ class UserAuthController extends BaseApiController
         if(!empty($user) && $user->otp_code == $request->otp_code){   
             try{
                 $data = ['password' => Hash::make($request->password)];
-                $this->user_repo->dataCrud($data, $user->id);
+                $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([
                     'user' => $update_user,
                 ]);
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
         }else{
             return self::sendError('', 'User Mobile No. Invalid');
@@ -189,10 +199,13 @@ class UserAuthController extends BaseApiController
     */
     public function userLogout(Request $request) {
         $user = $request->user();
-        $user->device_type=null;
-        $user->device_token=null;
-        $user->save();
-        DB::table('oauth_access_tokens')->where('user_id', $request->user()->id)->delete();
-        return Self::sendSuccess('', 'Logout Successfull.');
+        try{
+            $data = ['device_type' => NULL,'device_token'=> NULL];
+            $this->user_repo->dataCrudUsingData($data, $user->id);
+            $this->user_repo->removeOauthAccessTokens($request->user()->id);
+            return Self::sendSuccess('', 'Logout Successfull.');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
     }
 }

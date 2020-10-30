@@ -16,16 +16,12 @@ class CreateOrderProductsTable extends Migration
         Schema::create('order_products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('order_id')->unsigned();
-            $table->bigInteger('medicine_detail_id')->unsigned();
             $table->bigInteger('shop_medicine_detail_id')->unsigned();
             $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
              // Foregin Key add
-            $table->foreign('medicine_detail_id')
-                  ->references('id')
-                  ->on('medicine_details');
             $table->foreign('shop_medicine_detail_id')
                   ->references('id')
                   ->on('shop_medicine_details');

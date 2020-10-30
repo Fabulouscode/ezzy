@@ -31,7 +31,6 @@ class CartCheckoutRequest extends FormRequest
             'shipping_price' => 'required',
             'delivery_type' => 'required',
             'order_prodcuts' => 'required|array|min:1',
-            'order_prodcuts.*.medicine_detail_id' => 'required',
             'order_prodcuts.*.shop_medicine_detail_id' => 'required',
             'order_prodcuts.*.quantity'  => 'required',
         ];

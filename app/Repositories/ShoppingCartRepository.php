@@ -82,9 +82,9 @@ class ShoppingCartRepository extends Repository
      *
      * @param int $user_id
      */
-    public function checkCart($user_id, $medicine_id, $shop_id)
+    public function checkCart($user_id, $shop_id)
     {
-        return $this->model->where('user_id', $user_id)->where('medicine_detail_id', $medicine_id)->where('shop_medicine_detail_id', $shop_id)->first();
+        return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $shop_id)->first();
     }
     
     

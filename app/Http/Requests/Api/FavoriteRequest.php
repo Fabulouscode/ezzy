@@ -26,7 +26,6 @@ class FavoriteRequest extends FormRequest
     public function rules()
     {
         return [
-            'medicine_detail_id' => 'required',
             'shop_medicine_detail_id' => 'required',
         ];
     }

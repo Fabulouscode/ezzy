@@ -54,12 +54,29 @@ class UserRepository extends Repository
                 'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
                 'otp_code' => $mobile_code,
                 'status' => !empty($request->category_id) ? 1 : 0,
+                'device_type' => !empty($request->device_type) ? $request->device_type : NULL,
+                'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
                 'deleted_at' => NULL
             ])->restore();    
     
         $user = $this->model->where('mobile_no', $request->mobile_no)->whereNull('ezzycare_card');
         if(!empty($user)){
             $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
+        }
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function dataCrudUsingData($data, $id = '')
+    {   
+        if(!empty($id)){
+            return $this->update($data, $id);
+        } else {
+            return $this->store($data);
         }
     }
     
@@ -82,6 +99,17 @@ class UserRepository extends Repository
         } else {
             return $this->store($data);
         }
+    }
+
+    /**
+     * remove oauth access tokens in db.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function removeOauthAccessTokens($user_id)
+    {  
+        DB::table('oauth_access_tokens')->where('user_id', $user_id)->delete();
     }
 
     /**
@@ -252,7 +280,6 @@ class UserRepository extends Repository
      */
     public function getHealthcareProviders($request)
     {   
-        DB::connection()->enableQueryLog(); 
         $query = $this->model->select('users.*'); 
 
         // distance filter
@@ -305,7 +332,59 @@ class UserRepository extends Repository
         
         $query = $query->where('status', '0')->get();
         
-        // dd(DB::getQueryLog());
+        return $query;
+    }
+
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHealthcareProvidersUrgent($request)
+    {   
+        $query = $this->model->select('users.*'); 
+
+        // distance filter
+        if(!empty($request->latitude) && !empty($request->longitude)){
+            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                           ->where([
+                                    ['users.latitude', '!=', ''],
+                                    ['users.longitude', '!=', '']
+                                ])
+                           ->havingRaw('distance <= 10')
+                           ->orderBy('distance','asc');
+        } else{
+            $query = $query->orderBy('id','desc');
+        }         
+        
+        
+        // urgent and not urgent filter
+        $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('urgent', '1');
+                    });
+        
+         // category filter
+        if(!empty($request->category_id)){
+            $query = $query->where('category_id', $request->category_id);
+        }          
+        
+         // consultation filter
+        if(isset($request->consultation)){
+            $query = $query->whereHas('userAvailableTime', function($query) use ($request){
+                        $query->where('appointment_type', $request->consultation);
+                    });
+        }                
+        
+        // top listing
+        if(isset($request->offset)){
+            $offset = $request->offset * $this->api_data_limit;
+            $query = $query->offset($offset)->limit($this->api_data_limit);   
+        } else{
+            $query = $query->offset(0)->limit(5);  
+        }         
+        
+        $query = $query->where('status', '0')->get();
+        
         return $query;
     }
 

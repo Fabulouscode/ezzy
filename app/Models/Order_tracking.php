@@ -16,6 +16,7 @@ class Order_tracking extends Model
      */
     protected $fillable = [
         'order_id',
+        'title',
         'description',
         'status',
     ];

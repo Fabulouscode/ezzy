@@ -33,7 +33,10 @@ class Appointment extends Model
         'cancel_date',
         'status',
         'credit_transaction_id',
-        'debit_transaction_id'
+        'debit_transaction_id',
+        'consult_notes',
+        'user_rating',
+        'user_review'
     ];
 
 

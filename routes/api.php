@@ -45,54 +45,69 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     // middleware add (with auth)
     Route::middleware('auth:api')->group(function(){
        
-        // Dashoard
-        Route::get('/', 'DashboardController@index');
-
         // User request
         Route::prefix('user')->group(function(){
+            
+            Route::get('/dashboard', 'DashboardController@getDashboardDetails');
+            Route::get('/hcp/types/{id}', 'DashboardController@getHealthCareTypes');
+            Route::post('/payment/history', 'DashboardController@getPaymentHistory');
+
             Route::get('/profile', 'UserController@getUserDetails');
             Route::get('/get/profile/{id}', 'UserController@getUserbyIdDetails');
             Route::get('/get/card_nuber/{card_num}', 'UserController@getUserbyCardNumberDetails');
-            Route::post('/profile/add', 'UserController@addUserDetails');
-            Route::post('/document/upload', 'UserController@uploadDocumentFile');
             Route::get('/change/status/{status}', 'UserController@changeUserStatus');
+
+            //user profile details
+            Route::post('/profile/add', 'UserProfileController@addUserDetails');
+            Route::post('/document/upload', 'UserProfileController@uploadDocumentFile');
 
 
              // bank details
             Route::prefix('bank_details')->group(function(){
-                Route::get('', 'UserController@getUserBankDetails');
-                Route::post('/add', 'UserController@addUserBankDetails');
-                Route::post('/update', 'UserController@updateUserBankDetails');
-                Route::get('/get/{id}', 'UserController@getByIdUserBankDetails');
-                Route::get('/delete/{id}', 'UserController@deleteUserBankDetails');
+                Route::get('', 'UserProfileController@getUserBankDetails');
+                Route::post('/add', 'UserProfileController@addUserBankDetails');
+                Route::post('/update', 'UserProfileController@updateUserBankDetails');
+                Route::get('/get/{id}', 'UserProfileController@getByIdUserBankDetails');
+                Route::get('/delete/{id}', 'UserProfileController@deleteUserBankDetails');
             });
             
             // available times
             Route::prefix('available_times')->group(function(){
-                Route::get('', 'UserController@getUserAvailableTimes');
-                Route::post('/add', 'UserController@addUserAvailableTimes');
-                Route::post('/update', 'UserController@updateUserAvailableTimes');
-                Route::get('/get/{id}', 'UserController@getByIdUserAvailableTimes');
-                Route::get('/delete/{id}', 'UserController@deleteUserAvailableTimes');
+                Route::get('', 'UserProfileController@getUserAvailableTimes');
+                Route::post('/add', 'UserProfileController@addUserAvailableTimes');
+                Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
+                Route::get('/get/{id}', 'UserProfileController@getByIdUserAvailableTimes');
+                Route::get('/delete/{id}', 'UserProfileController@deleteUserAvailableTimes');
             });
             
             // eductaion details
             Route::prefix('eductaion_details')->group(function(){
-                Route::get('', 'UserController@getUserEducationDetails');
-                Route::post('/add', 'UserController@addUserEducationDetails');
-                Route::post('/update', 'UserController@updateUserEducationDetails');
-                Route::get('/get/{id}', 'UserController@getByIdUserEducationDetails');
-                Route::get('/delete/{id}', 'UserController@deleteUserEducationDetails');
+                Route::get('', 'UserProfileController@getUserEducationDetails');
+                Route::post('/add', 'UserProfileController@addUserEducationDetails');
+                Route::post('/update', 'UserProfileController@updateUserEducationDetails');
+                Route::get('/get/{id}', 'UserProfileController@getByIdUserEducationDetails');
+                Route::get('/delete/{id}', 'UserProfileController@deleteUserEducationDetails');
             });
             
             // experiance details
             Route::prefix('experiance_details')->group(function(){
-                Route::get('', 'UserController@getUserExperianceDetails');
-                Route::post('/add', 'UserController@addUserExperianceDetails');
-                Route::post('/update', 'UserController@updateUserExperianceDetails');
-                Route::get('/get/{id}', 'UserController@getByIdUserExperianceDetails');
-                Route::get('/delete/{id}', 'UserController@deleteUserExperianceDetails');
+                Route::get('', 'UserProfileController@getUserExperianceDetails');
+                Route::post('/add', 'UserProfileController@addUserExperianceDetails');
+                Route::post('/update', 'UserProfileController@updateUserExperianceDetails');
+                Route::get('/get/{id}', 'UserProfileController@getByIdUserExperianceDetails');
+                Route::get('/delete/{id}', 'UserProfileController@deleteUserExperianceDetails');
             }); 
+ 
+            // service details
+            Route::prefix('service')->group(function(){
+                Route::get('', 'UserServiceDetailsController@getUserServiceDetails');
+                Route::post('/add', 'UserServiceDetailsController@addUserServiceDetails');
+                Route::post('/update', 'UserServiceDetailsController@updateUserServiceDetails');
+                Route::get('/get/{id}', 'UserServiceDetailsController@getByIdUserServiceDetails');
+                Route::get('/delete/{id}', 'UserServiceDetailsController@deleteUserServiceDetails');
+            }); 
+
+
         });
         
        
@@ -100,19 +115,25 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('healthcare')->group(function(){            
             Route::post('/top/list', 'UserController@getTopHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
+            Route::post('/urgent', 'UserController@getHealthcareProvidersUrgent');
 
             // appointment
-            Route::prefix('appointment')->group(function(){            
+            Route::prefix('appointment')->group(function(){     
+                Route::get('/request', 'AppointmentController@getRequestAppointment');       
                 Route::post('/pending', 'AppointmentController@getPendingAppointment');
                 Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
                 Route::post('/completed', 'AppointmentController@getCompletedAppointment');
                 Route::post('/add', 'AppointmentController@addAppointment');
-                Route::post('/change/status', 'AppointmentController@changeStatusAppointment');
+                Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
+                Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
             });
         });
 
-
+         // services 
+        Route::prefix('services')->group(function(){ 
+            Route::get('/get/{service_type}', 'UserServiceDetailsController@getServiceDetails');
+        });
         
         // pharmacy request
         Route::prefix('pharmacy')->group(function(){                        
@@ -157,6 +178,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/get/{order_id}', 'OrderController@getOrderProduct'); 
                 Route::get('/invoice/{order_id}', 'OrderController@generateInvoice'); 
                 Route::post('/change/status', 'OrderController@changeOrderStatus'); 
+                Route::get('/tracking/{order_id}', 'OrderController@getOrderTracking'); 
 
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
@@ -170,7 +192,22 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
      
         // laboratories request
         Route::prefix('laboratories')->group(function(){    
+            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
+            Route::post('/list', 'UserController@getHealthcareProviders');
 
+            // appointment
+            Route::prefix('appointment')->group(function(){     
+                
+                Route::post('/add', 'AppointmentController@addLaboratoryAppointment');
+
+                Route::get('/request', 'AppointmentController@getRequestAppointment');       
+                Route::post('/pending', 'AppointmentController@getPendingAppointment');
+                Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
+                Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
+                Route::post('/completed', 'AppointmentController@getCompletedAppointment');
+                Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
+                Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
+            });
         });
   
     

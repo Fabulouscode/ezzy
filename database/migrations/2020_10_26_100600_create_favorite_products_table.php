@@ -15,8 +15,7 @@ class CreateFavoriteProductsTable extends Migration
     {
         Schema::create('favorite_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('medicine_detail_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->comment('patient');
             $table->bigInteger('shop_medicine_detail_id')->unsigned();
             $table->timestamps();
 
@@ -25,9 +24,6 @@ class CreateFavoriteProductsTable extends Migration
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users');
-            $table->foreign('medicine_detail_id')
-                  ->references('id')
-                  ->on('medicine_details');
             $table->foreign('shop_medicine_detail_id')
                   ->references('id')
                   ->on('shop_medicine_details');

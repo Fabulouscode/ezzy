@@ -80,7 +80,7 @@ class ShopMedicineDetailsController extends BaseApiController
             $data = $this->shop_medicine_repo->dataCrud($insert_data);
             return self::sendSuccess($data);
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
         
     }
@@ -97,7 +97,7 @@ class ShopMedicineDetailsController extends BaseApiController
             $data = $this->user_review_repo->dataCrud($request);
             return self::sendSuccess($data,'Review add success');
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
         
     }

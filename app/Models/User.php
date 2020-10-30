@@ -67,6 +67,7 @@ class User extends Authenticatable
 
     protected $appends = ['user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
+                          'user_completed_order', 'user_cancelled_order', 'user_active_order',
                           'monthly_wallet_balance','total_wallet_balance'
                         ];
 
@@ -104,10 +105,10 @@ class User extends Authenticatable
 
     public function getMonthlyWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
-        $credit_balance = $this->hasOne('App\Models\Credit_transaction','user_id','id')
-                               ->where('status', '0')->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('credit'); 
-        $debit_balance = $this->hasOne('App\Models\Debit_transaction','user_id','id')
-                               ->where('status', '0')->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('debit');  
+        $credit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
+                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount'); 
+        $debit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
+                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount');  
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
 
@@ -115,10 +116,10 @@ class User extends Authenticatable
    
     public function getTotalWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
-        $credit_balance = $this->hasOne('App\Models\Credit_transaction','user_id','id')
-                               ->where('status', '0')->sum('credit'); 
-        $debit_balance = $this->hasOne('App\Models\Debit_transaction','user_id','id')
-                               ->where('status', '0')->sum('debit');  
+        $credit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
+                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0']])->sum('amount'); 
+        $debit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
+                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0']])->sum('amount');  
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
 
@@ -152,5 +153,20 @@ class User extends Authenticatable
     public function getClientPendingAppointmentAttribute(){
         return $this->hasOne('App\Models\Appointment','client_id','id')
                     ->whereIn('status', ['1','2'])->count('*');
+    }
+
+    public function getUserCompletedOrderAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '1')->count('*');        
+    }
+
+    public function getUserCancelledOrderAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '2')->count('*');     
+    }
+    
+    public function getUserActiveOrderAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '0')->count('*');     
     }
 }

@@ -11,7 +11,7 @@ use App\Http\Requests\Api\FavoriteRequest;
 class ShoppingCartController extends BaseApiController
 {
     public function addToCart(ShoppingCartRequest $request){
-        $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->medicine_detail_id, $request->shop_medicine_detail_id);
+        $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
         if(!empty($cart_check) && !empty($cart_check->id)){
                 $update_data = [
                                 'quantity'=> $cart_check->quantity + $request->quantity,
@@ -21,13 +21,12 @@ class ShoppingCartController extends BaseApiController
                 $data = $this->shop_cart_repo->getById($cart_check->id);
                 return self::sendSuccess($data, 'Cart update Success');
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
         }
 
         $add_data = [
                         'user_id' => $request->user()->id,
-                        'medicine_detail_id' => $request->medicine_detail_id,
                         'shop_medicine_detail_id' => $request->shop_medicine_detail_id,
                         'quantity'=> $request->quantity,
                     ];
@@ -35,7 +34,7 @@ class ShoppingCartController extends BaseApiController
             $data = $this->shop_cart_repo->dataCrud($add_data);
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
         }
     }
 
@@ -60,7 +59,7 @@ class ShoppingCartController extends BaseApiController
             $data = $this->shop_cart_repo->getById($id);
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
     }
    
@@ -75,7 +74,7 @@ class ShoppingCartController extends BaseApiController
                 $data = $this->shop_cart_repo->getById($id);
                 return self::sendSuccess($data, 'Cart add Success');
             }catch(\Exception $e){
-                return self::sendError($e->getMessage());
+                return self::sendException($e);
             }
         }else{
             $this->shop_cart_repo->destroy($id); 
@@ -135,7 +134,6 @@ class ShoppingCartController extends BaseApiController
                 foreach ($request->order_prodcuts as $key => $value) {
                     $order_product_data = [
                                             'order_id'=> $order->id,
-                                            'medicine_detail_id'=> $value['medicine_detail_id'],
                                             'shop_medicine_detail_id' => $value['shop_medicine_detail_id'],
                                             'quantity' => $value['quantity']
                                         ];
@@ -154,7 +152,7 @@ class ShoppingCartController extends BaseApiController
             }
             return self::sendSuccess('', 'Cart checkout Success');
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
     }
 
@@ -167,14 +165,13 @@ class ShoppingCartController extends BaseApiController
     public function addFavoriteMedicine(FavoriteRequest $request){
         $add_data =[
                         'user_id' => $request->user()->id,
-                        'medicine_detail_id'=>$request->medicine_detail_id,
                         'shop_medicine_detail_id'=>$request->shop_medicine_detail_id
                     ];
         try{
             $data = $this->favorite_medicine_repo->dataCrud($add_data); 
             return self::sendSuccess($data, 'Favorite medicine add');
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
 
     }

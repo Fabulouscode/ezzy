@@ -43,7 +43,7 @@ class SupportRequestController extends BaseApiController
             $data = $this->support_request_repo->dataCrud($add_data);
             return self::sendSuccess($data, 'Support request add');
         }catch(\Exception $e){
-            return self::sendError($e->getMessage());
+            return self::sendException($e);
         }
     }
 

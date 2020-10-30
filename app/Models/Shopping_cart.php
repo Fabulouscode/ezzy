@@ -16,7 +16,6 @@ class Shopping_cart extends Model
      */
     protected $fillable = [
         'user_id',
-        'medicine_detail_id',
         'shop_medicine_detail_id',
         'quantity'
     ];

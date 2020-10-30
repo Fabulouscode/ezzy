@@ -123,7 +123,7 @@ code {
 
 .footer {
   background-color: #f9f9f9;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgb(61 62 68 / 70%);
   bottom: 0;
   color: #0a1832;
   text-align: center;
@@ -148,7 +148,7 @@ code {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #f2f5f7;
+  background-color: rgba(0,0,0,0.5);
   z-index: 9999999;
 }
 

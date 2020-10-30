@@ -80,6 +80,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
      
         // static pages routes
         Route::resource('static_pages', 'StaticPagesController');
+ 
+        // services routes
+        Route::resource('services', 'ServicesController');
        
         // Appointment routes        
         Route::resource('appointment', 'AppointmentController');        

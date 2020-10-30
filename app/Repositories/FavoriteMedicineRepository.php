@@ -58,7 +58,7 @@ class FavoriteMedicineRepository extends Repository
       
         $query = $this->model->offset($offset)->limit($this->api_data_limit);    
       
-        $query = $query->with(['medicineDetails','shopMedicineDetails','medicineDetails.medicineImages'])->where('user_id',$request->user()->id);
+        $query = $query->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails','shopMedicineDetails.medicineDetails.medicineImages'])->where('user_id',$request->user()->id);
       
         $query = $query->orderBy('id','desc')->get();
         

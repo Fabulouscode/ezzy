@@ -16,7 +16,8 @@ class CreateOrderTrackingsTable extends Migration
         Schema::create('order_trackings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('order_id')->unsigned();
-            $table->text('description');
+            $table->string('title')->nullabel();
+            $table->text('description')->nullabel();
             $table->integer('status')->signed()->default(0)->comment('0-Order Placed, 1-On the Way, 2-Delivered, 3-Cancel');
             $table->timestamps();
 

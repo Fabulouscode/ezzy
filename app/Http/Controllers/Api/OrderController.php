@@ -17,11 +17,19 @@ class OrderController extends BaseApiController
         $data = $this->order_repo->getbyEditId($order_id); 
         return self::sendSuccess($data, 'Order product get');
     }
+  
+    public function getOrderTracking($order_id){
+        $data = $this->order_tracking_repo->getbyOrderId($order_id); 
+        return self::sendSuccess($data, 'Order Tracking details');
+    }
 
     public function generateInvoice($order_id){
+        $medicine_types = $this->shop_medicine_repo->medicine_types;
+        $delivery_type = $this->order_repo->delivery_type;
+        $status = $this->order_repo->status;
         $data = $this->order_repo->getbyEditId($order_id); 
-        view()->share('data',$data);
-        $pdf = PDF::loadView('invoice.order', $data);
+        view()->share(['data' => $data, 'status' => $status, 'delivery_type'=>$delivery_type,'medicine_types'=>$medicine_types]);
+        $pdf = PDF::loadView('invoice.order', [$data, $status, $delivery_type, $medicine_types]);
         $pdf_file = $this->order_repo->uploadPDFFile($pdf->output(), 'pdf/order_invoice'); 
         $file_url = url('storage/'.$pdf_file);
         return self::sendSuccess($file_url, 'Order Invoice get');
@@ -52,7 +60,7 @@ class OrderController extends BaseApiController
         return self::sendSuccess($data);
     }
   
-    public function changeOrderStatus(Request $request){
+    public function changeOrderStatus(OrderStatusRequest $request){
         $data = array();
         $update = [
                     'status'=> $request->status,
@@ -60,8 +68,13 @@ class OrderController extends BaseApiController
                     'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : NULL,
                     'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : NULL,
                   ];
-        $this->appointment_repo->update($update, $request->id);
-        $data = $this->appointment_repo->getById($request->id);
-        return self::sendSuccess($data);
+
+        try{
+            $this->appointment_repo->update($update, $request->id);
+            $data = $this->appointment_repo->getById($request->id);
+            return self::sendSuccess($data, 'Order status change');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
     }
 }
