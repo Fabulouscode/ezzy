@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class TransactionController extends BaseApiController
 {
-    public function getTransactionHistory(Request $request){
-        $data = $this->debit_trans_repo->getTransactionHistory($request); 
-        return self::sendSuccess($data, 'Transaction History get');
+
+    public function __construct()
+    {
+        parent::__construct();
     }
+
 }

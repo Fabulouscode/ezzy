@@ -4,12 +4,37 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\MedicineCategoryRepository;
+use App\Repositories\MedicineSubcategoryRepository;
+use App\Repositories\MedicineDetailsRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\UserReviewRepository;
 use App\Http\Requests\Api\ShopMedicalDetailsRequest;
 use App\Http\Requests\Api\UserReviewRequest;
 use Carbon\Carbon;
 
 class ShopMedicineDetailsController extends BaseApiController
 {
+
+    private $medicine_category_repo, $medicine_subcategory_repo, $medicine_details_repo, $shop_medicine_repo, $user_review_repo;
+
+    public function __construct(
+        MedicineCategoryRepository $medicine_category_repo,        
+        MedicineSubcategoryRepository $medicine_subcategory_repo, 
+        MedicineDetailsRepository $medicine_details_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo,
+        UserReviewRepository $user_review_repo
+        )
+    {
+        parent::__construct();
+        $this->medicine_category_repo = $medicine_category_repo;
+        $this->medicine_subcategory_repo = $medicine_subcategory_repo;
+        $this->medicine_details_repo = $medicine_details_repo;
+        $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->user_review_repo = $user_review_repo;
+    }
+
+
     /**
      * Display a listing of the resource.
      *

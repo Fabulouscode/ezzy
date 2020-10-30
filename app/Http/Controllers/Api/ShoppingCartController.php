@@ -4,12 +4,37 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\ShoppingCartRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\OrderProductRepository;
+use App\Repositories\FavoriteMedicineRepository;
 use App\Http\Requests\Api\ShoppingCartRequest;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\FavoriteRequest;
 
 class ShoppingCartController extends BaseApiController
 {
+
+    private $shop_cart_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $favorite_medicine_repo;
+
+    public function __construct(
+        ShoppingCartRepository $shop_cart_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo,
+        OrderRepository $order_repo,
+        OrderProductRepository $order_product_repo,
+        FavoriteMedicineRepository $favorite_medicine_repo
+        )
+    {
+        parent::__construct();
+        $this->shop_cart_repo = $shop_cart_repo;
+        $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->order_repo = $order_repo;
+        $this->order_product_repo = $order_product_repo;
+        $this->favorite_medicine_repo = $favorite_medicine_repo;
+    }
+
+
     public function addToCart(ShoppingCartRequest $request){
         $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
         if(!empty($cart_check) && !empty($cart_check->id)){

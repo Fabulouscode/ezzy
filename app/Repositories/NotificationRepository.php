@@ -10,14 +10,17 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use App\Models\Notification;
 use Illuminate\Support\Str;
+use App\Http\Helpers\Helper;
+use App\Repositories\UserRepository;
 
 class NotificationRepository extends Repository
 {
     protected $model_name = 'App\Models\Notification';
-    protected $model;
-
-    public function __construct()
+    protected $model, $user_repo;
+    
+    public function __construct(UserRepository $user_repo)
     {
+        $this->user_repo = $user_repo;
         parent::__construct();
     }
 
@@ -47,6 +50,25 @@ class NotificationRepository extends Repository
     {
         $query = $this->model->orderBy('id','desc')->get();
         return $query;
+    }
+ 
+    /**
+     * Display a count of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUnreadNotificationCount($receiver_id)
+    {
+        $query = $this->model->where('read','1')->where('receiver_id',$receiver_id)->count();
+        return $query;
+    }
+
+    public function sendingNotification($data, $request){
+        $sender = $request->user();
+        $notification = $this->dataCrud($data);            
+        $receiver = $this->user_repo->getById($notification->receiver_id);
+        $unreadNotification = $this->getUnreadNotificationCount($notification->receiver_id);
+        return Helper::sendNotification($notification, $receiver, $sender, $unreadNotification);
     }
 
 }

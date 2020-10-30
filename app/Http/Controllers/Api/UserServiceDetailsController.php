@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\UserServiceRepository;
 use App\Http\Requests\Api\UserServiceDetailsRequest;
 
 class UserServiceDetailsController extends BaseApiController
 {
-    
+    private $service_repo;
+
+    public function __construct(UserServiceRepository $service_repo)
+    {
+        parent::__construct();
+        $this->service_repo = $service_repo;
+    }
+
     public function getServiceDetails($service_type){
         $data = array();
         $data = $this->service_repo->getbyServiceType($service_type);

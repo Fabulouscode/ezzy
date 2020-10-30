@@ -4,10 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\SupportRequestRepository;
 use App\Http\Requests\Api\SupportRequestRequest;
 
 class SupportRequestController extends BaseApiController
 {
+    private $support_request_repo;
+
+    public function __construct(SupportRequestRepository $support_request_repo)
+    {
+        parent::__construct();
+        $this->support_request_repo = $support_request_repo;
+    }
+
 
     public function getSupportRequest(Request $request){
         $extra = array();

@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
+use App\Repositories\UserDetailsRepository;
+use App\Repositories\UserBankAccountRepository;
+use App\Repositories\UserAvailableTimeRepository;
+use App\Repositories\UserEductaionRepository;
+use App\Repositories\UserExperianceRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -13,6 +19,27 @@ use App\Http\Requests\Api\UserRequest;
 
 class UserProfileController extends BaseApiController
 {
+    private $user_repo, $user_details_repo, $user_bank_account_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
+
+    public function __construct(
+        UserRepository $user_repo,
+        UserDetailsRepository $user_details_repo,
+        UserBankAccountRepository $user_bank_account_repo,
+        UserAvailableTimeRepository $user_available_time_repo,
+        UserEductaionRepository $user_education_repo,
+        UserExperianceRepository $user_experiance_repo
+        )
+    {
+        parent::__construct();
+        $this->user_repo = $user_repo;
+        $this->user_details_repo = $user_details_repo;
+        $this->user_bank_account_repo = $user_bank_account_repo;
+        $this->user_available_time_repo = $user_available_time_repo;
+        $this->user_education_repo = $user_education_repo;
+        $this->user_experiance_repo = $user_experiance_repo;
+    }
+
+
     // user add details
     public function addUserDetails(Request $request){
         try{

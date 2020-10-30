@@ -45,6 +45,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     // middleware add (with auth)
     Route::middleware('auth:api')->group(function(){
        
+         // notification checking
+        Route::get('/send_notification', 'DashboardController@sendingNotification');
+
         // User request
         Route::prefix('user')->group(function(){
             

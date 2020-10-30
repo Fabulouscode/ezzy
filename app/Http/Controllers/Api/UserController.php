@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
+use App\Repositories\UserDetailsRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -13,6 +15,15 @@ use App\Http\Requests\Api\UserRequest;
 
 class UserController extends BaseApiController
 {
+    private $user_repo, $user_details_repo;
+
+    public function __construct(UserRepository $user_repo, UserDetailsRepository $user_details_repo)
+    {
+        parent::__construct();
+        $this->user_repo = $user_repo;
+        $this->user_details_repo = $user_details_repo;
+    }
+
 
     public function getUserDetails(Request $request){
         $data = array();

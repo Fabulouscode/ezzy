@@ -50,6 +50,63 @@ $(function () {
 
 });
 
+Dropzone.options.imageDropzone = {
+    url: file_upload_url,
+    acceptedFiles: ".png, .jpeg, .jpg, .gif",
+    maxFilesize: 2, // MB
+    maxFiles: 5,
+    addRemoveLinks: true,
+    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+    success: function (file, response) {
+        $('form').append('<input type="hidden" class="medicine_dropzone" name="medicine_images[]" value="' + response.name + '">');
+        uploadedImageMap[file.name] = response.name;
+    },
+    removedfile: function (file) {
+        file.previewElement.remove();
+        var name = '';
+        console.log(uploadedImageMap);
+        if (typeof file.file_name !== 'undefined') {
+            name = file.file_name;
+        } else {
+            name = uploadedImageMap[file.name];
+        }
+        $('form').find('input[name="medicine_images[]"][value="' + name + '"]').remove();
+        $.ajax({
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: file_remove_url,
+            type: "post",
+            dataType: 'json',
+            data: { 'file_name': name },
+            success: function (data) {
+                toastr.success(data.msg, 'EzzyCare App');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error(error.msg, 'EzzyCare App');
+            }
+        });
+    },
+    init: function () {
+        if (medicine_images.length > 0) {
+            for (var i in medicine_images) {
+                var image_name = medicine_images[i]['product_image'].substring(medicine_images[i]['product_image'].lastIndexOf('/') + 1);
+                var file = storage_url + '/' + medicine_images[i]['product_image'];
+                var mockFile = { name: image_name, size: '1234' };
+                this.emit("addedfile", mockFile);
+                this.emit("thumbnail", mockFile, file);
+                this.emit("complete", mockFile);
+                uploadedImageMap[image_name] = medicine_images[i]['product_image'];
+                $('form').append('<input type="hidden" class="medicine_dropzone" name="medicine_images[]" value="' + medicine_images[i]['product_image'] + '">');
+            }
+
+        }
+
+        this.on("sending", function (file, xhr, formData) {
+            formData.append("folder_name", "medicine_images");
+        });
+    }
+}
+
 function deleteRow(row_id) {
     if (row_id) {
         swal({

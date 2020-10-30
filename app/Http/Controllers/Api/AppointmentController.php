@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\AppointmentRepository;
+use App\Repositories\AppointmentServiceRepository;
 use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
@@ -11,6 +13,15 @@ use App\Http\Requests\Api\AppointmentLaboratoryRequest;
 
 class AppointmentController extends BaseApiController
 {
+    private $appointment_repo, $appointment_service_repo;
+
+    public function __construct(AppointmentRepository $appointment_repo, AppointmentServiceRepository $appointment_service_repo)
+    {
+        parent::__construct();
+        $this->appointment_repo = $appointment_repo;
+        $this->appointment_service_repo = $appointment_service_repo;
+    }
+
 
     public function getRequestAppointment(Request $request){
         $data = array();        

@@ -5,7 +5,10 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Twilio\Rest\Client;
+use App\Http\Helpers\Helper;
+use Carbon\Carbon;
 use Storage;
+use Log;
 
 class Repository
 {
@@ -188,6 +191,14 @@ class Repository
     }
 
     /**
+     * get current date and time
+     */  
+    public function getCurrentDateTime()
+    {
+        return Carbon::now()->format('Y-m-d H:i:s');
+    }
+   
+    /**
      * generate OTP code
      */  
     public function generateOTPCode()
@@ -229,5 +240,6 @@ class Repository
         }
         return false;
     }
+
 
 }

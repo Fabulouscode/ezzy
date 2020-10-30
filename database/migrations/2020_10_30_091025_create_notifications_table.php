@@ -21,7 +21,7 @@ class CreateNotificationsTable extends Migration
             $table->text('message')->nullable();
             $table->longtext('parameter')->nullable();
             $table->integer('msg_type')->signed()->default(0);
-            $table->integer('read')->signed()->default(0)->comment('0-Read, 1-Unread');
+            $table->integer('read')->signed()->default(1)->comment('0-Read, 1-Unread');
             $table->timestamps();
             $table->softDeletes();
 

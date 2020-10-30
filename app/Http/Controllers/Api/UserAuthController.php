@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Repositories\UserRepository;
 use App\Http\Requests\Api\Auth\UserAuthRequest;
 use App\Http\Requests\Api\Auth\UserLoginRequest;
 use App\Http\Requests\Api\Auth\UserResendSMSRequest;
@@ -17,6 +18,14 @@ use DB;
 
 class UserAuthController extends BaseApiController
 {
+
+    private $user_repo;
+
+    public function __construct(UserRepository $user_repo)
+    {
+        parent::__construct();
+        $this->user_repo = $user_repo;
+    }
 
      /**
      * Store a newly created resource in storage.

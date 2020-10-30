@@ -8,6 +8,14 @@ use App\Repositories\CategoryRepository;
 
 class CategoryController extends BaseApiController
 {
+    private $category_repo;
+
+    public function __construct(CategoryRepository $category_repo)
+    {
+        parent::__construct();
+        $this->category_repo = $category_repo;
+    }
+
     /**
      * Display a listing of the resource.
      *

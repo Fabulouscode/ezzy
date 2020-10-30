@@ -4,10 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\OrderTrackingRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\OrderRepository;
 use PDF;
 
 class OrderController extends BaseApiController
 {
+    private $order_repo, $shop_medicine_repo, $order_tracking_repo;
+
+    public function __construct(
+        OrderRepository $order_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo,
+        OrderTrackingRepository $order_tracking_repo
+        )
+    {
+        parent::__construct();
+        $this->order_repo = $order_repo;
+        $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->order_tracking_repo = $order_tracking_repo;
+    }
+
     public function getOrderHistory(Request $request){
         $data = $this->order_repo->getOrderHistory($request); 
         return self::sendSuccess($data, 'Order History get');
@@ -70,8 +87,8 @@ class OrderController extends BaseApiController
                   ];
 
         try{
-            $this->appointment_repo->update($update, $request->id);
-            $data = $this->appointment_repo->getById($request->id);
+            $this->order_repo->update($update, $request->id);
+            $data = $this->order_repo->getById($request->id);
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
             return self::sendException($e);
