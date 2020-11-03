@@ -106,19 +106,19 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Social Type</label>
-                                    <input disabled type="text" class="form-control" name="device_type" value="{{$data->device_type == '0' ? 'Facebook' : $data->device_type == '1' ? 'Google' : $data->device_type == '2' ? 'Apple' :  '' }}" />
+                                    <input disabled type="text" class="form-control" name="social_type" value="{{$data->social_type == '0' ? 'Facebook' : $data->social_type == '1' ? 'Google' : $data->social_type == '2' ? 'Apple' :  '' }}" />
                                 </div>
-                                @if($data->device_type == '0')
+                                @if($data->social_type == '0')
                                 <div class="form-group col-md-4">
                                     <label>Facebook ID</label>
                                     <input disabled type="text"  class="form-control" name="facebook_id" value="{{$data->facebook_id}}" />
                                 </div>
-                                @elseif($data->device_type == '1')
+                                @elseif($data->social_type == '1')
                                 <div class="form-group col-md-4">
                                     <label>Google ID</label>
                                     <input disabled type="text"  class="form-control" name="google_id" value="{{$data->google_id}}" />
                                 </div>
-                                @elseif($data->device_type == '2')
+                                @elseif($data->social_type == '2')
                                 <div class="form-group col-md-4">
                                     <label>Apple ID</label>
                                     <input disabled type="text"  class="form-control" name="apple_id" value="{{$data->apple_id}}" />
