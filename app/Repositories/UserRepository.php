@@ -50,7 +50,7 @@ class UserRepository extends Repository
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'otp_code' => $mobile_code,
                 'status' => !empty($request->category_id) ? 1 : 0,
-                'device_type' => !empty($request->device_type) ? $request->device_type : NULL,
+                'device_type' => isset($request->device_type) ? $request->device_type : NULL,
                 'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
                 'deleted_at' => NULL
             ])->restore();    
@@ -86,7 +86,7 @@ class UserRepository extends Repository
                 'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
                 'otp_code' => $mobile_code,
                 'status' => !empty($request->category_id) ? 1 : 0,
-                'device_type' => !empty($request->device_type) ? $request->device_type : NULL,
+                'device_type' => isset($request->device_type) ? $request->device_type : NULL,
                 'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
                 'deleted_at' => NULL
             ])->restore();    
