@@ -3,18 +3,37 @@
 namespace App\Http\Helpers;
 
 use Log;
+use App\Repositories\CategoryRepository;
+use App\Models\Category;
 
 class Helper
 {
-    public function __construct()
-    {
+    private $category_repo;
 
+    public function __construct(CategoryRepository $category_repo)
+    {
+        $this->category_repo = $category_repo;
+
+    }
+
+    public static function getCategoryName($id)
+    {
+        $category_name = '';
+        $categories = Category::get();
+        foreach ($categories as $key => $value) {
+            if ($value->id == $id) {
+                $category_name = $value->name;
+                break;
+            }
+        }
+        return $category_name;
     }
 
     /**
      * sending firebase notification
      */ 
-    public static function sendNotification($notification, $receiver, $sender = '', $unreadNotification = 0) {
+    public static function sendNotification($notification, $receiver, $sender = '', $unreadNotification = 0) 
+    {
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverApiKey = config('app.FCM_KEY');
  

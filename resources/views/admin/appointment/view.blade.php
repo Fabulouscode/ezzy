@@ -93,26 +93,26 @@
                         </div>
                         @endif
 
-                        @if(!empty($data->userDetails))
+                        @if(!empty($data->user))
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title"> {!! Helper::getCategoryName($data->userDetails->category_id) !!} Details</h4>
+                            <h4 class="mt-0 header-title"> {!! Helper::getCategoryName($data->user->category_id) !!} Details</h4>
                             <div class="row">
-                                @if(!empty($data->userDetails->category_id))
+                                @if(!empty($data->user->category_id))
                                 <div class="form-group col-md-4">
                                     <label>Category</label>
                                     <select disabled id="category_id"  type="text" class="form-control" name="category_id" >
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}"  {{ !empty($data->userDetails->category_id) && $category->id == $data->userDetails->category_id ? 'selected' : '' }}>{{$category->name}}</option>
+                                            <option value="{{$category->id}}"  {{ !empty($data->user->category_id) && $category->id == $data->user->category_id ? 'selected' : '' }}>{{$category->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 @endif
-                                @if(!empty($data->userDetails->subcategory_id))
+                                @if(!empty($data->user->subcategory_id))
                                 <div class="form-group col-md-4">
                                     <label>Subcategory</label>
                                     <select disabled id="subcategory_id"  type="text" class="form-control" name="subcategory_id" >
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}"  {{ !empty($data->userDetails->subcategory_id) && $category->id == $data->userDetails->subcategory_id ? 'selected' : '' }}>{{$category->name}}</option>
+                                            <option value="{{$category->id}}"  {{ !empty($data->user->subcategory_id) && $category->id == $data->user->subcategory_id ? 'selected' : '' }}>{{$category->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -121,49 +121,91 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>First Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->userDetails->first_name}}" />
+                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->user->first_name}}" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Last Name</label>
-                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->userDetails->last_name}}" />
+                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->user->last_name}}" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Email</label>
-                                    <input disabled type="text" class="form-control" name="email" value="{{$data->userDetails->email}}" />
+                                    <input disabled type="text" class="form-control" name="email" value="{{$data->user->email}}" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Mobile No.</label>
-                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->userDetails->mobile_no}}" />
+                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->user->mobile_no}}" />
                                 </div>
                             </div>
                         </div>
                         @endif
 
-                       @if(!empty($data->clientDetails))
+                       @if(!empty($data->client))
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Appointment Customer Details</h4>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>First Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->clientDetails->first_name}}" />
+                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->client->first_name}}" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Last Name</label>
-                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->clientDetails->last_name}}" />
+                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->client->last_name}}" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Email</label>
-                                    <input disabled type="text" class="form-control" name="email" value="{{$data->clientDetails->email}}" />
+                                    <input disabled type="text" class="form-control" name="email" value="{{$data->client->email}}" />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Mobile No.</label>
-                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->clientDetails->mobile_no}}" />
+                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->client->mobile_no}}" />
                                 </div>
                             </div>
+                        </div>
+                        @endif
+
+                       @if(!empty($data->userService))
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">Services Details</h4>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Service Name</label>
+                                    <input disabled type="text" class="form-control" name="service_name" value="{{$data->userService->service->service_name}}" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Service Price</label>
+                                    <input disabled type="text" class="form-control" name="service_name" value="{{$data->userService->service_charge}}" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Service Charge Type</label>
+                                    <input disabled type="text" class="form-control" name="service_charge_type" value="{{$service_charge_type[$data->userService->service_charge_type]}}" />
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">Services Details</h4>
+                            @foreach($data->appointmentServices as $service)
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Service Name</label>
+                                        <input disabled type="text" class="form-control" name="service_name" value="{{$service->userService->service->service_name}}" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Service Price</label>
+                                        <input disabled type="text" class="form-control" name="service_name" value="{{$service->userService->service_charge}}" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Service Report : - &nbsp;</label>
+                                        <a href="#" target="_blank">Click Here</a>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                         @endif
                         
@@ -171,7 +213,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <a href="{{ url('appointment') }}">
+                                 <a href="#" onclick="history.go(-1)">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>

@@ -34,7 +34,8 @@ class DashboardController extends BaseApiController
         $this->notification_repo = $notification_repo;
     }
     
-    public function getDashboardDetails(Request $request){
+    public function getDashboardDetails(Request $request)
+    {
         $data = array();        
         $data['user'] = $this->user_repo->getbyId($request->user()->id);
         $data['appointment'] = $this->appointment_repo->getUpcomingAppointment($request);
@@ -52,19 +53,22 @@ class DashboardController extends BaseApiController
         return self::sendSuccess($data, 'User Dashboard');
     }
  
-    public function getHealthCareTypes($id){
+    public function getHealthCareTypes($id)
+    {
         $data = array();        
         $data = $this->category_repo->getByParentId($id);
         return self::sendSuccess($data, 'HCP Types');
     }
 
-    public function getPaymentHistory(Request $request){
+    public function getPaymentHistory(Request $request)
+    {
         $data = array();        
         $data = $this->user_trans_repo->getTransactionHistory($request);
         return self::sendSuccess($data, 'User Transaction History');
     }
 
-    public function sendingNotification(Request $request){
+    public function sendingNotification(Request $request)
+    {
          $data = [
                     'sender_id' => $request->user()->id,
                     'receiver_id' => '13',

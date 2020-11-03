@@ -19,7 +19,7 @@ class Repository
      */
     protected $model;
     
-    public $api_data_limit = 10;
+    public $api_data_limit = 2;
     
     public $gender = array(
         '0' => 'Male',

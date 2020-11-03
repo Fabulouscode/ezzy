@@ -22,4 +22,9 @@ class User_services extends Model
         'service_charge_type',
         'status',
     ];
+ 
+
+    public function service() {
+        return $this->belongsTo('App\Models\Services', 'service_id','id');
+    }
 }

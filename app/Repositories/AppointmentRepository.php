@@ -30,6 +30,12 @@ class AppointmentRepository extends Repository
         '1' => 'Home Care',
         '2' => 'Video Call'
     );
+    
+    public $service_charge_type = array(
+        '0' => 'per Minute',
+        '1' => 'per Hours',
+        '2' => 'per Day'
+    );
 
     public function __construct()
     {
@@ -60,7 +66,7 @@ class AppointmentRepository extends Repository
      */
     public function getWithRelationship($request)
     {
-        $query = $this->model->with(['userDetails','clientDetails','userDetails.categoryParent','userDetails.categoryChild']);    
+        $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
         if(!empty($request->status)){
             $query = $query->where('status', $request->status);
         }else{
@@ -99,10 +105,10 @@ class AppointmentRepository extends Repository
                 ->editColumn('appointment_category',function($selected)
                 {
                     $data = '';
-                    if(!empty($selected->userDetails->categoryChild)){
-                        $data .= '<div class="text-success"><strong>'.$selected->userDetails->categoryChild->name.'</strong></div>';
-                    } else if(!empty($selected->userDetails->categoryParent)){
-                        $data .= '<div class="text-success"><strong>'.$selected->userDetails->categoryParent->name.'</strong></div>';
+                    if(!empty($selected->user->categoryChild)){
+                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
+                    } else if(!empty($selected->user->categoryParent)){
+                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryParent->name.'</strong></div>';
                     }
                     
                     return $data;
@@ -154,7 +160,7 @@ class AppointmentRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['userDetails','clientDetails','cancelUserDetails','userDetails.categoryParent','userDetails.categoryChild'])->find($id);
+        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
 
     }
     
@@ -165,17 +171,21 @@ class AppointmentRepository extends Repository
      */
     public function getUpcomingAppointment($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
-      
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
-       
-        if(!empty($request->user()->category_id)){
-            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
-        }else{
-            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
         }
         
-        $query = $query->whereIn('status',['1','2'])->orderBy('id','desc')->get();
+        $query = $query->limit($this->api_data_limit); 
+
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('id','desc')->get();
         
         return $query;
        
@@ -188,14 +198,18 @@ class AppointmentRepository extends Repository
      */
     public function getPendingAppointment($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
-
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);      
        
         if(!empty($request->user()->category_id)){
-            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
         }else{
-            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
         $query = $query->whereIn('status',['0'])->orderBy('id','desc')->get();
@@ -211,14 +225,18 @@ class AppointmentRepository extends Repository
      */
     public function getCancelledAppointment($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
+        $query = $this->model;
         
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);    
        
         if(!empty($request->user()->category_id)){
-            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
         }else{
-            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
         $query = $query->whereIn('status',['6'])->orderBy('id','desc')->get();
@@ -233,14 +251,18 @@ class AppointmentRepository extends Repository
      */
     public function getCompletedAppointment($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
-
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
         
         if(!empty($request->user()->category_id)){
-            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
         }else{
-            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
         $query = $query->whereIn('status',['5'])->orderBy('id','desc')->get();

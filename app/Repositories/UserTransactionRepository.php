@@ -55,7 +55,27 @@ class UserTransactionRepository extends Repository
         }
     }
 
-     /**
+ 
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function getUserbyCalculate($user_id, $mode_of_payment = 0)
+    {
+        return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+    }
+   
+    public function getUserbyWalletBalance($user_id)
+    {
+        $total_earning =  $credit_balance = $debit_balance  = 0;
+        $debit_balance = $this->getUserbyCalculate($user_id, '0'); 
+        $credit_balance = $this->getUserbyCalculate($user_id, '1');
+        $total_earning = $debit_balance - $credit_balance;      
+        return $total_earning;
+    }
+
+    /**
      * get Model and return the instance.
      *
      * @param int $user_id
@@ -73,8 +93,14 @@ class UserTransactionRepository extends Repository
     public function getTransactionHistory($request)
     {
        
-        $offset = $request->offset * $this->api_data_limit;
-      
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }            
+
+        $query = $query->limit($this->api_data_limit);
+
         $query = $this->model->where('user_id',$request->user()->id)->where('status','0');
       
         $query = $query->orderBy('transaction_date','desc')->offset($offset)->limit($this->api_data_limit);

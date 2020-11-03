@@ -10,10 +10,12 @@ use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
+use Carbon\Carbon as Carbon;
 
 class AppointmentController extends BaseApiController
 {
-    private $appointment_repo, $appointment_service_repo;
+    private $appointment_repo;
+    private $appointment_service_repo;
 
     public function __construct(AppointmentRepository $appointment_repo, AppointmentServiceRepository $appointment_service_repo)
     {
@@ -23,13 +25,15 @@ class AppointmentController extends BaseApiController
     }
 
 
-    public function getRequestAppointment(Request $request){
-        $data = array();        
+    public function getRequestAppointment(Request $request)
+    {
+        $data = array();
         $data = $this->appointment_repo->getPendingAppointment($request);
         return self::sendSuccess($data, 'User Appointment Request');
     }
-
-    public function getUpcomingAppointment(Request $request){
+   
+    public function getUpcomingAppointment(Request $request)
+    {
         $data = array();
         $data['status'] = $this->appointment_repo->status;
         $data['appointment_types'] = $this->appointment_repo->appointment_types;
@@ -37,7 +41,8 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($data);
     }
    
-    public function getPendingAppointment(Request $request){
+    public function getPendingAppointment(Request $request)
+    {
         $data = array();
         $data['status'] = $this->appointment_repo->status;
         $data['appointment_types'] = $this->appointment_repo->appointment_types;
@@ -45,7 +50,8 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($data);
     }
 
-    public function getCancelledAppointment(Request $request){
+    public function getCancelledAppointment(Request $request)
+    {
         $data = array();
         $data['status'] = $this->appointment_repo->status;
         $data['appointment_types'] = $this->appointment_repo->appointment_types;
@@ -53,7 +59,8 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($data);
     }
 
-    public function getCompletedAppointment(Request $request){
+    public function getCompletedAppointment(Request $request)
+    {
         $data = array();
         $data['status'] = $this->appointment_repo->status;
         $data['appointment_types'] = $this->appointment_repo->appointment_types;
@@ -61,7 +68,8 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($data);
     }
     
-    public function addAppointment(AppointmentRequest $request){
+    public function addAppointment(AppointmentRequest $request)
+    {
         $data = array();
         $add_data = [
                         'client_id' => $request->user()->id,
@@ -75,18 +83,19 @@ class AppointmentController extends BaseApiController
                         'reason' => $request->reason,
                         'appointment_date' => $request->appointment_date,
                         'appointment_time' => $request->appointment_time,
-                        'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : NULL,
+                        'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
                         'status' => '0'
                     ];
-        try{
+        try {
             $data = $this->appointment_repo->dataCrud($add_data);
             return self::sendSuccess($data);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return self::sendException($e);
         }
     }
 
-    public function addLaboratoryAppointment(AppointmentLaboratoryRequest $request){
+    public function addLaboratoryAppointment(AppointmentLaboratoryRequest $request) 
+    {
         $data = array();
         $add_data = [
                         'client_id' => $request->user()->id,
@@ -102,9 +111,9 @@ class AppointmentController extends BaseApiController
                         'appointment_time' => $request->appointment_time,
                         'status' => '0'
                     ];
-        try{
+        try {
             $data = $this->appointment_repo->dataCrud($add_data);
-            if(!empty($request->user_services) && !empty($data)){
+            if (!empty($request->user_services) && !empty($data)) {
                 foreach ($request->user_services as $key => $value) {
                     $service_data=[
                                     'appointment_id'=> $data->id,
@@ -114,43 +123,64 @@ class AppointmentController extends BaseApiController
                 }
             }
             return self::sendSuccess($data);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return self::sendException($e);
         }
     }
 
-    public function changeAppointmentStatus(AppointmentStatusRequest $request){
+    public function changeAppointmentStatus(AppointmentStatusRequest $request)
+    {
         $data = array();
         $update = [
                     'status'=> $request->status,
-                    'cancel_reason'=> !empty($request->cancel_reason) && $request->status == '6' ? $request->cancel_reason : NULL,
-                    'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : NULL,
-                    'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : NULL,
-                    'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : NULL,
+                    'cancel_reason'=> !empty($request->cancel_reason) && $request->status == '6' ? $request->cancel_reason : null,
+                    'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : null,
+                    'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : null,
+                    'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : null,
                   ];
-        try{
-            $this->appointment_repo->update($update, $request->id);
+        try {
+            $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
-            return self::sendSuccess($data,'Appointment status change');
-        }catch(\Exception $e){
+            return self::sendSuccess($data, 'Appointment status change');
+        } catch (\Exception $e) {
             return self::sendException($e);
         }
     }
-
-    public function rescheduleAppointment(AppointmentRescheduleRequest $request){
+  
+    public function rescheduleAppointment(AppointmentRescheduleRequest $request)
+    {
         $data = array();
         $update = [
-                    'appointment_date'=> $request->appointment_date,
-                    'appointment_time'=> $request->appointment_time,
+                    'appointment_date'=> Carbon::parse($request->appointment_date)->format('Y-m-d'),
+                    'appointment_time'=> Carbon::parse($request->appointment_time)->format('H:i:s'),
                   ];
 
-        try{
-            $this->appointment_repo->update($update, $request->id);
+        try {
+            $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
-            return self::sendSuccess($data,'Reschedule Appointment');
-        }catch(\Exception $e){
+            return self::sendSuccess($data, 'Reschedule Appointment');
+        } catch (\Exception $e) {
             return self::sendException($e);
         }
     }
+
+    public function completedAppointment(Request $request)
+    {
+     
+        $data = array();
+        $update = [
+                    'completed_datetime'=> Carbon::parse($request->completed_datetime)->format('Y-m-d H:i:s'),
+                    'status'=> $request->status,
+                  ];
+
+        try {
+            $this->appointment_repo->dataCrud($update, $request->id);
+            $data = $this->appointment_repo->getById($request->id);
+            return self::sendSuccess($data, 'Appointment Completed');
+        } catch (\Exception $e) {
+            return self::sendException($e);
+        }
+    }
+
 
 }

@@ -25,22 +25,26 @@ class OrderController extends BaseApiController
         $this->order_tracking_repo = $order_tracking_repo;
     }
 
-    public function getOrderHistory(Request $request){
+    public function getOrderHistory(Request $request)
+    {
         $data = $this->order_repo->getOrderHistory($request); 
         return self::sendSuccess($data, 'Order History get');
     }
     
-    public function getOrderProduct($order_id){
+    public function getOrderProduct($order_id)
+    {
         $data = $this->order_repo->getbyEditId($order_id); 
         return self::sendSuccess($data, 'Order product get');
     }
   
-    public function getOrderTracking($order_id){
+    public function getOrderTracking($order_id)
+    {
         $data = $this->order_tracking_repo->getbyOrderId($order_id); 
         return self::sendSuccess($data, 'Order Tracking details');
     }
 
-    public function generateInvoice($order_id){
+    public function generateInvoice($order_id)
+    {
         $medicine_types = $this->shop_medicine_repo->medicine_types;
         $delivery_type = $this->order_repo->delivery_type;
         $status = $this->order_repo->status;
@@ -53,7 +57,8 @@ class OrderController extends BaseApiController
     }
 
 
-    public function getCompletedOrder(Request $request){
+    public function getCompletedOrder(Request $request)
+    {
         $data = array();
         $data['status'] = $this->order_repo->status;
         $data['delivery_type'] = $this->order_repo->delivery_type;
@@ -61,7 +66,8 @@ class OrderController extends BaseApiController
         return self::sendSuccess($data);
     }
 
-    public function getCancelledOrder(Request $request){
+    public function getCancelledOrder(Request $request)
+    {
         $data = array();
         $data['status'] = $this->order_repo->status;
         $data['delivery_type'] = $this->order_repo->delivery_type;
@@ -69,7 +75,8 @@ class OrderController extends BaseApiController
         return self::sendSuccess($data);
     }
    
-    public function getActiveOrder(Request $request){
+    public function getActiveOrder(Request $request)
+    {
         $data = array();
         $data['status'] = $this->order_repo->status;
         $data['delivery_type'] = $this->order_repo->delivery_type;
@@ -77,7 +84,8 @@ class OrderController extends BaseApiController
         return self::sendSuccess($data);
     }
   
-    public function changeOrderStatus(OrderStatusRequest $request){
+    public function changeOrderStatus(OrderStatusRequest $request)
+    {
         $data = array();
         $update = [
                     'status'=> $request->status,

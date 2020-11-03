@@ -32,6 +32,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
     Route::post('/login', 'UserAuthController@login');
     Route::post('/register', 'UserAuthController@saveRegister');
+    Route::post('/patient/register', 'UserAuthController@saveRegisterwithMobile');
+    Route::post('/patient/register_mobile', 'UserAuthController@saveRegisterPatient');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
 
     Route::middleware('auth:api')->group(function(){
@@ -130,6 +132,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'AppointmentController@addAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
+                Route::post('/change/completed', 'AppointmentController@completedAppointment');
+                Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
             });
         });
 

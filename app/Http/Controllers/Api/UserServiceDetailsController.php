@@ -17,19 +17,22 @@ class UserServiceDetailsController extends BaseApiController
         $this->service_repo = $service_repo;
     }
 
-    public function getServiceDetails($service_type){
+    public function getServiceDetails($service_type)
+    {
         $data = array();
         $data = $this->service_repo->getbyServiceType($service_type);
         return self::sendSuccess($data, 'get Service details');
     }
   
-    public function getUserServiceDetails(Request $request){
+    public function getUserServiceDetails(Request $request)
+    {
         $data = array();
         $data = $this->user_service_repo->getbyUserId($request->user()->id);
         return self::sendSuccess($data, 'User Experiance details');
     }
 
-    public function addUserServiceDetails(UserServiceDetailsRequest $request){
+    public function addUserServiceDetails(UserServiceDetailsRequest $request)
+    {
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
@@ -46,7 +49,8 @@ class UserServiceDetailsController extends BaseApiController
         }
     }
     
-    public function updateUserServiceDetails(UserServiceDetailsRequest $request){
+    public function updateUserServiceDetails(UserServiceDetailsRequest $request)
+    {
         $data = array();
         $update_data = [
                         'service_id' => $request->service_id,
@@ -62,13 +66,15 @@ class UserServiceDetailsController extends BaseApiController
         }
     }
 
-    public function getByIdUserServiceDetails($id){
+    public function getByIdUserServiceDetails($id)
+    {
         $data = array();
         $data = $this->user_service_repo->getbyId($id);
         return self::sendSuccess($data, 'Experiance details info');
     }
    
-    public function deleteUserServiceDetails($id){
+    public function deleteUserServiceDetails($id)
+    {
         $data = $this->user_service_repo->getById($id);
         if(!empty($data)){
             $this->user_service_repo->destroy($id); 

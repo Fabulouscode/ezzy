@@ -106,9 +106,9 @@ class User extends Authenticatable
     public function getMonthlyWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
         $credit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
-                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount'); 
+                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0'],['transaction_type', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount'); 
         $debit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
-                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount');  
+                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0'],['transaction_type', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('amount');  
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
 
@@ -117,9 +117,9 @@ class User extends Authenticatable
     public function getTotalWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
         $credit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
-                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0']])->sum('amount'); 
+                               ->where([['mode_of_payment', '=', '1'],['status', '=', '0'],['transaction_type', '=', '0']])->sum('amount'); 
         $debit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
-                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0']])->sum('amount');  
+                               ->where([['mode_of_payment', '=', '0'],['status', '=', '0'],['transaction_type', '=', '0']])->sum('amount');  
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
 

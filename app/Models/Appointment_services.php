@@ -18,4 +18,8 @@ class Appointment_services extends Model
         'appointment_id',
         'user_service_id',
     ];
+
+    public function userService() {
+        return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
+    }
 }

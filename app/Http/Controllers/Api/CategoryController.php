@@ -21,7 +21,8 @@ class CategoryController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getHCPMainTypes(Request $request){
+    public function getHCPMainTypes(Request $request)
+    {
         $data = array();
         $ids=['1','2','3'];
         $data = $this->category_repo->getByMultipleParentIds($ids);
@@ -33,7 +34,8 @@ class CategoryController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getHCPSubTypes($id){
+    public function getHCPSubTypes($id)
+    {
         $data = array();
         $data = $this->category_repo->getByParentId($id);
         return self::sendSuccess($data);

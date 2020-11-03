@@ -52,7 +52,6 @@
                         <li><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('/laboratories/users/pending')}}">Pending Laboratories</a></li>
                         <li><a href="{{url('/laboratories/users')}}">Laboratories List</a></li>
-                        <li><a href="javascript:void(0);">Orders</a></li>
                         <li><a href="javascript:void(0);">Manage Lab Reports</a></li>
                     </ul>
                 </li>

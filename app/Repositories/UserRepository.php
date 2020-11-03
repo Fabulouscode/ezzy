@@ -39,7 +39,7 @@ class UserRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
-    public function registerWithRestore($request)
+    public function registerWithMobileno($request)
     {   
         
         $card_number = $this->genrateCardNumber();
@@ -48,8 +48,40 @@ class UserRepository extends Repository
         $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
 
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'otp_code' => $mobile_code,
+                'status' => !empty($request->category_id) ? 1 : 0,
+                'device_type' => !empty($request->device_type) ? $request->device_type : NULL,
+                'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
+                'deleted_at' => NULL
+            ])->restore();    
+    
+        $user = $this->model->where('mobile_no', $request->mobile_no)->whereNull('ezzycare_card');
+        if(!empty($user)){
+            $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
+        }
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function registerWithRestore($request)
+    {   
+        if(!empty($request->category_id)){
+            $card_number = $this->genrateCardNumber();
+            $mobile_code = $this->generateOTPCode();
+            $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+            $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
+        }else{
+             $mobile_code = $this->generateOTPCode();
+        }
+        $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
+                'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
+                'last_name' => !empty($request->last_name) ? $request->last_name : NULL,    
+                'email' => isset($request->email) ? $request->email : NULL,
+                'password' => isset($request->password) ? Hash::make($request->password) : NULL,
                 'category_id' => isset($request->category_id) ? $request->category_id : NULL,
                 'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
                 'otp_code' => $mobile_code,
@@ -230,7 +262,7 @@ class UserRepository extends Repository
      */
     public function checkbyMobileNo($request)
     {   
-        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->get();
+        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->whereNotNull('mobile_verified_at')->first();
     }
 
     /**
@@ -323,9 +355,11 @@ class UserRepository extends Repository
         }          
         
         // top listing
-        if(isset($request->offset)){
-            $offset = $request->offset * $this->api_data_limit;
-            $query = $query->offset($offset)->limit($this->api_data_limit);   
+        if(isset($request->last_id)){            
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }            
+            $query = $query->limit($this->api_data_limit);     
         } else{
             $query = $query->offset(0)->limit(5);  
         }         
@@ -376,9 +410,11 @@ class UserRepository extends Repository
         }                
         
         // top listing
-        if(isset($request->offset)){
-            $offset = $request->offset * $this->api_data_limit;
-            $query = $query->offset($offset)->limit($this->api_data_limit);   
+        if(isset($request->last_id)){
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }            
+            $query = $query->limit($this->api_data_limit);    
         } else{
             $query = $query->offset(0)->limit(5);  
         }         

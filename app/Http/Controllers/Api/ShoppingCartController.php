@@ -35,7 +35,8 @@ class ShoppingCartController extends BaseApiController
     }
 
 
-    public function addToCart(ShoppingCartRequest $request){
+    public function addToCart(ShoppingCartRequest $request)
+    {
         $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
         if(!empty($cart_check) && !empty($cart_check->id)){
                 $update_data = [
@@ -63,17 +64,20 @@ class ShoppingCartController extends BaseApiController
         }
     }
 
-    public function getUserCart(Request $request){
+    public function getUserCart(Request $request)
+    {
         $data = $this->shop_cart_repo->getUserCart($request->user()->id);
         return self::sendSuccess($data , 'get Cart data');
     }
 
-    public function getToCart($id){
+    public function getToCart($id)
+    {
         $data = $this->shop_cart_repo->getById($id);
         return self::sendSuccess($data , 'get Cart data');
     }
 
-    public function updateToCartAddition($id){
+    public function updateToCartAddition($id)
+    {
         $cart_check = $this->shop_cart_repo->getById($id);
         $update_data = [
                         'quantity'=> $cart_check->quantity + 1,
@@ -88,7 +92,8 @@ class ShoppingCartController extends BaseApiController
         }
     }
    
-    public function updateToCartSubtraction($id){
+    public function updateToCartSubtraction($id)
+    {
         $cart_check = $this->shop_cart_repo->getById($id);
         if(!empty($cart_check->quantity) && $cart_check->quantity > 0){
             $update_data = [
@@ -108,7 +113,8 @@ class ShoppingCartController extends BaseApiController
 
     }
 
-    public function removeToCart($id){
+    public function removeToCart($id)
+    {
         $data = $this->shop_cart_repo->getById($id);
         if(!empty($data)){
             $this->shop_cart_repo->destroy($id); 
@@ -118,12 +124,14 @@ class ShoppingCartController extends BaseApiController
         return self::sendError('Data Not found');
     }
 
-    public function clearUserCart(Request $request){
+    public function clearUserCart(Request $request)
+    {
         $this->shop_cart_repo->clearUserCart($request->user()->id); 
         return self::sendSuccess('', 'Cart clear Success');
     }
 
-    public function clearShopCart(Request $request, $shop_id){
+    public function clearShopCart(Request $request, $shop_id)
+    {
         if(!empty($shop_id)){
             $this->shop_cart_repo->clearShopCart($request->user()->id, $shop_id); 
             return self::sendSuccess('', 'Cart clear Success');
@@ -133,7 +141,8 @@ class ShoppingCartController extends BaseApiController
     }
     
 
-    public function saveCartCheckout(CartCheckoutRequest $request){ 
+    public function saveCartCheckout(CartCheckoutRequest $request)
+    { 
 
         if(!empty($request->order_prodcuts)){
             foreach ($request->order_prodcuts as $key => $value) {
@@ -182,12 +191,14 @@ class ShoppingCartController extends BaseApiController
     }
 
 
-    public function getFavoriteMedicine(Request $request){
+    public function getFavoriteMedicine(Request $request)
+    {
         $data = $this->favorite_medicine_repo->getFavoriteMedicine($request); 
         return self::sendSuccess($data, 'Favorite medicine get');
     }
 
-    public function addFavoriteMedicine(FavoriteRequest $request){
+    public function addFavoriteMedicine(FavoriteRequest $request)
+    {
         $add_data =[
                         'user_id' => $request->user()->id,
                         'shop_medicine_detail_id'=>$request->shop_medicine_detail_id
@@ -201,7 +212,8 @@ class ShoppingCartController extends BaseApiController
 
     }
 
-    public function removeFavoriteMedicine(FavoriteRequest $request){
+    public function removeFavoriteMedicine(FavoriteRequest $request)
+    {
         $data = $this->favorite_medicine_repo->removeFavoriteMedicine($request); 
         return self::sendSuccess('', 'Favorite medicine remove');
     }

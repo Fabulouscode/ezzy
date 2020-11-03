@@ -41,7 +41,8 @@ class UserProfileController extends BaseApiController
 
 
     // user add details
-    public function addUserDetails(Request $request){
+    public function addUserDetails(Request $request)
+    {
         try{
             $user = $this->user_repo->dataCrud($request, $request->user()->id);
             $this->user_details_repo->dataCrud($request);
@@ -52,7 +53,8 @@ class UserProfileController extends BaseApiController
     }
 
     // upload Document
-    public function uploadDocumentFile(UploadFileRequest $request){
+    public function uploadDocumentFile(UploadFileRequest $request)
+    {
         $user_document = $this->user_details_repo->user_documents;
         if(!empty($request->file('document')) && !empty($user_document)) {          
             $file = $request->file('document');
@@ -65,13 +67,15 @@ class UserProfileController extends BaseApiController
     }
 
     // bank details
-    public function getUserBankDetails(Request $request){
+    public function getUserBankDetails(Request $request)
+    {
         $data = array();
         $data = $this->user_bank_account_repo->getbyUserId($request->user()->id);
         return self::sendSuccess($data, 'Bank account details');
     }
 
-    public function addUserBankDetails(UserBankAccountRequest $request){
+    public function addUserBankDetails(UserBankAccountRequest $request)
+    {
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
@@ -89,7 +93,8 @@ class UserProfileController extends BaseApiController
         }
     }
     
-    public function updateUserBankDetails(UserBankAccountRequest $request){
+    public function updateUserBankDetails(UserBankAccountRequest $request)
+    {
         $data = array();
         $update_data = [
                         'name' => $request->name,
@@ -106,7 +111,8 @@ class UserProfileController extends BaseApiController
         }
     }
 
-    public function getByIdUserBankDetails($id){
+    public function getByIdUserBankDetails($id)
+    {
         $data = array();
         $data = $this->user_bank_account_repo->getbyId($id);
         return self::sendSuccess($data, 'Bank account details');
@@ -123,13 +129,15 @@ class UserProfileController extends BaseApiController
 
 
     // available times
-    public function getUserAvailableTimes(Request $request){
+    public function getUserAvailableTimes(Request $request)
+    {
         $data = array();
         $data = $this->user_available_time_repo->getbyUserId($request->user()->id);
         return self::sendSuccess($data, 'User Available times');
     }
 
-    public function addUserAvailableTimes(UserAvailableTimesRequest $request){
+    public function addUserAvailableTimes(UserAvailableTimesRequest $request)
+    {
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
@@ -146,7 +154,8 @@ class UserProfileController extends BaseApiController
         }
     }
     
-    public function updateUserAvailableTimes(UserAvailableTimesRequest $request){
+    public function updateUserAvailableTimes(UserAvailableTimesRequest $request)
+    {
         $data = array();
         $update_data = [
                     'day' => $request->day,
@@ -162,13 +171,15 @@ class UserProfileController extends BaseApiController
         }
     }
 
-    public function getByIdUserAvailableTimes($id){
+    public function getByIdUserAvailableTimes($id)
+    {
         $data = array();
         $data = $this->user_available_time_repo->getbyId($id);
         return self::sendSuccess($data, 'Available times details');
     }
    
-    public function deleteUserAvailableTimes($id){
+    public function deleteUserAvailableTimes($id)
+    {
         $data = $this->user_available_time_repo->getById($id);
         if(!empty($data)){
             $this->user_available_time_repo->destroy($id); 
@@ -179,13 +190,15 @@ class UserProfileController extends BaseApiController
 
 
     // education details
-    public function getUserEducationDetails(Request $request){
+    public function getUserEducationDetails(Request $request)
+    {
         $data = array();
         $data = $this->user_education_repo->getbyUserId($request->user()->id);
         return self::sendSuccess($data, 'User Education details');
     }
 
-    public function addUserEducationDetails(UserEducationDetailsRequest $request){
+    public function addUserEducationDetails(UserEducationDetailsRequest $request)
+    {
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
@@ -203,7 +216,8 @@ class UserProfileController extends BaseApiController
         }
     }
     
-    public function updateUserEducationDetails(UserEducationDetailsRequest $request){
+    public function updateUserEducationDetails(UserEducationDetailsRequest $request)
+    {
         $data = array();
         $update_data = [
                         'college_name' => $request->college_name,
@@ -220,13 +234,15 @@ class UserProfileController extends BaseApiController
         }
     }
 
-    public function getByIdUserEducationDetails($id){
+    public function getByIdUserEducationDetails($id)
+    {
         $data = array();
         $data = $this->user_education_repo->getbyId($id);
         return self::sendSuccess($data, 'Education details info');
     }
    
-    public function deleteUserEducationDetails($id){
+    public function deleteUserEducationDetails($id)
+    {
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
             $this->user_education_repo->destroy($id); 
@@ -237,13 +253,15 @@ class UserProfileController extends BaseApiController
 
 
     // experiance details
-    public function getUserExperianceDetails(Request $request){
+    public function getUserExperianceDetails(Request $request)
+    {
         $data = array();
         $data = $this->user_experiance_repo->getbyUserId($request->user()->id);
         return self::sendSuccess($data, 'User Experiance details');
     }
 
-    public function addUserExperianceDetails(UserExperianceDetailsRequest $request){
+    public function addUserExperianceDetails(UserExperianceDetailsRequest $request)
+    {
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
@@ -261,7 +279,8 @@ class UserProfileController extends BaseApiController
         }
     }
     
-    public function updateUserExperianceDetails(UserExperianceDetailsRequest $request){
+    public function updateUserExperianceDetails(UserExperianceDetailsRequest $request)
+    {
         $data = array();
         $update_data = [
                         'name' => $request->name,
@@ -278,13 +297,15 @@ class UserProfileController extends BaseApiController
         }
     }
 
-    public function getByIdUserExperianceDetails($id){
+    public function getByIdUserExperianceDetails($id)
+    {
         $data = array();
         $data = $this->user_experiance_repo->getbyId($id);
         return self::sendSuccess($data, 'Experiance details info');
     }
    
-    public function deleteUserExperianceDetails($id){
+    public function deleteUserExperianceDetails($id)
+    {
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
             $this->user_experiance_repo->destroy($id); 

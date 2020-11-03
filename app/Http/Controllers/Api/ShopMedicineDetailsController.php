@@ -40,7 +40,8 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMedicineCategories(Request $request){
+    public function getMedicineCategories(Request $request)
+    {
         $data = array();
         $data = $this->medicine_category_repo->getbyColumnWithValue('status','0');
         return self::sendSuccess($data);
@@ -51,7 +52,8 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMedicineSubcategories($cate_id){
+    public function getMedicineSubcategories($cate_id)
+    {
         $data = array();
         $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
         $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data);
@@ -63,7 +65,8 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMedicineDetails($sub_id){
+    public function getMedicineDetails($sub_id)
+    {
         $data = array();
         $column_data = [['medicine_subcategoy_id', '=', $sub_id], ['status', '=', '0']];
         $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data);
@@ -75,13 +78,15 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getShopProductInfo($id){
+    public function getShopProductInfo($id)
+    {
         $data = array();
         $data = $this->shop_medicine_repo->getbyIdedit($id);
         return self::sendSuccess($data);
     }
  
-    public function addShopProduct(ShopMedicalDetailsRequest $request){
+    public function addShopProduct(ShopMedicalDetailsRequest $request)
+    {
         $data = array();
         $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id]];
         $shop_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
@@ -110,13 +115,15 @@ class ShopMedicineDetailsController extends BaseApiController
         
     }
    
-    public function getShopProduct(Request $request){
+    public function getShopProduct(Request $request)
+    {
         $data = array();            
         $data = $this->shop_medicine_repo->getShopMedicineProducts($request);
         return self::sendSuccess($data);
     }
 
-    public function addShopPharmacyReview(UserReviewRequest $request){
+    public function addShopPharmacyReview(UserReviewRequest $request)
+    {
         $data = array();           
         try{
             $data = $this->user_review_repo->dataCrud($request);

@@ -36,20 +36,30 @@ class Appointment extends Model
         'debit_transaction_id',
         'consult_notes',
         'user_rating',
-        'user_review'
+        'user_review',
+        'user_service_id',
+        'completed_datetime'
     ];
 
 
-    public function userDetails() {
+    public function user() {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
 
-    public function clientDetails() {
+    public function client() {
         return $this->hasOne('App\Models\User', 'id', 'client_id');
     }
     
-    public function cancelUserDetails() {
+    public function cancelUser() {
         return $this->hasOne('App\Models\User', 'id', 'cancel_user_id');
+    }
+
+    public function userService() {
+        return $this->hasOne('App\Models\User_services', 'id','	user_service_id');
+    }
+  
+    public function appointmentServices() {
+        return $this->hasMany('App\Models\Appointment_services', 'appointment_id','id');
     }
 
 }

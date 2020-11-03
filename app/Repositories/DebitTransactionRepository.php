@@ -57,7 +57,6 @@ class DebitTransactionRepository extends Repository
     {
         //  \DB::connection()->enableQueryLog(); 
 
-        // $offset = $request->offset * $this->api_data_limit;
       
         // $debit = $this->model->where('user_id',$request->user()->id)->orderBy('transaction_date','desc')->get();
       
@@ -66,7 +65,6 @@ class DebitTransactionRepository extends Repository
         // $query = $credit->merge($debit);
         
         // dd($query->toArray());
-        // $query = $query->orderBy('transaction_date','desc')->offset($offset)->limit($this->api_data_limit);
         
         // $query = $query->get();
         

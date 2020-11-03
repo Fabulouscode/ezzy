@@ -25,25 +25,29 @@ class UserController extends BaseApiController
     }
 
 
-    public function getUserDetails(Request $request){
+    public function getUserDetails(Request $request)
+    {
         $data = array();
         $data = $this->user_repo->getbyIdUserDetails($request->user()->id);
         return self::sendSuccess($data, 'User Details');
     }
    
-    public function getUserbyIdDetails($id){
+    public function getUserbyIdDetails($id)
+    {
         $data = array();
         $data = $this->user_repo->getbyIdedit($id);
         return self::sendSuccess($data, 'User Details');
     }
 
-    public function getUserbyCardNumberDetails($card_num){
+    public function getUserbyCardNumberDetails($card_num)
+    {
         $data = array();
         $data = $this->user_repo->getUserbyCardNumber($card_num);
         return self::sendSuccess($data, 'User Details');
     }
     
-    public function changeUserStatus(Request $request, $status){
+    public function changeUserStatus(Request $request, $status)
+    {
         $data = array();
         $user = $this->user_details_repo->getbyUserId($request->user()->id);
         if(!empty($user)){
@@ -56,12 +60,14 @@ class UserController extends BaseApiController
     }
 
  
-    public function getHealthcareProviders(Request $request){
+    public function getHealthcareProviders(Request $request)
+    {
         $user_list = $this->user_repo->getHealthcareProviders($request);
         return self::sendSuccess($user_list, 'User Profile Add Successfully');
     }
 
-    public function getHealthcareProvidersUrgent(Request $request){
+    public function getHealthcareProvidersUrgent(Request $request)
+    {
         $user_list = $this->user_repo->getHealthcareProvidersUrgent($request);
         return self::sendSuccess($user_list, 'User Profile Add Successfully');
     }

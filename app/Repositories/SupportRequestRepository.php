@@ -123,9 +123,13 @@ class SupportRequestRepository extends Repository
      */
     public function getSupportRequest($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
+        $query = $this->model;
         
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
        
         $query = $query->with(['userDetails'])->where('user_id',$request->user()->id);
         

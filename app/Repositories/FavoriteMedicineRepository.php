@@ -54,9 +54,13 @@ class FavoriteMedicineRepository extends Repository
      */
     public function getFavoriteMedicine($request)
     {   
-        $offset = $request->offset * $this->api_data_limit;
-      
-        $query = $this->model->offset($offset)->limit($this->api_data_limit);    
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
       
         $query = $query->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails','shopMedicineDetails.medicineDetails.medicineImages'])->where('user_id',$request->user()->id);
       

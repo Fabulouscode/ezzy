@@ -11,16 +11,19 @@ class BaseApiController extends Controller
 {
     private $ecnrypter;
     
-    public function __construct(){
+    public function __construct()
+    {
        $this->ecnrypter = new CustomEncrypt();   
     }   
     
 
-    public function sendSuccess($result, $message = '') {
+    public function sendSuccess($result, $message = '') 
+    {
        return response()->json($this->ecnrypter->encrypt($result), 200);
     }
 
-    public function sendError($errors, $errorMessage='', $code = 500) {
+    public function sendError($errors, $errorMessage='', $code = 500) 
+    {
         return response()->json([
             'success' => false,
             'utc_time'=> Carbon::now()->format('Y-m-d H:i:s'),
@@ -29,7 +32,8 @@ class BaseApiController extends Controller
         ], $code);
     }
     
-    public function sendException($ex) {
+    public function sendException($ex) 
+    {
         return response()->json([
             'success' => false,
             'error' => config('app.debug') ? $ex->getMessage().' at '.$ex->getLine() : 'Some Internal Server Error',

@@ -79,10 +79,11 @@ class AppointmentController extends Controller
     {
         $appointment_types = $this->appointment_repo->appointment_types;
         $status = $this->appointment_repo->status;
+        $service_charge_type = $this->appointment_repo->service_charge_type;
         $categories = $this->category_repo->get();
         $data = $this->appointment_repo->getbyIdedit($id);
         // dd($data->toArray());
-        return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status'));
+        return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status','service_charge_type'));
     }
 
     /**

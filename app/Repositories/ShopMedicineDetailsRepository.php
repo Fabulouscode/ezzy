@@ -110,8 +110,13 @@ class ShopMedicineDetailsRepository extends Repository
     {   
         // \DB::connection()->enableQueryLog(); 
 
-        $offset = $request->offset * $this->api_data_limit;      
-        $query = $this->model->with(['medicineDetails'])->offset($offset)->limit($this->api_data_limit);       
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->with(['medicineDetails'])->limit($this->api_data_limit);     
        
        
         //category filter

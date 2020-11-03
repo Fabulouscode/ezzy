@@ -33,7 +33,33 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegister(Request $request)
+    public function saveRegisterwithMobile(Request $request)
+    {
+        $user = $this->user_repo->checkbyMobileNo($request);   
+        if(empty($user)){
+            try{
+                $this->user_repo->registerWithMobileno($request);
+                $user = $this->user_repo->getbyMobileNo($request);   
+                return self::sendSuccess([
+                    'token' => $user->createToken('EzzyCare')->accessToken,
+                    'user' => $user,
+                ]);
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+        } else{
+             return self::sendError('', 'Mobile No. Already Registered.');
+        }
+
+    }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveRegisterPatient(Request $request)
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(!empty($user)){
@@ -53,10 +79,46 @@ class UserAuthController extends BaseApiController
             }
 
             return self::sendSuccess([
+                'token' => $user->createToken('EzzyCare')->accessToken,
                 'user' => $user,
             ]);
         } else{
-             return self::sendError('', 'User Already Registered.');
+             return self::sendError('', 'Mobile No. Already Registered.');
+        }
+
+    }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveRegister(UserAuthRequest $request)
+    {
+        $user = $this->user_repo->checkbyMobileNo($request);   
+        if(empty($user)){
+            $this->user_repo->registerWithRestore($request);
+            $user = $this->user_repo->getbyMobileNo($request);   
+            if(empty($user->category_id)){
+                if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password, 'status' => '0'])){
+                    if(!empty($user) && $user->status == '0'){
+                        return self::sendSuccess([
+                            'token' => $user->createToken('EzzyCare')->accessToken,
+                            'user' => $user,
+                        ]);
+                    }else{
+                        return self::sendError('', 'User status is pending please wait for Approved');
+                    }
+                }
+            }
+
+            return self::sendSuccess([
+                'token' => $user->createToken('EzzyCare')->accessToken,
+                'user' => $user,
+            ]);
+        } else{
+             return self::sendError('', 'Mobile No. Already Registered.');
         }
 
     }
@@ -206,7 +268,8 @@ class UserAuthController extends BaseApiController
     /*
      * login user loogut.
     */
-    public function userLogout(Request $request) {
+    public function userLogout(Request $request) 
+    {
         $user = $request->user();
         try{
             $data = ['device_type' => NULL,'device_token'=> NULL];
