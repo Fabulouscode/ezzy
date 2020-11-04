@@ -63,10 +63,20 @@ class TransactionController extends BaseApiController
             $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
             $end_appointment   = new Carbon($appointment_details->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
-            if($appointment_details->urgent == '1'){
-                $transaction_amount = $appointment_details->user->userDetails->urgent_fees * ($appointment_timing/60);
+            if(!empty($appointment_details->user_service_id)){
+                if($appointment_details->userService->service_charge_type == '1'){
+                    $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing);
+                }else if($appointment_details->userService->service_charge_type == '2'){
+                    $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing/60);
+                }else if($appointment_details->userService->service_charge_type == '3'){
+                    $transaction_amount = $appointment_details->userService->service_charge;
+                }                
             }else{
-                 $transaction_amount = $appointment_details->user->userDetails->normal_fees * ($appointment_timing/60);
+                if($appointment_details->urgent == '1'){
+                    $transaction_amount = $appointment_details->user->userDetails->urgent_fees * ($appointment_timing/60);
+                }else{
+                    $transaction_amount = $appointment_details->user->userDetails->normal_fees * ($appointment_timing/60);
+                }
             }
             
             if($appointment_details->appointment_type == '1'){

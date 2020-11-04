@@ -56,7 +56,7 @@ class Appointment extends Model
     }
 
     public function userService() {
-        return $this->hasOne('App\Models\User_services', 'id','	user_service_id');
+        return $this->hasOne('App\Models\User_services', 'id','user_service_id');
     }
   
     public function appointmentServices() {

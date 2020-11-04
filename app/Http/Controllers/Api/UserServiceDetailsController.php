@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\UserServiceRepository;
+use App\Repositories\ServicesRepository;
 use App\Http\Requests\Api\UserServiceDetailsRequest;
 
 class UserServiceDetailsController extends BaseApiController
 {
-    private $service_repo;
+    private $user_service_repo, $services_repo;
 
-    public function __construct(UserServiceRepository $service_repo)
+    public function __construct(UserServiceRepository $user_service_repo, ServicesRepository $services_repo)
     {
         parent::__construct();
-        $this->service_repo = $service_repo;
+        $this->user_service_repo = $user_service_repo;
+        $this->services_repo = $services_repo;
     }
 
     public function getServiceDetails($service_type)

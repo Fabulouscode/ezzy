@@ -16,7 +16,7 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('service_name');
-            $table->integer('service_type')->signed()->default(0)->comment('0-massage_therapist,1-scientist,2-pathologist,3-radiologist');
+            $table->integer('service_type')->signed()->default(0)->comment('0-massage_therapist,1-nurses,2-scientist,3-pathologist,4-radiologist');
             $table->integer('status')->signed()->default(0)->comment('0-Active, 1-Inactive');
             $table->timestamps();
             $table->softDeletes();
