@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\UserTransactionRepository;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\CategoryRepository;
@@ -13,13 +14,14 @@ use Auth;
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo, $appointment_repo;
+    private $user_repo, $category_repo, $appointment_repo,$user_trans_repo;
 
-    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo, AppointmentRepository $appointment_repo)
+    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo, AppointmentRepository $appointment_repo,UserTransactionRepository $userTransactionRepository)
     {
         $this->user_repo = $user_repo;
         $this->category_repo = $category_repo;
         $this->appointment_repo = $appointment_repo;
+        $this->user_trans_repo = $userTransactionRepository;
     }
      
     /**
@@ -122,6 +124,19 @@ class UserController extends Controller
         // return view('admin.user.view',compact('data','categories','days','appointment_types'));
     }
 
+
+     public function showTransaction($provider='', $id)
+    {
+        $data = $this->user_trans_repo->getbyUserId($id);
+        return view('admin.transactions.view',compact('data','provider'));
+    }
+
+    public function getTransactionDatatable(Request $request)
+    {
+        if($request->all()){
+            return $this->user_trans_repo->getDatatable($request);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

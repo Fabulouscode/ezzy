@@ -185,7 +185,8 @@ class UserRepository extends Repository
                     
                     // View
                     if(!empty($request->provider)){
-                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                                  <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-outline-success" title="User Transactions"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
                     }
 
                     // Delete

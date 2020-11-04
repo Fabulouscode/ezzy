@@ -65,6 +65,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('{provider}/users', 'UserController@index');
         Route::get('{provider}/users/pending', 'UserController@getPending');
         Route::get('{provider}/user/{id}', 'UserController@show');
+        Route::get('{provider}/user/transaction/{id}', 'UserController@showTransaction');
+        Route::post('{provider}/user/transaction/data', 'UserController@getTransactionDatatable');
 
         // Medicine Category routes
         Route::resource('medicine/categories', 'MedicineCategoryController');

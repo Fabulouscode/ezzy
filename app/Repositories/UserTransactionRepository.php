@@ -38,12 +38,6 @@ class UserTransactionRepository extends Repository
         parent::__construct();
     }
 
-     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $data
-     * @return \Illuminate\Http\Response
-     */
     public function dataCrud($data, $id = '')
     {   
         if(!empty($data)){
@@ -55,12 +49,6 @@ class UserTransactionRepository extends Repository
         }
     }
 
- 
-    /**
-     * get Model and return the instance.
-     *
-     * @param int $user_id
-     */
     public function getUserbyCalculate($user_id, $mode_of_payment = 0)
     {
         return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
@@ -75,21 +63,11 @@ class UserTransactionRepository extends Repository
         return $total_earning;
     }
 
-    /**
-     * get Model and return the instance.
-     *
-     * @param int $user_id
-     */
     public function getbyUserId($user_id)
     {
         return $this->model->where('user_id', $user_id)->get();
     }
     
-        /**
-     * get Model and return the instance.
-     *
-     * @param int $user_id
-     */
     public function getTransactionHistory($request)
     {
        
@@ -107,6 +85,47 @@ class UserTransactionRepository extends Repository
         
         $query = $query->get();
 
+        return $query;
+    }
+
+    public function getDatatable($request)
+    {
+        $data = $this->getWithRelationship($request);
+        return Datatables::of($data)
+            ->editColumn('mode_of_payment',function($selected)
+            {
+                if($selected->mode_of_payment == '1')
+                    return '<div class="text-success"><strong>Credit</strong></div>';
+                return '<div class="text-danger"><strong>Debit</strong></div>';
+            })
+            ->editColumn('status',function($selected)
+            {
+                if($selected->status == '1')
+                    return '<div class="text-success"><strong>Success</strong></div>';
+                return '<div class="text-danger"><strong>Failed</strong></div>';
+            })
+            ->editColumn('transaction_type',function($query)
+            {
+                $type = ['0' => 'Wallet','1' => 'Net Banking','2' => 'Debit/Credit Card','3' => 'Paypal' ] ;
+                return '<div class="text-success"><strong>'.$type[$query->transaction_type].'</strong></div>';
+            })
+            ->editColumn('user_name', function($query) {
+                return $query->users ? $query->users->first_name.' '.$query->users->last_name : '-';
+            })
+            ->editColumn('created_at', function($query) {
+                return $query->created_at ? date('d M, Y h:i A',strtotime($query->created_at)) : '-';
+            })
+            ->editColumn('transaction_date', function($query) {
+                return $query->transaction_date ? date('d M, Y h:i A',strtotime($query->transaction_date)) : '-';
+            })
+            ->rawColumns(['mode_of_payment','transaction_type','status'])
+            ->make(true);
+    }
+
+    public function getWithRelationship($request)
+    {
+        $query = $this->model->with('users');
+        $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
