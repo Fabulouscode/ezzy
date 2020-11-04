@@ -27,6 +27,11 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('cancel_user_id')->unsigned()->nullable();
             $table->integer('delivery_type')->signed()->default(0)->comment('0-Home Delievry, 1-pick-up from store');
             $table->integer('status')->signed()->default(0)->comment('0-Pending, 1-Success, 2-Cancel');
+            $table->datetime('completed_datetime')->nullable();
+            $table->float('user_rating')->nullable();
+            $table->text('user_review')->nullable();
+            $table->bigInteger('credit_transaction_id')->nullable()->unsigned();
+            $table->bigInteger('debit_transaction_id')->nullable()->unsigned();
             $table->timestamps();
             $table->softDeletes();
             
@@ -43,6 +48,12 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_location_id')
                   ->references('id')
                   ->on('user_locations');
+            $table->foreign('credit_transaction_id')
+                  ->references('id')
+                  ->on('user_transactions');
+            $table->foreign('debit_transaction_id')
+                  ->references('id')
+                  ->on('user_transactions');
         });
     }
 

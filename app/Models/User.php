@@ -65,9 +65,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
+    protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
-                          'user_completed_order', 'user_cancelled_order', 'user_active_order',
+                          'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
                           'monthly_wallet_balance','total_wallet_balance'
                         ];
 
@@ -125,6 +125,11 @@ class User extends Authenticatable
 
     }
 
+    public function getUserAppointmentReviewAttribute(){
+        return $this->hasOne('App\Models\Appointment','user_id','id')
+                    ->where('status', '5')->avg('user_rating');        
+    }
+
     public function getUserCompletedAppointmentAttribute(){
         return $this->hasOne('App\Models\Appointment','user_id','id')
                     ->where('status', '5')->count('*');        
@@ -153,6 +158,11 @@ class User extends Authenticatable
     public function getClientPendingAppointmentAttribute(){
         return $this->hasOne('App\Models\Appointment','client_id','id')
                     ->whereIn('status', ['1','2'])->count('*');
+    }
+
+    public function getUserOrderReviewAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '1')->avg('user_rating');      
     }
 
     public function getUserCompletedOrderAttribute(){

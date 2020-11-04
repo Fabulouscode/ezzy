@@ -27,6 +27,11 @@ class Order extends Model
         'cancel_date',
         'cancel_user_id',
         'status',
+        'completed_datetime',
+        'user_rating',
+        'user_review',
+        'credit_transaction_id',
+        'debit_transaction_id',
     ];
 
     public function userDetails() {
