@@ -45,11 +45,11 @@
                         
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>Date</label>
+                                <label>Appointment Date</label>
                                 <input disabled  type="text"  class="form-control" name="appointment_date" value="{{$data->appointment_date}}" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Time</label>
+                                <label>Appointment Time</label>
                                 <input disabled type="text"  class="form-control" name="appointment_time" value="{{$data->appointment_time}}" />
                             </div>                            
                             <div class="form-group col-md-4">
@@ -73,11 +73,34 @@
                             </div>
                         </div>
                         
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Appointment Book Date</label>
+                                <input disabled  type="text"  class="form-control" name="completed_datetime" value="{{$data->created_at}}" />
+                            </div>
+                            @if(!empty($data->completed_datetime))
+                            <div class="form-group col-md-4">
+                                <label>Completed Date</label>
+                                <input disabled  type="text"  class="form-control" name="completed_datetime" value="{{$data->completed_datetime}}" />
+                            </div>
+                            @endif
+                            @if(!empty($data->appointment_price))
+                            <div class="form-group col-md-4">
+                                <label>Total Amount</label>
+                                <input disabled type="text"  class="form-control" name="appointment_price" value="{{$data->appointment_price}}" />
+                            </div>   
+                            @endif     
+                        </div>
+                        
 
-                        @if(!empty($data->status) && $data->status == '6')
+                        @if(!empty($data->cancelUser))
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title"> Cancel Details</h4>
                             <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Email</label>
+                                    <input disabled type="text"  class="form-control" name="cancel_date" value="{{$data->cancelUser->email}}" />
+                                </div>                            
                                 <div class="form-group col-md-4">
                                     <label>Cancel Date Time</label>
                                     <input disabled type="text"  class="form-control" name="cancel_date" value="{{$data->cancel_date}}" />
@@ -85,9 +108,6 @@
                                 <div class="form-group col-md-4">
                                     <label>Cancel Reason</label>
                                     <textarea disabled class="form-control" name="cancel_reason"  >{{$data->cancel_reason}}</textarea>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Cancel User</label>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +119,7 @@
                             <div class="row">
                                 @if(!empty($data->user->category_id))
                                 <div class="form-group col-md-4">
-                                    <label>Category</label>
+                                    <label>HCP Type</label>
                                     <select disabled id="category_id"  type="text" class="form-control" name="category_id" >
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}"  {{ !empty($data->user->category_id) && $category->id == $data->user->category_id ? 'selected' : '' }}>{{$category->name}}</option>
@@ -109,7 +129,7 @@
                                 @endif
                                 @if(!empty($data->user->subcategory_id))
                                 <div class="form-group col-md-4">
-                                    <label>Subcategory</label>
+                                    <label>HCP Subtype</label>
                                     <select disabled id="subcategory_id"  type="text" class="form-control" name="subcategory_id" >
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}"  {{ !empty($data->user->subcategory_id) && $category->id == $data->user->subcategory_id ? 'selected' : '' }}>{{$category->name}}</option>
@@ -120,15 +140,9 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>First Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->user->first_name}}" />
+                                    <label>Name</label>
+                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->user->first_name .' '. $data->user->last_name}}" />
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label>Last Name</label>
-                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->user->last_name}}" />
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Email</label>
                                     <input disabled type="text" class="form-control" name="email" value="{{$data->user->email}}" />
@@ -138,23 +152,41 @@
                                     <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->user->mobile_no}}" />
                                 </div>
                             </div>
+                             @if(!empty($data->debitTransaction))
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Transaction Date</label>
+                                        <input disabled type="text" class="form-control" name="email" value="{{$data->debitTransaction->transaction_date}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Amount</label>
+                                        <input disabled type="text" class="form-control" name="amount" value="{{$data->debitTransaction->amount}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Payment Mode</label>
+                                        <input disabled type="text" class="form-control" name="mode_of_payment" value="{{$data->debitTransaction->mode_of_payment == '0'? 'Debit' : 'Credit'}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Transaction Type</label> 
+                                        <input disabled type="text" class="form-control" name="transaction_type" value="{{array_key_exists($data->debitTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->debitTransaction->transaction_type]: ''}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Status</label>
+                                        <input disabled type="text" class="form-control" name="status" value="{{array_key_exists($data->debitTransaction->status, $transaction_status) ? $transaction_status[$data->debitTransaction->status]: ''}}" />
+                                    </div>
+                                </div>
+                             @endif
                         </div>
                         @endif
 
                        @if(!empty($data->client))
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Appointment Customer Details</h4>
+                            <h4 class="mt-0 header-title">Customer Details</h4>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>First Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->client->first_name}}" />
+                                    <label>Name</label>
+                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->client->first_name .' '. $data->client->last_name}}" />
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label>Last Name</label>
-                                    <input disabled type="text" class="form-control" name="last_name" value="{{$data->client->last_name}}" />
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Email</label>
                                     <input disabled type="text" class="form-control" name="email" value="{{$data->client->email}}" />
@@ -164,6 +196,30 @@
                                     <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->client->mobile_no}}" />
                                 </div>
                             </div>
+                            @if(!empty($data->creditTransaction))
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Transaction Date</label>
+                                        <input disabled type="text" class="form-control" name="email" value="{{$data->creditTransaction->transaction_date}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Amount</label>
+                                        <input disabled type="text" class="form-control" name="amount" value="{{$data->creditTransaction->amount}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Payment Mode</label>
+                                        <input disabled type="text" class="form-control" name="mode_of_payment" value="{{$data->creditTransaction->mode_of_payment == '0'? 'Debit' : 'Credit'}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Transaction Type</label>
+                                        <input disabled type="text" class="form-control" name="transaction_type" value="{{array_key_exists($data->creditTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->creditTransaction->transaction_type]: ''}}" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Status</label>
+                                        <input disabled type="text" class="form-control" name="status" value="{{array_key_exists($data->creditTransaction->status, $transaction_status) ? $transaction_status[$data->creditTransaction->status]: ''}}" />
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         @endif
 
@@ -181,7 +237,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Service Charge Type</label>
-                                    <input disabled type="text" class="form-control" name="service_charge_type" value="{{$service_charge_type[$data->userService->service_charge_type]}}" />
+                                    <input disabled type="text" class="form-control" name="service_charge_type" value="{{array_key_exists($data->userService->service_charge_type, $service_charge_type) ? $service_charge_type[$data->userService->service_charge_type]: ''}}" />
                                 </div>
                             </div>
                         </div>

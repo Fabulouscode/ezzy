@@ -143,10 +143,14 @@ class ShoppingCartController extends BaseApiController
 
     public function saveCartCheckout(CartCheckoutRequest $request)
     { 
-
-        if(!empty($request->order_prodcuts)){
-            foreach ($request->order_prodcuts as $key => $value) {
-                $stock_available = $this->shop_medicine_repo->checkMeditionStock($value); 
+        $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
+        if(empty($cart_details) || count($cart_details) == '0'){
+            return self::sendError([], 'Cart is Empty');
+        }
+      
+        if(!empty($cart_details)){
+            foreach ($cart_details as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
                 if(empty($stock_available)){
                      return self::sendError('', 'Stock is not available');
                 }
@@ -164,27 +168,29 @@ class ShoppingCartController extends BaseApiController
                         
             $order = $this->order_repo->dataCrud($order_data); 
 
-            if(!empty($request->order_prodcuts) && !empty($order)){
-                foreach ($request->order_prodcuts as $key => $value) {
-                    $order_product_data = [
-                                            'order_id'=> $order->id,
-                                            'shop_medicine_detail_id' => $value['shop_medicine_detail_id'],
-                                            'quantity' => $value['quantity']
-                                        ];
-                    $this->order_product_repo->dataCrud($order_product_data); 
-                    
-                    $stock_available = $this->shop_medicine_repo->checkMeditionStock($value); 
+            if(!empty($cart_details) && !empty($order)){
+                foreach ($cart_details as $key => $value) {
+                    $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
                     if(!empty($stock_available)){                    
                         $product_data = [
-                                        'capsual_quantity' => $stock_available->capsual_quantity - $value['quantity']
+                                        'capsual_quantity' => $stock_available->capsual_quantity - $value->quantity
                                         ];
                         $this->shop_medicine_repo->dataCrud($product_data, $stock_available->id); 
                     }
-                    
+
+                    $order_product_data = [
+                                            'order_id'=> $order->id,
+                                            'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
+                                            'quantity' => $value->quantity
+                                        ];
+                    $this->order_product_repo->dataCrud($order_product_data); 
+                                       
                 }
 
+                $this->shop_cart_repo->clearUserCart($request->user()->id); 
+                $data = $this->order_repo->getbyEditId($order->id); 
             }
-            return self::sendSuccess('', 'Cart checkout Success');
+            return self::sendSuccess($data, 'Order Completed');
         }catch(\Exception $e){
             return self::sendException($e);
         }

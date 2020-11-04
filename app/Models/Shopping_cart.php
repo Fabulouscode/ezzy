@@ -19,4 +19,8 @@ class Shopping_cart extends Model
         'shop_medicine_detail_id',
         'quantity'
     ];
+
+    public function shopMedicineDetails() {
+        return $this->belongsTo('App\Models\Shop_medicine_details','shop_medicine_detail_id','id');
+    }
 }

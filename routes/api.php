@@ -169,7 +169,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');       
                 Route::post('/checkout', 'ShoppingCartController@saveCartCheckout');       
             });
-
+ 
 
             // favorite request
             Route::prefix('favorite')->group(function(){  

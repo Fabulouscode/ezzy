@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\UserTransactionRepository;
 use Auth;
 
 class AppointmentController extends Controller
 {
-    private $appointment_repo, $category_repo;
+    private $appointment_repo, $category_repo, $user_transaction_repo;
 
-    public function __construct(AppointmentRepository $appointment_repo, CategoryRepository $category_repo)
+    public function __construct(AppointmentRepository $appointment_repo, CategoryRepository $category_repo, UserTransactionRepository $user_transaction_repo)
     {
         $this->appointment_repo = $appointment_repo;
         $this->category_repo = $category_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
     }
 
     /**
@@ -78,12 +80,14 @@ class AppointmentController extends Controller
     public function show($id)
     {
         $appointment_types = $this->appointment_repo->appointment_types;
+        $transaction_status = $this->user_transaction_repo->status;
+        $transaction_type = $this->user_transaction_repo->transaction_type;
         $status = $this->appointment_repo->status;
         $service_charge_type = $this->appointment_repo->service_charge_type;
         $categories = $this->category_repo->get();
         $data = $this->appointment_repo->getbyIdedit($id);
-        // dd($data->toArray());
-        return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status','service_charge_type'));
+        // dd($data);
+        return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status','service_charge_type','transaction_status','transaction_type'));
     }
 
     /**

@@ -160,7 +160,18 @@ class AppointmentRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
+        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','creditTransaction', 'debitTransaction','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
+
+    }
+ 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdCheckTransaction($id)
+    {   
+        return $this->model->whereNull('credit_transaction_id')->whereNull('debit_transaction_id')->where('id',$id)->first();
 
     }
     

@@ -74,7 +74,10 @@ class ShoppingCartRepository extends Repository
      */
     public function clearShopCart($user_id, $shop_id)
     {
-        return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $shop_id)->delete();
+        return $this->model->where('user_id', $user_id)
+                    ->whereHas('shopMedicineDetails', function($q) use ($shop_id){
+                                 $q->where('user_id', $shop_id);
+                    })->delete();
     }
   
     /**
@@ -82,9 +85,9 @@ class ShoppingCartRepository extends Repository
      *
      * @param int $user_id
      */
-    public function checkCart($user_id, $shop_id)
+    public function checkCart($user_id, $medicine_id)
     {
-        return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $shop_id)->first();
+        return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $medicine_id)->first();
     }
     
     

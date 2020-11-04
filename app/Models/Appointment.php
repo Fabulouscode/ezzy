@@ -31,6 +31,7 @@ class Appointment extends Model
         'otp_code',
         'cancel_reason',
         'cancel_date',
+        'cancel_user_id',
         'status',
         'credit_transaction_id',
         'debit_transaction_id',
@@ -62,4 +63,11 @@ class Appointment extends Model
         return $this->hasMany('App\Models\Appointment_services', 'appointment_id','id');
     }
 
+    public function creditTransaction() {
+        return $this->hasOne('App\Models\User_transaction', 'id', 'credit_transaction_id');
+    }
+
+    public function debitTransaction() {
+        return $this->hasOne('App\Models\User_transaction', 'id', 'debit_transaction_id');
+    }
 }

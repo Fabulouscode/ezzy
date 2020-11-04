@@ -6,23 +6,35 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\UserTransactionRepository;
-use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Repositories\UserRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\OrderProductRepository;
+use App\Http\Requests\Api\CartCheckoutRequest;
+use App\Http\Requests\Api\AppointmentStatusRequest;
 use Carbon\Carbon as Carbon;
 
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo;
-    private $user_transaction_repo;
-    private $user_repo;
+    private $appointment_repo, $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo;
 
-    public function __construct(AppointmentRepository $appointment_repo, UserTransactionRepository $user_transaction_repo, UserRepository $user_repo)
+    public function __construct(
+        AppointmentRepository $appointment_repo, 
+        UserTransactionRepository $user_transaction_repo, 
+        UserRepository $user_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo,
+        OrderRepository $order_repo,
+        OrderProductRepository $order_product_repo
+        )
     {
         parent::__construct();
         $this->appointment_repo = $appointment_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->user_repo = $user_repo;
+        $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->order_repo = $order_repo;
+        $this->order_product_repo = $order_product_repo;
     }
 
     public function updateUserWalletBalance($user_id)
@@ -41,8 +53,11 @@ class TransactionController extends BaseApiController
     public function appointmentBillPay(AppointmentStatusRequest $request)
     {
         $data = array();
-        $appointment_details = $this->appointment_repo->getById($request->id);
-  
+        $appointment_details = $this->appointment_repo->getbyIdCheckTransaction($request->id);
+        if(empty($appointment_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
         try {
             $transaction_amount = 0;
             $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
@@ -57,7 +72,6 @@ class TransactionController extends BaseApiController
             if($appointment_details->appointment_type == '1'){
                 $transaction_amount = $transaction_amount + $appointment_details->user->userDetails->home_visit_fees;
             }
-           
                 $add_credit_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
@@ -96,5 +110,7 @@ class TransactionController extends BaseApiController
             return self::sendException($e);
         }
     }
+
+
 
 }

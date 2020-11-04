@@ -93,11 +93,10 @@ class ShopMedicineDetailsRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function checkMeditionStock($data)
+    public function checkMedicineStock($data)
     {   
-       
-        return $this->model->where('id', $data['shop_medicine_detail_id'])
-                    ->where('capsual_quantity','>=',$data['quantity'])->first();
+        return $this->model->where('id', $data->shop_medicine_detail_id)
+                    ->where('capsual_quantity','>=',$data->quantity)->first();
 
     }
 

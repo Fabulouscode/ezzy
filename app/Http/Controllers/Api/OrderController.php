@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderRepository;
-use App\Http\Requests\Api\ReviewRequest;
 use PDF;
 
 class OrderController extends BaseApiController
