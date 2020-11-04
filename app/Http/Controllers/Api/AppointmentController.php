@@ -72,6 +72,10 @@ class AppointmentController extends BaseApiController
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
+        $check_appointment = $this->appointment_repo->checkUserAvailable($request);
+        if(!empty($check_appointment)){
+            return self::sendError([], 'Please Change Appointment Time');
+        }
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,

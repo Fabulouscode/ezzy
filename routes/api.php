@@ -32,8 +32,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
     Route::post('/login', 'UserAuthController@login');
     Route::post('/register', 'UserAuthController@saveRegister');
-    Route::post('/patient/register', 'UserAuthController@saveRegisterwithMobile');
-    Route::post('/patient/register_mobile', 'UserAuthController@saveRegisterPatient');
+    Route::post('/patient/register', 'UserAuthController@saveRegisterPatient');
+    Route::post('/patient/register_mobile', 'UserAuthController@saveRegisterwithMobile');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
 
     Route::middleware('auth:api')->group(function(){

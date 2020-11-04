@@ -32,9 +32,9 @@ class AppointmentRepository extends Repository
     );
     
     public $service_charge_type = array(
-        '0' => 'per Minute',
-        '1' => 'per Hours',
-        '2' => 'per Day'
+        '1' => 'per Minute',
+        '2' => 'per Hours',
+        '3' => 'per Day'
     );
 
     public function __construct()
@@ -172,6 +172,17 @@ class AppointmentRepository extends Repository
     public function getbyIdCheckTransaction($id)
     {   
         return $this->model->whereNull('credit_transaction_id')->whereNull('debit_transaction_id')->where('id',$id)->first();
+
+    }
+ 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUserAvailable($request)
+    {   
+        return $this->model->where('appointment_date', $request->appointment_date)->where('appointment_time', $request->appointment_time)->where('user_id',$request->user_id)->first();
 
     }
     

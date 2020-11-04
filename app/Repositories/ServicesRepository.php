@@ -22,9 +22,10 @@ class ServicesRepository extends Repository
 
     public $service_type = array(
         '0' => 'Massage Therapist',
-        '1' => 'Scientist',
-        '2' => 'Pathologist',
-        '3' => 'Radiologist',
+        '1' => 'Nurses',
+        '2' => 'Scientist',
+        '3' => 'Pathologist',
+        '4' => 'Radiologist',
     );
 
     public function __construct()
