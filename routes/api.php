@@ -132,7 +132,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'AppointmentController@addAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
-                Route::post('/change/completed', 'AppointmentController@completedAppointment');
+                Route::post('/change/completed', 'AppointmentController@completedAppointment');                
+                Route::post('/review/add', 'AppointmentController@addAppointmentReview');    
                 Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
             });
         });
@@ -154,7 +155,6 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
                 Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
                 Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');    
-                Route::post('/review/add', 'ShopMedicineDetailsController@addShopPharmacyReview');    
             });
 
              // cart request
@@ -190,6 +190,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
                 Route::post('/active', 'OrderController@getActiveOrder'); 
+                Route::post('/review/add', 'OrderController@addOrderPharmacyReview');    
             });
 
 

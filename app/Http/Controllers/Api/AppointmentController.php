@@ -10,6 +10,7 @@ use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
+use App\Http\Requests\Api\ReviewRequest;
 use Carbon\Carbon as Carbon;
 
 class AppointmentController extends BaseApiController
@@ -182,5 +183,23 @@ class AppointmentController extends BaseApiController
         }
     }
 
+    public function addAppointmentReview(ReviewRequest $request)
+    {
+    
+        $data = array();
+        $update = [
+                    'user_rating'=> isset($request->rating) ? $request->rating : NULL,
+                    'user_review'=> isset($request->comment) ? $request->comment : NULL,
+                  ];
+
+        try{
+            $this->appointment_repo->dataCrud($update, $request->id);
+            $data = $this->appointment_repo->getById($request->id);
+            return self::sendSuccess($data, 'Appointment Add Review');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+        
+    }
 
 }

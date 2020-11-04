@@ -10,7 +10,6 @@ use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserReviewRepository;
 use App\Http\Requests\Api\ShopMedicalDetailsRequest;
-use App\Http\Requests\Api\UserReviewRequest;
 use Carbon\Carbon;
 
 class ShopMedicineDetailsController extends BaseApiController
@@ -122,15 +121,5 @@ class ShopMedicineDetailsController extends BaseApiController
         return self::sendSuccess($data);
     }
 
-    public function addShopPharmacyReview(UserReviewRequest $request)
-    {
-        $data = array();           
-        try{
-            $data = $this->user_review_repo->dataCrud($request);
-            return self::sendSuccess($data,'Review add success');
-        }catch(\Exception $e){
-            return self::sendException($e);
-        }
-        
-    }
+
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderRepository;
+use App\Http\Requests\Api\ReviewRequest;
 use PDF;
 
 class OrderController extends BaseApiController
@@ -95,11 +96,30 @@ class OrderController extends BaseApiController
                   ];
 
         try{
-            $this->order_repo->update($update, $request->id);
+            $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
             return self::sendException($e);
         }
+    }
+
+    public function addOrderPharmacyReview(ReviewRequest $request)
+    {
+    
+        $data = array();
+        $update = [
+                    'user_rating'=> isset($request->rating) ? $request->rating : NULL,
+                    'user_review'=> isset($request->comment) ? $request->comment : NULL,
+                  ];
+
+        try{
+            $this->order_repo->dataCrud($update, $request->id);
+            $data = $this->order_repo->getById($request->id);
+            return self::sendSuccess($data, 'Order Add Review');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+        
     }
 }

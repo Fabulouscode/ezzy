@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class UserReviewRequest extends FormRequest
+class ReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class UserReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'id' => 'required',
             'comment' => 'required',
             'rating' => 'required',
         ];
