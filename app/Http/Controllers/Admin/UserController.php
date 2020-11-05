@@ -127,7 +127,11 @@ class UserController extends Controller
 
      public function showTransaction($provider = '', $id)
     {
-        return view('admin.transactions.view',compact('provider','id'));
+        $debit_balance = $this->user_trans_repo->getUserbyCalculate($id, '0');
+        $credit_balance = $this->user_trans_repo->getUserbyCalculate($id, '1');
+        $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
+
+        return view('admin.transactions.view',compact('provider','id','debit_balance','credit_balance','total_balance'));
     }
 
     public function getTransactionDatatable(Request $request)

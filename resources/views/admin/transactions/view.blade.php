@@ -20,6 +20,55 @@
         <!-- end row -->
 
         <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card mini-stat m-b-30">
+                    <div class="p-3 bg-primary text-white">
+                        <div class="mini-stat-icon">
+                            <i class="fa fa-money float-right mb-0"></i>
+                        </div>
+                        <h6 class="text-uppercase mb-0">Debit Balance</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-4 text-muted">
+                            <h5 class="m-0">{{ $debit_balance ?: 0  }}<i class="mdi mdi-arrow-up text-danger ml-2"></i></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card mini-stat m-b-30">
+                    <div class="p-3 bg-primary text-white">
+                        <div class="mini-stat-icon">
+                            <i class="fa fa-money float-right mb-0"></i>
+                        </div>
+                        <h6 class="text-uppercase mb-0">Credit Balance</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-4 text-muted">
+                            <h5 class="m-0">{{ $credit_balance ?: 0  }}<i class="mdi mdi-arrow-down text-success ml-2"></i></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card mini-stat m-b-30">
+                    <div class="p-3 bg-primary text-white">
+                        <div class="mini-stat-icon">
+                            <i class="fa fa-money float-right mb-0"></i>
+                        </div>
+                        <h6 class="text-uppercase mb-0">Total Balance</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-4 text-muted">
+                            <h5 class="m-0">{{ $total_balance ?: 0  }}<i class="mdi mdi-arrow-down text-success ml-2"></i></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">

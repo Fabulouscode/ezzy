@@ -127,6 +127,4 @@ class UserTransactionRepository extends Repository
         $query = $query->orderBy('id','desc')->get();
         return $query;
     }
-    
-    
 }
