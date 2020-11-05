@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderProductRepository;
+use App\Repositories\OrderTrackingRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use Carbon\Carbon as Carbon;
@@ -17,7 +18,7 @@ use Carbon\Carbon as Carbon;
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo, $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo;
+    private $appointment_repo, $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
@@ -25,7 +26,8 @@ class TransactionController extends BaseApiController
         UserRepository $user_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderRepository $order_repo,
-        OrderProductRepository $order_product_repo
+        OrderProductRepository $order_product_repo,
+        OrderTrackingRepository $order_tracking_repo
         )
     {
         parent::__construct();
@@ -35,6 +37,7 @@ class TransactionController extends BaseApiController
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->order_repo = $order_repo;
         $this->order_product_repo = $order_product_repo;
+        $this->order_tracking_repo = $order_tracking_repo;
     }
 
     public function updateUserWalletBalance($user_id)
@@ -80,7 +83,7 @@ class TransactionController extends BaseApiController
             }
             
             if($appointment_details->appointment_type == '1'){
-                $transaction_amount = $transaction_amount + $appointment_details->user->userDetails->home_visit_fees;
+                $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
             }
                 $add_credit_transaction = [
                         'user_id'=> $request->user()->id,
@@ -113,6 +116,68 @@ class TransactionController extends BaseApiController
                 $data = $this->appointment_repo->getById($request->id);
                 self::updateUserWalletBalance($request->user()->id);
                 self::updateUserWalletBalance($appointment_details->user->id);
+                return self::sendSuccess($data, 'Transaction Completed');
+            }
+            return self::sendError([], 'Transaction Uncompleted Error');
+        } catch (\Exception $e) {
+            return self::sendException($e);
+        }
+    }
+
+    public function orderPharmacyBillPay(Request $request)
+    {
+        $data = array();
+        $order_details = $this->order_repo->getbyIdCheckTransaction($request->id);
+        if(empty($order_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
+        try {
+            $transaction_amount = 0;
+            $transaction_amount += $order_details->total_price;
+            if($order_details->delivery_type == '0'){
+                $transaction_amount += $order_details->shipping_price;
+            }
+                $add_credit_transaction = [
+                        'user_id'=> $request->user()->id,
+                        'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                        'amount'=> $transaction_amount,
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '0',
+                        'status'=> '0',
+                    ];
+                
+                $add_debit_transaction = [
+                        'user_id'=> $order_details->userDetails->id,
+                        'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                        'amount'=> $transaction_amount,
+                        'mode_of_payment'=> '0',
+                        'transaction_type'=> '0',
+                        'status'=> '0',
+                    ];
+            $credit_transaction = $this->user_transaction_repo->dataCrud($add_credit_transaction);
+            $debit_transaction = $this->user_transaction_repo->dataCrud($add_debit_transaction);
+
+            if(!empty($credit_transaction) && !empty($debit_transaction)){
+                $update = [
+                        'status'=> '1',
+                        'completed_datetime'=> $this->order_repo->getCurrentDateTime(),
+                        'credit_transaction_id'=> $credit_transaction->id,
+                        'debit_transaction_id'=> $debit_transaction->id,
+                    ];
+                $this->order_repo->dataCrud($update, $request->id);
+          
+                $add_tracking = [
+                        'order_id'=> $order_details->id,
+                        'title'=> 'Order Placed',
+                        'description'=> '',
+                        'status'=> '0',
+                    ];
+                $this->order_tracking_repo->dataCrud($add_tracking);
+
+                $data = $this->order_repo->getById($request->id);
+                self::updateUserWalletBalance($request->user()->id);
+                self::updateUserWalletBalance($order_details->userDetails->id);
                 return self::sendSuccess($data, 'Transaction Completed');
             }
             return self::sendError([], 'Transaction Uncompleted Error');

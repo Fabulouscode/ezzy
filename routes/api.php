@@ -166,10 +166,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/get/{id}', 'ShoppingCartController@getToCart');       
                 Route::get('/remove/{id}', 'ShoppingCartController@removeToCart');       
                 Route::get('/clear', 'ShoppingCartController@clearUserCart');       
-                Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');       
-                Route::post('/checkout', 'ShoppingCartController@saveCartCheckout');       
+                Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');          
             });
- 
 
             // favorite request
             Route::prefix('favorite')->group(function(){  
@@ -190,7 +188,11 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
                 Route::post('/active', 'OrderController@getActiveOrder'); 
-                Route::post('/review/add', 'OrderController@addOrderPharmacyReview');    
+                Route::post('/review/add', 'OrderController@addOrderPharmacyReview');   
+                
+                
+                Route::post('/checkout', 'OrderController@saveCartCheckout');       
+                Route::post('/bill_pay', 'TransactionController@orderPharmacyBillPay');   
             });
 
 

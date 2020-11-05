@@ -6,21 +6,28 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\ShoppingCartRepository;
+use App\Http\Requests\Api\CartCheckoutRequest;
 use PDF;
 
 class OrderController extends BaseApiController
 {
-    private $order_repo, $shop_medicine_repo, $order_tracking_repo;
+    private $order_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo;
 
     public function __construct(
+        ShoppingCartRepository $shop_cart_repo,
         OrderRepository $order_repo,
+        OrderProductRepository $order_product_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderTrackingRepository $order_tracking_repo
         )
     {
         parent::__construct();
+        $this->shop_cart_repo = $shop_cart_repo;
         $this->order_repo = $order_repo;
+        $this->order_product_repo = $order_product_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->order_tracking_repo = $order_tracking_repo;
     }
@@ -120,5 +127,61 @@ class OrderController extends BaseApiController
             return self::sendException($e);
         }
         
+    }
+
+    
+    public function saveCartCheckout(CartCheckoutRequest $request)
+    { 
+        $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
+        if(empty($cart_details) || count($cart_details) == '0'){
+            return self::sendError([], 'Cart is Empty');
+        }
+      
+        if(!empty($cart_details)){
+            foreach ($cart_details as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                if(empty($stock_available)){
+                     return self::sendError('', 'Stock is not available');
+                }
+            }
+        }
+        try{
+            $order_data = [
+                            'user_id'=> $request->user_id,
+                            'client_id'=> $request->user()->id,
+                            'user_location_id' => !empty($request->user_location_id) ? $request->user_location_id : NULL,
+                            'total_price' => $request->total_price,
+                            'shipping_price' => $request->shipping_price,
+                            'delivery_type'=> $request->delivery_type
+                        ];
+                        
+            $order = $this->order_repo->dataCrud($order_data); 
+
+            if(!empty($cart_details) && !empty($order)){
+                foreach ($cart_details as $key => $value) {
+                    $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                    if(!empty($stock_available)){                    
+                        $product_data = [
+                                        'capsual_quantity' => $stock_available->capsual_quantity - $value->quantity
+                                        ];
+                        $this->shop_medicine_repo->dataCrud($product_data, $stock_available->id); 
+                    }
+
+                    $order_product_data = [
+                                            'order_id'=> $order->id,
+                                            'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
+                                            'quantity' => $value->quantity
+                                        ];
+                    $this->order_product_repo->dataCrud($order_product_data); 
+                                       
+                }
+
+                $this->shop_cart_repo->clearUserCart($request->user()->id); 
+                $data = $this->order_repo->getbyEditId($order->id); 
+            }
+            return self::sendSuccess($data, 'Order Completed');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
     }
 }

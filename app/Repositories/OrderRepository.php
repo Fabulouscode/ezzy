@@ -74,6 +74,16 @@ class OrderRepository extends Repository
         return $query;
     }
 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdCheckTransaction($id)
+    {   
+        return $this->model->whereNull('credit_transaction_id')->whereNull('debit_transaction_id')->where('id',$id)->whereNotIn('status',['1','2'])->first();
+
+    }
         
      /**
      * Display a edit of the record.
