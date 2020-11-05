@@ -91,6 +91,25 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getInvoice($id)
+    {
+        $appointment_types = $this->appointment_repo->appointment_types;
+        $transaction_status = $this->user_transaction_repo->status;
+        $transaction_type = $this->user_transaction_repo->transaction_type;
+        $status = $this->appointment_repo->status;
+        $service_charge_type = $this->appointment_repo->service_charge_type;
+        $categories = $this->category_repo->get();
+        $data = $this->appointment_repo->getbyIdedit($id);
+        // dd($data);
+        return view('admin.appointment.invoice', compact('data', 'categories', 'appointment_types', 'status','service_charge_type','transaction_status','transaction_type'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

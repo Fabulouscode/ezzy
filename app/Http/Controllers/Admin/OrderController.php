@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\OrderRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\UserTransactionRepository;
 
 class OrderController extends Controller
 {
     
-    private $order_repo, $shop_medicine_repo;
+    private $order_repo, $shop_medicine_repo, $user_transaction_repo;
 
-    public function __construct(OrderRepository $order_repo, ShopMedicineDetailsRepository $shop_medicine_repo)
+    public function __construct(OrderRepository $order_repo, ShopMedicineDetailsRepository $shop_medicine_repo, UserTransactionRepository $user_transaction_repo)
     {
         $this->order_repo = $order_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
     }
 
     /**
@@ -63,9 +65,29 @@ class OrderController extends Controller
         $medicine_types = $this->shop_medicine_repo->medicine_types;
         $delivery_type = $this->order_repo->delivery_type;
         $status = $this->order_repo->status;
+        $transaction_status = $this->user_transaction_repo->status;
+        $transaction_type = $this->user_transaction_repo->transaction_type;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.pharmacy.order.view',compact('data','medicine_types','delivery_type','status'));
+        return view('admin.pharmacy.order.view',compact('data','medicine_types','delivery_type','status','transaction_status','transaction_type'));
+    }
+
+      /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getInvoice($id)
+    {
+        $medicine_types = $this->shop_medicine_repo->medicine_types;
+        $delivery_type = $this->order_repo->delivery_type;
+        $status = $this->order_repo->status;
+        $transaction_status = $this->user_transaction_repo->status;
+        $transaction_type = $this->user_transaction_repo->transaction_type;
+        $data = $this->order_repo->getbyEditId($id);
+        // dd($data);
+        return view('admin.pharmacy.order.invoice',compact('data','medicine_types','delivery_type','status','transaction_type','transaction_status'));
     }
 
     /**

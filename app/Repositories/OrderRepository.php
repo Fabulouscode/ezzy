@@ -92,7 +92,7 @@ class OrderRepository extends Repository
      */
     public function getbyEditId($id)
     {   
-        return $this->model->with(['clientDetails', 'userDetails', 'orderProductDetails','orderProductDetails.shopMedicineDetails', 'orderProductDetails.shopMedicineDetails.medicineDetails','userLocationDetails'])->find($id);
+        return $this->model->with(['clientDetails', 'userDetails', 'orderProductDetails','creditTransaction', 'debitTransaction','orderProductDetails.shopMedicineDetails', 'orderProductDetails.shopMedicineDetails.medicineDetails','userLocationDetails'])->find($id);
 
     }
 
@@ -152,6 +152,9 @@ class OrderRepository extends Repository
                     // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     $data .= '<a href="'.url('pharmacy/orders/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    if ($selected->status == '1') {
+                        $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
+                    }
                     return $data;
                 })                
                 ->editColumn('userDetailsFN',function($selected){
