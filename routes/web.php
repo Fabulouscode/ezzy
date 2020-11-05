@@ -79,6 +79,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // pharmacy order Details routes
         Route::resource('pharmacy/orders', 'OrderController');
+        Route::get('pharmacy/order/reviews',     'OrderController@getOrderReviews');
      
         // static pages routes
         Route::resource('static_pages', 'StaticPagesController');

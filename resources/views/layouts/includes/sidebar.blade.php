@@ -43,6 +43,7 @@
                         <li><a href="{{url('/pharmacy/users/pending')}}">Pending Pharmacist</a></li>
                         <li><a href="{{url('/pharmacy/users')}}">Pharmacist List</a></li>
                         <li><a href="{{url('/pharmacy/orders')}}">Orders</a></li>
+                        <li><a href="{{url('/pharmacy/order/reviews')}}">Reviews</a></li>
                     </ul>
                 </li>
                 

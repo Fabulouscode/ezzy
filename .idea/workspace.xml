@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf121302-a211-4913-8f2f-b98d2bf05fad" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AppointmentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AppointmentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/AppointmentRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/AppointmentRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/OrderRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/OrderRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -21,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="63" column="78" selection-start-line="63" selection-start-column="78" selection-end-line="63" selection-end-column="78" />
+            <state relative-caret-position="178">
+              <caret line="45" column="44" lean-forward="true" selection-start-line="45" selection-start-column="44" selection-end-line="45" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -30,59 +30,53 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="90" column="20" selection-start-line="90" selection-start-column="20" selection-end-line="90" selection-end-column="40" />
+            <state relative-caret-position="211">
+              <caret line="81" column="42" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/AppointmentController.php">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="99" column="30" lean-forward="true" selection-start-line="99" selection-start-column="30" selection-end-line="99" selection-end-column="30" />
-              <folding>
-                <element signature="e#46#82#0#PHP" expanded="true" />
-                <element signature="e#2077#2762#0#PHP" />
-                <element signature="e#2903#2952#0#PHP" />
-              </folding>
+            <state relative-caret-position="407">
+              <caret line="104" column="41" selection-start-line="104" selection-start-column="41" selection-end-line="104" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Repositories/AppointmentRepository.php">
+        <entry file="file://$PROJECT_DIR$/app/Repositories/OrderRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="74" column="8" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
-              <folding>
-                <element signature="e#2195#3025#1#PHP" />
-                <element signature="e#3079#3632#1#PHP" />
-                <element signature="e#3682#4342#1#PHP" />
-                <element signature="e#4382#5750#1#PHP" />
-                <element signature="e#7082#7758#0#PHP" />
-                <element signature="e#7884#8552#0#PHP" />
-                <element signature="e#8680#9347#0#PHP" />
-                <element signature="e#9475#10136#0#PHP" />
-              </folding>
+            <state relative-caret-position="305">
+              <caret line="256" column="63" selection-start-line="256" selection-start-column="63" selection-end-line="256" selection-end-column="63" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/Appointment.php">
+        <entry file="file://$PROJECT_DIR$/app/Models/Order.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="40" column="33" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/admin/pharmacy/order/reviews.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/admin/order_reviews.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="49" column="26" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/admin/appointment/reviews.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+              <caret line="16" column="47" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -105,8 +99,10 @@
       <find>user</find>
       <find>getDatatable</find>
       <find>user_</find>
-      <find>appointme</find>
       <find>appoin</find>
+      <find>getOrderReviews</find>
+      <find>appointme</find>
+      <find>order</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -124,12 +120,16 @@
         <option value="$PROJECT_DIR$/app/Repositories/UserTransactionRepository.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/UserController.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/transactions/view.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/public/js/admin/appointment_reviews.js" />
         <option value="$PROJECT_DIR$/resources/views/admin/appointment/reviews.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/AppointmentController.php" />
         <option value="$PROJECT_DIR$/app/Repositories/AppointmentRepository.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" />
+        <option value="$PROJECT_DIR$/public/js/admin/order_reviews.js" />
+        <option value="$PROJECT_DIR$/resources/views/admin/pharmacy/order/reviews.blade.php" />
+        <option value="$PROJECT_DIR$/app/Repositories/OrderRepository.php" />
       </list>
     </option>
   </component>
@@ -342,7 +342,7 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="appointment" type="462c0819:PsiDirectoryNode" />
+              <item name="pharmacy" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ezzycare" type="b2602c69:ProjectViewProjectNode" />
@@ -350,7 +350,8 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="healthcare" type="462c0819:PsiDirectoryNode" />
+              <item name="pharmacy" type="462c0819:PsiDirectoryNode" />
+              <item name="order" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ezzycare" type="b2602c69:ProjectViewProjectNode" />
@@ -366,7 +367,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin/pharmacy/order" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -376,6 +377,7 @@
       <recent name="D:\Wamp64\www\ezzycare\resources\views\admin\transactions" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Wamp64\www\ezzycare\resources\views\admin\pharmacy\order" />
       <recent name="D:\Wamp64\www\ezzycare\public\js\admin" />
       <recent name="D:\Wamp64\www\ezzycare\resources\views\admin\appointment" />
       <recent name="D:\Wamp64\www\ezzycare" />
@@ -409,12 +411,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1604473204745</updated>
-      <workItem from="1604473207246" duration="21923000" />
+      <workItem from="1604473207246" duration="23421000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21923000" />
+    <option name="totallyTimeSpent" value="23421000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -587,13 +589,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="63" column="78" selection-start-line="63" selection-start-column="78" selection-end-line="63" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Repositories/UserReviewRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -618,13 +613,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="90" column="20" selection-start-line="90" selection-start-column="20" selection-end-line="90" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/admin/appointment_reviews.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -641,8 +629,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/AppointmentController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="99" column="30" lean-forward="true" selection-start-line="99" selection-start-column="30" selection-end-line="99" selection-end-column="30" />
+        <state relative-caret-position="227">
+          <caret line="103" column="5" lean-forward="true" selection-start-line="97" selection-start-column="4" selection-end-line="103" selection-end-column="5" />
           <folding>
             <element signature="e#46#82#0#PHP" expanded="true" />
             <element signature="e#2077#2762#0#PHP" />
@@ -653,8 +641,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Repositories/AppointmentRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="74" column="8" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
+        <state relative-caret-position="393">
+          <caret line="307" lean-forward="true" selection-start-line="292" selection-start-column="4" selection-end-line="307" />
           <folding>
             <element signature="e#2195#3025#1#PHP" />
             <element signature="e#3079#3632#1#PHP" />
@@ -665,6 +653,55 @@
             <element signature="e#8680#9347#0#PHP" />
             <element signature="e#9475#10136#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/includes/sidebar.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="45" column="44" lean-forward="true" selection-start-line="45" selection-start-column="44" selection-end-line="45" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="104" column="41" selection-start-line="104" selection-start-column="41" selection-end-line="104" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="81" column="42" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/Order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/admin/order_reviews.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="47" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/pharmacy/order/reviews.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Repositories/OrderRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="256" column="63" selection-start-line="256" selection-start-column="63" selection-end-line="256" selection-end-column="63" />
         </state>
       </provider>
     </entry>
