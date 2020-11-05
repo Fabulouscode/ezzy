@@ -26,6 +26,12 @@
                         <span> Admin List </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/patients/users')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i>
+                        <span> Patient List </span>
+                    </a>
+                </li>
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -77,12 +83,6 @@
                         <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
                         <li><a href="{{url('/medicine/details')}}">Medicine Details</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="{{url('/patients/users')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> Patient List </span>
-                    </a>
                 </li>
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
