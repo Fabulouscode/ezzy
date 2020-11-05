@@ -87,7 +87,7 @@ class AppointmentRepository extends Repository
     {
         $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
         if(!empty($request->status)){
-            $query = $query->whereIn('status', $request->status);
+            $query = $query->where('status', $request->status);
         }else{
             $query = $query->whereNotIn('status',['5','6']);
         }
