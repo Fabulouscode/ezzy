@@ -130,6 +130,8 @@
         <script src="{{ asset('admin/plugins/datatables/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/buttons.print.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/buttons.colVis.min.js') }}"></script>
+        <script src="{{ asset('js/buttons.server-side.js') }}"></script>
+
 
         <!--Summernote js-->
         <script src="{{ asset('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>

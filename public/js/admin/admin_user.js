@@ -1,34 +1,6 @@
 
 $(function () {
     $("form[name='user_form']").parsley();
-    $('#user_datatable').DataTable({
-        lengthChange: true,
-        processing: true,
-        serverSide: true,
-        bPaginate: true,
-        responsive: true,
-        ajax: {
-            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: admin_user_url,
-            type: 'get',
-            dataType: "json",
-            async: true,
-        },
-        columns: [
-            { data: 'id', name: 'id', searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'action', name: 'action', orderable: false, searchable: false },
-        ],
-        order: [[0, 'desc']],
-        initComplete: function (settings) {
-            var api = new $.fn.dataTable.Api(settings);
-            var showColumn = false;
-
-        }
-    });
-
-
 });
 
 

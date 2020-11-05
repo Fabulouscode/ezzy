@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminRequest;
 use App\Repositories\AdminRepository;
+use App\DataTables\AdminDataTable;
 use Auth;
 
 class AdminController extends Controller
@@ -22,12 +23,14 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(AdminDataTable $adminDataTable)
     {
-        if($request->all()){
-            return $this->admin_repo->getDatatable($request);
-        }
-        return view('admin.admin.index');
+        // if($request->all()){
+        //     return $this->admin_repo->getDatatable($request);
+        // }
+        // return view('admin.admin.index');
+
+        return $adminDataTable->render('admin.admin.index');
     }
 
     /**

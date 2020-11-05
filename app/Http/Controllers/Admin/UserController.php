@@ -125,7 +125,7 @@ class UserController extends Controller
     }
 
 
-     public function showTransaction($provider='', $id)
+     public function showTransaction($provider = '', $id)
     {
         return view('admin.transactions.view',compact('provider','id'));
     }

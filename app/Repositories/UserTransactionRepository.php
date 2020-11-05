@@ -100,14 +100,13 @@ class UserTransactionRepository extends Repository
             })
             ->editColumn('status',function($selected)
             {
-                if($selected->status == '1')
+                if($selected->status == '0')
                     return '<div class="text-success"><strong>Success</strong></div>';
                 return '<div class="text-danger"><strong>Failed</strong></div>';
             })
             ->editColumn('transaction_type',function($query)
             {
-                $type = ['0' => 'Wallet','1' => 'Net Banking','2' => 'Debit/Credit Card','3' => 'Paypal' ] ;
-                return '<div class="text-success"><strong>'.$type[$query->transaction_type].'</strong></div>';
+                return '<div class="text-success"><strong>'.$this->transaction_type[$query->transaction_type].'</strong></div>';
             })
             ->editColumn('user_name', function($query) {
                 return $query->users ? $query->users->first_name.' '.$query->users->last_name : '-';
