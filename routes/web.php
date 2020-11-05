@@ -80,6 +80,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // pharmacy order Details routes
         Route::resource('pharmacy/orders', 'OrderController');
         Route::get('pharmacy/order/reviews',     'OrderController@getOrderReviews');
+        Route::get('pharmacy/order/invoice/{id}', 'OrderController@getInvoice');
      
         // static pages routes
         Route::resource('static_pages', 'StaticPagesController');
@@ -91,7 +92,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('appointment', 'AppointmentController');
         Route::get('appointments/reviews', 'AppointmentController@getAppointmentReviews');
         Route::get('appointments/{status}', 'AppointmentController@getAppointments');
-        //Route::get('appointments/ratings', 'AppointmentController@getReviews');
+        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice');
 
         // Support request  routes        
         Route::resource('support_request', 'SupportRequestController');        

@@ -64,6 +64,25 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function getAppointmentStatusWiseCount($status = '')
+    {
+        $query = $this->model;
+        
+        if($status != ''){
+            $query = $query->whereIn('status', $status);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+        
+        return $query;
+
+    }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
@@ -95,6 +114,10 @@ class AppointmentRepository extends Repository
                     // View
                     $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                    
+                    if($selected->status == '5'){
+                        $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Invoice"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
+                    }
+                
                     // Delete
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     

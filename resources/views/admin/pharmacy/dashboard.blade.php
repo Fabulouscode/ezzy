@@ -26,7 +26,7 @@
                     <div class="mini-stat-icon">
                         <i class="mdi mdi-account-check float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Approved Laboratories</h6>
+                    <h6 class="text-uppercase mb-0">Approved Pharmacy</h6>
                 </div>
                 <div class="card-body">
                     <div class="mt-4 text-muted">
@@ -41,11 +41,43 @@
                     <div class="mini-stat-icon">
                         <i class="mdi mdi-account float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Pending Laboratories</h6>
+                    <h6 class="text-uppercase mb-0">Pending Pharmacy</h6>
                 </div>
                 <div class="card-body">
                     <div class="mt-4 text-muted">
                         <h5 class="m-0">{{ isset($pending_count) ? $pending_count : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Completed Order</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['completed_order']) ? $data['completed_order'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Cancel Order</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['cancel_order']) ? $data['cancel_order'] : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
                     </div>
                 </div>
             </div>

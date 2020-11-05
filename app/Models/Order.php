@@ -53,4 +53,12 @@ class Order extends Model
     public function orderProductDetails() {
         return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
     }
+
+    public function creditTransaction() {
+        return $this->hasOne('App\Models\User_transaction', 'id', 'credit_transaction_id');
+    }
+
+    public function debitTransaction() {
+        return $this->hasOne('App\Models\User_transaction', 'id', 'debit_transaction_id');
+    }
 }

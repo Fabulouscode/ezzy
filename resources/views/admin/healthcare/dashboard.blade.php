@@ -18,7 +18,7 @@
         </div>
     </div>
     <!-- end row -->
-
+    
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card mini-stat m-b-30">
@@ -50,24 +50,19 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-xl-3 col-md-6">
+    </div>
+    <div class="row">
+         <div class="col-xl-3 col-md-6">
             <div class="card mini-stat m-b-30">
                 <div class="p-3 bg-primary text-white">
                     <div class="mini-stat-icon">
-                        <i class="mdi mdi-tag-text-outline float-right mb-0"></i>
+                        <i class="mdi mdi-account-check float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Average Price</h6>
+                    <h6 class="text-uppercase mb-0">Doctor</h6>
                 </div>
                 <div class="card-body">
-                    <div class="border-bottom pb-4">
-                        <span class="badge badge-danger"> -02% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
                     <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 15.8</p>
-                        </div>
-                        <h5 class="m-0">14.5<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>
-                        
+                        <h5 class="m-0">{{ isset($data['doctor']) ? $data['doctor'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
                     </div>
                 </div>
             </div>
@@ -76,24 +71,79 @@
             <div class="card mini-stat m-b-30">
                 <div class="p-3 bg-primary text-white">
                     <div class="mini-stat-icon">
-                        <i class="mdi mdi-cart-outline float-right mb-0"></i>
+                        <i class="mdi mdi-account-check float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Total Sales</h6>
+                    <h6 class="text-uppercase mb-0">Nurses</h6>
                 </div>
                 <div class="card-body">
-                    <div class="border-bottom pb-4">
-                        <span class="badge badge-success"> +10% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
                     <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 14256</p>
-                        </div>
-                        <h5 class="m-0">15234<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-                        
+                        <h5 class="m-0">{{ isset($data['nurses']) ? $data['nurses'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account-check float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">MASSAGE THERAPIST</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['massage_therapist']) ? $data['massage_therapist'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Upcoming Appointment</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['upcoming_appointment']) ? $data['upcoming_appointment'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Completed Appointment</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['completed_appointment']) ? $data['completed_appointment'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Cancel Appointment</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['cancel_appointment']) ? $data['cancel_appointment'] : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- end row -->
 

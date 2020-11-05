@@ -16,6 +16,102 @@
             <h5 class="page-title">Dashboard</h5>
         </div>
     </div>
+    <div class="row">
+         <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Health Care Providers</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['healthcare']) ? $data['healthcare'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Pharmacy</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['pharmacist']) ? $data['pharmacist'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Laboratories</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['laboratories']) ? $data['laboratories'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Patients</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['patient']) ? $data['patient'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Appointments</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Orders</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['orders']) ? $data['orders'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- end row -->
 
     <!-- <div class="row">
