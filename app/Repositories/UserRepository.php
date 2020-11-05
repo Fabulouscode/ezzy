@@ -44,8 +44,8 @@ class UserRepository extends Repository
         
         $card_number = $this->genrateCardNumber();
         $mobile_code = $this->generateOTPCode();
-        $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-        $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
+        // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+        // $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
 
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'otp_code' => $mobile_code,
@@ -72,8 +72,8 @@ class UserRepository extends Repository
         if(!empty($request->category_id)){
             $card_number = $this->genrateCardNumber();
             $mobile_code = $this->generateOTPCode();
-            $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-            $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
+            // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+            // $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
         }else{
              $mobile_code = $this->generateOTPCode();
         }

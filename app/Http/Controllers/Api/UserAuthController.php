@@ -108,7 +108,7 @@ class UserAuthController extends BaseApiController
                             'user' => $user,
                         ]);
                     }else{
-                        return self::sendError('', 'User status is pending please wait for Approved');
+                        return self::sendError('', 'Please wait for Approved');
                     }
                 }
             }
@@ -146,7 +146,7 @@ class UserAuthController extends BaseApiController
                     return self::sendException($e);
                 }
             }else{
-                 return self::sendError('', 'User status is pending please wait for Approved');
+                 return self::sendError('', 'Please wait for Approved');
             }
         }else{
             return self::sendError('', 'User Mobile No. and Password Invalid');
@@ -168,8 +168,8 @@ class UserAuthController extends BaseApiController
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $mobile_code = $this->user_rep->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
-                $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-                $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+                // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
@@ -223,8 +223,8 @@ class UserAuthController extends BaseApiController
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $mobile_code = $this->user_rep->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
-                $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
-                $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
+                // $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
+                // $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
