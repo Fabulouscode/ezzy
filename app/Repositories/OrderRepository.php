@@ -101,6 +101,23 @@ class OrderRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function getOrderStatusWiseCount($status = '')
+    {
+        $query = $this->model;
+        
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['clientDetails','userDetails']);    

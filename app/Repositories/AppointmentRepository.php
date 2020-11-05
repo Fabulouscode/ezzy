@@ -64,6 +64,25 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function getAppointmentStatusWiseCount($status = '')
+    {
+        $query = $this->model;
+        
+        if($status != ''){
+            $query = $query->whereIn('status', $status);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+        
+        return $query;
+
+    }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    

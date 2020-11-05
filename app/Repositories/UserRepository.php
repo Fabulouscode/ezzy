@@ -456,15 +456,49 @@ class UserRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getUserCategoryWiseApprovedCount($category_id)
+    public function getUserParentCategoryWiseCount($category_id, $status = '')
     {
 
-        $query = $this->model->where('status', '0');    
+        $query = $this->model;    
         if(!empty($category_id)){
             $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
                 $query->where('parent_id', $category_id);
             });
         }
+
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserCategoryWiseCount($category_id, $status = '')
+    {
+        $query = $this->model->where('category_id',$category_id);
+       
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+ 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPatientsCount()
+    {
+
+        $query = $this->model->where('status', '0')->whereNULL('category_id');
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
