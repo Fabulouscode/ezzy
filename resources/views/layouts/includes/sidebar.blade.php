@@ -81,38 +81,18 @@
                 <li>
                     <a href="{{url('/patients/users')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
-                        <span> Patients </span>
+                        <span> Patient List </span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{url('/static_pages')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> Static Pages </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('/category')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> HCP Types </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('/services')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> Services </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> Manage Fees </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="dripicons-meter"></i>
-                        <span> Discount Code </span>
-                    </a>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{url('/static_pages')}}">Static Pages</a></li>
+                        <li><a href="{{url('/category')}}">Manage HCP</a></li>
+                        <li><a href="{{url('/services')}}">Manage Services</a></li>
+                        <li><a href="javascript:void(0);">Manage Fees</a></li>
+                        <li><a href="javascript:void(0);">Discount Code</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="waves-effect">
@@ -123,7 +103,7 @@
                 <li>
                     <a href="{{url('/support_request')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>
-                        <span> Support Request </span>
+                        <span> Support Ticket </span>
                     </a>
                 </li>
             </ul>
