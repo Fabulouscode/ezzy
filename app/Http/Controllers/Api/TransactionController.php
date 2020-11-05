@@ -13,6 +13,7 @@ use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderTrackingRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
+use App\Http\Requests\Api\OrderStatusRequest;
 use Carbon\Carbon as Carbon;
 
 class TransactionController extends BaseApiController
@@ -124,7 +125,7 @@ class TransactionController extends BaseApiController
         }
     }
 
-    public function orderPharmacyBillPay(Request $request)
+    public function orderPharmacyBillPay(OrderStatusRequest $request)
     {
         $data = array();
         $order_details = $this->order_repo->getbyIdCheckTransaction($request->id);
