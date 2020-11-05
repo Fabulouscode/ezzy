@@ -71,6 +71,10 @@ class User extends Authenticatable
                           'monthly_wallet_balance','total_wallet_balance'
                         ];
 
+    public function getProfileImageAttribute($value) {
+        return !empty($value) ?  url('storage/images/profile_picture/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+    
     public function categoryParent() {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }

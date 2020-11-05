@@ -85,45 +85,6 @@
                             </div>
                         </div>
 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Device Details</h4>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Device Type</label>
-                                    <input disabled type="text" class="form-control" name="device_type" value="{{($data->device_type == '0') ? 'Android' : (($data->device_type == '1') ? 'IOS' :  '') }}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Device Token</label>
-                                    <input disabled type="text"  class="form-control" name="device_token" value="{{$data->device_token}}" />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Social Details</h4>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Social Type</label>
-                                    <input disabled type="text" class="form-control" name="social_type" value="{{$data->social_type == '0' ? 'Facebook' : $data->social_type == '1' ? 'Google' : $data->social_type == '2' ? 'Apple' :  '' }}" />
-                                </div>
-                                @if($data->social_type == '0')
-                                <div class="form-group col-md-4">
-                                    <label>Facebook ID</label>
-                                    <input disabled type="text"  class="form-control" name="facebook_id" value="{{$data->facebook_id}}" />
-                                </div>
-                                @elseif($data->social_type == '1')
-                                <div class="form-group col-md-4">
-                                    <label>Google ID</label>
-                                    <input disabled type="text"  class="form-control" name="google_id" value="{{$data->google_id}}" />
-                                </div>
-                                @elseif($data->social_type == '2')
-                                <div class="form-group col-md-4">
-                                    <label>Apple ID</label>
-                                    <input disabled type="text"  class="form-control" name="apple_id" value="{{$data->apple_id}}" />
-                                </div>
-                                @endif
-                            </div>
-                        </div>
                         
                         @if(!empty($data->userDetails)) 
                         <div class="border border-dark rounded p-3 mb-3">
@@ -203,7 +164,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label>Name</label>
-                                        <input disabled type="text" class="form-control" name="name" value="{{$user_experiance->college_name}}" />
+                                        <input disabled type="text" class="form-control" name="name" value="{{$user_experiance->name}}" />
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Descritption</label>
