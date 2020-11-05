@@ -1,6 +1,7 @@
 
 $(function () {
     $("form[name='appointment_form']").parsley();
+
     $('#appointments_datatable').DataTable({
         lengthChange: true,
         processing: true,
