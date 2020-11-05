@@ -127,8 +127,7 @@ class UserController extends Controller
 
      public function showTransaction($provider='', $id)
     {
-        $data = $this->user_trans_repo->getbyUserId($id);
-        return view('admin.transactions.view',compact('data','provider'));
+        return view('admin.transactions.view',compact('provider','id'));
     }
 
     public function getTransactionDatatable(Request $request)

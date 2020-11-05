@@ -50,7 +50,7 @@
 @section('script')
     <script>
         var user_url = "{{url('healthcare/user/transaction/')}}";
-        var data_obj = {'provider': {{ $provider }} };
+        var data_obj = {'provider': '{{ $provider }}', 'id' : '{{ $id }}' };
     </script>
     <script src="{{ asset('js/admin/user_transaction.js') }}" ></script>
 @endsection

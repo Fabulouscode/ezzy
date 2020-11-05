@@ -90,7 +90,7 @@ class UserTransactionRepository extends Repository
 
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship($request);
+        $data = $this->getbyUserId($request->id); //->getWithRelationship($request);
         return Datatables::of($data)
             ->editColumn('mode_of_payment',function($selected)
             {
