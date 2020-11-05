@@ -68,15 +68,13 @@ class AppointmentRepository extends Repository
     {
         $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
         if(!empty($request->status)){
-            $query = $query->where('status', $request->status);
+            $query = $query->whereIn('status', $request->status);
         }else{
             $query = $query->whereNotIn('status',['5','6']);
         }
         
         $query = $query->orderBy('id','desc')->get();
-        
         return $query;
-
     }
     
     /**
@@ -290,6 +288,22 @@ class AppointmentRepository extends Repository
         $query = $query->whereIn('status',['5'])->orderBy('id','desc')->get();
 
         return $query;
+    }
+
+    public function getReviewDatatable($request)
+    {
+        $request->status = [5,6];
+        $data = $this->getWithRelationship($request);
+
+        return Datatables::of($data)
+            ->editColumn('user_name',function($selected)
+            {
+                return $selected->user ? $selected->user->first_name.' '.$selected->user->last_name : '-';
+            })
+            ->editColumn('patient_name',function($selected)
+            {
+                return $selected->client ? $selected->client->first_name.' '.$selected->client->last_name : '-';
+            })->make(true);
     }
 
 }

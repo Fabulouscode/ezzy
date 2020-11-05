@@ -61,6 +61,7 @@
                         <li><a href="{{url('/appointment')}}">Upcoming</a></li>
                         <li><a href="{{url('/appointments/completed')}}">Completed</a></li>
                         <li><a href="{{url('/appointments/cancel')}}">Cancel</a></li>
+                        <li><a href="{{url('/appointments/reviews')}}">Reviews</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">

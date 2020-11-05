@@ -87,9 +87,11 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('services', 'ServicesController');
        
         // Appointment routes        
-        Route::resource('appointment', 'AppointmentController');        
+        Route::resource('appointment', 'AppointmentController');
+        Route::get('appointments/reviews', 'AppointmentController@getAppointmentReviews');
         Route::get('appointments/{status}', 'AppointmentController@getAppointments');
-       
+        //Route::get('appointments/ratings', 'AppointmentController@getReviews');
+
         // Support request  routes        
         Route::resource('support_request', 'SupportRequestController');        
     
