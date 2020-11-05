@@ -157,27 +157,17 @@ class OrderRepository extends Repository
                     }
                     return $data;
                 })                
-                ->editColumn('userDetailsFN',function($selected){
+                ->editColumn('service_provider',function($selected){
                     if(!empty($selected->userDetails)){
-                        return $selected->userDetails->first_name;
+                        return $selected->userDetails->first_name .' '. $selected->userDetails->last_name;
                     } 
                 })
-                ->editColumn('clientDetailsFN',function($selected){
+                ->editColumn('user_name',function($selected){
                     if(!empty($selected->clientDetails)){
-                        return $selected->clientDetails->first_name;
-                    } 
+                        return $selected->clientDetails->first_name .' '. $selected->clientDetails->last_name;
+                    }
                 })
-                ->editColumn('clientDetailsEM',function($selected){
-                    if(!empty($selected->clientDetails)){
-                        return $selected->clientDetails->email;
-                    } 
-                })
-                ->editColumn('clientDetailsMO',function($selected){
-                    if(!empty($selected->clientDetails)){
-                        return $selected->clientDetails->mobile_no;
-                    } 
-                })
-                ->rawColumns(['action','status','userDetailsFN','clientDetailsFN','clientDetailsEM','clientDetailsMO'])
+                ->rawColumns(['action','status'])
                 ->make(true);
         
     }

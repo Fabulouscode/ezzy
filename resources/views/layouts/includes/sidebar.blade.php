@@ -14,8 +14,6 @@
         
         <div id="sidebar-menu">
             <ul>
-                <li class="menu-title">Main</li>
-
                 <li>
                     <a href="{{url('/')}}" class="waves-effect">
                         <i class="dripicons-meter"></i>

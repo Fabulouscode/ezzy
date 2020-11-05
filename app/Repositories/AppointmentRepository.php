@@ -125,14 +125,23 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
-                ->editColumn('appointment_category',function($selected)
+                ->editColumn('user_name',function($selected)
+                {                   
+                    return $selected->client->first_name .' '.$selected->client->last_name;
+                })
+                ->editColumn('service_provider',function($selected)
+                {                   
+                     return $selected->user->first_name .' '.$selected->user->last_name;
+                })
+                ->editColumn('hcp_type',function($selected)
                 {
                     $data = '';
-                    if(!empty($selected->user->categoryChild)){
-                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
-                    } else if(!empty($selected->user->categoryParent)){
+                    if(!empty($selected->user->categoryParent)){
                         $data .= '<div class="text-success"><strong>'.$selected->user->categoryParent->name.'</strong></div>';
                     }
+                    if(!empty($selected->user->categoryChild)){
+                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
+                    } 
                     
                     return $data;
                 })
@@ -172,7 +181,7 @@ class AppointmentRepository extends Repository
                     //  $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
                     return $data;
                 })
-                ->rawColumns(['action','appointment_category','appointment_type','status'])
+                ->rawColumns(['action','hcp_type','appointment_type','status'])
                 ->make(true);
     }
 
