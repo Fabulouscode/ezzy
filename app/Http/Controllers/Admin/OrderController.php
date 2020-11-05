@@ -118,4 +118,12 @@ class OrderController extends Controller
         
         return response()->json(['msg'=>'Data Not success'], 500);
     }
+
+    public function getOrderReviews(Request $request)
+    {
+        if ($request->all()) {
+            return $this->order_repo->getReviewDatatable($request);
+        }
+        return view('admin.pharmacy.order.reviews');
+    }
 }

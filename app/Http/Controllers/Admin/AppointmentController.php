@@ -90,6 +90,19 @@ class AppointmentController extends Controller
         return view('admin.appointment.view', compact('data', 'categories', 'appointment_types', 'status','service_charge_type','transaction_status','transaction_type'));
     }
 
+    public function getReviews()
+    {
+        return view();
+    }
+
+    public function getAppointmentReviews(Request $request)
+    {
+        if ($request->all()) {
+            return $this->appointment_repo->getReviewDatatable($request);
+        }
+        return view('admin.appointment.reviews');
+    }
+
     /**
      * Display the specified resource.
      *
