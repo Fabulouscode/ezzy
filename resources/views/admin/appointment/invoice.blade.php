@@ -99,13 +99,21 @@
                                                 <td class="text-right">{{$data->appointment_price}}</td>
                                             </tr>       
                                             <tr>
+                                                @if(!empty($data->user->categoryChild))
                                                 <td class="no-line text-center" colspan="5"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Subtotal</strong></td>
                                                 <td class="thick-line text-right">{{$data->appointment_price}}</td>
                                             </tr>
                                             <tr>
+                                                @if(!empty($data->user->categoryChild))
                                                 <td class="no-line text-center" colspan="5"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                @endif
                                                 <td class="no-line text-center">
                                                     <strong>Total</strong></td>
                                                 <td class="no-line text-right"><h4 class="m-0">{{$data->appointment_price}}</h4></td>

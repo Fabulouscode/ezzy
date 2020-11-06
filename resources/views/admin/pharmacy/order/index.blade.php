@@ -25,7 +25,7 @@
                 <div class="card-body">
                 
                     <!-- <div class="block-options-item mb-3 ml-3">
-                        <a href="{{url('/user/create')}}" class="btn btn-outline-info">Add User</a>
+                        <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
 
                     <table id="pharmacy_order_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

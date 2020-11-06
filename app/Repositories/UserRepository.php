@@ -185,28 +185,28 @@ class UserRepository extends Repository
                     $data = '';
                    
                     // Edit
-                    // $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
                     if(!empty($request->provider)){
-                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                  <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-outline-success" title="User Transactions"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                                  <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                     }
 
                     // Change Status
                     if (!empty($selected->status == '1')) {
-                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }else if (!empty($selected->status == '2')) {
-                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }else {
-                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }
 
                    // Delete
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
                     
                     // Show Review
-                    // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
           
                     return $data;
                 })

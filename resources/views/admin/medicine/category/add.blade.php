@@ -59,7 +59,7 @@
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     {{!empty($data->id) ? 'Update' : 'Submit' }}
                                 </button>
-                                <a href="{{ url('category') }}">
+                                <a href="{{ url('/medicine/categories') }}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
