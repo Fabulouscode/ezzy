@@ -381,8 +381,8 @@
                                 <td>2020-02-04</td>
                                 <td style=""><div class="text-success"><strong>Success</strong></div></td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Invoice"><i class="fa fa-files-o"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>
                                 </td>
                             </tr>
                             
@@ -417,8 +417,8 @@
                                 <td><div class="text-success"><strong>Doctor</strong></div><div class="text-success"><strong>Sickle Cell (Haematologist)</strong></div></td>
                                 <td style=""><div class="text-success"><strong>Success</strong></div></td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="View"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Invoice"><i class="fa fa-files-o"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>
                                 </td>
                             </tr>
                             
