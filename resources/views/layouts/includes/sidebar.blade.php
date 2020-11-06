@@ -92,7 +92,7 @@
                         <li><a href="{{url('/category')}}">Manage HCP</a></li>
                         <li><a href="{{url('/services')}}">Manage Services</a></li>
                         <li><a href="javascript:void(0);">Manage Fees</a></li>
-                        <li><a href="{{ route('voucher') }}">Voucher Code</a></li>
+                        <li><a href="{{ url('/voucher') }}">Voucher Code</a></li>
                     </ul>
                 </li>
                 <li>
