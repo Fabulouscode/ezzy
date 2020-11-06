@@ -111,9 +111,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect">
+                    <a href="{{ route('voucher') }}" class="waves-effect">
                         <i class="dripicons-meter"></i>
-                        <span> Discount Code </span>
+                        <span> Voucher Code </span>
                     </a>
                 </li>
                 <li>
