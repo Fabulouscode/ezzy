@@ -29,7 +29,6 @@ class UserEducationDetailsRequest extends FormRequest
            'college_name' => 'required',
            'degree_name' => 'required',
            'start_year'=> 'required',
-           'end_year' => 'required',
            'currently_work' => 'required',
         ];
     }

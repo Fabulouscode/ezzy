@@ -32,12 +32,10 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>User Name</th>
                                 <th>Email</th>
                                 <th>Mobile No.</th>
-                                <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>HCP Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -55,7 +53,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
-    var data_obj = {'status':'0', 'category_id':'3', 'provider':'laboratories'};
+    var data_obj = {'status':['0','2'], 'category_id':'3', 'provider':'laboratories'};
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection

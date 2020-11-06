@@ -29,7 +29,6 @@ class UserExperianceDetailsRequest extends FormRequest
            'name' => 'required',
            'descritption' => 'required',
            'start_year'=> 'required',
-           'end_year' => 'required',
            'currently_work' => 'required',
         ];
     }

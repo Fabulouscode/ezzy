@@ -32,10 +32,8 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Shop Name</th>
-                                <th>Customer Name</th>
-                                <th>Email</th>
-                                <th>Mobile No.</th>
+                                <th>User Name</th>
+                                <th>Service Provider Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

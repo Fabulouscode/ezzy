@@ -157,7 +157,12 @@ class UserRepository extends Repository
             $query = $query->whereHas('categoryParent', function ($query) use ($request) {
                 $query->where('parent_id', $request->category_id);
             });
-            $query = $query->where('status', $request->status);
+
+            if(is_array($request->status)){
+                $query = $query->whereIn('status', $request->status);
+            }else{
+                $query = $query->where('status', $request->status);
+            }
         }else{
             $query = $query->whereNull('category_id');
             $query = $query->whereNull('subcategory_id');
@@ -177,7 +182,6 @@ class UserRepository extends Repository
         return Datatables::of($data)
                 ->addColumn('action',function($selected) use ($request)
                 {
-                    $change_status = $selected->status == '1' ? 0 : 1;
                     $data = '';
                    
                     // Edit
@@ -189,12 +193,16 @@ class UserRepository extends Repository
                                   <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-outline-success" title="User Transactions"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
                     }
 
-                    // Delete
+                    // Change Status
+                    if (!empty($selected->status == '1')) {
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    }else{
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    }
+
+                   // Delete
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
                     
-                    // Change Status
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-warning" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.','.$change_status.')"><i class="fa fa-user-circle-o"></i></a>&nbsp;&nbsp;';
-                  
                     // Show Review
                     // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
           
@@ -203,33 +211,31 @@ class UserRepository extends Repository
                 ->editColumn('status',function($selected)
                 {
                     $data = '';
-                    if($selected->status == '0'){
-                        $data .= '<div class="text-success"><strong>Active</strong></div>';
-                    }else {
+                    if($selected->status == '2'){
+                        $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
+                    }else if($selected->status == '1'){
                         $data .= '<div class="text-danger"><strong>Pending</strong></div>';
+                    }else{                        
+                        $data .= '<div class="text-success"><strong>Active</strong></div>';
                     }
-                    //  $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
+          
                     return $data;
                 })
-                // ->addColumn('actiondetails',function($selected)
-                // {
-                //     $data = '';
-                //     $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="User Education"><i class="fa fa-graduation-cap"></i></a>&nbsp;&nbsp;';
-                //     $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="User Experiance"><i class="fa fa-user-circle-o"></i></a>&nbsp;&nbsp;';
-                //     $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-outline-info" title="User Bank Account"><i class="fa fa-bank"></i></a>&nbsp;&nbsp;';
-                //     return $data;
-                // })
-                ->editColumn('categoryParent',function($selected){
+                ->addColumn('user_name',function($selected)
+                {
+                     return $selected->first_name .' '.$selected->last_name;
+                })
+                ->editColumn('hcp_type',function($selected){
+                    $data = '';
                     if(!empty($selected->categoryParent)){
-                        return $selected->categoryParent->name;
+                        $data .='<div class="text-success"><strong>'. $selected->categoryParent->name.'</strong></div>';
                     }                            
-                })
-                ->editColumn('categoryChild',function($selected){
                     if(!empty($selected->categoryChild)){
-                        return $selected->categoryChild->name;
-                    }                            
+                        $data .='<div class="text-success"><strong>'. $selected->categoryChild->name.'</strong></div>';
+                    }  
+                    return $data;                          
                 })
-                ->rawColumns(['action','categoryParent','categoryChild','status'])
+                ->rawColumns(['action','categoryParent','status','hcp_type'])
                 ->make(true);
     }
     
@@ -240,7 +246,7 @@ class UserRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime'])->find($id);
+        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime','categoryParent','categoryChild'])->find($id);
 
     }
 

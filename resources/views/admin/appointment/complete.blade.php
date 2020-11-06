@@ -32,13 +32,11 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Mobile No.</th>
-                                <th>Appointment Types</th>
-                                <th>Appointment Category</th>
-                                <th>Date</th>
-                                <th>Time</th>
+                                <th>User Name</th>
+                                <th>Service Provider Name</th>
+                                <th>HCP Type</th>
+                                <th>Appointment Type</th>
+                                <th>Start Date Time</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

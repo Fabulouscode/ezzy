@@ -16,10 +16,8 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
-            { data: 'userDetailsFN', name: 'userDetailsFN' },
-            { data: 'clientDetailsFN', name: 'clientDetailsFN' },
-            { data: 'clientDetailsEM', name: 'clientDetailsEM' },
-            { data: 'clientDetailsMO', name: 'clientDetailsMO' },
+            { data: 'user_name', name: 'user_name' },
+            { data: 'service_provider', name: 'service_provider' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
