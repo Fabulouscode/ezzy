@@ -111,11 +111,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $data = $this->order_repo->getById($id);
-        if(!empty($data)){
-            $this->order_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
+        try{
+            if(!empty($data)){
+                $this->order_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this order'], 500);
+        }  
         return response()->json(['msg'=>'Data Not success'], 500);
     }
 

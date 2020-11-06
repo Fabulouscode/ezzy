@@ -57,9 +57,11 @@ function deleteRow(row_id) {
                         )
                         var oTable = $('#pharmacy_order_datatable').dataTable();
                         oTable.fnDraw(false);
+                        toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
                         console.log(error);
+                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
             }

@@ -44,5 +44,24 @@ class User_details extends Model
         'clinic_locality',
         'total_experiance_year',
         'same_timing',
+        'fees_hour',
+        'fees_day',
     ];
+
+
+    public function getQualificationCertificateAttribute($value) {
+        return !empty($value) ?  url('storage/images/qualification_certificate/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+    public function getPracticingLicenceAttribute($value) {
+        return !empty($value) ?  url('storage/images/practicing_licence/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+    public function getHealthFacilityCertificateAttribute($value) {
+        return !empty($value) ?  url('storage/images/health_facility_certificate/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+    public function getRegstrationCertificateAttribute($value) {
+        return !empty($value) ?  url('storage/images/regstration_certificate/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+    public function getPharmacistCertificateAttribute($value) {
+        return !empty($value) ?  url('storage/images/pharmacist_certificate/'.$value) : asset('/admin/images/avatar.jpg');
+    }
 }

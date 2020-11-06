@@ -51,10 +51,11 @@ function deleteRow(row_id) {
                         toastr.success(data.msg, 'EzzyCare App');
                         var oTable = $('#category_datatable').dataTable();
                         oTable.fnDraw(false);
+                        toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
                         console.log(error);
-                        toastr.error(error.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
             }

@@ -106,11 +106,15 @@ class SupportRequestController extends Controller
     public function destroy($id)
     {
         $data = $this->support_request_repo->getById($id);
-        if(!empty($data)){
-            $this->support_request_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
+        try{
+            if(!empty($data)){
+                $this->support_request_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this support request'], 500);
+        }  
+
         return response()->json(['msg'=>'Data Not success'], 500);
     }
 }

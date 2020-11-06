@@ -28,199 +28,183 @@
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Category</label>
-                                <select disabled id="category_id"  type="text" class="form-control" name="category_id" >
-                                    <option value="">Select Parent Category</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}"  {{ !empty($data->category_id) && $category->id == $data->category_id ? 'selected' : '' }}>{{$category->name}}</option>
-                                    @endforeach
-                                </select>
+                            <dt class="col-sm-5"><label>Profile Image</label></dt>
+                            <dd class="col-sm-7"> 
+                                <img src="{{$data->profile_image}}" width="200px" height="200px">
+                            </dd>
+                        </div>
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">User Details</h4>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>First Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->first_name))
+                                        {{$data->first_name}}
+                                    @endif 
+                                </dd>
                             </div>
-                            <div class="form-group  col-md-4">
-                                <label>Subcategory</label>
-                                <select disabled id="subcategory_id"  type="text" class="form-control" name="subcategory_id" >
-                                    <option value="">Select Subcategory</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}"  {{ !empty($data->subcategory_id) && $category->id == $data->subcategory_id ? 'selected' : '' }}>{{$category->name}}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Last Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->last_name))
+                                        {{$data->last_name}}
+                                    @endif 
+                                </dd>
                             </div>
-                            <div class="form-group  col-md-4">
-                                <label>Wallet Balance</label>
-                                <input disabled type="text"  class="form-control" name="wallet_balance" value="{{$data->wallet_balance}}" />
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Email</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->email))
+                                        {{$data->email}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->mobile_no))
+                                        {{$data->mobile_no}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Gender</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->gender))
+                                        {{$data->gender == '0' ? 'Male' : 'Female'}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Wallet Balance</label></dt>
+                                <dd class="col-sm-7"> 
+                                    {{$data->wallet_balance}} 
+                                </dd>
                             </div>
                         </div>
-                       
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>First Name</label>
-                                <input disabled type="text"  class="form-control" name="first_name" value="{{$data->first_name}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Last Name</label>
-                                <input disabled  type="text"  class="form-control" name="last_name" value="{{$data->last_name}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Ezzy Card</label>
-                                <input disabled type="text"  class="form-control" name="ezzycare_card" value="{{$data->ezzycare_card}}" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Email</label>
-                                <input disabled type="text"  class="form-control @error('email') form-control-danger @enderror" name="email" value="{{$data->email}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Mobile No</label>
-                                <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->mobile_no}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Gender</label>
-                                <div class="custom-control custom-radio">
-                                    <input disabled id="gender" type="radio" class="@error('gender') form-control-danger @enderror" name="gender" value="0" {{isset($data->gender) && $data->gender == '0' ? 'checked' : '' }} /> <label class="mr-5">Male</labele>
-                                    <input disabled id="gender" type="radio" class="@error('gender') form-control-danger @enderror" name="gender" value="1" {{isset($data->gender) && $data->gender == '1' ? 'checked' : '' }} /> <label class="mr-5">Female</labele>
-                                </div>
-                            </div>
-                        </div>
-
                         
                         @if(!empty($data->userDetails)) 
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">User Extra Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Name</label>
-                                    <input disabled type="text" class="form-control" name="name" value="" />
-                                </div>
+                                <dt class="col-sm-5"><label>Date of Birth</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->dob))
+                                        {{$data->userDetails->dob}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Blood Group</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->blood_group))
+                                        {{$data->userDetails->blood_group}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Marital Status</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->marital_status))
+                                        {{$data->userDetails->marital_status}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Height</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->height))
+                                        {{$data->userDetails->height}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Weight</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->weight))
+                                        {{$data->userDetails->weight}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Emergency Contact</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->emergency_contact))
+                                        {{$data->userDetails->emergency_contact}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Allergies</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->allergies))
+                                        {{$data->userDetails->allergies}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                           
+                        </div>
+                        @endif
+                       
+                        @if(count($data->userBankAccount) > 0)
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">Bank Account Details</h4>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Bank Name</th>
+                                            <th>Bank Branch_Name</th>
+                                            <th>Account Number</th>
+                                            <th>IFSC Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data->userBankAccount as $user_bank_account) 
+                                        <tr>
+                                            <td>{{$user_bank_account->bank_name}}</td>
+                                            <td>{{$user_bank_account->bank_branch_name}}</td>
+                                            <td>{{$user_bank_account->account_number}}</td>
+                                            <td>{{$user_bank_account->ifsc_code}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         @endif
 
-                        @if(count($data->userAvailableTime) > 0)
+                        @if(count($data->userLocation) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Available Time Details</h4>
-                            @foreach($data->userAvailableTime as $user_avalibale_time) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Day</label>
-                                        <input disabled type="text" class="form-control" name="day" value="{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Appointment Type</label>
-                                        <input disabled type="text" class="form-control" name="appointment_type" value="{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Time</label>
-                                        <input disabled type="text" class="form-control" name="start_time" value="{{$user_avalibale_time->start_time}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>End Time</label>
-                                        <input disabled type="text" class="form-control" name="end_time" value="{{$user_avalibale_time->end_time}}" />
-                                    </div>
-                                </div>
-                            @endforeach
+                            <h4 class="mt-0 header-title">Location Details</h4>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>User Name</th>
+                                            <th>Mobile No.</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data->userLocation as $user_location) 
+                                        <tr>
+                                            <td>{{$user_location->name}}</td>
+                                            <td>{{$user_location->mobile_no}}</td>
+                                            <td>{{$user_location->email}}</td>
+                                            <td>{{$user_location->address}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         @endif
-                       
-                        @if(count($data->userEduction) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Education Details</h4>
-                            @foreach($data->userEduction as $user_eduction) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>College Name</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_eduction->college_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Degree Name</label>
-                                        <input disabled type="text" class="form-control" name="degree_name" value="{{$user_eduction->degree_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Year</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_eduction->start_year}}" />
-                                    </div>
-                                    @if($user_eduction->currently_work == '1')
-                                    <div class="form-group col-md-2">
-                                        <label>Current</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="Current Pursuing" />
-                                    </div>
-                                    @else
-                                    <div class="form-group col-md-2">
-                                        <label>End Year</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="{{$user_eduction->end_year}}" />
-                                    </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-
-                        @if(count($data->userExperiance) > 0) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Experiance Details</h4>
-                            @foreach($data->userExperiance as $user_experiance) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Name</label>
-                                        <input disabled type="text" class="form-control" name="name" value="{{$user_experiance->name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Descritption</label>
-                                        <input disabled type="text" class="form-control" name="descritption" value="{{$user_experiance->descritption}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Year</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_experiance->start_year}}" />
-                                    </div>
-                                    @if($user_experiance->currently_work == '1')
-                                    <div class="form-group col-md-2">
-                                        <label>Current</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="Currently Working" />
-                                    </div>
-                                    @else
-                                    <div class="form-group col-md-2">
-                                        <label>End Year</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="{{$user_experiance->end_year}}" />
-                                    </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-
-                        @if(count($data->userBankAccount) > 0) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Bank Details</h4>
-                            @foreach($data->userBankAccount as $user_bank_account) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Bank Name</label>
-                                        <input disabled type="text" class="form-control" name="bank_name" value="{{$user_bank_account->bank_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Branch Name</label>
-                                        <input disabled type="text" class="form-control" name="bank_branch_name" value="{{$user_bank_account->bank_branch_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Account No.</label>
-                                        <input disabled type="text" class="form-control" name="account_number" value="{{$user_bank_account->account_number}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>IFSC Code</label>
-                                        <input disabled type="text" class="form-control" name="ifsc_code" value="{{$user_bank_account->ifsc_code}}" />
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-                        
-                        
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <a href="{{ url('patients/users') }}">
+                                <a href="#" onclick="history.go(-1)">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>

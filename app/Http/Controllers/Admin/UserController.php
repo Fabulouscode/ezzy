@@ -110,6 +110,7 @@ class UserController extends Controller
         $appointment_types = $this->appointment_repo->appointment_types;
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
+        // dd($data);
         if($provider == 'healthcare'){
              return view('admin.healthcare.view',compact('data','categories','days','appointment_types'));
         }else if($provider == 'pharmacy'){
@@ -150,11 +151,14 @@ class UserController extends Controller
     public function destroy($id)
     {
         $data = $this->user_repo->getById($id);
-        if($data){
-            $this->user_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
+        try{
+            if(!empty($data)){
+                $this->user_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this user'], 500);
+        }  
         return response()->json(['msg'=>'Data Not success'], 500);
     }
 

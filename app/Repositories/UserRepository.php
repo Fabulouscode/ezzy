@@ -196,12 +196,14 @@ class UserRepository extends Repository
                     // Change Status
                     if (!empty($selected->status == '1')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-                    }else{
+                    }else if (!empty($selected->status == '2')) {
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    }else {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }
 
                    // Delete
-                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
                     
                     // Show Review
                     // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-outline-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
@@ -246,7 +248,7 @@ class UserRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime','categoryParent','categoryChild'])->find($id);
+        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userLocation','userAvailableTime','categoryParent','categoryChild'])->find($id);
 
     }
 

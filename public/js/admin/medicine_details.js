@@ -82,7 +82,7 @@ Dropzone.options.imageDropzone = {
             },
             error: function (error) {
                 console.log(error);
-                toastr.error(error.msg, 'EzzyCare App');
+                toastr.error(error.responseJSON.msg, 'EzzyCare App');
             }
         });
     },
@@ -137,7 +137,7 @@ function deleteRow(row_id) {
                     },
                     error: function (error) {
                         console.log(error);
-                        toastr.error(error.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
             }

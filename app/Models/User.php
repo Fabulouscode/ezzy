@@ -74,6 +74,7 @@ class User extends Authenticatable
     public function getProfileImageAttribute($value) {
         return !empty($value) ?  url('storage/images/profile_picture/'.$value) : asset('/admin/images/avatar.jpg');
     }
+
     
     public function categoryParent() {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
@@ -101,6 +102,9 @@ class User extends Authenticatable
     
     public function userAvailableTime() {
         return $this->hasMany('App\Models\User_available_time');
+    }
+    public function userLocation() {
+        return $this->hasMany('App\Models\User_location');
     }
     
     public function userReview() {

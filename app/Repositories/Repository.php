@@ -76,7 +76,19 @@ class Repository
      */
     public function destroy($id)
     {
-       return $this->getById($id)->delete();
+        return $this->getById($id)->delete();    
+    }
+    /**
+     * Delete the model from the database.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function forceDelete($id)
+    {
+        $this->getById($id)->forceDelete();
+        
     }
     
     /**

@@ -95,77 +95,198 @@
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">User Extra Details</h4>
                             <div class="row">
+                                <dt class="col-sm-5"><label>Clinic & Hospital Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_hospital_name))
+                                        {{$data->userDetails->clinic_hospital_name}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Number</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_no))
+                                        {{$data->userDetails->registration_no}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Council</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_council))
+                                        {{$data->userDetails->registration_council}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Year</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_year))
+                                        {{$data->userDetails->registration_year}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Clinic Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_name))
+                                        {{$data->userDetails->clinic_name}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Clinic City</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_city))
+                                        {{$data->userDetails->clinic_city}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Clinic City</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_city))
+                                        {{$data->userDetails->clinic_city}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Clinic Locality</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_locality))
+                                        {{$data->userDetails->clinic_locality}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Years of Experiance</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->total_experiance_year))
+                                        {{$data->userDetails->total_experiance_year}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            
+                            <div class="row">
+                                <dt class="col-sm-5"><label>About Us</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->about_us))
+                                        {{$data->userDetails->about_us}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
                                 <dt class="col-sm-5"><label>Country</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->country))
-                                        {{$data->country}} 
+                                    @if(!empty($data->userDetails->country))
+                                        {{$data->userDetails->country}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-sm-5"><label>City</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->city))
-                                        {{$data->city}} 
+                                    @if(!empty($data->userDetails->city))
+                                        {{$data->userDetails->city}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-sm-5"><label>Address</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->address))
-                                        {{$data->address}} 
+                                    @if(!empty($data->userDetails->address))
+                                        {{$data->userDetails->address}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
-                                <dt class="col-sm-5"><label>Pincode</label></dt>
+                                <dt class="col-sm-5"><label>Postalcode</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->pincode))
-                                        {{$data->pincode}} 
+                                    @if(!empty($data->userDetails->pincode))
+                                        {{$data->userDetails->pincode}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-sm-5"><label>DOB</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->dob))
-                                        {{$data->dob}} 
+                                    @if(!empty($data->userDetails->dob))
+                                        {{$data->userDetails->dob}} 
                                     @endif 
                                 </dd>
                             </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Marital Status</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->marital_status))
-                                        {{$data->marital_status}} 
-                                    @endif 
-                                </dd>
-                            </div>
+                            @if($data->category_id == '4')
                             <div class="row">
                                 <dt class="col-sm-5"><label>Normal Fees</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->normal_fees))
-                                        {{$data->normal_fees}} 
+                                    @if(!empty($data->userDetails->normal_fees))
+                                        {{$data->userDetails->normal_fees}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-sm-5"><label>Urgent Fees</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->urgent_fees))
-                                        {{$data->urgent_fees}} 
+                                    @if(!empty($data->userDetails->urgent_fees))
+                                        {{$data->userDetails->urgent_fees}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            @endif
+                            @if($data->category_id == '5')
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Hour Fees</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->fees_hour))
+                                        {{$data->userDetails->fees_hour}} 
                                     @endif 
                                 </dd>
                             </div>
                             <div class="row">
-                                <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
+                                <dt class="col-sm-5"><label>Day Fees</label></dt>
                                 <dd class="col-sm-7"> 
-                                    @if(!empty($data->home_visit_fees))
-                                        {{$data->home_visit_fees}} 
+                                    @if(!empty($data->userDetails->fees_day))
+                                        {{$data->userDetails->fees_day}} 
                                     @endif 
                                 </dd>
                             </div>
+                            @endif
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->home_visit_fees))
+                                        {{$data->userDetails->home_visit_fees}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            @if($data->category_id == '4' || $data->category_id == '5')
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->qualification_certificate))
+                                        <img src="{{$data->userDetails->qualification_certificate}}" width="100px" height="100px">
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Practicing Licence</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->practicing_licence))
+                                        <img src="{{$data->userDetails->practicing_licence}}" width="100px" height="100px">
+                                    @endif 
+                                </dd>
+                            </div>
+                            @endif
+                            @if($data->category_id == '4')
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Health Facility Certificate</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->health_facility_certificate))
+                                        <img src="{{$data->userDetails->health_facility_certificate}}" width="100px" height="100px">
+                                    @endif 
+                                </dd>
+                            </div>
+                            @endif
                         </div>
                         @endif
 
@@ -199,7 +320,7 @@
                       
                         @if(count($data->userExperiance) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Available Time Details</h4>
+                            <h4 class="mt-0 header-title">Experiance Details</h4>
                             <div class="table-responsive">
                                 <table class="table mb-0">
                                     <thead>

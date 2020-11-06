@@ -76,10 +76,18 @@ class TransactionController extends BaseApiController
                     $transaction_amount = $appointment_details->userService->service_charge;
                 }                
             }else{
-                if($appointment_details->urgent == '1'){
-                    $transaction_amount = $appointment_details->user->userDetails->urgent_fees * ($appointment_timing/60);
+                if($appointment_details->user->category_id == '5'){
+                    if(empty($appointment_details->completed_datetime)){
+                        $transaction_amount = $appointment_details->user->userDetails->fees_day;
+                    }else{
+                        $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
+                    }
                 }else{
-                    $transaction_amount = $appointment_details->user->userDetails->normal_fees * ($appointment_timing/60);
+                    if($appointment_details->urgent == '1'){
+                        $transaction_amount = $appointment_details->user->userDetails->urgent_fees * ($appointment_timing/60);
+                    }else{
+                        $transaction_amount = $appointment_details->user->userDetails->normal_fees * ($appointment_timing/60);
+                    }
                 }
             }
             

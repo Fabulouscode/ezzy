@@ -134,11 +134,14 @@ class MedicineDetailsController extends Controller
     public function destroy($id)
     {
         $data = $this->medicine_details_repo->getById($id);
-        if(!empty($data)){
-            $this->medicine_details_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
+        try{
+            if(!empty($data)){
+                $this->medicine_details_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this Medicine'], 500);
+        }  
         return response()->json(['msg'=>'Data Not success'], 500);
     }
 }

@@ -153,6 +153,16 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = $this->appointment_repo->getById($id);
+        try{
+            if(!empty($data)){
+                $this->appointment_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this appointment'], 500);
+        }  
+        return response()->json(['msg'=>'Data Not success'], 500);
+
     }
 }

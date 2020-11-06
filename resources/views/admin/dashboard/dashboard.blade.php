@@ -109,105 +109,41 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Manage Appointment</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['orders']) ? $data['orders'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card mini-stat m-b-30">
+                <div class="p-3 bg-primary text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
+                    </div>
+                    <h6 class="text-uppercase mb-0">Manage Order </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-muted">
+                        <h5 class="m-0">{{ isset($data['orders']) ? $data['orders'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-    <!-- end row -->
-
-    <!-- <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-cube-outline float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">New Orders</h6>
-                </div>
-                <div class="card-body">
-                    <div class="border-bottom pb-4">
-                        <span class="badge badge-success"> +11% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
-                    <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 1325</p>
-                        </div>
-                        <h5 class="m-0">1456<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-account-network float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">New Users</h6>
-                </div>
-                <div class="card-body">
-                    <div class="border-bottom pb-4">
-                            <span class="badge badge-success"> +22% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
-                    <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 3426</p>
-                        </div>
-                        <h5 class="m-0">3567<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-tag-text-outline float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Average Price</h6>
-                </div>
-                <div class="card-body">
-                    <div class="border-bottom pb-4">
-                        <span class="badge badge-danger"> -02% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
-                    <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 15.8</p>
-                        </div>
-                        <h5 class="m-0">14.5<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-cart-outline float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Total Sales</h6>
-                </div>
-                <div class="card-body">
-                    <div class="border-bottom pb-4">
-                        <span class="badge badge-success"> +10% </span> <span class="ml-2 text-muted">From previous period</span>
-                    </div>
-                    <div class="mt-4 text-muted">
-                        <div class="float-right">
-                            <p class="m-0">Last : 14256</p>
-                        </div>
-                        <h5 class="m-0">15234<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- end row -->
 
     <!-- end row -->
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-xl-8">
             <div class="card m-b-30">
                 <div class="card-body">
@@ -255,10 +191,9 @@
                 </div>
             </div>
         </div>
-        
-    </div> -->
+    </div>
     <!-- end row -->
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-xl-4">
             <div class="card m-b-30">
                 <div class="card-body">
@@ -303,116 +238,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card m-b-30 blog-wid">
-                <div class="card-body">
-                    <div class="float-left p-1 mr-3">
-                        <div class="text-center bg-primary rounded p-3">
-                            <p class="text-white-50 mb-4">October</p>
-                            <h2 class="text-white mb-0">24</h2>
-                        </div>
-                    </div>
-                    <div class="post-details p-2">
-                        <h6 class="mt-0"><a href="#" class="text-dark">It will be as simple as Occidental</a></h6>
-                        <p class="text-muted">Everyone realizes why a new common language would be desirable.</p>
-                        <p class="mb-0">By <a href="#" class="text-primary">Daniel Sons</a></p>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div class="col-xl-4">
-            <div class="card m-b-30">
-                <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Recent Activity Feed</h4>
-                    <ul class="list-unstyled activity-list">
-                        <li class="activity-item">
-                            <span class="activity-date">12 Oct</span>
-                            <span class="activity-text">Responded to need “Volunteer Activities”</span>
-                            <p class="text-muted mt-2">Everyone realizes why a new common language would be desirable common words.</p>
-                        </li>
-                        <li class="activity-item">
-                            <span class="activity-date">13 Oct</span>
-                            <span class="activity-text">Uploaded this Images</span>
-                            <p class="text-muted mt-2">Their separate existence is a myth</p>
-                            <div>
-                                <a href="#" class="activity-item-img"><img src="{{ asset('admin/images/small/img-1.jpg') }}" alt="" class="rounded mb-2"></a>
-                                <a href="#" class="activity-item-img"><img src="{{ asset('admin/images/small/img-2.jpg') }}" alt="" class="rounded mb-2"></a>
-                            </div>
-                        </li>
-                        <li class="activity-item">
-                            <span class="activity-date">14 Oct</span>
-                            <span class="activity-text">Uploaded this File</span>
-                            <p class="text-muted mt-2 mb-4">The new common language will be more simple and regular their pronunciation.</p>
-                            <div>
-                                <a href="#" class="text-muted">
-                                    <i class="ion-ios7-folder h1 p-3 bg-light rounded"></i>
-                                    <p class="mt-2 mb-0">background.psd</p>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card bg-primary m-b-30 text-white weather-box">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <div>
-                                    <canvas id="rain" width="56" height="56"></canvas>
-                                </div>
-                                <div>
-                                    <h3>28° c</h3>
-                                    <h6>Heavy rain</h6>
-                                    <h4 class="mt-4">New York</h4>
-                                </div>
-                            </div>
-                            <div class="weather-icon">
-                                <i class="mdi mdi-weather-pouring"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card bg-warning m-b-30 text-white weather-box">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <div>
-                                    <canvas id="partly-cloudy-day" width="56" height="56"></canvas>
-                                </div>
-                                <div>
-                                    <h3>32° c</h3>
-                                    <h6>Partly cloudy</h6>
-                                    <h4 class="mt-4">California</h4>
-                                </div>
-                            </div>
-                            <div class="weather-icon">
-                                <i class="mdi mdi-weather-partlycloudy"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <h4 class="mt-0 header-title mb-4">Sales Analytics</h4>
-                            <div id="morris-donut-example" class="morris-charts" style="height: 265px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end row -->
+    </div>
 
 </div><!-- container fluid End -->
 
 @endsection
 @section('script')
-<!-- <script src="{{ asset('admin/pages/dashboard.js') }}"></script> -->
+<script src="{{ asset('admin/pages/dashboard.js') }}"></script>
 @endsection

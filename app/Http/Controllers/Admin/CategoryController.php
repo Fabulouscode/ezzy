@@ -91,10 +91,14 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $data = $this->category_repo->getById($id);
-        if(!empty($data)){
-            $this->category_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
+        try{
+            if(!empty($data)){
+                $this->category_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this hcp type'], 500);
+        }  
         
         return response()->json(['msg'=>'Data Not success'], 500);
     }

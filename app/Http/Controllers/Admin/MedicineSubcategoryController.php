@@ -96,11 +96,14 @@ class MedicineSubcategoryController extends Controller
     public function destroy($id)
     {
         $data = $this->medicine_subcategory_repo->getById($id);
-        if(!empty($data)){
-            $this->medicine_subcategory_repo->destroy($id); 
-            return response()->json(['msg'=>'Deleted success'], 200);
-        }
-        
+        try{
+            if(!empty($data)){
+                $this->medicine_subcategory_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this subcategory'], 500);
+        }  
         return response()->json(['msg'=>'Data Not success'], 500);
     }
 }

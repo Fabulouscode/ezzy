@@ -28,100 +28,66 @@
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Category</label>
-                                <select disabled id="category_id"  type="text" class="form-control" name="category_id" >
-                                    <option value="">Select Parent Category</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}"  {{ !empty($data->category_id) && $category->id == $data->category_id ? 'selected' : '' }}>{{$category->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group  col-md-4">
-                                <label>Subcategory</label>
-                                <select disabled id="subcategory_id"  type="text" class="form-control" name="subcategory_id" >
-                                    <option value="">Select Subcategory</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}"  {{ !empty($data->subcategory_id) && $category->id == $data->subcategory_id ? 'selected' : '' }}>{{$category->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group  col-md-4">
-                                <label>Wallet Balance</label>
-                                <input disabled type="text"  class="form-control" name="wallet_balance" value="{{$data->wallet_balance}}" />
-                            </div>
+                            <dt class="col-sm-5"><label>Profile Image</label></dt>
+                            <dd class="col-sm-7"> 
+                                <img src="{{$data->profile_image}}" width="200px" height="200px">
+                            </dd>
                         </div>
-                       
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>First Name</label>
-                                <input disabled type="text"  class="form-control" name="first_name" value="{{$data->first_name}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Last Name</label>
-                                <input disabled  type="text"  class="form-control" name="last_name" value="{{$data->last_name}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Ezzy Card</label>
-                                <input disabled type="text"  class="form-control" name="ezzycare_card" value="{{$data->ezzycare_card}}" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Email</label>
-                                <input disabled type="text"  class="form-control @error('email') form-control-danger @enderror" name="email" value="{{$data->email}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Mobile No</label>
-                                <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->mobile_no}}" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Gender</label>
-                                <div class="custom-control custom-radio">
-                                    <input disabled id="gender" type="radio" class="@error('gender') form-control-danger @enderror" name="gender" value="0" {{isset($data->gender) && $data->gender == '0' ? 'checked' : '' }} /> <label class="mr-5">Male</labele>
-                                    <input disabled id="gender" type="radio" class="@error('gender') form-control-danger @enderror" name="gender" value="1" {{isset($data->gender) && $data->gender == '1' ? 'checked' : '' }} /> <label class="mr-5">Female</labele>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Device Details</h4>
+                            <h4 class="mt-0 header-title">User Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Device Type</label>
-                                    <input disabled type="text" class="form-control" name="device_type" value="{{($data->device_type == '0') ? 'Android' : (($data->device_type == '1') ? 'IOS' :  '') }}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Device Token</label>
-                                    <input disabled type="text"  class="form-control" name="device_token" value="{{$data->device_token}}" />
-                                </div>
+                                <dt class="col-sm-5"><label>HCP Type</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->categoryParent))
+                                        {{$data->categoryParent->name}}
+                                    @endif 
+                                </dd>
                             </div>
-                        </div>
-                        
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Social Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Social Type</label>
-                                    <input disabled type="text" class="form-control" name="social_type" value="{{$data->social_type == '0' ? 'Facebook' : $data->social_type == '1' ? 'Google' : $data->social_type == '2' ? 'Apple' :  '' }}" />
-                                </div>
-                                @if($data->social_type == '0')
-                                <div class="form-group col-md-4">
-                                    <label>Facebook ID</label>
-                                    <input disabled type="text"  class="form-control" name="facebook_id" value="{{$data->facebook_id}}" />
-                                </div>
-                                @elseif($data->social_type == '1')
-                                <div class="form-group col-md-4">
-                                    <label>Google ID</label>
-                                    <input disabled type="text"  class="form-control" name="google_id" value="{{$data->google_id}}" />
-                                </div>
-                                @elseif($data->social_type == '2')
-                                <div class="form-group col-md-4">
-                                    <label>Apple ID</label>
-                                    <input disabled type="text"  class="form-control" name="apple_id" value="{{$data->apple_id}}" />
-                                </div>
-                                @endif
+                                <dt class="col-sm-5"><label>HCP Subtype</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->categoryChild))
+                                        {{$data->categoryChild->name}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>User Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->first_name))
+                                        {{$data->first_name}} {{$data->last_name}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Email</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->email))
+                                        {{$data->email}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->mobile_no))
+                                        {{$data->mobile_no}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Gender</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->gender))
+                                        {{$data->gender == '0' ? 'Male' : 'Female'}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Wallet Balance</label></dt>
+                                <dd class="col-sm-7"> 
+                                    {{$data->wallet_balance}} 
+                                </dd>
                             </div>
                         </div>
                         
@@ -129,133 +95,183 @@
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">User Extra Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Name</label>
-                                    <input disabled type="text" class="form-control" name="name" value="" />
-                                </div>
+                                <dt class="col-sm-5"><label>Pharmacy Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_hospital_name))
+                                        {{$data->userDetails->clinic_hospital_name}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Number</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_no))
+                                        {{$data->userDetails->registration_no}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Council</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_council))
+                                        {{$data->userDetails->registration_council}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Registration Year</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->registration_year))
+                                        {{$data->userDetails->registration_year}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Pharmacy Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_name))
+                                        {{$data->userDetails->clinic_name}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Pharmacy City</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_city))
+                                        {{$data->userDetails->clinic_city}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Pharmacy Locality</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->clinic_locality))
+                                        {{$data->userDetails->clinic_locality}} 
+                                    @endif 
+                                </dd>
+                            </div>                            
+                            <div class="row">
+                                <dt class="col-sm-5"><label>About Us</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->about_us))
+                                        {{$data->userDetails->about_us}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Country</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->country))
+                                        {{$data->userDetails->country}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>City</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->city))
+                                        {{$data->userDetails->city}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Address</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->address))
+                                        {{$data->userDetails->address}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Postalcode</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->pincode))
+                                        {{$data->userDetails->pincode}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Delivery Charge</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->delivery_charge))
+                                        {{$data->userDetails->delivery_charge}} 
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Regstration Certificate</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->regstration_certificate))
+                                        <img src="{{$data->userDetails->regstration_certificate}}" width="100px" height="100px">
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Pharmacist Certificate</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userDetails->pharmacist_certificate))
+                                        <img src="{{$data->userDetails->pharmacist_certificate}}" width="100px" height="100px">
+                                    @endif 
+                                </dd>
                             </div>
                         </div>
                         @endif
 
+
+                        
                         @if(count($data->userAvailableTime) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Available Time Details</h4>
-                            @foreach($data->userAvailableTime as $user_avalibale_time) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Day</label>
-                                        <input disabled type="text" class="form-control" name="day" value="{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Appointment Type</label>
-                                        <input disabled type="text" class="form-control" name="appointment_type" value="{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Time</label>
-                                        <input disabled type="text" class="form-control" name="start_time" value="{{$user_avalibale_time->start_time}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>End Time</label>
-                                        <input disabled type="text" class="form-control" name="end_time" value="{{$user_avalibale_time->end_time}}" />
-                                    </div>
-                                </div>
-                            @endforeach
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data->userAvailableTime as $user_avalibale_time) 
+                                        <tr>
+                                            <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
+                                            <td>{{$user_avalibale_time->start_time}}</td>
+                                            <td>{{$user_avalibale_time->end_time}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         @endif
                        
-                        @if(count($data->userEduction) > 0)
+                        @if(count($data->userBankAccount) > 0)
                         <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Education Details</h4>
-                            @foreach($data->userEduction as $user_eduction) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>College Name</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_eduction->college_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Degree Name</label>
-                                        <input disabled type="text" class="form-control" name="degree_name" value="{{$user_eduction->degree_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Year</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_eduction->start_year}}" />
-                                    </div>
-                                    @if($user_eduction->currently_work == '1')
-                                    <div class="form-group col-md-2">
-                                        <label>Current</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="Current Pursuing" />
-                                    </div>
-                                    @else
-                                    <div class="form-group col-md-2">
-                                        <label>End Year</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="{{$user_eduction->end_year}}" />
-                                    </div>
-                                    @endif
-                                </div>
-                            @endforeach
+                            <h4 class="mt-0 header-title">Bank Account Details</h4>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Bank Name</th>
+                                            <th>Bank Branch_Name</th>
+                                            <th>Account Number</th>
+                                            <th>IFSC Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data->userBankAccount as $user_bank_account) 
+                                        <tr>
+                                            <td>{{$user_bank_account->bank_name}}</td>
+                                            <td>{{$user_bank_account->bank_branch_name}}</td>
+                                            <td>{{$user_bank_account->account_number}}</td>
+                                            <td>{{$user_bank_account->ifsc_code}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         @endif
-
-                        @if(count($data->userExperiance) > 0) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Experiance Details</h4>
-                            @foreach($data->userExperiance as $user_experiance) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Name</label>
-                                        <input disabled type="text" class="form-control" name="name" value="{{$user_experiance->college_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Descritption</label>
-                                        <input disabled type="text" class="form-control" name="descritption" value="{{$user_experiance->descritption}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Start Year</label>
-                                        <input disabled type="text" class="form-control" name="college_name" value="{{$user_experiance->start_year}}" />
-                                    </div>
-                                    @if($user_experiance->currently_work == '1')
-                                    <div class="form-group col-md-2">
-                                        <label>Current</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="Currently Working" />
-                                    </div>
-                                    @else
-                                    <div class="form-group col-md-2">
-                                        <label>End Year</label>
-                                        <input disabled type="text" class="form-control" name="end_year" value="{{$user_experiance->end_year}}" />
-                                    </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-
-                        @if(count($data->userBankAccount) > 0) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Bank Details</h4>
-                            @foreach($data->userBankAccount as $user_bank_account) 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Bank Name</label>
-                                        <input disabled type="text" class="form-control" name="bank_name" value="{{$user_bank_account->bank_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Branch Name</label>
-                                        <input disabled type="text" class="form-control" name="bank_branch_name" value="{{$user_bank_account->bank_branch_name}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Account No.</label>
-                                        <input disabled type="text" class="form-control" name="account_number" value="{{$user_bank_account->account_number}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>IFSC Code</label>
-                                        <input disabled type="text" class="form-control" name="ifsc_code" value="{{$user_bank_account->ifsc_code}}" />
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-                        
-                        
 
                         <div class="row">
                             <div class="form-group col-md-12">

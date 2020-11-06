@@ -95,9 +95,11 @@ function deleteRow(row_id) {
                         )
                         var oTable = $('#user_datatable').dataTable();
                         oTable.fnDraw(false);
+                        toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
                         console.log(error);
+                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
             }
@@ -131,9 +133,11 @@ function changeStatusRow(row_id, status) {
                         )
                         var oTable = $('#user_datatable').dataTable();
                         oTable.fnDraw(false);
+                        toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
                         console.log(error);
+                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
             }

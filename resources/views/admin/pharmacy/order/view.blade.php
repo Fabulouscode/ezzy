@@ -27,172 +27,252 @@
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         @if(!empty($data->userLocationDetails))
-                        <div >
+                        <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Shipping Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Name</label>
-                                    <input disabled type="text" class="form-control" name="name" value="{{$data->userLocationDetails->name}}" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Email</label>
-                                    <input disabled type="text" class="form-control" name="email" value="{{$data->userLocationDetails->email}}" />
-                                </div>
+                                <dt class="col-sm-5"><label>Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userLocationDetails->name))
+                                        {{$data->userLocationDetails->name}}
+                                    @endif 
+                                </dd>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Mobile No</label>
-                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->userLocationDetails->mobile_no}}" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Address</label>
-                                    <textarea disabled class="form-control" name="address" >{{$data->userLocationDetails->address}}</textarea>
-                                </div>
+                                <dt class="col-sm-5"><label>Email</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userLocationDetails->email))
+                                        {{$data->userLocationDetails->email}}
+                                    @endif 
+                                </dd>
                             </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Mobile No.</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userLocationDetails->mobile_no))
+                                        {{$data->userLocationDetails->mobile_no}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Address</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(!empty($data->userLocationDetails->address))
+                                        {{$data->userLocationDetails->address}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Delivery Type</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->delivery_type))
+                                       {{array_key_exists($data->delivery_type, $delivery_type) ? $delivery_type[$data->delivery_type]: ''}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Status</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->status))
+                                         {{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}
+                                    @endif 
+                                </dd>
+                            </div>                                 
                         </div>
                         @endif
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Delivery Type</label>
-                                <input disabled type="text" class="form-control" name="delivery_type" value="{{$delivery_type[$data->delivery_type]}}" />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Status</label>
-                                <input disabled type="text" class="form-control" name="status" value="{{$status[$data->status]}}" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Total Price</label>
-                                <input disabled type="text" class="form-control" name="total_price" value="{{$data->total_price}}" />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Shipping Price</label>
-                                <input disabled type="text" class="form-control" name="last_name" value="{{$data->shipping_price}}" />
-                            </div>
-                        </div>
 
 
                         @if(!empty($data->orderProductDetails))                        
                             <div class="border border-dark rounded p-3 mb-3">
-                                <h4 class="mt-0 header-title">Product Details</h4>
-                            @foreach($data->orderProductDetails as $key => $order_details)
-                                    <div class="row">
-                                        <div class="form-group col-md-3">
-                                            <label>Medicine Name</label>
-                                            <input disabled type="text" class="form-control" name="medicine_name" value="{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Medicine SKU</label>
-                                            <input disabled type="text" class="form-control" name="medicine_sku" value="{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Medicine Type</label>
-                                            <input disabled type="text" class="form-control" name="medicine_type" value="{{$medicine_types[$order_details->shopMedicineDetails->medicine_type]}}" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Quantity</label>
-                                            <input disabled type="text" class="form-control" name="quantity" value="{{$order_details->quantity}}" />
-                                        </div>
-                                    </div> 
-                                    @if(count($data->orderProductDetails) > ($key+1))      
-                                    <br>
-                                        <hr>
-                                    <br> 
-                                    @endif                
-                            @endforeach                        
+                                <h4 class="mt-0 header-title">Medicine Details</h4>
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Medicine Name</th>
+                                                <th>Medicine SKU</th>
+                                                <th>Medicine Type</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Totals</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php ($sub_total = 0)
+                                        @if(!empty($data->orderProductDetails))    
+                                        @foreach($data->orderProductDetails as $key => $order_details)    
+                                            @php ($medicine_total = $order_details->shopMedicineDetails->mrp_price * $order_details->quantity)
+                                            @php ($sub_total = $sub_total + $medicine_total)
+                                            <tr>
+                                                <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
+                                                <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
+                                                <td>{{$medicine_types[$order_details->shopMedicineDetails->medicine_type]}}</td>
+                                                <td>{{$order_details->shopMedicineDetails->mrp_price}}</td>
+                                                <td>{{$order_details->quantity}}</td>
+                                                <td>{{$medicine_total}}</td>
+                                            </tr>
+                                        @endforeach
+                                            <tr>
+                                                <td class="no-line " colspan="4"></td>
+                                                <td class="thick-line ">
+                                                    <strong>Subtotal</strong></td>
+                                                <td class="thick-line ">{{$sub_total}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line " colspan="4"></td>
+                                                <td class="no-line ">
+                                                    <strong>Shipping</strong></td>
+                                                <td class="no-line ">{{$data->shipping_price}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line " colspan="4"></td>
+                                                <td class="no-line ">
+                                                    <strong>Total</strong></td>
+                                                <td class="no-line "><h4 class="m-0">{{$sub_total + $data->shipping_price}}</h4></td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>                         
                             </div>
                         @endif
                         
                         
-                        @if(!empty($data->userDetails))
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title"> Shop Details</h4>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->userDetails->first_name .' '. $data->userDetails->last_name}}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Email</label>
-                                    <input disabled type="text" class="form-control" name="email" value="{{$data->userDetails->email}}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Mobile No.</label>
-                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->userDetails->mobile_no}}" />
-                                </div>
-                            </div>
-                             @if(!empty($data->debitTransaction))
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Transaction Date</label>
-                                        <input disabled type="text" class="form-control" name="email" value="{{$data->debitTransaction->transaction_date}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Amount</label>
-                                        <input disabled type="text" class="form-control" name="amount" value="{{$data->debitTransaction->amount}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Payment Mode</label>
-                                        <input disabled type="text" class="form-control" name="mode_of_payment" value="{{$data->debitTransaction->mode_of_payment == '0'? 'Debit' : 'Credit'}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Transaction Type</label> 
-                                        <input disabled type="text" class="form-control" name="transaction_type" value="{{array_key_exists($data->debitTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->debitTransaction->transaction_type]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Status</label>
-                                        <input disabled type="text" class="form-control" name="status" value="{{array_key_exists($data->debitTransaction->status, $transaction_status) ? $transaction_status[$data->debitTransaction->status]: ''}}" />
-                                    </div>
-                                </div>
-                             @endif
-                        </div>
-                        @endif
-
                         @if(!empty($data->clientDetails))
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">Customer Details</h4>
                             <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label>Name</label>
-                                    <input disabled type="text" class="form-control" name="first_name" value="{{$data->clientDetails->first_name .' '. $data->clientDetails->last_name}}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Email</label>
-                                    <input disabled type="text" class="form-control" name="email" value="{{$data->clientDetails->email}}" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Mobile No.</label>
-                                    <input disabled type="text" class="form-control" name="mobile_no" value="{{$data->clientDetails->mobile_no}}" />
-                                </div>
+                                <dt class="col-sm-5"><label>User Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->clientDetails->first_name))
+                                        {{$data->clientDetails->first_name .' '. $data->clientDetails->last_name}}
+                                    @endif 
+                                </dd>
                             </div>
-                            @if(!empty($data->creditTransaction))
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Transaction Date</label>
-                                        <input disabled type="text" class="form-control" name="email" value="{{$data->creditTransaction->transaction_date}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Amount</label>
-                                        <input disabled type="text" class="form-control" name="amount" value="{{$data->creditTransaction->amount}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Payment Mode</label>
-                                        <input disabled type="text" class="form-control" name="mode_of_payment" value="{{$data->creditTransaction->mode_of_payment == '0'? 'Debit' : 'Credit'}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Transaction Type</label>
-                                        <input disabled type="text" class="form-control" name="transaction_type" value="{{array_key_exists($data->creditTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->creditTransaction->transaction_type]: ''}}" />
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label>Status</label>
-                                        <input disabled type="text" class="form-control" name="status" value="{{array_key_exists($data->creditTransaction->status, $transaction_status) ? $transaction_status[$data->creditTransaction->status]: ''}}" />
-                                    </div>
-                                </div>
-                            @endif
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Email</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->clientDetails->email))
+                                        {{$data->clientDetails->email}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Mobile No.</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->clientDetails->mobile_no))
+                                        {{$data->clientDetails->mobile_no}}
+                                    @endif 
+                                </dd>
+                            </div>
                         </div>
                         @endif
-            
+
+                        @if(!empty($data->userDetails))
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title"> Healthcare Provider Details</h4>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>HCP Type</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->userDetails->categoryParent))
+                                        {{$data->userDetails->categoryParent->name}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>User Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->userDetails->first_name))
+                                        {{$data->userDetails->first_name .' '. $data->userDetails->last_name}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Email</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->userDetails->email))
+                                        {{$data->userDetails->email}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Mobile No.</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->userDetails->mobile_no))
+                                        {{$data->userDetails->mobile_no}}
+                                    @endif 
+                                </dd>
+                            </div>
+                        </div>
+                        @endif
+
+                            
+                        @if(!empty($data->creditTransaction))
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title">Transaction Details</h4>
+                                <div class="row">
+                                    <dt class="col-sm-5"><label>Transaction Date</label></dt>
+                                    <dd class="col-sm-7"> 
+                                        @if(isset($data->creditTransaction->transaction_date))
+                                            {{$data->creditTransaction->transaction_date}}
+                                        @endif 
+                                    </dd>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-sm-5"><label>Amount</label></dt>
+                                    <dd class="col-sm-7"> 
+                                        @if(isset($data->creditTransaction->amount))
+                                            {{$data->creditTransaction->amount}}
+                                        @endif 
+                                    </dd>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-sm-5"><label>Transaction Type</label></dt>
+                                    <dd class="col-sm-7"> 
+                                        @if(isset($data->creditTransaction->transaction_type))
+                                            {{array_key_exists($data->creditTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->creditTransaction->transaction_type]: ''}}
+                                        @endif 
+                                    </dd>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-sm-5"><label>Transaction Status</label></dt>
+                                    <dd class="col-sm-7"> 
+                                        @if(isset($data->creditTransaction->status))
+                                            {{array_key_exists($data->creditTransaction->status, $transaction_status) ? $transaction_status[$data->creditTransaction->status]: ''}}
+                                        @endif 
+                                    </dd>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(!empty($data->cancelUser))
+                        <div class="border border-dark rounded p-3 mb-3">
+                            <h4 class="mt-0 header-title"> Cancel Details</h4>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>User Name</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->cancelUser))
+                                        {{$data->cancelUser->first_name .' '. $data->cancelUser->last_name}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Cancel Date Time</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->cancel_date))
+                                        {{$data->cancel_date}}
+                                    @endif 
+                                </dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-sm-5"><label>Cancel Reason</label></dt>
+                                <dd class="col-sm-7"> 
+                                    @if(isset($data->cancel_reason))
+                                        {{$data->cancel_reason}}
+                                    @endif 
+                                </dd>
+                            </div>
+                        </div>
+                        @endif
 
 
 

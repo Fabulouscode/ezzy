@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Medicine_category extends Model
-{
+{ 
     use HasFactory, SoftDeletes;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -20,4 +19,8 @@ class Medicine_category extends Model
         'description',
         'status',
     ];
+
+    public function medicinesubcategory() {
+        return $this->hashOne('App\Models\Medicine_subcategory');
+    }
 }

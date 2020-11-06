@@ -131,6 +131,10 @@ class AppointmentRepository extends Repository
                 {                   
                      return $selected->user->first_name .' '.$selected->user->last_name;
                 })
+                ->editColumn('appointment_date',function($selected)
+                {                   
+                     return $selected->appointment_date .' '.$selected->appointment_time;
+                })
                 ->editColumn('hcp_type',function($selected)
                 {
                     $data = '';
