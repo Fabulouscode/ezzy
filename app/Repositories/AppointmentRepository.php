@@ -115,7 +115,11 @@ class AppointmentRepository extends Repository
                     $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                    
                     if($selected->status == '5'){
+<<<<<<< Updated upstream
                         $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+=======
+                        $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
+>>>>>>> Stashed changes
                     }
                 
                     // Delete

@@ -10,30 +10,30 @@
         </div>
     </div>
 
-    <div class="sidebar-inner slimscrollleft">
+    <div class="sidebar-inner scroll-sidebar">
         
         <div id="sidebar-menu">
             <ul>
                 <li>
                     <a href="{{url('/')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
+                        <i class="dripicons-home"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
                 <li>
                     <a href="{{url('/admin/users')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
+                        <i class="dripicons-list"></i>
                         <span> Admin List </span>
                     </a>
                 </li>
                 <li>
                     <a href="{{url('/patients/users')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
+                        <i class="dripicons-document"></i>
                         <span> Patient List </span>
                     </a>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-heart"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/healthcare/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('/healthcare/users/pending')}}">Pending HCP</a></li>
@@ -41,7 +41,7 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-box"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/pharmacy/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('/pharmacy/users/pending')}}">Pending Pharmacist</a></li>
@@ -52,7 +52,7 @@
                 </li>
                 
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-medical"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
                         <li><a href="{{url('/laboratories/users/pending')}}">Pending Laboratories</a></li>
@@ -61,7 +61,7 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/appointment')}}">Upcoming</a></li>
                         <li><a href="{{url('/appointments/completed')}}">Completed</a></li>
@@ -70,14 +70,14 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="javascript:void(0);">Pending Payout</a></li>
                         <li><a href="javascript:void(0);">Approved Payout</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Manage Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-duplicate"></i> <span> Manage Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/medicine/categories')}}">Medicine Categories</a></li>
                         <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
@@ -86,7 +86,7 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/static_pages')}}">Static Pages</a></li>
                         <li><a href="{{url('/category')}}">Manage HCP</a></li>
@@ -97,13 +97,13 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="waves-effect">
-                        <i class="dripicons-meter"></i>
+                        <i class="dripicons-bell"></i>
                         <span> Notifications </span>
                     </a>
                 </li>
                 <li>
                     <a href="{{url('/support_request')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i>
+                        <i class="dripicons-headset"></i>
                         <span> Support Ticket </span>
                     </a>
                 </li>

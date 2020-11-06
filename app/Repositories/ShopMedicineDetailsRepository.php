@@ -60,7 +60,11 @@ class ShopMedicineDetailsRepository extends Repository
                 {
                     $data = '';
                     $data .= '<a href="'.url('medicine/shop/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+<<<<<<< Updated upstream
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+=======
+                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+>>>>>>> Stashed changes
                     return $data;
                 })
                 ->editColumn('status',function($selected)

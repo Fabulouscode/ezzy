@@ -20,7 +20,43 @@
     <!-- end row -->
 
     <div class="row">
-         <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
+            <div class="card d-card-part bg-primary mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-medical float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Approved Laboratories</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($approved_count) ? $approved_count : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="card d-card-part bg-info mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-medical float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Pending Laboratories</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($pending_count) ? $pending_count : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="col-xl-3 col-md-6">
             <div class="card mini-stat m-b-30">
                 <div class="p-3 bg-primary text-white">
                     <div class="mini-stat-icon">
@@ -49,7 +85,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- end row -->
 

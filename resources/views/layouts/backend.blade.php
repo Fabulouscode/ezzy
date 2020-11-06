@@ -41,10 +41,11 @@
         <link href="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.css') }}" rel="stylesheet" type="text/css">
 
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('admin/css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/icons.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet" type="text/css">
 
-
+        <link href="{{ asset('admin/css/custom.css') }}" rel="stylesheet" type="text/css">
 
     @stack('css')
     </head>
@@ -148,6 +149,7 @@
         
         <!-- Bootstrap rating js -->
         <script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>
+        <script src="{{ asset('admin/js/jquery.mCustomScrollbar.js') }}"></script>
         
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>

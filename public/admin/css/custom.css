@@ -1,0 +1,150 @@
+.bg-primary {
+    background-color: #5A8DEE!important;
+}
+.bg-secondary {
+    background-color: #475F7B!important;
+}
+.bg-success {
+    background-color: #28b16d!important;
+}
+.bg-danger {
+    background-color: #FF5B5C!important;
+}
+.bg-warning {
+    background-color: #FDAC41!important;
+}
+.bg-info {
+    background-color: #06b8c4!important;
+}
+.bg-violet {
+    background: #864d90 !important;
+}
+.badge{
+    font-size: 14px;
+    font-weight: 500;
+}
+.badge-primary{
+    background-color: #5A8DEE;
+}
+.badge-success{
+    background-color: #28a745;
+}
+.badge-warning{
+    background-color: #FDAC41;
+}
+.badge-danger{
+    background-color: #FF5B5C;
+}
+.btn-primary {
+    background-color: #5A8DEE;
+    border: 1px solid #5A8DEE;
+}
+.btn-success {
+    background-color: #29a745;
+    border: 1px solid #29a745;
+}
+.btn-info {
+    background-color: #06b8c4;
+    border: 1px solid #06b8c4;
+}
+.text-success{
+    color: #28a745 !important;
+}
+.navbar-custom, .button-menu-mobile{
+    background-color: #15bedf;
+}
+.topbar .topbar-left{
+    background-color: #0298b5;
+}
+.topbar .topbar-left .logo{
+    max-width: 165px;
+    margin: 15px auto 0;
+    display: block;
+}
+.topbar .topbar-left .logo img{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.side-menu{
+    background: #000;
+}
+#sidebar-menu > ul > li > a{
+    padding: 14px 12px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    background-color: #000000;
+    color: #fff;
+}
+#sidebar-menu > ul > li > a.active, #sidebar-menu > ul > li > a:hover, #sidebar-menu > ul > li.nav-active > a {
+    color: #fff;
+    background: #454545;
+}
+#sidebar-menu > ul > li > a.active i {
+    color: #fff;
+}
+#sidebar-menu > ul > li > a > i{
+    font-size: 18px;
+    margin-right: 5px;
+}
+#sidebar-menu ul ul a {
+    color: #fff;
+    display: block;
+    padding: 12px 25px 12px 42px;
+    font-weight: 500;
+}
+#sidebar-menu ul ul li.active a , #sidebar-menu ul ul a:hover{
+    color: #15bedf;
+}
+.card-d-title{
+    padding: 8px 10px;
+    background-color: rgb(255 255 255 / 12%);
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+}
+.card-d-title h6{
+    font-size: 15px;
+    text-transform: uppercase;
+}
+.mini-stat .mini-stat-icon i {
+    font-size: 30px;
+    line-height: 1;
+}
+.d-card-part .card-body{
+    padding: 1.25rem 1rem;
+}
+.d-card-body h6 {
+    color: #ffffff;
+    font-weight: 500;
+    margin: 0 5px;
+    font-size: 16px;
+    text-align: center;
+}
+.d-number-count {
+    font-size: 20px;
+    font-weight: 700;
+}
+.small-box {
+    border-radius: 2px;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    min-width: 45%;
+    overflow: hidden;
+}
+.small-box:before {
+    content: '';
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    top: 0px;
+    right: -20px;
+    background: rgb(255 255 255 / 0.20);
+    border-radius: 100% 0 0 100%;
+}
+.small-box p{
+    font-weight: 500;
+}
+.table thead th{
+    font-weight: 600;
+}

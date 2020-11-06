@@ -14,7 +14,7 @@
             this.$leftMenuButton = $('.button-menu-mobile'),
             this.$menuItem = $('.has_sub > a')
     };
-    //scroll
+    scroll
     MainApp.prototype.intSlimscrollmenu = function () {
         $('.slimscrollleft').slimscroll({
             height: 'auto',
@@ -130,4 +130,11 @@
     function ($) {
         "use strict";
         $.MainApp.init();
+        if ($('.scroll-sidebar').length) {
+            $(".scroll-sidebar").mCustomScrollbar({
+                theme:"minimal-dark",
+                mouseWheelPixels: 300,
+            });
+            //$(".chat-scrollbar").mCustomScrollbar("scrollTo", "bottom");
+        }
     }(window.jQuery);
