@@ -189,25 +189,16 @@ class UserRepository extends Repository
                     
                     // View
                     if(!empty($request->provider)){
-<<<<<<< Updated upstream
                         $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
                                   <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
-=======
-                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                  <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
->>>>>>> Stashed changes
                     }
 
                     // Change Status
                     if (!empty($selected->status == '1')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-<<<<<<< Updated upstream
                     }else if (!empty($selected->status == '2')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }else {
-=======
-                    }else{
->>>>>>> Stashed changes
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                     }
 

@@ -150,16 +150,10 @@ class OrderRepository extends Repository
                 {
                     $data = '';
                     // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-<<<<<<< Updated upstream
-                    $data .= '<a href="'.url('pharmacy/orders/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
-                    if ($selected->status == '1') {
-                        $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
-=======
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     $data .= '<a href="'.url('pharmacy/orders/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     if ($selected->status == '1') {
                         $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-files-o"></i></a>&nbsp;&nbsp;';
->>>>>>> Stashed changes
                     }
                     //  $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                    

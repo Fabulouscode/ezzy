@@ -88,8 +88,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< Updated upstream
-=======
 
         <div class="col-xl-3 col-md-6">
             <div class="card d-card-part bg-info mini-stat m-b-30">
@@ -109,20 +107,10 @@
                 </div>
             </div>
         </div>
->>>>>>> Stashed changes
         <div class="col-xl-3 col-md-6">
             <div class="card d-card-part bg-violet mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
-<<<<<<< Updated upstream
-                        <i class="mdi mdi-account float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Manage Appointment</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['orders']) ? $data['orders'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-=======
                         <i class="mdi mdi-cart-outline float-right mb-0"></i>
                     </div>
                     <h6 class="mb-0">Orders</h6>
@@ -152,7 +140,6 @@
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}</span></h6>
                             <h6>Pending Completed <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
->>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
@@ -163,13 +150,6 @@
                     <div class="mini-stat-icon">
                         <i class="mdi mdi-account float-right mb-0"></i>
                     </div>
-<<<<<<< Updated upstream
-                    <h6 class="text-uppercase mb-0">Manage Order </h6>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['orders']) ? $data['orders'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>
-=======
                     <h6 class="mb-0">Manage Order</h6>
                 </div>
                 <div class="card-body d-card-body">
@@ -178,19 +158,11 @@
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['orders']) ? $data['orders'] : '0'}}</span></h6>
                             <h6>Pending Delivery <span class="d-block mb-1 d-number-count">5</span> </h6>
                         </div>
->>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<<<<<<< Updated upstream
-    <!-- end row -->
-
-    <!-- end row -->
-=======
-
->>>>>>> Stashed changes
     <div class="row">
         <div class="col-xl-8">
             <div class="card m-b-30">
@@ -236,15 +208,9 @@
             </div>
         </div>
     </div>
-<<<<<<< Updated upstream
-    <!-- end row -->
-    <div class="row">
-        <div class="col-xl-4">
-=======
 
     <div class="row">
         <div class="col-xl-5">
->>>>>>> Stashed changes
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Earning</h4>
@@ -286,8 +252,6 @@
                     </div>
                 </div>
             </div>
-<<<<<<< Updated upstream
-=======
         </div>
 
         <div class="col-xl-7">
@@ -463,7 +427,6 @@
                     </div>
                 </div>
             </div>s
->>>>>>> Stashed changes
         </div>
     </div>
 
@@ -472,11 +435,8 @@
 @endsection
 @section('script')
 <script src="{{ asset('admin/pages/dashboard.js') }}"></script>
-<<<<<<< Updated upstream
-=======
 <script>
      $('#appointmentsDatatable').DataTable();
      $('#laboratoriesDatatable').DataTable();
 </script>
->>>>>>> Stashed changes
 @endsection
