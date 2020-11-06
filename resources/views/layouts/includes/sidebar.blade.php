@@ -84,6 +84,7 @@
                         <li><a href="{{url('/medicine/details')}}">Medicine Details</a></li>
                     </ul>
                 </li>
+
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -91,7 +92,7 @@
                         <li><a href="{{url('/category')}}">Manage HCP</a></li>
                         <li><a href="{{url('/services')}}">Manage Services</a></li>
                         <li><a href="javascript:void(0);">Manage Fees</a></li>
-                        <li><a href="javascript:void(0);">Discount Code</a></li>
+                        <li><a href="{{ route('voucher') }}">Voucher Code</a></li>
                     </ul>
                 </li>
                 <li>
