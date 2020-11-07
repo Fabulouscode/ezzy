@@ -67,7 +67,7 @@ class SupportRequestRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('support_request/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('support_request/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     $data .= '<a href="'.url('support_request/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
@@ -77,11 +77,11 @@ class SupportRequestRepository extends Repository
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Pending</strong></div>';
+                        $data .= '<div class="badge badge-info">Pending</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                        $data .= '<div class="badge badge-success">Success</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="text-danger" ><strong>Cancel</strong></div>';
+                        $data .= '<div class="badge badge-danger" >Cancel</div>';
                     }
                     return $data;
                 })

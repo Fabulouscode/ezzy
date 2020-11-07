@@ -43,13 +43,46 @@
     background-color: #29a745;
     border: 1px solid #29a745;
 }
+.btn-primary {
+    background-color: #5A8DEE;
+    border: 1px solid #5A8DEE;
+}
 .btn-info {
     background-color: #06b8c4;
     border: 1px solid #06b8c4;
 }
+.btn-info:hover {
+    background-color: #05a4af;
+    border-color: #05a4af;
+}
+.text-info {
+    color: #17a2b8!important;
+}
 .text-success{
     color: #28a745 !important;
 }
+.badge-info {
+    background-color: #17a2b8;
+}
+.border-light {
+    border-color: #e9e9e9!important;
+}
+
+.accountbg{background-image: url('../images/login_bg.jpg');position: relative;}
+.accountbg::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: rgb(58 58 58 / 0.50);
+    width: 100%;
+    height: 100%;
+}
+.accountbg .card{
+    box-shadow: -8px 20px 25px 0 rgba(25,42,70,.3);
+    border-radius: 6px;
+}
+
 .navbar-custom, .button-menu-mobile{
     background-color: #15bedf;
 }
@@ -147,4 +180,21 @@
 }
 .table thead th{
     font-weight: 600;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before{
+    top: 50%;
+    line-height: 15px;
+    background-color: #0498b5;
+    transform: translateY(-50%)
+}
+.card-detail-view{
+
+}
+.card-detail-view > .header-title{
+    padding: 15px;
+    background-color: #eeeeee;
+}
+.card-detail-list{
+    padding: 15px;
 }

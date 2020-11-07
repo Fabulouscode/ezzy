@@ -63,9 +63,9 @@ class MedicineCategoryRepository extends Repository
                     //	0-Active, 1-Inactive	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-success"><strong>Active</strong></div>';
+                        $data .= '<div class="badge badge-success">Active</div>';
                     }else if($selected->status == '1'){
-                         $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';                    
+                         $data .= '<div class="badge badge-danger" >Inactive</div>';                    
                     }
                     return $data;
                 })

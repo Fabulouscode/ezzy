@@ -74,7 +74,7 @@ class UserReviewRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('user/review/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('user/review/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
@@ -83,9 +83,9 @@ class UserReviewRepository extends Repository
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Active</strong></div>';
+                        $data .= '<div class="badge badge-info">Active</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="text-success"><strong>Inactive</strong></div>';
+                        $data .= '<div class="badge badge-success">Inactive</div>';
                     }
                     return $data;
                 })

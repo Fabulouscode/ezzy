@@ -112,7 +112,7 @@ class AppointmentRepository extends Repository
                     // $data .= '<a href="'.url('appointment/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
-                    $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                    
                     if($selected->status == '5'){
                         $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
@@ -139,10 +139,10 @@ class AppointmentRepository extends Repository
                 {
                     $data = '';
                     if(!empty($selected->user->categoryParent)){
-                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryParent->name.'</strong></div>';
+                        $data .= '<div class="text-dark">'.$selected->user->categoryParent->name.'</div>';
                     }
                     if(!empty($selected->user->categoryChild)){
-                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
+                        $data .= '<div class="text-dark">'.$selected->user->categoryChild->name.'</div>';
                     } 
                     
                     return $data;
@@ -166,21 +166,21 @@ class AppointmentRepository extends Repository
                     //	0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Pending</strong></div>';
+                        $data .= '<div class="badge badge-info">Pending</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="text-warning"><strong>Upcoming</strong></div>';
+                        $data .= '<div class="badge badge-warning">Upcoming</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="text-warning"><strong>In Progress</strong></div>';
+                        $data .= '<div class="badge badge-warning">In Progress</div>';
                     }else if($selected->status == '3'){
-                        $data .= '<div class="text-success"><strong>Paid</strong></div>';
+                        $data .= '<div class="badge badge-success">Paid</div>';
                     }else if($selected->status == '4'){
-                        $data .= '<div class="text-danger"><strong>Unpaid</strong></div>';
+                        $data .= '<div class="badge badge-danger">Unpaid</div>';
                     }else if($selected->status == '5'){
-                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                        $data .= '<div class="badge badge-success">Success</div>';
                     }else if($selected->status == '6'){
-                        $data .= '<div class="text-danger"><strong>Cancel</strong></div>';
+                        $data .= '<div class="badge badge-danger">Cancel</div>';
                     }
-                    //  $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
+                    //  $data .= '<div class="badge badge-danger" >Inactive</div>';
                     return $data;
                 })
                 ->rawColumns(['action','hcp_type','appointment_type','status'])

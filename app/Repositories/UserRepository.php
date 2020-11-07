@@ -189,7 +189,7 @@ class UserRepository extends Repository
                     
                     // View
                     if(!empty($request->provider)){
-                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                        $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
                                   <a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                     }
 
