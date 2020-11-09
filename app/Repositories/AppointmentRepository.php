@@ -130,7 +130,7 @@ class AppointmentRepository extends Repository
                     // $data .= '<a href="'.url('appointment/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
-                    $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                    
                     if($selected->status == '5'){
                         $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
@@ -157,10 +157,10 @@ class AppointmentRepository extends Repository
                 {
                     $data = '';
                     if(!empty($selected->user->categoryParent)){
-                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryParent->name.'</strong></div>';
+                        $data .= '<div class="text-dark">'.$selected->user->categoryParent->name.'</div>';
                     }
                     if(!empty($selected->user->categoryChild)){
-                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
+                        $data .= '<div class="text-dark">'.$selected->user->categoryChild->name.'</div>';
                     } 
                     
                     return $data;

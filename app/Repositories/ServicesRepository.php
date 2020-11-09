@@ -76,7 +76,7 @@ class ServicesRepository extends Repository
                     if($selected->status == '0'){
                         $data .= '<div class="badge badge-success">Active</div>';
                     }else if($selected->status == '1'){
-                         $data .= '<div class="badge badge-danger" >Inactive</div>';                    
+                         $data .= '<div class="badge badge-danger" >Inactive</div>';
                     }
                     return $data;
                 })
