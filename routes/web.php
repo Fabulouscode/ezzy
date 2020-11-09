@@ -59,12 +59,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
         // Users routes
         Route::post('user/change_status', 'UserController@changeStatus');
-        Route::post('user/data', 'UserController@getDatatable');
+        Route::post('user/data', 'UserController@getDatatable');        
+        Route::post('user/transaction/data', 'UserController@getTransactionDatatable');
         Route::get('{provider}/user', 'UserController@index');
         Route::get('{provider}/user/pending', 'UserController@getPending');
         Route::get('{provider}/user/{id}', 'UserController@show');
         Route::get('{provider}/user/transaction/{id}', 'UserController@showTransaction');
-        Route::post('{provider}/user/transaction/data', 'UserController@getTransactionDatatable');
         Route::resource('user', 'UserController');
 
         // Medicine Category routes

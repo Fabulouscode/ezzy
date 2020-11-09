@@ -103,9 +103,9 @@
 @endsection
 
 @section('script')
-    <script>
-        var user_url = "{{url('healthcare/user/transaction/')}}";
-        var data_obj = {'provider': '{{ $provider }}', 'id' : '{{ $id }}' };
-    </script>
-    <script src="{{ asset('js/admin/user_transaction.js') }}" ></script>
+<script>
+    var user_url = "{{url('user')}}";
+    var data_obj = {'provider': '{{ $provider }}', 'id' : '{{ $id }}' };
+</script>
+<script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection
