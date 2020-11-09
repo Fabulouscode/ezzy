@@ -30,174 +30,189 @@
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <img src="{{$data->profile_image}}" width="200px" height="200px">
+                                <img src="{{$data->profile_image}}" style="max-width: 100%;height:100px;display:block;">
                             </dd>
                         </div>
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">User Details</h4>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>First Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->first_name))
-                                        {{$data->first_name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Last Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->last_name))
-                                        {{$data->last_name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Email</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->email))
-                                        {{$data->email}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Mobil No.</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->mobile_no))
-                                        {{$data->mobile_no}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Gender</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(isset($data->gender))
-                                        {{$data->gender == '0' ? 'Male' : 'Female'}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Wallet Balance</label></dt>
-                                <dd class="col-sm-7"> 
-                                    {{$data->wallet_balance}} 
-                                </dd>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">User Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>First Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->first_name))
+                                                {{$data->first_name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Last Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->last_name))
+                                                {{$data->last_name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Email</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->email))
+                                                {{$data->email}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->mobile_no))
+                                                {{$data->mobile_no}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Gender</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->gender))
+                                                {{$data->gender == '0' ? 'Male' : 'Female'}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Wallet Balance</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{$data->wallet_balance}} 
+                                        </dd>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
                         @if(!empty($data->userDetails)) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">User Extra Details</h4>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Date of Birth</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->dob))
-                                        {{$data->userDetails->dob}} 
-                                    @endif 
-                                </dd>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">User Extra Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Date of Birth</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->dob))
+                                                {{$data->userDetails->dob}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Blood Group</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->blood_group))
+                                                {{$data->userDetails->blood_group}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Marital Status</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->marital_status))
+                                                {{$data->userDetails->marital_status}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Height</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->height))
+                                                {{$data->userDetails->height}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Weight</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->weight))
+                                                {{$data->userDetails->weight}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Emergency Contact</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->emergency_contact))
+                                                {{$data->userDetails->emergency_contact}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Allergies</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->allergies))
+                                                {{$data->userDetails->allergies}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Blood Group</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->blood_group))
-                                        {{$data->userDetails->blood_group}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Marital Status</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->marital_status))
-                                        {{$data->userDetails->marital_status}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Height</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->height))
-                                        {{$data->userDetails->height}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Weight</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->weight))
-                                        {{$data->userDetails->weight}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Emergency Contact</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->emergency_contact))
-                                        {{$data->userDetails->emergency_contact}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Allergies</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->userDetails->allergies))
-                                        {{$data->userDetails->allergies}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                           
                         </div>
                         @endif
                        
                         @if(count($data->userBankAccount) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Bank Account Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Bank Name</th>
-                                            <th>Bank Branch_Name</th>
-                                            <th>Account Number</th>
-                                            <th>IFSC Code</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userBankAccount as $user_bank_account) 
-                                        <tr>
-                                            <td>{{$user_bank_account->bank_name}}</td>
-                                            <td>{{$user_bank_account->bank_branch_name}}</td>
-                                            <td>{{$user_bank_account->account_number}}</td>
-                                            <td>{{$user_bank_account->ifsc_code}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Bank Account Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bank Name</th>
+                                                    <th>Bank Branch_Name</th>
+                                                    <th>Account Number</th>
+                                                    <th>IFSC Code</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userBankAccount as $user_bank_account) 
+                                                <tr>
+                                                    <td>{{$user_bank_account->bank_name}}</td>
+                                                    <td>{{$user_bank_account->bank_branch_name}}</td>
+                                                    <td>{{$user_bank_account->account_number}}</td>
+                                                    <td>{{$user_bank_account->ifsc_code}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
 
                         @if(count($data->userLocation) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Location Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>User Name</th>
-                                            <th>Mobile No.</th>
-                                            <th>Email</th>
-                                            <th>Address</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userLocation as $user_location) 
-                                        <tr>
-                                            <td>{{$user_location->name}}</td>
-                                            <td>{{$user_location->mobile_no}}</td>
-                                            <td>{{$user_location->email}}</td>
-                                            <td>{{$user_location->address}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Location Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>User Name</th>
+                                                    <th>Mobile No.</th>
+                                                    <th>Email</th>
+                                                    <th>Address</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userLocation as $user_location) 
+                                                <tr>
+                                                    <td>{{$user_location->name}}</td>
+                                                    <td>{{$user_location->mobile_no}}</td>
+                                                    <td>{{$user_location->email}}</td>
+                                                    <td>{{$user_location->address}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif

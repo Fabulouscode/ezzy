@@ -34,351 +34,375 @@
                                 <img src="{{$data->profile_image}}" width="200px" height="200px">
                             </dd>
                         </div>
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">User Details</h4>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>HCP Type</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->categoryParent))
-                                        {{$data->categoryParent->name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>HCP Subtype</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->categoryChild))
-                                        {{$data->categoryChild->name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>User Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->first_name))
-                                        {{$data->first_name}} {{$data->last_name}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Email</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->email))
-                                        {{$data->email}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Mobil No.</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->mobile_no))
-                                        {{$data->mobile_no}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Gender</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(isset($data->gender))
-                                        {{$data->gender == '0' ? 'Male' : 'Female'}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Wallet Balance</label></dt>
-                                <dd class="col-sm-7"> 
-                                    {{$data->wallet_balance}} 
-                                </dd>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">User Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>HCP Type</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->categoryParent))
+                                                {{$data->categoryParent->name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>HCP Subtype</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->categoryChild))
+                                                {{$data->categoryChild->name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>User Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->first_name))
+                                                {{$data->first_name}} {{$data->last_name}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Email</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->email))
+                                                {{$data->email}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->mobile_no))
+                                                {{$data->mobile_no}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Gender</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->gender))
+                                                {{$data->gender == '0' ? 'Male' : 'Female'}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Wallet Balance</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{$data->wallet_balance}} 
+                                        </dd>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
                         @if(!empty($data->userDetails)) 
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">User Extra Details</h4>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Clinic & Hospital Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->clinic_hospital_name))
-                                        {{$data->clinic_hospital_name}} 
-                                    @endif 
-                                </dd>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">User Extra Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic & Hospital Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->clinic_hospital_name))
+                                                {{$data->clinic_hospital_name}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Registration Number</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->registration_no))
+                                                {{$data->registration_no}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Registration Council</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->registration_council))
+                                                {{$data->registration_council}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Registration Year</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->registration_year))
+                                                {{$data->registration_year}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->clinic_name))
+                                                {{$data->clinic_name}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic City</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->clinic_city))
+                                                {{$data->clinic_city}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic City</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->clinic_city))
+                                                {{$data->clinic_city}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic Locality</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->clinic_locality))
+                                                {{$data->clinic_locality}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Years of Experiance</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->total_experiance_year))
+                                                {{$data->total_experiance_year}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>About Us</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->about_us))
+                                                {{$data->about_us}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Country</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->country))
+                                                {{$data->country}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>City</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->city))
+                                                {{$data->city}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Address</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->address))
+                                                {{$data->address}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Postalcode</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->pincode))
+                                                {{$data->pincode}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>DOB</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->dob))
+                                                {{$data->dob}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Normal Fees</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->normal_fees))
+                                                {{$data->normal_fees}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Urgent Fees</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->urgent_fees))
+                                                {{$data->urgent_fees}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->home_visit_fees))
+                                                {{$data->home_visit_fees}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @if($data->category_id == '4' || $data->category_id == '5')
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->qualification_certificate))
+                                                <img src="{{$data->qualification_certificate}}" width="100px" height="100px">
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Practicing Licence</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->practicing_licence))
+                                                <img src="{{$data->practicing_licence}}" width="100px" height="100px">
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @endif
+                                    @if($data->category_id == '4')
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Health Facility Certificate</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->health_facility_certificate))
+                                                <img src="{{$data->health_facility_certificate}}" width="100px" height="100px">
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Registration Number</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->registration_no))
-                                        {{$data->registration_no}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Registration Council</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->registration_council))
-                                        {{$data->registration_council}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Registration Year</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->registration_year))
-                                        {{$data->registration_year}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Clinic Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->clinic_name))
-                                        {{$data->clinic_name}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Clinic City</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->clinic_city))
-                                        {{$data->clinic_city}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Clinic City</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->clinic_city))
-                                        {{$data->clinic_city}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Clinic Locality</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->clinic_locality))
-                                        {{$data->clinic_locality}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Years of Experiance</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->total_experiance_year))
-                                        {{$data->total_experiance_year}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            
-                            <div class="row">
-                                <dt class="col-sm-5"><label>About Us</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->about_us))
-                                        {{$data->about_us}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Country</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->country))
-                                        {{$data->country}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>City</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->city))
-                                        {{$data->city}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Address</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->address))
-                                        {{$data->address}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Postalcode</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->pincode))
-                                        {{$data->pincode}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>DOB</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->dob))
-                                        {{$data->dob}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Normal Fees</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->normal_fees))
-                                        {{$data->normal_fees}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Urgent Fees</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->urgent_fees))
-                                        {{$data->urgent_fees}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->home_visit_fees))
-                                        {{$data->home_visit_fees}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            @if($data->category_id == '4' || $data->category_id == '5')
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->qualification_certificate))
-                                        <img src="{{$data->qualification_certificate}}" width="100px" height="100px">
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Practicing Licence</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->practicing_licence))
-                                        <img src="{{$data->practicing_licence}}" width="100px" height="100px">
-                                    @endif 
-                                </dd>
-                            </div>
-                            @endif
-                            @if($data->category_id == '4')
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Health Facility Certificate</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->health_facility_certificate))
-                                        <img src="{{$data->health_facility_certificate}}" width="100px" height="100px">
-                                    @endif 
-                                </dd>
-                            </div>
-                            @endif
                         </div>
                         @endif
 
                         @if(count($data->userAvailableTime) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Available Time Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Day</th>
-                                            <th>Appointment Type</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userAvailableTime as $user_avalibale_time) 
-                                        <tr>
-                                            <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
-                                            <td>{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}</td>
-                                            <td>{{$user_avalibale_time->start_time}}</td>
-                                            <td>{{$user_avalibale_time->end_time}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Available Time Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Appointment Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userAvailableTime as $user_avalibale_time) 
+                                                <tr>
+                                                    <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
+                                                    <td>{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}</td>
+                                                    <td>{{$user_avalibale_time->start_time}}</td>
+                                                    <td>{{$user_avalibale_time->end_time}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
                       
                         @if(count($data->userExperiance) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Available Time Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Descritption</th>
-                                            <th>Start Year</th>
-                                            <th>End Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userExperiance as $user_experiance) 
-                                        <tr>
-                                            <td>{{$user_experiance->name}}</td>
-                                            <td>{{$user_experiance->descritption}}</td>
-                                            <td>{{$user_experiance->start_year}}</td>
-                                            <td>{{$user_experiance->currently_work == '1' ? 'Currently Working' : $user_experiance->end_year}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Experiance Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Descritption</th>
+                                                    <th>Start Year</th>
+                                                    <th>End Year</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userExperiance as $user_experiance) 
+                                                <tr>
+                                                    <td>{{$user_experiance->name}}</td>
+                                                    <td>{{$user_experiance->descritption}}</td>
+                                                    <td>{{$user_experiance->start_year}}</td>
+                                                    <td>{{$user_experiance->currently_work == '1' ? 'Currently Working' : $user_experiance->end_year}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
 
                         @if(count($data->userEduction) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Education Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>College Name</th>
-                                            <th>Degree Name</th>
-                                            <th>Start Year</th>
-                                            <th>End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userEduction as $user_eduction) 
-                                        <tr>
-                                            <td>{{$user_eduction->college_name}}</td>
-                                            <td>{{$user_eduction->degree_name}}</td>
-                                            <td>{{$user_eduction->start_year}}</td>
-                                            <td>{{$user_eduction->currently_work == '1'? 'Current Pursuing':$user_eduction->end_year}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Education Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>College Name</th>
+                                                    <th>Degree Name</th>
+                                                    <th>Start Year</th>
+                                                    <th>End Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userEduction as $user_eduction) 
+                                                <tr>
+                                                    <td>{{$user_eduction->college_name}}</td>
+                                                    <td>{{$user_eduction->degree_name}}</td>
+                                                    <td>{{$user_eduction->start_year}}</td>
+                                                    <td>{{$user_eduction->currently_work == '1'? 'Current Pursuing':$user_eduction->end_year}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
                        
                         @if(count($data->userBankAccount) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Bank Account Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Bank Name</th>
-                                            <th>Bank Branch_Name</th>
-                                            <th>Account Number</th>
-                                            <th>IFSC Code</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userBankAccount as $user_bank_account) 
-                                        <tr>
-                                            <td>{{$user_bank_account->bank_name}}</td>
-                                            <td>{{$user_bank_account->bank_branch_name}}</td>
-                                            <td>{{$user_bank_account->account_number}}</td>
-                                            <td>{{$user_bank_account->ifsc_code}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Bank Account Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bank Name</th>
+                                                    <th>Bank Branch_Name</th>
+                                                    <th>Account Number</th>
+                                                    <th>IFSC Code</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userBankAccount as $user_bank_account) 
+                                                <tr>
+                                                    <td>{{$user_bank_account->bank_name}}</td>
+                                                    <td>{{$user_bank_account->bank_branch_name}}</td>
+                                                    <td>{{$user_bank_account->account_number}}</td>
+                                                    <td>{{$user_bank_account->ifsc_code}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif

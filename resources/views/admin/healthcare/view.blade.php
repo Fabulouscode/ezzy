@@ -299,113 +299,129 @@
                         @endif
 
                         @if(count($data->userAvailableTime) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Available Time Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Day</th>
-                                            <th>Appointment Type</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userAvailableTime as $user_avalibale_time) 
-                                        <tr>
-                                            <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
-                                            <td>{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}</td>
-                                            <td>{{$user_avalibale_time->start_time}}</td>
-                                            <td>{{$user_avalibale_time->end_time}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Available Time Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Appointment Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userAvailableTime as $user_avalibale_time) 
+                                                <tr>
+                                                    <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
+                                                    <td>{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}</td>
+                                                    <td>{{$user_avalibale_time->start_time}}</td>
+                                                    <td>{{$user_avalibale_time->end_time}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
                       
                         @if(count($data->userExperiance) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Experiance Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Descritption</th>
-                                            <th>Start Year</th>
-                                            <th>End Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userExperiance as $user_experiance) 
-                                        <tr>
-                                            <td>{{$user_experiance->name}}</td>
-                                            <td>{{$user_experiance->descritption}}</td>
-                                            <td>{{$user_experiance->start_year}}</td>
-                                            <td>{{$user_experiance->currently_work == '1' ? 'Currently Working' : $user_experiance->end_year}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Experiance Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Descritption</th>
+                                                    <th>Start Year</th>
+                                                    <th>End Year</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userExperiance as $user_experiance) 
+                                                <tr>
+                                                    <td>{{$user_experiance->name}}</td>
+                                                    <td>{{$user_experiance->descritption}}</td>
+                                                    <td>{{$user_experiance->start_year}}</td>
+                                                    <td>{{$user_experiance->currently_work == '1' ? 'Currently Working' : $user_experiance->end_year}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
 
                         @if(count($data->userEduction) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Education Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>College Name</th>
-                                            <th>Degree Name</th>
-                                            <th>Start Year</th>
-                                            <th>End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userEduction as $user_eduction) 
-                                        <tr>
-                                            <td>{{$user_eduction->college_name}}</td>
-                                            <td>{{$user_eduction->degree_name}}</td>
-                                            <td>{{$user_eduction->start_year}}</td>
-                                            <td>{{$user_eduction->currently_work == '1'? 'Current Pursuing':$user_eduction->end_year}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Education Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>College Name</th>
+                                                    <th>Degree Name</th>
+                                                    <th>Start Year</th>
+                                                    <th>End Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userEduction as $user_eduction) 
+                                                <tr>
+                                                    <td>{{$user_eduction->college_name}}</td>
+                                                    <td>{{$user_eduction->degree_name}}</td>
+                                                    <td>{{$user_eduction->start_year}}</td>
+                                                    <td>{{$user_eduction->currently_work == '1'? 'Current Pursuing':$user_eduction->end_year}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
                        
                         @if(count($data->userBankAccount) > 0)
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">Bank Account Details</h4>
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Bank Name</th>
-                                            <th>Bank Branch_Name</th>
-                                            <th>Account Number</th>
-                                            <th>IFSC Code</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($data->userBankAccount as $user_bank_account) 
-                                        <tr>
-                                            <td>{{$user_bank_account->bank_name}}</td>
-                                            <td>{{$user_bank_account->bank_branch_name}}</td>
-                                            <td>{{$user_bank_account->account_number}}</td>
-                                            <td>{{$user_bank_account->ifsc_code}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Bank Account Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bank Name</th>
+                                                    <th>Bank Branch_Name</th>
+                                                    <th>Account Number</th>
+                                                    <th>IFSC Code</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->userBankAccount as $user_bank_account) 
+                                                <tr>
+                                                    <td>{{$user_bank_account->bank_name}}</td>
+                                                    <td>{{$user_bank_account->bank_branch_name}}</td>
+                                                    <td>{{$user_bank_account->account_number}}</td>
+                                                    <td>{{$user_bank_account->ifsc_code}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endif
