@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('/admin/user')}}" class="waves-effect">
+                    <a href="{{url('/admin/users')}}" class="waves-effect">
                         <i class="dripicons-list"></i>
                         <span> Admin List </span>
                     </a>
