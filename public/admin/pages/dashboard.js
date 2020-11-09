@@ -31,36 +31,36 @@
         });
     },
 
-    //creates area chart
-    Dashboard.prototype.createBarChart  = function(element, data, xkey, ykeys, labels, lineColors) {
-        Morris.Bar({
-            element: element,
-            data: data,
-            xkey: xkey,
-            ykeys: ykeys,
-            labels: labels,
-            gridLineColor: '#eef0f2',
-            barSizeRatio: 0.4,
-            resize: true,
-            hideHover: 'auto',
-            barColors: lineColors
-        });
-    },
+        //creates area chart
+        Dashboard.prototype.createBarChart = function (element, data, xkey, ykeys, labels, lineColors) {
+            Morris.Bar({
+                element: element,
+                data: data,
+                xkey: xkey,
+                ykeys: ykeys,
+                labels: labels,
+                gridLineColor: '#eef0f2',
+                barSizeRatio: 0.4,
+                resize: true,
+                hideHover: 'auto',
+                barColors: lineColors
+            });
+        },
 
-    //creates Donut chart
-    Dashboard.prototype.createDonutChart = function (element, data, colors) {
-        Morris.Donut({
-            element: element,
-            data: data,
-            resize: true,
-            colors: colors,
-        });
-    },
+        //creates Donut chart
+        // Dashboard.prototype.createDonutChart = function (element, data, colors) {
+        //     Morris.Donut({
+        //         element: element,
+        //         data: data,
+        //         resize: true,
+        //         colors: colors,
+        //     });
+        // },
 
-    //donut
-    $('.peity-donut').each(function () {
-        $(this).peity("donut", $(this).data());
-    });
+        //donut
+        $('.peity-donut').each(function () {
+            $(this).peity("donut", $(this).data());
+        });
 
     //pie
     $('.peity-pie').each(function () {
@@ -68,62 +68,62 @@
     });
 
     /* BEGIN SVG WEATHER ICON */
-    if (typeof Skycons !== 'undefined'){
+    if (typeof Skycons !== 'undefined') {
         var icons = new Skycons(
-            {"color": "#fff"},
-            {"resizeClear": true}
-            ),
-                list  = [
-                    "clear-day", "clear-night", "partly-cloudy-day",
-                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                    "fog"
-                ],
-                i;
+            { "color": "#fff" },
+            { "resizeClear": true }
+        ),
+            list = [
+                "clear-day", "clear-night", "partly-cloudy-day",
+                "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+                "fog"
+            ],
+            i;
 
-            for(i = list.length; i--; )
+        for (i = list.length; i--;)
             icons.set(list[i], list[i]);
-            icons.play();
-        };
+        icons.play();
+    };
 
     Dashboard.prototype.init = function () {
 
         //creating area chart
         var $areaData = [
-            {y: '2012', a: 0, b: 0, c:0},
-            {y: '2013', a: 150, b: 45, c:15},
-            {y: '2014', a: 60, b: 150, c:195},
-            {y: '2015', a: 180, b: 36, c:21},
-            {y: '2016', a: 90, b: 60, c:360},
-            {y: '2017', a: 75, b: 240, c:120},
-            {y: '2018', a: 30, b: 30, c:30}
+            { y: '2012', a: 0, b: 0, c: 0 },
+            { y: '2013', a: 150, b: 45, c: 15 },
+            { y: '2014', a: 60, b: 150, c: 195 },
+            { y: '2015', a: 180, b: 36, c: 21 },
+            { y: '2016', a: 90, b: 60, c: 360 },
+            { y: '2017', a: 75, b: 240, c: 120 },
+            { y: '2018', a: 30, b: 30, c: 30 }
         ];
         this.createAreaChart('morris-area-example', 0, 0, $areaData, 'y', ['a', 'b', 'c'], ['Appointments', 'Pharmacy', 'Order'], ['#ff5560', '#fcc24c', '#508aeb']);
 
         //creating bar chart
         var $barData = [
-            {y: 'Jan', a: 15, b: 65},
-            {y: 'Feb', a: 40, b: 40},
-            {y: 'Mar', a: 65, b: 85},
-            {y: 'Apr', a: 87, b: 105},
-            {y: 'May', a: 78, b: 90},
+            { y: 'Jan', a: 15, b: 65 },
+            { y: 'Feb', a: 40, b: 40 },
+            { y: 'Mar', a: 65, b: 85 },
+            { y: 'Apr', a: 87, b: 105 },
+            { y: 'May', a: 78, b: 90 },
         ];
         this.createBarChart('morris-bar-example', $barData, 'y', ['a', 'b'], ['Total Income', 'Total Payout'], ['#508aeb', '#fcc24c']);
 
-        //creating donut chart
-        var $donutData = [
-            {label: "Bitcoin", value: 12},
-            {label: "Ethereum", value: 42},
-            {label: "Cardano", value: 20},
-            {label: "Ripple", value: 26}
-        ];
-        this.createDonutChart('morris-donut-example', $donutData, ['#54cc96', "#508aeb", '#ff5560', '#fcc24c']);
+        // //creating donut chart
+        // var $donutData = [
+        //     { label: "Bitcoin", value: 12 },
+        //     { label: "Ethereum", value: 42 },
+        //     { label: "Cardano", value: 20 },
+        //     { label: "Ripple", value: 26 }
+        // ];
+        // this.createDonutChart('morris-donut-example', $donutData, ['#54cc96', "#508aeb", '#ff5560', '#fcc24c']);
 
     },
         //init
         $.Dashboard = new Dashboard, $.Dashboard.Constructor = Dashboard
 }(window.jQuery),
 
-//initializing
+    //initializing
     function ($) {
         "use strict";
         $.Dashboard.init();

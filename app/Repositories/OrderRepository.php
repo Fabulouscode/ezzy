@@ -112,6 +112,24 @@ class OrderRepository extends Repository
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTodayOrderStatusWiseCount($status = '')
+    {
+        
+        $query = $this->model->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'));
+        
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
 
     /**
      * Display a listing of the resource.
@@ -121,6 +139,9 @@ class OrderRepository extends Repository
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['clientDetails','userDetails']);    
+        if(isset($request->status) && $request->status != ''){
+            $query = $query->where('status', $request->status);
+        }
         $query = $query->orderBy('id','desc')->get();
         return $query;
     }
@@ -138,11 +159,11 @@ class OrderRepository extends Repository
                 {
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Active</strong></div>';
+                        $data .= '<div class="badge badge-info">Active</div>';
                     }else  if($selected->status == '1'){
-                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                        $data .= '<div class="badge badge-success">Success</div>';
                     }else  if($selected->status == '2'){
-                        $data .= '<div class="text-danger"><strong>Cancel</strong></div>';
+                        $data .= '<div class="badge badge-danger">Cancel</div>';
                     }
                     return $data;
                 })
@@ -151,7 +172,7 @@ class OrderRepository extends Repository
                     $data = '';
                     // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
-                    $data .= '<a href="'.url('pharmacy/orders/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     if ($selected->status == '1') {
                         $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                     }

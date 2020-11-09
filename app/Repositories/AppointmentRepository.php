@@ -77,6 +77,24 @@ class AppointmentRepository extends Repository
         return $query;
 
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTodayAppointmentStatusWiseCount($status = '')
+    {
+        $query = $this->model->where('appointment_date', '=', Carbon::now()->format('Y-m-d'));
+        
+        if($status != ''){
+            $query = $query->whereIn('status', $status);
+        }
+
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+
+    }
    
     /**
      * Display a listing of the resource.
@@ -86,7 +104,7 @@ class AppointmentRepository extends Repository
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
-        if(!empty($request->status)){
+        if(isset($request->status) && $request->status != ''){
             $query = $query->where('status', $request->status);
         }else{
             $query = $query->whereNotIn('status',['5','6']);
@@ -152,11 +170,11 @@ class AppointmentRepository extends Repository
                     //	0-In Clinic, 1-Home Care, 2-Video Call
                     $data = '';
                     if($selected->appointment_type == '1'){
-                        $data .= '<div class="text-info"><strong>Video Call</strong></div>';
+                        $data .= '<div class="badge badge-info">Video Call</div>';
                     }else if($selected->appointment_type == '2'){
-                        $data .= '<div class="text-info"><strong>Home Care</strong></div>';
+                        $data .= '<div class="badge badge-info">Home Care</div>';
                     }else {
-                        $data .= '<div class="text-success"><strong>In Clinic</strong></div>';
+                        $data .= '<div class="badge badge-success">In Clinic</div>';
                     }
                     
                     return $data;
@@ -166,21 +184,21 @@ class AppointmentRepository extends Repository
                     //	0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Pending</strong></div>';
+                        $data .= '<div class="badge badge-info">Pending</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="text-warning"><strong>Upcoming</strong></div>';
+                        $data .= '<div class="badge badge-warning">Upcoming</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="text-warning"><strong>In Progress</strong></div>';
+                        $data .= '<div class="badge badge-warning">In Progress</div>';
                     }else if($selected->status == '3'){
-                        $data .= '<div class="text-success"><strong>Paid</strong></div>';
+                        $data .= '<div class="badge badge-success">Paid</div>';
                     }else if($selected->status == '4'){
-                        $data .= '<div class="text-danger"><strong>Unpaid</strong></div>';
+                        $data .= '<div class="badge badge-danger">Unpaid</div>';
                     }else if($selected->status == '5'){
-                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                        $data .= '<div class="badge badge-success">Success</div>';
                     }else if($selected->status == '6'){
-                        $data .= '<div class="text-danger"><strong>Cancel</strong></div>';
+                        $data .= '<div class="badge badge-danger">Cancel</div>';
                     }
-                    //  $data .= '<div class="text-danger" ><strong>Inactive</strong></div>';
+                    //  $data .= '<div class="badge badge-danger" >Inactive</div>';
                     return $data;
                 })
                 ->rawColumns(['action','hcp_type','appointment_type','status'])

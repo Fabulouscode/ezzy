@@ -50,7 +50,7 @@
 
 @section('script')
 <script>
-    var pharmacy_order_url = "{{url('/pharmacy/orders')}}";
+    var pharmacy_order_url = "{{url('/pharmacy/order')}}";
 </script>
 <script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>
 @endsection

@@ -77,11 +77,11 @@ class SupportRequestRepository extends Repository
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="text-info"><strong>Pending</strong></div>';
+                        $data .= '<div class="badge badge-info">Pending</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="text-success"><strong>Success</strong></div>';
+                        $data .= '<div class="badge badge-success">Success</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="text-danger" ><strong>Cancel</strong></div>';
+                        $data .= '<div class="badge badge-danger" >Cancel</div>';
                     }
                     return $data;
                 })

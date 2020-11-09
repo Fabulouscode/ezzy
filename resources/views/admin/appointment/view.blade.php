@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('appointment') }}" id="appointment_form" name="appointment_form">
+                    <form method="POST"  id="appointment_form" name="appointment_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="border border-dark rounded p-3 mb-3">

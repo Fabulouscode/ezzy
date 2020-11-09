@@ -55,18 +55,17 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('admin/users', 'AdminController');  
        
         // User review routes        
-        Route::get('user/reviews/{user_id}', 'UserReviewController@getReviewView');
         Route::resource('user/review', 'UserReviewController');  
 
         // Users routes
-        Route::resource('user', 'UserController');
         Route::post('user/change_status', 'UserController@changeStatus');
         Route::post('user/data', 'UserController@getDatatable');
-        Route::get('{provider}/users', 'UserController@index');
-        Route::get('{provider}/users/pending', 'UserController@getPending');
+        Route::get('{provider}/user', 'UserController@index');
+        Route::get('{provider}/user/pending', 'UserController@getPending');
         Route::get('{provider}/user/{id}', 'UserController@show');
         Route::get('{provider}/user/transaction/{id}', 'UserController@showTransaction');
         Route::post('{provider}/user/transaction/data', 'UserController@getTransactionDatatable');
+        Route::resource('user', 'UserController');
 
         // Medicine Category routes
         Route::resource('medicine/categories', 'MedicineCategoryController');
@@ -77,22 +76,23 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // Medicine Details routes
         Route::resource('medicine/details', 'MedicineDetailsController');
        
-        // pharmacy order Details routes
-        Route::resource('pharmacy/orders', 'OrderController');
-        Route::get('pharmacy/order/reviews',     'OrderController@getOrderReviews');
+        // pharmacy order Details routes        
         Route::get('pharmacy/order/invoice/{id}', 'OrderController@getInvoice');
+        Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews');
+        Route::resource('pharmacy/order', 'OrderController');        
      
-        // static pages routes
+        // static pages routes 
         Route::resource('static_pages', 'StaticPagesController');
  
         // services routes
         Route::resource('services', 'ServicesController');
        
         // Appointment routes        
+        Route::get('appointment/reviews', 'AppointmentController@getAppointmentReviews');
+        Route::get('appointment/completed', 'AppointmentController@getCompletedAppointments');
+        Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments');
+        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice');        
         Route::resource('appointment', 'AppointmentController');
-        Route::get('appointments/reviews', 'AppointmentController@getAppointmentReviews');
-        Route::get('appointments/{status}', 'AppointmentController@getAppointments');
-        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice');
 
         // Support request  routes        
         Route::resource('support_request', 'SupportRequestController');        

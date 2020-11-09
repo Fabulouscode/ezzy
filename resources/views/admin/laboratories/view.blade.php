@@ -10,7 +10,7 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/laboratories/users')}}">Laboratories</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/laboratories/user')}}">Laboratories</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
 
                     <h4 class="mt-0 header-title">View Laboratory Details</h4>
-                    <form method="POST" action="{{ url('user') }}" id="user_form" name="user_form">
+                    <form method="POST"  id="user_form" name="user_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -404,6 +404,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
+     var data_obj = {};
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection

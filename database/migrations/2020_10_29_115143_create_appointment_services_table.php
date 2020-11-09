@@ -17,6 +17,7 @@ class CreateAppointmentServicesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('appointment_id')->unsigned()->comment('appointment');
             $table->bigInteger('user_service_id')->unsigned();
+            $table->text('service_report')->nullable();
             $table->timestamps();
 
                // Foregin Key add

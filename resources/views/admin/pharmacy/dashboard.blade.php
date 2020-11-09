@@ -32,7 +32,7 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($approved_count) ? $approved_count : '0'}}</span></h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['approved_count']) ? $data['approved_count'] : '0'}}</span></h6>
                             <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($pending_count) ? $pending_count : '0'}}</span></h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pending_count']) ? $data['pending_count'] : '0'}}</span></h6>
                             <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="card-body">
                     <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($approved_count) ? $approved_count : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
+                        <h5 class="m-0">{{ isset($data['approved_count']) ? $data['approved_count'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="card-body">
                     <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($pending_count) ? $pending_count : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
+                        <h5 class="m-0">{{ isset($data['pending_count']) ? $data['pending_count'] : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
                     </div>
                 </div>
             </div>

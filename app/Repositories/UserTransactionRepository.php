@@ -95,18 +95,18 @@ class UserTransactionRepository extends Repository
             ->editColumn('mode_of_payment',function($selected)
             {
                 if($selected->mode_of_payment == '1')
-                    return '<div class="text-success"><strong>Credit</strong></div>';
-                return '<div class="text-danger"><strong>Debit</strong></div>';
+                    return '<div class="badge badge-success">Credit</div>';
+                return '<div class="badge badge-danger">Debit</div>';
             })
             ->editColumn('status',function($selected)
             {
                 if($selected->status == '0')
-                    return '<div class="text-success"><strong>Success</strong></div>';
-                return '<div class="text-danger"><strong>Failed</strong></div>';
+                    return '<div class="badge badge-success">Success</div>';
+                return '<div class="badge badge-danger">Failed</div>';
             })
             ->editColumn('transaction_type',function($query)
             {
-                return '<div class="text-success"><strong>'.$this->transaction_type[$query->transaction_type].'</strong></div>';
+                return '<div class="badge badge-success">'.$this->transaction_type[$query->transaction_type].'</div>';
             })
             ->editColumn('user_name', function($query) {
                 return $query->users ? $query->users->first_name.' '.$query->users->last_name : '-';

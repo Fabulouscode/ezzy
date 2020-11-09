@@ -21,13 +21,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('/admin/users')}}" class="waves-effect">
+                    <a href="{{url('/admin/user')}}" class="waves-effect">
                         <i class="dripicons-list"></i>
                         <span> Admin List </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('/patients/users')}}" class="waves-effect">
+                    <a href="{{url('/patients/user')}}" class="waves-effect">
                         <i class="dripicons-document"></i>
                         <span> Patient List </span>
                     </a>
@@ -36,17 +36,17 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-heart"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/healthcare/dashboard')}}">Dashboard</a></li>
-                        <li><a href="{{url('/healthcare/users/pending')}}">Pending HCP</a></li>
-                        <li><a href="{{url('/healthcare/users')}}">Approved HCP</a></li>
+                        <li><a href="{{url('/healthcare/user/pending')}}">Pending HCP</a></li>
+                        <li><a href="{{url('/healthcare/user')}}">Approved HCP</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-box"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/pharmacy/dashboard')}}">Dashboard</a></li>
-                        <li><a href="{{url('/pharmacy/users/pending')}}">Pending Pharmacist</a></li>
-                        <li><a href="{{url('/pharmacy/users')}}">Pharmacist List</a></li>
-                        <li><a href="{{url('/pharmacy/orders')}}">Orders</a></li>
+                        <li><a href="{{url('/pharmacy/user/pending')}}">Pending Pharmacist</a></li>
+                        <li><a href="{{url('/pharmacy/user')}}">Pharmacist List</a></li>
+                        <li><a href="{{url('/pharmacy/order')}}">Orders</a></li>
                         <li><a href="{{url('/pharmacy/order/reviews')}}">Reviews</a></li>
                     </ul>
                 </li>
@@ -55,8 +55,8 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-medical"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
-                        <li><a href="{{url('/laboratories/users/pending')}}">Pending Laboratories</a></li>
-                        <li><a href="{{url('/laboratories/users')}}">Laboratories List</a></li>
+                        <li><a href="{{url('/laboratories/user/pending')}}">Pending Laboratories</a></li>
+                        <li><a href="{{url('/laboratories/user')}}">Laboratories List</a></li>
                         <li><a href="javascript:void(0);">Manage Lab Reports</a></li>
                     </ul>
                 </li>
@@ -64,9 +64,9 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{url('/appointment')}}">Upcoming</a></li>
-                        <li><a href="{{url('/appointments/completed')}}">Completed</a></li>
-                        <li><a href="{{url('/appointments/cancel')}}">Cancel</a></li>
-                        <li><a href="{{url('/appointments/reviews')}}">Reviews</a></li>
+                        <li><a href="{{url('/appointment/completed')}}">Completed</a></li>
+                        <li><a href="{{url('/appointment/cancel')}}">Cancel</a></li>
+                        <li><a href="{{url('/appointment/reviews')}}">Reviews</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">
@@ -92,7 +92,7 @@
                         <li><a href="{{url('/category')}}">Manage HCP</a></li>
                         <li><a href="{{url('/services')}}">Manage Services</a></li>
                         <li><a href="javascript:void(0);">Manage Fees</a></li>
-                        <li><a href="{{ url('/voucher') }}">Voucher Code</a></li>
+                        <li><a href="javascript:void(0);">Voucher Code</a></li>
                     </ul>
                 </li>
                 <li>

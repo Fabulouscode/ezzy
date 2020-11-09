@@ -39,15 +39,19 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAppointments($status)
+    public function getCompletedAppointments()
     {
-        if ($status == 'completed') {
-            return view('admin.appointment.complete');
-        } else if ($status == 'cancel') {
-            return view('admin.appointment.cancel');
-        } else {
-            return view('admin.appointment.index');
-        }
+        return view('admin.appointment.complete');
+    }
+  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCancelAppointments()
+    { 
+           return view('admin.appointment.cancel');
     }
 
     /**

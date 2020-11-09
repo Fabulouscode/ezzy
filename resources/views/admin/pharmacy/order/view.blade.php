@@ -10,7 +10,7 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/pharmacy/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/orders')}}">Order List</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/order')}}">Order List</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>
@@ -23,7 +23,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('pharmacy/orders') }}" id="pharmacy_order_form" name="pharmacy_order_form">
+                    <form method="POST"  id="pharmacy_order_form" name="pharmacy_order_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         @if(!empty($data->userLocationDetails))
@@ -278,7 +278,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <a href="{{ url('pharmacy/orders') }}">
+                                <a href="{{ url('pharmacy/order') }}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>

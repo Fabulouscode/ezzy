@@ -81,7 +81,7 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories']) ? $data['laboratories'] : '0'}}</span></h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['patient']) ? $data['patient'] : '0'}}</span></h6>
                             <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_appointments']) ? $data['today_appointments'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['orders']) ? $data['orders'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_orders']) ? $data['today_orders'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}</span></h6>
-                            <h6>Pending Completed <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Pending Completed <span class="d-block mb-1 d-number-count">{{ isset($data['pending_appointments']) ? $data['pending_appointments'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['orders']) ? $data['orders'] : '0'}}</span></h6>
-                            <h6>Pending Delivery <span class="d-block mb-1 d-number-count">5</span> </h6>
+                            <h6>Pending Delivery <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -357,36 +357,19 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Appointments</h4>
                     <div class="table-responsive">
-                        <table id="appointmentsDatatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>Service Provider Name</th>
-                                <th>HCP Type</th>
-                                <th>Appointment Type</th>
-                                <th>Start Date Time</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Service Provider Name</th>
+                                    <th>HCP Type</th>
+                                    <th>Appointment Type</th>
+                                    <th>Start Date Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
-
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>patient patient</td>
-                                <td>doctor doctor</td>
-                                <td><div class="text-success"><strong>Doctor</strong></div><div class="text-success"><strong>Sickle Cell (Haematologist)</strong></div></td>
-                                <td><div class="text-info"><strong>Video Call</strong></div></td>
-                                <td>2020-02-04</td>
-                                <td style=""><div class="text-success"><strong>Success</strong></div></td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>
-                                </td>
-                            </tr>
-                            
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -395,38 +378,20 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Orders</h4>
                     <div class="table-responsive">
-                        <table id="laboratoriesDatatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="pharmacy_order_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>Email</th>
-                                <th>Mobile No.</th>
-                                <th>HCP Type</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Service Provider Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
-
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>patient</td>
-                                <td>doctor@gmail.com</td>
-                                <td><div>+58744155885</div></td>
-                                <td><div class="text-success"><strong>Doctor</strong></div><div class="text-success"><strong>Sickle Cell (Haematologist)</strong></div></td>
-                                <td style=""><div class="text-success"><strong>Success</strong></div></td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>
-                                </td>
-                            </tr>
-                            
-                            </tbody>
                         </table>
                     </div>
                 </div>
-            </div>s
+            </div>
         </div>
     </div>
 
@@ -434,9 +399,12 @@
 
 @endsection
 @section('script')
-<script src="{{ asset('admin/pages/dashboard.js') }}"></script>
 <script>
-     $('#appointmentsDatatable').DataTable();
-     $('#laboratoriesDatatable').DataTable();
+    var appointment_url = "{{url('/appointment')}}";
+    var pharmacy_order_url = "{{url('/pharmacy/order')}}";
+    var appointment_obj = {'status': '' }
+    var pharmacy_order_obj = {'status': '0' }
 </script>
+<script src="{{ asset('admin/pages/dashboard.js') }}"></script>
+<script src="{{ asset('js/admin/dashboard.js') }}"></script>
 @endsection
