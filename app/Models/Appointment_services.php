@@ -23,4 +23,9 @@ class Appointment_services extends Model
     public function userService() {
         return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
     }
+
+    public function getServiceReportAttribute($value) {
+        return !empty($value) ?  url('storage/images/service_report/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+
 }

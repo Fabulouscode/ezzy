@@ -336,32 +336,30 @@
                             <div class="card-detail-view">
                                 <h4 class="mt-0 header-title">Services Details</h4>
                                 <div class="card-detail-list">
-                                    @foreach($data->appointmentServices as $service)
-                                        <div class="row">
-                                            <dt class="col-sm-5"><label>Service Name</label></dt>
-                                            <dd class="col-sm-7"> 
-                                                @if(isset($service->userService->service))
-                                                    {{$service->userService->service->service_name}}
-                                                @endif 
-                                            </dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-sm-5"><label>Service Charge</label></dt>
-                                            <dd class="col-sm-7"> 
-                                                @if(isset($service->userService->service_charge))
-                                                    {{$service->userService->service_charge}}
-                                                @endif 
-                                            </dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-sm-5"><label>Service Report</label></dt>
-                                            <dd class="col-sm-7"> 
-                                                @if(isset($service->userService))
-                                                    <a href="#" target="_blank">Click Here</a>
-                                                @endif 
-                                            </dd>
-                                        </div>
-                                    @endforeach
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Service Name</th>
+                                                    <th>Service Amount</th>
+                                                    <th>Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->appointmentServices as $service) 
+                                                <tr>
+                                                    <td>{{$service->userService->service->service_name}}</td>
+                                                    <td>{{$service->userService->service_charge}}</td>
+                                                    <td> 
+                                                        @if(!empty($service->userService->service_report))
+                                                            <a href="{{$service->userService->service_report}}" target="_blank">Click Here</a>
+                                                        @endif 
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

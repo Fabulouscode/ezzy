@@ -46,7 +46,7 @@
 
 @section('script')
 <script>
-    var appointment_url = "{{url('appointments/reviews')}}";
+    var appointment_url = "{{url('appointment/reviews')}}";
 </script>
 <script src="{{ asset('js/admin/appointment_reviews.js') }}" ></script>
 @endsection

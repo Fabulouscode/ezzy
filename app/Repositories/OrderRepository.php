@@ -294,7 +294,7 @@ class OrderRepository extends Repository
                 return $selected->clientDetails ? $selected->clientDetails->first_name.' '.$selected->clientDetails->last_name : '-';
             })->editColumn('order_no',function($selected)
             {
-                return '<a href="'.url('pharmacy/orders/'.$selected->id).'" target="_blank">#'.$selected->id.'</a>';
+                return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.'</a>';
             })->rawColumns(['order_no'])->make(true);
     }
 
