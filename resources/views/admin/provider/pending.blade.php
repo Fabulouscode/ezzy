@@ -1,6 +1,10 @@
 @extends('layouts.backend')
 
-@section('title','Approved Laboratories')
+@if($provider != 'patients')
+    @section('title',array_key_exists($provider, $provider_names) ? 'Pending '.$provider_names[$provider]: 'Pending ')
+@else
+    @section('title',array_key_exists($provider, $provider_names) ? $provider_names[$provider]:'')
+@endif
 
 @section('content')
 <!-- container fluid Start -->
@@ -10,11 +14,21 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/laboratories/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Approved Laboratories</li>
+                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">
+                        @if($provider != 'patients')
+                            {{array_key_exists($provider, $provider_names) ? 'Pending '.$provider_names[$provider]: 'Approved '}}
+                        @else
+                            {{array_key_exists($provider, $provider_names) ? $provider_names[$provider]: ''}}
+                        @endif
+                    </li>
                 </ol>
             </div>
-            <h5 class="page-title">Approved Laboratories</h5>
+            @if($provider != 'patients')
+                <h5 class="page-title">{{array_key_exists($provider, $provider_names) ? 'Pending '.$provider_names[$provider]: 'Approved '}}</h5>
+            @else
+                <h5 class="page-title">{{array_key_exists($provider, $provider_names) ? $provider_names[$provider]: ''}}</h5>
+            @endif
         </div>
     </div>
     <!-- end row -->
@@ -53,7 +67,16 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
-    var data_obj = {'status':['0','2'], 'category_id':'3', 'provider':'laboratories'};
+    var data_obj = {};
+    if('{{$provider}}' == 'healthcare'){
+        data_obj = {'status': '1', 'category_id':'1', 'provider': 'healthcare'};
+    }else if('{{$provider}}' == 'pharmacy'){
+        data_obj = {'status': '1', 'category_id':'2', 'provider':'pharmacy'};
+    }else if('{{$provider}}' == 'laboratories'){
+        data_obj = {'status': '1', 'category_id':'3', 'provider':'laboratories'};
+    }else{            
+        data_obj = {'status': '1', 'category_id':'', 'provider':'patients'};
+    }
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection

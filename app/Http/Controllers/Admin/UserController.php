@@ -30,16 +30,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($provider = '')
-    {
-        if($provider == 'healthcare'){
-             return view('admin.healthcare.index');
-        }else if($provider == 'pharmacy'){
-             return view('admin.pharmacy.index');
-        }else if($provider == 'laboratories'){
-             return view('admin.laboratories.index');
-        }else{            
-            return view('admin.patients.index');
-        }
+    {   
+        $provider_names = $this->user_repo->provider_name;
+        return view('admin.provider.index', compact('provider','provider_names'));
     }
     
     /**
@@ -49,15 +42,8 @@ class UserController extends Controller
      */
     public function getPending($provider = '')
     {
-        if($provider == 'healthcare'){
-             return view('admin.healthcare.pending');
-        }else if($provider == 'pharmacy'){
-             return view('admin.pharmacy.pending');
-        }else if($provider == 'laboratories'){
-             return view('admin.laboratories.pending');
-        }else{            
-            return view('admin.patients.index');
-        }
+        $provider_names = $this->user_repo->provider_name;
+        return view('admin.provider.pending', compact('provider','provider_names'));
     }
     
     
@@ -104,13 +90,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($provider='', $id)
+    public function show($provider = '', $id)
     {
         $days = $this->user_repo->days;
         $appointment_types = $this->appointment_repo->appointment_types;
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
         // dd($data);
+        
+        // $provider_names = $this->user_repo->provider_name;
+        // return view('admin.provider.view', compact('data','categories','days','appointment_types','provider','provider_names'));
         if($provider == 'healthcare'){
              return view('admin.healthcare.view',compact('data','categories','days','appointment_types'));
         }else if($provider == 'pharmacy'){
@@ -121,8 +110,6 @@ class UserController extends Controller
             return view('admin.patients.view',compact('data','categories','days','appointment_types'));
         }
 
-        // dd($data->toArray());
-        // return view('admin.user.view',compact('data','categories','days','appointment_types'));
     }
 
 
@@ -131,8 +118,8 @@ class UserController extends Controller
         $debit_balance = $this->user_trans_repo->getUserbyCalculate($id, '0');
         $credit_balance = $this->user_trans_repo->getUserbyCalculate($id, '1');
         $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
-
-        return view('admin.transactions.view',compact('provider','id','debit_balance','credit_balance','total_balance'));
+        $provider_names = $this->user_repo->provider_name;
+        return view('admin.provider.transactions',compact('provider','provider_names','id','debit_balance','credit_balance','total_balance'));
     }
 
     public function getTransactionDatatable(Request $request)

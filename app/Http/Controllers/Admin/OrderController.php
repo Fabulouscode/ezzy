@@ -30,7 +30,7 @@ class OrderController extends Controller
         if($request->all()){
             return $this->order_repo->getDatatable($request);
         }
-        return view('admin.pharmacy.order.index');
+        return view('admin.order.index');
     }
 
     /**
@@ -40,7 +40,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('admin.pharmacy.order.view');
+        return view('admin.order.view');
     }
 
     /**
@@ -69,7 +69,7 @@ class OrderController extends Controller
         $transaction_type = $this->user_transaction_repo->transaction_type;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.pharmacy.order.view',compact('data','medicine_types','delivery_type','status','transaction_status','transaction_type'));
+        return view('admin.order.view',compact('data','medicine_types','delivery_type','status','transaction_status','transaction_type'));
     }
 
       /**
@@ -87,7 +87,7 @@ class OrderController extends Controller
         $transaction_type = $this->user_transaction_repo->transaction_type;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.pharmacy.order.invoice',compact('data','medicine_types','delivery_type','status','transaction_type','transaction_status'));
+        return view('admin.order.invoice',compact('data','medicine_types','delivery_type','status','transaction_type','transaction_status'));
     }
 
     /**
@@ -99,7 +99,7 @@ class OrderController extends Controller
     public function edit($id)
     {
         $data = $this->order_repo->getById($id);
-        return view('admin.pharmacy.order.view',compact('data'));
+        return view('admin.order.view',compact('data'));
     }
 
     /**
@@ -127,6 +127,6 @@ class OrderController extends Controller
         if ($request->all()) {
             return $this->order_repo->getReviewDatatable($request);
         }
-        return view('admin.pharmacy.order.reviews');
+        return view('admin.order.reviews');
     }
 }

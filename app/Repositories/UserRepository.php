@@ -27,6 +27,13 @@ class UserRepository extends Repository
         '5'=>'Friday', 
         '6'=>'Saturday'
     );
+   
+    public $provider_name = array(
+        'healthcare'=>'Health Care Provider', 
+        'pharmacy'=>'Pharmacy', 
+        'laboratories'=>'Laboratories',
+        'patients'=>'Patients'
+    );
 
     public function __construct()
     {

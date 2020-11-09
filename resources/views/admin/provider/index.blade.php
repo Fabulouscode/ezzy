@@ -1,6 +1,10 @@
 @extends('layouts.backend')
 
-@section('title','Approved Health Care Providers')
+@if($provider != 'patients')
+    @section('title',array_key_exists($provider, $provider_names) ? 'Approved '.$provider_names[$provider]: 'Approved ')
+@else
+    @section('title',array_key_exists($provider, $provider_names) ? $provider_names[$provider]:'')
+@endif
 
 @section('content')
 <!-- container fluid Start -->
@@ -10,11 +14,21 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/healthcare/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Approved  Providers</li>
+                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">
+                        @if($provider != 'patients')
+                            {{array_key_exists($provider, $provider_names) ? 'Approved '.$provider_names[$provider]: 'Approved '}} 
+                        @else
+                            {{array_key_exists($provider, $provider_names) ? $provider_names[$provider]: ''}} 
+                        @endif
+                    </li>
                 </ol>
             </div>
-            <h5 class="page-title">Approved Health Care Providers</h5>
+            @if($provider != 'patients')
+                <h5 class="page-title">{{array_key_exists($provider, $provider_names) ? 'Approved '.$provider_names[$provider]: 'Approved '}}</h5>
+            @else
+                <h5 class="page-title">{{array_key_exists($provider, $provider_names) ? $provider_names[$provider]: ''}}</h5>
+            @endif
         </div>
     </div>
     <!-- end row -->
@@ -27,7 +41,21 @@
                     <!-- <div class="block-options-item mb-3 ml-3">
                         <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
-                    {!! $dataTable->table(['class' => 'table table-striped table-bordered dt-responsive nowrap', 'style' => 'border-collapse: collapse; border-spacing: 0; width: 100%;'], true) !!}
+
+                    <table id="user_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>User Name</th>
+                                <th>Email</th>
+                                <th>Mobile No.</th>
+                                <th>HCP Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>                        
+                    </table>
+
                 </div>
             </div>
         </div> <!-- end col -->
@@ -37,10 +65,18 @@
 @endsection
 
 @section('script')
-{!! $dataTable->scripts() !!}
 <script>
     var user_url = "{{url('/user')}}";
-    var data_obj = {'status': ['0','2'], 'category_id':'1', 'provider':'healthcare'};
+    var data_obj = {};
+    if('{{$provider}}' == 'healthcare'){
+        data_obj = {'status': ['0','2'], 'category_id':'1', 'provider': 'healthcare'};
+    }else if('{{$provider}}' == 'pharmacy'){
+        data_obj = {'status':['0','2'], 'category_id':'2', 'provider':'pharmacy'};
+    }else if('{{$provider}}' == 'laboratories'){
+        data_obj = {'status':['0','2'], 'category_id':'3', 'provider':'laboratories'};
+    }else{            
+        data_obj = {'status':['0','2'], 'category_id':'', 'provider':'patients'};
+    }
 </script>
 <script src="{{ asset('js/admin/user.js') }}" ></script>
 @endsection
