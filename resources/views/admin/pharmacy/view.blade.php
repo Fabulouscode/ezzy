@@ -30,67 +30,70 @@
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <img src="{{$data->profile_image}}" width="200px" height="200px">
+                                <img src="{{$data->profile_image}}" style="max-width: 100%;height:100px;display:block;">
                             </dd>
                         </div>
-                        <div class="border border-dark rounded p-3 mb-3">
-                            <h4 class="mt-0 header-title">User Details</h4>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>HCP Type</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->categoryParent))
-                                        {{$data->categoryParent->name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>HCP Subtype</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->categoryChild))
-                                        {{$data->categoryChild->name}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>User Name</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->first_name))
-                                        {{$data->first_name}} {{$data->last_name}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Email</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->email))
-                                        {{$data->email}}
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Mobil No.</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(!empty($data->mobile_no))
-                                        {{$data->mobile_no}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Gender</label></dt>
-                                <dd class="col-sm-7"> 
-                                    @if(isset($data->gender))
-                                        {{$data->gender == '0' ? 'Male' : 'Female'}} 
-                                    @endif 
-                                </dd>
-                            </div>
-                            <div class="row">
-                                <dt class="col-sm-5"><label>Wallet Balance</label></dt>
-                                <dd class="col-sm-7"> 
-                                    {{$data->wallet_balance}} 
-                                </dd>
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">User Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>HCP Type</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->categoryParent))
+                                                {{$data->categoryParent->name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>HCP Subtype</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->categoryChild))
+                                                {{$data->categoryChild->name}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>User Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->first_name))
+                                                {{$data->first_name}} {{$data->last_name}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Email</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->email))
+                                                {{$data->email}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->mobile_no))
+                                                {{$data->mobile_no}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Gender</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->gender))
+                                                {{$data->gender == '0' ? 'Male' : 'Female'}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Wallet Balance</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{$data->wallet_balance}} 
+                                        </dd>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
                         @if(!empty($data->userDetails)) 
                         <div class="border border-dark rounded p-3 mb-3">
                             <h4 class="mt-0 header-title">User Extra Details</h4>

@@ -29,7 +29,7 @@
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <img src="{{$data->profile_image}}" width="100px" height="100px">
+                                <img src="{{$data->profile_image}}" style="max-width: 100%;height:100px;display:block;">
                             </dd>
                         </div>
                         <div class="border border-light rounded mb-3">

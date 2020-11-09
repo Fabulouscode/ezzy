@@ -29,7 +29,7 @@
                             <div class="invoice-title">
                                 <h4 class="float-right font-16"><strong>Appointment # {{ !empty($data->id) ? $data->id : '' }}</strong></h4>
                                 <h3 class="m-t-0">
-                                    <img src="{{ asset('admin/images/logo.png') }}" alt="logo" height="40"/>
+                                    <img src="{{ asset('admin/images/logo-1.png') }}" alt="logo" height="40"/>
                                 </h3>
                             </div>
                             <hr>
