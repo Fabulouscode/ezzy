@@ -33,6 +33,7 @@
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
                             <div class="form-group col-md-6">
+                                <label>Name</label>
                                 <input type="text" required placeholder="Name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{!empty($data->name) ? $data->name : old('name') }}" autocomplete="name" autofocus>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -42,6 +43,7 @@
                             </div>
 
                             <div class="form-group col-md-6">
+                                <label>Email</label>
                                 <input id="email"  required parsley-type="email" type="email" placeholder="Email"  class="form-control @error('email') is-invalid @enderror" name="email" value="{{!empty($data->email) ? $data->email : old('email') }}" autocomplete="email">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -53,6 +55,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
+                                <label>Password</label>
                                 <input id="password" required data-parsley-minlength="6" placeholder="Password" type="password" class="form-control @error('password') is-invalid @enderror" value="{{!empty($data->password) ? '**********' : '' }}"  name="password" autocomplete="password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -62,6 +65,7 @@
                             </div>
                             
                             <div class="form-group col-md-6">
+                                <label>Confirm Password</label>
                                 <input id="password-confirm" required data-parsley-equalto="#password" placeholder="Confirm Password" type="password" class="form-control" name="password_confirmation" value="{{!empty($data->password) ? '**********' : '' }}" autocomplete="new-password">
                                 @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">
@@ -69,6 +73,23 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Role</label>
+                                <select id="role_id" required name="role_id" placeholder="Role" class="form-control @error('role_id') is-invalid @enderror">
+                                   <option value="">Select Role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{$role->id}}"  {{ !empty($data->role_id) && $role->id == $data->role_id ? 'selected' : '' }}>{{$role->role_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('role_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>                            
                         </div>
 
 

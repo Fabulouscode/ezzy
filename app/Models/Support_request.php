@@ -26,4 +26,10 @@ class Support_request extends Model
     public function userDetails() {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
+
+    public function getAttachmentAttribute($value) {
+        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+
+
 }

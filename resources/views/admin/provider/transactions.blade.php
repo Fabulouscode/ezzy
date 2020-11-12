@@ -18,9 +18,26 @@
             </div>
         </div>
         <!-- end row -->
-
+        
         <div class="row">
             <div class="col-xl-3 col-md-6">
+                <div class="card d-card-part bg-info mini-stat m-b-30">
+                    <div class="card-d-title text-white">
+                        <div class="mini-stat-icon">
+                            <i class="fa fa-money float-right mb-0"></i>
+                        </div>
+                        <h6 class="mb-0">Total Balance</h6>
+                    </div>
+                    <div class="card-body d-card-body">
+                        <div class="mt-2 text-muted">
+                            <div class="d-flex justify-content-between">
+                                <h6><span class="d-block mb-1 d-number-count">{{ $total_balance ?: 0  }}</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-xl-3 col-md-6">
                 <div class="card d-card-part bg-primary mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -54,24 +71,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card d-card-part bg-info mini-stat m-b-30">
-                    <div class="card-d-title text-white">
-                        <div class="mini-stat-icon">
-                            <i class="fa fa-money float-right mb-0"></i>
-                        </div>
-                        <h6 class="mb-0">Total Balance</h6>
-                    </div>
-                    <div class="card-body d-card-body">
-                        <div class="mt-2 text-muted">
-                            <div class="d-flex justify-content-between">
-                                <h6><span class="d-block mb-1 d-number-count">{{ $total_balance ?: 0  }}</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="row">
@@ -83,12 +83,10 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Username</th>
+                                <th>User Name</th>
+                                <th>Transaction</th>
                                 <th>Transaction date</th>
                                 <th>Amount</th>
-                                <th>Mode of payment</th>
-                                <th>Transaction type</th>
-                                <th>Status</th>
                                 <th>Created at</th>
                             </tr>
                             </thead>
@@ -107,5 +105,5 @@
     var user_url = "{{url('user')}}";
     var data_obj = {'provider': '{{ $provider }}', 'id' : '{{ $id }}' };
 </script>
-<script src="{{ asset('js/admin/user.js') }}" ></script>
+<script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

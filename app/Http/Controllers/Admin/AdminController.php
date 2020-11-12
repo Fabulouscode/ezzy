@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminRequest;
 use App\Repositories\AdminRepository;
+use App\Repositories\RoleRepository;
 use App\DataTables\AdminDataTable;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class AdminController extends Controller
 {
-     private $admin_repo;
+     private $admin_repo, $role_repo;
 
-    public function __construct(AdminRepository $admin_repo)
+    public function __construct(AdminRepository $admin_repo,RoleRepository $role_repo)
     {
         $this->admin_repo = $admin_repo;
+        $this->role_repo = $role_repo;
     }
 
     /**
@@ -23,14 +26,15 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AdminDataTable $adminDataTable)
+    // public function index(AdminDataTable $adminDataTable)
+    public function index(Request $request)
     {
-        // if($request->all()){
-        //     return $this->admin_repo->getDatatable($request);
-        // }
-        // return view('admin.admin.index');
+        if($request->all()){
+            return $this->admin_repo->getDatatable($request);
+        }
+        return view('admin.admin.index');
 
-        return $adminDataTable->render('admin.admin.index');
+        // return $adminDataTable->render('admin.admin.datatable');
     }
 
     /**
@@ -40,7 +44,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.admin.add');
+        $roles = $this->role_repo->getAll();
+        return view('admin.admin.add',compact('roles'));
     }
 
     /**
@@ -96,8 +101,9 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
+        $roles = $this->role_repo->getAll();
         $data = $this->admin_repo->getById($id);
-        return view('admin.admin.add',compact('data'));
+        return view('admin.admin.add',compact('data','roles'));
     }
 
     /**

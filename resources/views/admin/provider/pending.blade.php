@@ -78,5 +78,5 @@
         data_obj = {'status': '1', 'category_id':'', 'provider':'patients'};
     }
 </script>
-<script src="{{ asset('js/admin/user.js') }}" ></script>
+<script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

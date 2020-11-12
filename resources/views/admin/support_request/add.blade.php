@@ -60,8 +60,17 @@
                                 <textarea readonly rows="5" class="form-control" name="description">{{$data->description}}</textarea>
                             </div>
                         </div>      
-
-                       
+                        
+                        <div class="row">
+                            <dt class="col-sm-5"><label>Attachment File</label></dt>
+                            <dd class="col-sm-7"> 
+                                <img src="{{$data->attachment}}" style="max-width: 100%;height:100px;display:block;">
+                                <a href="{{$data->attachment}}" download>
+                                    Click Here to Download
+                                </a>
+                            </dd>
+                        </div>
+            
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">

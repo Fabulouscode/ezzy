@@ -27,24 +27,46 @@
                     <form method="POST" id="support_request_form" name="support_request_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
-                     
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Title</label>
-                                <input disabled type="text"  class="form-control" name="title" value="{{$data->title}}" />
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Support Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Title</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->title))
+                                                {{$data->title}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Status</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->status))
+                                                {{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Description</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->description))
+                                                {{$data->description}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Attachment File</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            <img src="{{$data->attachment}}" style="max-width: 100%;height:100px;display:block;">
+                                            <a href="{{$data->attachment}}" download>
+                                                Click Here to Download
+                                            </a>
+                                        </dd>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Status</label>
-                                <input disabled type="text"  class="form-control" name="title" value="{{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label>Description</label>
-                                <textarea disabled rows="5" class="form-control" name="description">{{$data->description}}</textarea>
-                            </div>
-                        </div>                      
+                        </div>              
                         
 
                         <div class="row">

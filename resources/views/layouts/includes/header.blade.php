@@ -86,9 +86,11 @@
                     <img src="{{ asset('admin/images/avatar.jpg') }}" alt="user" class="rounded-circle">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
+                    @can('admin-edit')
                     @if(Auth::guard('admin')->user())
                         <a class="dropdown-item" href="{{ url('admin/users').'/'.Auth::guard('admin')->user()->id.'/edit' }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
                     @endif
+                    @endcan
                     <!-- <a class="dropdown-item" href="#"><span class="badge badge-success mt-1 float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> -->
                     <a class="dropdown-item" href="{{ route('lockscreen') }}"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"

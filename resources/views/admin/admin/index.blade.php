@@ -23,7 +23,22 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    {!! $dataTable->table(['class' => 'table table-striped table-bordered dt-responsive nowrap', 'style' => 'border-collapse: collapse; border-spacing: 0; width: 100%;'], true) !!}
+                    @can('admin-add')
+                    <div class="block-options-item mb-3 ml-3">
+                        <a href="{{url('/admin/users/create')}}" class="btn btn-info">Add Admin </a>
+                    </div>                   
+                    @endcan
+
+                    <table id="user_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>                        
+                    </table>
                 </div>
             </div>
         </div> <!-- end col -->
@@ -33,7 +48,6 @@
 @endsection
 
 @section('script')
-{!! $dataTable->scripts() !!}
 <script>
     var admin_user_url = "{{url('/admin/users')}}";
 </script>

@@ -24,7 +24,7 @@ class ServicesRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_name'=>'required|string',
+            'service_name'=>'required|string|unique:services,service_name,'.$this->id,
             'service_type'=>'required',
             'status'=>'required',
         ];

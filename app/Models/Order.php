@@ -30,8 +30,7 @@ class Order extends Model
         'completed_datetime',
         'user_rating',
         'user_review',
-        'credit_transaction_id',
-        'debit_transaction_id',
+        'transaction_id',
     ];
 
     public function userDetails() {
@@ -54,11 +53,7 @@ class Order extends Model
         return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
     }
 
-    public function creditTransaction() {
-        return $this->hasOne('App\Models\User_transaction', 'id', 'credit_transaction_id');
-    }
-
-    public function debitTransaction() {
-        return $this->hasOne('App\Models\User_transaction', 'id', 'debit_transaction_id');
+    public function getTransaction() {
+        return $this->hasOne('App\Models\User_transaction', 'id', 'transaction_id');
     }
 }

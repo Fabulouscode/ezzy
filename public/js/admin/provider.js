@@ -52,17 +52,74 @@ $(function () {
         columns: [
             { data: 'id', name: 'id', searchable: false },
             { data: 'user_name', name: 'User name' },
+            { data: 'transaction_data', name: 'transaction_data' },
             { data: 'transaction_date', name: 'Transaction date' },
             { data: 'amount', name: 'Amount' },
-            { data: 'mode_of_payment', name: 'Mode of payment' },
-            { data: 'transaction_type', name: 'Transaction type' },
-            { data: 'status', name: 'Status' },
             { data: 'created_at', name: 'Created at' },
         ],
         order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+        }
+    });
+    $('#shop_medicine_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        responsive: true,
+        ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: user_url + "/medicine/data",
+            type: 'post',
+            dataType: "json",
+            async: true,
+            data: data_obj
+        },
+        columns: [
+            { data: 'id', name: 'id', searchable: false },
+            { data: 'medicine_detail', name: 'medicine_detail' },
+            { data: 'medicine_sku', name: 'medicine_sku' },
+            { data: 'capsual_quantity', name: 'capsual_quantity' },
+            { data: 'mrp_price', name: 'mrp_price' },
+            { data: 'medicine_type', name: 'medicine_type' },
+            { data: 'status', name: 'status' },
+        ],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+        }
+    });
+    $('#service_laboratories_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        responsive: true,
+        ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: user_url + "/services/data",
+            type: 'post',
+            dataType: "json",
+            async: true,
+            data: data_obj
+        },
+        columns: [
+            { data: 'id', name: 'id', searchable: false },
+            { data: 'service_detail', name: 'service_detail' },
+            { data: 'service_charge', name: 'service_charge' },
+            { data: 'service_charge_type', name: 'service_charge_type' },
+            { data: 'status', name: 'status' },
+        ],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            if (data_obj.provider == 'laboratories') {
+                api.columns([3]).visible(showColumn);
+            }
         }
     });
     // var segment_str = window.location.pathname;

@@ -30,8 +30,7 @@ class CreateOrdersTable extends Migration
             $table->datetime('completed_datetime')->nullable();
             $table->float('user_rating')->nullable();
             $table->text('user_review')->nullable();
-            $table->bigInteger('credit_transaction_id')->nullable()->unsigned();
-            $table->bigInteger('debit_transaction_id')->nullable()->unsigned();
+            $table->bigInteger('transaction_id')->nullable()->unsigned();
             $table->timestamps();
             $table->softDeletes();
             
@@ -48,10 +47,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_location_id')
                   ->references('id')
                   ->on('user_locations');
-            $table->foreign('credit_transaction_id')
-                  ->references('id')
-                  ->on('user_transactions');
-            $table->foreign('debit_transaction_id')
+            $table->foreign('transaction_id')
                   ->references('id')
                   ->on('user_transactions');
         });

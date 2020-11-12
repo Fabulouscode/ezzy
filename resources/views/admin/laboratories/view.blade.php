@@ -24,14 +24,13 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <h4 class="mt-0 header-title">View Laboratory Details</h4>
                     <form method="POST"  id="user_form" name="user_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <img src="{{$data->profile_image}}" width="200px" height="200px">
+                                <img src="{{$data->profile_image}}" style="max-width: 100%;height:100px;display:block;">
                             </dd>
                         </div>
                         <div class="border border-light rounded mb-3">
@@ -430,5 +429,5 @@
     var user_url = "{{url('/user')}}";
      var data_obj = {};
 </script>
-<script src="{{ asset('js/admin/user.js') }}" ></script>
+<script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

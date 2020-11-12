@@ -8,20 +8,31 @@ use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\AppointmentRepository;
+use App\Repositories\ShopMedicineDetailsRepository;
+use App\Repositories\UserServiceRepository;
 use Auth;
 
 
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo, $appointment_repo,$user_trans_repo;
+    private $user_repo, $category_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
 
-    public function __construct(UserRepository $user_repo, CategoryRepository  $category_repo, AppointmentRepository $appointment_repo,UserTransactionRepository $userTransactionRepository)
+    public function __construct(
+        UserRepository $user_repo, 
+        CategoryRepository  $category_repo, 
+        AppointmentRepository $appointment_repo,
+        UserTransactionRepository $user_trans_repo,
+        ShopMedicineDetailsRepository $shop_medicine_repo,
+        UserServiceRepository $user_service_repo
+        )
     {
         $this->user_repo = $user_repo;
         $this->category_repo = $category_repo;
         $this->appointment_repo = $appointment_repo;
-        $this->user_trans_repo = $userTransactionRepository;
+        $this->user_trans_repo = $user_trans_repo;
+        $this->shop_medicine_repo = $shop_medicine_repo;
+        $this->user_service_repo = $user_service_repo;
     }
      
     /**
@@ -113,21 +124,40 @@ class UserController extends Controller
     }
 
 
-     public function showTransaction($provider = '', $id)
+    public function showTransaction($provider = '', $id)
     {
-        $debit_balance = $this->user_trans_repo->getUserbyCalculate($id, '0');
-        $credit_balance = $this->user_trans_repo->getUserbyCalculate($id, '1');
-        $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
+        $debit_balance = '0';
+        $credit_balance = '0';
+        $total_balance = '0';
         $provider_names = $this->user_repo->provider_name;
         return view('admin.provider.transactions',compact('provider','provider_names','id','debit_balance','credit_balance','total_balance'));
     }
-
+    
     public function getTransactionDatatable(Request $request)
     {
         if($request->all()){
-            return $this->user_trans_repo->getDatatable($request);
+            return $this->user_trans_repo->getDatatablebyUserId($request);
         }
     }
+
+    public function showMedicineDetails($id ='', Request $request)
+    {
+        if($request->all()){
+            return $this->shop_medicine_repo->getDatatable($request);
+        }
+        return view('admin.pharmacy.medicine',compact('id'));
+    }
+
+    public function showHCPService($provider = '', $id ='', Request $request)
+    {
+        if($request->all()){
+            return $this->user_service_repo->getDatatable($request);
+        }
+        $provider_names = $this->user_repo->provider_name;
+        return view('admin.provider.services',compact('id','provider','provider_names'));
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

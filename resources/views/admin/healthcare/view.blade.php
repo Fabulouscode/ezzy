@@ -449,5 +449,5 @@
     var user_url = "{{url('/user')}}";
      var data_obj = {};
 </script>
-<script src="{{ asset('js/admin/user.js') }}" ></script>
+<script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

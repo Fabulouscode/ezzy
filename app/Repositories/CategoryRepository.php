@@ -84,8 +84,13 @@ class CategoryRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    if (Auth::user()->hasPermissionTo('hcp_type-edit')) {
+                        $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    }
+                    if (Auth::user()->hasPermissionTo('hcp_type-delete')) {
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    }
+                    
                     return $data;
                 })
                 ->editColumn('categoryParent',function($selected){

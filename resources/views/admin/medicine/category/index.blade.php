@@ -23,10 +23,11 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                
+                    @can('medicine_category-add')
                     <div class="block-options-item mb-3 ml-3">
                         <a href="{{url('/medicine/categories/create')}}" class="btn btn-info">Add Medicine Category</a>
                     </div>
+                    @endcan
 
                     <table id="medicine_category_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>

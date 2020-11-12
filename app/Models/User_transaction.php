@@ -27,4 +27,12 @@ class User_transaction extends Model
     public function users() {
         return $this->belongsTo('App\Models\User', 'user_id','id');
     }
+
+    public function transactionAppointment() {
+        return $this->hasOne('App\Models\Appointment', 'transaction_id', 'id');
+    }
+    
+    public function transactionOrder() {
+        return $this->hasOne('App\Models\Order', 'transaction_id', 'id');
+    }
 }

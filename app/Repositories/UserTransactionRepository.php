@@ -90,7 +90,7 @@ class UserTransactionRepository extends Repository
 
     public function getDatatable($request)
     {
-        $data = $this->getbyUserId($request->id); //->getWithRelationship($request);
+        $data = $this->getAll(); //->getWithRelationship($request);
         return Datatables::of($data)
             ->editColumn('mode_of_payment',function($selected)
             {
@@ -123,8 +123,58 @@ class UserTransactionRepository extends Repository
 
     public function getWithRelationship($request)
     {
-        $query = $this->model->with('users');
+        $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
+      
+        if($request->provider != 'patients'){
+            $query = $query->orWhere(function ($query) use ($request) {
+                $query = $query->orWhereHas('transactionAppointment', function ($query) use ($request) {
+                    $query->where('user_id', $request->id);
+                });
+                $query = $query->orWhereHas('transactionOrder', function ($query) use ($request) {
+                    $query->where('user_id', $request->id);
+                });
+            });
+        }else{            
+            $query = $query->where('user_id',$request->id);
+        }
         $query = $query->orderBy('id','desc')->get();
+   
         return $query;
     }
+
+    public function getDatatablebyUserId($request)
+    {
+        $data = $this->getWithRelationship($request); 
+        return Datatables::of($data)
+            ->editColumn('user_name', function($selected) use ($request) {     
+
+                if ($request->id != $selected->user_id) {
+                    return $selected->users ? $selected->users->first_name.' '.$selected->users->last_name : '-';
+                }else if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
+                   return $selected->transactionAppointment->user->first_name.' '.$selected->transactionAppointment->user->last_name;
+                }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
+                    return $selected->transactionOrder->userDetails->first_name.' '.$selected->transactionOrder->userDetails->last_name;
+                }
+         
+            })
+            ->editColumn('created_at', function($selected) {
+                return $selected->created_at ? date('d M, Y h:i A',strtotime($selected->created_at)) : '-';
+            })
+            ->editColumn('transaction_data',function($selected)
+            {
+                $data = '';
+                if(!empty($selected->transactionAppointment)){
+                    $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Appointment #'.$selected->transactionAppointment->id.'</a>';
+                }else if(!empty($selected->transactionOrder)){
+                    $data .= '<a href="'.url('pharmacy/order/'.$selected->transactionOrder->id).'" target="_blank">Order #'.$selected->transactionOrder->id.'</a>';
+                }
+                return $data;
+            })
+            ->editColumn('transaction_date', function($selected) {
+                return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
+            })
+            ->rawColumns(['transaction_data'])
+            ->make(true);
+    }
+
 }

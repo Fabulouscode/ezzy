@@ -24,7 +24,7 @@ class MedicineCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-           'name'=>'required',
+           'name'=>'required|string|unique:medicine_categories,name,'.$this->id,
            'status'=>'required',
         ];
     }

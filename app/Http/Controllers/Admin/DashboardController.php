@@ -69,11 +69,15 @@ class DashboardController extends Controller
             
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
+            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('1');
             $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount('0');
+            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('2');
 
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount();
             $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount();
-            $data['pending_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['0','1']);
+            $data['completed_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['5']);            
+            $data['pending_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['0','1','2','3','4']);
+            $data['cancel_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['6']);
 
             return view('admin.dashboard.dashboard', compact('data'));
         }

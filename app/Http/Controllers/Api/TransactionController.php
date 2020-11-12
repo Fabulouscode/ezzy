@@ -94,7 +94,7 @@ class TransactionController extends BaseApiController
             if($appointment_details->appointment_type == '1'){
                 $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
             }
-                $add_credit_transaction = [
+                $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
@@ -103,28 +103,16 @@ class TransactionController extends BaseApiController
                         'status'=> '0',
                     ];
                 
-                $add_debit_transaction = [
-                        'user_id'=> $appointment_details->user->id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> $transaction_amount,
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
-                        'status'=> '0',
-                    ];
-            $credit_transaction = $this->user_transaction_repo->dataCrud($add_credit_transaction);
-            $debit_transaction = $this->user_transaction_repo->dataCrud($add_debit_transaction);
+            $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
 
-            if(!empty($credit_transaction) && !empty($debit_transaction)){
+            if(!empty($transaction)){
                 $update = [
                         'status'=> '5',
                         'appointment_price'=> $transaction_amount,
-                        'credit_transaction_id'=> $credit_transaction->id,
-                        'debit_transaction_id'=> $debit_transaction->id,
+                        'transaction_id'=> $transaction->id,
                     ];
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
-                self::updateUserWalletBalance($request->user()->id);
-                self::updateUserWalletBalance($appointment_details->user->id);
                 return self::sendSuccess($data, 'Transaction Completed');
             }
             return self::sendError([], 'Transaction Uncompleted Error');
@@ -147,32 +135,22 @@ class TransactionController extends BaseApiController
             if($order_details->delivery_type == '0'){
                 $transaction_amount += $order_details->shipping_price;
             }
-                $add_credit_transaction = [
-                        'user_id'=> $request->user()->id,
+
+                $add_transaction = [
+                        'user_id'=> $order_details->userDetails->id,
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
                         'status'=> '0',
                     ];
-                
-                $add_debit_transaction = [
-                        'user_id'=> $order_details->userDetails->id,
-                        'transaction_date'=> $this->order_repo->getCurrentDateTime(),
-                        'amount'=> $transaction_amount,
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
-                        'status'=> '0',
-                    ];
-            $credit_transaction = $this->user_transaction_repo->dataCrud($add_credit_transaction);
-            $debit_transaction = $this->user_transaction_repo->dataCrud($add_debit_transaction);
+            $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
 
-            if(!empty($credit_transaction) && !empty($debit_transaction)){
+            if(!empty($transaction)){
                 $update = [
                         'status'=> '1',
                         'completed_datetime'=> $this->order_repo->getCurrentDateTime(),
-                        'credit_transaction_id'=> $credit_transaction->id,
-                        'debit_transaction_id'=> $debit_transaction->id,
+                        'transaction'=> $transaction->id,
                     ];
                 $this->order_repo->dataCrud($update, $request->id);
           
@@ -185,8 +163,6 @@ class TransactionController extends BaseApiController
                 $this->order_tracking_repo->dataCrud($add_tracking);
 
                 $data = $this->order_repo->getById($request->id);
-                self::updateUserWalletBalance($request->user()->id);
-                self::updateUserWalletBalance($order_details->userDetails->id);
                 return self::sendSuccess($data, 'Transaction Completed');
             }
             return self::sendError([], 'Transaction Uncompleted Error');

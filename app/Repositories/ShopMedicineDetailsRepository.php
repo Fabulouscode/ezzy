@@ -46,7 +46,22 @@ class ShopMedicineDetailsRepository extends Repository
             }
         }
     }
+ 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getWithRelationship($request)
+    {
 
+        $query = $this->model->with(['medicineDetails','medicineSubcategory','medicineCategory']);    
+        if(!empty($request->user_id)){
+            $query->where('user_id', $request->user_id);
+        }
+        $query = $query->orderBy('id','desc')->get();
+        return $query;
+    }
     /**
      * Display a listing of the Datatable.
      *
@@ -54,13 +69,36 @@ class ShopMedicineDetailsRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
-                ->addColumn('action',function($selected)
+                ->editColumn('medicine_detail',function($selected)
+                {
+                    if(!empty($selected->medicineDetails)){
+                        return !empty($selected->shirap_ml)? $selected->medicineDetails->medicine_name.' ('.$selected->shirap_ml.' ML)':$selected->medicineDetails->medicine_name;
+                    }
+                })
+                ->editColumn('medicine_sku',function($selected)
+                {
+                    if(!empty($selected->medicineDetails)){
+                        return $selected->medicineDetails->medicine_sku;
+                    }
+                })
+                ->editColumn('mrp_price',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('medicine/shop/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    $data .= '<strong>MRP Price : </strong>'.$selected->mrp_price.'<br>';
+                    $data .= '<strong>Offer Price : </strong>'.$selected->offer_price;           
+                    return $data;
+                })
+                ->editColumn('medicine_type',function($selected)
+                {
+                    //	0-Capsules, 1-Bottle	
+                    $data = '';
+                    if($selected->medicine_type == '0'){
+                        $data .= '<div class="badge badge-success">Capsules</div>';
+                    }else if($selected->medicine_type == '1'){
+                         $data .= '<div class="badge badge-success">Bottle</div>';
+                    }
                     return $data;
                 })
                 ->editColumn('status',function($selected)
@@ -74,7 +112,7 @@ class ShopMedicineDetailsRepository extends Repository
                     }
                     return $data;
                 })
-                ->rawColumns(['action','status'])
+                ->rawColumns(['mrp_price','medicine_type','status'])
                 ->make(true);
     }
      /**

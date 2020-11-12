@@ -130,10 +130,13 @@ class AppointmentRepository extends Repository
                     // $data .= '<a href="'.url('appointment/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
-                    $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
-                   
-                    if($selected->status == '5'){
-                        $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+                    if (Auth::user()->hasPermissionTo('appointments-list')) {
+                        $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    }
+                    if (Auth::user()->hasPermissionTo('appointments-invoice')) {
+                        if ($selected->status == '5') {
+                            $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+                        }
                     }
                 
                     // Delete
@@ -212,7 +215,7 @@ class AppointmentRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','creditTransaction', 'debitTransaction','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
+        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','getTransaction','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
 
     }
  

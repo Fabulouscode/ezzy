@@ -40,6 +40,11 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // Main Dashoard
         Route::get('/', 'DashboardController@index');
+
+        // permission No access 
+        Route::get('/permission_not_access', function(){
+            return view('errors.permission_access');
+        })->name('permission_not_access');
         
         // upload image 
         Route::post('image/upload', 'FileUploadController@fileUploadStorage');
@@ -49,10 +54,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('{provider}/dashboard', 'DashboardController@index');
         
         // Category routes(Provider)
-        Route::resource('category', 'CategoryController');
+        Route::resource('category', 'CategoryController')->middleware('role-permission-resource:hcp_type-list,hcp_type-add,hcp_type-edit,hcp_type-delete');
        
         // Admin User routes        
-        Route::resource('admin/users', 'AdminController');  
+        Route::resource('admin/users', 'AdminController')->middleware('role-permission-resource:admin-list,admin-add,admin-edit,admin-delete');
        
         // User review routes        
         Route::resource('user/review', 'UserReviewController');  
@@ -60,42 +65,64 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // Users routes
         Route::post('user/change_status', 'UserController@changeStatus');
         Route::post('user/data', 'UserController@getDatatable');        
-        Route::post('user/transaction/data', 'UserController@getTransactionDatatable');
+        Route::post('user/transaction/data', 'UserController@getTransactionDatatable');        
+        Route::post('user/medicine/data', 'UserController@showMedicineDetails');
+        Route::post('user/services/data', 'UserController@showHCPService');
         Route::get('{provider}/user', 'UserController@index');
         Route::get('{provider}/user/pending', 'UserController@getPending');
         Route::get('{provider}/user/{id}', 'UserController@show');
         Route::get('{provider}/user/transaction/{id}', 'UserController@showTransaction');
+        Route::get('{provider}/user/services/{id}', 'UserController@showHCPService');        
+        Route::get('pharmacy/user/medicine/{id}', 'UserController@showMedicineDetails');
         Route::resource('user', 'UserController');
 
         // Medicine Category routes
-        Route::resource('medicine/categories', 'MedicineCategoryController');
+        Route::resource('medicine/categories', 'MedicineCategoryController')->middleware('role-permission-resource:medicine_category-list,medicine_category-add,medicine_category-edit,medicine_category-delete');
        
         // Medicine Subcategory routes
-        Route::resource('medicine/subcategories', 'MedicineSubcategoryController');
+        Route::resource('medicine/subcategories', 'MedicineSubcategoryController')->middleware('role-permission-resource:medicine_subcategory-list,medicine_subcategory-add,medicine_subcategory-edit,medicine_subcategory-delete');
        
         // Medicine Details routes
-        Route::resource('medicine/details', 'MedicineDetailsController');
+        Route::resource('medicine/details', 'MedicineDetailsController')->middleware('role-permission-resource:medicine_details-list,medicine_details-add,medicine_details-edit,medicine_details-delete');
        
         // pharmacy order Details routes        
-        Route::get('pharmacy/order/invoice/{id}', 'OrderController@getInvoice');
-        Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews');
-        Route::resource('pharmacy/order', 'OrderController');        
+        Route::get('pharmacy/order/invoice/{id}', 'OrderController@getInvoice')->middleware('role-permission:order-invoice');
+        Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews')->middleware('role-permission:order-review');
+        Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
+     
+        // payout routes 
+        Route::resource('payout', 'PayoutController');
      
         // static pages routes 
-        Route::resource('static_pages', 'StaticPagesController');
+        Route::resource('static_pages', 'StaticPagesController')->middleware('role-permission-resource:static_page-list,static_page-add,static_page-edit,static_page-delete');
+ 
+        // manage fees routes 
+        Route::resource('manage_fees', 'ManageFeesController')->middleware('role-permission-resource:fees-list,fees-add,fees-edit,fees-delete');
+ 
+        // permission category routes 
+        Route::resource('permission_category', 'PermissionCategoryController')->middleware('role-permission-resource:permission_category-list,permission_category-add,permission_category-edit,permission_category-delete');
+ 
+        // permission routes 
+        Route::resource('permission', 'PermissionController')->middleware('role-permission-resource:permission-list,permission-add,permission-edit,permission-delete');
+      
+        // role routes 
+        Route::resource('role', 'RoleController')->middleware('role-permission-resource:role-list,role-add,role-edit,role-delete');
+
+        // admin send notification routes 
+        Route::resource('notifications', 'AdminNotificationController')->middleware('role-permission-resource:notification-list,notification-add,notification-edit,notification-delete');
  
         // services routes
-        Route::resource('services', 'ServicesController');
+        Route::resource('services', 'ServicesController')->middleware('role-permission-resource:services-list,services-add,services-edit,services-delete');
        
         // Appointment routes        
-        Route::get('appointment/reviews', 'AppointmentController@getAppointmentReviews');
-        Route::get('appointment/completed', 'AppointmentController@getCompletedAppointments');
-        Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments');
-        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice');        
-        Route::resource('appointment', 'AppointmentController');
+        Route::get('appointment/reviews', 'AppointmentController@getAppointmentReviews')->middleware('role-permission:appointments-review');
+        Route::get('appointment/completed', 'AppointmentController@getCompletedAppointments')->middleware('role-permission:appointments-list');
+        Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
+        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
+        Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
         // Support request  routes        
-        Route::resource('support_request', 'SupportRequestController');        
+        Route::resource('support_request', 'SupportRequestController')->middleware('role-permission-resource:support_ticket-list,support_ticket-add,support_ticket-edit,support_ticket-delete');        
     
     });
 
