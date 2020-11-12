@@ -38,7 +38,7 @@ class DashboardController extends Controller
             $data['doctor'] = $this->user_repo->getUserCategoryWiseCount('4', '0');
             $data['nurses'] = $this->user_repo->getUserCategoryWiseCount('5', '0');
             $data['massage_therapist'] = $this->user_repo->getUserCategoryWiseCount('6', '0');
-            $data['upcoming_appointment'] = $this->appointment_repo->getAppointmentStatusWiseCount(['1','2','3','4']);
+            $data['upcoming_appointment'] = $this->appointment_repo->getAppointmentStatusWiseCount(['0','1','2','3','4']);
             $data['completed_appointment'] = $this->appointment_repo->getAppointmentStatusWiseCount(['5']);
             $data['cancel_appointment'] = $this->appointment_repo->getAppointmentStatusWiseCount(['6']);
             $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount();

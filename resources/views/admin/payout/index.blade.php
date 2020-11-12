@@ -35,8 +35,6 @@
                                 <th>Username</th>
                                 <th>Transaction date</th>
                                 <th>Amount</th>
-                                <th>Mode of payment</th>
-                                <th>Transaction type</th>
                                 <th>Status</th>
                                 <th>Created at</th>
                             </tr>

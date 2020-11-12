@@ -128,7 +128,11 @@ class UserController extends Controller
     {
         $debit_balance = '0';
         $credit_balance = '0';
-        $total_balance = '0';
+        if(!empty($provider)){            
+            $total_balance = $this->user_trans_repo->getHCPTYPEWalletBalance($provider, $id);
+        }else{
+            $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
+        }
         $provider_names = $this->user_repo->provider_name;
         return view('admin.provider.transactions',compact('provider','provider_names','id','debit_balance','credit_balance','total_balance'));
     }

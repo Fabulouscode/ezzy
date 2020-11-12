@@ -63,6 +63,8 @@ function addRow() {
             if (response.status) {
                 $('.modal-title').text('Add Permission Category Details');
                 $('#submit_btn').text('Add');
+                $('#permission_category_id').val('');
+                $('#name').val('');
                 $('#addPermissionCategory').modal();
             }
             else {

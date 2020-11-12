@@ -18,8 +18,6 @@ $(function () {
             { data: 'user_name', name: 'User name' },
             { data: 'transaction_date', name: 'Transaction date' },
             { data: 'amount', name: 'Amount' },
-            { data: 'mode_of_payment', name: 'Mode of payment' },
-            { data: 'transaction_type', name: 'Transaction type' },
             { data: 'status', name: 'Status' },
             { data: 'created_at', name: 'Created at' },
         ],

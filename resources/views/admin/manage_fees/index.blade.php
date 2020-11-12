@@ -23,9 +23,9 @@
             <div class="card m-b-30">
                 <div class="card-body">     
                     @can('fees-add')
-                    <div class="block-options-item mb-3 ml-3">
+                    <!-- <div class="block-options-item mb-3 ml-3">
                         <a href="javascript:void(0)" onclick="addRow()" class="btn btn-info">Add Fees</a>
-                    </div> 
+                    </div>  -->
                     @endcan                                            
                     <table id="manage_fees_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>

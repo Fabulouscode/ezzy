@@ -62,6 +62,27 @@ class UserTransactionRepository extends Repository
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
     }
+   
+    public function getHCPTYPEWalletBalance($provider, $user_id)
+    {
+        $query = $this->model->with(['users','transactionAppointment','transactionOrder']);
+      
+        if($provider != 'patients'){
+            $query = $query->orWhere(function ($query) use ($user_id) {
+                $query = $query->orWhereHas('transactionAppointment', function ($query) use ($user_id) {
+                    $query->where('user_id', $user_id);
+                });
+                $query = $query->orWhereHas('transactionOrder', function ($query) use ($user_id) {
+                    $query->where('user_id', $user_id);
+                });
+            });
+        }else{            
+            $query = $query->where('user_id',$user_id);
+        }
+        $query = $query->orderBy('id','desc')->sum('amount');
+
+        return $query;
+    }
 
     public function getbyUserId($user_id)
     {
@@ -90,7 +111,7 @@ class UserTransactionRepository extends Repository
 
     public function getDatatable($request)
     {
-        $data = $this->getAll(); //->getWithRelationship($request);
+        $data = $this->getPayoutWithRelationship(); //->getWithRelationship($request);
         return Datatables::of($data)
             ->editColumn('mode_of_payment',function($selected)
             {
@@ -104,18 +125,22 @@ class UserTransactionRepository extends Repository
                     return '<div class="badge badge-success">Success</div>';
                 return '<div class="badge badge-danger">Failed</div>';
             })
-            ->editColumn('transaction_type',function($query)
+            ->editColumn('transaction_type',function($selected)
             {
-                return '<div class="badge badge-success">'.$this->transaction_type[$query->transaction_type].'</div>';
+                return '<div class="badge badge-success">'.$this->transaction_type[$selected->transaction_type].'</div>';
             })
-            ->editColumn('user_name', function($query) {
-                return $query->users ? $query->users->first_name.' '.$query->users->last_name : '-';
+            ->editColumn('user_name', function($selected) {
+                if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
+                   return $selected->transactionAppointment->user->first_name.' '.$selected->transactionAppointment->user->last_name;
+                }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
+                    return $selected->transactionOrder->userDetails->first_name.' '.$selected->transactionOrder->userDetails->last_name;
+                }
             })
-            ->editColumn('created_at', function($query) {
-                return $query->created_at ? date('d M, Y h:i A',strtotime($query->created_at)) : '-';
+            ->editColumn('created_at', function($selected) {
+                return $selected->created_at ? date('d M, Y h:i A',strtotime($selected->created_at)) : '-';
             })
-            ->editColumn('transaction_date', function($query) {
-                return $query->transaction_date ? date('d M, Y h:i A',strtotime($query->transaction_date)) : '-';
+            ->editColumn('transaction_date', function($selected) {
+                return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
             })
             ->rawColumns(['mode_of_payment','transaction_type','status'])
             ->make(true);
@@ -137,6 +162,14 @@ class UserTransactionRepository extends Repository
         }else{            
             $query = $query->where('user_id',$request->id);
         }
+        $query = $query->orderBy('id','desc')->get();
+   
+        return $query;
+    }
+  
+    public function getPayoutWithRelationship()
+    {
+        $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
         $query = $query->orderBy('id','desc')->get();
    
         return $query;

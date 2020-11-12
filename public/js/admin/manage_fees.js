@@ -66,6 +66,9 @@ function addRow() {
                 console.log(response);
                 $('.modal-title').text('Add Manage Fees Details');
                 $('#submit_btn').text('Add');
+                $('#fees_id').val('');
+                $('#category_id').val('');
+                $('#fees_percentage').val('');
                 if (response.hcp_types) {
                     $("#category_id option").remove();
                     response.hcp_types.forEach(element => {

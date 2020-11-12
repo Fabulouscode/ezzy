@@ -68,6 +68,10 @@ function addRow() {
                 console.log(response);
                 $('.modal-title').text('Add Permission Details');
                 $('#submit_btn').text('Add');
+                $('#permission_id').val('');
+                $('#permission_category_id').val('');
+                $('#permission_title').val('');
+                $('#permission_name').val('');
                 if (response.permission_cats) {
                     $("#permission_category_id option").remove();
                     response.permission_cats.forEach(element => {
