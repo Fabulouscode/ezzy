@@ -80,6 +80,9 @@
                 </div>
             </li> -->
 
+            @if(Auth::guard('admin')->user())
+                <span>{{Auth::guard('admin')->user()->name}}</span>
+            @endif
             <li class="list-inline-item dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">

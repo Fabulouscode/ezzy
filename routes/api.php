@@ -28,7 +28,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::get('/hcp/main_types', 'CategoryController@getHCPMainTypes');
     
     // HCP SubTypes
-    Route::get('/hcp/sub_types/{id}', 'CategoryController@getHCPSubTypes');
+    Route::get('/hcp/sub_types/{id?}', 'CategoryController@getHCPSubTypes');
 
     Route::post('/login', 'UserAuthController@login');
     Route::post('/register', 'UserAuthController@saveRegister');
@@ -54,13 +54,13 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('user')->group(function(){
             
             Route::get('/dashboard', 'DashboardController@getDashboardDetails');
-            Route::get('/hcp/types/{id}', 'DashboardController@getHealthCareTypes');
+            Route::get('/hcp/types/{id?}', 'DashboardController@getHealthCareTypes');
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
 
             Route::get('/profile', 'UserController@getUserDetails');
-            Route::get('/get/profile/{id}', 'UserController@getUserbyIdDetails');
-            Route::get('/get/card_nuber/{card_num}', 'UserController@getUserbyCardNumberDetails');
-            Route::get('/change/status/{status}', 'UserController@changeUserStatus');
+            Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');
+            Route::get('/get/card_nuber/{card_num?}', 'UserController@getUserbyCardNumberDetails');
+            Route::get('/change/status/{status?}', 'UserController@changeUserStatus');
 
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
@@ -72,8 +72,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserBankDetails');
                 Route::post('/add', 'UserProfileController@addUserBankDetails');
                 Route::post('/update', 'UserProfileController@updateUserBankDetails');
-                Route::get('/get/{id}', 'UserProfileController@getByIdUserBankDetails');
-                Route::get('/delete/{id}', 'UserProfileController@deleteUserBankDetails');
+                Route::get('/get/{id?}', 'UserProfileController@getByIdUserBankDetails');
+                Route::get('/delete/{id?}', 'UserProfileController@deleteUserBankDetails');
             });
             
             // available times
@@ -81,8 +81,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserAvailableTimes');
                 Route::post('/add', 'UserProfileController@addUserAvailableTimes');
                 Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
-                Route::get('/get/{id}', 'UserProfileController@getByIdUserAvailableTimes');
-                Route::get('/delete/{id}', 'UserProfileController@deleteUserAvailableTimes');
+                Route::get('/get/{id?}', 'UserProfileController@getByIdUserAvailableTimes');
+                Route::get('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
             });
             
             // eductaion details
@@ -90,8 +90,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserEducationDetails');
                 Route::post('/add', 'UserProfileController@addUserEducationDetails');
                 Route::post('/update', 'UserProfileController@updateUserEducationDetails');
-                Route::get('/get/{id}', 'UserProfileController@getByIdUserEducationDetails');
-                Route::get('/delete/{id}', 'UserProfileController@deleteUserEducationDetails');
+                Route::get('/get/{id?}', 'UserProfileController@getByIdUserEducationDetails');
+                Route::get('/delete/{id?}', 'UserProfileController@deleteUserEducationDetails');
             });
             
             // experiance details
@@ -99,8 +99,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserExperianceDetails');
                 Route::post('/add', 'UserProfileController@addUserExperianceDetails');
                 Route::post('/update', 'UserProfileController@updateUserExperianceDetails');
-                Route::get('/get/{id}', 'UserProfileController@getByIdUserExperianceDetails');
-                Route::get('/delete/{id}', 'UserProfileController@deleteUserExperianceDetails');
+                Route::get('/get/{id?}', 'UserProfileController@getByIdUserExperianceDetails');
+                Route::get('/delete/{id?}', 'UserProfileController@deleteUserExperianceDetails');
             }); 
  
             // service details
@@ -108,8 +108,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserServiceDetailsController@getUserServiceDetails');
                 Route::post('/add', 'UserServiceDetailsController@addUserServiceDetails');
                 Route::post('/update', 'UserServiceDetailsController@updateUserServiceDetails');
-                Route::get('/get/{id}', 'UserServiceDetailsController@getByIdUserServiceDetails');
-                Route::get('/delete/{id}', 'UserServiceDetailsController@deleteUserServiceDetails');
+                Route::get('/get/{id?}', 'UserServiceDetailsController@getByIdUserServiceDetails');
+                Route::get('/delete/{id?}', 'UserServiceDetailsController@deleteUserServiceDetails');
             }); 
 
 
@@ -140,33 +140,33 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
          // services 
         Route::prefix('services')->group(function(){ 
-            Route::get('/get/{service_type}', 'UserServiceDetailsController@getServiceDetails');
+            Route::get('/get/{service_type?}', 'UserServiceDetailsController@getServiceDetails');
         });
         
         // pharmacy request
         Route::prefix('pharmacy')->group(function(){                        
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
-            Route::get('/subcategories/get/{cate_id}', 'ShopMedicineDetailsController@getMedicineSubcategories');
-            Route::get('/product/get/{sub_id}', 'ShopMedicineDetailsController@getMedicineDetails'); 
+            Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
+            Route::get('/product/get/{sub_id?}', 'ShopMedicineDetailsController@getMedicineDetails'); 
 
 
             // shop request
             Route::prefix('shop')->group(function(){  
                 Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
                 Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
-                Route::get('/product/{id}', 'ShopMedicineDetailsController@getShopProductInfo');    
+                Route::get('/product/{id?}', 'ShopMedicineDetailsController@getShopProductInfo');    
             });
 
              // cart request
             Route::prefix('cart')->group(function(){  
                 Route::post('/add', 'ShoppingCartController@addToCart');
-                Route::get('/update/add/{id}', 'ShoppingCartController@updateToCartAddition');       
-                Route::get('/update/sub/{id}', 'ShoppingCartController@updateToCartSubtraction');       
+                Route::get('/update/add/{id?}', 'ShoppingCartController@updateToCartAddition');       
+                Route::get('/update/sub/{id?}', 'ShoppingCartController@updateToCartSubtraction');       
                 Route::get('/list', 'ShoppingCartController@getUserCart');            
-                Route::get('/get/{id}', 'ShoppingCartController@getToCart');       
-                Route::get('/remove/{id}', 'ShoppingCartController@removeToCart');       
+                Route::get('/get/{id?}', 'ShoppingCartController@getToCart');       
+                Route::get('/remove/{id?}', 'ShoppingCartController@removeToCart');       
                 Route::get('/clear', 'ShoppingCartController@clearUserCart');       
-                Route::get('/shop/clear/{shop_id}', 'ShoppingCartController@clearShopCart');          
+                Route::get('/shop/clear/{shop_id?}', 'ShoppingCartController@clearShopCart');          
             });
 
             // favorite request
@@ -180,10 +180,10 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // order request
             Route::prefix('order')->group(function(){  
                 Route::post('/history', 'OrderController@getOrderHistory'); 
-                Route::get('/get/{order_id}', 'OrderController@getOrderProduct'); 
-                Route::get('/invoice/{order_id}', 'OrderController@generateInvoice'); 
+                Route::get('/get/{order_id?}', 'OrderController@getOrderProduct'); 
+                Route::get('/invoice/{order_id?}', 'OrderController@generateInvoice'); 
                 Route::post('/change/status', 'OrderController@changeOrderStatus'); 
-                Route::get('/tracking/{order_id}', 'OrderController@getOrderTracking'); 
+                Route::get('/tracking/{order_id?}', 'OrderController@getOrderTracking'); 
 
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
@@ -227,7 +227,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('support_request')->group(function(){            
             Route::post('', 'SupportRequestController@getSupportRequest');
             Route::post('/add', 'SupportRequestController@addSupportReques');
-            Route::get('/get/{id}', 'SupportRequestController@getSupportRequestInfo');
+            Route::get('/get/{id?}', 'SupportRequestController@getSupportRequestInfo');
         });
   
 

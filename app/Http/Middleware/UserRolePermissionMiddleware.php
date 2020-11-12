@@ -16,7 +16,15 @@ class UserRolePermissionMiddleware
      * @return mixed
      */
     public function handle(Request $request, Closure $next, $permission)
-    {   $permission_arr = Permission::get();
+    {   
+        $current_args = $request->route()->parameters();
+        $current_parameter = array_shift($current_args);
+        if(!empty($current_parameter) && (strpos($permission, '{provider}') !== false)){
+            if (strpos($permission, '{provider}') !== false) {
+                 $permission = str_replace( '{provider}', $current_parameter, $permission );
+            }
+        }
+        $permission_arr = Permission::get();
         foreach($permission_arr as $value){
             if($value->permission_name == $permission){                
                 if($request->user()->hasPermissionTo($value->permission_name)){                

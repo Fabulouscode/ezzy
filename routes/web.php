@@ -51,7 +51,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::post('image/remove', 'FileUploadController@fileRemoveStorage');
 
         // Child Dashoard
-        Route::get('{provider}/dashboard', 'DashboardController@index');
+        Route::get('{provider?}/dashboard', 'DashboardController@index')->middleware('role-permission:{provider}-dashboard');
         
         // Category routes(Provider)
         Route::resource('category', 'CategoryController')->middleware('role-permission-resource:hcp_type-list,hcp_type-add,hcp_type-edit,hcp_type-delete');
@@ -68,12 +68,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::post('user/transaction/data', 'UserController@getTransactionDatatable');        
         Route::post('user/medicine/data', 'UserController@showMedicineDetails');
         Route::post('user/services/data', 'UserController@showHCPService');
-        Route::get('{provider}/user', 'UserController@index');
-        Route::get('{provider}/user/pending', 'UserController@getPending');
-        Route::get('{provider}/user/{id}', 'UserController@show');
-        Route::get('{provider}/user/transaction/{id}', 'UserController@showTransaction');
-        Route::get('{provider}/user/services/{id}', 'UserController@showHCPService');        
-        Route::get('pharmacy/user/medicine/{id}', 'UserController@showMedicineDetails');
+        Route::get('{provider?}/user', 'UserController@index')->middleware('role-permission:{provider}-list');
+        Route::get('{provider?}/user/pending', 'UserController@getPending')->middleware('role-permission:{provider}-list');
+        Route::get('{provider?}/user/{id?}', 'UserController@show')->middleware('role-permission:{provider}-list');
+        Route::get('{provider?}/user/transaction/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
+        Route::get('{provider?}/user/services/{id?}', 'UserController@showHCPService')->middleware('role-permission:{provider}-services');        
+        Route::get('pharmacy/user/medicine/{id?}', 'UserController@showMedicineDetails')->middleware('role-permission:pharmacy-services');
         Route::resource('user', 'UserController');
 
         // Medicine Category routes
@@ -86,7 +86,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('medicine/details', 'MedicineDetailsController')->middleware('role-permission-resource:medicine_details-list,medicine_details-add,medicine_details-edit,medicine_details-delete');
        
         // pharmacy order Details routes        
-        Route::get('pharmacy/order/invoice/{id}', 'OrderController@getInvoice')->middleware('role-permission:order-invoice');
+        Route::get('pharmacy/order/invoice/{id?}', 'OrderController@getInvoice')->middleware('role-permission:order-invoice');
         Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews')->middleware('role-permission:order-review');
         Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
      
@@ -118,7 +118,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('appointment/reviews', 'AppointmentController@getAppointmentReviews')->middleware('role-permission:appointments-review');
         Route::get('appointment/completed', 'AppointmentController@getCompletedAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
-        Route::get('appointment/invoice/{id}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
+        Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
         Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
         // Support request  routes        
