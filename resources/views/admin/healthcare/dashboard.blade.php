@@ -22,6 +22,7 @@
     <div class="row">
 
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/healthcare/user')}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -38,8 +39,10 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/healthcare/user/pending')}}">
             <div class="card d-card-part bg-secondary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -56,8 +59,32 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/completed')}}">
+            <div class="card d-card-part bg-violet mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Appointments</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_appointments']) ? $data['today_appointments'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/healthcare/user')}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -74,11 +101,10 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
-    </div>
-    <div class="row">
-
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/healthcare/user')}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -95,8 +121,10 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/healthcare/user')}}">
             <div class="card d-card-part bg-warning mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -114,7 +142,32 @@
                 </div>
             </div>
         </div>
+        </a>
+    </div>
+    <div class="row">
+        
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/completed')}}">
+            <div class="card d-card-part bg-light-green mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Completed Appointment</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_completed_appointments']) ? $data['today_completed_appointments'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment')}}">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -125,35 +178,16 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['upcoming_appointment']) ? $data['upcoming_appointment'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['upcoming_appointments']) ? $data['upcoming_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_upcoming_appointments']) ? $data['today_upcoming_appointments'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        
-        <div class="col-xl-4 col-md-6">
-            <div class="card d-card-part bg-primary mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-heart float-right mb-0"></i>
-                    </div>
-                    <h6 class="mb-0">Completed Appointment</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointment']) ? $data['completed_appointment'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/cancel')}}">
             <div class="card d-card-part bg-dark mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -164,60 +198,14 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointment']) ? $data['cancel_appointment'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointments']) ? $data['cancel_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_cancel_appointments']) ? $data['today_cancel_appointments'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
             </div>
+            </a>
         </div>
-
-
-        {{-- <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-account float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Upcoming Appointment</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['upcoming_appointment']) ? $data['upcoming_appointment'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-account float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Completed Appointment</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['completed_appointment']) ? $data['completed_appointment'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
-                    <div class="mini-stat-icon">
-                        <i class="mdi mdi-account float-right mb-0"></i>
-                    </div>
-                    <h6 class="text-uppercase mb-0">Cancel Appointment</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['cancel_appointment']) ? $data['cancel_appointment'] : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
     <!-- end row -->
 

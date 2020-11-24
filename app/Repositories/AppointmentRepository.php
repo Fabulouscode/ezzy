@@ -64,16 +64,24 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAppointmentStatusWiseCount($status = '')
+    public function getAppointmentStatusWiseCount($status = '', $provider = '')
     {
         $query = $this->model;
         
         if($status != ''){
             $query = $query->whereIn('status', $status);
         }
+
+        if($provider != ''){
+            $query = $query->whereHas('user', function($query) use ($provider){
+                $query = $query->whereHas('categoryParent', function($query) use ($provider){
+                    $query->where('parent_id', $provider);
+                });
+            });
+        }
         
         $query = $query->orderBy('id','desc')->count();
-        
+
         return $query;
 
     }
@@ -83,17 +91,25 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTodayAppointmentStatusWiseCount($status = '')
+    public function getTodayAppointmentStatusWiseCount($status = '', $provider = '')
     {
         $query = $this->model->where('appointment_date', '=', Carbon::now()->format('Y-m-d'));
         
         if($status != ''){
             $query = $query->whereIn('status', $status);
+        } 
+
+        if($provider != ''){
+            $query = $query->whereHas('user', function($query) use ($provider){
+                $query = $query->whereHas('categoryParent', function($query) use ($provider){
+                    $query->where('parent_id', $provider);
+                });
+            });
         }
 
         $query = $query->orderBy('id','desc')->count();
+        
         return $query;
-
     }
    
     /**

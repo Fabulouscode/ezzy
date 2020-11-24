@@ -8,9 +8,10 @@ $(function () {
         responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: payout_url,
-            type: 'get',
+            url: payout_url + '/data',
+            type: 'post',
             dataType: "json",
+            data: payout_obj,
             async: true
         },
         columns: [

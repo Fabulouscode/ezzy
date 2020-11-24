@@ -22,10 +22,29 @@ class PayoutController extends Controller
      */
     public function index(Request $request)
     {
+        return view('admin.payout.index');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPendingPayout(Request $request)
+    {
+        return view('admin.payout.pending');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPayouts(Request $request)
+    {
         if($request->all()){
             return $this->user_transaction_repo->getDatatable($request);
         }
-        return view('admin.payout.index');
     }
 
    

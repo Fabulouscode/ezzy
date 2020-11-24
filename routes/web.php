@@ -90,7 +90,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews')->middleware('role-permission:order-review');
         Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
      
-        // payout routes 
+        // payout routes         
+        Route::get('payout/pending', 'PayoutController@getPendingPayout');
+        Route::post('payout/data', 'PayoutController@getPayouts');
         Route::resource('payout', 'PayoutController');
      
         // static pages routes 

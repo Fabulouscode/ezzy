@@ -19,6 +19,9 @@
 .bg-violet {
     background: #864d90 !important;
 }
+.bg-light-green {
+    background: #83d467 !important;
+}
 .badge{
     font-size: 14px;
     font-weight: 500;

@@ -42,6 +42,16 @@ class Repository
     {
         return $this->model->all();
     }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCount()
+    {
+        return $this->model->count();
+    }
 
     /**
      * FindOrFail Model and return the instance.

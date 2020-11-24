@@ -139,7 +139,6 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/appointment/completed')}}">
                 <div class="card d-card-part bg-primary mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -150,9 +149,15 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
-                                <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_appointments']) ? $data['pending_appointments'] : '0'}}</span> </h6>
-                                <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointments']) ? $data['cancel_appointments'] : '0'}}</span> </h6>
+                                <a href="{{url('/appointment/completed')}}">
+                                    <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
+                                </a>
+                                <a href="{{url('/appointment')}}">
+                                    <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_appointments']) ? $data['pending_appointments'] : '0'}}</span> </h6>
+                                </a>
+                                <a href="{{url('/appointment/cancel')}}">
+                                    <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointments']) ? $data['cancel_appointments'] : '0'}}</span> </h6>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -160,7 +165,6 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/pharmacy/order')}}">
                 <div class="card d-card-part bg-dark mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -171,9 +175,15 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_orders']) ? $data['completed_orders'] : '0'}}</span></h6>
-                                <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
-                                <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_orders']) ? $data['cancel_orders'] : '0'}}</span> </h6>
+                                <a href="{{url('/pharmacy/order')}}">
+                                    <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_orders']) ? $data['completed_orders'] : '0'}}</span></h6>
+                                </a>
+                                <a href="{{url('/pharmacy/order')}}">
+                                    <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
+                                </a>
+                                <a href="{{url('/pharmacy/order')}}">
+                                    <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_orders']) ? $data['cancel_orders'] : '0'}}</span> </h6>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -280,11 +290,11 @@
 
                     <div class="d-flex justify-content-around mb-3">
                         <div class="small-box bg-info text-center px-5 py-4 mx-3">
-                            <h4 class="text-white mb-1 font-weight-bold">8 </h4>
+                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['pending_payout']) ? $data['pending_payout'] : '0'}} </h4>
                             <p class="text-white">Pending Payout</p>
                         </div>
                         <div class="small-box bg-info text-center px-5 py-4 mx-3">
-                            <h4 class="text-white mb-1 font-weight-bold">2 </h4>
+                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['approved_payout']) ? $data['approved_payout'] : '0'}} </h4>
                             <p class="text-white">Approved Payout</p>
                         </div>
                     </div>
@@ -292,11 +302,11 @@
                     <h4 class="mt-0 header-title mb-4"> Manage Pharmacy </h4>
                     <div class="d-flex justify-content-around">
                         <div class="small-box bg-info text-center px-5 py-4 mx-3">
-                            <h4 class="text-white mb-1 font-weight-bold">8 </h4>
+                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_categories']) ? $data['medicine_categories'] : '0'}} </h4>
                             <p class="text-white">Medicine Categories</p>
                         </div>
                         <div class="small-box bg-info text-center px-5 py-4 mx-3">
-                            <h4 class="text-white mb-1 font-weight-bold">2 </h4>
+                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_subcategories']) ? $data['medicine_subcategories'] : '0'}} </h4>
                             <p class="text-white">Medicine Subcategories</p>
                         </div>
                     </div>

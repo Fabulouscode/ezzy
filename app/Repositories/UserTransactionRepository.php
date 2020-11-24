@@ -111,7 +111,7 @@ class UserTransactionRepository extends Repository
 
     public function getDatatable($request)
     {
-        $data = $this->getPayoutWithRelationship(); //->getWithRelationship($request);
+        $data = $this->getPayoutWithRelationship($request); //->getWithRelationship($request);
         return Datatables::of($data)
             ->editColumn('mode_of_payment',function($selected)
             {
@@ -167,9 +167,14 @@ class UserTransactionRepository extends Repository
         return $query;
     }
   
-    public function getPayoutWithRelationship()
+    public function getPayoutWithRelationship($request)
     {
         $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
+        
+        if($request->status != ''){
+             $query->where('status', $request->status);
+        }
+
         $query = $query->orderBy('id','desc')->get();
    
         return $query;

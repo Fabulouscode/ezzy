@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Payout')
+@section('title','Pending Payout')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Payout</li>
+                    <li class="breadcrumb-item active">Pending Payout</li>
                 </ol>
             </div>
-            <h5 class="page-title">Payout</h5>
+            <h5 class="page-title">Pending Payout</h5>
         </div>
     </div>
     <!-- end row -->
@@ -52,7 +52,7 @@
 @section('script')
 <script>
     var payout_url = "{{url('/payout')}}";
-    var payout_obj = {'status':'0'};
+    var payout_obj = {'status':'2'};
 </script>
 <script src="{{ asset('js/admin/payout.js') }}" ></script>
 @endsection

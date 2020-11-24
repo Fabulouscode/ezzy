@@ -18,13 +18,13 @@
         </div>
     </div>
     <!-- end row -->
-
     <div class="row">
         <div class="col-xl-4 col-md-6">
+            <a href="{{url('/laboratories/user')}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
-                        <i class="dripicons-medical float-right mb-0"></i>
+                        <i class="dripicons-heart float-right mb-0"></i>
                     </div>
                     <h6 class="mb-0">Approved Laboratories</h6>
                 </div>
@@ -37,12 +37,14 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <div class="card d-card-part bg-info mini-stat m-b-30">
+            <a href="{{url('/laboratories/user/pending')}}">
+            <div class="card d-card-part bg-secondary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
-                        <i class="dripicons-medical float-right mb-0"></i>
+                        <i class="dripicons-heart float-right mb-0"></i>
                     </div>
                     <h6 class="mb-0">Pending Laboratories</h6>
                 </div>
@@ -55,37 +57,152 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
-        {{-- <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/completed')}}">
+            <div class="card d-card-part bg-violet mini-stat m-b-30">
+                <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
-                        <i class="mdi mdi-account-check float-right mb-0"></i>
+                        <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Approved Laboratories</h6>
+                    <h6 class="mb-0">Appointments</h6>
                 </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['approved_count']) ? $data['approved_count'] : '0'}}<i class="mdi mdi-arrow-up text-success ml-2"></i></h5>                     
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['appointments']) ? $data['appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_appointments']) ? $data['today_appointments'] : '0'}}</span> </h6>
+                        </div>
                     </div>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card mini-stat m-b-30">
-                <div class="p-3 bg-primary text-white">
+    </div>
+    <div class="row"> 
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/laboratories/user')}}">
+            <div class="card d-card-part bg-info mini-stat m-b-30">
+                <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
-                        <i class="mdi mdi-account float-right mb-0"></i>
+                        <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="text-uppercase mb-0">Pending Laboratories</h6>
+                    <h6 class="mb-0">Pathologist & Lab Scientists</h6>
                 </div>
-                <div class="card-body">
-                    <div class="mt-4 text-muted">
-                        <h5 class="m-0">{{ isset($data['pending_count']) ? $data['pending_count'] : '0'}}<i class="mdi mdi-arrow-down text-danger ml-2"></i></h5>                        
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pathologist']) ? $data['pathologist'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> --}}
+            </a>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/laboratories/user')}}">
+            <div class="card d-card-part bg-danger mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Radiologist (X-Ray & Scan)</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['radiologist']) ? $data['radiologist'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/laboratories/user')}}">
+            <div class="card d-card-part bg-warning mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Physiotherapist</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['physiotherapist']) ? $data['physiotherapist'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/completed')}}">
+            <div class="card d-card-part bg-light-green mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Completed Appointment</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_completed_appointments']) ? $data['today_completed_appointments'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>        
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment')}}">
+            <div class="card d-card-part bg-success mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Upcoming Appointment</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['upcoming_appointments']) ? $data['upcoming_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_upcoming_appointments']) ? $data['today_upcoming_appointments'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <a href="{{url('/appointment/cancel')}}">
+            <div class="card d-card-part bg-dark mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-heart float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Cancel Appointment</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointments']) ? $data['cancel_appointments'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_cancel_appointments']) ? $data['today_cancel_appointments'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
     </div>
     <!-- end row -->
 
