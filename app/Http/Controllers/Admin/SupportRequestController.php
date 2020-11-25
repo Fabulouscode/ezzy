@@ -47,24 +47,18 @@ class SupportRequestController extends Controller
      */
     public function store(SupportRequest $request)
     {
-         if(!empty($request->id)){
-            $category = $this->support_request_repo->getById($request->id);
-            if(!empty($category)){
-                $data = [
-                        'user_id' => $request->user_id,
-                        'title' => $request->title,
-                        'description' => $request->description,
-                        'status' => $request->status,
-                        ];
-                $this->support_request_repo->dataCrud($data, $request->id);
-            } 
-        } else{
-            $data = [
+        $data = [
                     'user_id' => $request->user_id,
                     'title' => $request->title,
                     'description' => $request->description,
                     'status' => $request->status,
-                    ];
+                ];
+         if(!empty($request->id)){
+            $category = $this->support_request_repo->getById($request->id);
+            if(!empty($category)){
+                $this->support_request_repo->dataCrud($data, $request->id);
+            } 
+        } else{
             $this->support_request_repo->dataCrud($data);
         }
 

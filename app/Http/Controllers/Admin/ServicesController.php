@@ -49,23 +49,18 @@ class ServicesController extends Controller
      */
     public function store(ServicesRequest $request)
     {
+        $data = [
+                    'service_name' => $request->service_name,
+                    'service_type' => $request->service_type,
+                    'status' => $request->status,
+                ];
 
          if(!empty($request->id)){
             $category = $this->services_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                        'service_name' => $request->service_name,
-                        'service_type' => $request->service_type,
-                        'status' => $request->status,
-                        ];
                 $this->services_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $data = [
-                    'service_name' => $request->service_name,
-                    'service_type' => $request->service_type,
-                    'status' => $request->status,
-                    ];
             $this->services_repo->dataCrud($data);
         }
 

@@ -48,21 +48,17 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-
-         if(!empty($request->id)){
+        $data = [
+                'name' => $request->name,
+                'parent_id' => $request->parent_id,
+            ];
+            
+        if(!empty($request->id)){
             $category = $this->category_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                        'name' => $request->name,
-                        'parent_id' => $request->parent_id,
-                        ];
                 $this->category_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $data = [
-                    'name' => $request->name,
-                    'parent_id' => $request->parent_id,
-                    ];
             $this->category_repo->dataCrud($data);
         }
 

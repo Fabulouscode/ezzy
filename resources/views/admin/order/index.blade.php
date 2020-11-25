@@ -28,17 +28,19 @@
                         <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
 
-                    <table id="pharmacy_order_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>Service Provider Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="pharmacy_order_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Service Provider Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

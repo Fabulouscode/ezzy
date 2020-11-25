@@ -6,7 +6,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             url: medicine_subcategory_url,
             type: 'get',

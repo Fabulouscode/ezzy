@@ -6,7 +6,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             url: role_url,
             type: 'get',

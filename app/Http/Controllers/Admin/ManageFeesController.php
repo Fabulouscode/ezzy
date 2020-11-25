@@ -51,21 +51,18 @@ class ManageFeesController extends Controller
      */
     public function store(ManageFeesRequest $request)
     {
+        $data = [
+                    'category_id' => $request->category_id,
+                    'fees_percentage' => $request->fees_percentage,
+                ];
+                
         if(!empty($request->id)){
             $category = $this->manage_fees_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                            'category_id' => $request->category_id,
-                            'fees_percentage' => $request->fees_percentage,
-                        ];
                 $this->manage_fees_repo->dataCrud($data, $request->id);
             } 
             return response()->json(['msg'=>'Update success'], 200);
         } else{
-            $data = [
-                        'category_id' => $request->category_id,
-                        'fees_percentage' => $request->fees_percentage,
-                    ];
             $this->manage_fees_repo->dataCrud($data);
             return response()->json(['msg'=>'Add success'], 200);
         }

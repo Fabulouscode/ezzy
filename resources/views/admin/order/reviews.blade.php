@@ -23,18 +23,20 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <table id="order_review_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Order No</th>
-                                <th>User Name</th>
-                                <th>Patient Name</th>
-                                <th>Rating</th>
-                                <th>Reviews</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="order_review_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Order No</th>
+                                    <th>User Name</th>
+                                    <th>Patient Name</th>
+                                    <th>Rating</th>
+                                    <th>Reviews</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

@@ -51,23 +51,19 @@ class AdminNotificationController extends Controller
      */
     public function store(AdminNotificationRequest $request)
     {
+        $data = [
+            'title' => $request->title,
+            'message' => $request->message,
+            'send_category' => json_encode($request->send_category),
+        ];
+
         if(!empty($request->id)){
             $category = $this->admin_notification_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                            'title' => $request->title,
-                            'message' => $request->message,
-                            'send_category' => json_encode($request->send_category),
-                        ];
+
                 $this->admin_notification_repo->dataCrud($data, $request->id);
-            } 
-            
+            }
         } else{
-            $data = [
-                        'title' => $request->title,
-                        'message' => $request->message,
-                        'send_category' => json_encode($request->send_category),
-                    ];
             $this->admin_notification_repo->dataCrud($data);
         }
         

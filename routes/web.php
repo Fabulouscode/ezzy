@@ -96,6 +96,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('payout', 'PayoutController');
      
         // static pages routes 
+        Route::resource('voucher_code', 'VoucherCodeController')->middleware('role-permission-resource:voucher_code-list,voucher_code-add,voucher_code-edit,voucher_code-delete');
+       
+        // static pages routes 
         Route::resource('static_pages', 'StaticPagesController')->middleware('role-permission-resource:static_page-list,static_page-add,static_page-edit,static_page-delete');
  
         // manage fees routes 

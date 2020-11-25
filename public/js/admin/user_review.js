@@ -10,7 +10,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_review_url,

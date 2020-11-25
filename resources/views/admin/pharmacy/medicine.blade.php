@@ -25,19 +25,21 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <table id="shop_medicine_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Medicine Name</th>
-                                <th>Medicine SKU</th>
-                                <th>Quantity</th>
-                                <th>Amount</th>
-                                <th>Medicine Type</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="shop_medicine_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Medicine Name</th>
+                                    <th>Medicine SKU</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Medicine Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

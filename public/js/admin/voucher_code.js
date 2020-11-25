@@ -1,28 +1,21 @@
 
 $(function () {
-    $("form[name='appointment_form']").parsley();
-
-    $('#appointments_datatable').DataTable({
+    $("form[name='voucher_code_form']").parsley();
+    $('#voucher_code_datatable').DataTable({
         lengthChange: true,
         processing: true,
         serverSide: true,
         bPaginate: true,
         // responsive: true,
         ajax: {
-            url: appointment_url,
+            url: voucher_code_url,
             type: 'get',
             dataType: "json",
             async: true,
-            data: data_obj
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
-            { data: 'user_name', name: 'user_name' },
-            { data: 'service_provider', name: 'service_provider' },
-            { data: 'hcp_type', name: 'hcp_type' },
-            { data: 'appointment_type', name: 'appointment_type' },
-            { data: 'appointment_date', name: 'appointment_date' },
-            { data: 'status', name: 'status' },
+            { data: 'voucher_name', name: 'voucher_name' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
@@ -45,7 +38,7 @@ function deleteRow(row_id) {
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                    url: appointment_url + "/" + row_id,
+                    url: voucher_code_url + "/" + row_id,
                     type: "delete",
                     dataType: 'json',
                     success: function (data) {
@@ -55,7 +48,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         toastr.success(data.msg, 'EzzyCare App');
-                        var oTable = $('#appointments_datatable').dataTable();
+                        var oTable = $('#voucher_code_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {

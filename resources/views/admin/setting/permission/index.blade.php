@@ -27,17 +27,19 @@
                         <a href="javascript:void(0)" onclick="addRow()" class="btn btn-info">Add Permission</a>
                     </div>                            
                     @endcan              
-                    <table id="permission_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>                                
-                                <th>Permission Category Name</th>
-                                <th>Permission Name</th>
-                                <th>Permission Value</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="permission_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>                                
+                                    <th>Permission Category Name</th>
+                                    <th>Permission Name</th>
+                                    <th>Permission Value</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

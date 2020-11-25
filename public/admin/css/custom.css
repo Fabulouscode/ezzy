@@ -199,9 +199,6 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
     background-color: #0498b5;
     transform: translateY(-50%)
 }
-.card-detail-view{
-
-}
 .card-detail-view > .header-title{
     padding: 15px;
     background-color: #eeeeee;
@@ -209,3 +206,20 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 .card-detail-list{
     padding: 15px;
 }
+
+/* scrollbar */
+/* ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dee2e6; 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background:#dee2e6; 
+} */

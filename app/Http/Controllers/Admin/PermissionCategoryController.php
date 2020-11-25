@@ -48,19 +48,18 @@ class PermissionCategoryController extends Controller
      */
     public function store(PermissionCategoryRequest $request)
     {
+        
+        $data = [
+                    'name' => $request->name,
+                ];
+
         if(!empty($request->id)){
             $permission_cat = $this->permission_cat_repo->getById($request->id);
             if(!empty($permission_cat)){
-                $data = [
-                            'name' => $request->name,
-                        ];
                 $this->permission_cat_repo->dataCrud($data, $request->id);
             } 
             return response()->json(['msg'=>'Update success'], 200);
         } else{
-            $data = [
-                        'name' => $request->name,
-                    ];
             $this->permission_cat_repo->dataCrud($data);
             return response()->json(['msg'=>'Add success'], 200);
         }

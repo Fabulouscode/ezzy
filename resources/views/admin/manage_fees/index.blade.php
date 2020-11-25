@@ -27,16 +27,18 @@
                         <a href="javascript:void(0)" onclick="addRow()" class="btn btn-info">Add Fees</a>
                     </div>  -->
                     @endcan                                            
-                    <table id="manage_fees_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>HCP Type</th>
-                                <th>Fees (%)</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="manage_fees_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>HCP Type</th>
+                                    <th>Fees (%)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

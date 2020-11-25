@@ -48,22 +48,19 @@ class StaticPagesController extends Controller
      */
     public function store(StaticPageRequest $request)
     {
+        
+        $data = [
+                    'page_name' => $request->page_name,
+                    'page_description' => $request->page_description,
+                    'status' => $request->status,
+                ];
+
         if(!empty($request->id)){
             $category = $this->static_page_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                            'page_name' => $request->page_name,
-                            'page_description' => $request->page_description,
-                            'status' => $request->status,
-                        ];
                 $this->static_page_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $data = [
-                        'page_name' => $request->page_name,
-                        'page_description' => $request->page_description,
-                        'status' => $request->status,
-                    ];
             $this->static_page_repo->dataCrud($data);
         }
 

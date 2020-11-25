@@ -28,18 +28,20 @@
                         <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
 
-                    <table id="payout_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Username</th>
-                                <th>Transaction date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Created at</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="payout_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Username</th>
+                                    <th>Transaction date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Created at</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

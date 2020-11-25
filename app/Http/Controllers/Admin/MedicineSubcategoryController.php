@@ -51,22 +51,18 @@ class MedicineSubcategoryController extends Controller
      */
     public function store(MedicineSubcategoryRequest $request)
     {
-         if(!empty($request->id)){
+        $data = [
+                'name' => $request->name,
+                'medicine_category_id' => $request->medicine_category_id,
+                'status' => $request->status,
+            ];
+        if(!empty($request->id)){
             $category = $this->medicine_subcategory_repo->getById($request->id);
             if(!empty($category)){
-                $data = [
-                        'name' => $request->name,
-                        'medicine_category_id' => $request->medicine_category_id,
-                        'status' => $request->status,
-                        ];
+
                 $this->medicine_subcategory_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $data = [
-                    'name' => $request->name,
-                    'medicine_category_id' => $request->medicine_category_id,
-                    'status' => $request->status,
-                    ];
             $this->medicine_subcategory_repo->dataCrud($data);
         }
 

@@ -27,17 +27,19 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <table id="service_laboratories_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Service Name</th>
-                                <th>Service Amount</th>
-                                <th>Service Type</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="service_laboratories_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Service Name</th>
+                                    <th>Service Amount</th>
+                                    <th>Service Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>

@@ -51,23 +51,19 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $request)
     {
+        $data = [
+                'permission_category_id' => $request->permission_category_id,
+                'permission_title' => $request->permission_title,
+                'permission_name' => $request->permission_name,
+            ];
+            
         if(!empty($request->id)){
             $permission = $this->permission_repo->getById($request->id);
             if(!empty($permission)){
-                $data = [
-                            'permission_category_id' => $request->permission_category_id,
-                            'permission_title' => $request->permission_title,
-                            'permission_name' => $request->permission_name,
-                        ];
                 $this->permission_repo->dataCrud($data, $request->id);
             } 
             return response()->json(['msg'=>'Update success'], 200);
         } else{
-            $data = [
-                        'permission_category_id' => $request->permission_category_id,
-                        'permission_title' => $request->permission_title,
-                        'permission_name' => $request->permission_name,
-                    ];
             $this->permission_repo->dataCrud($data);
             return response()->json(['msg'=>'Add success'], 200);
         }

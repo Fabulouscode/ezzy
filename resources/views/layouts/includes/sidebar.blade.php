@@ -152,7 +152,7 @@
                         <li><a href="{{url('/manage_fees')}}">Manage Fees</a></li>
                         @endcan
                         @can('voucher_code-list')
-                        <li><a href="javascript:void(0);">Voucher Code</a></li>
+                        <li><a href="{{url('/voucher_code')}}">Voucher Code</a></li>
                         @endcan
                     </ul>
                 </li>

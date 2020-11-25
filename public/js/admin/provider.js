@@ -7,7 +7,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_url + "/data",
@@ -40,7 +40,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_url + "/transaction/data",
@@ -68,7 +68,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_url + "/medicine/data",
@@ -97,7 +97,7 @@ $(function () {
         processing: true,
         serverSide: true,
         bPaginate: true,
-        responsive: true,
+        // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
             url: user_url + "/services/data",
@@ -131,7 +131,7 @@ $(function () {
     //     processing: true,
     //     serverSide: true,
     //     bPaginate: true,
-    //     responsive: true,
+    //     // responsive: true,
     //     ajax: {
     //         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
     //         url: user_url + "/review/" + last_segment,

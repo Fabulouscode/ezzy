@@ -28,20 +28,22 @@
                         <a href="{{url('/category/create')}}" class="btn btn-info">Add Appointments</a>
                     </div> -->
 
-                    <table id="appointments_datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>Service Provider Name</th>
-                                <th>HCP Type</th>
-                                <th>Appointment Type</th>
-                                <th>Start Date Time</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>                        
-                    </table>
+                    <div class="table-responsive">
+                        <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Service Provider Name</th>
+                                    <th>HCP Type</th>
+                                    <th>Appointment Type</th>
+                                    <th>Start Date Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>                        
+                        </table>
+                    </div>
 
                 </div>
             </div>
