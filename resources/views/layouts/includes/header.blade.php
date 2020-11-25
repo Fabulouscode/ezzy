@@ -81,12 +81,12 @@
             </li> -->
 
             @if(Auth::guard('admin')->user())
-                <span>{{Auth::guard('admin')->user()->name}}</span>
+                {{-- <span class="admin-title">{{Auth::guard('admin')->user()->name}}</span> --}}
             @endif
             <li class="list-inline-item dropdown notification-list">
-                <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <img src="{{ asset('admin/images/avatar.jpg') }}" alt="user" class="rounded-circle">
+                    <span class="admin-title">{{Auth::guard('admin')->user()->name}} <i class="fa fa-angle-down"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
                     @can('admin-edit')

@@ -79,6 +79,11 @@
 .spinner:before{
     border-color: #15bedf
 }
+span.admin-title {
+    color: #fff;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+}
 .accountbg{background-image: url('../images/login_bg.jpg');position: relative;}
 .accountbg::before{
     content: '';

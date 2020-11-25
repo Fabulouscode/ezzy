@@ -165,30 +165,29 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-                <div class="card d-card-part bg-dark mini-stat m-b-30">
-                    <div class="card-d-title text-white">
-                        <div class="mini-stat-icon">
-                            <i class="mdi mdi-account float-right mb-0"></i>
-                        </div>
-                        <h6 class="mb-0">Manage Order</h6>
+            <div class="card d-card-part bg-dark mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-account float-right mb-0"></i>
                     </div>
-                    <div class="card-body d-card-body">
-                        <div class="mt-2 text-muted">
-                            <div class="d-flex justify-content-between">
-                                <a href="{{url('/pharmacy/order')}}">
-                                    <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_orders']) ? $data['completed_orders'] : '0'}}</span></h6>
-                                </a>
-                                <a href="{{url('/pharmacy/order')}}">
-                                    <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
-                                </a>
-                                <a href="{{url('/pharmacy/order')}}">
-                                    <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_orders']) ? $data['cancel_orders'] : '0'}}</span> </h6>
-                                </a>
-                            </div>
+                    <h6 class="mb-0">Manage Order</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{url('/pharmacy/order')}}">
+                                <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_orders']) ? $data['completed_orders'] : '0'}}</span></h6>
+                            </a>
+                            <a href="{{url('/pharmacy/order')}}">
+                                <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
+                            </a>
+                            <a href="{{url('/pharmacy/order')}}">
+                                <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_orders']) ? $data['cancel_orders'] : '0'}}</span> </h6>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
     <div class="row">
