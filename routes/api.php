@@ -102,6 +102,15 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserExperianceDetails');
                 Route::get('/delete/{id?}', 'UserProfileController@deleteUserExperianceDetails');
             }); 
+       
+            // location details
+            Route::prefix('location_details')->group(function(){
+                Route::get('', 'UserProfileController@getUserLocationDetails');
+                Route::post('/add', 'UserProfileController@addUserLocationDetails');
+                Route::post('/update', 'UserProfileController@updateUserLocationDetails');
+                Route::get('/get/{id?}', 'UserProfileController@getByIdUserLocationDetails');
+                Route::get('/delete/{id?}', 'UserProfileController@deleteUserLocationDetails');
+            }); 
  
             // service details
             Route::prefix('service')->group(function(){

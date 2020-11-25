@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\VoucherCodeRequest;
 use App\Repositories\VoucherCodeRepository;
+use Carbon\Carbon as Carbon;
 
 class VoucherCodeController extends Controller
 {
@@ -36,7 +37,9 @@ class VoucherCodeController extends Controller
      */
     public function create()
     {
-        return view('admin.voucher_code.add');
+        $status = $this->voucher_code_repo->status;
+        $voucher_type = $this->voucher_code_repo->voucher_type;
+        return view('admin.voucher_code.add',compact('voucher_type','status'));
     }
 
     /**
@@ -47,7 +50,6 @@ class VoucherCodeController extends Controller
      */
     public function store(VoucherCodeRequest $request)
     {
-
         $data = [
                     'voucher_name' => $request->voucher_name,
                     'voucher_code' => $request->voucher_code,
@@ -81,8 +83,11 @@ class VoucherCodeController extends Controller
      */
     public function edit($id)
     {
+        $status = $this->voucher_code_repo->status;
+        $voucher_type = $this->voucher_code_repo->voucher_type;
         $data = $this->voucher_code_repo->getById($id);
-        return view('admin.voucher_code.add',compact('data'));
+        $data->expiry_date = Carbon::parse($data->expiry_date)->format('Y-m-d\TH:i');
+        return view('admin.voucher_code.add',compact('data','status','voucher_type'));
     }
 
     /**

@@ -46,7 +46,7 @@
                                 <label>Status</label>
                                 <select  type="text" class="form-control @error('status') is-invalid @enderror" name="status" >
                                     @foreach($status as $key => $value)
-                                        <option value="{{$key}}" {{ !empty($data->status) && $key == $data->status ? 'selected' : '' }}>{{$value}}</option>
+                                        <option value="{{$key}}" {{ isset($data->status) && $key == $data->status ? 'selected' : '' }}>{{$value}}</option>
                                     @endforeach
                                 </select>
                                 @error('status')

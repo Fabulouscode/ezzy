@@ -26,8 +26,8 @@ class VoucherCodeRequest extends FormRequest
         return [
                 'voucher_name' => 'required',
                 'voucher_code' => 'required|unique:voucher_codes,voucher_code,'.$this->id,
-                'quantity' => 'required',
-                'expiry_date' => 'required|date_format:Y-m-d H:i:s',
+                'quantity' => 'required|numeric',
+                'expiry_date' => 'required',
                 'voucher_type' => 'required',
                 'status' =>'required',
         ];

@@ -342,7 +342,7 @@
                                                 <tr>
                                                     <th>Service Name</th>
                                                     <th>Service Amount</th>
-                                                    <th>Report</th>
+                                                    <!-- <th>Report</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -350,11 +350,7 @@
                                                 <tr>
                                                     <td>{{$service->userService->service->service_name}}</td>
                                                     <td>{{$service->userService->service_charge}}</td>
-                                                    <td> 
-                                                        @if(!empty($service->userService->service_report))
-                                                            <a href="{{$service->userService->service_report}}" target="_blank">Click Here</a>
-                                                        @endif 
-                                                    </td>
+                                                    <!-- <td> </td> -->
                                                 </tr>
                                             @endforeach
                                             </tbody>

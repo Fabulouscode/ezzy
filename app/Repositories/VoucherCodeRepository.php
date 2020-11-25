@@ -14,7 +14,15 @@ class VoucherCodeRepository extends Repository
 {
     protected $model_name = 'App\Models\Voucher_code';
     protected $model;
-
+    public $voucher_type = array(
+        '0' => 'Common',
+        '1' => 'Appointment',
+        '2' => 'Order',
+    );
+    public $status = array(
+        '0' => 'Active',
+        '1' => 'Inactive',
+    );
     public function __construct()
     {
         parent::__construct();

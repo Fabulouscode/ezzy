@@ -10,16 +10,18 @@ use App\Repositories\UserBankAccountRepository;
 use App\Repositories\UserAvailableTimeRepository;
 use App\Repositories\UserEductaionRepository;
 use App\Repositories\UserExperianceRepository;
+use App\Repositories\UserLocationRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
+use App\Http\Requests\Api\UserLocationRequest;
 use App\Http\Requests\Api\UploadFileRequest;
 use App\Http\Requests\Api\UserRequest;
 
 class UserProfileController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $user_bank_account_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
+    private $user_repo, $user_details_repo, $user_bank_account_repo, $user_location_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
 
     public function __construct(
         UserRepository $user_repo,
@@ -27,7 +29,8 @@ class UserProfileController extends BaseApiController
         UserBankAccountRepository $user_bank_account_repo,
         UserAvailableTimeRepository $user_available_time_repo,
         UserEductaionRepository $user_education_repo,
-        UserExperianceRepository $user_experiance_repo
+        UserExperianceRepository $user_experiance_repo,
+        UserLocationRepository $user_location_repo
         )
     {
         parent::__construct();
@@ -37,6 +40,7 @@ class UserProfileController extends BaseApiController
         $this->user_available_time_repo = $user_available_time_repo;
         $this->user_education_repo = $user_education_repo;
         $this->user_experiance_repo = $user_experiance_repo;
+        $this->user_location_repo = $user_location_repo;
     }
 
 
@@ -315,6 +319,65 @@ class UserProfileController extends BaseApiController
     }
 
 
+    // location details
+    public function getUserLocationDetails(Request $request)
+    {
+        $data = array();
+        $data = $this->user_location_repo->getbyUserId($request->user()->id);
+        return self::sendSuccess($data, 'User Location details');
+    }
+
+    public function addUserLocationDetails(UserLocationRequest $request)
+    {
+        $data = array();
+        $add_data = [
+                    'user_id' => $request->user()->id,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'mobile_no'=> $request->mobile_no,
+                    'address' => $request->address,
+                    ];
+        try{
+            $data = $this->user_location_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Location details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+    
+    public function updateUserLocationDetails(UserLocationRequest $request)
+    {
+        $data = array();
+        $update_data = [
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'mobile_no'=> $request->mobile_no,
+                        'address' => $request->address,
+                        ];
+        try{
+            $data = $this->user_location_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Location details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+
+    public function getByIdUserLocationDetails($id)
+    {
+        $data = array();
+        $data = $this->user_location_repo->getbyId($id);
+        return self::sendSuccess($data, 'Location details info');
+    }
+   
+    public function deleteUserLocationDetails($id)
+    {
+        $data = $this->user_education_repo->getById($id);
+        if(!empty($data)){
+            $this->user_location_repo->destroy($id); 
+             return self::sendSuccess([], 'Location details Deleted Successfully');
+        }
+        return self::sendError($data, 'Location details not Deleted', 500);
+    }
 
    
 
