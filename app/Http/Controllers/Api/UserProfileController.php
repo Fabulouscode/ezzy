@@ -81,6 +81,11 @@ class UserProfileController extends BaseApiController
     public function addUserBankDetails(UserBankAccountRequest $request)
     {
         $data = array();
+        $primary_status = 0;
+        $primary_account = $this->user_bank_account_repo->getbyUserId($request->user()->id);
+        if(isset($primary_account) && count($primary_account) == '0'){
+            $primary_status = 1;
+        }
         $add_data = [
                     'user_id' => $request->user()->id,
                     'name' => $request->name,
@@ -88,6 +93,7 @@ class UserProfileController extends BaseApiController
                     'bank_branch_name'=> $request->bank_branch_name,
                     'account_number' => $request->account_number,
                     'ifsc_code' => $request->ifsc_code,
+                    'primary_account' => $primary_status,
                     ];
         try{
             $data = $this->user_bank_account_repo->dataCrud($add_data);
@@ -148,7 +154,7 @@ class UserProfileController extends BaseApiController
                 $this->user_bank_account_repo->destroy($id); 
                 return self::sendSuccess([], 'Bank account details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendException($e);
+               return self::sendError($data, 'You can not delete this Bank account details', 500);
             }
             
         }
@@ -214,7 +220,7 @@ class UserProfileController extends BaseApiController
                 $this->user_available_time_repo->destroy($id); 
                 return self::sendSuccess([], 'Available times details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendException($e);
+                return self::sendError($data, 'You can not delete this Available times details', 500);
             }
           
         }
@@ -282,7 +288,7 @@ class UserProfileController extends BaseApiController
                 $this->user_education_repo->destroy($id); 
                 return self::sendSuccess([], 'Education details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendException($e);
+                return self::sendError($data, 'You can not delete this Education details', 500);
             }
         }
         return self::sendError($data, 'Education details not Deleted', 500);
@@ -349,7 +355,7 @@ class UserProfileController extends BaseApiController
                 $this->user_experiance_repo->destroy($id); 
                 return self::sendSuccess([], 'Experiance details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendException($e);
+                return self::sendError($data, 'You can not delete this Experiance details', 500);
             }
         }
         return self::sendError($data, 'Experiance details not Deleted', 500);
@@ -367,12 +373,18 @@ class UserProfileController extends BaseApiController
     public function addUserLocationDetails(UserLocationRequest $request)
     {
         $data = array();
+        $primary_status = 0;
+        $primary_address = $this->user_location_repo->getbyUserId($request->user()->id);
+        if(isset($primary_address) && count($primary_address) == '0'){
+            $primary_status = 1;
+        }
         $add_data = [
                     'user_id' => $request->user()->id,
                     'name' => $request->name,
                     'email' => $request->email,
                     'mobile_no'=> $request->mobile_no,
                     'address' => $request->address,
+                    'primary_address' => $primary_status,
                     ];
         try{
             $data = $this->user_location_repo->dataCrud($add_data);
@@ -430,10 +442,10 @@ class UserProfileController extends BaseApiController
             }
 
             try{
-                    $this->user_location_repo->destroy($id); 
-                    return self::sendSuccess([], 'Location details Deleted Successfully');
+                $this->user_location_repo->destroy($id); 
+                return self::sendSuccess([], 'Location details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendException($e);
+                return self::sendError($data, 'You can not delete this Location details', 500);
             }
 
         }
