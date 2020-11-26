@@ -21,6 +21,7 @@ class CreateUserBankAccountsTable extends Migration
             $table->string('bank_branch_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('ifsc_code')->nullable();
+            $table->boolean('primary_account')->default(0)->comment('0-normal, 1-Primary');
             $table->timestamps();
 
             // Foregin Key add

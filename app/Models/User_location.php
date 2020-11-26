@@ -21,6 +21,7 @@ class User_location extends Model
         'email',
         'mobile_no',
         'address',
+        'primary_address'
     ];
 
 }

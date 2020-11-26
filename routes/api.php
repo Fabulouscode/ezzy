@@ -73,7 +73,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserProfileController@addUserBankDetails');
                 Route::post('/update', 'UserProfileController@updateUserBankDetails');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserBankDetails');
-                Route::get('/delete/{id?}', 'UserProfileController@deleteUserBankDetails');
+                Route::get('/primary/{id?}', 'UserProfileController@updatePrimaryUserBankDetails');
+                Route::delete('/delete/{id?}', 'UserProfileController@deleteUserBankDetails');
             });
             
             // available times
@@ -82,7 +83,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserProfileController@addUserAvailableTimes');
                 Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserAvailableTimes');
-                Route::get('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
+                Route::delete('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
             });
             
             // eductaion details
@@ -91,7 +92,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserProfileController@addUserEducationDetails');
                 Route::post('/update', 'UserProfileController@updateUserEducationDetails');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserEducationDetails');
-                Route::get('/delete/{id?}', 'UserProfileController@deleteUserEducationDetails');
+                Route::delete('/delete/{id?}', 'UserProfileController@deleteUserEducationDetails');
             });
             
             // experiance details
@@ -100,7 +101,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserProfileController@addUserExperianceDetails');
                 Route::post('/update', 'UserProfileController@updateUserExperianceDetails');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserExperianceDetails');
-                Route::get('/delete/{id?}', 'UserProfileController@deleteUserExperianceDetails');
+                Route::delete('/delete/{id?}', 'UserProfileController@deleteUserExperianceDetails');
             }); 
        
             // location details
@@ -109,7 +110,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserProfileController@addUserLocationDetails');
                 Route::post('/update', 'UserProfileController@updateUserLocationDetails');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserLocationDetails');
-                Route::get('/delete/{id?}', 'UserProfileController@deleteUserLocationDetails');
+                Route::get('/primary/{id?}', 'UserProfileController@updatePrimaryUserLocationDetails');
+                Route::delete('/delete/{id?}', 'UserProfileController@deleteUserLocationDetails');
             }); 
  
             // service details
@@ -118,7 +120,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/add', 'UserServiceDetailsController@addUserServiceDetails');
                 Route::post('/update', 'UserServiceDetailsController@updateUserServiceDetails');
                 Route::get('/get/{id?}', 'UserServiceDetailsController@getByIdUserServiceDetails');
-                Route::get('/delete/{id?}', 'UserServiceDetailsController@deleteUserServiceDetails');
+                Route::delete('/delete/{id?}', 'UserServiceDetailsController@deleteUserServiceDetails');
             }); 
 
 

@@ -20,6 +20,7 @@ class CreateUserLocationsTable extends Migration
             $table->string('email')->nullable();
             $table->string('mobile_no')->nullable();
             $table->text('address')->nullable();
+            $table->boolean('primary_address')->default(0)->comment('0-normal, 1-Primary');
             $table->timestamps();
 
             // Foregin Key add

@@ -121,7 +121,22 @@ class UserProfileController extends BaseApiController
         $data = $this->user_bank_account_repo->getbyId($id);
         return self::sendSuccess($data, 'Bank account details');
     }
-   
+
+    public function updatePrimaryUserBankDetails(Request $request, $id)
+    {   
+        $data = ['primary_account' => '0'];
+        $update_data = ['primary_account' => '1'];
+        try{
+            $this->user_bank_account_repo->updatebyUserId($data, $request->user()->id);
+            $this->user_bank_account_repo->dataCrud($update_data, $id);
+            return self::sendSuccess([], 'Primary Bank account Update Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+
+        return self::sendSuccess($data, 'Bank account info');
+    }
+
     public function deleteUserBankDetails($id){
         $data = $this->user_bank_account_repo->getById($id);
         if(!empty($data)){
@@ -366,6 +381,21 @@ class UserProfileController extends BaseApiController
     {
         $data = array();
         $data = $this->user_location_repo->getbyId($id);
+        return self::sendSuccess($data, 'Location details info');
+    }
+   
+    public function updatePrimaryUserLocationDetails(Request $request, $id)
+    {   
+        $data = ['primary_address' => '0'];
+        $update_data = ['primary_address' => '1'];
+        try{
+            $this->user_location_repo->updatebyUserId($data, $request->user()->id);
+            $this->user_location_repo->dataCrud($update_data, $id);
+            return self::sendSuccess([], 'Primary Location Update Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+
         return self::sendSuccess($data, 'Location details info');
     }
    

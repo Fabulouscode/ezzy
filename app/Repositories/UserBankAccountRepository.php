@@ -38,6 +38,16 @@ class UserBankAccountRepository extends Repository
     }
     
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function updatebyUserId($data, $user_id)
+    {   
+        return $this->model->where('user_id', $user_id)->update($data);
+    }
+    /**
      * get Model and return the instance.
      *
      * @param int $user_id
