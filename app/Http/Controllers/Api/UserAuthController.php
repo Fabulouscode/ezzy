@@ -183,7 +183,7 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
-                    'user' => $update_user,
+                    'data' => $data,
                 ]);
         
             }catch(\Exception $e){
