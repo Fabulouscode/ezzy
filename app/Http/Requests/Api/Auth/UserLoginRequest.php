@@ -31,6 +31,7 @@ class UserLoginRequest extends FormRequest
            'password' => 'required|string|min:8',
            'device_type' => 'required',
            'device_token' => 'required',
+           'hcp_type' => 'required|integer',
         ];
     }
 

@@ -133,6 +133,16 @@ class UserAuthController extends BaseApiController
     {
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
+            if($request->hcp_type == '0'){
+                if(!empty($user->category_id)){
+                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                } 
+            }
+            if($request->hcp_type == '1'){
+                if(empty($user->category_id)){
+                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                } 
+            }
             if(isset($user) && $user->status == '0'){
                 try{
                     $this->user_repo->removeOauthAccessTokens($user->id);
