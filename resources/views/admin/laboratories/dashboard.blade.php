@@ -88,7 +88,7 @@
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Pathologist & Lab Scientists</h6>
+                    <h6 class="mb-0">Pathologist</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
@@ -108,12 +108,12 @@
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Radiologist (X-Ray & Scan)</h6>
+                    <h6 class="mb-0">Scientists</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['radiologist']) ? $data['radiologist'] : '0'}}</span></h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['scientist']) ? $data['scientist'] : '0'}}</span></h6>
                             <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
                     </div>
@@ -128,12 +128,12 @@
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Physiotherapist</h6>
+                    <h6 class="mb-0">Radiologist (X-Ray & Scan)</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['physiotherapist']) ? $data['physiotherapist'] : '0'}}</span></h6>
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['radiologist']) ? $data['radiologist'] : '0'}}</span></h6>
                             <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
                         </div>
                     </div>

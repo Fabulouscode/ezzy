@@ -88,7 +88,7 @@ class DashboardController extends Controller
             $data['pending_count'] = $this->user_repo->getUserParentCategoryWiseCount('3', '1');
 
             $data['pathologist'] = $this->user_repo->getUserCategoryWiseCount('9');
-            $data['physiotherapist'] = $this->user_repo->getUserCategoryWiseCount('8');
+            $data['scientist'] = $this->user_repo->getUserCategoryWiseCount('8');
             $data['radiologist'] = $this->user_repo->getUserCategoryWiseCount('10');
       
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount('', '3');

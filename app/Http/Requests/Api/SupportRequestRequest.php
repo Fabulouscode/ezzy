@@ -28,6 +28,7 @@ class SupportRequestRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
+            'attachment'=>'image|mimes:jpeg,jpg,png,gif|max:20000'
         ];
     }
 
