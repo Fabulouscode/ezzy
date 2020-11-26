@@ -147,18 +147,18 @@ class UserProfileController extends BaseApiController
         $data = $this->user_bank_account_repo->getById($id);
         if(!empty($data)){
             if($data->primary_account == '1'){
-                return self::sendError([], 'Primary Bank account Not Deleted', 500);
+                return self::sendError('', 'Primary Bank account Not Deleted', 500);
             }
             
             try{
                 $this->user_bank_account_repo->destroy($id); 
                 return self::sendSuccess([], 'Bank account details Deleted Successfully');
             }catch(\Exception $e){
-               return self::sendError([], 'You can not delete this Bank account details', 500);
+               return self::sendError('', 'You can not delete this Bank account details', 500);
             }
             
         }
-        return self::sendError([], 'Bank account not Deleted', 500);
+        return self::sendError('', 'Bank account not Deleted', 500);
     }
 
 
@@ -220,11 +220,11 @@ class UserProfileController extends BaseApiController
                 $this->user_available_time_repo->destroy($id); 
                 return self::sendSuccess([], 'Available times details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendError([], 'You can not delete this Available times details', 500);
+                return self::sendError('', 'You can not delete this Available times details', 500);
             }
           
         }
-        return self::sendError([], 'Available times not Deleted', 500);
+        return self::sendError('', 'Available times not Deleted', 500);
     }
 
 
@@ -288,10 +288,10 @@ class UserProfileController extends BaseApiController
                 $this->user_education_repo->destroy($id); 
                 return self::sendSuccess([], 'Education details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendError([], 'You can not delete this Education details', 500);
+                return self::sendError('', 'You can not delete this Education details', 500);
             }
         }
-        return self::sendError([], 'Education details not Deleted', 500);
+        return self::sendError('', 'Education details not Deleted', 500);
     }
 
 
@@ -355,10 +355,10 @@ class UserProfileController extends BaseApiController
                 $this->user_experiance_repo->destroy($id); 
                 return self::sendSuccess([], 'Experiance details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendError([], 'You can not delete this Experiance details', 500);
+                return self::sendError('', 'You can not delete this Experiance details', 500);
             }
         }
-        return self::sendError([], 'Experiance details not Deleted', 500);
+        return self::sendError('', 'Experiance details not Deleted', 500);
     }
 
 
@@ -438,18 +438,18 @@ class UserProfileController extends BaseApiController
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
             if($data->primary_address == '1'){
-                return self::sendError([], 'Primary Location details Not Deleted', 500);
+                return self::sendError('', 'Primary Location details Not Deleted', 500);
             }
 
             try{
                 $this->user_location_repo->destroy($id); 
                 return self::sendSuccess([], 'Location details Deleted Successfully');
             }catch(\Exception $e){
-                return self::sendError([], 'You can not delete this Location details', 500);
+                return self::sendError('', 'You can not delete this Location details', 500);
             }
 
         }
-        return self::sendError([], 'Location details not Deleted', 500);
+        return self::sendError('', 'Location details not Deleted', 500);
     }
 
    
