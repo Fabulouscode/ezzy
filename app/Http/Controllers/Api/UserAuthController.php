@@ -259,7 +259,7 @@ class UserAuthController extends BaseApiController
     public function recoverPassword(UserRecoverPasswordRequest $request)
     {
         $user = $this->user_repo->getbyMobileNo($request);   
-        if(!empty($user) && $user->otp_code == $request->otp_code){   
+        if(!empty($user)){   
             try{
                 $data = ['password' => Hash::make($request->password)];
                 $this->user_repo->dataCrudUsingData($data, $user->id);

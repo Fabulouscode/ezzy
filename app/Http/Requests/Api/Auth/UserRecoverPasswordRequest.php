@@ -28,8 +28,7 @@ class UserRecoverPasswordRequest extends FormRequest
         return [
            'mobile_no' => 'required|string|max:255',
            'country_code'=> 'required',
-           'otp_code'=> 'required',
-           'password' => 'required|string|min:8|same:confirmed_password',
+           'password' => 'required|string|min:8',
         ];
     }
 
