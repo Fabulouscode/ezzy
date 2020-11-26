@@ -140,8 +140,11 @@ class UserProfileController extends BaseApiController
     public function deleteUserBankDetails($id){
         $data = $this->user_bank_account_repo->getById($id);
         if(!empty($data)){
+            if($data->primary_account == '1'){
+                return self::sendError([], 'Primay Bank account Not Deleted', 500);
+            }
             $this->user_bank_account_repo->destroy($id); 
-             return self::sendSuccess([], 'Bank account details Deleted Successfully');
+            return self::sendSuccess([], 'Bank account details Deleted Successfully');
         }
         return self::sendError($data, 'Bank account not Deleted', 500);
     }
@@ -403,8 +406,11 @@ class UserProfileController extends BaseApiController
     {
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
+            if($data->primary_address == '1'){
+                return self::sendError([], 'Primay Location details Not Deleted', 500);
+            }
             $this->user_location_repo->destroy($id); 
-             return self::sendSuccess([], 'Location details Deleted Successfully');
+            return self::sendSuccess([], 'Location details Deleted Successfully');
         }
         return self::sendError($data, 'Location details not Deleted', 500);
     }
