@@ -27,7 +27,7 @@ class MedicineDetailsRequest extends FormRequest
            'medicine_category_id'=>'required',
            'medicine_subcategoy_id'=>'required',
            'medicine_name'=>'required',
-           'medicine_sku'=>'required|unique:medicine_details,medicine_sku,'.$this->id,
+           'medicine_sku'=>'required|unique:medicine_details,medicine_sku,'.$this->id.',id,medicine_subcategoy_id,'.$this->medicine_subcategoy_id,
            'medicine_type'=>'required',
            'status'=>'required',
         ];

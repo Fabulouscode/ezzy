@@ -25,7 +25,7 @@ class MedicineSubcategoryRequest extends FormRequest
     {
         return [
            'medicine_category_id'=>'required',
-           'name'=>'required|string|unique:medicine_subcategories,name,'.$this->id,
+           'name'=>'required|string|unique:medicine_subcategories,name,'.$this->id.',id,medicine_category_id,'.$this->medicine_category_id,
            'status'=>'required',
         ];
     }

@@ -36,11 +36,12 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::post('/patient/register_mobile', 'UserAuthController@saveRegisterwithMobile');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
 
+    Route::post('/otp/resend', 'UserAuthController@resendSMS');
+    Route::post('/reset/password', 'UserAuthController@recoverPassword');
+
     Route::middleware('auth:api')->group(function(){
         Route::post('/logout', 'UserAuthController@userLogout');
-        Route::post('/otp/resend', 'UserAuthController@resendSMS');
         Route::post('/otp/verify', 'UserAuthController@verifyOTP');
-        Route::post('/reset/password', 'UserAuthController@recoverPassword');
     });
     
     

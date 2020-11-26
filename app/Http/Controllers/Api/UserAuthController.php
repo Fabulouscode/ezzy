@@ -176,7 +176,7 @@ class UserAuthController extends BaseApiController
         if(!empty($user)){   
             try{
                 $user = $this->user_repo->getbyMobileNo($request); 
-                $mobile_code = $this->user_rep->generateOTPCode();
+                $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
                 // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
                 // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
@@ -231,7 +231,7 @@ class UserAuthController extends BaseApiController
         if(!empty($user)){   
             try{
                 $user = $this->user_repo->getbyMobileNo($request); 
-                $mobile_code = $this->user_rep->generateOTPCode();
+                $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
                 // $message = 'The OTP is '.$mobile_code.' to forget password '.config('app.name').' Account.';
                 // $this->user_repo->sendMessage($message, '+'.$request->country_code.$request->mobile_no);
@@ -239,7 +239,7 @@ class UserAuthController extends BaseApiController
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $update_user,
+                    'data' => $data,
                     ]);
             }catch(\Exception $e){
                 return self::sendException($e);
@@ -264,9 +264,7 @@ class UserAuthController extends BaseApiController
                 $data = ['password' => Hash::make($request->password)];
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
-                return self::sendSuccess([
-                    'user' => $update_user,
-                ]);
+                return self::sendSuccess([], 'Password Reset');
             }catch(\Exception $e){
                 return self::sendException($e);
             }
