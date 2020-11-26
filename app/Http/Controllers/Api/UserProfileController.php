@@ -143,8 +143,14 @@ class UserProfileController extends BaseApiController
             if($data->primary_account == '1'){
                 return self::sendError([], 'Primary Bank account Not Deleted', 500);
             }
-            $this->user_bank_account_repo->destroy($id); 
-            return self::sendSuccess([], 'Bank account details Deleted Successfully');
+            
+            try{
+                $this->user_bank_account_repo->destroy($id); 
+                return self::sendSuccess([], 'Bank account details Deleted Successfully');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+            
         }
         return self::sendError($data, 'Bank account not Deleted', 500);
     }
@@ -204,8 +210,13 @@ class UserProfileController extends BaseApiController
     {
         $data = $this->user_available_time_repo->getById($id);
         if(!empty($data)){
-            $this->user_available_time_repo->destroy($id); 
-             return self::sendSuccess([], 'Available times details Deleted Successfully');
+            try{
+                $this->user_available_time_repo->destroy($id); 
+                return self::sendSuccess([], 'Available times details Deleted Successfully');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+          
         }
         return self::sendError($data, 'Available times not Deleted', 500);
     }
@@ -267,8 +278,12 @@ class UserProfileController extends BaseApiController
     {
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
-            $this->user_education_repo->destroy($id); 
-             return self::sendSuccess([], 'Education details Deleted Successfully');
+            try{
+                $this->user_education_repo->destroy($id); 
+                return self::sendSuccess([], 'Education details Deleted Successfully');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
         }
         return self::sendError($data, 'Education details not Deleted', 500);
     }
@@ -330,8 +345,12 @@ class UserProfileController extends BaseApiController
     {
         $data = $this->user_education_repo->getById($id);
         if(!empty($data)){
-            $this->user_experiance_repo->destroy($id); 
-             return self::sendSuccess([], 'Experiance details Deleted Successfully');
+            try{
+                $this->user_experiance_repo->destroy($id); 
+                return self::sendSuccess([], 'Experiance details Deleted Successfully');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
         }
         return self::sendError($data, 'Experiance details not Deleted', 500);
     }
@@ -409,8 +428,14 @@ class UserProfileController extends BaseApiController
             if($data->primary_address == '1'){
                 return self::sendError([], 'Primary Location details Not Deleted', 500);
             }
-            $this->user_location_repo->destroy($id); 
-            return self::sendSuccess([], 'Location details Deleted Successfully');
+
+            try{
+                    $this->user_location_repo->destroy($id); 
+                    return self::sendSuccess([], 'Location details Deleted Successfully');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+
         }
         return self::sendError($data, 'Location details not Deleted', 500);
     }
