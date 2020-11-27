@@ -137,7 +137,9 @@ class UserAuthController extends BaseApiController
                 }catch(\Exception $e){
                     return self::sendException($e);
                 }
-            }else{
+            }else if(isset($user) && $user->status == '2'){
+                 return self::sendError('', 'You have Inactive please wait for active');
+            }else {
                  return self::sendError('', 'Please Fill up register details');
             }
         }else{
