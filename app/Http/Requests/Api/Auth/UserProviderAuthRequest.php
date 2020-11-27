@@ -29,7 +29,7 @@ class UserProviderAuthRequest extends FormRequest
            'email' => 'required|string|email|max:255|unique:users,email',
            'mobile_no' => 'required|string|max:255|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL',
            'country_code' => 'required',
-           'password' => 'required|string|min:8|same:confirmed_password',
+           'password' => 'required|string|min:8',
            'device_type' => 'required',
            'device_token' => 'required',
            'category_id' => 'required',
