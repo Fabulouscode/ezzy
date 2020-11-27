@@ -31,9 +31,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::get('/hcp/sub_types/{id?}', 'CategoryController@getHCPSubTypes');
 
     Route::post('/login', 'UserAuthController@login');
-    Route::post('/register', 'UserAuthController@saveRegister');
-    Route::post('/patient/register', 'UserAuthController@saveRegisterPatient');
-    Route::post('/patient/register_mobile', 'UserAuthController@saveRegisterwithMobile');
+    Route::post('/register_mobile', 'UserAuthController@saveRegisterwithMobile');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
 
     Route::post('/otp/resend', 'UserAuthController@resendSMS');
@@ -43,6 +41,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::post('/logout', 'UserAuthController@userLogout');
         Route::post('/otp/verify', 'UserAuthController@verifyOTP');
         Route::post('/reset/password', 'UserAuthController@recoverPassword');
+        Route::post('/register', 'UserAuthController@saveRegister');    
+        Route::post('/patient/register', 'UserAuthController@saveRegisterPatient');
     });
     
     

@@ -18,6 +18,13 @@ class UserRepository extends Repository
     protected $model_name = 'App\Models\User';
     protected $model;
 
+    public $status = array(
+        '0'=>'Active', 
+        '1'=>'Wait for Approval', 
+        '2'=>'Inactive', 
+        '3'=>'Pending Verify',
+    );
+
     public $days = array(
         '0'=>'Sunday', 
         '1'=>'Monday', 
@@ -49,23 +56,21 @@ class UserRepository extends Repository
     public function registerWithMobileno($request)
     {   
         
-        $card_number = $this->genrateCardNumber();
-        $mobile_code = $this->generateOTPCode();
+        // $card_number = $this->genrateCardNumber();
+        // $mobile_code = $this->generateOTPCode();
         // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
         // $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
 
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
-                'otp_code' => $mobile_code,
-                'status' => !empty($request->category_id) ? 1 : 0,
-                'device_type' => isset($request->device_type) ? $request->device_type : NULL,
-                'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
+                'otp_code' => $request->otp_code,
+                'status' => $request->status,
                 'deleted_at' => NULL
             ])->restore();    
     
-        $user = $this->model->where('mobile_no', $request->mobile_no)->whereNull('ezzycare_card');
-        if(!empty($user)){
-            $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
-        }
+        return $this->model->where('mobile_no', $request->mobile_no)->first();
+        // if(!empty($user)){
+        //     $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
+        // }
     }
     
     /**
@@ -78,11 +83,6 @@ class UserRepository extends Repository
     {   
         if(!empty($request->category_id)){
             $card_number = $this->genrateCardNumber();
-            $mobile_code = $this->generateOTPCode();
-            // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-            // $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
-        }else{
-             $mobile_code = $this->generateOTPCode();
         }
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
@@ -91,7 +91,6 @@ class UserRepository extends Repository
                 'password' => isset($request->password) ? Hash::make($request->password) : NULL,
                 'category_id' => isset($request->category_id) ? $request->category_id : NULL,
                 'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
-                'otp_code' => $mobile_code,
                 'status' => !empty($request->category_id) ? 1 : 0,
                 'device_type' => isset($request->device_type) ? $request->device_type : NULL,
                 'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
@@ -310,6 +309,16 @@ class UserRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function checkbyMobileNoVerify($request)
+    {   
+        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->where('status','3')->whereNotNull('mobile_verified_at')->first();
+    }
+
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getbyMobileNo($request)
     {   
         return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->first();
@@ -425,7 +434,7 @@ class UserRepository extends Repository
                                     ['users.latitude', '!=', ''],
                                     ['users.longitude', '!=', '']
                                 ])
-                           ->havingRaw('distance <= 10')
+                           ->havingRaw('distance <= 50')
                            ->orderBy('distance','asc');
         } else{
             $query = $query->orderBy('id','desc');

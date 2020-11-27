@@ -12,8 +12,9 @@ use App\Http\Requests\Api\Auth\UserResendSMSRequest;
 use App\Http\Requests\Api\Auth\UserVerifySMSRequest;
 use App\Http\Requests\Api\Auth\UserForgetPasswordRequest;
 use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
+use App\Http\Requests\Api\Auth\UserProviderAuthRequest;
 use Carbon\Carbon as Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class UserAuthController extends BaseApiController
@@ -33,16 +34,21 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegisterwithMobile(Request $request)
+    public function saveRegisterwithMobile(UserResendSMSRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(empty($user)){
             try{
-                $this->user_repo->registerWithMobileno($request);
-                $user = $this->user_repo->getbyMobileNo($request);   
+                $mobile_code = $this->user_repo->generateOTPCode();
+                $data = ['otp_code' => $mobile_code];
+                $request->otp_code = $mobile_code;
+                $request->status = '3';
+                // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+                // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                $user = $this->user_repo->registerWithMobileno($request);
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $user,
+                    'data' => $data,
                 ]);
             }catch(\Exception $e){
                 return self::sendException($e);
@@ -59,29 +65,17 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegisterPatient(Request $request)
+    public function saveRegisterPatient(UserAuthRequest $request)
     {
-        $user = $this->user_repo->checkbyMobileNo($request);   
+        $user = $this->user_repo->checkbyMobileNoVerify($request);   
         if(!empty($user)){
             $this->user_repo->registerWithRestore($request);
-            $user = $this->user_repo->getbyMobileNo($request);   
-            if(empty($user->category_id)){
-                if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password, 'status' => '0'])){
-                    if(!empty($user) && $user->status == '0'){
-                        return self::sendSuccess([
-                            'token' => $user->createToken('EzzyCare')->accessToken,
-                            'user' => $user,
-                        ]);
-                    }else{
-                        return self::sendError('', 'User status is pending please wait for Approved');
-                    }
-                }
-            }
-
+            $user = $this->user_repo->getbyMobileNo($request);           
+            $this->user_repo->removeOauthAccessTokens($user->id);    
             return self::sendSuccess([
-                'token' => $user->createToken('EzzyCare')->accessToken,
-                'user' => $user,
-            ]);
+                    'token' => $user->createToken('EzzyCare')->accessToken,
+                    'user' => $user,
+                    ]);
         } else{
              return self::sendError('', 'Mobile No. Already Registered.');
         }
@@ -94,29 +88,17 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegister(UserAuthRequest $request)
+    public function saveRegister(UserProviderAuthRequest $request)
     {
-        $user = $this->user_repo->checkbyMobileNo($request);   
-        if(empty($user)){
+        $user = $this->user_repo->checkbyMobileNoVerify($request);   
+        if(!empty($user)){
             $this->user_repo->registerWithRestore($request);
-            $user = $this->user_repo->getbyMobileNo($request);   
-            if(empty($user->category_id)){
-                if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password, 'status' => '0'])){
-                    if(!empty($user) && $user->status == '0'){
-                        return self::sendSuccess([
-                            'token' => $user->createToken('EzzyCare')->accessToken,
-                            'user' => $user,
-                        ]);
-                    }else{
-                        return self::sendError('', 'Please wait for Approved');
-                    }
-                }
-            }
-
+            $user = $this->user_repo->getbyMobileNo($request); 
+            $this->user_repo->removeOauthAccessTokens($user->id);
             return self::sendSuccess([
-                'token' => $user->createToken('EzzyCare')->accessToken,
-                'user' => $user,
-            ]);
+                    'token' => $user->createToken('EzzyCare')->accessToken,
+                    'user' => $user,
+                    ]);
         } else{
              return self::sendError('', 'Mobile No. Already Registered.');
         }
@@ -205,12 +187,10 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->getbyMobileNo($request);   
         if(!empty($user) && $user->otp_code == $request->otp_code){   
             try{
-                $data = ['mobile_verified_at' => Carbon::now(), 'status' => '1'];
+                $data = ['mobile_verified_at' => Carbon::now()];
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
-                return self::sendSuccess([
-                    'user' => $update_user,
-                ]);
+                return self::sendSuccess([],'Mobile no verify');
             }catch(\Exception $e){
                 return self::sendException($e);
             }
