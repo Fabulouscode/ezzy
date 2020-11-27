@@ -301,7 +301,7 @@ class UserRepository extends Repository
      */
     public function checkbyMobileNo($request)
     {   
-        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->whereNotNull('mobile_verified_at')->first();
+        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->whereNotIn('status',[3])->whereNotNull('mobile_verified_at')->first();
     }
 
     /**
