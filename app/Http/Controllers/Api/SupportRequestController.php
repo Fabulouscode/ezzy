@@ -36,18 +36,12 @@ class SupportRequestController extends BaseApiController
  
     public function addSupportReques(SupportRequestRequest $request)
     {
-        $upload_file = '';
-        
-        if($request->file('attachment')) {          
-            $file = $request->file('attachment');
-            $storagePath = 'images/support_request';
-            $upload_file = $this->support_request_repo->uploadFolderWiseFile($file, $storagePath);
-        }
+
         $add_data = [
                     'user_id' => $request->user()->id,
                     'title' => $request->title,
                     'description' => $request->description,
-                    'attachment' => $upload_file,
+                    'attachment' => $request->attachment,
                     'status' => '0',
                 ];
 

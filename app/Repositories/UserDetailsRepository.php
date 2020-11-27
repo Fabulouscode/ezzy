@@ -25,6 +25,7 @@ class UserDetailsRepository extends Repository
         '3' => 'health_facility_certificate',
         '4' => 'regstration_certificate',
         '5' => 'pharmacist_certificate',
+        '6' => 'support_request',
     );
 
     public function __construct()
