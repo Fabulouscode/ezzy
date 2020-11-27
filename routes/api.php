@@ -131,7 +131,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
        
         // healthcare request
         Route::prefix('healthcare')->group(function(){            
-            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
+            Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
             Route::post('/urgent', 'UserController@getHealthcareProvidersUrgent');
 
@@ -157,7 +157,10 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         });
         
         // pharmacy request
-        Route::prefix('pharmacy')->group(function(){                        
+        Route::prefix('pharmacy')->group(function(){     
+            Route::post('/top/list', 'UserController@getHealthcareProviders');
+            Route::post('/list', 'UserController@getHealthcareProviders');
+
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
             Route::get('/product/get/{sub_id?}', 'ShopMedicineDetailsController@getMedicineDetails'); 
@@ -215,7 +218,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
      
         // laboratories request
         Route::prefix('laboratories')->group(function(){    
-            Route::post('/top/list', 'UserController@getTopHealthcareProviders');
+            Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
 
             // appointment

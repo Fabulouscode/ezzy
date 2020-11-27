@@ -378,7 +378,7 @@ class UserRepository extends Repository
         
         
         // urgent and not urgent filter
-        if(isset($request->urgent)){
+        if(!empty($request->urgent)){
            $query = $query->whereHas('userDetails', function($query) use ($request){
                         $query->where('urgent', $request->urgent);
                     });
@@ -394,6 +394,14 @@ class UserRepository extends Repository
             $query = $query->whereHas('userAvailableTime', function($query) use ($request){
                         $query->where('appointment_type', $request->consultation);
                     });
+        }          
+        
+        // search filter
+        if(isset($request->search)){
+            $query = $query->where(function($query) use($request){
+                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+            });
         }          
         
         // rating filter

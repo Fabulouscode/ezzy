@@ -26,6 +26,7 @@ class Medicine_details extends Model
         'status',
     ];
 
+    protected $appends = ['medicine_multiple_images'];
 
     public function medicineImages() {
         return $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id')->orderBy('sequence_no');
@@ -37,5 +38,21 @@ class Medicine_details extends Model
 
     public function medicineSubcategory() {
         return $this->belongsTo('App\Models\Medicine_subcategory', 'medicine_subcategoy_id');
+    }
+    
+    public function getMedicineImageAttribute($value) {
+        $value = $this->hasOne('App\Models\Medicine_images','medicine_detail_id','id')->orderBy('sequence_no')->select('product_image')->first();
+        return !empty($value) ?  url('storage/'.$value->product_image) : asset('/admin/images/medicine_image.jpg');
+    }
+
+    public function getMedicineMultipleImagesAttribute(){
+        $images =  $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id')->orderBy('sequence_no')->pluck('product_image');
+        $image_url = array();
+        if(!empty($images)){
+            foreach ($images as $key => $value) {
+                $image_url[] = !empty($value) ?  url('storage/'.$value) : asset('/admin/images/medicine_image.jpg');
+            }
+        }
+        return $image_url;
     }
 }

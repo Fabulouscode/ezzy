@@ -49,9 +49,8 @@ function deleteRow(row_id) {
                             'success'
                         )
                         toastr.success(data.msg, 'EzzyCare App');
-                        var oTable = $('#category_datatable').dataTable();
+                        var oTable = $('#services_datatable').dataTable();
                         oTable.fnDraw(false);
-                        toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
                         console.log(error);

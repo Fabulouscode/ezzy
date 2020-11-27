@@ -172,10 +172,15 @@ class ShopMedicineDetailsRepository extends Repository
 
         }       
   
-        //user filter for patient and client side 
+        //user filter for phamacy side 
         if(!empty($request->user()->category_id)){
             $query = $query->where('user_id', $request->user()->id);
 
+        }       
+       
+        //user filter for patient or client side 
+        if(!empty($request->shop_id)){
+            $query = $query->where('user_id', $request->shop_id);
         }       
 
         //price order
