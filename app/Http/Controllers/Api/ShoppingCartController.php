@@ -12,6 +12,7 @@ use App\Repositories\FavoriteMedicineRepository;
 use App\Http\Requests\Api\ShoppingCartRequest;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\FavoriteRequest;
+use Illuminate\Support\Facades\DB;
 
 class ShoppingCartController extends BaseApiController
 {
@@ -38,15 +39,20 @@ class ShoppingCartController extends BaseApiController
     public function addToCart(ShoppingCartRequest $request)
     {
         $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
+        
         if(!empty($cart_check) && !empty($cart_check->id)){
-                $update_data = [
+        
+            $update_data = [
                                 'quantity'=> $cart_check->quantity + $request->quantity,
                                 ];
            try{
+                DB::beginTransaction();
                 $this->shop_cart_repo->dataCrud($update_data, $cart_check->id);
                 $data = $this->shop_cart_repo->getById($cart_check->id);
+                DB::commit();
                 return self::sendSuccess($data, 'Cart update Success');
             }catch(\Exception $e){
+                DB::rollBack();
                 return self::sendException($e);
             }
         }
@@ -57,10 +63,13 @@ class ShoppingCartController extends BaseApiController
                         'quantity'=> $request->quantity,
                     ];
         try{
+            DB::beginTransaction();
             $data = $this->shop_cart_repo->dataCrud($add_data);
+            DB::commit();
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
-                return self::sendException($e);
+            DB::rollBack();
+            return self::sendException($e);
         }
     }
 
@@ -84,10 +93,13 @@ class ShoppingCartController extends BaseApiController
                         ];
 
         try{
+            DB::beginTransaction();
             $this->shop_cart_repo->dataCrud($update_data, $id);
             $data = $this->shop_cart_repo->getById($id);
+            DB::commit();
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
     }

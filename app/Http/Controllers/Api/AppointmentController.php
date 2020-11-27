@@ -11,6 +11,7 @@ use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
 use App\Http\Requests\Api\ReviewRequest;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 
 class AppointmentController extends BaseApiController
@@ -92,9 +93,12 @@ class AppointmentController extends BaseApiController
                         'status' => '0'
                     ];
         try {
+            DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
+            DB::commit();
             return self::sendSuccess($data);
         } catch (\Exception $e) {
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -117,6 +121,7 @@ class AppointmentController extends BaseApiController
                         'status' => '0'
                     ];
         try {
+            DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
             if (!empty($request->user_services) && !empty($data)) {
                 foreach ($request->user_services as $key => $value) {
@@ -127,8 +132,10 @@ class AppointmentController extends BaseApiController
                     $this->appointment_service_repo->dataCrud($service_data);
                 }
             }
+            DB::commit();
             return self::sendSuccess($data);
         } catch (\Exception $e) {
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -144,10 +151,13 @@ class AppointmentController extends BaseApiController
                     'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : null,
                   ];
         try {
+            DB::beginTransaction();
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Appointment status change');
         } catch (\Exception $e) {
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -161,10 +171,13 @@ class AppointmentController extends BaseApiController
                   ];
 
         try {
+            DB::beginTransaction();
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Reschedule Appointment');
         } catch (\Exception $e) {
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -179,10 +192,13 @@ class AppointmentController extends BaseApiController
                   ];
 
         try {
+            DB::beginTransaction();
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Appointment Completed');
         } catch (\Exception $e) {
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -197,10 +213,13 @@ class AppointmentController extends BaseApiController
                   ];
 
         try{
+            DB::beginTransaction();
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Appointment Add Review');
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
         

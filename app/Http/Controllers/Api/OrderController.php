@@ -10,6 +10,7 @@ use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ShoppingCartRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class OrderController extends BaseApiController
@@ -102,10 +103,13 @@ class OrderController extends BaseApiController
                   ];
 
         try{
+            DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
     }
@@ -120,10 +124,13 @@ class OrderController extends BaseApiController
                   ];
 
         try{
+            DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+            DB::commit();
             return self::sendSuccess($data, 'Order Add Review');
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
         
@@ -146,6 +153,7 @@ class OrderController extends BaseApiController
             }
         }
         try{
+            DB::beginTransaction();
             $order_data = [
                             'user_id'=> $request->user_id,
                             'client_id'=> $request->user()->id,
@@ -179,8 +187,10 @@ class OrderController extends BaseApiController
                 $this->shop_cart_repo->clearUserCart($request->user()->id); 
                 $data = $this->order_repo->getbyEditId($order->id); 
             }
+            DB::commit();
             return self::sendSuccess($data, 'Order Completed');
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
     }

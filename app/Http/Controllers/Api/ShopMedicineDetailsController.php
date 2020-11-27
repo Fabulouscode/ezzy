@@ -10,6 +10,7 @@ use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserReviewRepository;
 use App\Http\Requests\Api\ShopMedicalDetailsRequest;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ShopMedicineDetailsController extends BaseApiController
@@ -106,9 +107,12 @@ class ShopMedicineDetailsController extends BaseApiController
                     ];
             
         try{
+            DB::beginTransaction();
             $data = $this->shop_medicine_repo->dataCrud($insert_data);
+            DB::commit();
             return self::sendSuccess($data);
         }catch(\Exception $e){
+            DB::rollBack();
             return self::sendException($e);
         }
         

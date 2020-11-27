@@ -156,25 +156,20 @@ class UserAuthController extends BaseApiController
      */
     public function resendSMS(UserResendSMSRequest $request)
     {
-        $user = $this->user_repo->checkbyMobileNo($request);   
-        if(!empty($user)){   
-            try{
-                $user = $this->user_repo->getbyMobileNo($request); 
-                $mobile_code = $this->user_repo->generateOTPCode();
-                $data = ['otp_code' => $mobile_code];
-                // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-                // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
-                $this->user_repo->dataCrudUsingData($data, $user->id);
-                $update_user = $this->user_repo->getById($user->id);
-                return self::sendSuccess([
-                    'data' => $data,
-                ]);
-        
-            }catch(\Exception $e){
-                return self::sendException($e);
-            }
-        }else{
-            return self::sendError('', 'User Mobile No. Invalid');
+        try{
+            $user = $this->user_repo->getbyMobileNo($request); 
+            $mobile_code = $this->user_repo->generateOTPCode();
+            $data = ['otp_code' => $mobile_code];
+            // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
+            // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+            $this->user_repo->dataCrudUsingData($data, $user->id);
+            $update_user = $this->user_repo->getById($user->id);
+            return self::sendSuccess([
+                'data' => $data,
+            ]);
+    
+        }catch(\Exception $e){
+            return self::sendException($e);
         }
     }
 

@@ -81,7 +81,7 @@ class OrderRepository extends Repository
      */
     public function getbyIdCheckTransaction($id)
     {   
-        return $this->model->whereNull('credit_transaction_id')->whereNull('debit_transaction_id')->where('id',$id)->whereNotIn('status',['1','2'])->first();
+        return $this->model->whereNull('transaction_id')->where('id',$id)->whereNotIn('status',['1','2'])->first();
 
     }
         
