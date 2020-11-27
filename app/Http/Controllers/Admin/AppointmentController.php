@@ -39,9 +39,9 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCompletedAppointments()
+    public function getUpcomingAppointments()
     {
-        return view('admin.appointment.complete');
+        return view('admin.appointment.upcoming');
     }
   
     /**

@@ -97,10 +97,10 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         @can('appointments-list')
-                        <li><a href="{{url('/appointment')}}">Upcoming</a></li>
+                        <li><a href="{{url('/appointment/upcoming')}}">Upcoming</a></li>
                         @endcan
                         @can('appointments-list')
-                        <li><a href="{{url('/appointment/completed')}}">Completed</a></li>
+                        <li><a href="{{url('/appointment')}}">Completed</a></li>
                         @endcan
                         @can('appointments-list')
                         <li><a href="{{url('/appointment/cancel')}}">Cancel</a></li>

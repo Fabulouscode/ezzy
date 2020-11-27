@@ -60,7 +60,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment/completed')}}">
+            <a href="{{url('/appointment')}}">
             <div class="card d-card-part bg-violet mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -144,7 +144,7 @@
     </div>
     <div class="row">        
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment/completed')}}">
+            <a href="{{url('/appointment')}}">
             <div class="card d-card-part bg-light-green mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">

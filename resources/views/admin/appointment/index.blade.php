@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Appointments Upcoming')
+@section('title','Appointments Completed')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Appointments Upcoming</li>
+                    <li class="breadcrumb-item active">Appointments Completed</li>
                 </ol>
             </div>
-            <h5 class="page-title">Appointments Upcoming</h5>
+            <h5 class="page-title">Appointments Completed</h5>
         </div>
     </div>
     <!-- end row -->
@@ -56,7 +56,7 @@
 @section('script')
 <script>
     var appointment_url = "{{url('/appointment')}}";
-    var data_obj = {'status': '' }
+    var data_obj = {'status': '5' }
 </script>
 <script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

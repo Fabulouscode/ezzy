@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Appointments Completed')
+@section('title','Appointments Upcoming')
 
 @section('content')
 <!-- container fluid Start -->
@@ -56,7 +56,7 @@
 @section('script')
 <script>
     var appointment_url = "{{url('/appointment')}}";
-    var data_obj = {'status': 5 }
+    var data_obj = {'status': '' }
 </script>
 <script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

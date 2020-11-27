@@ -98,7 +98,7 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/appointment/completed')}}">
+            <a href="{{url('/appointment')}}">
                 <div class="card d-card-part bg-info mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -149,7 +149,7 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <a href="{{url('/appointment/completed')}}">
+                                <a href="{{url('/appointment')}}">
                                     <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
                                 </a>
                                 <a href="{{url('/appointment')}}">
