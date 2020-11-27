@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Appointments Completed</li>
+                    <li class="breadcrumb-item active">Appointments Upcoming</li>
                 </ol>
             </div>
-            <h5 class="page-title">Appointments Completed</h5>
+            <h5 class="page-title">Appointments Upcoming</h5>
         </div>
     </div>
     <!-- end row -->
