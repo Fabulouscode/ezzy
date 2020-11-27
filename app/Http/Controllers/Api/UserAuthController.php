@@ -125,7 +125,7 @@ class UserAuthController extends BaseApiController
                     return self::sendError('', 'User Mobile No. and Password Invalid');
                 } 
             }
-            if(isset($user) && $user->status == '0'){
+            if(isset($user) && in_array($user->status, ['0','1'])){
                 try{
                     $this->user_repo->removeOauthAccessTokens($user->id);
                     $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token];
@@ -138,7 +138,7 @@ class UserAuthController extends BaseApiController
                     return self::sendException($e);
                 }
             }else{
-                 return self::sendError('', 'Please wait for Approved');
+                 return self::sendError('', 'Please Fill up register details');
             }
         }else{
             return self::sendError('', 'User Mobile No. and Password Invalid');
