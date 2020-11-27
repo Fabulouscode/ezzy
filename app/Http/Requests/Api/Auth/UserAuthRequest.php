@@ -26,7 +26,7 @@ class UserAuthRequest extends FormRequest
     public function rules()
     {
         return [
-           'email' => 'required|string|email|max:255',
+           'email' => 'required|string|email|max:255|unique:users,email',
            'mobile_no' => 'required|string|max:255|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL',
            'country_code' => 'required',
            'password' => 'required|string|min:8|same:confirmed_password',
