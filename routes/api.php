@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){
+    Route::post('/user/document/upload', 'UserProfileController@uploadDocumentFile');
+});
 
 Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(function(){
 
@@ -66,7 +69,6 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
-            Route::post('/document/upload', 'UserProfileController@uploadDocumentFile');
 
 
              // bank details
