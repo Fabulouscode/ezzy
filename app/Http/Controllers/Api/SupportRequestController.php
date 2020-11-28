@@ -21,7 +21,6 @@ class SupportRequestController extends BaseApiController
     public function getSupportRequest(Request $request)
     {
         $extra = array();
-        $extra['status'] = $this->support_request_repo->status;
         $data = $this->support_request_repo->getSupportRequest($request);
         return self::sendSuccess($data, 'Support request list', $extra);
     }
@@ -29,8 +28,7 @@ class SupportRequestController extends BaseApiController
     public function getSupportRequestInfo($id)
     {
         $extra = array();
-        $data['status'] = $this->support_request_repo->status;
-        $data['data'] = $this->support_request_repo->getbyIdedit($id);
+        $data = $this->support_request_repo->getbyIdedit($id);
         return self::sendSuccess($data, 'Support request list', $extra);
     } 
  
