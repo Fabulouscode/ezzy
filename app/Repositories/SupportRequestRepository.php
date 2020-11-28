@@ -104,7 +104,7 @@ class SupportRequestRepository extends Repository
                 {	
                     $data = '';
                     if(!empty($selected->userDetails)){
-                        $data .= $selected->userDetails->first_name.' '.$selected->userDetails->last_name.' ('.$selected->userDetails->email.')';
+                        $data .= $selected->userDetails->user_name.' ('.$selected->userDetails->email.')';
                     }                    
                     return $data;
                 })
@@ -138,7 +138,8 @@ class SupportRequestRepository extends Repository
         
         $query = $query->limit($this->api_data_limit);     
        
-        $query = $query->with(['userDetails'])->where('user_id',$request->user()->id);
+        $query = $query->where('user_id',$request->user()->id);
+        // $query = $query->with(['userDetails']);
         
         $query = $query->orderBy('id','desc')->get();
         
