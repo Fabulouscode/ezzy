@@ -14,10 +14,6 @@ class ManageFeesRepository extends Repository
 {
     protected $model_name = 'App\Models\Manage_fees';
     protected $model;
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
 
     public function __construct()
     {

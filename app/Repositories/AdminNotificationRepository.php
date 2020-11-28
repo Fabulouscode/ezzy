@@ -14,10 +14,6 @@ class AdminNotificationRepository extends Repository
 {
     protected $model_name = 'App\Models\AdminNotification';
     protected $model;
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
 
     public function __construct()
     {

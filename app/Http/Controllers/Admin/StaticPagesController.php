@@ -36,7 +36,7 @@ class StaticPagesController extends Controller
      */
     public function create()
     {
-        $status = $this->static_page_repo->status;
+        $status = $this->static_page_repo->getStatusValue();
         return view('admin.static_page.add',compact('status'));
     }
 
@@ -75,7 +75,7 @@ class StaticPagesController extends Controller
      */
     public function edit($id)
     {
-        $status = $this->static_page_repo->status;
+        $status = $this->static_page_repo->getStatusValue();
         $data = $this->static_page_repo->getById($id);
         return view('admin.static_page.add',compact('data','status'));
     }

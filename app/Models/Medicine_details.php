@@ -9,6 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Medicine_details extends Model
 {
     use HasFactory, SoftDeletes;
+    
+    public $status_value = array(
+        '0' => 'Active',
+        '1' => 'Inactive',
+    );
+
+    public $medicine_type_value = array(
+        '0' => 'Capsules',
+        '1' => 'Bottle',
+    );
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +36,15 @@ class Medicine_details extends Model
         'status',
     ];
 
-    protected $appends = ['medicine_multiple_images'];
+    protected $appends = ['medicine_multiple_images','status_name','medicine_type_name'];
+    
+    public function getStatusNameAttribute() {
+        return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
+
+    public function getMedicineTypeNameAttribute() {
+        return array_key_exists($this->medicine_type, $this->medicine_type_value) ? $this->medicine_type_value[$this->medicine_type]: '';
+    }
 
     public function medicineImages() {
         return $this->hasMany('App\Models\Medicine_images','medicine_detail_id','id')->orderBy('sequence_no');

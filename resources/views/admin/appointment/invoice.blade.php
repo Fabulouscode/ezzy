@@ -50,10 +50,10 @@
                                         <strong>Completed Date:</strong>&nbsp;&nbsp;{{$data->completed_datetime}}
                                     </address>
                                     <address>
-                                        <strong>Appointment Type:</strong>&nbsp;&nbsp;{{array_key_exists($data->appointment_type, $appointment_types) ? $appointment_types[$data->appointment_type]: ''}}
+                                        <strong>Appointment Type:</strong>&nbsp;&nbsp;{{$data->appointment_type_name}}
                                     </address>
                                     <address>
-                                        <strong>Status:</strong>&nbsp;&nbsp;{{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}
+                                        <strong>Status:</strong>&nbsp;&nbsp;{{$data->status_name}}
                                     </address>
                                 </div>
                                 <div class="col-6 m-t-30 text-right">

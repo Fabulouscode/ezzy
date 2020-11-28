@@ -15,27 +15,20 @@ class UserTransactionRepository extends Repository
     protected $model_name = 'App\Models\User_transaction';
     protected $model;
     
-    public $status = array(
-        '0' => 'Success',
-        '1' => 'Unsuccess',
-        '2' => 'Pending',
-    );
-    
-    public $mode_of_payment = array(
-        '0' => 'Debit',
-        '1' => 'Credit',
-    );
-    
-    public $transaction_type = array(
-        '0' => 'Wallet',
-        '1' => 'Net Banking',
-        '2' => 'Debit/Credit Card',
-        '3' => 'Paypal',
-    );
 
     public function __construct()
     {
         parent::__construct();
+    }
+    
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+ 
+    public function getTransactionTypeValue()
+    {
+        return $this->model->transaction_type_value;
     }
 
     public function dataCrud($data, $id = '')
@@ -127,13 +120,13 @@ class UserTransactionRepository extends Repository
             })
             ->editColumn('transaction_type',function($selected)
             {
-                return '<div class="badge badge-success">'.$this->transaction_type[$selected->transaction_type].'</div>';
+                return '<div class="badge badge-success">'.$selected->transaction_type_name.'</div>';
             })
             ->editColumn('user_name', function($selected) {
                 if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
-                   return $selected->transactionAppointment->user->first_name.' '.$selected->transactionAppointment->user->last_name;
+                   return $selected->transactionAppointment->user->user_name;
                 }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
-                    return $selected->transactionOrder->userDetails->first_name.' '.$selected->transactionOrder->userDetails->last_name;
+                    return $selected->transactionOrder->userDetails->user_name;
                 }
             })
             ->editColumn('created_at', function($selected) {
@@ -187,11 +180,11 @@ class UserTransactionRepository extends Repository
             ->editColumn('user_name', function($selected) use ($request) {     
 
                 if ($request->id != $selected->user_id) {
-                    return $selected->users ? $selected->users->first_name.' '.$selected->users->last_name : '-';
+                    return $selected->users ? $selected->users->user_name : '-';
                 }else if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
-                   return $selected->transactionAppointment->user->first_name.' '.$selected->transactionAppointment->user->last_name;
+                   return $selected->transactionAppointment->user->user_name;
                 }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
-                    return $selected->transactionOrder->userDetails->first_name.' '.$selected->transactionOrder->userDetails->last_name;
+                    return $selected->transactionOrder->userDetails->user_name;
                 }
          
             })

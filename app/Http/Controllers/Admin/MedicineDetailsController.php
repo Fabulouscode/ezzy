@@ -49,8 +49,8 @@ class MedicineDetailsController extends Controller
     {
         $categories = $this->medicine_category_repo->get();
         $subcategories = $this->medicine_subcategory_repo->get();
-        $status = $this->medicine_details_repo->status;
-        $medicine_types = $this->medicine_details_repo->medicine_types;
+        $status = $this->medicine_details_repo->getStatusValue();
+        $medicine_types = $this->medicine_details_repo->getMedicineTypeValue();
         return view('admin.medicine.details.add',compact('categories','subcategories','status','medicine_types'));
     }
 
@@ -118,8 +118,8 @@ class MedicineDetailsController extends Controller
     {
         $categories = $this->medicine_category_repo->get();
         $subcategories = $this->medicine_subcategory_repo->get();
-        $status = $this->medicine_details_repo->status;
-        $medicine_types = $this->medicine_details_repo->medicine_types;
+        $status = $this->medicine_details_repo->getStatusValue();
+        $medicine_types = $this->medicine_details_repo->getMedicineTypeValue();
         $data = $this->medicine_details_repo->getbyIdedit($id);
         // dd($data);
         return view('admin.medicine.details.add',compact('data','categories','subcategories','status','medicine_types'));

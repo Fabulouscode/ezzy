@@ -17,7 +17,8 @@ class Appointment_services extends Model
     protected $fillable = [
         'appointment_id',
         'user_service_id',
-        'service_report'
+        'service_report',
+        'service_price'
     ];
 
     public function userService() {

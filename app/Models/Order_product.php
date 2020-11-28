@@ -19,6 +19,7 @@ class Order_product extends Model
         'order_id',
         'shop_medicine_detail_id',
         'quantity',
+        'medicine_price'
     ];
 
     public function shopMedicineDetails() {

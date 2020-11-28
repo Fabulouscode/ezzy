@@ -15,31 +15,19 @@ class AppointmentRepository extends Repository
     protected $model_name = 'App\Models\Appointment';
     protected $model;
    
-    public $status = array(
-        '0' => 'Pending',
-        '1' => 'Upcoming',
-        '2' => 'in_progress',
-        '3' => 'Paid',
-        '4' => 'Unpaid',
-        '5' => 'Success',
-        '6' => 'Cancel'
-    );
-
-    public $appointment_types = array(
-        '0' => 'In Clinic',
-        '1' => 'Home Care',
-        '2' => 'Video Call'
-    );
-    
-    public $service_charge_type = array(
-        '1' => 'per Minute',
-        '2' => 'per Hours',
-        '3' => 'per Day'
-    );
-
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+  
+    public function getAppointmentTypeValue()
+    {
+        return $this->model->appointment_type_value;
     }
 
      /**
@@ -162,11 +150,11 @@ class AppointmentRepository extends Repository
                 })
                 ->editColumn('user_name',function($selected)
                 {                   
-                    return $selected->client->first_name .' '.$selected->client->last_name;
+                    return $selected->client->user_name;
                 })
                 ->editColumn('service_provider',function($selected)
                 {                   
-                     return $selected->user->first_name .' '.$selected->user->last_name;
+                     return $selected->user->user_name;
                 })
                 ->editColumn('appointment_date',function($selected)
                 {                   
@@ -176,10 +164,10 @@ class AppointmentRepository extends Repository
                 {
                     $data = '';
                     if(!empty($selected->user->categoryParent)){
-                        $data .= '<div class="text-dark">'.$selected->user->categoryParent->name.'</div>';
+                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryParent->name.'</strong></div>';
                     }
                     if(!empty($selected->user->categoryChild)){
-                        $data .= '<div class="text-dark">'.$selected->user->categoryChild->name.'</div>';
+                        $data .= '<div class="text-success"><strong>'.$selected->user->categoryChild->name.'</strong></div>';
                     } 
                     
                     return $data;
@@ -188,12 +176,12 @@ class AppointmentRepository extends Repository
                 {
                     //	0-In Clinic, 1-Home Care, 2-Video Call
                     $data = '';
-                    if($selected->appointment_type == '1'){
-                        $data .= '<div class="badge badge-info">Video Call</div>';
-                    }else if($selected->appointment_type == '2'){
-                        $data .= '<div class="badge badge-info">Home Care</div>';
+                    if($selected->appointment_type == '2'){
+                        $data .= '<div class="badge badge-info">'.$selected->appointment_type_name.'</div>';
+                    }else if($selected->appointment_type == '1'){
+                        $data .= '<div class="badge badge-info">'.$selected->appointment_type_name.'</div>';
                     }else {
-                        $data .= '<div class="badge badge-success">In Clinic</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->appointment_type_name.'</div>';
                     }
                     
                     return $data;
@@ -203,19 +191,19 @@ class AppointmentRepository extends Repository
                     //	0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">Pending</div>';
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="badge badge-warning">Upcoming</div>';
+                        $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="badge badge-warning">In Progress</div>';
+                        $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
                     }else if($selected->status == '3'){
-                        $data .= '<div class="badge badge-success">Paid</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '4'){
-                        $data .= '<div class="badge badge-danger">Unpaid</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }else if($selected->status == '5'){
-                        $data .= '<div class="badge badge-success">Success</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '6'){
-                        $data .= '<div class="badge badge-danger">Cancel</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }
                     //  $data .= '<div class="badge badge-danger" >Inactive</div>';
                     return $data;
@@ -371,11 +359,11 @@ class AppointmentRepository extends Repository
         return Datatables::of($data)
             ->editColumn('user_name',function($selected)
             {
-                return $selected->user ? $selected->user->first_name.' '.$selected->user->last_name : '-';
+                return $selected->user ? $selected->user->user_name : '-';
             })
             ->editColumn('patient_name',function($selected)
             {
-                return $selected->client ? $selected->client->first_name.' '.$selected->client->last_name : '-';
+                return $selected->client ? $selected->client->user_name : '-';
             })->make(true);
     }
 

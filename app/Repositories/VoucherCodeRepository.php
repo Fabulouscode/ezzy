@@ -14,18 +14,20 @@ class VoucherCodeRepository extends Repository
 {
     protected $model_name = 'App\Models\Voucher_code';
     protected $model;
-    public $voucher_type = array(
-        '0' => 'Common',
-        '1' => 'Appointment',
-        '2' => 'Order',
-    );
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
+
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+
+    public function getVoucherTypeValue()
+    {
+        return $this->model->voucher_type_value;
     }
 
      /**
@@ -69,5 +71,26 @@ class VoucherCodeRepository extends Repository
                 })
                 ->rawColumns(['action'])
                 ->make(true);
+    }
+
+
+         /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getVoucherCodeList($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
+        
+        $query = $query->orderBy('id','desc')->get();
+
+        return $query;
     }
 }

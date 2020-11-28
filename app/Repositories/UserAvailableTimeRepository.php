@@ -20,6 +20,16 @@ class UserAvailableTimeRepository extends Repository
         parent::__construct();
     }
 
+    public function getDayValue()
+    {
+        return $this->model->day_value;
+    }
+
+    public function getAppointmentTypeValue()
+    {
+        return $this->model->appointment_type_value;
+    }
+
      /**
      * Store a newly created resource in storage.
      *
@@ -44,7 +54,7 @@ class UserAvailableTimeRepository extends Repository
      */
     public function getbyUserId($user_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->where('user_id', $user_id)->orderby('day','asc')->get();
     }
     
 }

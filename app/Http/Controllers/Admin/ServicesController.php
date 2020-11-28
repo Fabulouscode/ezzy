@@ -36,8 +36,8 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        $status = $this->services_repo->status;
-        $service_type = $this->services_repo->service_type;
+        $status = $this->services_repo->getStatusValue();
+        $service_type = $this->services_repo->getServiceTypeValue();
         return view('admin.services.add',compact('status','service_type'));
     }
 
@@ -75,8 +75,8 @@ class ServicesController extends Controller
      */
     public function edit($id)
     {
-        $status = $this->services_repo->status;
-        $service_type = $this->services_repo->service_type;
+        $status = $this->services_repo->getStatusValue();
+        $service_type = $this->services_repo->getServiceTypeValue();
         $data = $this->services_repo->getById($id);
         return view('admin.services.add',compact('data','service_type','status'));
     }

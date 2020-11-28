@@ -71,4 +71,30 @@ class NotificationRepository extends Repository
         return Helper::sendNotification($notification, $receiver, $sender, $unreadNotification);
     }
 
+        /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNotificationList($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
+        
+        if(!empty($request->user()->category_id)){
+            $query = $query->where('receiver_id',$request->user()->id);
+        }else{
+            $query = $query->where('receiver_id',$request->user()->id);
+        }
+        
+        $query = $query->orderBy('id','desc')->get();
+
+        return $query;
+    }
+
 }

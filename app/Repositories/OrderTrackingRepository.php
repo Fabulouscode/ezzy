@@ -19,6 +19,11 @@ class OrderTrackingRepository extends Repository
     {
         parent::__construct();
     }
+    
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
 
      /**
      * Store a newly created resource in storage.

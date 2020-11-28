@@ -36,7 +36,7 @@ class MedicineCategoryController extends Controller
      */
     public function create()
     {
-        $status = $this->medicine_category_repo->status;
+        $status = $this->medicine_category_repo->getStatusValue();
         return view('admin.medicine.category.add',compact('status'));
     }
 
@@ -73,7 +73,7 @@ class MedicineCategoryController extends Controller
     public function edit($id)
     {
         $data = $this->medicine_category_repo->getById($id);
-        $status = $this->medicine_category_repo->status;
+        $status = $this->medicine_category_repo->getStatusValue();
         return view('admin.medicine.category.add',compact('data','status'));
     }
 

@@ -66,10 +66,15 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();
             $transaction_amount = 0;
+            $voucher_amount = 0;
+            $hcp_fees = 0;
+            $home_visit_fees = 0;
+            $full_day = 0;
             $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
             $end_appointment   = new Carbon($appointment_details->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
-            if(!empty($appointment_details->appointmentServices)){           
+            
+            if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
                 foreach ($appointment_details->appointmentServices as $key => $value) {
                     $transaction_amount += $value->userService->service_charge;
                 }
@@ -77,32 +82,38 @@ class TransactionController extends BaseApiController
             } else { 
 
                 if (!empty($appointment_details->user_service_id)) {
-                    if ($appointment_details->userService->service_charge_type == '1') {
-                        $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing);
+                    $hcp_fees = $appointment_details->userService->service_charge;
+                    if ($appointment_details->userService->service_charge_type == '3') {
+                         $transaction_amount = $appointment_details->userService->service_charge;
                     } elseif ($appointment_details->userService->service_charge_type == '2') {
                         $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing/60);
-                    } elseif ($appointment_details->userService->service_charge_type == '3') {
-                        $transaction_amount = $appointment_details->userService->service_charge;
+                    } else {                       
+                        $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing);
                     }
                 } else {
                     if ($appointment_details->user->category_id == '5') {
                         if (empty($appointment_details->completed_datetime)) {
                             $transaction_amount = $appointment_details->user->userDetails->fees_day;
+                            $hcp_fees = $appointment_details->user->userDetails->fees_day;
+                            $full_day = 1;
                         } else {
                             $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
+                            $hcp_fees = $appointment_details->user->userDetails->fees_hour;                           
                         }
                     } else {
                         if ($appointment_details->urgent == '1') {
-                            $transaction_amount = $appointment_details->user->userDetails->urgent_fees * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->urgent_fees * $appointment_timing;
+                            $hcp_fees = $appointment_details->user->userDetails->urgent_fees;
                         } else {
-                            $transaction_amount = $appointment_details->user->userDetails->normal_fees * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->normal_fees * $appointment_timing;
+                            $hcp_fees = $appointment_details->user->userDetails->normal_fees;
                         }
                     }
                 }
             }
-            
             if($appointment_details->appointment_type == '1'){
                 $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
+                $home_visit_fees =  $appointment_details->user->userDetails->home_visit_fees;
             }
                 $add_transaction = [
                         'user_id'=> $request->user()->id,
@@ -114,13 +125,20 @@ class TransactionController extends BaseApiController
                     ];
                 
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
-
+                    
             if(!empty($transaction)){
                 $update = [
-                        'status'=> '5',
+                        'status'=> $request->status,
+                        'full_day'=> $full_day,
                         'appointment_price'=> $transaction_amount,
                         'transaction_id'=> $transaction->id,
+                        'hcp_fees'=> $hcp_fees,
+                        'home_visit_fees'=> $home_visit_fees,
                     ];
+                // if(){
+                //     $update['voucher_amount'] = $voucher_amount;
+                //     $update['voucher_code_id'] = $voucher_code_id;
+                // }
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
                 DB::commit();

@@ -9,6 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use HasFactory, SoftDeletes;
+    
+    public $status_value = array(
+        '0' => 'Pending',
+        '1' => 'Success',
+        '2' => 'Cancel',
+    );
+
+    public $delivery_type_value = array(
+        '0' => 'Home Delievry',
+        '1' => 'pick-up from store',
+    );
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +42,20 @@ class Order extends Model
         'user_rating',
         'user_review',
         'transaction_id',
+        'voucher_code_id',
+        'voucher_amount',
+        'delivery_type'
     ];
+
+    protected $appends = ['status_name','delivery_type_name'];
+
+    public function getStatusNameAttribute() {
+        return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
+
+    public function getDeliveryTypeNameAttribute() {
+        return array_key_exists($this->delivery_type, $this->delivery_type_value) ? $this->delivery_type_value[$this->delivery_type]: '';
+    }
 
     public function userDetails() {
         return $this->hasOne('App\Models\User', 'id', 'user_id');

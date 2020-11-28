@@ -43,7 +43,7 @@
                                         <dt class="col-sm-5"><label>Status</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->status))
-                                                {{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}
+                                                {{$data->status_name}}
                                             @endif 
                                         </dd>
                                     </div>

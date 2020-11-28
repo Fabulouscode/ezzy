@@ -37,8 +37,8 @@ class VoucherCodeController extends Controller
      */
     public function create()
     {
-        $status = $this->voucher_code_repo->status;
-        $voucher_type = $this->voucher_code_repo->voucher_type;
+        $status = $this->voucher_code_repo->getStatusValue();
+        $voucher_type = $this->voucher_code_repo->getVoucherTypeValue();
         return view('admin.voucher_code.add',compact('voucher_type','status'));
     }
 
@@ -83,8 +83,8 @@ class VoucherCodeController extends Controller
      */
     public function edit($id)
     {
-        $status = $this->voucher_code_repo->status;
-        $voucher_type = $this->voucher_code_repo->voucher_type;
+        $status = $this->voucher_code_repo->getStatusValue();
+        $voucher_type = $this->voucher_code_repo->getVoucherTypeValue();
         $data = $this->voucher_code_repo->getById($id);
         $data->expiry_date = Carbon::parse($data->expiry_date)->format('Y-m-d\TH:i');
         return view('admin.voucher_code.add',compact('data','status','voucher_type'));

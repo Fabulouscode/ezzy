@@ -13,6 +13,7 @@ use App\Http\Requests\Api\Auth\UserVerifySMSRequest;
 use App\Http\Requests\Api\Auth\UserForgetPasswordRequest;
 use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
 use App\Http\Requests\Api\Auth\UserProviderAuthRequest;
+use App\Http\Requests\Api\Auth\PasswordChangeRequest;
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -260,6 +261,32 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id); 
                 return self::sendSuccess([], 'Password Reset');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+        }else{
+            return self::sendError('', 'User Mobile No. Invalid');
+        }
+    }
+    
+    /**
+     * Change password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function userChangePassword(PasswordChangeRequest $request)
+    {
+        $user = $this->user_repo->getById($request->user()->id); 
+        if(!empty($user)){   
+            try{
+                if(Hash::check($request->password , $request->user()->password)){
+                    $data = ['password' => Hash::make($request->new_password)];
+                    $this->user_repo->dataCrudUsingData($data, $request->user()->id);
+                    $update_user = $this->user_repo->getById($request->user()->id); 
+                    return self::sendSuccess('', 'Password Reset');
+                }
+            return self::sendError('', 'Current Password Not Match');
             }catch(\Exception $e){
                 return self::sendException($e);
             }

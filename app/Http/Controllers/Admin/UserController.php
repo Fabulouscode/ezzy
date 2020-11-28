@@ -103,8 +103,6 @@ class UserController extends Controller
      */
     public function show($provider = '', $id)
     {
-        $days = $this->user_repo->days;
-        $appointment_types = $this->appointment_repo->appointment_types;
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
         // dd($data);
@@ -112,13 +110,13 @@ class UserController extends Controller
         // $provider_names = $this->user_repo->provider_name;
         // return view('admin.provider.view', compact('data','categories','days','appointment_types','provider','provider_names'));
         if($provider == 'healthcare'){
-             return view('admin.healthcare.view',compact('data','categories','days','appointment_types'));
+             return view('admin.healthcare.view',compact('data','categories'));
         }else if($provider == 'pharmacy'){
-             return view('admin.pharmacy.view',compact('data','categories','days','appointment_types'));
+             return view('admin.pharmacy.view',compact('data','categories'));
         }else if($provider == 'laboratories'){
-             return view('admin.laboratories.view',compact('data','categories','days','appointment_types'));
+             return view('admin.laboratories.view',compact('data','categories'));
         }else{            
-            return view('admin.patients.view',compact('data','categories','days','appointment_types'));
+            return view('admin.patients.view',compact('data','categories'));
         }
 
     }

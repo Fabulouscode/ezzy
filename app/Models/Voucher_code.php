@@ -9,7 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Voucher_code extends Model
 {
     use HasFactory, SoftDeletes;
-
+    public $status_value = array(
+        '0' => 'Active',
+        '1' => 'Inactive',
+    );
+ 
+    public $voucher_type_value = array(
+        '0' => 'Common',
+        '1' => 'Appointment',
+        '2' => 'Order',
+    );
+ 
     /**
      * The attributes that are mass assignable.
      *
@@ -27,4 +37,15 @@ class Voucher_code extends Model
         'voucher_type',
         'status'
     ];
+
+    protected $appends = ['status_name','voucher_type_name'];
+
+    public function getStatusNameAttribute() {
+        return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
+ 
+    public function getVoucherTypeNameAttribute() {
+        return array_key_exists($this->voucher_type, $this->voucher_type_value) ? $this->voucher_type_value[$this->voucher_type]: '';
+    }
+    
 }

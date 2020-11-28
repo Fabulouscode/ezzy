@@ -20,6 +20,11 @@ class UserServiceRepository extends Repository
         parent::__construct();
     }
 
+    public function getServiceChargeTypeValue()
+    {
+        return $this->model->service_charge_type_value;
+    }
+    
      /**
      * Store a newly created resource in storage.
      *

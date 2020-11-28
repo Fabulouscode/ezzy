@@ -75,7 +75,7 @@
                                         <dt class="col-sm-5"><label>Appointment Type</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->appointment_type))
-                                                {{array_key_exists($data->appointment_type, $appointment_types) ? $appointment_types[$data->appointment_type]: ''}}
+                                                {{$data->appointment_type_name}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -107,7 +107,7 @@
                                         <dt class="col-sm-5"><label>Status</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->status))
-                                                {{array_key_exists($data->status, $status) ? $status[$data->status]: ''}}
+                                                {{$data->status_name}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -142,7 +142,7 @@
                                         <dt class="col-sm-5"><label>User Name</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->cancelUser))
-                                                {{$data->cancelUser->first_name .' '. $data->cancelUser->last_name}}
+                                                {{$data->cancelUser->user_name}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -176,7 +176,7 @@
                                         <dt class="col-sm-5"><label>User Name</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->client->first_name))
-                                                {{$data->client->first_name .' '. $data->client->last_name}}
+                                                {{$data->client->user_name}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -228,7 +228,7 @@
                                         <dt class="col-sm-5"><label>User Name</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->user->first_name))
-                                                {{$data->user->first_name .' '. $data->user->last_name}}
+                                                {{$data->user->user_name}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -245,49 +245,6 @@
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->user->mobile_no))
                                                 {{$data->user->mobile_no}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-
-                            
-                        @if(!empty($data->creditTransaction))
-                        <div class="border border-light rounded mb-3">
-                            <div class="card-detail-view">
-                                <h4 class="mt-0 header-title">Transaction Details</h4>
-                                <div class="card-detail-list">
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Transaction Date</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->creditTransaction->transaction_date))
-                                                {{$data->creditTransaction->transaction_date}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Amount</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->creditTransaction->amount))
-                                                {{$data->creditTransaction->amount}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Transaction Type</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->creditTransaction->transaction_type))
-                                                {{array_key_exists($data->creditTransaction->transaction_type, $transaction_type) ? $transaction_type[$data->creditTransaction->transaction_type]: ''}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Transaction Status</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->creditTransaction->status))
-                                                {{array_key_exists($data->creditTransaction->status, $transaction_status) ? $transaction_status[$data->creditTransaction->status]: ''}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -322,7 +279,7 @@
                                         <dt class="col-sm-5"><label>Service Charge Type</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->userService->service_charge_type))
-                                                {{array_key_exists($data->userService->service_charge_type, $service_charge_type) ? $service_charge_type[$data->userService->service_charge_type]: ''}}
+                                                {{$data->userService->service_charge_type_name}}
                                             @endif 
                                         </dd>
                                     </div>

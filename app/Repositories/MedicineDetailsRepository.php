@@ -15,19 +15,19 @@ class MedicineDetailsRepository extends Repository
     protected $model_name = 'App\Models\Medicine_details';
     protected $model;
     
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
-
-    public $medicine_types = array(
-        '0' => 'Capsules',
-        '1' => 'Bottle',
-    );
-
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+
+    public function getMedicineTypeValue()
+    {
+        return $this->model->medicine_type_value;
     }
 
      /**

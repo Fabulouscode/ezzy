@@ -37,36 +37,28 @@ class AppointmentController extends BaseApiController
     public function getUpcomingAppointment(Request $request)
     {
         $data = array();
-        $data['status'] = $this->appointment_repo->status;
-        $data['appointment_types'] = $this->appointment_repo->appointment_types;
-        $data['result'] = $this->appointment_repo->getUpcomingAppointment($request);
+        $data= $this->appointment_repo->getUpcomingAppointment($request);
         return self::sendSuccess($data);
     }
    
     public function getPendingAppointment(Request $request)
     {
         $data = array();
-        $data['status'] = $this->appointment_repo->status;
-        $data['appointment_types'] = $this->appointment_repo->appointment_types;
-        $data['result'] = $this->appointment_repo->getPendingAppointment($request);
+        $data = $this->appointment_repo->getPendingAppointment($request);
         return self::sendSuccess($data);
     }
 
     public function getCancelledAppointment(Request $request)
     {
         $data = array();
-        $data['status'] = $this->appointment_repo->status;
-        $data['appointment_types'] = $this->appointment_repo->appointment_types;
-        $data['result'] = $this->appointment_repo->getCancelledAppointment($request);
+        $data = $this->appointment_repo->getCancelledAppointment($request);
         return self::sendSuccess($data);
     }
 
     public function getCompletedAppointment(Request $request)
     {
         $data = array();
-        $data['status'] = $this->appointment_repo->status;
-        $data['appointment_types'] = $this->appointment_repo->appointment_types;
-        $data['result'] = $this->appointment_repo->getCompletedAppointment($request);
+        $data = $this->appointment_repo->getCompletedAppointment($request);
         return self::sendSuccess($data);
     }
     

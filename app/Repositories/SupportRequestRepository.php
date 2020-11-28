@@ -14,16 +14,15 @@ class SupportRequestRepository extends Repository
 {
     protected $model_name = 'App\Models\Support_request';
     protected $model;
-
-    public $status = array(
-        '0' => 'Pending',
-        '1' => 'Success',
-        '2' => 'Cancel'
-    );
-
+    
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
     }
 
      /**
@@ -84,11 +83,11 @@ class SupportRequestRepository extends Repository
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">Pending</div>';
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="badge badge-success">Success</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="badge badge-danger" >Cancel</div>';
+                        $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })

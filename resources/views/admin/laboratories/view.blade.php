@@ -296,8 +296,8 @@
                                             <tbody>
                                             @foreach($data->userAvailableTime as $user_avalibale_time) 
                                                 <tr>
-                                                    <td>{{array_key_exists($user_avalibale_time->day, $days) ? $days[$user_avalibale_time->day]: ''}}</td>
-                                                    <td>{{array_key_exists($user_avalibale_time->appointment_type, $appointment_types) ? $appointment_types[$user_avalibale_time->appointment_type]: ''}}</td>
+                                                    <td>{{$user_avalibale_time->day_name}}</td>
+                                                    <td>{{$user_avalibale_time->appointment_type_name}}</td>
                                                     <td>{{$user_avalibale_time->start_time}}</td>
                                                     <td>{{$user_avalibale_time->end_time}}</td>
                                                 </tr>

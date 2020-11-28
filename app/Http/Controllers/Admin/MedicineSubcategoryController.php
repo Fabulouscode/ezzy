@@ -38,7 +38,7 @@ class MedicineSubcategoryController extends Controller
      */
     public function create()
     {
-        $status = $this->medicine_category_repo->status;
+        $status = $this->medicine_category_repo->getStatusValue();
         $categories = $this->medicine_category_repo->get();
         return view('admin.medicine.subcategory.add',compact('categories','status'));
     }
@@ -77,7 +77,7 @@ class MedicineSubcategoryController extends Controller
      */
     public function edit($id)
     {
-        $status = $this->medicine_category_repo->status;
+        $status = $this->medicine_category_repo->getStatusValue();
         $categories = $this->medicine_category_repo->get();
         $data = $this->medicine_subcategory_repo->getById($id);
         return view('admin.medicine.subcategory.add',compact('data','categories','status'));

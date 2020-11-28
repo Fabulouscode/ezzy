@@ -73,7 +73,7 @@ class SupportRequestController extends Controller
      */
     public function edit($id)
     {
-        $status = $this->support_request_repo->status;
+        $status = $this->support_request_repo->getStatusValue();
         $data = $this->support_request_repo->getById($id);
         return view('admin.support_request.add',compact('data','status'));
     }
@@ -86,7 +86,7 @@ class SupportRequestController extends Controller
      */
     public function show($id)
     {
-        $status = $this->support_request_repo->status;
+        $status = $this->support_request_repo->getStatusValue();
         $data = $this->support_request_repo->getbyIdedit($id);
         return view('admin.support_request.view',compact('data','status'));
     }

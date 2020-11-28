@@ -14,6 +14,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    public $status_value = array(
+        '0'=>'Active', 
+        '1'=>'Wait for Approval', 
+        '2'=>'Inactive', 
+        '3'=>'Pending Verify',
+    );
+    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -68,8 +76,12 @@ class User extends Authenticatable
     protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
-                          'monthly_wallet_balance','total_wallet_balance','user_name'
+                          'monthly_wallet_balance','total_wallet_balance','user_name' , 'status_name'
                         ];
+
+    public function getStatusNameAttribute() {
+        return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
 
     public function getProfileImageAttribute($value) {
         return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');

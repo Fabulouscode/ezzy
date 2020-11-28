@@ -15,20 +15,19 @@ class OrderRepository extends Repository
     protected $model_name = 'App\Models\Order';
     protected $model;
 
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Success',
-        '2' => 'Cancel'
-    );
-
-    public $delivery_type = array(
-        '0' => 'Home Delievry',
-        '1' => 'pick-up from store'
-    );
-
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+  
+    public function getDeliveryTypeValue()
+    {
+        return $this->model->delivery_type_value;
     }
 
      /**
@@ -187,12 +186,12 @@ class OrderRepository extends Repository
                 })                
                 ->editColumn('service_provider',function($selected){
                     if(!empty($selected->userDetails)){
-                        return $selected->userDetails->first_name .' '. $selected->userDetails->last_name;
+                        return $selected->userDetails->user_name;
                     } 
                 })
                 ->editColumn('user_name',function($selected){
                     if(!empty($selected->clientDetails)){
-                        return $selected->clientDetails->first_name .' '. $selected->clientDetails->last_name;
+                        return $selected->clientDetails->user_name;
                     }
                 })
                 ->rawColumns(['action','status'])
@@ -292,11 +291,11 @@ class OrderRepository extends Repository
         return Datatables::of($data)
             ->editColumn('user_name',function($selected)
             {
-                return $selected->clientDetails ? $selected->clientDetails->first_name.' '.$selected->clientDetails->last_name : '-';
+                return $selected->clientDetails ? $selected->clientDetails->user_name : '-';
             })
             ->editColumn('patient_name',function($selected)
             {
-                return $selected->clientDetails ? $selected->clientDetails->first_name.' '.$selected->clientDetails->last_name : '-';
+                return $selected->clientDetails ? $selected->clientDetails->user_name : '-';
             })->editColumn('order_no',function($selected)
             {
                 return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.'</a>';

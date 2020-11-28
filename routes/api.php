@@ -46,6 +46,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::post('/reset/password', 'UserAuthController@recoverPassword');
         Route::post('/register', 'UserAuthController@saveRegister');    
         Route::post('/patient/register', 'UserAuthController@saveRegisterPatient');
+        Route::post('/password/change', 'UserAuthController@userChangePassword');
     });
     
     
@@ -125,6 +126,20 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/update', 'UserServiceDetailsController@updateUserServiceDetails');
                 Route::get('/get/{id?}', 'UserServiceDetailsController@getByIdUserServiceDetails');
                 Route::delete('/delete/{id?}', 'UserServiceDetailsController@deleteUserServiceDetails');
+            }); 
+     
+            // notification details
+            Route::prefix('notification')->group(function(){
+                Route::post('', 'NotificationController@getNotificationDetails');
+                Route::get('/get/{id?}', 'NotificationController@getByIdNotificationDetails');
+                Route::get('/read/{id?}', 'NotificationController@readNotificationDetails');
+                Route::delete('/delete/{id?}', 'NotificationController@deleteNotificationDetails');
+            }); 
+  
+            // voucher code details
+            Route::prefix('voucher_code')->group(function(){
+                Route::post('', 'VoucherCodeController@getVoucherCodeDetails');
+                Route::get('/get/{id?}', 'VoucherCodeController@getByIdVoucherCodeDetails');
             }); 
 
 

@@ -14,14 +14,15 @@ class MedicineSubcategoryRepository extends Repository
 {
     protected $model_name = 'App\Models\Medicine_subcategory';
     protected $model;
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
-
+    
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
     }
 
      /**

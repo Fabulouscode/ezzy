@@ -1,0 +1,161 @@
+@extends('layouts.backend')
+
+ @section('title','View Appointment Invoice')
+
+@section('content')
+
+<div class="container-fluid">
+
+    <div class="row d-print-none">
+        <div class="col-sm-12">
+            <div class="float-right page-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/appointment')}}">Appointment List</a></li>
+                    <li class="breadcrumb-item active">Invoice</li>
+                </ol>
+            </div>
+            <h5 class="page-title">Invoice</h5>
+        </div>
+    </div>
+    <!-- end row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card m-b-30">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="invoice-title">
+                                <h4 class="float-right font-16">
+                                <div>
+                                    <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
+                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? date('d M Y', strtotime($data->completed_datetime)) : '' }}
+                                </div>
+                                </h4>
+                                <h3 class="m-t-0">
+                                    <img src="{{ asset('admin/images/logo-1.png') }}" alt="logo" height="40"/>
+                                </h3>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <address>
+                                        <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
+                                        <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
+                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
+                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no :''}}<br>
+                                    </address>
+                                </div>
+                                <div class="col-6">
+                                    <address>
+                                        <h5>Patient Details:</h5>
+                                        <b>Name: </b>{{$data->name}}<br>
+                                        <b>Email: </b>{{$data->email}}<br>
+                                        <b>Mobile: </b>{{$data->mobile_no}}<br>
+                                        <b>Address: </b>{{$data->address}}<br>
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 m-t-30">
+                                    <b>Completed Date: </b>{{date('d M Y', strtotime($data->completed_datetime))}}<br>
+                                    @php($urgent = ($data->urgent == '1')? '(Urgent)' : '')
+                                    <b>Appointment Type: </b>{{$data->appointment_type_name}} <br>
+                                    <b>Status: </b>{{$data->status_name}}
+                                </div>
+                                <div class="col-6 m-t-30 text-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="panel panel-default">
+                                <div class="p-2">
+                                    <h3 class="panel-title font-20"><strong>Appointment summary</strong></h3>
+                                </div>
+                                <div class="">
+                                    <div class="table-responsive">
+                                        @if($data->user->category_id == '5')
+                                            @if($data->full_day == '1')
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
+                                                @php ($appointment_charge_text = 'Charge (In Day)')
+                                            @else
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
+                                                @php ($appointment_charge_text = 'Charge (In Hours)')
+                                            @endif
+                                        @else
+                                            @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
+                                            @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                        @endif
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <td class="text-center"><strong>Start Date Time</strong></td>
+                                                <td class="text-center"><strong>End Date Time</strong></td>
+                                                <td class="text-center"><strong>Time Diffrence (Minutes)</strong></td>
+                                                <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
+                                                <td class="text-center"><strong>Charge Amount</strong></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                             <tr>
+                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->appointment_date .' '. $data->appointment_time))}}</td>
+                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->completed_datetime))}}</td>
+                                                <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                <td class="text-center">{{$data->hcp_fees}}</td>
+                                                <td class="text-center">{{$appointment_charge}}</td>
+                                            </tr>       
+                                            <tr>
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
+                                                    <strong>Subtotal</strong></td>
+                                                <td class="thick-line text-center">{{$appointment_charge}}</td>
+                                            </tr>
+                                            @if($data->appointment_type == '1')
+                                            <tr>
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
+                                                    <strong>Home Visit Fees</strong></td>
+                                                <td class="thick-line text-center">{{$data->home_visit_fees}}</td>
+                                            </tr>
+                                            @endif
+                                            <tr>
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
+                                                    <strong>Total</strong></td>
+                                                <td class="thick-line text-center"><h4 class="m-0">{{$data->appointment_price}}</h4></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-print-none mo-mt-2">
+                                        <div class="float-right">
+                                            <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                            <a  href="#" onclick="history.go(-1)" class="btn btn-primary waves-effect waves-light">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> <!-- end row -->
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
+</div><!-- container fluid -->
+@endsection
+
+@section('script')
+<script>
+    var appointment_url = "{{url('/appointment')}}";
+    var data_obj = {};
+</script>
+<script src="{{ asset('js/admin/appointment.js') }}" ></script>
+@endsection

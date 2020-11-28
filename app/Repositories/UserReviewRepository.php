@@ -15,11 +15,6 @@ class UserReviewRepository extends Repository
     protected $model_name = 'App\Models\User_review';
     protected $model;
 
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
-
     public function __construct()
     {
         parent::__construct();

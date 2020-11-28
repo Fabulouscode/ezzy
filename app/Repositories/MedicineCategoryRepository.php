@@ -15,14 +15,15 @@ class MedicineCategoryRepository extends Repository
     protected $model_name = 'App\Models\Medicine_category';
     protected $model;
 
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
     
     public function __construct()
     {
         parent::__construct();
+    }
+  
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
     }
 
      /**
@@ -67,9 +68,9 @@ class MedicineCategoryRepository extends Repository
                     //	0-Active, 1-Inactive	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-success">Active</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                         $data .= '<div class="badge badge-danger" >Inactive</div>';                    
+                         $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';                    
                     }
                     return $data;
                 })

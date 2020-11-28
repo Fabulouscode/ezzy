@@ -14,23 +14,22 @@ class ServicesRepository extends Repository
 {
     protected $model_name = 'App\Models\Services';
     protected $model;
-
-    public $status = array(
-        '0' => 'Active',
-        '1' => 'Inactive',
-    );
-
-    public $service_type = array(
-        '0' => 'Massage Therapist',
-        '2' => 'Scientist',
-        '3' => 'Pathologist',
-        '4' => 'Radiologist',
-    );
-
+    
     public function __construct()
     {
         parent::__construct();
     }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
+    }
+
+    public function getServiceTypeValue()
+    {
+        return $this->model->service_type_value;
+    }
+
 
      /**
      * Store a newly created resource in storage.
@@ -71,7 +70,7 @@ class ServicesRepository extends Repository
                 })
                 ->editColumn('service_type',function($selected)
                 {
-                    return $this->service_type[$selected->service_type];
+                    return $selected->service_type_name;
                 })
                 ->editColumn('status',function($selected)
                 {

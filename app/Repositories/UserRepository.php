@@ -17,23 +17,6 @@ class UserRepository extends Repository
 {
     protected $model_name = 'App\Models\User';
     protected $model;
-
-    public $status = array(
-        '0'=>'Active', 
-        '1'=>'Wait for Approval', 
-        '2'=>'Inactive', 
-        '3'=>'Pending Verify',
-    );
-
-    public $days = array(
-        '0'=>'Sunday', 
-        '1'=>'Monday', 
-        '2'=>'Tuesday', 
-        '3'=>'Wednesday', 
-        '4'=>'Thursday', 
-        '5'=>'Friday', 
-        '6'=>'Saturday'
-    );
    
     public $provider_name = array(
         'healthcare'=>'Health Care Provider', 
@@ -45,6 +28,11 @@ class UserRepository extends Repository
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getStatusValue()
+    {
+        return $this->model->status_value;
     }
 
     /**
