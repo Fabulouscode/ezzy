@@ -62,14 +62,10 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $medicine_types = $this->shop_medicine_repo->medicine_types;
-        $delivery_type = $this->order_repo->delivery_type;
-        $status = $this->order_repo->status;
-        $transaction_status = $this->user_transaction_repo->status;
-        $transaction_type = $this->user_transaction_repo->transaction_type;
+
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.order.view',compact('data','medicine_types','delivery_type','status','transaction_status','transaction_type'));
+        return view('admin.order.view',compact('data'));
     }
 
       /**
@@ -80,14 +76,9 @@ class OrderController extends Controller
      */
     public function getInvoice($id)
     {
-        $medicine_types = $this->shop_medicine_repo->medicine_types;
-        $delivery_type = $this->order_repo->delivery_type;
-        $status = $this->order_repo->status;
-        $transaction_status = $this->user_transaction_repo->status;
-        $transaction_type = $this->user_transaction_repo->transaction_type;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.order.invoice',compact('data','medicine_types','delivery_type','status','transaction_type','transaction_status'));
+        return view('admin.order.invoice',compact('data'));
     }
 
     /**

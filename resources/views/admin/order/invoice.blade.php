@@ -62,10 +62,10 @@
                                         <strong>Order Date:</strong>&nbsp;&nbsp;{{$data->created_at}}
                                     </address>
                                     <address>
-                                        <strong>Delivery Type:</strong>&nbsp;&nbsp;{{$delivery_type[$data->delivery_type]}}
+                                        <strong>Delivery Type:</strong>&nbsp;&nbsp;{{$data->delivery_type_name}}
                                     </address>
                                     <address>
-                                        <strong>Status:</strong>&nbsp;&nbsp;{{$status[$data->status]}}
+                                        <strong>Status:</strong>&nbsp;&nbsp;{{$data->status_name}}
                                     </address>
                                 </div>
                                 <div class="col-6 m-t-30 text-right">
@@ -102,7 +102,7 @@
                                             <tr>
                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
-                                                <td class="text-center">{{$medicine_types[$order_details->shopMedicineDetails->medicine_type]}}</td>
+                                                <td class="text-center">{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->mrp_price}}</td>
                                                 <td class="text-center">{{$order_details->quantity}}</td>
                                                 <td class="text-right">{{$medicine_total}}</td>

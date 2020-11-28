@@ -111,7 +111,7 @@
                                                             <tr>
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
-                                                                <td>{{$medicine_types[$order_details->shopMedicineDetails->medicine_type]}}</td>
+                                                                <td>{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->mrp_price}}</td>
                                                                 <td>{{$order_details->quantity}}</td>
                                                                 <td>{{$medicine_total}}</td>
