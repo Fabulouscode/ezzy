@@ -273,10 +273,9 @@ class UserAuthController extends BaseApiController
     */
     public function userLogout(Request $request) 
     {
-        $user = $request->user();
         try{
             $data = ['device_type' => NULL,'device_token'=> NULL];
-            $this->user_repo->dataCrudUsingData($data, $user->id);
+            $this->user_repo->dataCrudUsingData($data, $request->user()->id);
             $this->user_repo->removeOauthAccessTokens($request->user()->id);
             return Self::sendSuccess('', 'Logout Successfull.');
         }catch(\Exception $e){

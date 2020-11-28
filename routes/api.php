@@ -41,7 +41,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
 
     Route::middleware('auth:api')->group(function(){
-        Route::post('/logout', 'UserAuthController@userLogout');
+        Route::get('/logout', 'UserAuthController@userLogout');
         Route::post('/otp/verify', 'UserAuthController@verifyOTP');
         Route::post('/reset/password', 'UserAuthController@recoverPassword');
         Route::post('/register', 'UserAuthController@saveRegister');    
