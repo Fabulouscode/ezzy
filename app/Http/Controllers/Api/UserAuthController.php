@@ -15,7 +15,7 @@ use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
 use App\Http\Requests\Api\Auth\UserProviderAuthRequest;
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class UserAuthController extends BaseApiController
 {
@@ -39,6 +39,7 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->checkbyMobileNo($request);   
         if(empty($user)){
             try{
+                DB::beginTransaction();
                 $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
                 $request->otp_code = $mobile_code;
@@ -46,11 +47,13 @@ class UserAuthController extends BaseApiController
                 // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
                 // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 $user = $this->user_repo->registerWithMobileno($request);
+                DB::commit();
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
                     'data' => $data,
                 ]);
             }catch(\Exception $e){
+                DB::rollBack();
                 return self::sendException($e);
             }
         } else{
@@ -68,15 +71,23 @@ class UserAuthController extends BaseApiController
     public function saveRegisterPatient(UserAuthRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
-        if(!empty($user)){
-            $this->user_repo->registerWithRestore($request);
-            $user = $this->user_repo->getbyMobileNo($request);           
-            $this->user_repo->removeOauthAccessTokens($user->id);    
-            return self::sendSuccess([
-                    'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $user,
-                    ]);
+        if(!empty($user)){      
+            try{
+                DB::beginTransaction();
+                $this->user_repo->registerWithRestore($request);
+                $user = $this->user_repo->getbyMobileNo($request);           
+                $this->user_repo->removeOauthAccessTokens($user->id);  
+                DB::commit();  
+                return self::sendSuccess([
+                        'token' => $user->createToken('EzzyCare')->accessToken,
+                        'user' => $user,
+                        ]);
+            }catch(\Exception $e){
+                DB::rollBack();
+                return self::sendException($e);
+            }
         } else{
+
              return self::sendError('', 'Mobile No. Already Registered.');
         }
 
@@ -92,13 +103,20 @@ class UserAuthController extends BaseApiController
     {
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
         if(!empty($user)){
-            $this->user_repo->registerWithRestore($request);
-            $user = $this->user_repo->getbyMobileNo($request); 
-            $this->user_repo->removeOauthAccessTokens($user->id);
-            return self::sendSuccess([
-                    'token' => $user->createToken('EzzyCare')->accessToken,
-                    'user' => $user,
-                    ]);
+            try{
+                DB::beginTransaction();
+                $this->user_repo->registerWithRestore($request);
+                $user = $this->user_repo->getbyMobileNo($request); 
+                $this->user_repo->removeOauthAccessTokens($user->id);
+                DB::commit(); 
+                return self::sendSuccess([
+                        'token' => $user->createToken('EzzyCare')->accessToken,
+                        'user' => $user,
+                        ]);
+            }catch(\Exception $e){
+                DB::rollBack();
+                return self::sendException($e);
+            }
         } else{
              return self::sendError('', 'Mobile No. Already Registered.');
         }
