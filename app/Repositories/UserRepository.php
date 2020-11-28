@@ -81,9 +81,7 @@ class UserRepository extends Repository
      */
     public function registerWithRestore($request)
     {   
-        if(!empty($request->category_id)){
-            $card_number = $this->genrateCardNumber();
-        }
+        $card_number = $this->genrateCardNumber();
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
                 'last_name' => !empty($request->last_name) ? $request->last_name : NULL,    
@@ -255,7 +253,7 @@ class UserRepository extends Repository
                 })
                 ->addColumn('user_name',function($selected)
                 {
-                     return $selected->first_name .' '.$selected->last_name;
+                     return $selected->user_name;
                 })
                 ->editColumn('hcp_type',function($selected){
                     $data = '';

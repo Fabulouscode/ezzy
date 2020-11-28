@@ -68,11 +68,15 @@ class User extends Authenticatable
     protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
-                          'monthly_wallet_balance','total_wallet_balance'
+                          'monthly_wallet_balance','total_wallet_balance','user_name'
                         ];
 
     public function getProfileImageAttribute($value) {
         return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+   
+    public function getUserNameAttribute($value) {
+        return $this->first_name .' '.$this->last_name;
     }
 
     
