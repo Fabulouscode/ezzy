@@ -181,7 +181,7 @@ class TransactionController extends BaseApiController
                 $update = [
                         'status'=> '1',
                         'completed_datetime'=> $this->order_repo->getCurrentDateTime(),
-                        'transaction'=> $transaction->id,
+                        'transaction_id'=> $transaction->id,
                     ];
                 $this->order_repo->dataCrud($update, $request->id);
           
