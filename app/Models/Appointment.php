@@ -17,12 +17,12 @@ class Appointment extends Model
         '2' => 'in_progress',
         '3' => 'Paid',
         '4' => 'Unpaid',
-        '5' => 'Success',
+        '5' => 'Completed',
         '6' => 'Cancel'
     );
 
     public $appointment_type_value = array(
-        '0' => 'In Clinic',
+        '0' => 'Clinic Care',
         '1' => 'Home Care',
         '2' => 'Video Call'
     );
