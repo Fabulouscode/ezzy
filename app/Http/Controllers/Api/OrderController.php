@@ -53,9 +53,9 @@ class OrderController extends BaseApiController
 
     public function generateInvoice($order_id)
     {
-        $medicine_types = $this->shop_medicine_repo->medicine_types;
-        $delivery_type = $this->order_repo->delivery_type;
-        $status = $this->order_repo->status;
+        $medicine_types = $this->shop_medicine_repo->getMedicineTypeValue();
+        $delivery_type = $this->order_repo->getDeliveryTypeValue();
+        $status = $this->order_repo->getStatusValue();
         $data = $this->order_repo->getbyEditId($order_id); 
         view()->share(['data' => $data, 'status' => $status, 'delivery_type'=>$delivery_type,'medicine_types'=>$medicine_types]);
         $pdf = PDF::loadView('invoice.order', [$data, $status, $delivery_type, $medicine_types]);
