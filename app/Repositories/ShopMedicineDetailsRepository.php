@@ -86,8 +86,8 @@ class ShopMedicineDetailsRepository extends Repository
                 ->editColumn('mrp_price',function($selected)
                 {
                     $data = '';
-                    $data .= '<strong>MRP Price : </strong>'.$selected->mrp_price.'<br>';
-                    $data .= '<strong>Offer Price : </strong>'.$selected->offer_price;           
+                    $data .= '<strong>MRP Price : </strong>₦ '.$selected->mrp_price.'<br>';
+                    $data .= '<strong>Offer Price : </strong>₦ '.$selected->offer_price;           
                     return $data;
                 })
                 ->editColumn('medicine_type',function($selected)

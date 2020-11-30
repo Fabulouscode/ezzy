@@ -72,7 +72,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Appointment Type</label></dt>
+                                        <dt class="col-sm-5"><label>Type of Appointment</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->appointment_type))
                                                 {{$data->appointment_type_name}}
@@ -124,7 +124,7 @@
                                         <dt class="col-sm-5"><label>Appointment Amount</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->appointment_price))
-                                                {{$data->appointment_price}}
+                                                ₦ {{$data->appointment_price}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -271,7 +271,7 @@
                                         <dt class="col-sm-5"><label>Service Charge</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->userService->service_charge))
-                                                {{$data->userService->service_charge}}
+                                                ₦ {{$data->userService->service_charge}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -306,7 +306,7 @@
                                             @foreach($data->appointmentServices as $service) 
                                                 <tr>
                                                     <td>{{$service->userService->service->service_name}}</td>
-                                                    <td>{{$service->userService->service_charge}}</td>
+                                                    <td>₦ {{$service->userService->service_charge}}</td>
                                                     <!-- <td> </td> -->
                                                 </tr>
                                             @endforeach

@@ -135,6 +135,9 @@ class UserTransactionRepository extends Repository
             ->editColumn('transaction_date', function($selected) {
                 return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
             })
+            ->editColumn('amount', function($selected) {
+                return '₦ '.$selected->amount ;
+            })
             ->rawColumns(['mode_of_payment','transaction_type','status'])
             ->make(true);
     }
@@ -203,6 +206,9 @@ class UserTransactionRepository extends Repository
             })
             ->editColumn('transaction_date', function($selected) {
                 return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
+            })
+            ->editColumn('amount', function($selected) {
+                return '₦ '.$selected->amount ;
             })
             ->rawColumns(['transaction_data'])
             ->make(true);

@@ -94,9 +94,9 @@
                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
-                                                <td class="text-center">{{$order_details->medicine_price}}</td>
+                                                <td class="text-center">₦ {{$order_details->medicine_price}}</td>
                                                 <td class="text-center">{{$order_details->quantity}}</td>
-                                                <td class="text-right">{{$order_details->medicine_price * $order_details->quantity}}</td>
+                                                <td class="text-right">₦ {{$order_details->medicine_price * $order_details->quantity}}</td>
                                             </tr>                                        
                                             @endforeach
                                             @endif
@@ -104,7 +104,7 @@
                                                 <td class="no-line text-center" colspan="4"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Subtotal</strong></td>
-                                                <td class="thick-line text-right">{{$sub_total}}</td>
+                                                <td class="thick-line text-right">₦ {{$sub_total}}</td>
                                             </tr>
                                             @if($data->delivery_type == '0')
                                             @php ($sub_total += $data->shipping_price)
@@ -112,14 +112,14 @@
                                                 <td class="no-line text-center" colspan="4"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Shipping</strong></td>
-                                                <td class="thick-line text-right">{{$data->shipping_price}}</td>
+                                                <td class="thick-line text-right">₦ {{$data->shipping_price}}</td>
                                             </tr>
                                             @endif
                                             <tr>
                                                 <td class="no-line text-center" colspan="4"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="thick-line text-right"><h4 class="m-0">{{$sub_total}}</h4></td>
+                                                <td class="thick-line text-right"><h4 class="m-0">₦ {{$sub_total}}</h4></td>
                                             </tr>
                                             </tbody>
                                         </table>
