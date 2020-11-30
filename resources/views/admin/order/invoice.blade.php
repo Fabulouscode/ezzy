@@ -27,7 +27,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="invoice-title">
-                                <h4 class="float-right font-16"><strong>Order # {{ !empty($data->id) ? $data->id : '' }}</strong></h4>
+                                <h4 class="float-right font-16">
+                                    <div>
+                                        <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
+                                        <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? date('d M Y', strtotime($data->completed_datetime)) : '' }}
+                                    </div>
+                                </h4>
                                 <h3 class="m-t-0">
                                     <img src="{{ asset('admin/images/logo.png') }}" alt="logo" height="40"/>
                                 </h3>
