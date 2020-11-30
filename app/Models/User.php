@@ -51,7 +51,8 @@ class User extends Authenticatable
         'latitude',
         'longitude',
         'wallet_balance',
-        'status'
+        'status',
+        'notification_status'
     ];
 
     /**

@@ -67,7 +67,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');
             Route::get('/get/card_nuber/{card_num?}', 'UserController@getUserbyCardNumberDetails');
             Route::get('/change/status/{status?}', 'UserController@changeUserStatus');
-
+         
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
 
@@ -130,6 +130,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
      
             // notification details
             Route::prefix('notification')->group(function(){
+                Route::get('/change/status/{status?}', 'UserController@changeNotificationStatus');
                 Route::post('', 'NotificationController@getNotificationDetails');
                 Route::get('/get/{id?}', 'NotificationController@getByIdNotificationDetails');
                 Route::get('/read/{id?}', 'NotificationController@readNotificationDetails');

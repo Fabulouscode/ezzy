@@ -72,5 +72,17 @@ class UserController extends BaseApiController
         return self::sendSuccess($user_list, 'User Profile Add Successfully');
     }
     
-
+    
+    public function changeNotificationStatus(Request $request, $status)
+    {
+        $data = array();
+        $user = $this->user_repo->getbyId($request->user()->id);
+        if(!empty($user)){
+            $update = ['notification_status'=> $status];
+            $this->user_repo->update($update, $user->id);
+            $data = $this->user_repo->getbyId($request->user()->id);
+            return self::sendSuccess($data, 'User Notification Status change Successfully');            
+        }
+        return self::sendError($data, 'User Notification Status not change');
+    }
 }
