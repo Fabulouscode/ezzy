@@ -65,7 +65,6 @@ function addRow() {
         url: permission_url + '/create',
         success: function (response) {
             if (response.status) {
-                console.log(response);
                 $('.modal-title').text('Add Permission Details');
                 $('#submit_btn').text('Add');
                 $('#permission_id').val('');

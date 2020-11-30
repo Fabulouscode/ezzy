@@ -10,6 +10,17 @@ class Notification extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $notification_topic = array(
+        '1' => 'Patient',
+        '4' => 'Doctor',
+        '5' => 'Nurses',
+        '6' => 'Massage-therapist',
+        '7' => 'Pharmacist',
+        '8' => 'Scientists',
+        '9' => 'Pathologist',
+        '10' => 'Radiologist',
+    );
+
     /**
      * The attributes that are mass assignable.
      *

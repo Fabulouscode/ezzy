@@ -58,7 +58,6 @@ function deleteRow(row_id) {
                         toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

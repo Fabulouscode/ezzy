@@ -66,9 +66,9 @@ class StaticPageRepository extends Repository
                     //0-Active, 1-Inactive
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">Active</div>';
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="badge badge-danger">Inactive</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })

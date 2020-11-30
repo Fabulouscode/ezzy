@@ -37,7 +37,7 @@ class MedicineCategoryController extends Controller
     public function create()
     {
         $status = $this->medicine_category_repo->getStatusValue();
-        return view('admin.medicine.category.add',compact('status'));
+        return response()->json(['status'=>true,'medicine_status' => $status], 200);
     }
 
     /**
@@ -57,11 +57,13 @@ class MedicineCategoryController extends Controller
             if(!empty($category)){
                 $this->medicine_category_repo->dataCrud($data, $request->id);
             } 
+            return response()->json(['msg'=>'Update success'], 200);
         } else{
             $this->medicine_category_repo->dataCrud($data);
+            return response()->json(['msg'=>'Add success'], 200);
         }
 
-        return redirect('/medicine/categories');
+        return response()->json(['msg'=>'Data Not success'], 500);
     }
 
     /**
@@ -74,7 +76,7 @@ class MedicineCategoryController extends Controller
     {
         $data = $this->medicine_category_repo->getById($id);
         $status = $this->medicine_category_repo->getStatusValue();
-        return view('admin.medicine.category.add',compact('data','status'));
+        return response()->json(['status'=>true, 'data'=>$data, 'medicine_status' => $status], 200);
     }
 
     /**

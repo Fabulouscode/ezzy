@@ -64,7 +64,6 @@ Dropzone.options.imageDropzone = {
     removedfile: function (file) {
         file.previewElement.remove();
         var name = '';
-        console.log(uploadedImageMap);
         if (typeof file.file_name !== 'undefined') {
             name = file.file_name;
         } else {
@@ -81,7 +80,6 @@ Dropzone.options.imageDropzone = {
                 toastr.success(data.msg, 'EzzyCare App');
             },
             error: function (error) {
-                console.log(error);
                 toastr.error(error.responseJSON.msg, 'EzzyCare App');
             }
         });
@@ -118,7 +116,6 @@ function deleteRow(row_id) {
             cancelButtonClass: 'btn btn-danger m-l-10',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            console.log(row_id);
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
@@ -136,7 +133,6 @@ function deleteRow(row_id) {
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

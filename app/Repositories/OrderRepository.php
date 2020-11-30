@@ -158,11 +158,11 @@ class OrderRepository extends Repository
                 {
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">Active</div>';
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }else  if($selected->status == '1'){
-                        $data .= '<div class="badge badge-success">Success</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else  if($selected->status == '2'){
-                        $data .= '<div class="badge badge-danger">Cancel</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })

@@ -82,24 +82,113 @@ class Helper
             $data['notification']['badge'] = $unreadNotification;
         }
         if(!empty($data)){
+             self::sendCurlRequest($url, $data);
+        }
+        return true;
+    }
+  
+    /**
+     * sending firebase notification using topic
+     */ 
+    public static function sendNotificationTopicWise($notification, $topic_name = 'ezzycare') 
+    {
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $serverApiKey = config('app.FCM_KEY');
+ 
+        $message = [
+            'title' => $notification['title'],
+            'message' => $notification['message'],
+            'type' => $notification['type'],
+        ];
+
+        $data = [            
+            "to"=> "/topics/".$topic_name,
+            'notification' => [
+                    'title' => config('app.name'),
+                    'data' => $message
+                ],
+
+        ];
+
+        self::sendCurlRequest($url, $data);
+    }
+    
+ 
+    /**
+     * Subscribe firebase topic
+     */ 
+    public static function subscribeNotificationTopic($notification_tokens, $topic_name = 'ezzycare') 
+    {
+        $url = 'https://iid.googleapis.com/iid/v1:batchAdd';
+
+        $data = [            
+            "to"=> "/topics/".$topic_name,
+            "registration_tokens"=> $notification_tokens
+        ];
+        self::sendCurlRequest($url, $data);
+    }
+
+    /**
+     * Unsubscribe firebase topic
+     */ 
+    public static function unsubscribeNotificationTopic($notification_tokens, $topic_name = 'ezzycare') 
+    {
+        $url = 'https://iid.googleapis.com/iid/v1:batchRemove';
+
+        $data = [            
+            "to"=> "/topics/".$topic_name,
+            "registration_tokens"=> $notification_tokens
+        ];
+        self::sendCurlRequest($url, $data);
+    }
+
+    /**
+     * check notification
+     */ 
+    public static function checkNotification($notification_tokens) 
+    {
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $message = array(
+            "message" => 'This is test Notification',
+            "title" => 'EzzyCare'
+        );
+        $data['registration_ids'] = $notification_tokens;
+        $data['data'] = $message;
+        $data['notification']['sound'] = "default";
+        $data['notification']['title'] = 'EzzyCare';
+        $data['notification']['mutable_content'] = true;
+        $data['notification']['category'] = "CustomSamplePush";
+        $data['notification']['body'] = 'This is test Notification';
+        $data['notification']['badge'] = '1';
+        self::sendCurlRequest($url, $data);
+    }
+  
+    /**
+     * sending curl request
+     */ 
+    public static function sendCurlRequest($url, $data) 
+    {
+        $serverApiKey = config('app.FCM_KEY');
+        if(!empty($url)){
             $headers = array( 'Content-Type:application/json', 'Authorization:key=' . $serverApiKey);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             if ($headers)
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
-            if($response_arr['success'] == 0) {
+            if(isset($response_arr['success']) && $response_arr['success'] == 0) {
                 Log::info($response);
                 Log::info('Push Notification Send Failed');
             }
         }
         return true;
     }
+    
 
     
 }

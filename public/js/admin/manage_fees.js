@@ -63,7 +63,6 @@ function addRow() {
         url: manage_fees_url + '/create',
         success: function (response) {
             if (response.status) {
-                console.log(response);
                 $('.modal-title').text('Add Manage Fees Details');
                 $('#submit_btn').text('Add');
                 $('#fees_id').val('');
@@ -82,6 +81,8 @@ function addRow() {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
         },
     });
 }
@@ -113,6 +114,8 @@ function editRow(id) {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
         },
     });
 }
@@ -145,7 +148,6 @@ function deleteRow(row_id) {
                         toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

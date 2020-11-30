@@ -35,6 +35,9 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Voucher Name</th>
+                                    <th>Voucher Code</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>                        

@@ -55,18 +55,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <!-- <address>
-                                        <strong>Payment Method:</strong><br>
-                                    </address> -->
-                                    <address>
-                                        <strong>Order Date:</strong>&nbsp;&nbsp;{{$data->created_at}}
-                                    </address>
-                                    <address>
-                                        <strong>Delivery Type:</strong>&nbsp;&nbsp;{{$data->delivery_type_name}}
-                                    </address>
-                                    <address>
-                                        <strong>Status:</strong>&nbsp;&nbsp;{{$data->status_name}}
-                                    </address>
+                                    <b>Order Date: </b>{{date('d M Y', strtotime($data->created_at))}}<br>
+                                    <b>Delivery Type: </b>{{$data->delivery_type_name}} <br>
+                                    <b>Status: </b>{{$data->status_name}}
                                 </div>
                                 <div class="col-6 m-t-30 text-right">
                                 </div>
@@ -97,15 +88,15 @@
                                                 @php ($sub_total = 0)
                                             @if(!empty($data->orderProductDetails))    
                                             @foreach($data->orderProductDetails as $key => $order_details)    
-                                                @php ($medicine_total = $order_details->shopMedicineDetails->mrp_price * $order_details->quantity)
-                                                @php ($sub_total = $sub_total + $medicine_total)
+                                                @php ($medicine_total = $order_details->medicine_price * $order_details->quantity)
+                                                @php ($sub_total += $medicine_total)
                                             <tr>
                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
                                                 <td class="text-center">{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
-                                                <td class="text-center">{{$order_details->shopMedicineDetails->mrp_price}}</td>
+                                                <td class="text-center">{{$order_details->medicine_price}}</td>
                                                 <td class="text-center">{{$order_details->quantity}}</td>
-                                                <td class="text-right">{{$medicine_total}}</td>
+                                                <td class="text-right">{{$order_details->medicine_price * $order_details->quantity}}</td>
                                             </tr>                                        
                                             @endforeach
                                             @endif
@@ -115,17 +106,20 @@
                                                     <strong>Subtotal</strong></td>
                                                 <td class="thick-line text-right">{{$sub_total}}</td>
                                             </tr>
+                                            @if($data->delivery_type == '0')
+                                            @php ($sub_total += $data->shipping_price)
                                             <tr>
                                                 <td class="no-line text-center" colspan="4"></td>
-                                                <td class="no-line text-center">
+                                                <td class="thick-line text-center">
                                                     <strong>Shipping</strong></td>
-                                                <td class="no-line text-right">{{$data->shipping_price}}</td>
+                                                <td class="thick-line text-right">{{$data->shipping_price}}</td>
                                             </tr>
+                                            @endif
                                             <tr>
                                                 <td class="no-line text-center" colspan="4"></td>
-                                                <td class="no-line text-center">
+                                                <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="no-line text-right"><h4 class="m-0">{{$sub_total + $data->shipping_price}}</h4></td>
+                                                <td class="thick-line text-right"><h4 class="m-0">{{$sub_total}}</h4></td>
                                             </tr>
                                             </tbody>
                                         </table>

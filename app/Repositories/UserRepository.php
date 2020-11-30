@@ -230,11 +230,11 @@ class UserRepository extends Repository
                 {
                     $data = '';
                     if($selected->status == '2'){
-                        $data .= '<div class="badge badge-danger">Inactive</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="badge badge-danger">Pending</div>';
+                        $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }else{                        
-                        $data .= '<div class="badge badge-success">Active</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }
           
                     return $data;

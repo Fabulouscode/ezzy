@@ -78,9 +78,9 @@ class UserReviewRepository extends Repository
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
                     if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">Active</div>';
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }else if($selected->status == '1'){
-                        $data .= '<div class="badge badge-success">Inactive</div>';
+                        $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })

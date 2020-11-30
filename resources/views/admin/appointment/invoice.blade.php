@@ -27,7 +27,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="invoice-title">
-                                <h4 class="float-right font-16"><strong>Appointment # {{ !empty($data->id) ? $data->id : '' }}</strong></h4>
+                                <h4 class="float-right font-16">
+                                <div>
+                                    <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
+                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? date('d M Y', strtotime($data->completed_datetime)) : '' }}
+                                </div>
+                                </h4>
                                 <h3 class="m-t-0">
                                     <img src="{{ asset('admin/images/logo-1.png') }}" alt="logo" height="40"/>
                                 </h3>
@@ -36,25 +41,28 @@
                             <div class="row">
                                 <div class="col-6">
                                     <address>
-                                        <strong>Billed To:</strong><br>
-                                        {{$data->name}}<br>
-                                        {{$data->email}}<br>
-                                        {{$data->mobile_no}}<br>
-                                        {{$data->address}}<br>
+                                        <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
+                                        <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
+                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
+                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no :''}}<br>
+                                    </address>
+                                </div>
+                                <div class="col-6">
+                                    <address>
+                                        <h5>Patient Details:</h5>
+                                        <b>Name: </b>{{$data->name}}<br>
+                                        <b>Email: </b>{{$data->email}}<br>
+                                        <b>Mobile: </b>{{$data->mobile_no}}<br>
+                                        <b>Address: </b>{{$data->address}}<br>
                                     </address>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <address>
-                                        <strong>Completed Date:</strong>&nbsp;&nbsp;{{$data->completed_datetime}}
-                                    </address>
-                                    <address>
-                                        <strong>Appointment Type:</strong>&nbsp;&nbsp;{{$data->appointment_type_name}}
-                                    </address>
-                                    <address>
-                                        <strong>Status:</strong>&nbsp;&nbsp;{{$data->status_name}}
-                                    </address>
+                                    <b>Completed Date: </b>{{date('d M Y', strtotime($data->completed_datetime))}}<br>
+                                    @php($urgent = ($data->urgent == '1')? '(Urgent)' : '')
+                                    <b>Appointment Type: </b>{{$data->appointment_type_name}} <br>
+                                    <b>Status: </b>{{$data->status_name}}
                                 </div>
                                 <div class="col-6 m-t-30 text-right">
                                 </div>
@@ -70,53 +78,55 @@
                                 </div>
                                 <div class="">
                                     <div class="table-responsive">
+                                        @if($data->user->category_id == '5')
+                                            @if($data->full_day == '1')
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
+                                                @php ($appointment_charge_text = 'Charge (In Day)')
+                                            @else
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
+                                                @php ($appointment_charge_text = 'Charge (In Hours)')
+                                            @endif
+                                        @else
+                                            @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
+                                            @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                        @endif
                                         <table class="table">
                                             <thead>
                                             <tr>
-                                                <td><strong>HCP Type</strong></td>
-                                                @if(!empty($data->user->categoryChild))
-                                                <td class="text-center"><strong>HCP Subype</strong></td>
-                                                @endif
-                                                <td class="text-center"><strong>Email</strong></td>
-                                                <td class="text-center"><strong>Mobile No.</strong></td>
                                                 <td class="text-center"><strong>Start Date Time</strong></td>
                                                 <td class="text-center"><strong>End Date Time</strong></td>
-                                                <td class="text-center"><strong>Amount</strong></td>
+                                                <td class="text-center"><strong>Time Diffrence (Minutes)</strong></td>
+                                                <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
+                                                <td class="text-center"><strong>Charge Amount</strong></td>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @php ($sub_total = 0)
-                                                @php ($sub_total = $sub_total)
-                                            <tr>
-                                                <td >{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}}</td>
-                                                @if(!empty($data->user->categoryChild))
-                                                <td class="text-center">{{!empty($data->user) && !empty($data->user->categoryChild)? $data->user->categoryChild->name:''}}</td>
-                                                @endif
-                                                <td class="text-center">{{!empty($data->user) ? $data->user->email:''}}</td>
-                                                <td class="text-center">{{!empty($data->user) ? $data->user->mobile_no:''}}</td>
-                                                <td class="text-center">{{$data->appointment_date .' '. $data->appointment_time}}</td>
-                                                <td class="text-center">{{$data->completed_datetime}}</td>
-                                                <td class="text-right">{{$data->appointment_price}}</td>
+                                             <tr>
+                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->appointment_date .' '. $data->appointment_time))}}</td>
+                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->completed_datetime))}}</td>
+                                                <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                <td class="text-center">{{$data->hcp_fees}}</td>
+                                                <td class="text-center">{{$appointment_charge}}</td>
                                             </tr>       
                                             <tr>
-                                                @if(!empty($data->user->categoryChild))
-                                                <td class="no-line text-center" colspan="5"></td>
-                                                @else
-                                                <td class="no-line text-center" colspan="4"></td>
-                                                @endif
+                                                <td class="no-line text-center" colspan="3"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Subtotal</strong></td>
-                                                <td class="thick-line text-right">{{$data->appointment_price}}</td>
+                                                <td class="thick-line text-center">{{$appointment_charge}}</td>
                                             </tr>
+                                            @if($data->appointment_type == '1')
                                             <tr>
-                                                @if(!empty($data->user->categoryChild))
-                                                <td class="no-line text-center" colspan="5"></td>
-                                                @else
-                                                <td class="no-line text-center" colspan="4"></td>
-                                                @endif
-                                                <td class="no-line text-center">
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
+                                                    <strong>Home Visit Fees</strong></td>
+                                                <td class="thick-line text-center">{{$data->home_visit_fees}}</td>
+                                            </tr>
+                                            @endif
+                                            <tr>
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="no-line text-right"><h4 class="m-0">{{$data->appointment_price}}</h4></td>
+                                                <td class="thick-line text-center"><h4 class="m-0">{{$data->appointment_price}}</h4></td>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -263,5 +263,19 @@ class Repository
         return false;
     }
 
+    public function subscribeNotificationTopic($tokens, $topic){
+        return Helper::subscribeNotificationTopic($tokens, $topic);
+    }
+    
+    public function unsubscribeNotificationTopic($tokens, $topic){
+        return Helper::unsubscribeNotificationTopic($tokens, $topic);
+    }
+   
+    public function sendNotificationTopicWise($notification, $topic){
+        return Helper::sendNotificationTopicWise($notification, $topic);
+    }
 
+    public function checkNotification($notification){
+        return Helper::checkNotification($notification);
+    }
 }

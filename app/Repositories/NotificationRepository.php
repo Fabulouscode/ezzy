@@ -24,6 +24,11 @@ class NotificationRepository extends Repository
         parent::__construct();
     }
 
+    public function getNotificationTopic()
+    {
+        return $this->model->notification_topic;
+    }
+
      /**
      * Store a newly created resource in storage.
      *
@@ -70,8 +75,8 @@ class NotificationRepository extends Repository
         $unreadNotification = $this->getUnreadNotificationCount($notification->receiver_id);
         return Helper::sendNotification($notification, $receiver, $sender, $unreadNotification);
     }
-
-        /**
+   
+    /**
      * Display a list of the record.
      *
      * @return \Illuminate\Http\Response

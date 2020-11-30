@@ -37,7 +37,6 @@ function deleteRow(row_id) {
             cancelButtonClass: 'btn btn-danger m-l-10',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            console.log(row_id);
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
@@ -55,7 +54,6 @@ function deleteRow(row_id) {
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

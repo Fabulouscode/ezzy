@@ -130,7 +130,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
      
             // notification details
             Route::prefix('notification')->group(function(){
-                Route::get('/change/status/{status?}', 'UserController@changeNotificationStatus');
+                Route::get('/change/status/{status?}', 'NotificationController@changeNotificationStatus');
                 Route::post('', 'NotificationController@getNotificationDetails');
                 Route::get('/get/{id?}', 'NotificationController@getByIdNotificationDetails');
                 Route::get('/read/{id?}', 'NotificationController@readNotificationDetails');

@@ -125,7 +125,6 @@ $(function () {
     // var segment_str = window.location.pathname;
     // var segment_array = segment_str.split('/');
     // var last_segment = segment_array.pop();
-    // console.log(last_segment);
     // $('#user_review_datatable').DataTable({
     //     lengthChange: true,
     //     processing: true,
@@ -184,7 +183,6 @@ function deleteRow(row_id) {
                         toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });
@@ -222,7 +220,6 @@ function changeStatusRow(row_id, status) {
                         toastr.success(data.msg, 'EzzyCare App');
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

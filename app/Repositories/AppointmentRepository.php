@@ -205,7 +205,7 @@ class AppointmentRepository extends Repository
                     }else if($selected->status == '6'){
                         $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                     }
-                    //  $data .= '<div class="badge badge-danger" >Inactive</div>';
+                    //  $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';
                     return $data;
                 })
                 ->rawColumns(['action','hcp_type','appointment_type','status'])

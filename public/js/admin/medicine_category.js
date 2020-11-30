@@ -22,7 +22,98 @@ $(function () {
         order: [[0, 'desc']],
     });
 
+    $(document).on('submit', '#medicine_category_form', function (event) {
+        $.ajax({
+            type: 'post',
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: medicine_category_url,
+            data: $('#medicine_category_form').serialize(),
+            success: function (response) {
+                $('#medicine_category_id').val('');
+                $('#medicine_category_name').val('');
+                $('#medicine_category_status').val('');
+                $('#addMedicineCategory').modal('hide');
+                var oTable = $('#medicine_category_datatable').dataTable();
+                oTable.fnDraw(false);
+                toastr.success(response.msg, 'EzzyCare App');
+                return false;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var myArr = JSON.parse(jqXHR.responseText);
+                $.each(myArr.errors, function (index, value) {
+                    toastr.error(value, 'Vyzum App');
+                });
+                return false;
+            },
+        });
+        return false;
+    });
+
 });
+
+function addRow() {
+    $.ajax({
+        type: 'get',
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: medicine_category_url + '/create',
+        success: function (response) {
+            if (response.status) {
+                $('.modal-title').text('Add Medicine Category Details');
+                $('#submit_btn').text('Add');
+                $('#medicine_category_id').val('');
+                $('#medicine_category_name').val('');
+                $('#medicine_category_status').val('');
+                if (response.medicine_status) {
+                    $("#medicine_category_status option").remove();
+                    response.medicine_status.forEach((element, key) => {
+                        $('#medicine_category_status').append(new Option(element, key));
+                    });
+                }
+                $('#addMedicineCategory').modal();
+            }
+            else {
+                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
+        },
+    });
+}
+
+function editRow(id) {
+    $.ajax({
+        type: 'get',
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: medicine_category_url + '/' + id + '/edit',
+        success: function (response) {
+            if (response.status) {
+                $('.modal-title').text('Edit Medicine Category Details');
+                $('#submit_btn').text('Update');
+                if (response.medicine_status) {
+                    $("#medicine_category_status option").remove();
+                    response.medicine_status.forEach((element, key) => {
+                        $('#medicine_category_status').append(new Option(element, key));
+                    });
+                }
+                if (response.data) {
+                    $('#medicine_category_id').val(response.data.id);
+                    $('#medicine_category_name').val(response.data.name);
+                    $('#medicine_category_status').val(response.data.status);
+                }
+                $('#addMedicineCategory').modal();
+            }
+            else {
+                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
+        },
+    });
+}
 
 function deleteRow(row_id) {
     if (row_id) {
@@ -35,7 +126,6 @@ function deleteRow(row_id) {
             cancelButtonClass: 'btn btn-danger m-l-10',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            console.log(row_id);
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
@@ -53,7 +143,6 @@ function deleteRow(row_id) {
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        console.log(error);
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
                     }
                 });

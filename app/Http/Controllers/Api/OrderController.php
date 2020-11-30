@@ -172,7 +172,8 @@ class OrderController extends BaseApiController
                     $order_product_data = [
                                             'order_id'=> $order->id,
                                             'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
-                                            'quantity' => $value->quantity
+                                            'quantity' => $value->quantity,
+                                            'medicine_price' => $stock_available->offer_price,
                                         ];
                     $this->order_product_repo->dataCrud($order_product_data); 
                                        

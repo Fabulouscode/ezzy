@@ -106,15 +106,15 @@
                                                     @php ($sub_total = 0)
                                                     @if(!empty($data->orderProductDetails))    
                                                         @foreach($data->orderProductDetails as $key => $order_details)    
-                                                            @php ($medicine_total = $order_details->shopMedicineDetails->mrp_price * $order_details->quantity)
-                                                            @php ($sub_total = $sub_total + $medicine_total)
+                                                            @php ($medicine_total = $order_details->medicine_price * $order_details->quantity)
+                                                            @php ($sub_total += $medicine_total)
                                                             <tr>
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
-                                                                <td>{{$order_details->shopMedicineDetails->mrp_price}}</td>
+                                                                <td>{{$order_details->medicine_price}}</td>
                                                                 <td>{{$order_details->quantity}}</td>
-                                                                <td>{{$medicine_total}}</td>
+                                                                <td>{{$order_details->medicine_price * $order_details->quantity}}</td>
                                                             </tr>
                                                         @endforeach
                                                         <tr>
@@ -123,17 +123,20 @@
                                                                 <strong>Subtotal</strong></td>
                                                             <td class="thick-line ">{{$sub_total}}</td>
                                                         </tr>
+                                                        @if($data->delivery_type == '0')
+                                                        @php ($sub_total += $data->shipping_price)
                                                         <tr>
                                                             <td class="no-line " colspan="4"></td>
                                                             <td class="no-line ">
                                                                 <strong>Shipping</strong></td>
                                                             <td class="no-line ">{{$data->shipping_price}}</td>
                                                         </tr>
+                                                        @endif
                                                         <tr>
                                                             <td class="no-line " colspan="4"></td>
                                                             <td class="no-line ">
                                                                 <strong>Total</strong></td>
-                                                            <td class="no-line "><h4 class="m-0">{{$sub_total + $data->shipping_price}}</h4></td>
+                                                            <td class="no-line "><h4 class="m-0">{{$sub_total}}</h4></td>
                                                         </tr>
                                                     @endif
                                                 </tbody>
