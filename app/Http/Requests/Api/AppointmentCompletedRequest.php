@@ -15,7 +15,18 @@ class AppointmentCompletedRequest extends FormRequest
      */
     public function authorize()
     {
+        return true;
+    }
+
+     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
         return [
+            'id' => 'required',
             'completed_datetime' => 'required|date_format:Y-m-d H:i:s',
             'status' => 'required',
         ];

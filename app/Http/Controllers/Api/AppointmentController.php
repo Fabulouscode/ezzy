@@ -11,6 +11,7 @@ use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
+use App\Http\Requests\Api\AppointmentCompletedRequest;
 use App\Http\Requests\Api\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
@@ -74,6 +75,7 @@ class AppointmentController extends BaseApiController
         if(!empty($check_appointment)){
             return self::sendError([], 'Please Change Appointment Time');
         }
+        
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,
@@ -103,6 +105,11 @@ class AppointmentController extends BaseApiController
     public function addLaboratoryAppointment(AppointmentLaboratoryRequest $request) 
     {
         $data = array();
+        $check_appointment = $this->appointment_repo->checkUserAvailable($request);
+        if(!empty($check_appointment)){
+            return self::sendError([], 'Please Change Appointment Time');
+        }
+    
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,
@@ -181,9 +188,8 @@ class AppointmentController extends BaseApiController
         }
     }
 
-    public function completedAppointment(Request $request)
+    public function completedAppointment(AppointmentCompletedRequest $request)
     {
-     
         $data = array();
         $update = [
                     'completed_datetime'=> Carbon::parse($request->completed_datetime)->format('Y-m-d H:i:s'),

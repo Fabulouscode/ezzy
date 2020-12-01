@@ -132,7 +132,7 @@
 
                                     <div class="d-print-none mo-mt-2">
                                         <div class="float-right">
-                                            <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                            <a href="javascript:window.print()" onClick="document.title = '{{ !empty($data->id) ? $data->invoice_no_generate.'_'.strtotime(now()) : '' }}';" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
                                             <a href="{{ url('pharmacy/order') }}" class="btn btn-primary waves-effect waves-light">Cancel</a>
                                         </div>
                                     </div>
