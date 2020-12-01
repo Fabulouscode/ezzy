@@ -173,11 +173,11 @@ class OrderRepository extends Repository
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     
                     if (Auth::user()->hasPermissionTo('order-list')) {
-                        $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-primary title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('order-invoice')) {
                         if ($selected->status == '1') {
-                                $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+                                $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                         }
                     }
                     //  $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
