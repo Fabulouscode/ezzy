@@ -147,7 +147,12 @@
                                                 <td class="text-center">{{date('d M Y H:i:s', strtotime($data->appointment_date .' '. $data->appointment_time))}}</td>
                                                 <td class="text-center">{{date('d M Y H:i:s', strtotime($data->completed_datetime))}}</td>                                                
                                                 <td class="text-center">{{$currency_symbol.$data->hcp_fees}}</td>
-                                                <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                @if(!empty($data->full_day) &&  $data->full_day == '1')
+                                                    <td class="text-center">Full Day</td>
+                                                @else
+                                                    <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                @endif
+                                                
                                                 <td class="text-center">{{$currency_symbol.$appointment_charge}}</td>
                                             </tr> 
                                             @endif     
