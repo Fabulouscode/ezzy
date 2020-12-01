@@ -48,7 +48,9 @@
 
 @section('script')
 <script>
-    var order_url = "{{url('pharmacy/order/reviews')}}";
+    var pharmacy_order_url = "{{url('pharmacy/order')}}";
 </script>
-<script src="{{ asset('js/admin/order_reviews.js') }}" ></script>
+ <!-- Bootstrap rating js -->
+<script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>
+<script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>
 @endsection

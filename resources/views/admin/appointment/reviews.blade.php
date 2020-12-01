@@ -28,9 +28,9 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Appointment No</th>
                                     <th>User Name</th>
                                     <th>Patient Name</th>
-                                    <th>Reason</th>
                                     <th>Rating</th>
                                     <th>Reviews</th>
                                 </tr>
@@ -48,7 +48,10 @@
 
 @section('script')
 <script>
-    var appointment_url = "{{url('appointment/reviews')}}";
+    var appointment_url = "{{url('/appointment')}}";
+    var data_obj = {};
 </script>
-<script src="{{ asset('js/admin/appointment_reviews.js') }}" ></script>
+ <!-- Bootstrap rating js -->
+<script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>
+<script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

@@ -372,7 +372,12 @@ class AppointmentRepository extends Repository
             ->editColumn('patient_name',function($selected)
             {
                 return $selected->client ? $selected->client->user_name : '-';
-            })->make(true);
+            })
+            ->editColumn('appointment_no',function($selected)
+            {
+                return '<a href="'.url('appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
+            })
+            ->rawColumns(['appointment_no'])->make(true);
     }
 
 }

@@ -296,10 +296,12 @@ class OrderRepository extends Repository
             ->editColumn('patient_name',function($selected)
             {
                 return $selected->clientDetails ? $selected->clientDetails->user_name : '-';
-            })->editColumn('order_no',function($selected)
+            })
+            ->editColumn('order_no',function($selected)
             {
-                return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.'</a>';
-            })->rawColumns(['order_no'])->make(true);
+                return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.' Order</a>';
+            })
+            ->rawColumns(['order_no'])->make(true);
     }
 
 

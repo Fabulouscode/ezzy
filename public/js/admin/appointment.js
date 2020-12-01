@@ -28,6 +28,51 @@ $(function () {
         order: [[0, 'desc']],
     });
 
+    $('#appointment_review_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        // responsive: true,
+        ajax: {
+            url: appointment_url + '/reviews',
+            type: 'get',
+            dataType: "json",
+            async: true,
+        },
+        columns: [
+            { data: 'id', name: 'id', searchable: false },
+            { data: 'appointment_no', name: 'Appointment No' },
+            { data: 'user_name', name: 'User name' },
+            { data: 'patient_name', name: 'Patient name' },
+            {
+                data: 'user_rating', name: 'Ratings',
+                render: function (data, type, row) {
+                    if (data == '' || data == null) {
+                        data = '0';
+                    }
+                    return '<input type="hidden" class="rating" data-filled="mdi mdi-star font-32 text-primary" data-empty="mdi mdi-star-outline font-32 text-muted" data-readonly value = "' + data + '" />';
+                }
+            },
+            { data: 'user_review', name: 'Reviews' },
+        ],
+        order: [[0, 'desc']],
+        createdRow: function (row, data, dataIndex) {
+            var ratingInput = $(row).find('.rating');
+            $(ratingInput).rating();
+        },
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            $('.rating').each(function () {
+                $('<span class="badge badge-info"></span>')
+                    .text($(this).val() || ' ')
+                    .insertAfter(this);
+            });
+        }
+    });
+
+
 });
 
 function deleteRow(row_id) {
