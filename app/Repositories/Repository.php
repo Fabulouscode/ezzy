@@ -20,6 +20,8 @@ class Repository
     protected $model;
     
     public $api_data_limit = 10;
+
+    public $currency_symbol = '₦ ';
     
     public $gender = array(
         '0' => 'Male',

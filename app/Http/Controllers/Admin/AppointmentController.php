@@ -89,9 +89,10 @@ class AppointmentController extends Controller
     public function show($id)
     {
         $categories = $this->category_repo->get();
+        $currency_symbol = $this->category_repo->currency_symbol;
         $data = $this->appointment_repo->getbyIdedit($id);
         // dd($data);
-        return view('admin.appointment.view', compact('data', 'categories'));
+        return view('admin.appointment.view', compact('data', 'categories','currency_symbol'));
     }
 
     public function getReviews()
@@ -116,9 +117,10 @@ class AppointmentController extends Controller
     public function getInvoice($id)
     {
         $categories = $this->category_repo->get();
+        $currency_symbol = $this->category_repo->currency_symbol;
         $data = $this->appointment_repo->getbyIdedit($id);
         // dd($data);
-        return view('admin.appointment.invoice', compact('data', 'categories'));
+        return view('admin.appointment.invoice', compact('data', 'categories','currency_symbol'));
     }
 
     /**

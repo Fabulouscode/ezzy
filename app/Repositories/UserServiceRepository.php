@@ -108,7 +108,7 @@ class UserServiceRepository extends Repository
                 })
                 ->editColumn('service_charge',function($selected)
                 {
-                    return '₦ '.$selected->service_charge;
+                    return $this->currency_symbol.$selected->service_charge;
                 })
                 ->rawColumns(['service_charge_type','status'])
                 ->make(true);

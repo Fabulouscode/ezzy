@@ -131,8 +131,9 @@ class UserController extends Controller
         }else{
             $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
         }
+        $currency_symbol = $this->user_repo->currency_symbol;
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.transactions',compact('provider','provider_names','id','debit_balance','credit_balance','total_balance'));
+        return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','debit_balance','credit_balance','total_balance'));
     }
     
     public function getTransactionDatatable(Request $request)

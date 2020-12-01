@@ -112,16 +112,16 @@
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_name}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->medicineDetails->medicine_sku}}</td>
                                                                 <td>{{$order_details->shopMedicineDetails->medicine_type_name}}</td>
-                                                                <td>₦ {{$order_details->medicine_price}}</td>
+                                                                <td>{{$currency_symbol.$order_details->medicine_price}}</td>
                                                                 <td>{{$order_details->quantity}}</td>
-                                                                <td>₦ {{$order_details->medicine_price * $order_details->quantity}}</td>
+                                                                <td>{{$currency_symbol.$order_details->medicine_price * $order_details->quantity}}</td>
                                                             </tr>
                                                         @endforeach
                                                         <tr>
                                                             <td class="no-line " colspan="4"></td>
                                                             <td class="thick-line ">
                                                                 <strong>Subtotal</strong></td>
-                                                            <td class="thick-line ">₦ {{$sub_total}}</td>
+                                                            <td class="thick-line ">{{$currency_symbol.$sub_total}}</td>
                                                         </tr>
                                                         @if($data->delivery_type == '0')
                                                         @php ($sub_total += $data->shipping_price)
@@ -129,14 +129,14 @@
                                                             <td class="no-line " colspan="4"></td>
                                                             <td class="no-line ">
                                                                 <strong>Shipping</strong></td>
-                                                            <td class="no-line ">₦ {{$data->shipping_price}}</td>
+                                                            <td class="no-line ">{{$currency_symbol.$data->shipping_price}}</td>
                                                         </tr>
                                                         @endif
                                                         <tr>
                                                             <td class="no-line " colspan="4"></td>
                                                             <td class="no-line ">
                                                                 <strong>Total</strong></td>
-                                                            <td class="no-line "><h4 class="m-0">₦ {{$sub_total}}</h4></td>
+                                                            <td class="no-line "><h4 class="m-0">{{$currency_symbol.$sub_total}}</h4></td>
                                                         </tr>
                                                     @endif
                                                 </tbody>

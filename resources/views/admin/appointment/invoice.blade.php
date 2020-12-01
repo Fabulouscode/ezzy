@@ -105,28 +105,28 @@
                                                 <td class="text-center">{{date('d M Y H:i:s', strtotime($data->appointment_date .' '. $data->appointment_time))}}</td>
                                                 <td class="text-center">{{date('d M Y H:i:s', strtotime($data->completed_datetime))}}</td>
                                                 <td class="text-center">{{$data->start_to_end_time_diff}} </td>
-                                                <td class="text-center">₦ {{$data->hcp_fees}}</td>
-                                                <td class="text-center">₦ {{$appointment_charge}}</td>
+                                                <td class="text-center">{{$currency_symbol.$data->hcp_fees}}</td>
+                                                <td class="text-center">{{$currency_symbol.$appointment_charge}}</td>
                                             </tr>       
                                             <tr>
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Subtotal</strong></td>
-                                                <td class="thick-line text-center">₦ {{$appointment_charge}}</td>
+                                                <td class="thick-line text-center">{{$currency_symbol.$appointment_charge}}</td>
                                             </tr>
                                             @if($data->appointment_type == '1')
                                             <tr>
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Home Visit Fees</strong></td>
-                                                <td class="thick-line text-center">₦ {{$data->home_visit_fees}}</td>
+                                                <td class="thick-line text-center">{{$currency_symbol.$data->home_visit_fees}}</td>
                                             </tr>
                                             @endif
                                             <tr>
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="thick-line text-center"><h4 class="m-0">₦ {{$data->appointment_price}}</h4></td>
+                                                <td class="thick-line text-center"><h4 class="m-0">{{$currency_symbol.$data->appointment_price}}</h4></td>
                                             </tr>
                                             </tbody>
                                         </table>

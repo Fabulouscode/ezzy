@@ -31,7 +31,7 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6><span class="d-block mb-1 d-number-count">₦ {{ $total_balance ?: 0  }}</span></h6>
+                                <h6><span class="d-block mb-1 d-number-count">{{$currency_symbol.$total_balance}}</span></h6>
                             </div>
                         </div>
                     </div>

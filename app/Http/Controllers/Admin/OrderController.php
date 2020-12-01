@@ -62,10 +62,10 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-
+        $currency_symbol = $this->order_repo->currency_symbol;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.order.view',compact('data'));
+        return view('admin.order.view',compact('data','currency_symbol'));
     }
 
       /**
@@ -76,9 +76,10 @@ class OrderController extends Controller
      */
     public function getInvoice($id)
     {
+        $currency_symbol = $this->order_repo->currency_symbol;
         $data = $this->order_repo->getbyEditId($id);
         // dd($data);
-        return view('admin.order.invoice',compact('data'));
+        return view('admin.order.invoice',compact('data','currency_symbol'));
     }
 
     /**
