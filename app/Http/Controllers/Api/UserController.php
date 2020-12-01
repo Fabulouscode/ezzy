@@ -36,14 +36,20 @@ class UserController extends BaseApiController
     {
         $data = array();
         $data = $this->user_repo->getbyIdedit($id);
-        return self::sendSuccess($data, 'User Details');
+        if(!empty($data)){            
+            return self::sendSuccess($data, 'User Details');
+        }
+        return self::sendError($data, 'User Details not found');
     }
 
     public function getUserbyCardNumberDetails($card_num)
     {
         $data = array();
         $data = $this->user_repo->getUserbyCardNumber($card_num);
-        return self::sendSuccess($data, 'User Details');
+        if(!empty($data)){            
+            return self::sendSuccess($data, 'User Details');
+        }
+        return self::sendError($data, 'User Details not found');
     }
     
     public function changeUserStatus(Request $request, $status)
