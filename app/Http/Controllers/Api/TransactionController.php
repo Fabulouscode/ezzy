@@ -76,7 +76,7 @@ class TransactionController extends BaseApiController
             
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
                 foreach ($appointment_details->appointmentServices as $key => $value) {
-                    $transaction_amount += $value->userService->service_charge;
+                    $transaction_amount += $value->service_price;
                 }
                 
             } else { 

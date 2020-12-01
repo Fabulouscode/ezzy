@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class MedicineSubcategoryRequest extends FormRequest
 {
@@ -28,5 +30,18 @@ class MedicineSubcategoryRequest extends FormRequest
            'name'=>'required|string|unique:medicine_subcategories,name,'.$this->id.',id,medicine_category_id,'.$this->medicine_category_id,
            'status'=>'required',
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $transformed=[];
+        foreach ($validator->errors()->toArray() as $field => $message) {
+            $transformed[$field] = $message[0];
+        }
+
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'errors' => $transformed,
+            'message' => 'The given data was invalid.',
+        ], 422));
     }
 }

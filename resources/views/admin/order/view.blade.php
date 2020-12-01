@@ -173,7 +173,7 @@
                                         <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->clientDetails->mobile_no))
-                                                {{$data->clientDetails->mobile_no}}
+                                                {{$data->clientDetails->mobile_no_country_code}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -215,7 +215,7 @@
                                         <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->userDetails->mobile_no))
-                                                {{$data->userDetails->mobile_no}}
+                                                {{$data->userDetails->mobile_no_country_code}}
                                             @endif 
                                         </dd>
                                     </div>

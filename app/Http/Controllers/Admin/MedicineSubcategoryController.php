@@ -40,7 +40,7 @@ class MedicineSubcategoryController extends Controller
     {
         $status = $this->medicine_category_repo->getStatusValue();
         $categories = $this->medicine_category_repo->get();
-        return view('admin.medicine.subcategory.add',compact('categories','status'));
+        return response()->json(['status'=>true,'medicine_status' => $status,'medicine_category'=> $categories], 200);
     }
 
     /**
@@ -62,11 +62,13 @@ class MedicineSubcategoryController extends Controller
 
                 $this->medicine_subcategory_repo->dataCrud($data, $request->id);
             } 
+            return response()->json(['msg'=>'Update success'], 200);
         } else{
             $this->medicine_subcategory_repo->dataCrud($data);
+            return response()->json(['msg'=>'Add success'], 200);
         }
 
-        return redirect('/medicine/subcategories');
+        return response()->json(['msg'=>'Data Not found'], 500);
     }
 
     /**
@@ -80,7 +82,7 @@ class MedicineSubcategoryController extends Controller
         $status = $this->medicine_category_repo->getStatusValue();
         $categories = $this->medicine_category_repo->get();
         $data = $this->medicine_subcategory_repo->getById($id);
-        return view('admin.medicine.subcategory.add',compact('data','categories','status'));
+        return response()->json(['status'=>true,'data'=> $data, 'medicine_status' => $status,'medicine_category'=> $categories], 200);
     }
 
     /**

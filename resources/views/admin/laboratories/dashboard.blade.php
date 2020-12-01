@@ -82,7 +82,7 @@
     </div>
     <div class="row"> 
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user')}}">
+            <a href="{{url('/laboratories/user').'?hcp_type=Pathologist'}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -102,7 +102,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user')}}">
+            <a href="{{url('/laboratories/user').'?hcp_type=Scientists'}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -122,7 +122,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user')}}">
+            <a href="{{url('/laboratories/user').'?hcp_type=Radiologist'}}">
             <div class="card d-card-part bg-warning mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">

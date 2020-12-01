@@ -192,7 +192,7 @@
                                         <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->client->mobile_no))
-                                                {{$data->client->mobile_no}}
+                                                {{$data->client->mobile_no_country_code}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -244,7 +244,7 @@
                                         <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->user->mobile_no))
-                                                {{$data->user->mobile_no}}
+                                                {{$data->user->mobile_no_country_code}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -270,8 +270,8 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Service Charge</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(isset($data->userService->service_charge))
-                                                {{$currency_symbol.$data->userService->service_charge}}
+                                            @if(isset($data->hcp_fees))
+                                                {{$currency_symbol.$data->hcp_fees}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -306,7 +306,7 @@
                                             @foreach($data->appointmentServices as $service) 
                                                 <tr>
                                                     <td>{{$service->userService->service->service_name}}</td>
-                                                    <td>{{$currency_symbol.$service->userService->service_charge}}</td>
+                                                    <td>{{$currency_symbol.$service->service_price}}</td>
                                                     <!-- <td> </td> -->
                                                 </tr>
                                             @endforeach

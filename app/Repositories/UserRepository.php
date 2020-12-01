@@ -243,6 +243,10 @@ class UserRepository extends Repository
                 {
                      return $selected->user_name;
                 })
+                ->addColumn('mobile_no',function($selected)
+                {
+                     return $selected->mobile_no_country_code;
+                })
                 ->editColumn('hcp_type',function($selected){
                     $data = '';
                     if(!empty($selected->categoryParent)){

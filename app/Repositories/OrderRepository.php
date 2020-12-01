@@ -170,7 +170,7 @@ class OrderRepository extends Repository
                 {
                     $data = '';
                     // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
+                    // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     
                     if (Auth::user()->hasPermissionTo('order-list')) {
                         $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';

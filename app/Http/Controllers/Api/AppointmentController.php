@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\AppointmentServiceRepository;
+use App\Repositories\UserServiceRepository;
 use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
@@ -16,14 +17,18 @@ use Carbon\Carbon as Carbon;
 
 class AppointmentController extends BaseApiController
 {
-    private $appointment_repo;
-    private $appointment_service_repo;
+    private $appointment_repo, $appointment_service_repo, $user_service_repo;
 
-    public function __construct(AppointmentRepository $appointment_repo, AppointmentServiceRepository $appointment_service_repo)
+    public function __construct(
+            AppointmentRepository $appointment_repo, 
+            AppointmentServiceRepository $appointment_service_repo,
+            UserServiceRepository $user_service_repo
+        )
     {
         parent::__construct();
         $this->appointment_repo = $appointment_repo;
         $this->appointment_service_repo = $appointment_service_repo;
+        $this->user_service_repo = $user_service_repo;
     }
 
 
@@ -117,9 +122,11 @@ class AppointmentController extends BaseApiController
             $data = $this->appointment_repo->dataCrud($add_data);
             if (!empty($request->user_services) && !empty($data)) {
                 foreach ($request->user_services as $key => $value) {
+                    $service = $this->user_service_repo->getById($value);                    
                     $service_data=[
                                     'appointment_id'=> $data->id,
                                     'user_service_id'=>$value,
+                                    'service_price'=>$service->service_charge,
                                   ];
                     $this->appointment_service_repo->dataCrud($service_data);
                 }

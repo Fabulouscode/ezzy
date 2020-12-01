@@ -63,6 +63,8 @@ function addRow() {
         url: manage_fees_url + '/create',
         success: function (response) {
             if (response.status) {
+                $("form[name='manage_fees_form']").parsley().destroy();
+                $("form[name='manage_fees_form']").parsley();
                 $('.modal-title').text('Add Manage Fees Details');
                 $('#submit_btn').text('Add');
                 $('#fees_id').val('');
@@ -94,6 +96,8 @@ function editRow(id) {
         url: manage_fees_url + '/' + id + '/edit',
         success: function (response) {
             if (response.status) {
+                $("form[name='manage_fees_form']").parsley().destroy();
+                $("form[name='manage_fees_form']").parsley();
                 $('.modal-title').text('Edit Manage Fees Details');
                 $('#submit_btn').text('Update');
                 if (response.hcp_types) {

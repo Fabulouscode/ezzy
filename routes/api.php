@@ -250,7 +250,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
                 Route::post('/completed', 'AppointmentController@getCompletedAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
+                Route::post('/change/completed', 'AppointmentController@completedAppointment');  
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
+                Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
             });
         });
   

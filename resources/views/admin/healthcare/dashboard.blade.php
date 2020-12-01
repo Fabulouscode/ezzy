@@ -84,7 +84,7 @@
     </div>
     <div class="row">
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user')}}">
+            <a href="{{url('/healthcare/user').'?hcp_type=Doctor'}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -104,7 +104,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user')}}">
+            <a href="{{url('/healthcare/user').'?hcp_type=Nurses'}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -124,13 +124,13 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user')}}">
+            <a href="{{url('/healthcare/user').'?hcp_type=Massage Therapist'}}">
             <div class="card d-card-part bg-warning mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">MASSAGE THERAPIST</h6>
+                    <h6 class="mb-0">Massage Therapist</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">

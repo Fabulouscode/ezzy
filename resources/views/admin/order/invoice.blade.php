@@ -34,7 +34,7 @@
                                     </div>
                                 </h4>
                                 <h3 class="m-t-0">
-                                    <img src="{{ asset('admin/images/logo.png') }}" alt="logo" height="40"/>
+                                    <img src="{{ asset('admin/images/logo-1.png') }}" alt="logo" height="40"/>
                                 </h3>
                             </div>
                             <hr>
@@ -44,7 +44,7 @@
                                         <strong>Billed To:</strong><br>
                                         {{$data->clientDetails->first_name}} {{$data->clientDetails->last_name}}<br>
                                         {{$data->clientDetails->email}}<br>
-                                        {{$data->clientDetails->mobile_no}}<br>
+                                        {{$data->clientDetails->mobile_no_country_code}}<br>
                                         {{$data->clientDetails->address}}<br>
                                     </address>
                                 </div>

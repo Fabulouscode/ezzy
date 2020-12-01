@@ -1,12 +1,15 @@
 
 $(function () {
     $("form[name='user_form']").parsley();
-
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var searchHCPtype = url.searchParams.get("hcp_type");
     $('#user_datatable').DataTable({
         lengthChange: true,
         processing: true,
         serverSide: true,
         bPaginate: true,
+        search: { "search": searchHCPtype },
         // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
@@ -35,6 +38,7 @@ $(function () {
             }
         }
     });
+
     $('#user_transaction_datatable').DataTable({
         lengthChange: true,
         processing: true,

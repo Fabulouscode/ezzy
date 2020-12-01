@@ -68,7 +68,7 @@ class MedicineSubcategoryRepository extends Repository
                 {
                     $data = '';
                     if (Auth::user()->hasPermissionTo('medicine_subcategory-edit')) {
-                        $data .= '<a href="'.url('medicine/subcategories/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Edit" onclick="editRow('.$selected->id.')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('medicine_subcategory-delete')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';

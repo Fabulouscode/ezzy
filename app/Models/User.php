@@ -77,7 +77,7 @@ class User extends Authenticatable
     protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
-                          'monthly_wallet_balance','total_wallet_balance','user_name' , 'status_name'
+                          'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code'
                         ];
 
     public function getStatusNameAttribute() {
@@ -91,7 +91,10 @@ class User extends Authenticatable
     public function getUserNameAttribute($value) {
         return $this->first_name .' '.$this->last_name;
     }
-
+   
+    public function getMobileNoCountryCodeAttribute($value) {
+        return $this->country_code .' '.$this->mobile_no;
+    }
     
     public function categoryParent() {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');

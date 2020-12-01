@@ -61,6 +61,8 @@ function addRow() {
         url: permission_category_url + '/create',
         success: function (response) {
             if (response.status) {
+                $("form[name='permission_category_form']").parsley().destroy();
+                $("form[name='permission_category_form']").parsley();
                 $('.modal-title').text('Add Permission Category Details');
                 $('#submit_btn').text('Add');
                 $('#permission_category_id').val('');
@@ -86,6 +88,8 @@ function editRow(id) {
         url: permission_category_url + '/' + id + '/edit',
         success: function (response) {
             if (response.status) {
+                $("form[name='permission_category_form']").parsley().destroy();
+                $("form[name='permission_category_form']").parsley();
                 $('.modal-title').text('Edit Permission Category Details');
                 $('#submit_btn').text('Update');
                 if (response.data) {

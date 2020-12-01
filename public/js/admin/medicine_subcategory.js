@@ -23,7 +23,118 @@ $(function () {
         order: [[0, 'desc']],
     });
 
+    $(document).on('submit', '#medicine_subcategory_form', function (event) {
+        $.ajax({
+            type: 'post',
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: medicine_subcategory_url,
+            data: $('#medicine_subcategory_form').serialize(),
+            success: function (response) {
+                $('#medicine_subcategory_id').val('');
+                $('#medicine_subcategory_name').val('');
+                $('#medicine_category').val('');
+                $('#medicine_subcategory_status').val('');
+                $('#addMedicineSubcategory').modal('hide');
+                var oTable = $('#medicine_subcategory_datatable').dataTable();
+                oTable.fnDraw(false);
+                toastr.success(response.msg, 'EzzyCare App');
+                return false;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var myArr = JSON.parse(jqXHR.responseText);
+                $.each(myArr.errors, function (index, value) {
+                    toastr.error(value, 'Vyzum App');
+                });
+                return false;
+            },
+        });
+        return false;
+    });
+
 });
+
+function addRow() {
+    $.ajax({
+        type: 'get',
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: medicine_subcategory_url + '/create',
+        success: function (response) {
+            if (response.status) {
+                $("form[name='medicine_subcategory_form']").parsley().destroy();
+                $("form[name='medicine_subcategory_form']").parsley();
+                $('.modal-title').text('Add Medicine Subcategory Details');
+                $('#submit_btn').text('Add');
+                $('#medicine_subcategory_id').val('');
+                $('#medicine_subcategory_name').val('');
+                $('#medicine_category').val('');
+                $('#medicine_subcategory_status').val('');
+                if (response.medicine_status) {
+                    $("#medicine_subcategory_status option").remove();
+                    response.medicine_status.forEach((element, key) => {
+                        $('#medicine_subcategory_status').append(new Option(element, key));
+                    });
+                }
+                if (response.medicine_category) {
+                    $("#medicine_category option").remove();
+                    response.medicine_category.forEach((element, key) => {
+                        $('#medicine_category').append(new Option(element.name, element.id));
+                    });
+                }
+                $('#addMedicineSubcategory').modal();
+            }
+            else {
+                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
+        },
+    });
+}
+
+function editRow(id) {
+    $.ajax({
+        type: 'get',
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: medicine_subcategory_url + '/' + id + '/edit',
+        success: function (response) {
+            if (response.status) {
+                $("form[name='medicine_subcategory_form']").parsley().destroy();
+                $("form[name='medicine_subcategory_form']").parsley();
+                $('.modal-title').text('Edit Medicine Subcategory Details');
+                $('#submit_btn').text('Update');
+                if (response.medicine_status) {
+                    $("#medicine_subcategory_status option").remove();
+                    response.medicine_status.forEach((element, key) => {
+                        $('#medicine_subcategory_status').append(new Option(element, key));
+                    });
+                }
+                if (response.medicine_category) {
+                    $("#medicine_category option").remove();
+                    response.medicine_category.forEach((element, key) => {
+                        $('#medicine_category').append(new Option(element.name, element.id));
+                    });
+                }
+                if (response.data) {
+                    $('#medicine_subcategory_id').val(response.data.id);
+                    $('#medicine_subcategory_name').val(response.data.name);
+                    $('#medicine_category').val(response.data.medicine_category_id);
+                    $('#medicine_subcategory_status').val(response.data.status);
+                }
+                $('#addMedicineSubcategory').modal();
+            }
+            else {
+                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            return false;
+        },
+    });
+}
+
 
 function deleteRow(row_id) {
     if (row_id) {

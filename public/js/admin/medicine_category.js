@@ -58,6 +58,8 @@ function addRow() {
         url: medicine_category_url + '/create',
         success: function (response) {
             if (response.status) {
+                $("form[name='medicine_category_form']").parsley().destroy();
+                $("form[name='medicine_category_form']").parsley();
                 $('.modal-title').text('Add Medicine Category Details');
                 $('#submit_btn').text('Add');
                 $('#medicine_category_id').val('');
@@ -89,6 +91,8 @@ function editRow(id) {
         url: medicine_category_url + '/' + id + '/edit',
         success: function (response) {
             if (response.status) {
+                $("form[name='medicine_category_form']").parsley().destroy();
+                $("form[name='medicine_category_form']").parsley();
                 $('.modal-title').text('Edit Medicine Category Details');
                 $('#submit_btn').text('Update');
                 if (response.medicine_status) {
