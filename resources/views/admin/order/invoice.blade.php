@@ -30,7 +30,7 @@
                                 <h4 class="float-right font-16">
                                     <div>
                                         <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
-                                        <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? date('d M Y', strtotime($data->completed_datetime)) : '' }}
+                                        <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeFormate($data->completed_datetime) : '' }}
                                     </div>
                                 </h4>
                                 <h3 class="m-t-0">
@@ -60,7 +60,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <b>Order Date: </b>{{date('d M Y', strtotime($data->created_at))}}<br>
+                                    <b>Order Date: </b>{{Helper::getDateTimeFormate($data->created_at)}}<br>
                                     <b>Delivery Type: </b>{{$data->delivery_type_name}} <br>
                                     <b>Status: </b>{{$data->status_name}}
                                 </div>

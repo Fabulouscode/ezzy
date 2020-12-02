@@ -30,7 +30,7 @@
                                 <h4 class="float-right font-16">
                                 <div>
                                     <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
-                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? date('d M Y', strtotime($data->completed_datetime)) : '' }}
+                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeFormate($data->completed_datetime) : '' }}
                                 </div>
                                 </h4>
                                 <h3 class="m-t-0">
@@ -59,7 +59,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <b>Completed Date: </b>{{date('d M Y', strtotime($data->completed_datetime))}}<br>
+                                    <b>Completed Date: </b>{{Helper::getDateTimeFormate($data->completed_datetime)}}<br>
                                     @php($urgent = ($data->urgent == '1')? '(Urgent)' : '')
                                     <b>Type of Appointment: </b>{{$data->appointment_type_name}} <br>
                                     <b>Status: </b>{{$data->status_name}}
@@ -144,8 +144,8 @@
                                                 @if(!empty($data->user_service_id) &&  isset($data->userService))
                                                     <td class="text-center">{{$data->userService->service->service_name}}</td>
                                                 @endif
-                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->appointment_date .' '. $data->appointment_time))}}</td>
-                                                <td class="text-center">{{date('d M Y H:i:s', strtotime($data->completed_datetime))}}</td>                                                
+                                                <td class="text-center">{{Helper::getDateTimeFormate($data->appointment_date .' '. $data->appointment_time)}}</td>
+                                                <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
                                                 <td class="text-center">{{$currency_symbol.$data->hcp_fees}}</td>
                                                 @if(!empty($data->full_day) &&  $data->full_day == '1')
                                                     <td class="text-center">Full Day</td>

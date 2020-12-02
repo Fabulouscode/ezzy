@@ -5,6 +5,7 @@ namespace App\Http\Helpers;
 use Log;
 use App\Repositories\CategoryRepository;
 use App\Models\Category;
+use Carbon\Carbon;
 
 class Helper
 {
@@ -27,6 +28,33 @@ class Helper
             }
         }
         return $category_name;
+    }
+    
+    /**
+     * get timestamp formate date and time
+     */  
+    public static function getDateTimeFormate($date_time)
+    {
+        $date_time_formate = new Carbon($date_time);
+        return $date_time_formate->format('d M, Y H:i:s');
+    }
+
+    /**
+     * get timestamp formate date
+     */  
+    public static function getDateFormate($date)
+    {
+        $date_formate = new Carbon($date);
+        return $date_formate->format('d M, Y');
+    }
+   
+    /**
+     * get timestamp formate time
+     */  
+    public static function getTimeFormate($time)
+    {
+        $time_formate = new Carbon($time);
+        return $time_formate->format('H:i:s');
     }
 
     /**

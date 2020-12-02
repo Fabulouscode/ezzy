@@ -217,7 +217,7 @@
                                         <dt class="col-sm-5"><label>DOB</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->dob))
-                                                {{$data->userDetails->dob}} 
+                                                {{Helper::getDateFormate($data->userDetails->dob)}} 
                                             @endif 
                                         </dd>
                                     </div>

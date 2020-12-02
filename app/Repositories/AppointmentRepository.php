@@ -158,7 +158,7 @@ class AppointmentRepository extends Repository
                 })
                 ->editColumn('appointment_date',function($selected)
                 {                   
-                     return $selected->appointment_date .' '.$selected->appointment_time;
+                     return $this->getDateTimeFormate($selected->appointment_date .' '.$selected->appointment_time);
                 })
                 ->editColumn('hcp_type',function($selected)
                 {

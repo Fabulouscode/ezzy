@@ -59,7 +59,7 @@
                                         <dt class="col-sm-5"><label>Appointment Date</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->appointment_date))
-                                                {{$data->appointment_date}}
+                                                {{Helper::getDateFormate($data->appointment_date)}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -67,7 +67,7 @@
                                         <dt class="col-sm-5"><label>Appointment Time</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->appointment_time))
-                                                {{$data->appointment_time}}
+                                                {{Helper::getTimeFormate($data->appointment_time)}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -99,7 +99,7 @@
                                         <dt class="col-sm-5"><label>Appointment Book Date</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->created_at))
-                                                {{$data->created_at}}
+                                                {{Helper::getDateTimeFormate($data->created_at)}}
                                             @endif 
                                         </dd>
                                     </div>                            
@@ -116,7 +116,7 @@
                                         <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->completed_datetime))
-                                                {{$data->completed_datetime}}
+                                                {{Helper::getDateTimeFormate($data->completed_datetime)}}
                                             @endif 
                                         </dd>
                                     </div>
@@ -150,7 +150,7 @@
                                         <dt class="col-sm-5"><label>Cancel Date Time</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->cancel_date))
-                                                {{$data->cancel_date}}
+                                                {{Helper::getDateTimeFormate($data->cancel_date)}}
                                             @endif 
                                         </dd>
                                     </div>

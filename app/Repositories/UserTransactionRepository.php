@@ -130,10 +130,10 @@ class UserTransactionRepository extends Repository
                 }
             })
             ->editColumn('created_at', function($selected) {
-                return $selected->created_at ? date('d M, Y h:i A',strtotime($selected->created_at)) : '-';
+                return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
             })
             ->editColumn('transaction_date', function($selected) {
-                return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
+                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
             })
             ->editColumn('amount', function($selected) {
                 return $this->currency_symbol.$selected->amount ;
@@ -192,7 +192,7 @@ class UserTransactionRepository extends Repository
          
             })
             ->editColumn('created_at', function($selected) {
-                return $selected->created_at ? date('d M, Y h:i A',strtotime($selected->created_at)) : '-';
+                return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
             })
             ->editColumn('transaction_data',function($selected)
             {
@@ -205,7 +205,7 @@ class UserTransactionRepository extends Repository
                 return $data;
             })
             ->editColumn('transaction_date', function($selected) {
-                return $selected->transaction_date ? date('d M, Y h:i A',strtotime($selected->transaction_date)) : '-';
+                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
             })
             ->editColumn('amount', function($selected) {
                 return $this->currency_symbol.$selected->amount ;

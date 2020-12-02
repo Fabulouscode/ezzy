@@ -242,7 +242,7 @@
                                         <dt class="col-sm-5"><label>Cancel Date Time</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->cancel_date))
-                                                {{$data->cancel_date}}
+                                                {{Helper::getDateTimeFormate($data->cancel_date)}}
                                             @endif 
                                         </dd>
                                     </div>

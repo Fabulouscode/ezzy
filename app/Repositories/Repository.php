@@ -221,6 +221,33 @@ class Repository
     {
         return Carbon::now()->format('Y-m-d H:i:s');
     }
+
+    /**
+     * get timestamp formate date and time
+     */  
+    public function getDateTimeFormate($date_time)
+    {
+        $date_time_formate = new Carbon($date_time);
+        return $date_time_formate->format('d M, Y H:i:s');
+    }
+
+    /**
+     * get timestamp formate date
+     */  
+    public function getDateFormate($date)
+    {
+        $date_formate = new Carbon($date);
+        return $date_formate->format('d M, Y');
+    }
+   
+    /**
+     * get timestamp formate time
+     */  
+    public function getTimeFormate($time)
+    {
+        $time_formate = new Carbon($time);
+        return $time_formate->format('H:i:s');
+    }
    
     /**
      * generate OTP code
