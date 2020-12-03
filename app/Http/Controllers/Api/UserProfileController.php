@@ -435,7 +435,7 @@ class UserProfileController extends BaseApiController
    
     public function deleteUserLocationDetails($id)
     {
-        $data = $this->user_education_repo->getById($id);
+        $data = $this->user_location_repo->getById($id);
         if(!empty($data)){
             if($data->primary_address == '1'){
                 return self::sendError('', 'Primary Location details Not Deleted', 500);
