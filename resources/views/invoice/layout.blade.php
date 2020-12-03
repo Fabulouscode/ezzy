@@ -7,6 +7,7 @@
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>@yield('title','EzzyCare')</title>
 
         <!-- Favicon -->
@@ -14,9 +15,10 @@
 
    
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-        <!-- <link href="{{ asset('admin/css/icons.css') }}" rel="stylesheet" type="text/css"> -->
-        <!-- <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet" type="text/css"> -->
     @stack('css')
+    <style>
+    .currency_symbol { font-family: 'DejaVu Sans' !important;}
+    </style>
     </head>
     <body class="fixed-left">
 

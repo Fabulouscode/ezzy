@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     @can('role-add')
-                    <div class="block-options-item mb-3 ml-3">
+                    <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/role/create')}}" class="btn btn-info">Add Role</a>
                     </div>
                     @endcan

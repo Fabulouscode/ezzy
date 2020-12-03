@@ -23,7 +23,7 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <!-- <div class="block-options-item mb-3 ml-3">
+                    <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
 

@@ -23,7 +23,7 @@
             <div class="card m-b-30">
                 <div class="card-body">      
                     @can('permission-add')
-                    <div class="block-options-item mb-3 ml-3">
+                    <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="addRow()" class="btn btn-info">Add Permission</a>
                     </div>                            
                     @endcan              
