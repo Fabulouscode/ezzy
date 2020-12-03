@@ -24,6 +24,7 @@ class User_details extends Model
         'dob',
         'marital_status',
         'blood_group',
+        'pincode',
         'height',
         'weight',
         'allergies',
