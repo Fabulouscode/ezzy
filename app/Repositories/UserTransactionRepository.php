@@ -95,7 +95,7 @@ class UserTransactionRepository extends Repository
 
         $query = $this->model->where('user_id',$request->user()->id)->where('status','0');
       
-        $query = $query->orderBy('transaction_date','desc')->offset($offset)->limit($this->api_data_limit);
+        $query = $query->orderBy('transaction_date','desc');
         
         $query = $query->get();
 
