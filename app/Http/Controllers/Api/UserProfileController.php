@@ -349,7 +349,7 @@ class UserProfileController extends BaseApiController
    
     public function deleteUserExperianceDetails($id)
     {
-        $data = $this->user_education_repo->getById($id);
+        $data = $this->user_experiance_repo->getById($id);
         if(!empty($data)){
             try{
                 $this->user_experiance_repo->destroy($id); 
