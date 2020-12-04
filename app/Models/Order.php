@@ -47,7 +47,7 @@ class Order extends Model
         'delivery_type'
     ];
 
-    protected $appends = ['invoice_no_generate','status_name','delivery_type_name'];
+    protected $appends = ['invoice_no_generate','order_no_generate','status_name','delivery_type_name'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
@@ -83,5 +83,9 @@ class Order extends Model
 
     public function getInvoiceNoGenerateAttribute(){
        return 'INV-ORDER-'.str_pad($this->id, 6, '0', STR_PAD_LEFT);
+    }
+   
+    public function getOrderNoGenerateAttribute(){
+       return '#'.str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 }
