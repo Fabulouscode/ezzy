@@ -215,7 +215,7 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Revenue</h4>
                     <div class="row">
-                        <div class="col-md-8 block-options-item mb-3 mr-3 float-right">
+                        <div class="col-md-10 block-options-item mb-3 mr-3 float-right">
                             <div class="form-group">
                                 <label>Date Range</label>
                                 <input type="text" class="form-control" name="revenue_date_range" id="revenue-chart-date-range"  />
@@ -247,7 +247,7 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Earning</h4>
                     <div class="row">
-                        <div class="col-md-6 block-options-item mb-3 mr-3 float-right">
+                        <div class="col-md-8 block-options-item mb-3 mr-3 float-right">
                             <div class="form-group">
                                 <label>Date Range</label>
                                 <input type="text" class="form-control" name="earning_date_range" id="earning-chart-date-range"  />
