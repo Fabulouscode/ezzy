@@ -25,17 +25,52 @@ $(function () {
             { data: 'email', name: 'email' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'hcp_type', name: 'hcp_type' },
+            {
+                data: '', name: 'Ratings', orderable: false, searchable: false,
+                render: function (data, type, row) {
+                    var rating_count = '0';
+                    if (data_obj.category_id == '2') {
+                        if (row.user_order_review != '' && row.user_order_review != null) {
+                            rating_count = row.user_order_review;
+                        }
+                    } else {
+                        if (row.user_appointment_review != '' && row.user_appointment_review != null) {
+                            rating_count = row.user_appointment_review;
+                        }
+                    }
+
+                    if (rating_count == '' || rating_count == null) {
+                        rating_count = '0';
+                    }
+
+                    rating_count = parseFloat(rating_count).toFixed(2);
+
+                    return '<input type="hidden" class="rating" data-filled="mdi mdi-star font-20 text-primary" data-empty="mdi mdi-star-outline font-20 text-muted" data-readonly value = "' + rating_count + '" />';
+                }
+            },
             { data: 'status', name: 'status' },
             // { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
+        createdRow: function (row, data, dataIndex) {
+            var ratingInput = $(row).find('.rating');
+            $(ratingInput).rating();
+        },
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             if (data_obj.category_id == '') {
                 api.columns([4]).visible(showColumn);
+                api.columns([5]).visible(showColumn);
             }
+        },
+        drawCallback: function (settings) {
+            $('.rating').each(function () {
+                $('<span class="badge badge-info" style="font-size: 10px;"></span>')
+                    .text($(this).val() || ' ')
+                    .insertAfter(this);
+            });
         }
     });
 

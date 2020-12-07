@@ -51,6 +51,7 @@ $(function () {
                     if (data == '' || data == null) {
                         data = '0';
                     }
+                    data = parseFloat(data).toFixed(2);
                     return '<input type="hidden" class="rating" data-filled="mdi mdi-star font-32 text-primary" data-empty="mdi mdi-star-outline font-32 text-muted" data-readonly value = "' + data + '" />';
                 }
             },
@@ -64,6 +65,8 @@ $(function () {
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+        },
+        drawCallback: function (settings) {
             $('.rating').each(function () {
                 $('<span class="badge badge-info"></span>')
                     .text($(this).val() || ' ')
