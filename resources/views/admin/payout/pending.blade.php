@@ -24,9 +24,9 @@
             <div class="card m-b-30">
                 <div class="card-body">
                 
-                    <div class="block-options-item mb-3 mr-3 float-right">
+                    <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout</a>
-                    </div>
+                    </div> -->
 
                     <div class="table-responsive">
                         <table id="payout_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
