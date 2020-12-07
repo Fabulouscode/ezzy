@@ -70,7 +70,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->mobile_no))
                                                 {{$data->mobile_no}} 
@@ -88,7 +88,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Wallet Balance</label></dt>
                                         <dd class="col-sm-7"> 
-                                            {{$data->wallet_balance}} 
+                                            {{$currency_symbol.$data->wallet_balance}} 
                                         </dd>
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@
                                         <dt class="col-sm-5"><label>Delivery Charge</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->delivery_charge))
-                                                {{$data->userDetails->delivery_charge}} 
+                                                {{$currency_symbol.$data->userDetails->delivery_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
@@ -243,7 +243,7 @@
                                             <tbody>
                                             @foreach($data->userAvailableTime as $user_avalibale_time) 
                                                 <tr>
-                                                    <td>{{$user_avalibale_time_name}}</td>
+                                                    <td>{{$user_avalibale_time->day_name}}</td>
                                                     <td>{{$user_avalibale_time->start_time}}</td>
                                                     <td>{{$user_avalibale_time->end_time}}</td>
                                                 </tr>

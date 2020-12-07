@@ -11,23 +11,22 @@
     var Dashboard = function () {
     };
 
-
+    const monthNames = ["", "Today", "7 Days", "15 Days", "30 Days", "3 Months", "6 Months", "1 Years"];
     //creates area chart
     Dashboard.prototype.createAreaChart = function (element, pointSize, lineWidth, data, xkey, ykeys, labels, lineColors) {
         Morris.Area({
             element: element,
-            pointSize: 0,
-            lineWidth: 0,
             data: data,
-            xkey: xkey,
+            xkey: 'y',
+            parseTime: false,
             ykeys: ykeys,
+            xLabelFormat: function (x) {
+                var index = parseInt(x.src.y);
+                return monthNames[index];
+            },
             labels: labels,
-            resize: true,
-            gridLineColor: '#eee',
-            hideHover: 'auto',
             lineColors: lineColors,
-            fillOpacity: 0.7,
-            behaveLikeLine: true
+            hideHover: 'auto'
         });
     },
 
@@ -97,7 +96,7 @@
             { y: '2017', a: 75, b: 240, c: 120 },
             { y: '2018', a: 30, b: 30, c: 30 }
         ];
-        this.createAreaChart('morris-area-example', 0, 0, $areaData, 'y', ['a', 'b', 'c'], ['Appointments', 'Pharmacy', 'Order'], ['#ff5560', '#fcc24c', '#508aeb']);
+        // this.createAreaChart('morris-area-example', 0, 0, $areaData, 'y', ['a', 'b', 'c'], ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'], ['#ff5560', '#fcc24c', '#508aeb']);
 
         //creating bar chart
         var $barData = [
@@ -107,7 +106,7 @@
             { y: 'Apr', a: 87, b: 105 },
             { y: 'May', a: 78, b: 90 },
         ];
-        this.createBarChart('morris-bar-example', $barData, 'y', ['a', 'b'], ['Total Income', 'Total Payout'], ['#508aeb', '#fcc24c']);
+        // this.createBarChart('morris-bar-example', $barData, 'y', ['a', 'b'], ['Total Income', 'Total Payout'], ['#508aeb', '#fcc24c']);
 
         // //creating donut chart
         // var $donutData = [

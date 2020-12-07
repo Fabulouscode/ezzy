@@ -40,6 +40,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // Main Dashoard
         Route::get('/', 'DashboardController@index');
+        Route::post('/chart/area', 'DashboardController@getAreaChartdata');
 
         // permission No access 
         Route::get('/permission_not_access', function(){
@@ -66,6 +67,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::post('user/change_status', 'UserController@changeStatus');
         Route::post('user/data', 'UserController@getDatatable');        
         Route::post('user/transaction/data', 'UserController@getTransactionDatatable');        
+        Route::post('user/wallet_balance', 'UserController@getWalletBalance');        
         Route::post('user/medicine/data', 'UserController@showMedicineDetails');
         Route::post('user/services/data', 'UserController@showHCPService');
         Route::get('{provider?}/user', 'UserController@index')->middleware('role-permission:{provider}-list');
@@ -93,6 +95,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // payout routes         
         Route::get('payout/pending', 'PayoutController@getPendingPayout');
         Route::post('payout/data', 'PayoutController@getPayouts');
+        Route::post('payout/paid', 'PayoutController@paidPayouts');
         Route::resource('payout', 'PayoutController');
      
         // static pages routes 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\User_transaction;
 use Illuminate\Support\Str;
+use DB;
 
 class UserTransactionRepository extends Repository
 {
@@ -44,7 +45,13 @@ class UserTransactionRepository extends Repository
 
     public function getUserbyCalculate($user_id, $mode_of_payment = 0)
     {
-        return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+        // return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+        return $this->model->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+    }
+    
+    public function getPayoutCalculte($user_id, $payout_status = '1')
+    {
+        return $this->model->where('payout_status', $payout_status)->where('status', '0')->where('user_id', $user_id)->sum('payout_amount');
     }
    
     public function getUserbyWalletBalance($user_id)
@@ -56,27 +63,31 @@ class UserTransactionRepository extends Repository
         return $total_earning;
     }
    
-    public function getHCPTYPEWalletBalance($provider, $user_id)
+    public function getHCPTYPEWalletBalanceDateRange($request)
     {
         $query = $this->model->with(['users','transactionAppointment','transactionOrder']);
       
-        if($provider != 'patients'){
-            $query = $query->orWhere(function ($query) use ($user_id) {
-                $query = $query->orWhereHas('transactionAppointment', function ($query) use ($user_id) {
-                    $query->where('user_id', $user_id);
-                });
-                $query = $query->orWhereHas('transactionOrder', function ($query) use ($user_id) {
-                    $query->where('user_id', $user_id);
-                });
-            });
+        if($request->provider != 'patients'){
+            $query = $query->where('user_id',$request->id);
         }else{            
-            $query = $query->where('user_id',$user_id);
+            $query = $query->where('client_id',$request->id);
         }
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
+        }
+        
         $query = $query->orderBy('id','desc')->sum('amount');
 
         return $query;
     }
 
+
+    public function getPayoutCount($payout_status = '1')
+    {
+        return $this->model->where('status', '0')->where('payout_status', $payout_status)->count();
+    }
+   
     public function getbyUserId($user_id)
     {
         return $this->model->where('user_id', $user_id)->get();
@@ -102,94 +113,38 @@ class UserTransactionRepository extends Repository
         return $query;
     }
 
-    public function getDatatable($request)
-    {
-        $data = $this->getPayoutWithRelationship($request); //->getWithRelationship($request);
-        return Datatables::of($data)
-            ->editColumn('mode_of_payment',function($selected)
-            {
-                if($selected->mode_of_payment == '1')
-                    return '<div class="badge badge-success">Credit</div>';
-                return '<div class="badge badge-danger">Debit</div>';
-            })
-            ->editColumn('status',function($selected)
-            {
-                if($selected->status == '0')
-                    return '<div class="badge badge-success">Success</div>';
-                return '<div class="badge badge-danger">Failed</div>';
-            })
-            ->editColumn('transaction_type',function($selected)
-            {
-                return '<div class="badge badge-success">'.$selected->transaction_type_name.'</div>';
-            })
-            ->editColumn('user_name', function($selected) {
-                if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
-                   return $selected->transactionAppointment->user->user_name;
-                }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
-                    return $selected->transactionOrder->userDetails->user_name;
-                }
-            })
-            ->editColumn('created_at', function($selected) {
-                return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
-            })
-            ->editColumn('transaction_date', function($selected) {
-                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
-            })
-            ->editColumn('amount', function($selected) {
-                return $this->currency_symbol.$selected->amount ;
-            })
-            ->rawColumns(['mode_of_payment','transaction_type','status'])
-            ->make(true);
-    }
+
 
     public function getWithRelationship($request)
     {
         $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
       
         if($request->provider != 'patients'){
-            $query = $query->orWhere(function ($query) use ($request) {
-                $query = $query->orWhereHas('transactionAppointment', function ($query) use ($request) {
-                    $query->where('user_id', $request->id);
-                });
-                $query = $query->orWhereHas('transactionOrder', function ($query) use ($request) {
-                    $query->where('user_id', $request->id);
-                });
-            });
-        }else{            
             $query = $query->where('user_id',$request->id);
+        }else{            
+            $query = $query->where('client_id',$request->id);
         }
+        
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
+        }
+        
         $query = $query->orderBy('id','desc')->get();
-   
+
         return $query;
     }
   
-    public function getPayoutWithRelationship($request)
-    {
-        $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
-        
-        if($request->status != ''){
-             $query->where('status', $request->status);
-        }
-
-        $query = $query->orderBy('id','desc')->get();
-   
-        return $query;
-    }
+    
 
     public function getDatatablebyUserId($request)
     {
         $data = $this->getWithRelationship($request); 
         return Datatables::of($data)
-            ->editColumn('user_name', function($selected) use ($request) {     
-
-                if ($request->id != $selected->user_id) {
-                    return $selected->users ? $selected->users->user_name : '-';
-                }else if(!empty($selected->transactionAppointment) && !empty($selected->transactionAppointment->user)){
-                   return $selected->transactionAppointment->user->user_name;
-                }else if(!empty($selected->transactionOrder) && !empty($selected->transactionOrder->userDetails)){
-                    return $selected->transactionOrder->userDetails->user_name;
-                }
-         
+            ->editColumn('client_name', function($selected) use ($request) {   
+                return $selected->client ? $selected->client->user_name : '-';
+            })
+            ->editColumn('user_name', function($selected) use ($request) { 
+                return $selected->users ? $selected->users->user_name : '-';      
             })
             ->editColumn('created_at', function($selected) {
                 return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
@@ -210,7 +165,93 @@ class UserTransactionRepository extends Repository
             ->editColumn('amount', function($selected) {
                 return $this->currency_symbol.$selected->amount ;
             })
-            ->rawColumns(['transaction_data'])
+            ->editColumn('status', function($selected) {
+                 if($selected->status == '0'){
+                    return '<div class="badge badge-success">'.$selected->status_name.'</div>';
+                } else{
+                    return '<div class="badge badge-info">'.$selected->status_name.'</div>';
+                }
+            })
+            ->editColumn('payout_amount', function($selected) {
+                return $this->currency_symbol.$selected->payout_amount ;
+            })
+            ->editColumn('fees_charge', function($selected) {
+                return $this->currency_symbol.$selected->fees_charge ;
+            })
+            ->editColumn('payout_status', function($selected) {
+                 if($selected->payout_status == '0'){
+                    return '<div class="badge badge-success">'.$selected->payout_status_name.'</div>';
+                } else{
+                    return '<div class="badge badge-info">'.$selected->payout_status_name.'</div>';
+                }
+            })
+            ->rawColumns(['transaction_data','status','payout_amount','fees_charge','payout_status'])
+            ->make(true);
+    }
+ 
+ 
+    public function getPayoutsWithRelationship($request)
+    {
+        $query = $this->model->with(['users'])->select()->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'));
+      
+        if(isset($request->payout_status)){
+            $query = $query->where('payout_status',$request->payout_status);
+        }
+        
+        $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
+
+        return $query;
+    }
+  
+ 
+    public function getDatatable($request)
+    {
+        $data = $this->getPayoutsWithRelationship($request); 
+        return Datatables::of($data)
+            ->addColumn('checkbox', function($selected) {   
+                return '<input type="checkbox" name="id" class="minimal" value="'.$selected->id.'">';
+            })
+            ->addColumn('service_provider', function($selected) {   
+                 $data = '';
+                if(!empty($selected->users->categoryParent)){
+                    $data .='<div class="text-success"><strong>'. $selected->users->categoryParent->name.'</strong></div>';
+                }                            
+                if(!empty($selected->users->categoryChild)){
+                    $data .='<div class="text-success"><strong>'. $selected->users->categoryChild->name.'</strong></div>';
+                }  
+                return $data; 
+            })
+            ->editColumn('user_name', function($selected) { 
+                return $selected->users ? $selected->users->user_name : '-';      
+            })
+            ->editColumn('created_at', function($selected) {
+                return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
+            })
+            ->editColumn('transaction_date', function($selected) {
+                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
+            })
+            ->editColumn('payout_date', function($selected) {
+                return $selected->payout_date ? $this->getDateTimeFormate($selected->payout_date) : '-';
+            })
+            ->editColumn('payout_amount', function($selected) {
+                return $this->currency_symbol.$selected->payout_total ;
+            })
+            ->editColumn('payout_status', function($selected) {
+                 if($selected->payout_status == '0'){
+                    return '<div class="badge badge-success">'.$selected->payout_status_name.'</div>';
+                } else{
+                    return '<div class="badge badge-info">'.$selected->payout_status_name.'</div>';
+                }
+            })
+            ->addColumn('action',function($selected)
+            { 
+                $data = '';
+                // if (Auth::user()->hasPermissionTo('payout-edit')) {
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows" onclick=""><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                // }
+                return $data;
+            })
+            ->rawColumns(['checkbox','service_provider', 'payout_amount','payout_status','action'])
             ->make(true);
     }
 

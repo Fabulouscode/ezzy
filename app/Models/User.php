@@ -77,7 +77,7 @@ class User extends Authenticatable
     protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
-                          'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code'
+                          'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code', 'profile_completed_progress'
                         ];
 
     public function getStatusNameAttribute() {
@@ -90,6 +90,11 @@ class User extends Authenticatable
    
     public function getUserNameAttribute($value) {
         return $this->first_name .' '.$this->last_name;
+    }
+   
+    public function getProfileCompletedProgressAttribute() {
+        $progress_point = 50;
+        return $progress_point;
     }
    
     public function getMobileNoCountryCodeAttribute($value) {
@@ -121,7 +126,7 @@ class User extends Authenticatable
     }
     
     public function userAvailableTime() {
-        return $this->hasMany('App\Models\User_available_time');
+        return $this->hasMany('App\Models\User_available_time')->orderBy('day','asc');
     }
     public function userLocation() {
         return $this->hasMany('App\Models\User_location');

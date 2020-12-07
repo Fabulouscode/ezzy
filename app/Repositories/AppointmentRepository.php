@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
+use DB;
 
 class AppointmentRepository extends Repository
 {
@@ -112,6 +113,14 @@ class AppointmentRepository extends Repository
             $query = $query->where('status', $request->status);
         }else{
             $query = $query->whereNotIn('status',['5','6']);
+        }
+     
+        if(!empty($request->hacp_type)){
+            $query = $query->whereHas('user', function($query) use ($request){
+                $query = $query->whereHas('categoryParent', function($query) use ($request){
+                    $query->where('parent_id', $request->hacp_type);
+                });
+            });
         }
         
         $query = $query->orderBy('id','desc')->get();
@@ -380,5 +389,46 @@ class AppointmentRepository extends Repository
             ->rawColumns(['appointment_no'])->make(true);
     }
 
+    
+
+
+     /**
+     * Dashboard Area Chart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHCPTypeWiseAppointment($request, $category_id, $provider_type = '')
+    {
+
+        $query = $this->model->where('status', '5')->select(DB::raw('COUNT(id) AS ids_count'),'appointment_date AS created_date');    
+       
+        if(!empty($category_id)){
+            $query = $query->whereHas('user', function ($query) use ($category_id) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                    $query->where('parent_id', $category_id);
+                });
+            });           
+        }
+        
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->where('appointment_date', '>=',$request->start_date)->where('appointment_date' , '<=',$request->end_date);
+        }
+
+        $query = $query->groupBy('appointment_date')->orderBy('appointment_date','desc')->get()->toArray();
+        return $query;
+    }
+
+     /**
+     * Dashboard Area Chart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAreaChartdata($request)
+    {
+        $data = array();
+        $data['hcp_provider'] = $this->getHCPTypeWiseAppointment($request, '1', 'hcp');
+        $data['laboratories_provider'] = $this->getHCPTypeWiseAppointment($request, '3', 'lab');
+        return $data;
+    }
 }
 

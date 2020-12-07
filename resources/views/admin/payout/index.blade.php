@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Payout')
+@section('title','Approved Payout')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Payout</li>
+                    <li class="breadcrumb-item active">Approved Payout</li>
                 </ol>
             </div>
-            <h5 class="page-title">Payout</h5>
+            <h5 class="page-title">Approved Payout</h5>
         </div>
     </div>
     <!-- end row -->
@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
                 
-                    <!-- <div class="block-options-item mb-3 ml-3">
+                    <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
 
@@ -32,12 +32,13 @@
                         <table id="payout_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Username</th>
-                                    <th>Transaction date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Created at</th>
+                                    <th><input type="checkbox" name="id" class="minimal" id="select_all"></th>
+                                    <th>Service Provider</th>
+                                    <th>User Name</th>     
+                                    <th>Payout Date</th>
+                                    <th>Payout Amount</th>
+                                    <th>Payout Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>                        
                         </table>
@@ -54,7 +55,7 @@
 @section('script')
 <script>
     var payout_url = "{{url('/payout')}}";
-    var payout_obj = {'status':'0'};
+    var payout_obj = {'payout_status':'0'};
 </script>
 <script src="{{ asset('js/admin/payout.js') }}" ></script>
 @endsection

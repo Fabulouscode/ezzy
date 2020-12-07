@@ -11,6 +11,7 @@ use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderTrackingRepository;
+use App\Repositories\ManageFeesRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
@@ -20,7 +21,7 @@ use Carbon\Carbon as Carbon;
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo, $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
+    private $appointment_repo, $fees_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
@@ -29,7 +30,8 @@ class TransactionController extends BaseApiController
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderRepository $order_repo,
         OrderProductRepository $order_product_repo,
-        OrderTrackingRepository $order_tracking_repo
+        OrderTrackingRepository $order_tracking_repo,
+        ManageFeesRepository $fees_repo
         )
     {
         parent::__construct();
@@ -40,6 +42,7 @@ class TransactionController extends BaseApiController
         $this->order_repo = $order_repo;
         $this->order_product_repo = $order_product_repo;
         $this->order_tracking_repo = $order_tracking_repo;
+        $this->fees_repo = $fees_repo;
     }
 
     public function updateUserWalletBalance($user_id)
@@ -115,8 +118,12 @@ class TransactionController extends BaseApiController
                 $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
                 $home_visit_fees =  $appointment_details->user->userDetails->home_visit_fees;
             }
+
+
+            
                 $add_transaction = [
-                        'user_id'=> $request->user()->id,
+                        'user_id'=> $appointment_details->user->id,
+                        'client_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
@@ -127,6 +134,23 @@ class TransactionController extends BaseApiController
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
                     
             if(!empty($transaction)){
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                if(!empty($appointment_details->user->category_id)){
+                    $manage_fees = $this->fees_repo->getById($appointment_details->user->category_id);
+                    if(!empty($manage_fees->fees_percentage)){
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_payout = [
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charges,
+                    ];
+                $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
+
                 $update = [
                         'status'=> $request->status,
                         'full_day'=> $full_day,
@@ -153,6 +177,7 @@ class TransactionController extends BaseApiController
 
     public function orderPharmacyBillPay(OrderStatusRequest $request)
     {
+        
         $data = array();
         $order_details = $this->order_repo->getbyIdCheckTransaction($request->id);
         if(empty($order_details)){
@@ -169,6 +194,7 @@ class TransactionController extends BaseApiController
 
                 $add_transaction = [
                         'user_id'=> $order_details->userDetails->id,
+                        'client_id'=> $request->user()->id,
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
@@ -178,6 +204,23 @@ class TransactionController extends BaseApiController
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
 
             if(!empty($transaction)){
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                if(!empty($order_details->userDetails->category_id)){
+                    $manage_fees = $this->fees_repo->getById($order_details->userDetails->category_id);
+                    if(!empty($manage_fees->fees_percentage)){
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_payout = [
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charge,
+                    ];
+                $this->payout_history_repo->dataCrud($add_payout);
+
                 $update = [
                         'status'=> '1',
                         'completed_datetime'=> $this->order_repo->getCurrentDateTime(),

@@ -23,7 +23,7 @@ class Admin extends Authenticatable
     ];
 
     public function getRole(){
-        return $this->hasOne('App\Models\Role','id','role_id');
+        return $this->belongsTo('App\Models\Role');
     }
 
 

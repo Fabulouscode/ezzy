@@ -137,6 +137,12 @@ return [
  
     /* Firebase notification */
     'FCM_KEY'=> env('FCM_KEY'),
+ 
+    /* PAYSTACK integration key (payment) */
+    'PAYSTACK_SECRET_KEY'=> env('PAYSTACK_SECRET_KEY'),
+    'PAYSTACK_PUBLIC_KEY'=> env('PAYSTACK_PUBLIC_KEY'),
+    'PAYSTACK_PAYMENT_URL'=> env('PAYSTACK_PAYMENT_URL'),
+    'MERCHANT_EMAIL'=> env('MERCHANT_EMAIL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -192,6 +198,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\PermissionsServiceProvider::class,
+        Unicodeveloper\Paystack\PaystackServiceProvider::class,
 
     ],
 
@@ -247,6 +254,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Helper' => App\Http\Helpers\Helper::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 
     ],
 

@@ -70,7 +70,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->mobile_no))
                                                 {{$data->mobile_no}} 
@@ -88,7 +88,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Wallet Balance</label></dt>
                                         <dd class="col-sm-7"> 
-                                            {{$data->wallet_balance}} 
+                                            {{$currency_symbol.$data->wallet_balance}} 
                                         </dd>
                                     </div>
                                 </div>
@@ -149,14 +149,6 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Clinic City</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->clinic_city))
-                                                {{$data->userDetails->clinic_city}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Clinic Locality</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->clinic_locality))
@@ -165,7 +157,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Years of Experiance</label></dt>
+                                        <dt class="col-sm-5"><label>Years of Experience</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->total_experiance_year))
                                                 {{$data->userDetails->total_experiance_year}} 
@@ -226,7 +218,7 @@
                                         <dt class="col-sm-5"><label>Normal Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->normal_fees))
-                                                {{$data->userDetails->normal_fees}} 
+                                                {{$currency_symbol.$data->userDetails->normal_fees}} 
                                             @endif 
                                         </dd>
                                     </div>
@@ -234,7 +226,7 @@
                                         <dt class="col-sm-5"><label>Urgent Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->urgent_fees))
-                                                {{$data->userDetails->urgent_fees}} 
+                                                {{$currency_symbol.$data->userDetails->urgent_fees}} 
                                             @endif 
                                         </dd>
                                     </div>
@@ -244,7 +236,7 @@
                                         <dt class="col-sm-5"><label>Hour Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->fees_hour))
-                                                {{$data->userDetails->fees_hour}} 
+                                                {{$currency_symbol.$data->userDetails->fees_hour}} 
                                             @endif 
                                         </dd>
                                     </div>
@@ -252,7 +244,7 @@
                                         <dt class="col-sm-5"><label>Day Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->fees_day))
-                                                {{$data->userDetails->fees_day}} 
+                                                {{$currency_symbol.$data->userDetails->fees_day}} 
                                             @endif 
                                         </dd>
                                     </div>
@@ -261,7 +253,7 @@
                                         <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->home_visit_fees))
-                                                {{$data->userDetails->home_visit_fees}} 
+                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
                                             @endif 
                                         </dd>
                                     </div>

@@ -20,6 +20,7 @@
         <!-- end row -->
         
         <div class="row">
+        @if($provider == 'patients')
             <div class="col-xl-3 col-md-6">
                 <div class="card d-card-part bg-info mini-stat m-b-30">
                     <div class="card-d-title text-white">
@@ -31,13 +32,13 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6><span class="d-block mb-1 d-number-count" id="total_balance"></span></h6>
+                                <h6><span class="d-block mb-1 d-number-count">{{$currency_symbol.$total_balance}}</span></h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @if($provider != 'patients')
+            @else
             <div class="col-xl-3 col-md-6">
                 <div class="card d-card-part bg-primary mini-stat m-b-30">
                     <div class="card-d-title text-white">
@@ -49,7 +50,7 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6><span class="d-block mb-1 d-number-count">{{ isset($payout_approved_balance) ? $currency_symbol.$payout_approved_balance : 0  }}</span></h6>
+                                <h6><span class="d-block mb-1 d-number-count">{{ isset($payout_approved_balance) ? $payout_approved_balance : 0  }}</span></h6>
                             </div>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <h6><span class="d-block mb-1 d-number-count">{{ isset($payout_pending_balance) ? $currency_symbol.$payout_pending_balance : 0  }}</span></h6>
+                                <h6><span class="d-block mb-1 d-number-count">{{ isset($payout_pending_balance) ? $payout_pending_balance : 0  }}</span></h6>
                             </div>
                         </div>
                     </div>
@@ -80,7 +81,7 @@
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">
-                        <div class="col-md-3 block-options-item mb-3 float-right">
+                        <div class="col-md-3 block-options-item mb-3 mr-3 float-right">
                             <div class="form-group">
                                 <label>Date Range</label>
                                 <input type="text" class="form-control" name="date_range" id="transaction-date-range"  />
@@ -94,15 +95,13 @@
                             <table id="user_transaction_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                 <tr>
-                                    <th>HCP Provider Name</th>
-                                    <th>Patient Name</th>                                    
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>HCP Provider</th>
                                     <th>Transaction</th>
                                     <th>Transaction date</th>
                                     <th>Amount</th>
-                                    <th>Payout Amount</th>
-                                    <!-- <th>Ezzycare Fees</th> -->
                                     <th>Status</th>
-                                    <th>Payout Status</th>
                                 </tr>
                                 </thead>
                             </table>

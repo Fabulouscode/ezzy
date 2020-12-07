@@ -213,8 +213,8 @@ class AppointmentController extends BaseApiController
     
         $data = array();
         $update = [
-                    'user_rating'=> isset($request->rating) ? $request->rating : NULL,
-                    'user_review'=> isset($request->comment) ? $request->comment : NULL,
+                    'user_rating'=> $request->rating,
+                    'user_review'=> $request->comment,
                   ];
 
         try{

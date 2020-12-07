@@ -50,23 +50,41 @@ $(function () {
             url: user_url + "/transaction/data",
             type: 'post',
             dataType: "json",
-            async: true,
-            data: data_obj
+            data: {
+                end_date: function () { return $('#end_date').val() },
+                id: function () { return $('#user_id').val() },
+                provider: function () { return $('#provider').val() },
+                start_date: function () { return $('#start_date').val() }
+            }
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
-            { data: 'user_name', name: 'User name' },
+            { data: 'user_name', name: 'HCP Provider' },
+            { data: 'client_name', name: 'Patient name' },
             { data: 'transaction_data', name: 'transaction_data' },
             { data: 'transaction_date', name: 'Transaction date' },
             { data: 'amount', name: 'Amount' },
-            { data: 'created_at', name: 'Created at' },
+            { data: 'payout_amount', name: 'Payout Amount' },
+            // { data: 'fees_charge', name: 'Ezzycare Fees' },
+            { data: 'status', name: 'Status' },
+            { data: 'payout_status', name: 'Payout Status' },
         ],
         order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+            if ($('#provider').val() == 'patients') {
+                api.columns([5]).visible(showColumn);
+                // api.columns([6]).visible(showColumn);
+                api.columns([7]).visible(showColumn);
+            } else {
+                api.columns([6]).visible(showColumn);
+            }
+        },
+        drawCallback: function (settings) {
+            walletBalanceGet();
         }
     });
+
     $('#shop_medicine_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -155,9 +173,46 @@ $(function () {
     //     order: [[0, 'desc']]
     // });
 
+
+    $('#transaction-date-range').daterangepicker({
+        startDate: moment().subtract(30, 'days'),
+        endDate: moment(),
+        maxDate: moment()
+    });
+    $('#transaction-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        var oTable = $('#user_transaction_datatable').dataTable();
+        oTable.fnDraw(false);
+        // $('#user_transaction_datatable').DataTable().ajax.reload();
+    });
 });
 
 
+
+
+function walletBalanceGet() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: user_url + "/wallet_balance",
+        type: "post",
+        dataType: 'json',
+        data: {
+            end_date: $('#end_date').val(),
+            id: $('#user_id').val(),
+            provider: $('#provider').val(),
+            start_date: $('#start_date').val()
+        },
+        success: function (data) {
+            if (data.status) {
+                $('#total_balance').text(data.data);
+            }
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+        }
+    });
+}
 
 function deleteRow(row_id) {
     if (row_id) {

@@ -15,7 +15,7 @@ class CreateUserTransactionsTable extends Migration
     {
         Schema::create('user_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();            
+            $table->bigInteger('user_id')->unsigned()->comment('credit');            
             $table->datetime('transaction_date')->nullable();
             $table->float('amount')->default(0);
             $table->integer('mode_of_payment')->signed()->default(0)->comment('0-debit, 1-credit');

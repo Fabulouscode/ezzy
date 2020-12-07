@@ -47,5 +47,26 @@ class PayoutController extends Controller
         }
     }
 
+    /**
+     * paid payout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function paidPayouts(Request $request)
+    {
+        if(!empty($request->transaction_ids)){
+            foreach ($request->transaction_ids as $key => $value) {
+                $data = ['payout_status' => '0','payout_date' => $this->user_transaction_repo->getCurrentDateTime()];
+                $category = $this->user_transaction_repo->getById($value);
+                if(!empty($category)){
+                    $this->user_transaction_repo->dataCrud($data, $value);
+                } 
+            }
+             return response()->json(['msg'=>'Payout success'], 200);
+        }
+
+          return response()->json(['msg'=>'Data Not success'], 500);
+    }
+
    
 }

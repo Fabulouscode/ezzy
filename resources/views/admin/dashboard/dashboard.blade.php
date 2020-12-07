@@ -190,28 +190,23 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xl-8">
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Revenue</h4>
-
-                    {{-- <ul class="list-inline widget-chart m-t-20 text-center">
-                        <li>
-                            <h4 class=""><b>3652</b></h4>
-                            <p class="text-muted m-b-0">Marketplace</p>
-                        </li>
-                        <li>
-                            <h4 class=""><b>5421</b></h4>
-                            <p class="text-muted m-b-0">Last week</p>
-                        </li>
-                        <li>
-                            <h4 class=""><b>9652</b></h4>
-                            <p class="text-muted m-b-0">Last Month</p>
-                        </li>
-                    </ul> --}}
-
-                    <div id="morris-area-example" style="height: 300px"></div>
+                    <div class="row">
+                        <div class="col-md-4 block-options-item mb-3 mr-3 float-right">
+                            <div class="form-group">
+                                <label>Date Range</label>
+                                <input type="text" class="form-control" name="count_date_range" id="count-chart-date-range"  />
+                                    <input type="hidden" class="form-control" id="count_start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="count_end_date" name="end_date"  />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="morris-count-area-chart" style="height: 300px"></div>
                 </div>
             </div>
         </div>
@@ -219,7 +214,16 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Revenue</h4>
-
+                    <div class="row">
+                        <div class="col-md-8 block-options-item mb-3 mr-3 float-right">
+                            <div class="form-group">
+                                <label>Date Range</label>
+                                <input type="text" class="form-control" name="revenue_date_range" id="revenue-chart-date-range"  />
+                                    <input type="hidden" class="form-control" id="revenue_start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="revenue_end_date" name="end_date"  />
+                            </div>
+                        </div>
+                    </div>
                     <ul class="list-inline widget-chart m-t-20 text-center">
                         <li>
                             <h4 class="">321</h4>
@@ -230,17 +234,28 @@
                             <p class="text-muted m-b-0">Total Payout</p>
                         </li>
                     </ul>
-                    <div id="morris-bar-example" style="height: 195px"></div>
+                    <div id="morris-revenue-bar-chart" style="height: 195px"></div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-xl-5">
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Earning</h4>
+                    <div class="row">
+                        <div class="col-md-6 block-options-item mb-3 mr-3 float-right">
+                            <div class="form-group">
+                                <label>Date Range</label>
+                                <input type="text" class="form-control" name="earning_date_range" id="earning-chart-date-range"  />
+                                    <input type="hidden" class="form-control" id="earning_start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="earning_end_date" name="end_date"  />
+                            </div>
+                        </div>
+                    </div>
                     <div class="">
                         <div class="row align-items-center mb-5">
                             <div class="col-md-6">
@@ -288,26 +303,26 @@
                     <h4 class="mt-0 header-title mb-4">Payout</h4>
 
                     <div class="d-flex justify-content-around mb-3">
-                        <div class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/payout/pending')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['pending_payout']) ? $data['pending_payout'] : '0'}} </h4>
                             <p class="text-white">Pending Payout</p>
-                        </div>
-                        <div class="small-box bg-info text-center px-5 py-4 mx-3">
+                        </a>
+                        <a href="{{url('/payout')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['approved_payout']) ? $data['approved_payout'] : '0'}} </h4>
                             <p class="text-white">Approved Payout</p>
-                        </div>
+                        </a>
                     </div>
 
                     <h4 class="mt-0 header-title mb-4"> Manage Pharmacy </h4>
                     <div class="d-flex justify-content-around">
-                        <div class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/medicine/categories')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_categories']) ? $data['medicine_categories'] : '0'}} </h4>
                             <p class="text-white">Medicine Categories</p>
-                        </div>
-                        <div class="small-box bg-info text-center px-5 py-4 mx-3">
+                        </a>
+                        <a href="{{url('/medicine/subcategories')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_subcategories']) ? $data['medicine_subcategories'] : '0'}} </h4>
                             <p class="text-white">Medicine Subcategories</p>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -319,7 +334,7 @@
             @can('appointments-list')
             <div class="card m-b-30">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Appointments</h4>
+                    <h4 class="mt-0 header-title mb-4">HCP Appointments</h4>
                     <div class="table-responsive">
                         <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -342,7 +357,7 @@
             @can('order-list')
             <div class="card m-b-30">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Orders</h4>
+                    <h4 class="mt-0 header-title mb-4">Pharmacy Orders</h4>
                     <div class="table-responsive">
                         <table id="pharmacy_order_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -350,6 +365,29 @@
                                     <th>Id</th>
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endcan
+            @can('appointments-list')
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <h4 class="mt-0 header-title mb-4">Laboratories Appointments</h4>
+                    <div class="table-responsive">
+                        <table id="laboratories_appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Service Provider Name</th>
+                                    <th>HCP Type</th>
+                                    <th>Appointment Type</th>
+                                    <th>Start Date Time</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -369,8 +407,11 @@
 <script>
     var appointment_url = "{{url('/appointment')}}";
     var pharmacy_order_url = "{{url('/pharmacy/order')}}";
-    var appointment_obj = {'status': '' }
-    var pharmacy_order_obj = {'status': '0' }
+    var dashboard_url = "{{url('/')}}";
+    var appointment_obj = {'status': '' };
+    var pharmacy_order_obj = {'status': '0' };
+    $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
+    $('#end_date').val(moment().format("YYYY-MM-DD"));
 </script>
 <script src="{{ asset('admin/pages/dashboard.js') }}"></script>
 <script src="{{ asset('js/admin/dashboard.js') }}"></script>

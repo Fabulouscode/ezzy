@@ -54,10 +54,12 @@ class OrderController extends BaseApiController
     public function generateInvoice($order_id)
     {
         $medicine_types = $this->shop_medicine_repo->getMedicineTypeValue();
+        $currency_symbol  = $this->order_repo->currency_symbol;
         $delivery_type = $this->order_repo->getDeliveryTypeValue();
         $status = $this->order_repo->getStatusValue();
         $data = $this->order_repo->getbyEditId($order_id); 
-        view()->share(['data' => $data, 'status' => $status, 'delivery_type'=>$delivery_type,'medicine_types'=>$medicine_types]);
+        view()->share(['data' => $data, 'status' => $status,'currency_symbol' => $currency_symbol, 'delivery_type'=>$delivery_type,'medicine_types'=>$medicine_types]);
+        //  return view('invoice.order');
         $pdf = PDF::loadView('invoice.order', [$data, $status, $delivery_type, $medicine_types]);
         $pdf_file = $this->order_repo->uploadPDFFile($pdf->output(), 'pdf/order_invoice'); 
         $file_url = url('storage/'.$pdf_file);
@@ -113,8 +115,8 @@ class OrderController extends BaseApiController
     
         $data = array();
         $update = [
-                    'user_rating'=> isset($request->rating) ? $request->rating : NULL,
-                    'user_review'=> isset($request->comment) ? $request->comment : NULL,
+                    'user_rating'=> $request->rating,
+                    'user_review'=> $request->comment,
                   ];
 
         try{

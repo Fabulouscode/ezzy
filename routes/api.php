@@ -266,6 +266,13 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/{id?}', 'SupportRequestController@getSupportRequestInfo');
         });
   
+        // support request
+        Route::prefix('paystack')->group(function(){                        
+            Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+            Route::post('/payment/post', 'PaymentController@makePaymentRequest');
+            Route::get('/payment/get', 'PaymentController@createCustomer');
+        });
+  
 
 
 

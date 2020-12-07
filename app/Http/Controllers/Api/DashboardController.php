@@ -10,6 +10,7 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\NotificationRepository;
+use App\Repositories\PaystackIntegrationRepository;
 use App\Http\Resources\Api\HeathCareProviderResource;
 use App\Http\Resources\Api\PharmacyResource;
 use App\Http\Resources\Api\LaboratoriesResource;
@@ -17,7 +18,7 @@ use App\Http\Resources\Api\PatientResource;
 
 class DashboardController extends BaseApiController
 {
-    private $user_repo, $order_repo, $category_repo, $appointment_repo, $user_trans_repo, $notification_repo;
+    private $user_repo, $paystack_integration_repo, $order_repo, $category_repo, $appointment_repo, $user_trans_repo, $notification_repo;
 
     public function __construct(
         UserRepository $user_repo,
@@ -25,6 +26,7 @@ class DashboardController extends BaseApiController
         AppointmentRepository $appointment_repo,
         OrderRepository $order_repo,
         UserTransactionRepository $user_trans_repo,
+        PaystackIntegrationRepository $paystack_integration_repo,
         NotificationRepository $notification_repo
         )
     {
@@ -35,6 +37,7 @@ class DashboardController extends BaseApiController
         $this->order_repo = $order_repo;
         $this->user_trans_repo = $user_trans_repo;
         $this->notification_repo = $notification_repo;
+        $this->paystack_integration_repo = $paystack_integration_repo;
     }
     
     public function getDashboardDetails(Request $request)
@@ -88,6 +91,13 @@ class DashboardController extends BaseApiController
         }catch(\Exception $e){
             return self::sendException($e);
         }
+    }
+
+    public function getBankDetails(Request $request)
+    {
+        $data = array();        
+        $data = $this->paystack_integration_repo->resolvedAccount();
+        return self::sendSuccess($data, 'Paystack Bank details');
     }
  
 }

@@ -105,18 +105,19 @@ class UserController extends Controller
     {
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
+        $currency_symbol = $this->user_repo->currency_symbol;
         // dd($data);
         
         // $provider_names = $this->user_repo->provider_name;
         // return view('admin.provider.view', compact('data','categories','days','appointment_types','provider','provider_names'));
         if($provider == 'healthcare'){
-             return view('admin.healthcare.view',compact('data','categories'));
+             return view('admin.healthcare.view',compact('data','categories','currency_symbol'));
         }else if($provider == 'pharmacy'){
-             return view('admin.pharmacy.view',compact('data','categories'));
+             return view('admin.pharmacy.view',compact('data','categories','currency_symbol'));
         }else if($provider == 'laboratories'){
-             return view('admin.laboratories.view',compact('data','categories'));
+             return view('admin.laboratories.view',compact('data','categories','currency_symbol'));
         }else{            
-            return view('admin.patients.view',compact('data','categories'));
+            return view('admin.patients.view',compact('data','categories','currency_symbol'));
         }
 
     }
@@ -124,16 +125,14 @@ class UserController extends Controller
 
     public function showTransaction($provider = '', $id)
     {
-        $debit_balance = '0';
-        $credit_balance = '0';
-        if(!empty($provider)){            
-            $total_balance = $this->user_trans_repo->getHCPTYPEWalletBalance($provider, $id);
-        }else{
-            $total_balance = $this->user_trans_repo->getUserbyWalletBalance($id);
-        }
+        $total_balance = '0';
+        $payout_approved_balance = '0';
+        $payout_pending_balance = '0';
+        $payout_approved_balance = $this->user_trans_repo->getPayoutCalculte($id, '0');
+        $payout_pending_balance = $this->user_trans_repo->getPayoutCalculte($id, '1');
         $currency_symbol = $this->user_repo->currency_symbol;
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','debit_balance','credit_balance','total_balance'));
+        return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','payout_pending_balance','payout_approved_balance','total_balance'));
     }
     
     public function getTransactionDatatable(Request $request)
@@ -141,6 +140,18 @@ class UserController extends Controller
         if($request->all()){
             return $this->user_trans_repo->getDatatablebyUserId($request);
         }
+    }
+    
+    public function getWalletBalance(Request $request)
+    {
+        try{
+            $balance= $this->user_trans_repo->getHCPTYPEWalletBalanceDateRange($request);
+            $currency_symbol = $this->user_repo->currency_symbol;
+            $wallet_balance = $currency_symbol.$balance;
+            return response()->json(['status'=> true, 'data'=>$wallet_balance], 200);
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not get wallet balance'], 500);
+        }  
     }
 
     public function showMedicineDetails($id ='', Request $request)

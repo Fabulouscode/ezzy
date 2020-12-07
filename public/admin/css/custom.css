@@ -211,7 +211,12 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 .card-detail-list{
     padding: 15px;
 }
-
+.daterangepicker .ranges {
+    display: contents;
+}
+.daterangepicker .ranges .range_inputs {
+    margin: 10px;
+}
 /* scrollbar */
 /* ::-webkit-scrollbar {
   width: 5px;

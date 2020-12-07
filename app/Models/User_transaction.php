@@ -8,12 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class User_transaction extends Model
 {
     use HasFactory;
+    
     public $status_value = array(
         '0' => 'Success',
         '1' => 'Unsuccess',
         '2' => 'Pending',
     );
-
+    
+    public $payout_status_value = array(
+        '0' => 'Paid',
+        '1' => 'Pending',
+        '2' => 'Cancel',
+    );
         
     public $transaction_type_value = array(
         '0' => 'Wallet',
@@ -35,12 +41,21 @@ class User_transaction extends Model
         'transaction_type',
         'status',        
         'payment_gateway_response',
+        'client_id',
+        'payout_status',
+        'payout_amount',
+        'fees_charge',
+        'payout_date'
     ];
 
-    protected $appends = ['status_name','transaction_type_name'];
+    protected $appends = ['status_name','payout_status_name','transaction_type_name'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
+
+    public function getPayoutStatusNameAttribute() {
+        return array_key_exists($this->payout_status, $this->payout_status_value) ? $this->payout_status_value[$this->payout_status]: '';
     }
   
     public function getTransactionTypeNameAttribute() {
@@ -49,6 +64,10 @@ class User_transaction extends Model
 
     public function users() {
         return $this->belongsTo('App\Models\User', 'user_id','id');
+    }
+   
+    public function client() {
+        return $this->belongsTo('App\Models\User', 'client_id','id');
     }
 
     public function transactionAppointment() {

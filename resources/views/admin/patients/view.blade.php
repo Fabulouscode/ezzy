@@ -62,7 +62,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->mobile_no))
                                                 {{$data->mobile_no}} 
@@ -80,7 +80,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Wallet Balance</label></dt>
                                         <dd class="col-sm-7"> 
-                                            {{$data->wallet_balance}} 
+                                            {{$currency_symbol.$data->wallet_balance}} 
                                         </dd>
                                     </div>
                                 </div>

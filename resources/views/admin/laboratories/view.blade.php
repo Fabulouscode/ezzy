@@ -70,7 +70,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Mobil No.</label></dt>
+                                        <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->mobile_no))
                                                 {{$data->mobile_no}} 
@@ -88,7 +88,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Wallet Balance</label></dt>
                                         <dd class="col-sm-7"> 
-                                            {{$data->wallet_balance}} 
+                                            {{$currency_symbol.$data->wallet_balance}} 
                                         </dd>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Years of Experiance</label></dt>
+                                        <dt class="col-sm-5"><label>Years of Experience</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->total_experiance_year))
                                                 {{$data->userDetails->total_experiance_year}} 
@@ -209,7 +209,7 @@
                                         <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->home_visit_fees))
-                                                {{$data->userDetails->home_visit_fees}} 
+                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
                                             @endif 
                                         </dd>
                                     </div>
