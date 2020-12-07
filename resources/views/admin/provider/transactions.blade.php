@@ -80,7 +80,7 @@
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">
-                        <div class="col-md-3 block-options-item mb-3 float-right">
+                        <div class="col-md-3 block-options-item mb-3 float-left">
                             <div class="form-group">
                                 <label>Date Range</label>
                                 <input type="text" class="form-control" name="date_range" id="transaction-date-range"  />
