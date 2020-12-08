@@ -79,6 +79,9 @@ function addRow() {
                         $('#permission_category_id').append(new Option(element.name, element.id));
                     });
                 }
+                setTimeout(function () {
+                    $('#permission_title').focus();
+                }, 1000);
                 $('#addPermission').modal();
             }
             else {
@@ -115,6 +118,9 @@ function editRow(id) {
                     $('#permission_title').val(response.data.permission_title);
                     $('#permission_name').val(response.data.permission_name);
                 }
+                setTimeout(function () {
+                    $('#permission_title').focus();
+                }, 1000);
                 $('#addPermission').modal();
             }
             else {

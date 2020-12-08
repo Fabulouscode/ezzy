@@ -107,6 +107,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // manage fees routes 
         Route::resource('manage_fees', 'ManageFeesController')->middleware('role-permission-resource:fees-list,fees-add,fees-edit,fees-delete');
  
+        // medical category  routes  
+        Route::resource('medical_category', 'MedicalCategoryController')->middleware('role-permission-resource:medical_category-list,medical_category-add,medical_category-edit,medical_category-delete');
+       
+        // medical item  routes 
+        Route::resource('medical_item', 'MedicalItemController')->middleware('role-permission-resource:medical_item-list,medical_item-add,medical_item-edit,medical_item-delete');
+ 
         // permission category routes 
         Route::resource('permission_category', 'PermissionCategoryController')->middleware('role-permission-resource:permission_category-list,permission_category-add,permission_category-edit,permission_category-delete');
  

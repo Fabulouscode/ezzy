@@ -76,6 +76,9 @@ function addRow() {
                         $('#category_id').append(new Option(element.name, element.id));
                     });
                 }
+                setTimeout(function () {
+                    $('#fees_percentage').focus();
+                }, 1000);
                 $('#addManageFees').modal();
             }
             else {
@@ -111,6 +114,9 @@ function editRow(id) {
                     $('#category_id').val(response.data.category_id);
                     $('#fees_percentage').val(response.data.fees_percentage);
                 }
+                setTimeout(function () {
+                    $('#fees_percentage').focus();
+                }, 1000);
                 $('#addManageFees').modal();
             }
             else {

@@ -71,6 +71,9 @@ function addRow() {
                         $('#medicine_category_status').append(new Option(element, key));
                     });
                 }
+                setTimeout(function () {
+                    $('#medicine_category_name').focus();
+                }, 1000);
                 $('#addMedicineCategory').modal();
             }
             else {
@@ -106,6 +109,9 @@ function editRow(id) {
                     $('#medicine_category_name').val(response.data.name);
                     $('#medicine_category_status').val(response.data.status);
                 }
+                setTimeout(function () {
+                    $('#medicine_category_name').focus();
+                }, 1000);
                 $('#addMedicineCategory').modal();
             }
             else {

@@ -153,6 +153,12 @@
                         @can('voucher_code-list')
                         <li><a href="{{url('/voucher_code')}}">Voucher Code</a></li>
                         @endcan
+                        @can('medical_category-list')
+                        <li><a href="{{url('/medical_category')}}">Medical Category</a></li>
+                        @endcan
+                        @can('medical_item-list')
+                        <li><a href="{{url('/medical_item')}}">Medical Item</a></li>
+                        @endcan
                     </ul>
                 </li>
                 @endif

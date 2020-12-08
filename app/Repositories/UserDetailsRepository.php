@@ -26,6 +26,7 @@ class UserDetailsRepository extends Repository
         '4' => 'regstration_certificate',
         '5' => 'pharmacist_certificate',
         '6' => 'support_request',
+        '7' => 'client_lab_report',
     );
 
     public function __construct()
@@ -51,10 +52,15 @@ class UserDetailsRepository extends Repository
      */
     public function dataCrud($request, $id = '')
     {   $data = array();
+        $json_enode_key = ['allergies','current_medications','past_medications'.'chronic_disease','injuries','surgeries'];
         if(!empty($request)){
             $filter = $request->all();
             foreach ($filter as $key => $value) {
-                $data[$key] = $value;
+                if(in_array($key, $json_enode_key)){
+                    $data[$key] = json_encode($value);
+                }else{
+                    $data[$key] = $value;
+                }
             }
         }
         $user_details = $this->getbyColumnWithFirstValue('user_id', $request->user()->id);

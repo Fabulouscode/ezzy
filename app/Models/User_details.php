@@ -59,6 +59,12 @@ class User_details extends Model
         'same_timing',
         'fees_hour',
         'fees_day',
+        'activity_level',
+        'current_medications',
+        'past_medications',
+        'chronic_disease',
+        'injuries',
+        'surgeries'
     ];
 
 
@@ -77,4 +83,24 @@ class User_details extends Model
     public function getPharmacistCertificateAttribute($value) {
         return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
     }
+
+    public function getAllergiesAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+    public function getCurrentMedicationsAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+    public function getPastMedicationsAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+    public function getChronicDiseaseAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+    public function getInjuriesAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+    public function getSurgeriesAttribute($value) {
+      return !empty($value) ?  json_decode($value) : '';
+    }
+
 }

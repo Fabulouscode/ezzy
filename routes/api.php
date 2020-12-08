@@ -143,6 +143,21 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/get/{id?}', 'VoucherCodeController@getByIdVoucherCodeDetails');
             }); 
 
+             // lab report
+            Route::prefix('lab_report')->group(function(){
+                Route::post('', 'MedicalController@getLabReportDetails');
+                Route::post('/add', 'MedicalController@addLabReportDetails');
+                Route::post('/update', 'MedicalController@updateLabReportDetails');
+                Route::get('/get/{id?}', 'MedicalController@getByIdLabReportDetails');
+                Route::delete('/delete/{id?}', 'MedicalController@deleteLabReportDetails');
+            });
+        
+            // medical details
+            Route::prefix('medical_detail')->group(function(){
+                Route::get('/list', 'MedicalController@getMedicalCategory');
+                Route::get('/get/{id?}', 'MedicalController@getMedicalItemUsingCatID');
+            });
+            
 
         });
         

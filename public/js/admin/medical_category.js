@@ -1,42 +1,39 @@
 
 $(function () {
-    $("form[name='permission_category_form']").parsley();
-    $('#permission_category_datatable').DataTable({
+    $("form[name='medical_category_form']").parsley();
+    $('#medical_category_datatable').DataTable({
         lengthChange: true,
         processing: true,
         serverSide: true,
         bPaginate: true,
         // responsive: true,
         ajax: {
-            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: permission_category_url,
+            url: medical_category_url,
             type: 'get',
             dataType: "json",
             async: true,
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
-            { data: 'name', name: 'name' },
+            { data: 'medical_category_name', name: 'medical_category_name' },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
-        initComplete: function (settings) {
-            var api = new $.fn.dataTable.Api(settings);
-            var showColumn = false;
-        }
     });
 
-    $(document).on('submit', '#permission_category_form', function (event) {
+    $(document).on('submit', '#medical_category_form', function (event) {
         $.ajax({
             type: 'post',
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: permission_category_url,
-            data: $('#permission_category_form').serialize(),
+            url: medical_category_url,
+            data: $('#medical_category_form').serialize(),
             success: function (response) {
-                $('#permission_category_id').val('');
-                $('#name').val('');
-                $('#addPermissionCategory').modal('hide');
-                var oTable = $('#permission_category_datatable').dataTable();
+                $('#medical_category_id').val('');
+                $('#medical_category_name').val('');
+                $('#medical_category_status').val('');
+                $('#addMedicalCategory').modal('hide');
+                var oTable = $('#medical_category_datatable').dataTable();
                 oTable.fnDraw(false);
                 toastr.success(response.msg, 'EzzyCare App');
                 return false;
@@ -51,26 +48,33 @@ $(function () {
         });
         return false;
     });
-});
 
+});
 
 function addRow() {
     $.ajax({
         type: 'get',
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        url: permission_category_url + '/create',
+        url: medical_category_url + '/create',
         success: function (response) {
             if (response.status) {
-                $("form[name='permission_category_form']").parsley().destroy();
-                $("form[name='permission_category_form']").parsley();
-                $('.modal-title').text('Add Permission Category Details');
+                $("form[name='medical_category_form']").parsley().destroy();
+                $("form[name='medical_category_form']").parsley();
+                $('.modal-title').text('Add Medical Category Details');
                 $('#submit_btn').text('Add');
-                $('#permission_category_id').val('');
-                $('#name').val('');
+                $('#medical_category_id').val('');
+                $('#medical_category_name').val('');
+                $('#medical_category_status').val('');
+                if (response.medical_status) {
+                    $("#medical_category_status option").remove();
+                    response.medical_status.forEach((element, key) => {
+                        $('#medical_category_status').append(new Option(element, key));
+                    });
+                }
                 setTimeout(function () {
-                    $('#name').focus();
+                    $('#medical_category_name').focus();
                 }, 1000);
-                $('#addPermissionCategory').modal();
+                $('#addMedicalCategory').modal();
             }
             else {
                 toastr.error(error.responseJSON.msg, 'EzzyCare App');
@@ -81,28 +85,34 @@ function addRow() {
             return false;
         },
     });
-
 }
 
 function editRow(id) {
     $.ajax({
         type: 'get',
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        url: permission_category_url + '/' + id + '/edit',
+        url: medical_category_url + '/' + id + '/edit',
         success: function (response) {
             if (response.status) {
-                $("form[name='permission_category_form']").parsley().destroy();
-                $("form[name='permission_category_form']").parsley();
-                $('.modal-title').text('Edit Permission Category Details');
+                $("form[name='medical_category_form']").parsley().destroy();
+                $("form[name='medical_category_form']").parsley();
+                $('.modal-title').text('Edit Medical Category Details');
                 $('#submit_btn').text('Update');
+                if (response.medicine_status) {
+                    $("#medicine_category_status option").remove();
+                    response.medicine_status.forEach((element, key) => {
+                        $('#medical_category_status').append(new Option(element, key));
+                    });
+                }
                 if (response.data) {
-                    $('#permission_category_id').val(response.data.id);
-                    $('#name').val(response.data.name);
+                    $('#medical_category_id').val(response.data.id);
+                    $('#medical_category_name').val(response.data.medical_category_name);
+                    $('#medical_category_status').val(response.data.status);
                 }
                 setTimeout(function () {
-                    $('#name').focus();
+                    $('#medical_category_name').focus();
                 }, 1000);
-                $('#addPermissionCategory').modal();
+                $('#addMedicalCategory').modal();
             }
             else {
                 toastr.error(error.responseJSON.msg, 'EzzyCare App');
@@ -129,7 +139,7 @@ function deleteRow(row_id) {
             if (row_id) {
                 $.ajax({
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                    url: permission_category_url + "/" + row_id,
+                    url: medical_category_url + "/" + row_id,
                     type: "delete",
                     dataType: 'json',
                     success: function (data) {
@@ -138,9 +148,9 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        var oTable = $('#permission_category_datatable').dataTable();
-                        oTable.fnDraw(false);
                         toastr.success(data.msg, 'EzzyCare App');
+                        var oTable = $('#medical_category_datatable').dataTable();
+                        oTable.fnDraw(false);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, 'EzzyCare App');
@@ -149,5 +159,4 @@ function deleteRow(row_id) {
             }
         });
     }
-}
-
+}    
