@@ -64,6 +64,9 @@ $(function () {
                 api.columns([4]).visible(showColumn);
                 api.columns([5]).visible(showColumn);
             }
+            if (data_obj.status == '1') {
+                api.columns([5]).visible(showColumn);
+            }
         },
         drawCallback: function (settings) {
             $('.rating').each(function () {
