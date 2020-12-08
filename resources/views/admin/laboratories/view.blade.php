@@ -318,7 +318,7 @@
                                                     <th>College Name</th>
                                                     <th>Degree Name</th>
                                                     <th>Start Year</th>
-                                                    <th>End Time</th>
+                                                    <th>End Year</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
