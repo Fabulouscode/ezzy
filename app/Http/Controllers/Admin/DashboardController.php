@@ -124,8 +124,8 @@ class DashboardController extends Controller
             $data['medicine_categories'] = $this->medicine_category_repo->getCount(); 
             $data['medicine_subcategories'] = $this->medicine_subcategory_repo->getCount(); 
             
-            $data['pending_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 
-            $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('1'); 
+            $data['pending_payout'] = $this->user_transaction_repo->getPayoutCount('1'); 
+            $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 
 
             return view('admin.dashboard.dashboard', compact('data'));
         }
