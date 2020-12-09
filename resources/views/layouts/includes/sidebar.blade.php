@@ -86,9 +86,9 @@
                         @can('laboratories-list')
                         <li><a href="{{url('/laboratories/user')}}">Laboratories List</a></li>
                         @endcan
-                        @can('laboratories-list')
+                        <!-- @can('laboratories-list')
                         <li><a href="javascript:void(0);">Manage Lab Reports</a></li>
-                        @endcan
+                        @endcan -->
                     </ul>
                 </li>
                 @endif

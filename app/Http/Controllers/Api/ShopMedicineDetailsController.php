@@ -106,8 +106,7 @@ class ShopMedicineDetailsController extends BaseApiController
                         "shirap_ml" => $request->shirap_ml,
                         "mrp_price" => $request->mrp_price,
                         "offer_price" => $request->offer_price,
-                        "medicine_type" => $request->medicine_type,
-                        "status" => $request->status,
+                        "medicine_type" => $request->medicine_type
                     ];
             
         try{
