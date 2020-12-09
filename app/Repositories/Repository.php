@@ -42,7 +42,7 @@ class Repository
      */
     public function getAll()
     {
-        return $this->model->all();
+        return $this->model->all()->sortByDesc('id');
     }
    
     /**
@@ -88,7 +88,7 @@ class Repository
      */
     public function destroyMultiple($ids)
     {
-        return $this->whereIn('id',explode(",",$ids))->delete();    
+        return $this->model->whereIn('id',$ids)->update(['status'=>'1']);    
     }
     /**
      * Softdelete the model from the deleted_at date.
