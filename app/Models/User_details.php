@@ -85,22 +85,28 @@ class User_details extends Model
     }
 
     public function getAllergiesAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
     public function getCurrentMedicationsAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
     public function getPastMedicationsAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
     public function getChronicDiseaseAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
     public function getInjuriesAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
     public function getSurgeriesAttribute($value) {
-      return !empty($value) ?  json_decode($value) : '';
+      // return !empty($value) ?  json_decode($value) : '';
+      return $value;
     }
 
 }
