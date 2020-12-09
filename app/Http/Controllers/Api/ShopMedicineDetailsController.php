@@ -9,7 +9,8 @@ use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserReviewRepository;
-use App\Http\Requests\Api\ShopMedicalDetailsRequest;
+use App\Http\Requests\Api\ShopProductAddRequest;
+use App\Http\Requests\Api\ShopProductDeleteRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -85,14 +86,17 @@ class ShopMedicineDetailsController extends BaseApiController
         return self::sendSuccess($data);
     }
  
-    public function addShopProduct(ShopMedicalDetailsRequest $request)
+    public function addShopProduct(ShopProductAddRequest $request)
     {
         $data = array();
-        $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id]];
-        $shop_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
-        if(!empty($shop_product)){
-             return self::sendError([],'Product already registerd please Check');
+        if(empty($request->id)){
+            $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id]];
+            $shop_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
+            if(!empty($shop_product)){
+                return self::sendError([],'Product already registerd please Check');
+            }
         }
+
         $insert_data = [
                         "user_id" => $request->user()->id,
                         "medicine_category_id" => $request->medicine_category_id,
@@ -108,7 +112,11 @@ class ShopMedicineDetailsController extends BaseApiController
             
         try{
             DB::beginTransaction();
-            $data = $this->shop_medicine_repo->dataCrud($insert_data);
+            if(!empty($request->id)){
+                $data = $this->shop_medicine_repo->dataCrud($insert_data, $request->id);
+            }else{
+                $data = $this->shop_medicine_repo->dataCrud($insert_data);
+            }
             DB::commit();
             return self::sendSuccess($data);
         }catch(\Exception $e){
@@ -122,6 +130,31 @@ class ShopMedicineDetailsController extends BaseApiController
     {
         $data = array();            
         $data = $this->shop_medicine_repo->getShopMedicineProducts($request);
+        return self::sendSuccess($data);
+    }
+  
+    public function deleteShopProduct(ShopProductDeleteRequest $request)
+    {
+        $data = array();         
+        if(!empty($request->ids)){
+            try{
+                DB::beginTransaction();
+                $data = $this->shop_medicine_repo->destroyMultiple($request->ids);
+                DB::commit();
+                return self::sendSuccess($data);
+            }catch(\Exception $e){
+                DB::rollBack();
+                return self::sendException($e);
+            }
+        }
+        return self::sendError('','Shop Product Not Select');
+    }
+
+
+    public function getMedicineDetailsWithSearch(Request $request)
+    {
+        $data = array();         
+        $data = $this->medicine_details_repo->getMedicineDetailsWithSearch($request);
         return self::sendSuccess($data);
     }
 

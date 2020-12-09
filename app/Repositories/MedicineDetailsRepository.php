@@ -113,4 +113,30 @@ class MedicineDetailsRepository extends Repository
                 ->rawColumns(['action','medicine_subcategory','status'])
                 ->make(true);
     }
+
+    /**
+     * Display a list of Completed Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMedicineDetailsWithSearch($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
+        
+        if(!empty($request->search)){
+            $query = $query->where('medicine_name', 'like', $request->search.'%');
+        }
+        
+        $query = $query->where('status', '0')->orderBy('medicine_name','asc')->get();
+
+        return $query;
+    }
+
+    
 }

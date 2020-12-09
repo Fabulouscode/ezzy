@@ -80,7 +80,18 @@ class Repository
     }
 
     /**
-     * Delete the model from the database.
+     * Softdelete the model from the deleted_at date.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    public function destroyMultiple($ids)
+    {
+        return $this->whereIn('id',explode(",",$ids))->delete();    
+    }
+    /**
+     * Softdelete the model from the deleted_at date.
      *
      * @param int $id
      *

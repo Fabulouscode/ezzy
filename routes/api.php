@@ -197,13 +197,16 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
             Route::get('/product/get/{sub_id?}', 'ShopMedicineDetailsController@getMedicineDetails'); 
+            Route::post('/product/get', 'ShopMedicineDetailsController@getMedicineDetailsWithSearch'); 
 
 
             // shop request
             Route::prefix('shop')->group(function(){  
                 Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
+                Route::post('/product/edit', 'ShopMedicineDetailsController@addShopProduct');
                 Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
                 Route::get('/product/{id?}', 'ShopMedicineDetailsController@getShopProductInfo');    
+                Route::post('/product/delete', 'ShopMedicineDetailsController@deleteShopProduct');    
             });
 
              // cart request

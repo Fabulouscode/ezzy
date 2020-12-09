@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ShopMedicalDetailsRequest extends FormRequest
+class ShopProductDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +26,8 @@ class ShopMedicalDetailsRequest extends FormRequest
     public function rules()
     {
         return [
-                "medicine_category_id" => 'required',
-                "medicine_subcategoy_id" => 'required',
-                "medicine_detail_id" => 'required',
-                "mrp_price" => 'required',
-                "offer_price" => 'required',
-                "medicine_type" => 'required',
-                "status" => 'required',
-            ];
+             "ids" => 'required|array|min:1',
+        ];
     }
 
     protected function failedValidation(Validator $validator) {
