@@ -32,7 +32,7 @@
                         <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                   <!-- <th>Id</th> -->
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>HCP Type</th>

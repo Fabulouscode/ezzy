@@ -70,10 +70,15 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::post('user/wallet_balance', 'UserController@getWalletBalance');        
         Route::post('user/medicine/data', 'UserController@showMedicineDetails');
         Route::post('user/services/data', 'UserController@showHCPService');
+ 
+        Route::get('customer/patient', 'UserController@index')->middleware('role-permission:patients-list');
+        Route::get('customer/patient/{id?}', 'UserController@showPatient')->middleware('role-permission:patients-list');
+        Route::get('customer/patient/account/payment/{id?}', 'UserController@showPatientTransaction')->middleware('role-permission:patients-list');
+        
         Route::get('{provider?}/user', 'UserController@index')->middleware('role-permission:{provider}-list');
         Route::get('{provider?}/user/pending', 'UserController@getPending')->middleware('role-permission:{provider}-list');
         Route::get('{provider?}/user/{id?}', 'UserController@show')->middleware('role-permission:{provider}-list');
-        Route::get('{provider?}/user/transaction/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
+        Route::get('{provider?}/user/account/payment/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
         Route::get('{provider?}/user/services/{id?}', 'UserController@showHCPService')->middleware('role-permission:{provider}-services');        
         Route::get('pharmacy/user/medicine/{id?}', 'UserController@showMedicineDetails')->middleware('role-permission:pharmacy-services');
         Route::resource('user', 'UserController');
@@ -93,10 +98,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
      
         // payout routes         
-        Route::get('payout/pending', 'PayoutController@getPendingPayout');
-        Route::post('payout/data', 'PayoutController@getPayouts');
-        Route::post('payout/paid', 'PayoutController@paidPayouts');
-        Route::resource('payout', 'PayoutController');
+        Route::get('payout/pending', 'PayoutAmountController@getPendingPayout');
+        Route::post('payout/data', 'PayoutAmountController@getPayouts');
+        Route::post('payout/paid', 'PayoutAmountController@paidPayouts');
+        Route::get('payout/export', 'PayoutAmountController@getPayoutExport');
+        Route::post('payout/transaction', 'PayoutAmountController@savePayoutTransaction');
+        Route::resource('payout', 'PayoutAmountController');
      
         // static pages routes 
         Route::resource('voucher_code', 'VoucherCodeController')->middleware('role-permission-resource:voucher_code-list,voucher_code-add,voucher_code-edit,voucher_code-delete');

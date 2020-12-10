@@ -31,7 +31,7 @@
                         <table id="permission_category_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Permission Category Name</th>
                                     <th>Action</th>
                                 </tr>

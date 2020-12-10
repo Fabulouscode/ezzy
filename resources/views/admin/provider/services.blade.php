@@ -31,7 +31,7 @@
                         <table id="service_laboratories_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Service Name</th>
                                     <th>Service Amount</th>
                                     <th>Service Type</th>

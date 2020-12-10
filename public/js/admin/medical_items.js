@@ -14,13 +14,13 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'medical_item_name', name: 'Medical Name' },
             { data: 'medical_category', name: 'Medical Category' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
     });
 
     $(document).on('submit', '#medical_item_form', function (event) {

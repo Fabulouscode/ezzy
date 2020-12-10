@@ -14,12 +14,12 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'categoryParent', name: 'categoryParent' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
     });
 
 });

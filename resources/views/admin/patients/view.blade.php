@@ -10,7 +10,7 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/patients/user')}}">Patients</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/customer/patient')}}">Patients</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>

@@ -40,7 +40,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($provider = '')
+    public function index($provider = 'patients')
     {   
         $provider_names = $this->user_repo->provider_name;
         return view('admin.provider.index', compact('provider','provider_names'));
@@ -101,6 +101,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function showPatient($id)
+    {
+        $categories = $this->category_repo->get();
+        $data = $this->user_repo->getbyIdedit($id);
+        $currency_symbol = $this->user_repo->currency_symbol;         
+        return view('admin.patients.view',compact('data','categories','currency_symbol'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($provider = '', $id)
     {
         $categories = $this->category_repo->get();
@@ -135,6 +149,19 @@ class UserController extends Controller
         return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','payout_pending_balance','payout_approved_balance','total_balance'));
     }
     
+    public function showPatientTransaction($id)
+    {
+        $provider = 'patients';
+        $total_balance = '0';
+        $payout_approved_balance = '0';
+        $payout_pending_balance = '0';
+        $payout_approved_balance = $this->user_trans_repo->getPayoutCalculte($id, '0');
+        $payout_pending_balance = $this->user_trans_repo->getPayoutCalculte($id, '1');
+        $currency_symbol = $this->user_repo->currency_symbol;
+        $provider_names = $this->user_repo->provider_name;
+        return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','payout_pending_balance','payout_approved_balance','total_balance'));
+    }
+
     public function getTransactionDatatable(Request $request)
     {
         if($request->all()){

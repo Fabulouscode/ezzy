@@ -55,8 +55,9 @@ class PaymentController extends BaseApiController
      */
     public function makePaymentRequest(Request $request)
     {
+        $data = $request->all();
         try{       
-            return $this->paystack_integration_repo->makePaymentRequest($request);
+            return $this->paystack_integration_repo->makePaymentRequest($data);
         }catch(\Exception $e) {
             return self::sendException($e);
         }        

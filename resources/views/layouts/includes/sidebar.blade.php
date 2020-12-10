@@ -29,7 +29,7 @@
                 @endcan
                 @can('patients-list')
                 <li>
-                    <a href="{{url('/patients/user')}}" class="waves-effect">
+                    <a href="{{url('/customer/patient')}}" class="waves-effect">
                         <i class="dripicons-document"></i>
                         <span> Patient List </span>
                     </a>

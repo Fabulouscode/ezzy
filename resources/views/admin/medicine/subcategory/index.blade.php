@@ -33,7 +33,7 @@
                         <table id="medicine_subcategory_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Subcategory Name</th>
                                     <th>Category Name</th>
                                     <th>Status</th>

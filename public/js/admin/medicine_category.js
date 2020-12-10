@@ -14,12 +14,12 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
     });
 
     $(document).on('submit', '#medicine_category_form', function (event) {

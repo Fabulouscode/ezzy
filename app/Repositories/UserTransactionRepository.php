@@ -190,9 +190,28 @@ class UserTransactionRepository extends Repository
     }
  
  
+    public function getPayoutsExport($status = '0')
+    {
+        $query = $this->model->with(['users'])->select()
+        ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
+        ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
+        ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
+      
+        if(isset($status)){
+            $query = $query->where('payout_status',$status);
+        }
+        
+        $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
+
+        return $query;
+    }
+
     public function getPayoutsWithRelationship($request)
     {
-        $query = $this->model->with(['users'])->select()->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'));
+        $query = $this->model->with(['users'])->select()
+        ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
+        ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
+        ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
       
         if(isset($request->payout_status)){
             $query = $query->where('payout_status',$request->payout_status);
@@ -221,20 +240,27 @@ class UserTransactionRepository extends Repository
                 }  
                 return $data; 
             })
+            ->addColumn('bank_details', function($selected) {   
+                 $data = '';
+                if(!empty($selected->users->userPrimaryBankAccount)){
+                    $data .='<div><strong>Bank Name: </strong>'. $selected->users->userPrimaryBankAccount->bank_name.'</div>';
+                    $data .='<div><strong>Account Name: </strong>'. $selected->users->userPrimaryBankAccount->name.'</div>';
+                    $data .='<div><strong>Account No.: </strong>'. $selected->users->userPrimaryBankAccount->account_number.'</div>';
+                    $data .='<div><strong>IFSC Code: </strong>'. $selected->users->userPrimaryBankAccount->ifsc_code.'</div>';
+                }      
+                return $data; 
+            })
             ->editColumn('user_name', function($selected) { 
                 return $selected->users ? $selected->users->user_name : '-';      
             })
-            ->editColumn('created_at', function($selected) {
-                return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
-            })
-            ->editColumn('transaction_date', function($selected) {
-                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
-            })
-            ->editColumn('payout_date', function($selected) {
-                return $selected->payout_date ? $this->getDateTimeFormate($selected->payout_date) : '-';
-            })
             ->editColumn('payout_amount', function($selected) {
                 return $this->currency_symbol.$selected->payout_total ;
+            })
+            ->editColumn('amount', function($selected) {
+                return $this->currency_symbol.$selected->amount ;
+            })
+            ->editColumn('fees_charge', function($selected) {
+                return $this->currency_symbol.$selected->fees_charge ;
             })
             ->editColumn('payout_status', function($selected) {
                  if($selected->payout_status == '0'){
@@ -247,11 +273,11 @@ class UserTransactionRepository extends Repository
             { 
                 $data = '';
                 // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows" onclick=""><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow('.$selected->users->id.')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                 // }
                 return $data;
             })
-            ->rawColumns(['checkbox','service_provider', 'payout_amount','payout_status','action'])
+            ->rawColumns(['checkbox','service_provider','bank_details','amount','fees_charge','payout_amount','payout_status','action'])
             ->make(true);
     }
 

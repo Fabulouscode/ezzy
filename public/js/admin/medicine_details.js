@@ -14,14 +14,14 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'medicine_name', name: 'medicine_name' },
             { data: 'medicine_sku', name: 'medicine_sku' },
             { data: 'medicine_subcategory', name: 'medicine_subcategory' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
     });
 
     if ($('#medicine_category_id').val()) {

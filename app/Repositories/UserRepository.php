@@ -182,11 +182,19 @@ class UserRepository extends Repository
                     // View
                     if(!empty($request->provider)){
                         if (Auth::user()->hasPermissionTo($request->provider.'-list')) {
-                            $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                            if (!empty($request->provider) && $request->provider == 'patients') {
+                                $data .= '<a href="'.url('customer/patient/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                            }else{
+                                $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                            }
                         }
                         
                         if (Auth::user()->hasPermissionTo($request->provider.'-transaction')) {
-                            $data .=  '<a href="'.url($request->provider.'/user/transaction/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                            if (!empty($request->provider) && $request->provider == 'patients') {
+                                $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                            }else{
+                                $data .=  '<a href="'.url($request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                            }
                         }
 
                         if (Auth::user()->hasPermissionTo($request->provider.'-services')) {

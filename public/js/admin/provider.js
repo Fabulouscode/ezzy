@@ -20,7 +20,7 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'email', name: 'email' },
             { data: 'mobile_no', name: 'mobile_no' },
@@ -52,7 +52,7 @@ $(function () {
             // { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
         createdRow: function (row, data, dataIndex) {
             var ratingInput = $(row).find('.rating');
             $(ratingInput).rating();
@@ -61,11 +61,11 @@ $(function () {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             if (data_obj.category_id == '') {
+                api.columns([3]).visible(showColumn);
                 api.columns([4]).visible(showColumn);
-                api.columns([5]).visible(showColumn);
             }
             if (data_obj.status == '1') {
-                api.columns([5]).visible(showColumn);
+                api.columns([4]).visible(showColumn);
             }
         },
         drawCallback: function (settings) {
@@ -106,7 +106,7 @@ $(function () {
             { data: 'status', name: 'Status' },
             { data: 'payout_status', name: 'Payout Status' },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
@@ -138,7 +138,7 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'medicine_detail', name: 'medicine_detail' },
             { data: 'medicine_sku', name: 'medicine_sku' },
             { data: 'capsual_quantity', name: 'capsual_quantity' },
@@ -146,7 +146,7 @@ $(function () {
             { data: 'medicine_type', name: 'medicine_type' },
             { data: 'status', name: 'status' },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
@@ -167,18 +167,18 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'service_detail', name: 'service_detail' },
             { data: 'service_charge', name: 'service_charge' },
             { data: 'service_charge_type', name: 'service_charge_type' },
             { data: 'status', name: 'status' },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             if (data_obj.provider == 'laboratories') {
-                api.columns([3]).visible(showColumn);
+                api.columns([2]).visible(showColumn);
             }
         }
     });

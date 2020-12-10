@@ -29,16 +29,15 @@
                     </div> -->
 
                     <div class="table-responsive">
-                        <table id="payout_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="payout_paid_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                                <tr>
-                                    <th><input type="checkbox" name="id" class="minimal" id="select_all"></th>
-                                    <th>Service Provider</th>
-                                    <th>User Name</th>     
-                                    <th>Payout Date</th>
+                                <tr>                                    
+                                    <th>User Name</th>   
+                                    <th>Service Provider</th>  
+                                    <th>Amount</th>
+                                    <th>Deduction</th>
                                     <th>Payout Amount</th>
                                     <th>Payout Status</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>                        
                         </table>

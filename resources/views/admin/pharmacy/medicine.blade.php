@@ -29,7 +29,7 @@
                         <table id="shop_medicine_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Medicine Name</th>
                                     <th>Medicine SKU</th>
                                     <th>Quantity</th>

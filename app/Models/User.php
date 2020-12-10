@@ -125,6 +125,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_bank_account');
     }
     
+    public function userPrimaryBankAccount() {
+        return $this->hasOne('App\Models\User_bank_account')->where('primary_account','1');
+    }
+    
     public function userAvailableTime() {
         return $this->hasMany('App\Models\User_available_time')->orderBy('day','asc');
     }

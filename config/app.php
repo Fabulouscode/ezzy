@@ -199,6 +199,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\PermissionsServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -255,6 +256,7 @@ return [
         'Helper' => App\Http\Helpers\Helper::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

@@ -14,14 +14,14 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'voucher_name', name: 'voucher_name' },
             { data: 'voucher_code', name: 'voucher_code' },
             { data: 'quantity', name: 'quantity' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
     });
 
 });

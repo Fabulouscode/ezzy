@@ -77,7 +77,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/patients/user')}}">
+            <a href="{{url('/customer/patient')}}">
                 <div class="card d-card-part bg-danger mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -339,7 +339,7 @@
                         <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>HCP Type</th>
@@ -362,7 +362,7 @@
                         <table id="pharmacy_order_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>Status</th>
@@ -382,7 +382,7 @@
                         <table id="laboratories_appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>HCP Type</th>

@@ -20,7 +20,7 @@ $(function () {
             data: { 'user_id': last_segment }
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            // { data: 'id', name: 'id', searchable: false },
             { data: 'userDetails_email', name: 'userDetails_email' },
             { data: 'userDetails_mobile', name: 'userDetails_mobile' },
             {
@@ -34,7 +34,7 @@ $(function () {
             { data: 'review_date', name: 'review_date' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        order: [[0, 'desc']],
+        //  order: [[0, 'desc']],
         createdRow: function (row, data, dataIndex) {
             var ratingInput = $(row).find('.rating');
             $(ratingInput).rating();
