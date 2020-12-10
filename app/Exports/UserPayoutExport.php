@@ -64,7 +64,7 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
 
         $bank_details = "";
         if(!empty($data->users) && !empty($data->users->userPrimaryBankAccount)){
-            $bank_details = '<b>Bank Name: </b>'.$data->users->userPrimaryBankAccount->bank_name.', ';
+            $bank_details = 'Bank Name: '.$data->users->userPrimaryBankAccount->bank_name.', ';
             $bank_details .= 'Account Name: '.$data->users->userPrimaryBankAccount->name.', ';
             $bank_details .= 'Account No.: '.$data->users->userPrimaryBankAccount->account_number.', ';
             $bank_details .= 'IFSC Code: '.$data->users->userPrimaryBankAccount->ifsc_code;
