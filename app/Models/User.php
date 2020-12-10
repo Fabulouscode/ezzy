@@ -174,7 +174,11 @@ class User extends Authenticatable
    
     public function getUserAppointmentReviewAttribute(){
         return $this->hasOne('App\Models\Appointment','user_id','id')
-                    ->where('status', '5')->whereNotNull('user_review')->count('*');        
+                    ->where('status', '5')
+                    ->where(function($query){
+                                $query->orWhereNotNull('user_review');
+                                $query->orWhereNotNull('user_rating');
+                            })->count('*');        
     }
 
     public function getUserCompletedAppointmentAttribute(){
@@ -214,7 +218,11 @@ class User extends Authenticatable
  
     public function getUserOrderReviewAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '1')->whereNotNull('user_review')->count('*');      
+                    ->where('status', '1')                    
+                    ->where(function($query){
+                                $query->orWhereNotNull('user_review');
+                                $query->orWhereNotNull('user_rating');
+                            })->count('*');      
     }
 
     public function getUserCompletedOrderAttribute(){
