@@ -74,10 +74,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['user_appointment_review','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
+    protected $appends = ['user_appointment_review','user_appointment_rating','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
-                          'user_order_review', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
-                          'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code', 'profile_completed_progress'
+                          'user_order_review','user_order_rating', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
+                          'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code', 'profile_completed_progress',
+                          'user_eduction_details'
                         ];
 
     public function getStatusNameAttribute() {
@@ -140,6 +141,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_review');
     }
 
+    public function getUserEductionDetailsAttribute(){
+        return $this->hasMany('App\Models\User_education')->orderBy('end_year','desc')->pluck('degree_name')->implode(', ');        
+    }
+
     public function getMonthlyWalletBalanceAttribute(){
         $total_earning =  $credit_balance = $debit_balance  = 0;
         $credit_balance = $this->hasOne('App\Models\User_transaction','user_id','id')
@@ -162,9 +167,14 @@ class User extends Authenticatable
 
     }
 
-    public function getUserAppointmentReviewAttribute(){
+    public function getUserAppointmentRatingAttribute(){
         return $this->hasOne('App\Models\Appointment','user_id','id')
                     ->where('status', '5')->avg('user_rating');        
+    }
+   
+    public function getUserAppointmentReviewAttribute(){
+        return $this->hasOne('App\Models\Appointment','user_id','id')
+                    ->where('status', '5')->whereNotNull('user_review')->count('*');        
     }
 
     public function getUserCompletedAppointmentAttribute(){
@@ -197,9 +207,14 @@ class User extends Authenticatable
                     ->whereIn('status', ['1','2'])->count('*');
     }
 
-    public function getUserOrderReviewAttribute(){
+    public function getUserOrderRatingAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
                     ->where('status', '1')->avg('user_rating');      
+    }
+ 
+    public function getUserOrderReviewAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '1')->whereNotNull('user_review')->count('*');      
     }
 
     public function getUserCompletedOrderAttribute(){

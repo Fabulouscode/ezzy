@@ -30,12 +30,12 @@ $(function () {
                 render: function (data, type, row) {
                     var rating_count = '0';
                     if (data_obj.category_id == '2') {
-                        if (row.user_order_review != '' && row.user_order_review != null) {
-                            rating_count = row.user_order_review;
+                        if (row.user_order_rating != '' && row.user_order_rating != null) {
+                            rating_count = row.user_order_rating;
                         }
                     } else {
-                        if (row.user_appointment_review != '' && row.user_appointment_review != null) {
-                            rating_count = row.user_appointment_review;
+                        if (row.user_appointment_rating != '' && row.user_appointment_rating != null) {
+                            rating_count = row.user_appointment_rating;
                         }
                     }
 
