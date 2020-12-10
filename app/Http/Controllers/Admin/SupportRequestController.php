@@ -52,6 +52,9 @@ class SupportRequestController extends Controller
                     'title' => $request->title,
                     'description' => $request->description,
                     'status' => $request->status,
+                    'comment' => $request->comment,
+                    'admin_id' => $request->user()->id,
+                    'closed_date' =>$this->support_request_repo->getCurrentDateTime()
                 ];
          if(!empty($request->id)){
             $category = $this->support_request_repo->getById($request->id);

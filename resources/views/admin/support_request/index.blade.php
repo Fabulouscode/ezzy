@@ -32,9 +32,11 @@
                             <thead>
                                 <tr>
                                     <!-- <th>Id</th> -->
-                                    <th>User Name</th>
-                                    <th>Title</th>
+                                    <th>Support Id</th>
+                                    <th>User Details</th>
+                                    <th>Subject</th>
                                     <th>Description</th>
+                                    <th>Created Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

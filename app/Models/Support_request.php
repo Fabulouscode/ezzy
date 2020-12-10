@@ -13,7 +13,10 @@ class Support_request extends Model
     public $status_value = array(
         '0' => 'Pending',
         '1' => 'Success',
-        '2' => 'Cancel'
+        '2' => 'Cancel',
+        '3' => 'Close',
+        '4' => 'User waiting for reply',
+        '5' => 'User reply',
     );
 
     /**
@@ -26,10 +29,14 @@ class Support_request extends Model
         'title',
         'description',
         'attachment',
+        'comment',
+        'closed_date',
+        'closed_by',
+        'admin_id',
         'status',
     ];
 
-    protected $appends = ['status_name'];
+    protected $appends = ['status_name','support_request_no_generate'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
@@ -43,5 +50,7 @@ class Support_request extends Model
         return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
     }
 
-
+    public function getSupportRequestNoGenerateAttribute(){
+       return str_pad($this->id, 6, '0', STR_PAD_LEFT);
+    }
 }

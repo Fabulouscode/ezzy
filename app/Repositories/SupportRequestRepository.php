@@ -82,12 +82,14 @@ class SupportRequestRepository extends Repository
                 {
                     //0-Pending, 1-Success, 2-Cancel	
                     $data = '';
-                    if($selected->status == '0'){
-                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
-                    }else if($selected->status == '1'){
+                    if($selected->status == '1'){
                         $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';
+                        $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';                        
+                    }else if($selected->status == '3'){
+                        $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
+                    }else {
+                        $data .= '<div class="badge badge-info" >'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })
@@ -103,11 +105,19 @@ class SupportRequestRepository extends Repository
                 {	
                     $data = '';
                     if(!empty($selected->userDetails)){
-                        $data .= $selected->userDetails->user_name.' ('.$selected->userDetails->email.')';
+                        $data .='<div><strong>Name: </strong>'. $selected->userDetails->user_name.'</div>';
+                        $data .='<div><strong>Email: </strong>'. $selected->userDetails->email.'</div>';
+                        $data .='<div><strong>Mobile No.: </strong>'. $selected->userDetails->mobile_no.'</div>';
                     }                    
                     return $data;
                 })
-                ->rawColumns(['action','description','status','userDetails'])
+                ->editColumn('created_at', function($selected) {
+                    return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
+                })
+                ->addColumn('support_id', function($selected) {
+                    return $selected->support_request_no_generate ? $selected->support_request_no_generate : '-';
+                })
+                ->rawColumns(['action','description','status','userDetails','support_id'])
                 ->make(true);
     }
 

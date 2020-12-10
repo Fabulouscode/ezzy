@@ -32,7 +32,7 @@
                                 <h4 class="mt-0 mb-0 header-title">Support Details</h4>
                                 <div class="card-detail-list">
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Title</label></dt>
+                                        <dt class="col-sm-5"><label>Subject</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->title))
                                                 {{$data->title}}
@@ -63,7 +63,25 @@
                                                 Click Here to Download
                                             </a>
                                         </dd>
+                                    </div>                                    
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Comment</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->comment))
+                                                {{$data->comment}}
+                                            @endif 
+                                        </dd>
                                     </div>
+                                    @if($data->status == '3')
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Close Date</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->closed_date))
+                                                {{Helper::getDateTimeFormate($data->closed_date)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>              

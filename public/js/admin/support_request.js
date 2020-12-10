@@ -15,13 +15,15 @@ $(function () {
         },
         columns: [
             // { data: 'id', name: 'id', searchable: false },
-            { data: 'userDetails', name: 'userDetails' },
-            { data: 'title', name: 'title' },
+            { data: 'support_id', name: 'support_id', searchable: false },
+            { data: 'userDetails', name: 'User Details' },
+            { data: 'title', name: 'Subject' },
             { data: 'description', name: 'description' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
     });
 
 });

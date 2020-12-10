@@ -35,7 +35,7 @@
                        
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Title</label>
+                                <label>Subject</label>
                                 <input readonly type="text"  class="form-control" name="title" value="{{ !empty($data->title) ? $data->title : old('title') }}" />
                             </div>
                             <div class="form-group col-md-6">
@@ -70,7 +70,14 @@
                                 </a>
                             </dd>
                         </div>
-            
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Comment</label>
+                                <textarea rows="5" class="form-control" name="comment">{{$data->comment}}</textarea>
+                            </div>
+                        </div> 
+
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
