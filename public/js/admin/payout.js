@@ -44,21 +44,51 @@ $(function () {
         // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: payout_url + '/data',
-            type: 'post',
+            url: payout_url,
+            type: 'get',
             dataType: "json",
-            data: payout_obj,
             async: true
         },
         columns: [
             { data: 'user_name', name: 'User Name' },
             { data: 'service_provider', name: 'Service Provider' },
             { data: 'amount', name: 'Amount' },
-            { data: 'fees_charge', name: 'Deduction' },
-            { data: 'payout_amount', name: 'Payout Amount' },
-            { data: 'payout_status', name: 'Status' },
+            { data: 'deduction_amount', name: 'Deduction' },
+            { data: 'payable_amount', name: 'Payout Amount' },
+            { data: 'action', name: 'Action' }
         ],
-        order: [[1, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+        },
+        drawCallback: function (settings) {
+            $('#select_all').prop('checked', false);
+        }
+    });
+
+    $('#payout_history_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        // responsive: true,
+        ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: payout_url + '/transaction',
+            type: 'get',
+            dataType: "json",
+            async: true,
+            data: payout_history,
+        },
+        columns: [
+            { data: 'user_name', name: 'User Name' },
+            { data: 'amount', name: 'Amount' },
+            { data: 'deduction_amount', name: 'Deduction' },
+            { data: 'payable_amount', name: 'Payout Amount' },
+            { data: 'bank_transaction_id', name: 'Transaction Id' },
+            { data: 'admin_name', name: 'Approved Name' },
+            { data: 'approved_date', name: 'Approved Date' },
+        ],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
@@ -77,10 +107,13 @@ $(function () {
         $.ajax({
             type: 'post',
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: payout_url + '/transaction',
+            url: payout_url + '/paid',
             data: $('#payout_amount_form').serialize(),
             success: function (response) {
                 $('#user_id').val('');
+                $('#amount').val('');
+                $('#deduction').val('');
+                $('#payout_amount').val('');
                 $('#bank_transaction_id').val('');
                 $('#notes').val('');
                 $('#addPayoutAmount').modal('hide');
@@ -101,10 +134,17 @@ $(function () {
     });
 });
 
-function editRow(id) {
-    console.log($(this).attr('data-amount'));
+function editRow(event) {
+    var user_id = $(event).attr('data-user_id');
+    var amount = $(event).attr('data-amount');
+    var deduction = $(event).attr('data-deduction');
+    var payout_amount = $(event).attr('data-payout_amount');
     $("form[name='payout_amount_form']").parsley().destroy();
     $("form[name='payout_amount_form']").parsley();
+    $('#user_id').val(user_id);
+    $('#amount').val(amount);
+    $('#deduction').val(deduction);
+    $('#payout_amount').val(payout_amount);
     $('.modal-title').text('Add Transaction Details');
     $('#submit_btn').text('Add');
     setTimeout(function () {
@@ -135,13 +175,18 @@ function payout() {
     if (payout_transaction) {
         $.ajax({
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: payout_url + '/paid',
+            url: payout_url + '/status',
             type: "post",
             dataType: 'json',
             data: { 'transaction_ids': payout_transaction },
-            success: function (data) {
-
-                toastr.success(data.msg, 'EzzyCare App');
+            success: function (response, textStatus, request) {
+                var a = document.createElement("a");
+                a.href = response.data.file;
+                a.download = response.data.name;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                toastr.success(response.msg, 'EzzyCare App');
                 var oTable = $('#payout_datatable').dataTable();
                 oTable.fnDraw(false);
             },

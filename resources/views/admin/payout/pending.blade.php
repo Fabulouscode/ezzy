@@ -27,9 +27,9 @@
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('payout/export')}}" class="btn btn-info">Export</a>
                     </div>
-                    <!-- <div class="block-options-item mb-3 mr-3 float-right">
+                    <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout & Export</a>
-                    </div> -->
+                    </div>
 
                     <div class="table-responsive">
                         <table id="payout_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -68,7 +68,10 @@
             <div class="modal-body">
                 <form method="POST" id="payout_amount_form" name="payout_amount_form">
                     @csrf
-                    <input id="user_id" type="hidden" name="id" >
+                    <input id="user_id" type="hidden" name="user_id" >
+                    <input id="amount" type="hidden" name="amount" >
+                    <input id="deduction" type="hidden" name="deduction" >
+                    <input id="payout_amount" type="hidden" name="payout_amount" >
 
                     <div class="row">
                         <div class="form-group col-md-12">
@@ -106,6 +109,7 @@
 <script>
     var payout_url = "{{url('/payout')}}";
     var payout_obj = {'payout_status':'1'};
+    var payout_history = {};
 </script>
 <script src="{{ asset('js/admin/payout.js') }}" ></script>
 @endsection

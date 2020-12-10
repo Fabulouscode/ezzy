@@ -19,6 +19,7 @@ class User_transaction extends Model
         '0' => 'Paid',
         '1' => 'Pending',
         '2' => 'Cancel',
+        '3' => 'In-progress',
     );
         
     public $transaction_type_value = array(

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\Payout_amount;
 use Illuminate\Support\Str;
+use DB;
 
 class PayoutAmountRepository extends Repository
 {
@@ -45,8 +46,11 @@ class PayoutAmountRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model;
-        $query = $query->orderBy('id','desc')->get();
+        $query = $this->model->select('*')->addSelect(DB::raw('sum(payable_amount) as payable_amount'))
+        ->addSelect(DB::raw('sum(amount) as amount'))
+        ->addSelect(DB::raw('sum(deduction_amount) as deduction_amount'));
+        
+        $query = $query->groupBy('user_id')->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -57,21 +61,72 @@ class PayoutAmountRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
-        return Datatables::of($data)
-                ->addColumn('action',function($selected)
-                {
+        $data = $this->getWithRelationship();
+        return Datatables::of($data)        
+                ->editColumn('user_name', function($selected) use ($request) { 
+                    return $selected->user ? $selected->user->user_name : '-';      
+                })
+                ->addColumn('service_provider', function($selected) {   
                     $data = '';
-                    if (Auth::user()->hasPermissionTo('hcp_type-edit')) {
-                        $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
-                    }
-                    if (Auth::user()->hasPermissionTo('hcp_type-delete')) {
-                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
-                    }
-                    
+                    if(!empty($selected->user->categoryParent)){
+                        $data .='<div class="text-success"><strong>'. $selected->user->categoryParent->name.'</strong></div>';
+                    }                            
+                    if(!empty($selected->user->categoryChild)){
+                        $data .='<div class="text-success"><strong>'. $selected->user->categoryChild->name.'</strong></div>';
+                    }  
+                    return $data; 
+                })
+                ->editColumn('approved_date', function($selected) {
+                    return $selected->approved_date ? $this->getDateTimeFormate($selected->approved_date) : '-';
+                })
+                ->editColumn('admin_name', function($selected) {
+                    return $selected->admin ? $selected->admin->name : '-';
+                })
+                ->addColumn('action', function($selected) {   
+                     $data = '';
+                    // if (Auth::user()->hasPermissionTo('payout-edit')) {
+                        $data .= '<a href="'.url('payout/transaction/'.$selected->user_id).'" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  ><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                    // }
                     return $data;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['service_provider','action'])
+                ->make(true);
+    }
+    
+    /**
+     * Display a listing of the Datatable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTransactionByUser($request)
+    {
+        $query = $this->model;
+        if(!empty($request->user_id)){
+             $query = $query->where('user_id',$request->user_id);
+        }
+        $query = $query->orderBy('id','desc')->get();
+        return $query;
+    }
+
+    /**
+     * Display a listing of the Datatable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHistoryDatatable($request)
+    {
+        $data = $this->getTransactionByUser($request);
+        return Datatables::of($data)        
+                ->editColumn('user_name', function($selected) use ($request) { 
+                    return $selected->user ? $selected->user->user_name : '-';      
+                })
+                ->editColumn('approved_date', function($selected) {
+                    return $selected->approved_date ? $this->getDateTimeFormate($selected->approved_date) : '-';
+                })
+                ->editColumn('admin_name', function($selected) {
+                    return $selected->admin ? $selected->admin->name : '-';
+                })
+                ->rawColumns(['service_provider'])
                 ->make(true);
     }
 }

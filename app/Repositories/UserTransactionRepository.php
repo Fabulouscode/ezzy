@@ -42,6 +42,27 @@ class UserTransactionRepository extends Repository
             }
         }
     }
+ 
+   
+  
+    public function userIncomeCalculate($request, $column_name = 'amount')
+    {   
+        return $this->model->whereBetween('reservation_from', array($request->start_date, $request->end_date))->sum($column_name);
+    }
+    
+    public function userPayoutIncome($request)
+    {   
+        return $this->model->addSelect(DB::raw('MONTH(transaction_date) as month'))
+                            ->addSelect(DB::raw('SUM(amount) as total_income'))
+                            ->addSelect(DB::raw('SUM(payout_amount) as total_payout'))
+                            ->whereBetween('reservation_from', array($request->start_date, $request->end_date))
+                            ->groupBy('month')->get();
+    }
+  
+    public function userPayoutData($user_ids, $payout_status = '1')
+    {   
+        return $this->model->whereIn('user_id',$user_ids)->where('payout_status', $payout_status)->get();
+    }
 
     public function getUserbyCalculate($user_id, $mode_of_payment = 0)
     {
@@ -214,7 +235,7 @@ class UserTransactionRepository extends Repository
         ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
       
         if(isset($request->payout_status)){
-            $query = $query->where('payout_status',$request->payout_status);
+            $query = $query->where('payout_status', '!=', '0');
         }
         
         $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
@@ -228,7 +249,7 @@ class UserTransactionRepository extends Repository
         $data = $this->getPayoutsWithRelationship($request); 
         return Datatables::of($data)
             ->addColumn('checkbox', function($selected) {   
-                return '<input type="checkbox" name="id" class="minimal" value="'.$selected->id.'">';
+                return '<input type="checkbox" name="id" class="minimal" value="'.$selected->user_id.'">';
             })
             ->addColumn('service_provider', function($selected) {   
                  $data = '';
@@ -263,9 +284,13 @@ class UserTransactionRepository extends Repository
                 return $this->currency_symbol.$selected->fees_charge ;
             })
             ->editColumn('payout_status', function($selected) {
-                 if($selected->payout_status == '0'){
+                if($selected->payout_status == '0'){
                     return '<div class="badge badge-success">'.$selected->payout_status_name.'</div>';
-                } else{
+                } else if($selected->payout_status == '2'){
+                    return '<div class="badge badge-danger">'.$selected->payout_status_name.'</div>';
+                } else if($selected->payout_status == '3'){
+                    return '<div class="badge badge-warning">'.$selected->payout_status_name.'</div>';
+                } else {
                     return '<div class="badge badge-info">'.$selected->payout_status_name.'</div>';
                 }
             })
@@ -273,7 +298,7 @@ class UserTransactionRepository extends Repository
             { 
                 $data = '';
                 // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow('.$selected->users->id.')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  data-user_id="'.$selected->user_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                 // }
                 return $data;
             })

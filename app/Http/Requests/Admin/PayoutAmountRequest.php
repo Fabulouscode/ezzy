@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PayoutAmountRequest extends FormRequest
 {
@@ -23,8 +25,25 @@ class PayoutAmountRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+         return [
+           'user_id'=>'required',
+           'amount'=>'required',
+           'deduction'=>'required',
+           'payout_amount'=>'required',
+           'bank_transaction_id'=>'required',
         ];
+    }
+    
+    protected function failedValidation(Validator $validator) {
+        $transformed=[];
+        foreach ($validator->errors()->toArray() as $field => $message) {
+            $transformed[$field] = $message[0];
+        }
+
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'errors' => $transformed,
+            'message' => 'The given data was invalid.',
+        ], 422));
     }
 }

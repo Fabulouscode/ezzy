@@ -40,7 +40,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // Main Dashoard
         Route::get('/', 'DashboardController@index');
-        Route::post('/chart/area', 'DashboardController@getAreaChartdata');
+        Route::post('/chart/revenue', 'DashboardController@getRevenueChartdata');
+        Route::post('/chart/income', 'DashboardController@getIncomeChartdata');
+        Route::post('/chart/earning', 'DashboardController@getEarningdata');
 
         // permission No access 
         Route::get('/permission_not_access', function(){
@@ -100,9 +102,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // payout routes         
         Route::get('payout/pending', 'PayoutAmountController@getPendingPayout');
         Route::post('payout/data', 'PayoutAmountController@getPayouts');
-        Route::post('payout/paid', 'PayoutAmountController@paidPayouts');
+        Route::post('payout/status', 'PayoutAmountController@savePayoutsInprocess');        
+        Route::post('payout/paid', 'PayoutAmountController@savePayoutTransaction');
         Route::get('payout/export', 'PayoutAmountController@getPayoutExport');
-        Route::post('payout/transaction', 'PayoutAmountController@savePayoutTransaction');
+        Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory');
         Route::resource('payout', 'PayoutAmountController');
      
         // static pages routes 
