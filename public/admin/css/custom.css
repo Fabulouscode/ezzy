@@ -233,3 +233,14 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 ::-webkit-scrollbar-thumb:hover {
   background:#dee2e6; 
 } */
+
+.card-header-flex{
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-header-flex .form-group{
+    min-width: 205px;
+}

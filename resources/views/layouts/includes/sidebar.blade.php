@@ -62,7 +62,7 @@
                         <li><a href="{{url('/pharmacy/user/pending')}}">Pending Pharmacist</a></li>
                         @endcan
                         @can('pharmacy-list')
-                        <li><a href="{{url('/pharmacy/user')}}">Pharmacist List</a></li>
+                        <li><a href="{{url('/pharmacy/user')}}">Approved Pharmacist</a></li>
                         @endcan
                         @can('order-list')
                         <li><a href="{{url('/pharmacy/order')}}">Orders</a></li>
@@ -84,7 +84,7 @@
                         <li><a href="{{url('/laboratories/user/pending')}}">Pending Laboratories</a></li>
                         @endcan
                         @can('laboratories-list')
-                        <li><a href="{{url('/laboratories/user')}}">Laboratories List</a></li>
+                        <li><a href="{{url('/laboratories/user')}}">Approved Laboratories</a></li>
                         @endcan
                         <!-- @can('laboratories-list')
                         <li><a href="javascript:void(0);">Manage Lab Reports</a></li>

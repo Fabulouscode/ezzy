@@ -195,15 +195,12 @@
         <div class="col-xl-8">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title">Revenue</h4>
-                    <div class="row">
-                        <div class="col-md-4 block-options-item mb-3 mr-3 float-right">
-                            <div class="form-group">
-                                <label>Date Range</label>
-                                <input type="text" class="form-control" name="count_date_range" id="count-chart-date-range"  />
-                                    <input type="hidden" class="form-control" id="count_start_date" name="start_date" />
-                                    <input type="hidden" class="form-control" id="count_end_date" name="end_date"  />
-                            </div>
+                    <div class="card-header-flex">
+                        <h4 class="mt-0 header-title">Revenue</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="count_date_range" id="count-chart-date-range"  />
+                            <input type="hidden" class="form-control" id="count_start_date" name="start_date" />
+                            <input type="hidden" class="form-control" id="count_end_date" name="end_date"  />
                         </div>
                     </div>
                     <div id="morris-count-area-chart" style="height: 300px"></div>
@@ -213,17 +210,15 @@
         <div class="col-xl-4">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title">Revenue</h4>
-                    <div class="row">
-                        <div class="col-md-10 block-options-item mb-3 mr-3 float-right">
-                            <div class="form-group">
-                                <label>Date Range</label>
-                                <input type="text" class="form-control" name="revenue_date_range" id="revenue-chart-date-range"  />
-                                    <input type="hidden" class="form-control" id="revenue_start_date" name="start_date" />
-                                    <input type="hidden" class="form-control" id="revenue_end_date" name="end_date"  />
-                            </div>
+                    <div class="card-header-flex">
+                        <h4 class="mt-0 header-title">Revenue</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="revenue_date_range" id="revenue-chart-date-range"  />
+                            <input type="hidden" class="form-control" id="revenue_start_date" name="start_date" />
+                            <input type="hidden" class="form-control" id="revenue_end_date" name="end_date"  />
                         </div>
                     </div>
+                        
                     <ul class="list-inline widget-chart m-t-20 text-center">
                         <li>
                             <h4 class="">321</h4>
@@ -245,15 +240,12 @@
         <div class="col-xl-5">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Earning</h4>
-                    <div class="row">
-                        <div class="col-md-8 block-options-item mb-3 mr-3 float-right">
-                            <div class="form-group">
-                                <label>Date Range</label>
-                                <input type="text" class="form-control" name="earning_date_range" id="earning-chart-date-range"  />
-                                    <input type="hidden" class="form-control" id="earning_start_date" name="start_date" />
-                                    <input type="hidden" class="form-control" id="earning_end_date" name="end_date"  />
-                            </div>
+                    <div class="card-header-flex">
+                        <h4 class="mt-0 header-title mb-4">Earning</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="earning_date_range" id="earning-chart-date-range"  />
+                            <input type="hidden" class="form-control" id="earning_start_date" name="start_date" />
+                            <input type="hidden" class="form-control" id="earning_end_date" name="end_date"  />
                         </div>
                     </div>
                     <div class="">
