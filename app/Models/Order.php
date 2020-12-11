@@ -14,6 +14,7 @@ class Order extends Model
         '0' => 'Pending',
         '1' => 'Success',
         '2' => 'Cancel',
+        '3' => 'Active',
     );
 
     public $delivery_type_value = array(
