@@ -72,13 +72,13 @@ class NotificationController extends BaseApiController
                 $this->user_repo->update($update, $user->id);
                 $data = $this->user_repo->getbyId($request->user()->id);
                 $notification_topic = $this->notification_repo->getNotificationTopic();
-                // if(!empty($request->user()->device_token) && $status == '0'){                    
-                //     $this->notification_repo->subscribeNotificationTopic($request->user()->device_token, 'Ezzycare');
-                //     $this->notification_repo->subscribeNotificationTopic($request->user()->device_token, !empty($request->user()->category_id) ? $notification_topic[$request->user()->category_id] : $notification_topic['1']);
-                // }else if(!empty($request->user()->device_token) && $status == '1'){
-                //     $this->notification_repo->unsubscribeNotificationTopic($request->user()->device_token, 'Ezzycare');
-                //     $this->notification_repo->unsubscribeNotificationTopic($request->user()->device_token, !empty($request->user()->category_id) ? $notification_topic[$request->user()->category_id] : $notification_topic['1']);
-                // }
+                if(!empty($request->user()->device_token) && $status == '0'){                    
+                    $this->notification_repo->subscribeNotificationTopic($request->user()->device_token, 'Ezzycare');
+                    $this->notification_repo->subscribeNotificationTopic($request->user()->device_token, !empty($request->user()->category_id) ? $notification_topic[$request->user()->category_id] : $notification_topic['1']);
+                }else if(!empty($request->user()->device_token) && $status == '1'){
+                    $this->notification_repo->unsubscribeNotificationTopic($request->user()->device_token, 'Ezzycare');
+                    $this->notification_repo->unsubscribeNotificationTopic($request->user()->device_token, !empty($request->user()->category_id) ? $notification_topic[$request->user()->category_id] : $notification_topic['1']);
+                }
 
                 // // $this->admin_notification_repo->getNotificationTopic();
                 // $tokens = ['feMVbI_jT36Ujv5aN0tk31:APA91bFfU0WoRWB2cSm4grKh2iMoECaoeledYUPqi75wwCLJ1FZOelnhbrTxP5SwjQn5tedxfJuuRugqWREsuneBFby5gYgE7OqcaeTkTl5zcCG3t_9dG8fhsCYmS_AQuYIRsLTDlnfO'];
