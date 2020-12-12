@@ -77,11 +77,11 @@ class FavoriteMedicineRepository extends Repository
      */
     public function removeFavoriteMedicine($request)
     {    
-      
+        $query = $this->model;
         $query = $query->where('user_id',$request->user()->id)
                        ->where('medicine_detail_id',$request->medicine_detail_id)
                        ->where('shop_medicine_detail_id',$request->shop_medicine_detail_id)->first();
-      
+
         $this->destroy($query->id);
         return true;
        
