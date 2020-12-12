@@ -15,6 +15,7 @@ use App\Http\Requests\Api\AppointmentCompletedRequest;
 use App\Http\Requests\Api\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
+use PDF;
 
 class AppointmentController extends BaseApiController
 {
@@ -228,6 +229,25 @@ class AppointmentController extends BaseApiController
             return self::sendException($e);
         }
         
+    }
+
+    public function getAppointmentById($appointment_id)
+    {
+        $data = $this->appointment_repo->getbyIdedit($appointment_id); 
+        return self::sendSuccess($data, 'Appointment get');
+    }
+
+    public function generateInvoice($appointment_id)
+    {
+        $currency_symbol  = $this->appointment_repo->currency_symbol;
+        $status = $this->appointment_repo->getStatusValue();
+        $data = $this->appointment_repo->getbyIdedit($appointment_id); 
+        view()->share(['data' => $data, 'status' => $status,'currency_symbol' => $currency_symbol]);
+        //  return view('invoice.appointment');
+        $pdf = PDF::loadView('invoice.appointment', [$data, $status, $currency_symbol]);
+        $pdf_file = $this->appointment_repo->uploadPDFFile($pdf->output(), 'pdf/appointment_invoice'); 
+        $file_url = url('storage/'.$pdf_file);
+        return self::sendSuccess($file_url, 'Appointment Invoice get');
     }
 
 }

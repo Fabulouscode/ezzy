@@ -1,0 +1,199 @@
+@extends('invoice.layout')
+
+@section('title','Invoice Appointment Details')
+
+@section('content')
+
+<div class="container-fluid">
+     <div class="row">
+        <div class="col-12">
+            <div class="card m-b-30">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="invoice-title">
+                                <h4 class="float-right font-16">
+                                <div>
+                                    <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
+                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeFormate($data->completed_datetime) : '' }}
+                                </div>
+                                </h4>
+                                <h3 class="m-t-0">
+                                    <img src="{{ asset('admin/images/logo-1.png') }}" alt="logo" height="40"/>
+                                </h3>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <address>
+                                        <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
+                                        <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
+                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
+                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no_country_code :''}}<br>
+                                    </address>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <address>
+                                        <h5>Patient Details:</h5>
+                                        <b>Name: </b>{{$data->name}}<br>
+                                        <b>Email: </b>{{$data->email}}<br>
+                                        <b>Mobile: </b>{{$data->mobile_no}}<br>
+                                        <b>Address: </b>{{$data->address}}<br>
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 m-t-30">
+                                    <b>Completed Date: </b>{{Helper::getDateTimeFormate($data->completed_datetime)}}<br>
+                                    @php($urgent = ($data->urgent == '1')? '(Urgent)' : '')
+                                    <b>Type of Appointment: </b>{{$data->appointment_type_name}} <br>
+                                    <b>Status: </b>{{$data->status_name}}
+                                </div>
+                                <div class="col-6 m-t-30 text-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="panel panel-default">
+                                <div class="p-2">
+                                    <h3 class="panel-title font-20"><strong>Appointment summary</strong></h3>
+                                </div>
+                                <div class="">
+                                    <div class="table-responsive">
+                                        @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                             @php($appointment_charge = 0)
+                                        @else
+                                            @if($data->user->category_id == '5')
+                                                @if($data->full_day == '1')
+                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
+                                                    @php ($appointment_charge_text = 'Charge (In Day)')
+                                                @else
+                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
+                                                    @php ($appointment_charge_text = 'Charge (In Hours)')
+                                                @endif
+                                            @elseif(!empty($data->user_service_id) && isset($data->userService))
+                                                @if($data->userService->service_charge_type == '3')
+                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
+                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Day)' : 'Charge (In Day)')
+                                                @elseif($data->userService->service_charge_type == '2')
+                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
+                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Hour)' : 'Charge (In Hour)')
+                                                @else
+                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
+                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                                @endif
+                                            @else
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
+                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                            @endif
+                                        @endif
+                                        
+                                        <table class="table">
+                                            <thead>
+                                            @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                            <tr>
+                                                <td class="text-center"><strong>Service Name</strong></td>
+                                                <td class="text-center"><strong>Service Charge</strong></td>
+                                                <td class="text-center"><strong>Quantity</strong></td>
+                                                <td class="text-center"><strong>Total Amount</strong></td>
+                                            </tr>
+                                            @else
+                                            <tr>
+                                                @if(!empty($data->user_service_id) &&  isset($data->userService))
+                                                    <td class="text-center"><strong>Service Name</strong></td>
+                                                @endif
+                                                <td class="text-center"><strong>Start Date Time</strong></td>
+                                                <td class="text-center"><strong>End Date Time</strong></td>                                                
+                                                <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
+                                                <td class="text-center"><strong>Time Diffrence (Minutes)</strong></td>
+                                                <td class="text-center"><strong>Charge Amount</strong></td>
+                                            </tr>
+                                            @endif
+                                            </thead>
+                                            <tbody>
+                                             @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)      
+                                             @foreach($data->appointmentServices as $service)
+                                             @php($appointment_charge += $service->service_price)
+                                             <tr>
+                                                <td class="text-center">{{$service->userService->service->service_name}}</td>
+                                                <td class="text-center currency_symbol">{{$currency_symbol.$service->service_price}}</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center currency_symbol">{{$currency_symbol.$service->service_price}}</td>
+                                            </tr> 
+                                            @endforeach
+                                            @else 
+                                            <tr>
+                                                @if(!empty($data->user_service_id) &&  isset($data->userService))
+                                                    <td class="text-center">{{$data->userService->service->service_name}}</td>
+                                                @endif
+                                                <td class="text-center">{{Helper::getDateTimeFormate($data->appointment_date .' '. $data->appointment_time)}}</td>
+                                                <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
+                                                <td class="text-center currency_symbol">{{$currency_symbol.$data->hcp_fees}}</td>
+                                                @if(!empty($data->full_day) &&  $data->full_day == '1')
+                                                    <td class="text-center">Full Day</td>
+                                                @else
+                                                    <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                @endif
+                                                
+                                                <td class="text-center currency_symbol">{{$currency_symbol.$appointment_charge}}</td>
+                                            </tr> 
+                                            @endif     
+                                            <tr>
+                                                @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                                <td class="no-line text-center" colspan="2"></td>
+                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                @endif
+                                                <td class="thick-line text-center">
+                                                    <strong>Subtotal</strong></td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$appointment_charge}}</td>
+                                            </tr>
+                                            @if($data->appointment_type == '1')
+                                            <tr>
+                                                @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                                <td class="no-line text-center" colspan="2"></td>
+                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                @endif
+                                                <td class="thick-line text-center">
+                                                    <strong>Home Visit Fees</strong></td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
+                                            </tr>
+                                            @endif
+                                            <tr>
+                                                @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                                <td class="no-line text-center" colspan="2"></td>
+                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                @endif
+                                                <td class="thick-line text-center">
+                                                    <strong>Total</strong></td>
+                                                <td class="thick-line text-center"><h4 class="m-0 currency_symbol">{{$currency_symbol.$data->appointment_price}}</h4></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> <!-- end row -->
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>  <!-- end row -->
+
+</div><!-- container fluid -->
+
+@endsection

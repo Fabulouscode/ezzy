@@ -49,10 +49,10 @@ class DashboardController extends BaseApiController
                 $data['orders'] = $this->order_repo->getActiveOrder($request);
                 $data['user'] = new PharmacyResource($data['user']);
             }else if($request->user()->categoryParent->parent_id == '3'){
-                $data['appointments'] = $this->appointment_repo->getUpcomingAppointment($request);
+                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request);
                 $data['user'] = new LaboratoriesResource($data['user']);
             }else{
-                $data['appointments'] = $this->appointment_repo->getUpcomingAppointment($request);
+                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request);
                 $data['user'] = new HeathCareProviderResource($data['user']);
             }
         }else{
