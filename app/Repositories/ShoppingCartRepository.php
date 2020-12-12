@@ -44,7 +44,7 @@ class ShoppingCartRepository extends Repository
      */
     public function getbyUserId($user_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->where('user_id', $user_id)->get();
     }
 
     /**
@@ -54,7 +54,7 @@ class ShoppingCartRepository extends Repository
      */
     public function getUserCart($user_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->where('user_id', $user_id)->get();
     }
 
     /**
@@ -89,6 +89,7 @@ class ShoppingCartRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $medicine_id)->first();
     }
+  
     
     
 }

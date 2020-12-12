@@ -38,6 +38,7 @@ class ShoppingCartController extends BaseApiController
 
     public function addToCart(ShoppingCartRequest $request)
     {
+
         $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
         
         if(!empty($cart_check) && !empty($cart_check->id)){
