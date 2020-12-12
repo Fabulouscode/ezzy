@@ -181,6 +181,11 @@ class ShopMedicineDetailsRepository extends Repository
         //user filter for patient or client side 
         if(!empty($request->shop_id)){
             $query = $query->where('user_id', $request->shop_id);
+            $query = $query->when($request->user(), function ($query) use ($request) {
+                            $query->with(['favoriteProduct' => function ($query) use ($request) {
+                                $query->where('user_id', $request->user()->id);
+                            }]);
+                        });
         }       
 
         //price order

@@ -58,4 +58,9 @@ class Shop_medicine_details extends Model
     public function medicineSubcategory() {
         return $this->belongsTo('App\Models\Medicine_category', 'medicine_subcategoy_id');
     }
+    
+    public function favoriteProduct() {
+        return $this->hasOne('App\Models\Favorite_product','shop_medicine_detail_id','id');
+    }
+
 }
