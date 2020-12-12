@@ -59,10 +59,10 @@ class FavoriteMedicineRepository extends Repository
         if(!empty($request->last_id)){
             $query = $query->where('id', '<', $request->last_id);    
         }
-        
+
         $query = $query->limit($this->api_data_limit);     
       
-        $query = $query->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails','shopMedicineDetails.medicineDetails.medicineImages'])->where('user_id',$request->user()->id);
+        $query = $query->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->where('user_id',$request->user()->id);
       
         $query = $query->orderBy('id','desc')->get();
         
@@ -79,7 +79,6 @@ class FavoriteMedicineRepository extends Repository
     {    
         $query = $this->model;
         $query = $query->where('user_id',$request->user()->id)
-                       ->where('medicine_detail_id',$request->medicine_detail_id)
                        ->where('shop_medicine_detail_id',$request->shop_medicine_detail_id)->first();
 
         $this->destroy($query->id);
