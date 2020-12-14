@@ -36,7 +36,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::post('/login', 'UserAuthController@login');
     Route::post('/register_mobile', 'UserAuthController@saveRegisterwithMobile');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
-
+    Route::post('/social/register', 'UserAuthController@saveRegister');    
     Route::post('/otp/resend', 'UserAuthController@resendSMS');
 
 
