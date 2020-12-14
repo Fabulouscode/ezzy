@@ -301,6 +301,16 @@ class UserRepository extends Repository
     {   
         return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->whereNotIn('status',[3])->whereNotNull('mobile_verified_at')->first();
     }
+ 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkbyMobileNoAndEmail($request)
+    {   
+        return $this->model->where('mobile_no',$request->mobile_no)->where('email',$request->email)->first();
+    }
 
     /**
      * Display a edit of the record.

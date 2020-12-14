@@ -152,6 +152,67 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function socialLogin(Request $request)
+    {
+        $user = $this->user_repo->checkbyMobileNoAndEmail($request);
+        if(!empty($user)){
+            if($request->hcp_type == '0'){
+                if(!empty($user->category_id)){
+                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                } 
+            }
+            if($request->hcp_type == '1'){
+                if(empty($user->category_id)){
+                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                } 
+            }
+            if(isset($user) && in_array($user->status, ['0','1'])){
+                try{
+                    $this->user_repo->removeOauthAccessTokens($user->id);
+                    $data = [
+                                'device_type' => $request->device_type,
+                                'device_token'=> $request->device_token,
+                                'social_type'=> $request->social_type,
+                                'facebook_id'=> $request->facebook_id,
+                                'google_id'=> $request->google_id,
+                                'apple_id'=> $request->apple_id
+                            ];
+                    $this->user_repo->dataCrudUsingData($data, $user->id);
+
+                    // $notification_topic = $this->notification_repo->getNotificationTopic();
+                    // if(!empty($user->device_token) && $status == '0'){                    
+                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
+                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                    // }else if(!empty($user->device_token) && $status == '1'){
+                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                    // }
+
+                    return self::sendSuccess([
+                        'token' => $user->createToken('EzzyCare')->accessToken,
+                        'user' => $user,
+                    ]);
+                }catch(\Exception $e){
+                    return self::sendException($e);
+                }
+            }else if(isset($user) && $user->status == '2'){
+                return self::sendError('', 'You have Inactive please wait for active');
+            }else {
+                return self::sendError('', 'Please Fill up register details');
+            }
+        
+        }else{
+               return self::sendError('', 'User Mobile No. and Email Invalid');
+        }
+        
+    }
+
+    /**
+     * Login a registered users.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(UserLoginRequest $request)
     {
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
