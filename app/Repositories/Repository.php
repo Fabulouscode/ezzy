@@ -42,7 +42,7 @@ class Repository
      */
     public function getAll()
     {
-        return $this->model->all()->sortByDesc('id');
+        return $this->model->all();
     }
    
     /**

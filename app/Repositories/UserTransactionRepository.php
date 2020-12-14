@@ -47,7 +47,7 @@ class UserTransactionRepository extends Repository
   
     public function userIncomeCalculate($request, $column_name = 'amount')
     {   
-        return $this->model->whereBetween('reservation_from', array($request->start_date, $request->end_date))->sum($column_name);
+        return $this->model->whereBetween('transaction_date', array($request->start_date, $request->end_date))->sum($column_name);
     }
     
     public function userPayoutIncome($request)
@@ -55,7 +55,7 @@ class UserTransactionRepository extends Repository
         return $this->model->addSelect(DB::raw('MONTH(transaction_date) as month'))
                             ->addSelect(DB::raw('SUM(amount) as total_income'))
                             ->addSelect(DB::raw('SUM(payout_amount) as total_payout'))
-                            ->whereBetween('reservation_from', array($request->start_date, $request->end_date))
+                            ->whereBetween('transaction_date', array($request->start_date, $request->end_date))
                             ->groupBy('month')->get();
     }
   

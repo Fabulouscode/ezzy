@@ -73,6 +73,7 @@ function addRow() {
                 $('#permission_category_id').val('');
                 $('#permission_title').val('');
                 $('#permission_name').val('');
+                console.log(response.permission_cats);
                 if (response.permission_cats) {
                     $("#permission_category_id option").remove();
                     response.permission_cats.forEach(element => {

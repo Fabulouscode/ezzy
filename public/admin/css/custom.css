@@ -244,3 +244,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 .card-header-flex .form-group{
     min-width: 205px;
 }
+
+.widget-chart li {
+    width: 45.5%;
+}

@@ -89,4 +89,25 @@ class Order extends Model
     public function getOrderNoGenerateAttribute(){
        return '#'.str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
+
+
+    public function format(){
+        return [
+            'id'=>$this->id,
+            'client'=>(isset($this->clientDetails))?
+                            [
+                                'id'=>$this->clientDetails->id,
+                                'user_name'=>$this->clientDetails->user_name,
+                                'profile_image'=>$this->clientDetails->profile_image
+                            ]:'',
+            'user'=>(isset($this->userDetails))?
+                            [
+                                'id'=>$this->userDetails->id,
+                                'user_name'=>$this->userDetails->user_name,
+                                'profile_image'=>$this->userDetails->profile_image
+                            ]:'',
+            'status'=>$this->status,
+            'status_name'=>$this->status_name,
+        ];
+    }
 }

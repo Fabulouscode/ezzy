@@ -89,7 +89,7 @@ class ShoppingCartRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->where('shop_medicine_detail_id', $medicine_id)->first();
     }
-  
+ 
     
     
 }

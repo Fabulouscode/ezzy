@@ -221,11 +221,11 @@
                         
                     <ul class="list-inline widget-chart m-t-20 text-center">
                         <li>
-                            <h4 class="">321</h4>
+                            <h4 class="">{{isset($currency_symbol) ? $currency_symbol : ''}}<span id="total_income">0</span></h4>
                             <p class="text-muted m-b-0">Total Income</p>
                         </li>
                         <li>
-                            <h4 class="">964</h4>
+                            <h4 class="">{{isset($currency_symbol) ? $currency_symbol : ''}} <span id="total_payout">0</span></h4>
                             <p class="text-muted m-b-0">Total Payout</p>
                         </li>
                     </ul>
@@ -252,14 +252,14 @@
                         <div class="row align-items-center mb-5">
                             <div class="col-md-6">
                                 <div class="pl-3">
-                                    <h3>$6451</h3>
-                                    <h6>Monthly Earning</h6>
-                                    <p class="text-muted">Sed ut perspiciatis unde omnis</p>
+                                    <h3>{{isset($currency_symbol) ? $currency_symbol : ''}} <span id="ezzycare_earning">0</span></h3>
+                                    <h6>EzzyCare Earning</h6>
+                                    <!-- <p class="text-muted">Sed ut perspiciatis unde omnis</p> -->
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="text-center">
-                                    <span class="peity-pie" data-peity='{ "fill": ["#508aeb", "#f2f2f2"]}' data-width="84" data-height="84">6/8</span>
+                                    <span class="peity-pie" id="appointments_and_order_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"]}' data-width="84" data-height="84">0/0</span>
                                 </div>
                             </div>
                         </div>
@@ -267,19 +267,19 @@
                             <div class="col-6">
                                 <div>
                                     <div class="mb-4">
-                                        <span class="peity-donut" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">2,4</span>
+                                        <span class="peity-donut appointments_earning" id="appointments_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">0,0</span>
                                     </div>
-                                    <h4>42%</h4>
-                                    <p class="mb-0 text-muted">Online Earning</p>
+                                    <h4><span id="appointments_percentage">0</span>%</h4>
+                                    <p class="mb-0 text-muted">Appointment Earning</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div>
                                     <div class="mb-4">
-                                        <span class="peity-donut" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">8,4</span>
+                                        <span class="peity-donut" id="orders_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">0,0</span>
                                     </div>
-                                    <h4>58%</h4>
-                                    <p class="text-muted mb-0">Offline Earning</p>
+                                    <h4><span id="orders_percentage">0</span>%</h4>
+                                    <p class="text-muted mb-0">Order Earning</p>
                                 </div>
                             </div>
                         </div>
@@ -405,6 +405,5 @@
     $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
     $('#end_date').val(moment().format("YYYY-MM-DD"));
 </script>
-<script src="{{ asset('admin/pages/dashboard.js') }}"></script>
 <script src="{{ asset('js/admin/dashboard.js') }}"></script>
 @endsection

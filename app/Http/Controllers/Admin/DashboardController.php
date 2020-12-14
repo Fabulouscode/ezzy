@@ -127,7 +127,9 @@ class DashboardController extends Controller
             $data['pending_payout'] = $this->user_transaction_repo->getPayoutCount('1'); 
             $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 
 
-            return view('admin.dashboard.dashboard', compact('data'));
+            $currency_symbol = $this->user_transaction_repo->currency_symbol;
+
+            return view('admin.dashboard.dashboard', compact('data','currency_symbol'));
         }
     }
    
@@ -136,13 +138,63 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAreaChartdata(Request $request)
+    public function getRevenueChartdata(Request $request)
     {
         if(!empty($request->start_date) && !empty($request->end_date)){
             $data = $this->appointment_repo->getAreaChartdata($request);
             dd($data);
             return response()->json(['status'=> true, 'data'=> $data], 200);
         }
+        
+        return response()->json(['msg'=>'Data Not Found'], 500);
+    }
+
+    /**
+     * bar chart data prepared for payout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getIncomeChartdata(Request $request)
+    {
+        $data =$request->all();
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $data['chart_data'] = $this->user_transaction_repo->userPayoutIncome($request);
+            $data['total_income'] = $this->user_transaction_repo->userIncomeCalculate($request, 'amount');
+            $data['total_payout'] = $this->user_transaction_repo->userIncomeCalculate($request, 'payout_amount');
+            return response()->json(['status'=> true, 'data'=> $data], 200);
+        }
+        
+        return response()->json(['msg'=>'Data Not Found'], 500);
+    }
+  
+    /**
+     * bar chart data prepared for payout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getEarningdata(Request $request)
+    {
+        $data =$request->all();
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $data['appointments_percentage'] = 0;
+            $data['appointments_and_order_paid'] = 0;
+            $data['appointments_and_order_total'] = 0;
+            $data['orders_percentage'] = 0;
+            $data['ezzycare_earning'] = $this->user_transaction_repo->userIncomeCalculate($request, 'fees_charge');
+            $data['appointment_paid'] = $this->appointment_repo->getAppointmentCount($request, '1');
+            $data['appointment_pending'] = $this->appointment_repo->getAppointmentCount($request, '0');
+            $data['order_paid'] = $this->order_repo->getOrderCount($request, '1');
+            $data['order_pending'] = $this->order_repo->getOrderCount($request, '0');
+            if(!empty($data['appointment_paid']) || !empty($data['appointment_pending'])){
+                $data['appointments_percentage'] = ($data['appointment_paid'] * 100) / ($data['appointment_paid'] + $data['appointment_pending']);
+            }
+            if(!empty($data['order_paid']) || !empty($data['order_pending'])){
+                $data['orders_percentage'] = ($data['order_paid'] * 100) / ($data['order_paid'] + $data['order_pending']);
+            }
+            $data['appointments_and_order_paid'] = $data['order_paid'] + $data['appointment_paid'];
+            $data['appointments_and_order_total'] = $data['order_paid'] + $data['appointment_paid'] + $data['order_pending'] + $data['appointment_pending'];
+            return response()->json(['status'=> true, 'data'=> $data], 200);
+        } 
         
         return response()->json(['msg'=>'Data Not Found'], 500);
     }

@@ -44,7 +44,15 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getMedicineCategories(Request $request)
     {
         $data = array();
-        $data = $this->medicine_category_repo->getbyColumnWithValue('status','0');
+        $data = $this->medicine_category_repo->getbyColumnWithValue('status','0')->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'name'=>$response->name,
+                                        'description'=>$response->description,
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
 
@@ -57,7 +65,16 @@ class ShopMedicineDetailsController extends BaseApiController
     {
         $data = array();
         $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
-        $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data);
+        $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'medicine_category_id'=>$response->medicine_category_id,
+                                        'name'=>$response->name,
+                                        'description'=>$response->description,
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
 
@@ -70,7 +87,18 @@ class ShopMedicineDetailsController extends BaseApiController
     {
         $data = array();
         $column_data = [['medicine_subcategoy_id', '=', $sub_id], ['status', '=', '0']];
-        $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data);
+        $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'medicine_name'=>$response->medicine_name,
+                                        'medicine_sku'=>$response->medicine_sku,
+                                        'description'=>$response->description,
+                                        'medicine_image'=>$response->medicine_image,
+                                        'medicine_multiple_images'=>$response->medicine_multiple_images,
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });;
         return self::sendSuccess($data);   
     }
 
@@ -82,7 +110,7 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getShopProductInfo($id)
     {
         $data = array();
-        $data = $this->shop_medicine_repo->getbyIdedit($id);
+        $data = $this->shop_medicine_repo->getbyIdedit($id)->format();
         return self::sendSuccess($data);
     }
  
@@ -128,7 +156,27 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getShopProduct(Request $request)
     {
         $data = array();            
-        $data = $this->shop_medicine_repo->getShopMedicineProducts($request);
+        $data = $this->shop_medicine_repo->getShopMedicineProducts($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'mrp_price'=>$response->mrp_price,
+                                        'offer_price'=>$response->offer_price,
+                                        'medicine_type'=>$response->medicine_type,
+                                        'medicine_type_name'=>$response->medicine_type_name,
+                                        'capsual_quantity'=>$response->capsual_quantity,
+                                        'shirap_ml'=>$response->shirap_ml,
+                                        'medicine_details'=>(isset($response->medicineDetails))?
+                                                        [
+                                                            'id'=>$response->medicineDetails->id,
+                                                            'medicine_image'=>$response->medicineDetails->medicine_image,
+                                                            'medicine_name'=>$response->medicineDetails->medicine_name,
+                                                            'medicine_sku'=>$response->medicineDetails->medicine_sku,
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
+        
         return self::sendSuccess($data);
     }
   
@@ -153,7 +201,26 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getMedicineDetailsWithSearch(Request $request)
     {
         $data = array();         
-        $data = $this->medicine_details_repo->getMedicineDetailsWithSearch($request);
+        $data = $this->medicine_details_repo->getMedicineDetailsWithSearch($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'mrp_price'=>$response->mrp_price,
+                                        'offer_price'=>$response->offer_price,
+                                        'medicine_type'=>$response->medicine_type,
+                                        'medicine_type_name'=>$response->medicine_type_name,
+                                        'capsual_quantity'=>$response->capsual_quantity,
+                                        'shirap_ml'=>$response->shirap_ml,
+                                        'medicine_details'=>(isset($response->medicineDetails))?
+                                                        [
+                                                            'id'=>$response->medicineDetails->id,
+                                                            'medicine_image'=>$response->medicineDetails->medicine_image,
+                                                            'medicine_name'=>$response->medicineDetails->medicine_name,
+                                                            'medicine_sku'=>$response->medicineDetails->medicine_sku,
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
 

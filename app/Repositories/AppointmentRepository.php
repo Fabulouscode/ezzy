@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
+use App\Repositories\OrderRepository;
 use DB;
 
 class AppointmentRepository extends Repository
 {
     protected $model_name = 'App\Models\Appointment';
     protected $model;
-   
-    public function __construct()
+    private $order_repo;
+
+    public function __construct(OrderRepository $order_repo)
     {
         parent::__construct();
+        $this->order_repo = $order_repo;
     }
 
     public function getStatusValue()
@@ -400,8 +403,18 @@ class AppointmentRepository extends Repository
     public function getHCPTypeWiseAppointment($request, $category_id, $provider_type = '')
     {
 
-        $query = $this->model->where('status', '5')->select(DB::raw('COUNT(id) AS ids_count'),'appointment_date AS created_date');    
-       
+        $query = $this->model->where('status', '5')->select('appointment_date AS created_date');
+        
+        if(!empty($category_id) && $category_id == '1'){
+             $query = $query->addSelect(DB::raw("'1' AS hcp_appointments"))
+                        ->addSelect(DB::raw("'0' AS orders"))    
+                        ->addSelect(DB::raw("'0' AS lab_appointments"));
+        }else if(!empty($category_id) && $category_id == '3'){
+             $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
+                        ->addSelect(DB::raw("'0' AS orders"))    
+                        ->addSelect(DB::raw("'1' AS lab_appointments"));
+        }
+
         if(!empty($category_id)){
             $query = $query->whereHas('user', function ($query) use ($category_id) {
                 $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
@@ -409,12 +422,13 @@ class AppointmentRepository extends Repository
                 });
             });           
         }
+       
         
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->where('appointment_date', '>=',$request->start_date)->where('appointment_date' , '<=',$request->end_date);
+           $query = $query->whereBetween('appointment_date', array($request->start_date, $request->end_date));
         }
 
-        $query = $query->groupBy('appointment_date')->orderBy('appointment_date','desc')->get()->toArray();
+        $query = $query->orderBy('appointment_date','desc');
         return $query;
     }
 
@@ -426,9 +440,46 @@ class AppointmentRepository extends Repository
     public function getAreaChartdata($request)
     {
         $data = array();
-        $data['hcp_provider'] = $this->getHCPTypeWiseAppointment($request, '1', 'hcp');
-        $data['laboratories_provider'] = $this->getHCPTypeWiseAppointment($request, '3', 'lab');
+        $hcp_provider = $this->getHCPTypeWiseAppointment($request, '1', 'hcp');
+        $laboratories_provider = $this->getHCPTypeWiseAppointment($request, '3', 'lab');
+        $pharmacy_provider = $this->order_repo->getOrdersQuery($request, $hcp_provider, $laboratories_provider);
+          print_r($pharmacy_provider);
+        die;      
+        // $query = $hcp_provider->union($laboratories_provider)->union($pharmacy_provider);
+        // $query = $query->select('created_date');
+        // $query = $query->addSelect(DB::raw("SUM(hcp_appointments) AS hcp"))
+        //                 ->addSelect(DB::raw("SUM(orders) AS order"))    
+        //                 ->addSelect(DB::raw("SUM(lab_appointments) AS lab"));
+
+        // $query = $query->groupBy('created_date')->get()->toArray();
+        
+
+        print_r($query);
+        die;
         return $data;
+    }
+
+    /**
+     * Dashboard pie Chart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentCount($request, $paid = 0)
+    {
+        $query = $this->model;   
+        
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereBetween('appointment_date', array($request->start_date, $request->end_date));
+        }
+        
+        if(!empty($paid) && $paid != '0'){
+            $query = $query->whereNotNull('transaction_id');
+        }else{
+            $query = $query->whereNull('transaction_id');
+        }
+
+        $query = $query->orderBy('appointment_date','desc')->count();
+        return $query;
     }
 }
 

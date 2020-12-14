@@ -113,4 +113,31 @@ class Appointment extends Model
         }
        return $appointment_timing;
     }
+
+    public function format(){
+        return [
+            'id'=>$this->id,
+            'appointment_type'=>$this->appointment_type,
+            'appointment_type_name'=>$this->appointment_type_name,
+            'appointment_date'=>$this->appointment_date,
+            'appointment_time'=>$this->appointment_time,
+            'completed_datetime'=>$this->completed_datetime,
+            'appointment_price'=>$this->appointment_price,
+            'invoice_no_generate'=>$this->invoice_no_generate,
+            'client'=>(isset($this->client))?
+                            [
+                                'id'=>$this->client->id,
+                                'user_name'=>$this->client->user_name,
+                                'profile_image'=>$this->client->profile_image
+                            ]:'',
+            'user'=>(isset($this->user))?
+                            [
+                                'id'=>$this->user->id,
+                                'user_name'=>$this->user->user_name,
+                                'profile_image'=>$this->user->profile_image
+                            ]:'',
+            'status'=>$this->status,
+            'status_name'=>$this->status_name,
+        ];
+    }
 }

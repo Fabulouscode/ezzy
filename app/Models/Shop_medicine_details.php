@@ -63,4 +63,29 @@ class Shop_medicine_details extends Model
         return $this->hasOne('App\Models\Favorite_product','shop_medicine_detail_id','id');
     }
 
+    public function format(){
+        return [
+            'id'=>$this->id,
+            'medicine_category_id'=>$this->medicine_category_id,
+            'medicine_subcategoy_id'=>$this->medicine_subcategoy_id,
+            'medicine_detail_id'=>$this->medicine_detail_id,
+            'capsual_quantity'=>$this->capsual_quantity,
+            'shirap_ml'=>$this->shirap_ml,
+            'offer_price'=>$this->offer_price,
+            'mrp_price'=>$this->mrp_price,
+            'medicine_type'=>$this->medicine_type,
+            'medicine_type_name'=>$this->medicine_type_name,
+            'medicine_details'=>(isset($this->medicineDetails))?
+                            [
+                                'id'=>$this->medicineDetails->id,
+                                'medicine_image'=>$this->medicineDetails->medicine_image,
+                                'medicine_multiple_images'=>$this->medicineDetails->medicine_multiple_images,
+                                'medicine_name'=>$this->medicineDetails->medicine_name,
+                                'medicine_sku'=>$this->medicineDetails->medicine_sku,
+                                'description'=>$this->medicineDetails->description,
+                            ]:'',
+            'status'=>$this->status,
+            'status_name'=>$this->status_name,
+        ];
+    }
 }

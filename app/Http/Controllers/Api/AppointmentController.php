@@ -37,35 +37,149 @@ class AppointmentController extends BaseApiController
     public function getRequestAppointment(Request $request)
     {
         $data = array();
-        $data = $this->appointment_repo->getPendingAppointment($request);
+        $data = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                        [
+                                                            'id'=>$response->user->id,
+                                                            'user_name'=>$response->user->user_name,
+                                                            'profile_image'=>$response->user->profile_image
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data, 'User Appointment Request');
     }
    
     public function getUpcomingAppointment(Request $request)
     {
         $data = array();
-        $data= $this->appointment_repo->getUpcomingAppointment($request);
+        $data= $this->appointment_repo->getUpcomingAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'id'=>$response->user->id,
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
    
     public function getPendingAppointment(Request $request)
     {
         $data = array();
-        $data = $this->appointment_repo->getPendingAppointment($request);
+        $data = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'id'=>$response->user->id,
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
 
     public function getCancelledAppointment(Request $request)
     {
         $data = array();
-        $data = $this->appointment_repo->getCancelledAppointment($request);
+        $data = $this->appointment_repo->getCancelledAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'cancel_reason'=>$response->cancel_reason,
+                                        'cancel_date'=>$response->cancel_date,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'id'=>$response->user->id,
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
 
     public function getCompletedAppointment(Request $request)
     {
         $data = array();
-        $data = $this->appointment_repo->getCompletedAppointment($request);
+        $data = $this->appointment_repo->getCompletedAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'completed_datetime'=>$response->completed_datetime,
+                                        'appointment_price'=>$response->appointment_price,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'id'=>$response->user->id,
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data);
     }
     
@@ -233,7 +347,7 @@ class AppointmentController extends BaseApiController
 
     public function getAppointmentById($appointment_id)
     {
-        $data = $this->appointment_repo->getbyIdedit($appointment_id); 
+        $data = $this->appointment_repo->getbyIdedit($appointment_id)->format(); 
         return self::sendSuccess($data, 'Appointment get');
     }
 

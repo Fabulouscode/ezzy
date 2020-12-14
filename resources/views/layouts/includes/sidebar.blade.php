@@ -167,10 +167,10 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i> <span> Admin Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         @can('permission_category-list')
-                        <li><a href="{{url('/permission_category')}}">Permission Category</a></li>
+                        <!-- <li><a href="{{url('/permission_category')}}">Permission Category</a></li> -->
                         @endcan
                         @can('permission-list')
-                        <li><a href="{{url('/permission')}}">Permission</a></li>
+                        <!-- <li><a href="{{url('/permission')}}">Permission</a></li> -->
                         @endcan
                         @can('role-list')
                         <li><a href="{{url('/role')}}">Role</a></li>

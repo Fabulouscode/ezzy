@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\Order;
 use Illuminate\Support\Str;
+use DB;
 
 class OrderRepository extends Repository
 {
@@ -304,5 +305,50 @@ class OrderRepository extends Repository
             ->rawColumns(['order_no'])->make(true);
     }
 
+     /**
+     * Dashboard Area Chart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getOrdersQuery($request, $hcp_provider, $laboratories_provider)
+    {
+
+        $query = $this->model->where('status', '1')->select('created_at AS created_date');
+        
+        $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
+                ->addSelect(DB::raw("'1' AS orders"))    
+                ->addSelect(DB::raw("'0' AS lab_appointments"));       
+        
+        // if(!empty($request->start_date) && !empty($request->end_date)){
+        //    $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
+        // }
+
+        $query = $query->union($hcp_provider)->union($laboratories_provider);
+        
+        $query = $query->get()->toArray();
+        return $query;
+    }
+    /**
+     * Dashboard pie Chart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getOrderCount($request, $paid = 0)
+    {
+        $query = $this->model;   
+        
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
+        }
+        
+        if(!empty($paid) && $paid != '0'){
+            $query = $query->whereNotNull('transaction_id');
+        }else{
+            $query = $query->whereNull('transaction_id');
+        }
+
+        $query = $query->orderBy('created_at','desc')->count();
+        return $query;
+    }
 
 }

@@ -46,13 +46,61 @@ class DashboardController extends BaseApiController
         $data['user'] = $this->user_repo->getbyId($request->user()->id);
         if(!empty($request->user()->category_id)){
             if($request->user()->categoryParent->parent_id == '2'){
-                $data['orders'] = $this->order_repo->getActiveOrder($request);
+                $data['orders'] = $this->order_repo->getActiveOrder($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'order_no_generate'=>$response->order_no_generate,
+                                        'total_price'=>$response->total_price,
+                                        'client'=>(isset($response->clientDetails))?
+                                                        [
+                                                            'id'=>$response->clientDetails->id,
+                                                            'user_name'=>$response->clientDetails->user_name,
+                                                            'profile_image'=>$response->clientDetails->profile_image
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
                 $data['user'] = new PharmacyResource($data['user']);
             }else if($request->user()->categoryParent->parent_id == '3'){
-                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request);
+                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                                            return [
+                                                'id'=>$response->id,
+                                                'appointment_type'=>$response->appointment_type,
+                                                'appointment_type_name'=>$response->appointment_type_name,
+                                                'appointment_date'=>$response->appointment_date,
+                                                'appointment_time'=>$response->appointment_time,
+                                                'client'=>(isset($response->client))?
+                                                    [
+                                                    'id'=>$response->client->id,
+                                                    'user_name'=>$response->client->user_name,
+                                                    'profile_image'=>$response->client->profile_image
+                                                    ]:'',
+                                                'status'=>$response->status,
+                                                'status_name'=>$response->status_name,
+                                            ];
+                                        });
                 $data['user'] = new LaboratoriesResource($data['user']);
             }else{
-                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request);
+                
+                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                                            return [
+                                                'id'=>$response->id,
+                                                'appointment_type'=>$response->appointment_type,
+                                                'appointment_type_name'=>$response->appointment_type_name,
+                                                'appointment_date'=>$response->appointment_date,
+                                                'appointment_time'=>$response->appointment_time,
+                                                'client'=>(isset($response->client))?
+                                                    [
+                                                    'id'=>$response->client->id,
+                                                    'user_name'=>$response->client->user_name,
+                                                    'profile_image'=>$response->client->profile_image
+                                                    ]:'',
+                                                'status'=>$response->status,
+                                                'status_name'=>$response->status_name,
+                                            ];
+                                        });
+                
                 $data['user'] = new HeathCareProviderResource($data['user']);
             }
         }else{
