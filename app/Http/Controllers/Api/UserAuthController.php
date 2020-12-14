@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Auth\UserForgetPasswordRequest;
 use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
 use App\Http\Requests\Api\Auth\UserProviderAuthRequest;
 use App\Http\Requests\Api\Auth\PasswordChangeRequest;
+use App\Http\Requests\Api\Auth\SocialLoginRequest;
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -152,7 +153,7 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function socialLogin(Request $request)
+    public function socialLogin(SocialLoginRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNoAndEmail($request);
         if(!empty($user)){

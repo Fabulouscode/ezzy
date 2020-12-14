@@ -80,6 +80,10 @@ class UserRepository extends Repository
                 'status' => !empty($request->category_id) ? 1 : 0,
                 'device_type' => isset($request->device_type) ? $request->device_type : NULL,
                 'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
+                'social_type'=> isset($request->social_type) ? $request->social_type : NULL,
+                'facebook_id'=> !empty($request->facebook_id) ? $request->facebook_id : NULL,
+                'google_id'=>!empty($request->google_id) ? $request->google_id : NULL,
+                'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
                 'deleted_at' => NULL
             ])->restore();    
     
@@ -309,7 +313,9 @@ class UserRepository extends Repository
      */
     public function checkbyMobileNoAndEmail($request)
     {   
-        return $this->model->where('mobile_no',$request->mobile_no)->where('email',$request->email)->first();
+        return $this->model->where(function($query) use ($request){
+                        $query->orWhere('mobile_no',$request->mobile_no)->orWhere('email',$request->email);
+                    })->first();
     }
 
     /**
