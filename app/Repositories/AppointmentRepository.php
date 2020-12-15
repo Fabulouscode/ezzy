@@ -254,14 +254,17 @@ class AppointmentRepository extends Repository
     public function checkUserAvailable($request)
     {   
             // appointment same time not book
-        // $start_appointment  = new Carbon($request->appointment_time);
-        // $end_appointment  = new Carbon($request->appointment_time);
-        return $this->model->where('appointment_date', $request->appointment_date)
-                // ->where('appointment_time','<=', $start_appointment->addMinute('20')->format('h:i:s'))
-                // ->where('appointment_time','>=', $end_appointment->subMinute('20')->format('h:i:s'))
+        $start_appointment  = new Carbon($request->appointment_time);
+        $end_appointment  = new Carbon($request->appointment_time);
+        $query = $this->model->where('appointment_date', $request->appointment_date)
+                ->where('appointment_time','<=', $start_appointment->addMinute('10')->format('h:i:s'))
+                ->where('appointment_time','>=', $end_appointment->subMinute('10')->format('h:i:s'))
                 ->where('appointment_time', $request->appointment_time)
-                ->where('user_id',$request->user_id)
-                ->first();
+                ->where('user_id',$request->user_id);
+   
+        $query = $query->first();
+
+        return $query;
       
     }
     

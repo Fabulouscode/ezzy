@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\AppointmentServiceRepository;
 use App\Repositories\UserServiceRepository;
@@ -19,18 +20,20 @@ use PDF;
 
 class AppointmentController extends BaseApiController
 {
-    private $appointment_repo, $appointment_service_repo, $user_service_repo;
+    private $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo;
 
     public function __construct(
             AppointmentRepository $appointment_repo, 
             AppointmentServiceRepository $appointment_service_repo,
-            UserServiceRepository $user_service_repo
+            UserServiceRepository $user_service_repo,
+            UserRepository $user_repo
         )
     {
         parent::__construct();
         $this->appointment_repo = $appointment_repo;
         $this->appointment_service_repo = $appointment_service_repo;
         $this->user_service_repo = $user_service_repo;
+        $this->user_repo = $user_repo;
     }
 
 
@@ -186,9 +189,10 @@ class AppointmentController extends BaseApiController
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
+        $user_available = $this->user_repo->checkUserAvailable($request);
         $check_appointment = $this->appointment_repo->checkUserAvailable($request);
-        if(!empty($check_appointment)){
-            return self::sendError([], 'Please Change Appointment Time');
+        if(!empty($check_appointment) || empty($user_available)){
+            return self::sendError([], 'Please Change Appointment Time Provider not available.');
         }
         
         $add_data = [
