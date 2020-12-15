@@ -94,6 +94,12 @@ class Order extends Model
     public function format(){
         return [
             'id'=>$this->id,
+            'total_price'=>$this->total_price,
+            'shipping_price'=>$this->shipping_price,
+            'user_rating'=>$this->user_rating,
+            'user_review'=>$this->user_review,
+            'delivery_type'=>$this->delivery_type,
+            'delivery_type_name'=>$this->delivery_type_name,
             'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
