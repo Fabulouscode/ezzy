@@ -117,7 +117,7 @@ class Appointment extends Model
     public function format(){
         return [
             'id'=>$this->id,
-            'urgent'=>$this->urgent,
+            'urgent'=> !empty($this->urgent) ? $this->urgent : 0,
             'appointment_type'=>$this->appointment_type,
             'appointment_type_name'=>$this->appointment_type_name,
             'appointment_date'=>$this->appointment_date,
