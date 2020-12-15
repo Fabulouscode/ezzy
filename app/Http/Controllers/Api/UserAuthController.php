@@ -40,7 +40,13 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterwithMobile(UserResendSMSRequest $request)
     {
-        $user = $this->user_repo->checkbyMobileNo($request);   
+        $user = $this->user_repo->checkbyMobileNo($request);
+        if (!empty($request->email)) {
+            $user_email = $this->user_repo->checkbyEmailId($request);
+            if (!empty($user_email)) {
+                return self::sendError('', 'Email ID Already Registered.');
+            }
+        }
         if(empty($user)){
             try{
                 DB::beginTransaction();
