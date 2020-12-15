@@ -41,7 +41,7 @@ class OrderController extends BaseApiController
     
     public function getOrderProduct($order_id)
     {
-        $data = $this->order_repo->getbyEditId($order_id);
+        $data = $this->order_repo->getbyEditId($order_id)->format();
         return self::sendSuccess($data, 'Order product get');
     }
   

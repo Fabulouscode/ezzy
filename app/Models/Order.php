@@ -94,6 +94,7 @@ class Order extends Model
     public function format(){
         return [
             'id'=>$this->id,
+            'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
                                 'id'=>$this->clientDetails->id,
@@ -109,5 +110,25 @@ class Order extends Model
             'status'=>$this->status,
             'status_name'=>$this->status_name,
         ];
+    }
+
+    public function orderProductDetailsformat($orderProductDetails){
+        $data = [];
+        if(!empty($orderProductDetails)){
+            foreach ($orderProductDetails as $key => $value) {
+                $data[]=[
+                    "id"=>$value->id,
+                    "quantity"=>$value->quantity,
+                    "medicine_price"=>$value->medicine_price,
+                    'shirap_ml'=> !empty($value->shopMedicineDetails)  ? $value->shopMedicineDetails->shirap_ml : '',
+                    'medicine_type'=> !empty($value->shopMedicineDetails)  ? $value->shopMedicineDetails->medicine_type : '',
+                    'medicine_type_name'=> !empty($value->shopMedicineDetails)  ? $value->shopMedicineDetails->medicine_type_name : '',
+                    'medicine_image'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails)  ? $value->shopMedicineDetails->medicineDetails->medicine_image : '',
+                    'medicine_name'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '',
+                    'medicine_sku'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_sku : '',
+                ];
+            }
+        }
+        return $data;
     }
 }
