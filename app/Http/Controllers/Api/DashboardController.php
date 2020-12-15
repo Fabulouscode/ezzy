@@ -63,7 +63,7 @@ class DashboardController extends BaseApiController
                                 });
                 $data['user'] = new PharmacyResource($data['user']);
             }else if($request->user()->categoryParent->parent_id == '3'){
-                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                $data['appointments'] = $this->appointment_repo->getUpcomingAppointment($request)->map(function ($response){
                                             return [
                                                 'id'=>$response->id,
                                                 'appointment_type'=>$response->appointment_type,
@@ -83,7 +83,7 @@ class DashboardController extends BaseApiController
                 $data['user'] = new LaboratoriesResource($data['user']);
             }else{
                 
-                $data['appointments'] = $this->appointment_repo->getPendingAppointment($request)->map(function ($response){
+                $data['appointments'] = $this->appointment_repo->getUpcomingAppointment($request)->map(function ($response){
                                             return [
                                                 'id'=>$response->id,
                                                 'appointment_type'=>$response->appointment_type,
