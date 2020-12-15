@@ -117,13 +117,20 @@ class Appointment extends Model
     public function format(){
         return [
             'id'=>$this->id,
+            'urgent'=>$this->urgent,
             'appointment_type'=>$this->appointment_type,
             'appointment_type_name'=>$this->appointment_type_name,
             'appointment_date'=>$this->appointment_date,
             'appointment_time'=>$this->appointment_time,
             'completed_datetime'=>$this->completed_datetime,
             'appointment_price'=>$this->appointment_price,
+            'home_visit_fees'=>$this->home_visit_fees,
             'invoice_no_generate'=>$this->invoice_no_generate,
+            'user_rating'=>$this->user_rating,
+            'user_review'=>$this->user_review,
+            'mobile_no'=>$this->mobile_no,
+            'email'=>$this->email,
+            'reason'=>$this->reason,
             'client'=>(isset($this->client))?
                             [
                                 'id'=>$this->client->id,
