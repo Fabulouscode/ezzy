@@ -35,7 +35,13 @@ class MedicalController extends BaseApiController
     public function getMedicalItemUsingCatID($id)
     {
         $data = array();
-        $data = $this->medical_item_repo->getbyMedicalCategoryId($id);
+        $data = $this->medical_item_repo->getbyMedicalCategoryId($id)->map(function ($response){
+                                    return [  
+                                        'id'=>$response->id,
+                                        'medical_item_name'=>$response->medical_item_name,
+                                        'medical_category_id'=>$response->medical_category_id
+                                    ];
+                                });
         return self::sendSuccess($data, 'medical item List');
     }
 

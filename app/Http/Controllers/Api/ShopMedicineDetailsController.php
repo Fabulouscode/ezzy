@@ -98,7 +98,7 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
-                                });;
+                                });
         return self::sendSuccess($data);   
     }
 
@@ -204,21 +204,7 @@ class ShopMedicineDetailsController extends BaseApiController
         $data = $this->medicine_details_repo->getMedicineDetailsWithSearch($request)->map(function ($response){
                                     return [
                                         'id'=>$response->id,
-                                        'mrp_price'=>$response->mrp_price,
-                                        'offer_price'=>$response->offer_price,
-                                        'medicine_type'=>$response->medicine_type,
-                                        'medicine_type_name'=>$response->medicine_type_name,
-                                        'capsual_quantity'=>$response->capsual_quantity,
-                                        'shirap_ml'=>$response->shirap_ml,
-                                        'medicine_details'=>(isset($response->medicineDetails))?
-                                                        [
-                                                            'id'=>$response->medicineDetails->id,
-                                                            'medicine_image'=>$response->medicineDetails->medicine_image,
-                                                            'medicine_name'=>$response->medicineDetails->medicine_name,
-                                                            'medicine_sku'=>$response->medicineDetails->medicine_sku,
-                                                        ]:'',
-                                        'status'=>$response->status,
-                                        'status_name'=>$response->status_name,
+                                        'medicine_name'=>$response->medicine_name
                                     ];
                                 });
         return self::sendSuccess($data);
