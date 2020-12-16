@@ -129,4 +129,27 @@ class PayoutAmountRepository extends Repository
                 ->rawColumns(['service_provider'])
                 ->make(true);
     }
+
+
+     /**
+     * Display a list of payout amout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPayoutAmoutHistory($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
+       
+        $query = $query->where('user_id',$request->user()->id);
+        
+        $query = $query->orderBy('id','desc')->get();
+        
+        return $query;
+    }
 }

@@ -9,16 +9,18 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserTransactionRepository;
+use App\Repositories\PayoutAmountRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\PaystackIntegrationRepository;
 use App\Http\Resources\Api\HeathCareProviderResource;
 use App\Http\Resources\Api\PharmacyResource;
 use App\Http\Resources\Api\LaboratoriesResource;
 use App\Http\Resources\Api\PatientResource;
+use App\Http\Requests\Api\PayAmountHistoryRequest;
 
 class DashboardController extends BaseApiController
 {
-    private $user_repo, $paystack_integration_repo, $order_repo, $category_repo, $appointment_repo, $user_trans_repo, $notification_repo;
+    private $user_repo, $payout_repo, $paystack_integration_repo, $order_repo, $category_repo, $appointment_repo, $user_trans_repo, $notification_repo;
 
     public function __construct(
         UserRepository $user_repo,
@@ -27,7 +29,8 @@ class DashboardController extends BaseApiController
         OrderRepository $order_repo,
         UserTransactionRepository $user_trans_repo,
         PaystackIntegrationRepository $paystack_integration_repo,
-        NotificationRepository $notification_repo
+        NotificationRepository $notification_repo,
+        PayoutAmountRepository $payout_repo
         )
     {
         parent::__construct();
@@ -38,6 +41,7 @@ class DashboardController extends BaseApiController
         $this->user_trans_repo = $user_trans_repo;
         $this->notification_repo = $notification_repo;
         $this->paystack_integration_repo = $paystack_integration_repo;
+        $this->payout_repo = $payout_repo;
     }
     
     public function getDashboardDetails(Request $request)
@@ -116,11 +120,41 @@ class DashboardController extends BaseApiController
         return self::sendSuccess($data, 'HCP Types');
     }
 
-    public function getPaymentHistory(Request $request)
+    public function getPaymentHistory(PayAmountHistoryRequest $request)
     {
         $data = array();        
         $data = $this->user_trans_repo->getTransactionHistory($request);
         return self::sendSuccess($data, 'User Transaction History');
+    }
+
+    public function getPayoutAmountHistory(PayAmountHistoryRequest $request)
+    {
+        $data = array();        
+        $data = $this->payout_repo->getPayoutAmoutHistory($request)->map(function ($response){
+                                            return [
+                                                'id'=>$response->id,
+                                                'amount'=>$response->amount,
+                                                'approved_date'=>$response->approved_date,
+                                                'bank_transaction_id'=>$response->bank_transaction_id,
+                                                'appointment_time'=>$response->appointment_time,
+                                                'user_details'=>(isset($response->admin))?
+                                                    [
+                                                    'name'=>$response->admin->name,
+                                                    'email'=>$response->admin->email
+                                                    ]:'',
+                                                'bank_details'=>(isset($response->userBankAccount))?
+                                                    [
+                                                    'name'=>$response->userBankAccount->name,
+                                                    'bank_name'=>$response->userBankAccount->bank_name,
+                                                    'bank_branch_name'=>$response->userBankAccount->bank_branch_name,
+                                                    'account_number'=>$response->userBankAccount->account_number,
+                                                    'ifsc_code'=>$response->userBankAccount->ifsc_code
+                                                    ]:'',
+                                                'status'=> '0',
+                                                'status_name'=> 'Paid',
+                                            ];
+                                        });;
+        return self::sendSuccess($data, 'User Payout History');    
     }
 
     public function sendingNotification(Request $request)
