@@ -19,6 +19,7 @@ class User extends Authenticatable
         '1'=>'Wait for Approval', 
         '2'=>'Inactive', 
         '3'=>'Pending Verify',
+        '4'=>'Profile Not Complete',
     );
     
 
