@@ -27,8 +27,6 @@ class CartCheckoutRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
-            'total_price' => 'required',
-            'shipping_price' => 'required',
             'delivery_type' => 'required',
         ];
     }

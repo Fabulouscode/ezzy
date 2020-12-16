@@ -79,6 +79,19 @@ class ShoppingCartRepository extends Repository
                                  $q->where('user_id', $shop_id);
                     })->delete();
     }
+
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function checkCartInOthershopItem($user_id, $shop_id)
+    {
+        return $this->model->where('user_id', $user_id)
+                    ->whereHas('shopMedicineDetails', function($q) use ($shop_id){
+                                 $q->where('user_id', $shop_id);
+                    })->first();
+    }
   
     /**
      * get Model and return the instance.

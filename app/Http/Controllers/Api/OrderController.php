@@ -8,6 +8,7 @@ use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\ShoppingCartRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +16,15 @@ use PDF;
 
 class OrderController extends BaseApiController
 {
-    private $order_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo;
+    private $order_repo, $user_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo;
 
     public function __construct(
         ShoppingCartRepository $shop_cart_repo,
         OrderRepository $order_repo,
         OrderProductRepository $order_product_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
-        OrderTrackingRepository $order_tracking_repo
+        OrderTrackingRepository $order_tracking_repo,
+        UserRepository $user_repo
         )
     {
         parent::__construct();
@@ -31,6 +33,7 @@ class OrderController extends BaseApiController
         $this->order_product_repo = $order_product_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->order_tracking_repo = $order_tracking_repo;
+        $this->user_repo = $user_repo;
     }
 
     public function getOrderHistory(Request $request)
@@ -199,6 +202,7 @@ class OrderController extends BaseApiController
     public function saveCartCheckout(CartCheckoutRequest $request)
     { 
         $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
+        $pharmacy_user = $this->user_repo->getById($request->user_id);
         if(empty($cart_details) || count($cart_details) == '0'){
             return self::sendError([], 'Cart is Empty');
         }
@@ -217,13 +221,15 @@ class OrderController extends BaseApiController
                             'user_id'=> $request->user_id,
                             'client_id'=> $request->user()->id,
                             'user_location_id' => !empty($request->user_location_id) ? $request->user_location_id : NULL,
-                            'total_price' => $request->total_price,
-                            'shipping_price' => $request->shipping_price,
                             'delivery_type'=> $request->delivery_type
                         ];
                         
             $order = $this->order_repo->dataCrud($order_data); 
-
+            $transaction_amount = 0;
+            $shipping_price = 0;
+            if($request->delivery_type == '0'){
+                $shipping_price = $pharmacy_user->userDetails->delivery_charge;
+            }
             if(!empty($cart_details) && !empty($order)){
                 foreach ($cart_details as $key => $value) {
                     $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
@@ -241,9 +247,16 @@ class OrderController extends BaseApiController
                                             'medicine_price' => $stock_available->offer_price,
                                         ];
                     $this->order_product_repo->dataCrud($order_product_data); 
-                                       
+                       
+                    $transaction_amount += $stock_available->offer_price * $value->quantity;                
                 }
 
+            $order_update = [
+                            'total_price' => $transaction_amount,
+                            'shipping_price' => $shipping_price
+                        ];
+                        
+                $this->order_repo->dataCrud($order_update, $order->id); 
                 $this->shop_cart_repo->clearUserCart($request->user()->id); 
                 $data = $this->order_repo->getbyEditId($order->id); 
             }

@@ -27,6 +27,7 @@ class ShoppingCartRequest extends FormRequest
     public function rules()
     {
             return [
+                "shop_id" => 'required',
                 "shop_medicine_detail_id" => 'required',
                 "quantity" => 'required|integer|min:0',
             ];
