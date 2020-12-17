@@ -63,7 +63,12 @@ class Appointment extends Model
         'hcp_fees',
         'home_visit_fees',
         'total_charge',
-        'full_day'
+        'full_day',
+        'address',
+        'video_start_time',
+        'video_end_time',
+        'longitude',
+        'latitude'
     ];
 
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','appointment_type_name'];
@@ -132,6 +137,9 @@ class Appointment extends Model
             'mobile_no'=>$this->mobile_no,
             'email'=>$this->email,
             'reason'=>$this->reason,
+            'address'=>$this->address,
+            'latitude'=>$this->latitude,
+            'longitude'=>$this->longitude,
             'client'=>(isset($this->client))?
                             [
                                 'id'=>$this->client->id,
