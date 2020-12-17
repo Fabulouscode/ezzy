@@ -172,6 +172,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // appointment
             Route::prefix('appointment')->group(function(){     
                 Route::get('/request', 'AppointmentController@getRequestAppointment');       
+                Route::post('/all', 'AppointmentController@getAllAppointment');
                 Route::post('/pending', 'AppointmentController@getPendingAppointment');
                 Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
@@ -265,7 +266,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 
                 Route::post('/add', 'AppointmentController@addLaboratoryAppointment');
 
-                Route::get('/request', 'AppointmentController@getRequestAppointment');       
+                Route::get('/request', 'AppointmentController@getRequestAppointment');     
+                Route::post('/all', 'AppointmentController@getAllAppointment');  
                 Route::post('/pending', 'AppointmentController@getPendingAppointment');
                 Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');

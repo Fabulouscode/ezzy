@@ -304,7 +304,7 @@ class UserRepository extends Repository
     public function checkUserAvailable($request)
     {   
         $appointment_date = new Carbon($request->appointment_date);
-        $appointment_day = $appointment_date->dayOfWeek + 1;
+        $appointment_day = $appointment_date->dayOfWeek;
         $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                         $query->where('appointment_type', $request->appointment_type);
                         $query->where('start_time', '<=' ,$request->appointment_time);

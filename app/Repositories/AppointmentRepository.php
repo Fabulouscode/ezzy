@@ -257,9 +257,8 @@ class AppointmentRepository extends Repository
         $start_appointment  = new Carbon($request->appointment_time);
         $end_appointment  = new Carbon($request->appointment_time);
         $query = $this->model->where('appointment_date', $request->appointment_date)
-                ->where('appointment_time','<=', $start_appointment->addMinute('10')->format('h:i:s'))
-                ->where('appointment_time','>=', $end_appointment->subMinute('10')->format('h:i:s'))
-                ->where('appointment_time', $request->appointment_time)
+                ->where('appointment_time','<=', $start_appointment->addMinute('10')->format('H:i:s'))
+                ->where('appointment_time','>=', $end_appointment->subMinute('10')->format('H:i:s'))
                 ->where('user_id',$request->user_id);
    
         $query = $query->first();
@@ -268,6 +267,33 @@ class AppointmentRepository extends Repository
       
     }
     
+    /**
+     * Display a list of Upcoming Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllAppointment($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit); 
+
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->orderBy('id','desc')->get();
+        
+        return $query;
+       
+    }
+
     /**
      * Display a list of Upcoming Appointment record.
      *
