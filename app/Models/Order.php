@@ -48,7 +48,7 @@ class Order extends Model
         'delivery_type'
     ];
 
-    protected $appends = ['invoice_no_generate','order_no_generate','status_name','delivery_type_name'];
+    protected $appends = ['invoice_no_generate','order_no_generate','status_name','delivery_type_name','order_medicine_name'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
@@ -76,6 +76,11 @@ class Order extends Model
    
     public function orderProductDetails() {
         return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
+    }
+
+    public function getOrderMedicineNameAttribute(){
+        return $this->orderProductNamesformat($this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get());        
+        // return $this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get();    
     }
 
     public function getTransaction() {
@@ -133,6 +138,16 @@ class Order extends Model
                     'medicine_name'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '',
                     'medicine_sku'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_sku : '',
                 ];
+            }
+        }
+        return $data;
+    }
+ 
+    public function orderProductNamesformat($orderProductDetails){
+        $data = [];
+        if(!empty($orderProductDetails)){
+            foreach ($orderProductDetails as $key => $value) {
+                $data[]=!empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '';
             }
         }
         return $data;

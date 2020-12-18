@@ -218,12 +218,24 @@ class AppointmentController extends BaseApiController
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
+        
+        if(!empty($request->appointment_type) && $request->appointment_type == '1'){
+             //Appointment home care book
+            $check_user_location = $this->user_repo->checkUserLocation($request);
+            if(empty($check_user_location)){
+                return self::sendError([], 'Please Add address.');
+            }
+        }
+        
+        //user timing check
         $user_available = $this->user_repo->checkUserAvailable($request);
+        
+        //user free or not checking
         $check_appointment = $this->appointment_repo->checkUserAvailable($request);
         if(!empty($check_appointment) || empty($user_available)){
             return self::sendError([], 'Please Change Appointment Time Provider not available.');
         }
-        
+      
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,

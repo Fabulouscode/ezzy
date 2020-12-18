@@ -14,7 +14,7 @@ class Appointment extends Model
     public $status_value = array(
         '0' => 'Pending',
         '1' => 'Upcoming',
-        '2' => 'in_progress',
+        '2' => 'In progress',
         '3' => 'Paid',
         '4' => 'Unpaid',
         '5' => 'Completed',

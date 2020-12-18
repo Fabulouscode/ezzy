@@ -312,7 +312,10 @@ class UserRepository extends Repository
                         $query->where('day', $appointment_day);
                         $query->where('user_id', $request->user_id);
                     });
- 
+        $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('availability', '0');
+                    });
+
         $query = $query->first();
         return $query;
     }
@@ -325,6 +328,23 @@ class UserRepository extends Repository
     public function checkbyMobileNo($request)
     {   
         return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->whereIn('status',['0','1','2'])->first();
+    }
+   
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUserLocation($request)
+    {   
+        $query = $this->model;
+        $query = $query->whereHas('userLocation', function($query) use ($request){
+                        $query->where('user_id', $request->user()->id);
+                        $query->where('primary_address', 1);
+                    });
+
+        $query = $query->first();
+        return $query;
     }
 
     /**

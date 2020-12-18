@@ -38,7 +38,31 @@ class OrderController extends BaseApiController
 
     public function getOrderHistory(Request $request)
     {
-        $data = $this->order_repo->getOrderHistory($request); 
+        $data = $this->order_repo->getOrderHistory($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'order_no_generate'=>$response->order_no_generate,
+                                        'total_price'=>$response->total_price,
+                                        'completed_datetime'=>$response->completed_datetime,
+                                        'cancel_reason'=>$response->cancel_reason,
+                                        'cancel_date'=>$response->cancel_date,
+                                        'order_medicine_name'=> !empty($response->order_medicine_name) ? $response->order_medicine_name : '',
+                                        'client'=>(isset($response->clientDetails))?
+                                                        [
+                                                            'id'=>$response->clientDetails->id,
+                                                            'user_name'=>$response->clientDetails->user_name,
+                                                            'profile_image'=>$response->clientDetails->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->userDetails))?
+                                                        [
+                                                            'id'=>$response->userDetails->id,
+                                                            'user_name'=>$response->userDetails->user_name,
+                                                            'profile_image'=>$response->userDetails->profile_image
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                }); 
         return self::sendSuccess($data, 'Order History get');
     }
     
