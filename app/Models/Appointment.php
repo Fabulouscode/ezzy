@@ -26,6 +26,11 @@ class Appointment extends Model
         '1' => 'Home Care',
         '2' => 'Video Call'
     );
+   
+    public $gender_value = array(
+        '0' => 'Male',
+        '1' => 'Female',
+    );
     
 
 
@@ -71,10 +76,14 @@ class Appointment extends Model
         'latitude'
     ];
 
-    protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','appointment_type_name'];
+    protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+    }
+   
+    public function getGenderNameAttribute() {
+        return array_key_exists($this->gender, $this->gender_value) ? $this->gender_value[$this->gender]: '';
     }
 
     public function getAppointmentTypeNameAttribute() {
@@ -134,8 +143,12 @@ class Appointment extends Model
             'invoice_no_generate'=>$this->invoice_no_generate,
             'user_rating'=>$this->user_rating,
             'user_review'=>$this->user_review,
-            'mobile_no'=>$this->mobile_no,
+            'name'=>$this->name,
             'email'=>$this->email,
+            'mobile_no'=>$this->mobile_no,
+            'gender'=>$this->gender,
+            'gender_name'=>$this->gender_name,
+            'age'=>$this->age,
             'reason'=>$this->reason,
             'address'=>$this->address,
             'latitude'=>$this->latitude,
