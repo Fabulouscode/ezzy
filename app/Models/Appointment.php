@@ -157,13 +157,16 @@ class Appointment extends Model
                             [
                                 'id'=>$this->client->id,
                                 'user_name'=>$this->client->user_name,
-                                'profile_image'=>$this->client->profile_image
+                                'profile_image'=>$this->client->profile_image,
+                                'address'=>(!empty($this->client->userPrimaryAddress)) ? $this->client->userPrimaryAddress->address : '',
                             ]:'',
             'user'=>(isset($this->user))?
                             [
                                 'id'=>$this->user->id,
                                 'user_name'=>$this->user->user_name,
-                                'profile_image'=>$this->user->profile_image
+                                'profile_image'=>$this->user->profile_image,
+                                'address'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->address : '',
+                                'eduction_details'=>(!empty($this->user->user_eduction_details)) ? $this->user->user_eduction_details : ''
                             ]:'',
             'status'=>$this->status,
             'status_name'=>$this->status_name,

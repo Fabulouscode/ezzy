@@ -130,6 +130,10 @@ class User extends Authenticatable
     public function userPrimaryBankAccount() {
         return $this->hasOne('App\Models\User_bank_account')->where('primary_account','1');
     }
+
+    public function userPrimaryAddress() {
+        return $this->hasOne('App\Models\User_location')->where('primary_address','1');
+    }
     
     public function userAvailableTime() {
         return $this->hasMany('App\Models\User_available_time')->orderBy('day','asc');
