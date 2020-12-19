@@ -63,6 +63,10 @@ class OrderRepository extends Repository
         
         $query = $query->limit($this->api_data_limit);  
         
+        if(isset($request->delivery_type)){
+            $query = $query->where('delivery_type',$request->delivery_type);
+        }
+      
         if(!empty($request->user()->category_id)){
             $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
         }else{
