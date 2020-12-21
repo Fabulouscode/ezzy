@@ -18,7 +18,7 @@ class Order extends Model
     );
 
     public $delivery_type_value = array(
-        '0' => 'Home Delievry',
+        '0' => 'Home Delivery',
         '1' => 'pick-up from store',
     );
 
