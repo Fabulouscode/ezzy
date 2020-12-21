@@ -117,7 +117,8 @@ class Order extends Model
                             [
                                 'id'=>$this->userDetails->id,
                                 'user_name'=>$this->userDetails->user_name,
-                                'profile_image'=>$this->userDetails->profile_image
+                                'profile_image'=>$this->userDetails->profile_image,
+                                'address'=>(isset($this->userDetails->userDetails))? $this->userDetails->userDetails->address : ''
                             ]:'',
             'status'=>$this->status,
             'status_name'=>$this->status_name,
