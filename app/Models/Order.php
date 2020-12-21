@@ -105,6 +105,7 @@ class Order extends Model
             'user_review'=>$this->user_review,
             'delivery_type'=>$this->delivery_type,
             'delivery_type_name'=>$this->delivery_type_name,
+            'order_no_generate'=>$this->order_no_generate,
             'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
