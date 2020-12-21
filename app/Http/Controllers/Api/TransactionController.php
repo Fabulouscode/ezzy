@@ -219,7 +219,7 @@ class TransactionController extends BaseApiController
                         'payout_amount'=> $user_payout,
                         'fees_charge'=> $ezzycare_charge,
                     ];
-                $this->payout_history_repo->dataCrud($add_payout);
+                 $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
 
                 $update = [
                         'status'=> '1',
