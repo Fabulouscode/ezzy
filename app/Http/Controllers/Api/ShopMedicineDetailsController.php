@@ -118,12 +118,13 @@ class ShopMedicineDetailsController extends BaseApiController
     {
         $data = array();
         if(empty($request->id)){
-            $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id]];
+            $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id], ['status','0']];
             $shop_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
             if(!empty($shop_product)){
                 return self::sendError([],'Product already registerd please Check');
             }
         }
+
 
         $insert_data = [
                         "user_id" => $request->user()->id,
@@ -134,16 +135,28 @@ class ShopMedicineDetailsController extends BaseApiController
                         "shirap_ml" => $request->shirap_ml,
                         "mrp_price" => $request->mrp_price,
                         "offer_price" => $request->offer_price,
-                        "medicine_type" => $request->medicine_type
+                        "medicine_type" => $request->medicine_type,
+                        "status" => '0'
                     ];
             
         try{
             DB::beginTransaction();
-            if(!empty($request->id)){
-                $data = $this->shop_medicine_repo->dataCrud($insert_data, $request->id);
-            }else{
-                $data = $this->shop_medicine_repo->dataCrud($insert_data);
+            
+            if(empty($request->id)){
+                $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id], ['status','1']];
+                $inactive_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
             }
+
+            if(!empty($inactive_product)){
+                 $data = $this->shop_medicine_repo->dataCrud($insert_data, $inactive_product->id);
+            }else{
+                if(!empty($request->id)){
+                    $data = $this->shop_medicine_repo->dataCrud($insert_data, $request->id);
+                }else{
+                    $data = $this->shop_medicine_repo->dataCrud($insert_data);
+                }
+            }
+
             DB::commit();
             return self::sendSuccess($data);
         }catch(\Exception $e){
