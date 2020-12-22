@@ -11,6 +11,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ShoppingCartRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
+use App\Http\Requests\Api\OrderStatusRequest;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -183,9 +184,9 @@ class OrderController extends BaseApiController
         $data = array();
         $update = [
                     'status'=> $request->status,
-                    'cancel_reason'=> !empty($request->cancel_reason) && $request->status == '6' ? $request->cancel_reason : NULL,
-                    'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : NULL,
-                    'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : NULL,
+                    'cancel_reason'=> !empty($request->cancel_reason) && $request->status == '2' ? $request->cancel_reason : NULL,
+                    'cancel_date'=> !empty($request->cancel_date) && $request->status == '2' ? $request->cancel_date : NULL,
+                    'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '2' ? $request->user()->id : NULL,
                   ];
 
         try{
