@@ -106,6 +106,8 @@ class Order extends Model
             'delivery_type'=>$this->delivery_type,
             'delivery_type_name'=>$this->delivery_type_name,
             'order_no_generate'=>$this->order_no_generate,
+            'completed_datetime'=>$this->completed_datetime,
+            'created_at'=>$this->created_at,
             'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
