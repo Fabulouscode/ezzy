@@ -79,7 +79,7 @@ class User extends Authenticatable
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review','user_order_rating', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
                           'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code', 'profile_completed_progress',
-                          'user_eduction_details'
+                          'user_eduction_details','user_active_product'
                         ];
 
     public function getStatusNameAttribute() {
@@ -213,6 +213,11 @@ class User extends Authenticatable
     public function getUserOrderRatingAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
                     ->where('status', '1')->avg('user_rating');      
+    }
+
+    public function getUserActiveProductAttribute(){
+        return $this->hasMany('App\Models\Shop_medicine_details','user_id','id')
+                    ->where('status', '0')->count('id');      
     }
  
     public function getUserOrderReviewAttribute(){
