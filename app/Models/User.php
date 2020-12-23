@@ -145,6 +145,10 @@ class User extends Authenticatable
     public function userReview() {
         return $this->hasMany('App\Models\User_review');
     }
+ 
+    public function userLabReport() {
+        return $this->hasMany('App\Models\Lab_report','client_id','id');
+    }
 
     public function getUserEductionDetailsAttribute(){
         return $this->hasMany('App\Models\User_education')->orderBy('end_year','desc')->pluck('degree_name')->implode(', ');        

@@ -291,7 +291,7 @@ class UserRepository extends Repository
      */
     public function getUserbyCardNumber($card_number)
     {   
-        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userAvailableTime'])
+        return $this->model->with(['userDetails','userLabReport'])
                             ->where('ezzycare_card',$card_number)->first();
 
     }
