@@ -65,6 +65,7 @@ class OrderRepository extends Repository
         
         if(isset($request->delivery_type)){
             $query = $query->where('delivery_type',$request->delivery_type);
+            $query = $query->where('status', '!=','2');
         }
       
         if(!empty($request->user()->category_id)){
