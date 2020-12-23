@@ -247,4 +247,60 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Order','user_id','id')
                     ->where('status', '0')->count('*');     
     }
+
+    public function format(){
+        return [
+            'id'=>$this->id,
+            'ezzycare_card'=>$this->ezzycare_card,
+            'first_name'=>$this->first_name,
+            'last_name'=>$this->last_name,
+            'email'=>$this->email,
+            'country_code'=>$this->country_code,
+            'mobile_no'=>$this->mobile_no,
+            'gender'=>$this->gender,
+            'profile_image'=>$this->profile_image,
+            'user_name'=>$this->user_name,
+            'mobile_no_country_code'=>$this->mobile_no_country_code,
+            'status'=>$this->status,
+            'status_name'=>$this->status_name,
+            'lab_report'=>(!empty($this->userLabReport))? $this->userLabReportformat($this->userLabReport) : '',
+            'user_details'=>(isset($this->userDetails))?
+                            [
+                                'emergency_contact'=>$this->userDetails->emergency_contact,
+                                'dob'=>$this->userDetails->dob,
+                                'marital_status'=>$this->userDetails->marital_status,
+                                'blood_group'=>$this->userDetails->blood_group,
+                                'height'=>$this->userDetails->height,
+                                'weight'=>$this->userDetails->weight,
+                                'allergies'=>$this->userDetails->allergies,
+                                'smoking_habbits'=>$this->userDetails->smoking_habbits,
+                                'alcohole_consumption'=>$this->userDetails->alcohole_consumption,
+                                'food_preference'=>$this->userDetails->food_preference,
+                                'occupation'=>$this->userDetails->occupation,
+                                'current_medications'=>$this->userDetails->current_medications,
+                                'past_medications'=>$this->userDetails->past_medications,
+                                'chronic_disease'=>$this->userDetails->chronic_disease,
+                                'injuries'=>$this->userDetails->injuries,
+                                'surgeries'=>$this->userDetails->surgeries,
+                                'activity_level'=>$this->userDetails->activity_level,
+                            ]:'',
+        ];
+    }
+
+    public function userLabReportformat($userLabReport){
+        $data = [];
+        if(!empty($userLabReport)){
+            foreach ($userLabReport as $key => $value) {
+                $data[]=[
+                    "report_name"=>$value->report_name,
+                    "doctor_name"=>$value->doctor_name,
+                    "report_date"=>$value->report_date,
+                    "report_time"=>$value->report_time,
+                    "report_images"=>$value->report_images,
+                    "created_at"=>$value->updated_at,
+                 ];
+            }
+        }
+        return $data;
+    }
 }
