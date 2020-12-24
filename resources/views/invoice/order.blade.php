@@ -43,10 +43,10 @@
                                                 <div>
                                                     <address>
                                                           <strong>Shipped To:</strong><br>
-                                                            {{$data->userLocationDetails->name}}<br>
-                                                            {{$data->userLocationDetails->email}}<br>
-                                                            {{$data->userLocationDetails->mobile_no}}<br>
-                                                            {{$data->userLocationDetails->address}}<br>
+                                                            {{!empty($data->userLocationDetails) $data->userLocationDetails->name ? ''}}<br>
+                                                            {{!empty($data->userLocationDetails) $data->userLocationDetails->email ? ''}}<br>
+                                                            {{!empty($data->userLocationDetails) $data->userLocationDetails->mobile_no ? ''}}<br>
+                                                            {{!empty($data->userLocationDetails) $data->userLocationDetails->address ? ''}}<br>
                                                     </address>
                                                 </div>
                                             </td>
