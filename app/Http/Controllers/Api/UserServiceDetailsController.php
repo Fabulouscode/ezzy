@@ -36,7 +36,15 @@ class UserServiceDetailsController extends BaseApiController
     public function getUserServiceDetails(Request $request)
     {
         $data = array();
-        $data = $this->user_service_repo->getbyUserId($request->user()->id);
+        $data = $this->user_service_repo->getbyUserId($request->user()->id)->map(function ($response){
+                                    return [
+                                            'id'=>$response->id,
+                                            'service_charge'=>$response->service_charge,
+                                            'service_name'=>(isset($response->service))? $response->service->service_name :'',
+                                            'status'=>$response->status,
+                                            'status_name'=>$response->status_name
+                                        ];
+                                    });
         return self::sendSuccess($data, 'User Experiance details');
     }
 

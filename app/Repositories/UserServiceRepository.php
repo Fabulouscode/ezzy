@@ -49,7 +49,7 @@ class UserServiceRepository extends Repository
      */
     public function getbyUserId($user_id)
     {
-        return $this->model->where('user_id', $user_id)->get();
+        return $this->model->with(['service'])->where('user_id', $user_id)->get();
     }
 
 
