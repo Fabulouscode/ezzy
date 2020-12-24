@@ -51,10 +51,10 @@
                                 <div class="col-6 text-right">
                                     <address>
                                         <strong>Shipped To:</strong><br>
-                                        {{!empty($data->userLocationDetails) $data->userLocationDetails->name ? ''}}<br>
-                                        {{!empty($data->userLocationDetails) $data->userLocationDetails->email ? ''}}<br>
-                                        {{!empty($data->userLocationDetails) $data->userLocationDetails->mobile_no ? ''}}<br>
-                                        {{!empty($data->userLocationDetails) $data->userLocationDetails->address ? ''}}<br>
+                                        {{!empty($data->userLocationDetails) ? $data->userLocationDetails->name : ''}}<br>
+                                        {{!empty($data->userLocationDetails) ? $data->userLocationDetails->email : ''}}<br>
+                                        {{!empty($data->userLocationDetails) ? $data->userLocationDetails->mobile_no :  ''}}<br>
+                                        {{!empty($data->userLocationDetails) ? $data->userLocationDetails->address : ''}}<br>
                                     </address>
                                 </div>
                             </div>
