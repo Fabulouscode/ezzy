@@ -28,7 +28,6 @@ class ReviewRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'comment' => 'required',
             'rating' => 'required',
         ];
     }

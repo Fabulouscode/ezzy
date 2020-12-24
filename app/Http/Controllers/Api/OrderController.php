@@ -207,7 +207,7 @@ class OrderController extends BaseApiController
         $data = array();
         $update = [
                     'user_rating'=> $request->rating,
-                    'user_review'=> $request->comment,
+                    'user_review'=> isset($request->comment) ? $request->comment :'',
                   ];
 
         try{
