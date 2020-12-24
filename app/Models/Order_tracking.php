@@ -24,6 +24,7 @@ class Order_tracking extends Model
         'order_id',
         'title',
         'description',
+        'estimation_datetime',
         'status',
     ];
 

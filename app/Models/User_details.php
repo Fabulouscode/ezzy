@@ -64,7 +64,9 @@ class User_details extends Model
         'past_medications',
         'chronic_disease',
         'injuries',
-        'surgeries'
+        'surgeries',
+        'emergency_contact_name',
+        'fees_minute'
     ];
 
 
