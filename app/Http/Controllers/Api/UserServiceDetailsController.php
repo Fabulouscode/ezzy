@@ -22,7 +22,14 @@ class UserServiceDetailsController extends BaseApiController
     public function getServiceDetails($service_type)
     {
         $data = array();
-        $data = $this->services_repo->getbyServiceType($service_type);
+        $data = $this->services_repo->getbyServiceType($service_type)->map(function ($response){
+                                    return [
+                                            'id'=>$response->id,
+                                            'service_name'=>$response->service_name,
+                                            'status'=>$response->status,
+                                            'status_name'=>$response->status_name,
+                                        ];
+                                    });
         return self::sendSuccess($data, 'get Service details');
     }
   
