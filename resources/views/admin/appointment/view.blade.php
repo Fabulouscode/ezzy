@@ -252,42 +252,7 @@
                             </div>
                         </div>
                         @endif
-                       
-
-                       @if(!empty($data->userService))
-                        <div class="border border-light rounded mb-3">
-                            <div class="card-detail-view">
-                                <h4 class="mt-0 header-title">Services Details</h4>
-                                <div class="card-detail-list">
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Service Name</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->userService->service))
-                                                {{$data->userService->service->service_name}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Service Charge</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->hcp_fees))
-                                                {{$currency_symbol.$data->hcp_fees}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Service Charge Type</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->userService->service_charge_type))
-                                                {{$data->userService->service_charge_type_name}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-
+                      
                         @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                         <div class="border border-light rounded mb-3">
                             <div class="card-detail-view">

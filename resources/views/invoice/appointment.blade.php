@@ -25,22 +25,32 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-6">
-                                    <address>
-                                        <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
-                                        <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
-                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
-                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no_country_code :''}}<br>
-                                    </address>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <address>
-                                        <h5>Patient Details:</h5>
-                                        <b>Name: </b>{{$data->name}}<br>
-                                        <b>Email: </b>{{$data->email}}<br>
-                                        <b>Mobile: </b>{{$data->mobile_no}}<br>
-                                        <b>Address: </b>{{$data->address}}<br>
-                                    </address>
+                                <div class="col-12 table-responsive">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <address>
+                                                        <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
+                                                        <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
+                                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
+                                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no_country_code :''}}<br>
+                                                    </address>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <address>
+                                                        <h5>Patient Details:</h5>
+                                                        <b>Name: </b>{{$data->name}}<br>
+                                                        <b>Email: </b>{{$data->email}}<br>
+                                                        <b>Mobile: </b>{{$data->mobile_no}}<br>
+                                                        <b>Address: </b>{{$data->address}}<br>
+                                                    </address>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>                                
                                 </div>
                             </div>
                             <div class="row">
@@ -75,11 +85,8 @@
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
                                                     @php ($appointment_charge_text = 'Charge (In Hours)')
                                                 @endif
-                                            @elseif(!empty($data->user_service_id) && isset($data->userService))
-                                                @if($data->userService->service_charge_type == '3')
-                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
-                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Day)' : 'Charge (In Day)')
-                                                @elseif($data->userService->service_charge_type == '2')
+                                            @elseif($data->user->category_id == '6')
+                                                @if($data->start_to_end_time_diff > '60')
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
                                                     @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Hour)' : 'Charge (In Hour)')
                                                 @else
@@ -127,9 +134,6 @@
                                             @endforeach
                                             @else 
                                             <tr>
-                                                @if(!empty($data->user_service_id) &&  isset($data->userService))
-                                                    <td class="text-center">{{$data->userService->service->service_name}}</td>
-                                                @endif
                                                 <td class="text-center">{{Helper::getDateTimeFormate($data->appointment_date .' '. $data->appointment_time)}}</td>
                                                 <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
                                                 <td class="text-center currency_symbol">{{$currency_symbol.$data->hcp_fees}}</td>
@@ -145,8 +149,6 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
@@ -158,8 +160,6 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
@@ -171,14 +171,12 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="thick-line text-center"><h4 class="m-0 currency_symbol">{{$currency_symbol.$data->appointment_price}}</h4></td>
+                                                <td class="thick-line text-center currency_symbol" style="font-weight: bold;">{{$currency_symbol.$data->appointment_price}}</td>
                                             </tr>
                                             </tbody>
                                         </table>

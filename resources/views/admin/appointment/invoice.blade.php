@@ -89,11 +89,8 @@
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
                                                     @php ($appointment_charge_text = 'Charge (In Hours)')
                                                 @endif
-                                            @elseif(!empty($data->user_service_id) && isset($data->userService))
-                                                @if($data->userService->service_charge_type == '3')
-                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
-                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Day)' : 'Charge (In Day)')
-                                                @elseif($data->userService->service_charge_type == '2')
+                                            @elseif($data->user->category_id == '6')
+                                                @if($data->start_to_end_time_diff > '60')
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
                                                     @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Hour)' : 'Charge (In Hour)')
                                                 @else
@@ -117,9 +114,6 @@
                                             </tr>
                                             @else
                                             <tr>
-                                                @if(!empty($data->user_service_id) &&  isset($data->userService))
-                                                    <td class="text-center"><strong>Service Name</strong></td>
-                                                @endif
                                                 <td class="text-center"><strong>Start Date Time</strong></td>
                                                 <td class="text-center"><strong>End Date Time</strong></td>                                                
                                                 <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
@@ -141,9 +135,6 @@
                                             @endforeach
                                             @else 
                                             <tr>
-                                                @if(!empty($data->user_service_id) &&  isset($data->userService))
-                                                    <td class="text-center">{{$data->userService->service->service_name}}</td>
-                                                @endif
                                                 <td class="text-center">{{Helper::getDateTimeFormate($data->appointment_date .' '. $data->appointment_time)}}</td>
                                                 <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
                                                 <td class="text-center">{{$currency_symbol.$data->hcp_fees}}</td>
@@ -159,8 +150,6 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
@@ -172,8 +161,6 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
@@ -185,8 +172,6 @@
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>
-                                                @elseif(!empty($data->user_service_id) &&  isset($data->userService))
-                                                <td class="no-line text-center" colspan="4"></td>
                                                 @else
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif

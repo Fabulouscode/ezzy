@@ -25,23 +25,33 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-6">
-                                    <address>
-                                        <strong>Billed To:</strong><br>
-                                        {{$data->clientDetails->first_name}} {{$data->clientDetails->last_name}}<br>
-                                        {{$data->clientDetails->email}}<br>
-                                        {{$data->clientDetails->mobile_no_country_code}}<br>
-                                        {{$data->clientDetails->address}}<br>
-                                    </address>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <address>
-                                        <strong>Shipped To:</strong><br>
-                                        {{$data->userLocationDetails->name}}<br>
-                                        {{$data->userLocationDetails->email}}<br>
-                                        {{$data->userLocationDetails->mobile_no}}<br>
-                                        {{$data->userLocationDetails->address}}<br>
-                                    </address>
+                                <div class="col-12 table-responsive">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <address>
+                                                            <strong>Billed To:</strong><br>
+                                                            {{$data->clientDetails->first_name}} {{$data->clientDetails->last_name}}<br>
+                                                            {{$data->clientDetails->email}}<br>
+                                                            {{$data->clientDetails->mobile_no_country_code}}<br>
+                                                            {{$data->clientDetails->address}}<br>
+                                                    </address>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <address>
+                                                          <strong>Shipped To:</strong><br>
+                                                            {{$data->userLocationDetails->name}}<br>
+                                                            {{$data->userLocationDetails->email}}<br>
+                                                            {{$data->userLocationDetails->mobile_no}}<br>
+                                                            {{$data->userLocationDetails->address}}<br>
+                                                    </address>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>                                
                                 </div>
                             </div>
                             <div class="row">

@@ -211,11 +211,11 @@ class UserRepository extends Repository
                                 $data .= '<a href="'.url($request->provider.'/user/services/'.$selected->id).'" class="btn btn-sm btn-warning" title="Laboratories Services"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
                             }
                         }
-                        if (Auth::user()->hasPermissionTo($request->provider.'-services')) {
-                            if (!empty($selected->categoryParent) && $selected->categoryParent->id == '6') {
-                                $data .= '<a href="'.url($request->provider.'/user/services/'.$selected->id).'" class="btn btn-sm btn-warning" title="Laboratories Services"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
-                            }
-                        }
+                        // if (Auth::user()->hasPermissionTo($request->provider.'-services')) {
+                        //     if (!empty($selected->categoryParent) && $selected->categoryParent->id == '6') {
+                        //         $data .= '<a href="'.url($request->provider.'/user/services/'.$selected->id).'" class="btn btn-sm btn-warning" title="Laboratories Services"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
+                        //     }
+                        // }
                     }
 
                     if (Auth::user()->hasPermissionTo($request->provider.'-edit')) {

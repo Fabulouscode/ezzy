@@ -83,15 +83,14 @@ class TransactionController extends BaseApiController
                 }
                 
             } else { 
-
-                if (!empty($appointment_details->user_service_id)) {
-                    $hcp_fees = $appointment_details->userService->service_charge;
-                    if ($appointment_details->userService->service_charge_type == '3') {
-                         $transaction_amount = $appointment_details->userService->service_charge;
-                    } elseif ($appointment_details->userService->service_charge_type == '2') {
-                        $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing/60);
-                    } else {                       
-                        $transaction_amount = $appointment_details->userService->service_charge * ($appointment_timing);
+                
+                if ($appointment_details->user->category_id == '6') {
+                    if ($appointment_timing > '60') {
+                        $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
+                        $hcp_fees = $appointment_details->user->userDetails->fees_hour;
+                    } else {      
+                        $transaction_amount = $appointment_details->user->userDetails->fees_minute * $appointment_timing;
+                        $hcp_fees = $appointment_details->user->userDetails->fees_minute;
                     }
                 } else {
                     if ($appointment_details->user->category_id == '5') {
@@ -147,7 +146,7 @@ class TransactionController extends BaseApiController
                 $user_payout = $transaction_amount - $ezzycare_charge;
                 $add_payout = [
                         'payout_amount'=> $user_payout,
-                        'fees_charge'=> $ezzycare_charges,
+                        'fees_charge'=> $ezzycare_charge,
                     ];
                 $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
 
