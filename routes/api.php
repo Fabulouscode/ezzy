@@ -193,6 +193,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('services')->group(function(){             
             Route::get('/get/list', 'UserServiceDetailsController@getServices');
             Route::get('/get/{service_type?}', 'UserServiceDetailsController@getServiceDetails');
+            Route::get('/edignostics/get/list', 'UserServiceDetailsController@geteDignosticsServices');
         });
         
         // pharmacy request
@@ -263,6 +264,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('laboratories')->group(function(){    
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
+            Route::post('/edignostics/list', 'UserController@getedignosticsProviders');
 
             // appointment
             Route::prefix('appointment')->group(function(){     

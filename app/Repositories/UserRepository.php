@@ -424,6 +424,67 @@ class UserRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function getLaboratoryProvider($request)
+    {   
+        DB::connection()->enableQueryLog(); 
+        $query = $this->model->select('users.*'); 
+
+        $query = $query->whereHas('categoryParent', function($query){
+            $query->where('parent_id', '3');
+        });
+        
+        // edignostics
+        // if(!empty($request->edignostics)){
+        //    $query = $query->whereHas('userservices', function($query) use ($request){
+        //                 $query->whereHas('service', function($query) use ($request){
+        //                     $query->whereRaw("FIND_IN_SET(".$request->edignostics.",sevice_usages)");
+        //                 });
+        //             });
+        // }          
+       
+        // urgent and not urgent filter
+        if(!empty($request->urgent)){
+           $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('urgent', $request->urgent);
+                    });
+        }          
+        
+        // search filter
+        if(isset($request->search)){
+            $query = $query->where(function($query) use($request){
+                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+            });
+        }          
+        
+        // rating filter
+        if(isset($request->rating)){
+            $query = $query->withCount(['userReview as rating' => function ($query) {
+                        $query->select(DB::raw('avg(rating)'))->where('status', '0');
+                    }])->havingRaw('rating >= '. $request->rating);
+        }          
+        
+        // top listing
+        if(isset($request->last_id)){            
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }            
+            $query = $query->limit($this->api_data_limit);     
+        } else{
+            $query = $query->offset(0)->limit(10);  
+        }         
+        
+        $query = $query->where('status', '0')->orderBy('id','desc')->get();
+ 
+
+        return $query;
+    }
+
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getHealthcareProviders($request)
     {   
         $query = $this->model->select('users.*'); 

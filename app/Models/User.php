@@ -138,6 +138,7 @@ class User extends Authenticatable
     public function userAvailableTime() {
         return $this->hasMany('App\Models\User_available_time')->orderBy('day','asc');
     }
+
     public function userLocation() {
         return $this->hasMany('App\Models\User_location');
     }
@@ -148,6 +149,10 @@ class User extends Authenticatable
  
     public function userLabReport() {
         return $this->hasMany('App\Models\Lab_report','client_id','id');
+    }
+  
+    public function userservices() {
+        return $this->hasMany('App\Models\User_services','user_id','id');
     }
 
     public function getUserEductionDetailsAttribute(){

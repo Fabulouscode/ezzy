@@ -7,18 +7,32 @@ use Illuminate\Http\Request;
 use App\Repositories\UserServiceRepository;
 use App\Repositories\ServicesRepository;
 use App\Http\Requests\Api\UserServiceDetailsRequest;
+use App\Repositories\ServicesUsageRepository;
 
 class UserServiceDetailsController extends BaseApiController
 {
-    private $user_service_repo, $services_repo;
+    private $user_service_repo, $services_repo, $service_usage_repo;
 
-    public function __construct(UserServiceRepository $user_service_repo, ServicesRepository $services_repo)
+    public function __construct(UserServiceRepository $user_service_repo, ServicesRepository $services_repo, ServicesUsageRepository $service_usage_repo)
     {
         parent::__construct();
         $this->user_service_repo = $user_service_repo;
+        $this->service_usage_repo = $service_usage_repo;
         $this->services_repo = $services_repo;
     }
 
+    public function geteDignosticsServices(Request $request)
+    {
+        $data = array();
+        $data = $this->service_usage_repo->getAll()->map(function ($response){
+                                    return [
+                                            'id'=>$response->id,
+                                            'name'=>$response->name,
+                                        ];
+                                    });
+        return self::sendSuccess($data, 'get Service details');
+    }
+  
     public function getServices(Request $request)
     {
         $data = array();

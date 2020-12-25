@@ -16,7 +16,6 @@ class Services extends Model
     );
 
     public $service_type_value = array(
-        '0' => 'Massage Therapist',
         '2' => 'Scientist',
         '3' => 'Pathologist',
         '4' => 'Radiologist',
@@ -30,6 +29,7 @@ class Services extends Model
     protected $fillable = [
         'service_name',
         'service_type',
+        'sevice_usages',
         'status',
     ];
 
@@ -42,6 +42,10 @@ class Services extends Model
     
     public function getServiceTypeNameAttribute() {
         return array_key_exists($this->service_type, $this->service_type_value) ? $this->service_type_value[$this->service_type]: '';
+    }
+  
+    public function getSeviceUsagesAttribute($value) {
+        return !empty($value) ? json_decode($value) :'';
     }
 
 }

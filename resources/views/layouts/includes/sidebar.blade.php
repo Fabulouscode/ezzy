@@ -144,6 +144,7 @@
                         @can('hcp_type-list')
                         <li><a href="{{url('/category')}}">Manage HCP</a></li>
                         @endcan
+                        <!-- <li><a href="{{url('/service_usage')}}">Services Usage</a></li> -->
                         @can('services-list')
                         <li><a href="{{url('/services')}}">Manage Services</a></li>
                         @endcan
