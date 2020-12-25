@@ -47,7 +47,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
-                                        'urgent'=>$response->urgent,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
@@ -77,7 +77,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
-                                        'urgent'=>$response->urgent,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
@@ -107,6 +107,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
@@ -136,7 +137,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
-                                        'urgent'=>$response->urgent,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
@@ -168,7 +169,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_time'=>$response->appointment_time,
                                         'cancel_reason'=>$response->cancel_reason,
                                         'cancel_date'=>$response->cancel_date,
-                                        'urgent'=>$response->urgent,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
@@ -200,7 +201,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_time'=>$response->appointment_time,
                                         'completed_datetime'=>$response->completed_datetime,
                                         'appointment_price'=>$response->appointment_price,
-                                        'urgent'=>$response->urgent,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
                                                             'id'=>$response->client->id,
