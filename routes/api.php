@@ -199,6 +199,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('pharmacy')->group(function(){     
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
+            Route::post('/eprescibe/list', 'UserController@geteRecommendationHealthcareProviders');
 
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
