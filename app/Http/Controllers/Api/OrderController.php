@@ -47,6 +47,7 @@ class OrderController extends BaseApiController
                                         'completed_datetime'=>$response->completed_datetime,
                                         'cancel_reason'=>$response->cancel_reason,
                                         'cancel_date'=>$response->cancel_date,
+                                        'created_at'=>$response->created_at,
                                         'order_medicine_name'=> !empty($response->order_medicine_name) ? $response->order_medicine_name : '',
                                         'client'=>(isset($response->clientDetails))?
                                                         [
