@@ -267,8 +267,10 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('laboratories')->group(function(){    
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
+            Route::get('/edignostics/services/{id?}', 'ChatController@getServices');
             Route::post('/edignostics/list', 'ChatController@getEDignosticsProviders');
             Route::post('/edignostics/save', 'ChatController@saveEDignostics');
+            // Route::get('/edignostics/get/{id?}', 'ChatController@getEDignosticsChat');
 
             // appointment
             Route::prefix('appointment')->group(function(){     

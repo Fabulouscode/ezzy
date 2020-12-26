@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\ChatHistoryRepository;
 use App\Repositories\ChateServicesRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\UserServiceRepository;
 use App\Http\Requests\Api\EPrescibeRequest;
 use App\Http\Requests\Api\EDignosticsRequest;
 use App\Http\Requests\Api\TreatmentPlanRequest;
@@ -15,21 +16,45 @@ use Carbon\Carbon;
 
 class ChatController extends BaseApiController
 {
-    private $chat_history_repo, $chat_service_repo, $user_repo;
+    private $chat_history_repo, $chat_service_repo, $user_repo, $user_service_repo;
 
     public function __construct(
         ChatHistoryRepository $chat_history_repo, 
         ChateServicesRepository $chat_service_repo,
-        UserRepository $user_repo
+        UserRepository $user_repo,
+        UserServiceRepository $user_service_repo
         )
     {
         parent::__construct();
         $this->chat_history_repo = $chat_history_repo;
         $this->chat_service_repo = $chat_service_repo;
         $this->user_repo = $user_repo;
+        $this->user_service_repo = $user_service_repo;
     }
 
         
+    public function getServices($id)
+    {
+        $user_services = $this->user_service_repo->getbyUserId($id)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'service_charge'=>$response->service_charge,
+                                        'service_name'=>(isset($response->service))? $response->service->service_name :'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name
+                                    ];
+                                });
+        return self::sendSuccess($user_services, 'Services get');
+    }
+    
+    // public function getEDignosticsChat($id)
+    // {
+    //     // $chat_history = $this->chat_history_repo->getbyIdedit($id);
+    //     $chat_history = $this->chat_history_repo->getbyIdedit($id)->EDignosticsFormat();
+    //     return self::sendSuccess($chat_history, 'EDignostics Chat');
+    // }
+
+
     public function getERecommendationProviders(Request $request)
     {
         $user_list = $this->user_repo->getHealthcareProviders($request)->map(function ($response){
