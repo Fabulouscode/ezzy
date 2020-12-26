@@ -6,9 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class EPrescibeRequest extends FormRequest
+
+class TreatmentPlanRequest extends FormRequest
 {
-    /**
+        /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -29,9 +30,12 @@ class EPrescibeRequest extends FormRequest
             'client_id' => 'required|integer',
             'recommended_id' => 'required|integer',
             'chat_type' => 'required|integer',
+            'plan_name' => 'required',
+            'treatment_name' => 'required',
             'medicines' => 'required|array|min:1',
             "medicines.*.shop_medicine_detail_id"  => "required|integer",
-            "medicines.*.effective_date"  => "required|date_format:Y-m-d",
+            "medicines.*.quantity"  => "required|integer",
+            "medicines.*.price"  => "required",
         ];
     }
 

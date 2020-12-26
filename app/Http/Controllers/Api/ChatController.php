@@ -9,6 +9,7 @@ use App\Repositories\ChateServicesRepository;
 use App\Repositories\UserRepository;
 use App\Http\Requests\Api\EPrescibeRequest;
 use App\Http\Requests\Api\EDignosticsRequest;
+use App\Http\Requests\Api\TreatmentPlanRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -97,8 +98,9 @@ class ChatController extends BaseApiController
                     }
                 }
             }      
-            DB::commit();       
-            return self::sendSuccess([], 'save ePrescibe Successfully');
+            DB::commit(); 
+            $data = $this->chat_history_repo->getbyId($chat->id);      
+            return self::sendSuccess($data, 'save ePrescibe Successfully');
         }catch(\Exception $e){
             DB::rollBack();
             return self::sendException($e);
@@ -129,19 +131,48 @@ class ChatController extends BaseApiController
                 }
             }      
             DB::commit();       
-            return self::sendSuccess([], 'save eDignostics Successfully');
+            $data = $this->chat_history_repo->getbyId($chat->id);   
+            return self::sendSuccess($data, 'save eDignostics Successfully');
         }catch(\Exception $e){
             DB::rollBack();
             return self::sendException($e);
         }
     }
   
-    public function saveTreatmentPlan(Request $request)
+    public function saveTreatmentPlan(TreatmentPlanRequest $request)
     {
-        $data = $request->all();
-        dd($data);
-        $this->chat_history_repo->dataCrud($data);
-        return self::sendSuccess($user_list, 'save Treatment Plan Successfully');
+          $add_data = [
+                    'user_id' => $request->user()->id,
+                    'client_id' => $request->client_id,
+                    'recommended_id' => $request->recommended_id,
+                    'chat_type' => $request->chat_type,
+                    'plan_name' => (!empty($request->plan_name)) ? $request->plan_name : '',
+                    'treatment_name' => (!empty($request->treatment_name)) ? $request->treatment_name : '',
+                ];
+        try{
+            DB::beginTransaction();
+            $chat = $this->chat_history_repo->dataCrud($add_data);
+            if(!empty($chat) && !empty($chat->id)){
+                if(!empty($request->medicines) && count($request->medicines)){
+                    foreach ($request->medicines as $key => $value) {
+                        $add_chat = [
+                            'chat_history_id' => $chat->id,
+                            'shop_medicine_detail_id'=> (!empty($value['shop_medicine_detail_id'])) ? $value['shop_medicine_detail_id'] : '',
+                            'quanity'=> (isset($value['quantity'])) ?$value['quantity'] : '',
+                            'price'=> (isset($value['price'])) ?$value['price'] : ''
+                        ];
+                      
+                        $this->chat_service_repo->dataCrud($add_chat);
+                    }
+                }
+            }      
+            DB::commit();       
+            $data = $this->chat_history_repo->getbyId($chat->id);   
+            return self::sendSuccess($data, 'save ePrescibe Successfully');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return self::sendException($e);
+        }
     }
 
 }
