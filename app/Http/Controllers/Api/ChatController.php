@@ -84,13 +84,13 @@ class ChatController extends BaseApiController
                     foreach ($request->medicines as $key => $value) {
                         $add_chat = [
                             'chat_history_id' => $chat->id,
-                            'shop_medicine_detail_id'=> $value['shop_medicine_detail_id'],
-                            'effective_date'=> $value['effective_date'],
-                            'patient_direction'=> $value['patient_direction'],
-                            'dispense'=> $value['dispense'],
-                            'dispense_unit'=> $value['dispense_unit'],
-                            'refills'=> $value['refills'],
-                            'days_supply'=> $value['days_supply'],
+                            'shop_medicine_detail_id'=> (!empty($value['shop_medicine_detail_id'])) ? $value['shop_medicine_detail_id'] : '',
+                            'effective_date'=> (!empty($value['effective_date'])) ?$value['effective_date'] : '',
+                            'patient_direction'=> (isset($value['patient_direction'])) ?$value['patient_direction'] : '',
+                            'dispense'=> (isset($value['dispense'])) ?$value['dispense'] : '',
+                            'dispense_unit'=> (isset($value['dispense_unit'])) ?$value['dispense_unit'] : '',
+                            'refills'=> (isset($value['refills'])) ?$value['refills'] : '',
+                            'days_supply'=> (isset($value['days_supply'])) ?$value['days_supply'] : '',
                         ];
                       
                         $this->chat_service_repo->dataCrud($add_chat);
