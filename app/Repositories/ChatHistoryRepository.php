@@ -36,5 +36,16 @@ class ChatHistoryRepository extends Repository
             }
         }
     }
+
+     /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdedit($id)
+    {   
+        return $this->model->with(['user','client','recommended','chatDetails','chatDetails.userService.service'])->find($id);
+
+    }
     
 }

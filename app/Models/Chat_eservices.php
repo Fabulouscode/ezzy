@@ -28,4 +28,12 @@ class Chat_eservices extends Model
         'days_supply',
         'user_service_id',
     ];
+
+    public function shopMedicineDetails() {
+        return $this->belongsTo('App\Models\Shop_medicine_details', 'shop_medicine_detail_id','id');
+    }
+    
+    public function userService() {
+        return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
+    }
 }

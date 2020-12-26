@@ -434,13 +434,13 @@ class UserRepository extends Repository
         });
         
         // edignostics
-        // if(!empty($request->edignostics)){
-        //    $query = $query->whereHas('userservices', function($query) use ($request){
-        //                 $query->whereHas('service', function($query) use ($request){
-        //                     $query->whereRaw("FIND_IN_SET(".$request->edignostics.",sevice_usages)");
-        //                 });
-        //             });
-        // }          
+        if(!empty($request->edignostics)){
+           $query = $query->whereHas('userservices', function($query) use ($request){
+                        $query->whereHas('service', function($query) use ($request){
+                            $query->whereRaw("FIND_IN_SET(".$request->edignostics.",sevice_usages)");
+                        });
+                    });
+        }          
        
         // urgent and not urgent filter
         if(!empty($request->urgent)){

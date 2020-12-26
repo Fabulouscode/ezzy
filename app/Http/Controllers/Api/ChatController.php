@@ -47,12 +47,23 @@ class ChatController extends BaseApiController
         return self::sendSuccess($user_services, 'Services get');
     }
     
-    // public function getEDignosticsChat($id)
-    // {
-    //     // $chat_history = $this->chat_history_repo->getbyIdedit($id);
-    //     $chat_history = $this->chat_history_repo->getbyIdedit($id)->EDignosticsFormat();
-    //     return self::sendSuccess($chat_history, 'EDignostics Chat');
-    // }
+    public function getEDignosticsChat($id)
+    {
+        $chat_history = $this->chat_history_repo->getbyIdedit($id)->EDignosticsFormat();
+        return self::sendSuccess($chat_history, 'EDignostics Chat');
+    }
+    
+    public function getEPrescibeChat($id)
+    {
+        $chat_history = $this->chat_history_repo->getbyIdedit($id)->EPrescibeFormat();
+        return self::sendSuccess($chat_history, 'EPrescibe Chat');
+    }
+
+    public function getTreatmentPlanChat($id)
+    {
+        $chat_history = $this->chat_history_repo->getbyIdedit($id)->TreatmentPlanFormat();
+        return self::sendSuccess($chat_history, 'Treatment Plan Chat');
+    }
 
 
     public function getERecommendationProviders(Request $request)

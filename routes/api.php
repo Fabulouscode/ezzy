@@ -202,8 +202,10 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/list', 'UserController@getHealthcareProviders');
             Route::post('/eprescibe/list', 'ChatController@getERecommendationProviders');
             Route::post('/eprescibe/save', 'ChatController@saveEPrescibe');
+            Route::get('/eprescibe/get/{id?}', 'ChatController@getEPrescibeChat');
             Route::post('/treatment/save', 'ChatController@saveTreatmentPlan');
-
+            Route::get('/treatment/get/{id?}', 'ChatController@getTreatmentPlanChat');
+            
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
             Route::get('/product/get/{sub_id?}', 'ShopMedicineDetailsController@getMedicineDetails'); 
@@ -270,7 +272,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/edignostics/services/{id?}', 'ChatController@getServices');
             Route::post('/edignostics/list', 'ChatController@getEDignosticsProviders');
             Route::post('/edignostics/save', 'ChatController@saveEDignostics');
-            // Route::get('/edignostics/get/{id?}', 'ChatController@getEDignosticsChat');
+            Route::get('/edignostics/get/{id?}', 'ChatController@getEDignosticsChat');
 
             // appointment
             Route::prefix('appointment')->group(function(){     

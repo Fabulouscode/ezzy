@@ -45,7 +45,7 @@ class Services extends Model
     }
   
     public function getSeviceUsagesAttribute($value) {
-        return !empty($value) ? json_decode($value) :'';
+        return !empty($value) ? explode(',', $value) :'';
     }
 
 }

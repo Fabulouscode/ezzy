@@ -91,7 +91,8 @@ class User extends Authenticatable
     }
    
     public function getUserNameAttribute($value) {
-        return $this->first_name .' '.$this->last_name;
+        $last_name = !empty($this->last_name)? ' '.$this->last_name : '' ;
+        return $this->first_name.$last_name;
     }
    
     public function getProfileCompletedProgressAttribute() {

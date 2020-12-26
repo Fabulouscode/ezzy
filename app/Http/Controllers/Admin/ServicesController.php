@@ -55,7 +55,7 @@ class ServicesController extends Controller
         $data = [
                     'service_name' => $request->service_name,
                     'service_type' => $request->service_type,
-                    'sevice_usages' => json_encode($request->sevice_usages),
+                    'sevice_usages' => !empty($request->sevice_usages)  ? implode(',', $request->sevice_usages) : '',
                     'status' => $request->status,
                 ];
          if(!empty($request->id)){
