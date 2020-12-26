@@ -223,5 +223,17 @@ class ShopMedicineDetailsController extends BaseApiController
         return self::sendSuccess($data);
     }
 
+    public function getShopProductWithSearch(Request $request)
+    {
+        $data = array();         
+        $data = $this->shop_medicine_repo->getShopProductWithSearch($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'medicine_name'=>!empty($response->medicineDetails) ? $response->medicineDetails->medicine_name : ''
+                                    ];
+                                });
+        return self::sendSuccess($data);
+    }
+
 
 }

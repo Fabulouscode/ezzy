@@ -17,6 +17,7 @@ class CreateChatHistoriesTable extends Migration
             $table->bigIncrements('id');  
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('client_id')->unsigned()->comment('patient'); 
+            $table->bigInteger('recommended_id')->nullable()->unsigned()->comment('provider'); 
             $table->integer('chat_type')->signed()->default(0)->comment('0-ePrescibe, 1-eRecommendation, 2-eDiagnostics, 3-Treatment_plan'); 
             $table->string('plan_name')->nullable(); 
             $table->string('treatment_name')->nullable(); 
@@ -29,6 +30,9 @@ class CreateChatHistoriesTable extends Migration
                   ->references('id')
                   ->on('users');
             $table->foreign('client_id')
+                  ->references('id')
+                  ->on('users');
+            $table->foreign('recommended_id')
                   ->references('id')
                   ->on('users');
         });

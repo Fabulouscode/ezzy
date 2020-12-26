@@ -167,7 +167,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('healthcare')->group(function(){            
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
-            Route::post('/erecommendation/list', 'UserController@geteRecommendationHealthcareProviders');
+            Route::post('/erecommendation/list', 'ChatController@getERecommendationProviders');
             Route::post('/urgent', 'UserController@getHealthcareProvidersUrgent');
 
             // appointment
@@ -200,21 +200,23 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('pharmacy')->group(function(){     
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
-            Route::post('/eprescibe/list', 'UserController@geteRecommendationHealthcareProviders');
+            Route::post('/eprescibe/list', 'ChatController@getERecommendationProviders');
+            Route::post('/eprescibe/save', 'ChatController@saveEPrescibe');
 
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');
             Route::get('/product/get/{sub_id?}', 'ShopMedicineDetailsController@getMedicineDetails'); 
             Route::post('/product/get', 'ShopMedicineDetailsController@getMedicineDetailsWithSearch'); 
-
+         
 
             // shop request
             Route::prefix('shop')->group(function(){  
                 Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
                 Route::post('/product/edit', 'ShopMedicineDetailsController@addShopProduct');
-                Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');            
-                Route::get('/product/{id?}', 'ShopMedicineDetailsController@getShopProductInfo');    
+                Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');                        
                 Route::post('/product/delete', 'ShopMedicineDetailsController@deleteShopProduct');    
+                Route::post('/product/filter', 'ShopMedicineDetailsController@getShopProductWithSearch');     
+                Route::get('/product/{id?}', 'ShopMedicineDetailsController@getShopProductInfo');    
             });
 
              // cart request
@@ -264,7 +266,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::prefix('laboratories')->group(function(){    
             Route::post('/top/list', 'UserController@getHealthcareProviders');
             Route::post('/list', 'UserController@getHealthcareProviders');
-            Route::post('/edignostics/list', 'UserController@getedignosticsProviders');
+            Route::post('/edignostics/list', 'ChatController@getEDignosticsProviders');
+            Route::post('/edignostics/save', 'ChatController@saveEDignostics');
 
             // appointment
             Route::prefix('appointment')->group(function(){     

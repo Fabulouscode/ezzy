@@ -66,44 +66,6 @@ class UserController extends BaseApiController
     }
 
  
-    public function getedignosticsProviders(Request $request)
-    {
-        $user_list = $this->user_repo->getLaboratoryProvider($request)->map(function ($response){
-                                    return [
-                                        'id'=>$response->id,
-                                        'user_name'=>$response->user_name,
-                                        'profile_image'=>$response->profile_image,
-                                        'user_appointment_review'=>$response->user_appointment_review,
-                                        'user_appointment_rating'=>$response->user_appointment_rating,
-                                        'user_order_review'=>$response->user_order_review,
-                                        'user_order_rating'=>$response->user_order_rating,
-                                        'user_eduction_details'=>$response->user_eduction_details,
-                                        'status'=>$response->status,
-                                        'status_name'=>$response->status_name,
-                                    ];
-                                });
-        return self::sendSuccess($user_list, 'User Profile Add Successfully');
-    }
-    
-    public function geteRecommendationHealthcareProviders(Request $request)
-    {
-        $user_list = $this->user_repo->getHealthcareProviders($request)->map(function ($response){
-                                    return [
-                                        'id'=>$response->id,
-                                        'user_name'=>$response->user_name,
-                                        'profile_image'=>$response->profile_image,
-                                        'user_appointment_review'=>$response->user_appointment_review,
-                                        'user_appointment_rating'=>$response->user_appointment_rating,
-                                        'user_order_review'=>$response->user_order_review,
-                                        'user_order_rating'=>$response->user_order_rating,
-                                        'user_eduction_details'=>$response->user_eduction_details,
-                                        'status'=>$response->status,
-                                        'status_name'=>$response->status_name,
-                                    ];
-                                });
-        return self::sendSuccess($user_list, 'User Profile Add Successfully');
-    }
-
     public function getHealthcareProviders(Request $request)
     {
         $user_list = $this->user_repo->getHealthcareProviders($request)->map(function ($response){

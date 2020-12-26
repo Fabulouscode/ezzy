@@ -24,6 +24,7 @@ class Chat_history extends Model
     protected $fillable = [
         'user_id',
         'client_id',
+        'recommended_id',
         'chat_type',
         'plan_name',
         'treatment_name',

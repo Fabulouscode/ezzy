@@ -203,4 +203,31 @@ class ShopMedicineDetailsRepository extends Repository
         return $query;
        
     }
+
+        /**
+     * Display a list of Completed Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getShopProductWithSearch($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->shop_id)){
+            $query = $query->where('user_id', $request->shop_id);    
+        }
+
+        if(!empty($request->search)){
+            $query->whereHas('medicineDetails', function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            $query->orWhere('medicine_name', 'LIKE', '%'.$request->search.'%');
+                            $query->orWhere('medicine_sku', 'LIKE', '%'.$request->search.'%');
+                        });
+                    });
+        }
+        
+        $query = $query->where('status', '0')->orderBy('id','asc')->get();
+
+        return $query;
+    }
 }
