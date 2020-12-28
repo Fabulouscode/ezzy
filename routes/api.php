@@ -277,7 +277,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // appointment
             Route::prefix('appointment')->group(function(){     
                 
-                Route::post('/add', 'AppointmentController@addLaboratoryAppointment');
+                // Route::post('/add', 'AppointmentController@addLaboratoryAppointment');
 
                 Route::get('/request', 'AppointmentController@getRequestAppointment');     
                 Route::post('/all', 'AppointmentController@getAllAppointment');  

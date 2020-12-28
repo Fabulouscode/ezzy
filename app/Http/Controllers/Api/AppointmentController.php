@@ -257,39 +257,15 @@ class AppointmentController extends BaseApiController
                         'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
                         'status' => '0'
                     ];
-        try {
-            DB::beginTransaction();
-            $data = $this->appointment_repo->dataCrud($add_data);
-            DB::commit();
-            return self::sendSuccess($data);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return self::sendException($e);
-        }
-    }
-
-    public function addLaboratoryAppointment(AppointmentLaboratoryRequest $request) 
-    {
-        $data = array();
-        $check_appointment = $this->appointment_repo->checkUserAvailable($request);
-        if(!empty($check_appointment)){
-            return self::sendError([], 'Please Change Appointment Time');
-        }
-    
-        $add_data = [
-                        'client_id' => $request->user()->id,
-                        'user_id' => $request->user_id,
-                        'appointment_type' => $request->appointment_type,
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'mobile_no' => $request->mobile_no,
-                        'age' => $request->age,
-                        'gender' => $request->gender,
-                        'reason' => $request->reason,
-                        'appointment_date' => $request->appointment_date,
-                        'appointment_time' => $request->appointment_time,
-                        'status' => '0'
-                    ];
+            
+        // $send_notification = [
+        //         'sender_id' => $request->user()->id,
+        //         'receiver_id' => $request->user_id,
+        //         'title' => 'Appointment',
+        //         'message' => 'Appointment Book',
+        //         'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
+        //         'msg_type' => '1',
+        //         ];   
         try {
             DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
@@ -304,6 +280,7 @@ class AppointmentController extends BaseApiController
                     $this->appointment_service_repo->dataCrud($service_data);
                 }
             }
+            // $this->notification_repo->sendingNotification($send_notification, $request);
             DB::commit();
             return self::sendSuccess($data);
         } catch (\Exception $e) {
@@ -311,6 +288,7 @@ class AppointmentController extends BaseApiController
             return self::sendException($e);
         }
     }
+
 
     public function changeAppointmentStatus(AppointmentStatusRequest $request)
     {
