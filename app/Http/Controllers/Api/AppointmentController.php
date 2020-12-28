@@ -269,7 +269,7 @@ class AppointmentController extends BaseApiController
         try {
             DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
-            if (!empty($request->user_services) && !empty($data)) {
+            if (!empty($request->user_services) && !empty($data) && is_array($request->user_services) && count($request->user_services) > 0) {
                 foreach ($request->user_services as $key => $value) {
                     $service = $this->user_service_repo->getById($value);                    
                     $service_data=[
