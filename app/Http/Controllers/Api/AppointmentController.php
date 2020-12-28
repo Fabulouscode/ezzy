@@ -255,6 +255,7 @@ class AppointmentController extends BaseApiController
                         'appointment_date' => $request->appointment_date,
                         'appointment_time' => $request->appointment_time,
                         'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
+                        'full_day' => isset($request->full_day) ? $request->full_day : 0,
                         'status' => '0'
                     ];
             
