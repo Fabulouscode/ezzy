@@ -161,7 +161,7 @@ class DashboardController extends BaseApiController
     {
          $data = [
                     'sender_id' => $request->user()->id,
-                    'receiver_id' => '13',
+                    'receiver_id' => '18',
                     'title' => 'Test',
                     'message' => 'Testing',
                     'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),

@@ -432,16 +432,16 @@ class AppointmentRepository extends Repository
     public function getHCPTypeWiseAppointment($request, $category_id, $provider_type = '')
     {
 
-        $query = $this->model->where('status', '5')->select('appointment_date AS created_date');
+        $query = $this->model->where('status', '5')->select(DB::raw('DATE(appointment_date) AS created_date'));
         
         if(!empty($category_id) && $category_id == '1'){
-             $query = $query->addSelect(DB::raw("'1' AS hcp_appointments"))
+             $query = $query->addSelect(DB::raw("count(id) AS hcp_appointments"))
                         ->addSelect(DB::raw("'0' AS orders"))    
                         ->addSelect(DB::raw("'0' AS lab_appointments"));
         }else if(!empty($category_id) && $category_id == '3'){
              $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
                         ->addSelect(DB::raw("'0' AS orders"))    
-                        ->addSelect(DB::raw("'1' AS lab_appointments"));
+                        ->addSelect(DB::raw("count(id) AS lab_appointments"));
         }
 
         if(!empty($category_id)){
@@ -457,7 +457,8 @@ class AppointmentRepository extends Repository
            $query = $query->whereBetween('appointment_date', array($request->start_date, $request->end_date));
         }
 
-        $query = $query->orderBy('appointment_date','desc');
+        $query = $query->orderBy('created_date','desc')->groupBy('created_date');
+
         return $query;
     }
 
@@ -472,19 +473,18 @@ class AppointmentRepository extends Repository
         $hcp_provider = $this->getHCPTypeWiseAppointment($request, '1', 'hcp');
         $laboratories_provider = $this->getHCPTypeWiseAppointment($request, '3', 'lab');
         $pharmacy_provider = $this->order_repo->getOrdersQuery($request, $hcp_provider, $laboratories_provider);
-          print_r($pharmacy_provider);
-        die;      
-        // $query = $hcp_provider->union($laboratories_provider)->union($pharmacy_provider);
-        // $query = $query->select('created_date');
-        // $query = $query->addSelect(DB::raw("SUM(hcp_appointments) AS hcp"))
-        //                 ->addSelect(DB::raw("SUM(orders) AS order"))    
-        //                 ->addSelect(DB::raw("SUM(lab_appointments) AS lab"));
-
-        // $query = $query->groupBy('created_date')->get()->toArray();
         
+        // DB::connection()->enableQueryLog(); 
+        $query = DB::query()->fromSub($pharmacy_provider, 'i_t');
+        $query = $query->select('created_date');
+        // $query = $query->select('created_date','hcp_appointments','orders','lab_appointments');
+        $query = $query->addSelect(DB::raw("sum(hcp_appointments) AS hcp_count"));
+        $query = $query->addSelect(DB::raw("sum(orders) AS order_count"));
+        $query = $query->addSelect(DB::raw("sum(lab_appointments) AS lab_count"));
+        $data = $query->groupBy('created_date')->get()->toArray();
+        // print_r($query);
+        // die;
 
-        print_r($query);
-        die;
         return $data;
     }
 

@@ -142,7 +142,6 @@ class DashboardController extends Controller
     {
         if(!empty($request->start_date) && !empty($request->end_date)){
             $data = $this->appointment_repo->getAreaChartdata($request);
-            dd($data);
             return response()->json(['status'=> true, 'data'=> $data], 200);
         }
         

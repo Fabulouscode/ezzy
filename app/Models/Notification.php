@@ -10,6 +10,20 @@ class Notification extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $notification_type = array(
+        '1' => 'Appointment Book',
+        '2' => 'Appointment Accept',
+        '3' => 'Appointment Upcoming',
+        '4' => 'Appointment Cancel',
+        '5' => 'Appointment Reschedule',
+        '6' => 'Appointment Pending Payment',
+        '7' => 'Appointment Complete',
+        '8' => 'Order Book',
+        '9' => 'Order Accept',
+        '10' => 'Order Tracking',
+        '11' => 'Order Cancel',
+    );
+ 
     public $notification_topic = array(
         '1' => 'Patient',
         '4' => 'Doctor',

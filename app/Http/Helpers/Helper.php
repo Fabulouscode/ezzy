@@ -72,11 +72,11 @@ class Helper
             'message' => $notification->message,
             'parameter' => json_decode($notification->parameter,true),
             'sender_id' => $notification->sender_id,
-            'sender_name' => (!empty($sender))?$sender->first_name:'-',
+            'sender_name' => (!empty($sender))?$sender->user_name:'-',
             'receiver_id' => $notification->receiver_id,
             'type' => $notification->type,
             'sender_avatar' => (!empty($sender))?$sender->profile_image:'',
-            'attachment' => $image,
+            'attachment' => '',
             'notification_count' => $unreadNotification,
             'media_type' => "image",
         ];
@@ -88,7 +88,8 @@ class Helper
         
         if($receiver->device_type == '1' && $receiver->device_token != '') {
             $data = array(
-                'to' => $receiver->device_token,
+                'to' => 'drXFFGytQRWoqnIwXO_Bfz:APA91bFRVzno4x4uVuQGrEq4n4zPpruLKATHrd05Xuzl_bdinstgRR8FyYGFfe-cL1dsGOjNNS47MssXEtHSCupeTR1QgSUT5aelE8pxrFkXBTaJtJ3kgIkuKkfAMH1jxQ32h9CcWjdL',
+                // 'to' => $receiver->device_token,
                 'data' => $dataTemp,
                 'priority'=>'high'
             );
@@ -109,6 +110,7 @@ class Helper
             $data['notification']['body'] = $notification->message;
             $data['notification']['badge'] = $unreadNotification;
         }
+
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
         }
@@ -212,6 +214,8 @@ class Helper
             if(isset($response_arr['success']) && $response_arr['success'] == 0) {
                 Log::info($response);
                 Log::info('Push Notification Send Failed');
+            }else{
+                Log::info('Push Notification Send success');
             }
         }
         return true;

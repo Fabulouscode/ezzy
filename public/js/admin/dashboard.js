@@ -151,8 +151,8 @@ function createBarChart(data, xkey, ykeys) {
         hoverCallback: function (index, options, content, row) {
             var hover = "";
             hover += "<div class='morris-hover-row-label'>" + months[row.month] + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><b>Total Income: </b>₦ " + row.total_income + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><b>Total Payout: </b>₦ " + row.total_payout + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Income: </b>₦ " + row.total_income + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Payout: </b>₦ " + row.total_payout + "</div>";
             return hover;
             // return (content);
         },
@@ -174,9 +174,18 @@ function createAreaChart(data) {
     Morris.Area({
         element: 'morris-count-area-chart',
         data: data,
-        xkey: 'y',
+        xkey: 'created_date',
         parseTime: false,
-        ykeys: ['a', 'b', 'c'],
+        ykeys: ['hcp_count', 'order_count', 'lab_count'],
+        hoverCallback: function (index, options, content, row) {
+            var hover = "";
+            hover += "<div class='morris-hover-row-label'>" + row.created_date + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#ff5560;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>HCP Appointments: </b> " + row.hcp_count + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Pharmacy Orders: </b> " + row.order_count + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Laboratories Appointments: </b> " + row.lab_count + "</div>";
+            return hover;
+            // return (content);
+        },
         labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'],
         lineColors: ['#ff5560', '#fcc24c', '#508aeb'],
         hideHover: 'auto'
@@ -185,33 +194,22 @@ function createAreaChart(data) {
 
 
 function getAreaChart() {
-    var areaData = [
-        { y: '2012', a: 0, b: 0, c: 0 },
-        { y: '2013', a: 150, b: 45, c: 15 },
-        { y: '2014', a: 60, b: 150, c: 195 },
-        { y: '2015', a: 180, b: 36, c: 21 },
-        { y: '2016', a: 90, b: 60, c: 360 },
-        { y: '2017', a: 75, b: 240, c: 120 },
-        { y: '2018', a: 30, b: 30, c: 30 }
-    ];
-
-    createAreaChart(areaData);
-    // $.ajax({
-    //     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-    //     url: dashboard_url + '/chart/revenue',
-    //     type: "post",
-    //     dataType: 'json',
-    //     data: { 'start_date': $('#count_start_date').val(), 'end_date': $('#count_end_date').val() },
-    //     success: function (data) {
-    //         if (data.status == 'true') {
-    //             console.log(data);
-    //             // createAreaChart(areaData);
-    //         }
-    //     },
-    //     error: function (error) {
-    //         toastr.error(error.responseJSON.msg, 'EzzyCare App');
-    //     }
-    // });
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: dashboard_url + '/chart/revenue',
+        type: "post",
+        dataType: 'json',
+        data: { 'start_date': $('#count_start_date').val(), 'end_date': $('#count_end_date').val() },
+        success: function (data) {
+            if (data.status) {
+                var response = data.data;
+                createAreaChart(response);
+            }
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+        }
+    });
 }
 
 

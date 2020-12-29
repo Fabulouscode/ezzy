@@ -318,19 +318,21 @@ class OrderRepository extends Repository
     public function getOrdersQuery($request, $hcp_provider, $laboratories_provider)
     {
 
-        $query = $this->model->where('status', '1')->select('created_at AS created_date');
+        $query = $this->model->where('status', '1')->select(DB::raw('DATE(created_at) as created_date'));
         
         $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
-                ->addSelect(DB::raw("'1' AS orders"))    
+                ->addSelect(DB::raw("count(id) AS orders"))    
                 ->addSelect(DB::raw("'0' AS lab_appointments"));       
         
-        // if(!empty($request->start_date) && !empty($request->end_date)){
-        //    $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
-        // }
+   
+        if(!empty($request->start_date) && !empty($request->end_date)){
+           $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
+        }
+
+        $query = $query->orderBy('created_date','desc')->groupBy('created_date');
 
         $query = $query->union($hcp_provider)->union($laboratories_provider);
         
-        $query = $query->get()->toArray();
         return $query;
     }
     /**
