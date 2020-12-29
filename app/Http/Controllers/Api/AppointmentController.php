@@ -314,7 +314,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is '. $data->status_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
@@ -345,7 +345,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is Reschedule',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
@@ -376,7 +376,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => $data->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is Completed',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
@@ -408,7 +408,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment review add',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
