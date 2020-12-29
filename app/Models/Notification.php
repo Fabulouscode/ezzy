@@ -11,6 +11,7 @@ class Notification extends Model
     use HasFactory, SoftDeletes;
 
     public $notification_type = array(
+        '0' => '',
         '1' => 'Appointment',
         '2' => 'Order'
     );
@@ -41,6 +42,23 @@ class Notification extends Model
         'read',
     ];
 
+    
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'parameter',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $appends = ['notification_type_name'];
+
+    public function getNotificationTypeNameAttribute() {
+        return array_key_exists($this->msg_type, $this->notification_type) ? $this->notification_type[$this->msg_type]: '';
+    }
 
     public function getSender() {
         return $this->belongsTo('App\Models\User', 'sender_id','id');
