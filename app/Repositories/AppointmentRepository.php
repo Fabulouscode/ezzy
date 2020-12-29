@@ -481,7 +481,7 @@ class AppointmentRepository extends Repository
         $query = $query->addSelect(DB::raw("sum(hcp_appointments) AS hcp_count"));
         $query = $query->addSelect(DB::raw("sum(orders) AS order_count"));
         $query = $query->addSelect(DB::raw("sum(lab_appointments) AS lab_count"));
-        $data = $query->groupBy('created_date')->get()->toArray();
+        $data = $query->orderBy('created_date','asc')->groupBy('created_date')->get()->toArray();
         // print_r($query);
         // die;
 
