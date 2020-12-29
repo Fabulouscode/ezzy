@@ -19,6 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
+Route::namespace('App\Http\Controllers\Api')->group(function(){
+   Route::any('/send/offline/push', 'OfflineNotificationController@offlineNotificationSend');
+});
+
 Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){
     Route::post('/user/document/upload', 'UserProfileController@uploadDocumentFile');
 });

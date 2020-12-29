@@ -137,6 +137,9 @@ return [
  
     /* Firebase notification */
     'FCM_KEY'=> env('FCM_KEY'),
+
+    /* Firebase notification */
+    'offline_message_token'=> env('OFFLINE_MESSAGE_TOKEN'),
  
     /* PAYSTACK integration key (payment) */
     'PAYSTACK_SECRET_KEY'=> env('PAYSTACK_SECRET_KEY'),

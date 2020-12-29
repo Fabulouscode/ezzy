@@ -175,6 +175,66 @@ class Helper
     /**
      * check notification
      */ 
+    public static function sendOfflineChatNotification($notification, $receiver, $sender = '', $unreadNotification = 0) 
+    {
+       
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $serverApiKey = config('app.FCM_KEY');
+ 
+        $parameter = json_decode($notification['parameter'],true);
+        $image = (isset($parameter['notification_image']) && $parameter['notification_image'] != '') ? $parameter['notification_image'] : '';
+        $message = [
+            'message' => $notification['message'],
+            'parameter' => json_decode($notification['parameter'],true),
+            'sender_id' => $notification['sender_id'],
+            'sender_name' => (!empty($sender))?$sender->user_name:'-',
+            'receiver_id' => $notification['receiver_id'],
+            'type' => $notification['msg_type'],
+            'sender_avatar' => (!empty($sender))?$sender->profile_image:'',
+            'attachment' => '',
+            'notification_count' => $unreadNotification,
+            'media_type' => "image",
+        ];
+
+        $dataTemp = [
+            'title' => config('app.name'),
+            'data' => $message
+        ];
+        
+        if($receiver->device_type == '1' && $receiver->device_token != '') {
+            $msg = array ('title' => config('app.name'), 'body' => $notification['message']);
+            $message = array(
+                "message" => $notification['message'],
+                "data" => $message,
+            );
+            $data['registration_ids'] = array($receiver->device_token);
+            $data['data'] = $message;
+            $data['notification']['sound'] = "default";
+            $data['notification']['title'] = config('app.APP_NAME');
+            $data['notification']['mutable_content'] = true;
+            $data['notification']['category'] = "CustomSamplePush";
+            $data['notification']['body'] = $notification['message'];
+            $data['notification']['badge'] = $unreadNotification;
+        
+        }
+
+        if($receiver->device_type == '0' && $receiver->device_token != '') {
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'priority'=>'high'
+            );
+        }
+
+        if(!empty($data)){
+             self::sendCurlRequest($url, $data);
+        }
+        return true;
+    }
+
+    /**
+     * check notification
+     */ 
     public static function checkNotification($notification_tokens) 
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
