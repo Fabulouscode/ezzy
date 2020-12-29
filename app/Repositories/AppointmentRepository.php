@@ -476,7 +476,7 @@ class AppointmentRepository extends Repository
         
         // DB::connection()->enableQueryLog(); 
         $query = DB::query()->fromSub($pharmacy_provider, 'i_t');
-        $query = $query->select('created_date');
+        $query = $query->addSelect(DB::raw("DATE_FORMAT(created_date, '%m-%d-%Y') as date"));
         // $query = $query->select('created_date','hcp_appointments','orders','lab_appointments');
         $query = $query->addSelect(DB::raw("sum(hcp_appointments) AS hcp_count"));
         $query = $query->addSelect(DB::raw("sum(orders) AS order_count"));

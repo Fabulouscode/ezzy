@@ -174,12 +174,12 @@ function createAreaChart(data) {
     Morris.Area({
         element: 'morris-count-area-chart',
         data: data,
-        xkey: 'created_date',
+        xkey: 'date',
         parseTime: false,
         ykeys: ['hcp_count', 'order_count', 'lab_count'],
         hoverCallback: function (index, options, content, row) {
             var hover = "";
-            hover += "<div class='morris-hover-row-label'>" + row.created_date + "</div>";
+            hover += "<div class='morris-hover-row-label'>" + row.date + "</div>";
             hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#ff5560;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>HCP Appointments: </b> " + row.hcp_count + "</div>";
             hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Pharmacy Orders: </b> " + row.order_count + "</div>";
             hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Laboratories Appointments: </b> " + row.lab_count + "</div>";
