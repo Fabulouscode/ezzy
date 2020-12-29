@@ -54,9 +54,9 @@ class Notification extends Model
         'deleted_at',
     ];
 
-    protected $appends = ['notification_type_name'];
+    protected $appends = ['msg_type_name'];
 
-    public function getNotificationTypeNameAttribute() {
+    public function getMsgTypeNameAttribute() {
         return array_key_exists($this->msg_type, $this->notification_type) ? $this->notification_type[$this->msg_type]: '';
     }
 

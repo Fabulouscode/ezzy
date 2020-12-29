@@ -24,7 +24,29 @@ class NotificationController extends BaseApiController
     public function getNotificationDetails(Request $request)
     {
         $data = array();
-        $data = $this->notification_repo->getNotificationList($request);
+        $data = $this->notification_repo->getNotificationList($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'title'=>$response->title,
+                                        'message'=>$response->message,
+                                        'msg_type'=>$response->msg_type,
+                                        'msg_type_name'=>$response->msg_type_name,
+                                        'read'=>$response->read,
+                                        'created_at'=>$response->created_at,
+                                        'sender'=>(isset($response->getSender))?
+                                                        [
+                                                            'id'=>$response->getSender->id,
+                                                            'user_name'=>$response->getSender->user_name,
+                                                            'profile_image'=>$response->getSender->profile_image
+                                                        ]:'',
+                                        'receiver'=>(isset($response->getReceiver))?
+                                                    [
+                                                        'id'=>$response->getReceiver->id,
+                                                        'user_name'=>$response->getReceiver->user_name,
+                                                        'profile_image'=>$response->getReceiver->profile_image
+                                                    ]:'',
+                                    ];
+                                });;
         return self::sendSuccess($data, 'Notification List');
     }
     
