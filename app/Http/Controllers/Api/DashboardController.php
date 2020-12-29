@@ -17,6 +17,7 @@ use App\Http\Resources\Api\PharmacyResource;
 use App\Http\Resources\Api\LaboratoriesResource;
 use App\Http\Resources\Api\PatientResource;
 use App\Http\Requests\Api\PayAmountHistoryRequest;
+use App\Http\Helpers\Helper;
 
 class DashboardController extends BaseApiController
 {
@@ -168,7 +169,7 @@ class DashboardController extends BaseApiController
                     'msg_type' => '0',
                 ];       
         try{
-            $this->notification_repo->sendingNotification($data, $request);
+            $this->notification_repo->sendingNotification($data);
             return self::sendSuccess('','Notification Send Success');
         }catch(\Exception $e){
             return self::sendException($e);

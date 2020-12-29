@@ -68,7 +68,7 @@ class NotificationRepository extends Repository
         return $query;
     }
 
-    public function sendingNotification($data, $request){
+    public function sendingNotification($data){
         $notification = $this->dataCrud($data);            
         $receiver = $this->user_repo->getById($notification->receiver_id);
         $sender = $this->user_repo->getById($notification->sender_id);

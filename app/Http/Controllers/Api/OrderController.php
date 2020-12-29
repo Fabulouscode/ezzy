@@ -9,6 +9,7 @@ use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\ShoppingCartRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
@@ -17,7 +18,7 @@ use PDF;
 
 class OrderController extends BaseApiController
 {
-    private $order_repo, $user_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo;
+    private $order_repo, $user_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo, $notification_repo;
 
     public function __construct(
         ShoppingCartRepository $shop_cart_repo,
@@ -25,6 +26,7 @@ class OrderController extends BaseApiController
         OrderProductRepository $order_product_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderTrackingRepository $order_tracking_repo,
+        NotificationRepository $notification_repo,
         UserRepository $user_repo
         )
     {
@@ -34,6 +36,7 @@ class OrderController extends BaseApiController
         $this->order_product_repo = $order_product_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->order_tracking_repo = $order_tracking_repo;
+        $this->notification_repo = $notification_repo;
         $this->user_repo = $user_repo;
     }
 
@@ -194,6 +197,17 @@ class OrderController extends BaseApiController
             DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+            if (!empty($data)) {
+                $send_notification = [
+                                        'sender_id' => $request->user()->id,
+                                        'receiver_id' => $request->user_id,
+                                        'title' => 'Order',
+                                        'message' => 'Order is '. $data->status_name,
+                                        'parameter' => json_encode(['order_id'=> $data->id]),
+                                        'msg_type' => '2',
+                                    ];
+                $this->notification_repo->sendingNotification($send_notification);
+            }
             DB::commit();
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
@@ -215,6 +229,17 @@ class OrderController extends BaseApiController
             DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+            if (!empty($data)) {
+                $send_notification = [
+                                        'sender_id' => $request->user()->id,
+                                        'receiver_id' => $request->user_id,
+                                        'title' => 'Order',
+                                        'message' => 'Order review add',
+                                        'parameter' => json_encode(['order_id'=> $data->id]),
+                                        'msg_type' => '2',
+                                    ];
+                $this->notification_repo->sendingNotification($send_notification);
+            }
             DB::commit();
             return self::sendSuccess($data, 'Order Add Review');
         }catch(\Exception $e){

@@ -87,15 +87,6 @@ class Helper
         ];
         
         if($receiver->device_type == '1' && $receiver->device_token != '') {
-            $data = array(
-                'to' => 'drXFFGytQRWoqnIwXO_Bfz:APA91bFRVzno4x4uVuQGrEq4n4zPpruLKATHrd05Xuzl_bdinstgRR8FyYGFfe-cL1dsGOjNNS47MssXEtHSCupeTR1QgSUT5aelE8pxrFkXBTaJtJ3kgIkuKkfAMH1jxQ32h9CcWjdL',
-                // 'to' => $receiver->device_token,
-                'data' => $dataTemp,
-                'priority'=>'high'
-            );
-        }
-
-        if($receiver->device_type == '0' && $receiver->device_token != '') {
             $msg = array ('title' => config('app.name'), 'body' => $notification->message);
             $message = array(
                 "message" => $notification->message,
@@ -109,6 +100,15 @@ class Helper
             $data['notification']['category'] = "CustomSamplePush";
             $data['notification']['body'] = $notification->message;
             $data['notification']['badge'] = $unreadNotification;
+        
+        }
+
+        if($receiver->device_type == '0' && $receiver->device_token != '') {
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'priority'=>'high'
+            );
         }
 
         if(!empty($data)){
@@ -214,8 +214,6 @@ class Helper
             if(isset($response_arr['success']) && $response_arr['success'] == 0) {
                 Log::info($response);
                 Log::info('Push Notification Send Failed');
-            }else{
-                Log::info('Push Notification Send success');
             }
         }
         return true;
