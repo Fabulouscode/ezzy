@@ -43,6 +43,7 @@ class Appointment extends Model
         'user_id',
         'client_id',
         'appointment_type',
+        'urgent',
         'name',
         'email',
         'mobile_no',
