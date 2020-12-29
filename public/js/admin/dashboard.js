@@ -188,7 +188,9 @@ function createAreaChart(data) {
         },
         labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'],
         lineColors: ['#ff5560', '#fcc24c', '#508aeb'],
-        hideHover: 'auto'
+        hideHover: 'auto',
+        gridIntegers: true,
+        ymin: 0
     });
 }
 
