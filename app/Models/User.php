@@ -202,7 +202,7 @@ class User extends Authenticatable
     
     public function getUserPendingAppointmentAttribute(){
         return $this->hasOne('App\Models\Appointment','user_id','id')
-                    ->whereIn('status', ['1','2'])->count('*');     
+                    ->whereIn('status', ['1','2','3','4'])->count('*');     
     }
 
     public function getClientCompletedAppointmentAttribute(){
@@ -217,7 +217,7 @@ class User extends Authenticatable
     
     public function getClientPendingAppointmentAttribute(){
         return $this->hasOne('App\Models\Appointment','client_id','id')
-                    ->whereIn('status', ['1','2'])->count('*');
+                    ->whereIn('status', ['1','2','3','4'])->count('*');
     }
 
     public function getUserOrderRatingAttribute(){
