@@ -255,6 +255,7 @@ class AppointmentController extends BaseApiController
                         'age' => $request->age,
                         'gender' => $request->gender,
                         'reason' => $request->reason,
+                        'urgent' => !empty($request->urgent) ? $request->urgent : 0,
                         'appointment_date' => $request->appointment_date,
                         'appointment_time' => $request->appointment_time,
                         'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
