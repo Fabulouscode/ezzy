@@ -200,7 +200,7 @@ class OrderController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Order',
                                         'message' => 'Order is '. $data->status_name,
                                         'parameter' => json_encode(['order_id'=> $data->id]),
@@ -232,7 +232,7 @@ class OrderController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Order',
                                         'message' => 'Order review add',
                                         'parameter' => json_encode(['order_id'=> $data->id]),
