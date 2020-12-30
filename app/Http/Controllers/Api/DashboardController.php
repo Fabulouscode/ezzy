@@ -124,7 +124,27 @@ class DashboardController extends BaseApiController
     public function getPaymentHistory(PayAmountHistoryRequest $request)
     {
         $data = array();        
-        $data = $this->user_trans_repo->getTransactionHistory($request);
+        $data = $this->user_trans_repo->getTransactionHistory($request)->map(function ($response){
+                                            return [
+                                                'id'=>$response->id,
+                                                'amount'=>$response->amount,
+                                                'transaction_date'=>$response->transaction_date,
+                                                'client'=>(isset($response->client))?
+                                                            [
+                                                                'id'=>$response->client->id,
+                                                                'user_name'=>$response->client->user_name,
+                                                                'profile_image'=>$response->client->profile_image
+                                                            ]:'',
+                                                'users'=>(isset($response->users))?
+                                                        [
+                                                            'id'=>$response->users->id,
+                                                            'user_name'=>$response->users->user_name,
+                                                            'profile_image'=>$response->users->profile_image
+                                                        ]:'',
+                                                'status'=> $response->status,
+                                                'status_name'=> $response->status_name,
+                                            ];
+                                        });;
         return self::sendSuccess($data, 'User Transaction History');
     }
 
@@ -154,7 +174,7 @@ class DashboardController extends BaseApiController
                                                 'status'=> '0',
                                                 'status_name'=> 'Paid',
                                             ];
-                                        });;
+                                        });
         return self::sendSuccess($data, 'User Payout History');    
     }
 
