@@ -81,6 +81,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
              // bank details
             Route::prefix('bank_details')->group(function(){
                 Route::get('', 'UserProfileController@getUserBankDetails');
+                Route::post('/card/add', 'UserProfileController@addUserCardDetails');
+                Route::post('/card/update', 'UserProfileController@updateUserCardDetails');
                 Route::post('/add', 'UserProfileController@addUserBankDetails');
                 Route::post('/update', 'UserProfileController@updateUserBankDetails');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserBankDetails');

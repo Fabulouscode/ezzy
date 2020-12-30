@@ -21,6 +21,9 @@ class User_bank_account extends Model
         'bank_branch_name',
         'account_number',
         'ifsc_code',
-        'primary_account'
+        'primary_account',
+        'card_number',
+        'expiry_date',
+        'card_expiry',
     ];
 }

@@ -12,6 +12,7 @@ use App\Repositories\UserEductaionRepository;
 use App\Repositories\UserExperianceRepository;
 use App\Repositories\UserLocationRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
+use App\Http\Requests\Api\UserCardRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
@@ -78,6 +79,46 @@ class UserProfileController extends BaseApiController
         return self::sendSuccess($data, 'Bank account details');
     }
 
+    public function addUserCardDetails(UserCardRequest $request)
+    {
+        $data = array();
+        $primary_status = 0;
+        $primary_account = $this->user_bank_account_repo->getbyUserId($request->user()->id);
+        if(isset($primary_account) && count($primary_account) == '0'){
+            $primary_status = 1;
+        }
+        $add_data = [
+                        'user_id' => $request->user()->id,
+                        'name' => $request->name,
+                        'bank_name' => $request->bank_name,
+                        'card_number'=> $request->card_number,
+                        'card_expiry' => $request->card_expiry,
+                        'primary_account' => $primary_status,
+                    ];
+        try{
+            $data = $this->user_bank_account_repo->dataCrud($add_data);
+            return self::sendSuccess($data, 'Bank account details Add Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+    
+    public function updateUserCardDetails(UserCardRequest $request)
+    {
+        $data = array();
+        $update_data = [
+                        'name' => $request->name,
+                        'bank_name' => $request->bank_name,
+                        'card_number'=> $request->card_number,
+                        'card_expiry' => $request->card_expiry,
+                        ];
+        try{
+            $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
+            return self::sendSuccess($data, 'Card details Update Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
     public function addUserBankDetails(UserBankAccountRequest $request)
     {
         $data = array();
