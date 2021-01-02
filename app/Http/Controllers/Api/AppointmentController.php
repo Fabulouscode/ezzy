@@ -337,6 +337,7 @@ class AppointmentController extends BaseApiController
         $update = [
                     'appointment_date'=> Carbon::parse($request->appointment_date)->format('Y-m-d'),
                     'appointment_time'=> Carbon::parse($request->appointment_time)->format('H:i:s'),
+                    'status' => '0'
                   ];
 
         try {
