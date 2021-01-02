@@ -150,7 +150,8 @@ class ShopMedicineDetailsRepository extends Repository
         $query = $this->model;
         
         if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
+            // $query = $query->where('id', '<', $request->last_id);    
+            $query = $query->skip($request->last_id);    
         }
         
         $query = $query->with(['medicineDetails'])->limit($this->api_data_limit);     
