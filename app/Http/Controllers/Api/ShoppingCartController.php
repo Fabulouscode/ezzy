@@ -159,32 +159,6 @@ class ShoppingCartController extends BaseApiController
         return self::sendError('Data Not found');
     }
     
-    public function getFavoriteMedicine(Request $request)
-    {
-        $data = $this->favorite_medicine_repo->getFavoriteMedicine($request); 
-        return self::sendSuccess($data, 'Favorite medicine get');
-    }
-
-    public function addFavoriteMedicine(FavoriteRequest $request)
-    {
-        $add_data =[
-                        'user_id' => $request->user()->id,
-                        'shop_medicine_detail_id'=>$request->shop_medicine_detail_id
-                    ];
-        try{
-            $data = $this->favorite_medicine_repo->dataCrud($add_data); 
-            return self::sendSuccess($data, 'Favorite medicine add');
-        }catch(\Exception $e){
-            return self::sendException($e);
-        }
-
-    }
-
-    public function removeFavoriteMedicine(FavoriteRequest $request)
-    {
-        $data = $this->favorite_medicine_repo->removeFavoriteMedicine($request); 
-        return self::sendSuccess('', 'Favorite medicine remove');
-    }
 
 
 

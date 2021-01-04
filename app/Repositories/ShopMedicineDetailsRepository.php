@@ -154,7 +154,7 @@ class ShopMedicineDetailsRepository extends Repository
             $query = $query->skip($request->last_id);    
         }
         
-        $query = $query->with(['medicineDetails'])->limit($this->api_data_limit);     
+        $query = $query->with(['medicineDetails','favoriteProduct'])->limit($this->api_data_limit);     
        
        
         //category filter
@@ -231,4 +231,6 @@ class ShopMedicineDetailsRepository extends Repository
 
         return $query;
     }
+
+    
 }

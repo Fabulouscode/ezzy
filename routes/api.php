@@ -243,9 +243,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
             // favorite request
             Route::prefix('favorite')->group(function(){  
-                Route::post('/remove', 'ShoppingCartController@removeFavoriteMedicine'); 
-                Route::post('/add', 'ShoppingCartController@addFavoriteMedicine'); 
-                Route::post('/list', 'ShoppingCartController@getFavoriteMedicine'); 
+                Route::post('/remove', 'ShopMedicineDetailsController@removeFavoriteMedicine'); 
+                Route::post('/add', 'ShopMedicineDetailsController@addFavoriteMedicine'); 
+                Route::post('/list', 'ShopMedicineDetailsController@getFavoriteMedicine'); 
             });
 
 

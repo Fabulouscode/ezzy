@@ -9,22 +9,25 @@ use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserReviewRepository;
+use App\Repositories\FavoriteMedicineRepository;
 use App\Http\Requests\Api\ShopProductAddRequest;
 use App\Http\Requests\Api\ShopProductDeleteRequest;
+use App\Http\Requests\Api\FavoriteRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ShopMedicineDetailsController extends BaseApiController
 {
 
-    private $medicine_category_repo, $medicine_subcategory_repo, $medicine_details_repo, $shop_medicine_repo, $user_review_repo;
+    private $medicine_category_repo, $medicine_subcategory_repo, $medicine_details_repo, $shop_medicine_repo, $user_review_repo, $favorite_medicine_repo;
 
     public function __construct(
         MedicineCategoryRepository $medicine_category_repo,        
         MedicineSubcategoryRepository $medicine_subcategory_repo, 
         MedicineDetailsRepository $medicine_details_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
-        UserReviewRepository $user_review_repo
+        UserReviewRepository $user_review_repo,
+        FavoriteMedicineRepository $favorite_medicine_repo
         )
     {
         parent::__construct();
@@ -33,6 +36,7 @@ class ShopMedicineDetailsController extends BaseApiController
         $this->medicine_details_repo = $medicine_details_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->user_review_repo = $user_review_repo;
+        $this->favorite_medicine_repo = $favorite_medicine_repo;
     }
 
 
@@ -185,6 +189,7 @@ class ShopMedicineDetailsController extends BaseApiController
                                                             'medicine_name'=>$response->medicineDetails->medicine_name,
                                                             'medicine_sku'=>$response->medicineDetails->medicine_sku,
                                                         ]:'',
+                                        'favorite_product'=>(isset($response->favoriteProduct))? 1 : 0,
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
@@ -234,6 +239,61 @@ class ShopMedicineDetailsController extends BaseApiController
                                 });
         return self::sendSuccess($data);
     }
+
+    public function getFavoriteMedicine(Request $request)
+    {
+        $data = $this->favorite_medicine_repo->getFavoriteMedicine($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'mrp_price'=>$response->shopMedicineDetails->mrp_price,
+                                        'offer_price'=>$response->shopMedicineDetails->offer_price,
+                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
+                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
+                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
+                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
+                                        'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
+                                                        [
+                                                            'id'=>$response->shopMedicineDetails->medicineDetails->id,
+                                                            'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
+                                                            'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
+                                                            'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
+                                                        ]:'',
+                                        'favorite_product'=> 1,
+                                        'status'=>$response->shopMedicineDetails->status,
+                                        'status_name'=>$response->shopMedicineDetails->status_name,
+                                    ];
+                                });; 
+        return self::sendSuccess($data, 'Favorite medicine get');
+    }
+
+    public function addFavoriteMedicine(FavoriteRequest $request)
+    {
+        if(!empty($request->user()->id) && !empty($request->shop_medicine_detail_id)){
+             //Favorite medicine already check
+            $favorite_medicine = $this->favorite_medicine_repo->checkFavoriteMedicine($request);
+            if(!empty($favorite_medicine)){
+                return self::sendError([], 'Favorite medicine already added.');
+            }
+        }
+        $add_data =[
+                        'user_id' => $request->user()->id,
+                        'shop_medicine_detail_id'=>$request->shop_medicine_detail_id
+                    ];
+        try{
+            $data = $this->favorite_medicine_repo->dataCrud($add_data); 
+            return self::sendSuccess($data, 'Favorite medicine add');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+
+    }
+
+    public function removeFavoriteMedicine(FavoriteRequest $request)
+    {
+        $data = $this->favorite_medicine_repo->removeFavoriteMedicine($request); 
+        return self::sendSuccess('', 'Favorite medicine remove');
+    }
+
 
 
 }

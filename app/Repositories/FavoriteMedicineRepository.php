@@ -85,5 +85,28 @@ class FavoriteMedicineRepository extends Repository
         return true;
        
     }
+
+    /**
+     * check favourite medicine.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkFavoriteMedicine($request)
+    {    
+        $query = $this->model;
+        
+        if(!empty($request->user()->id)){
+            $query = $query->where('user_id', $request->user()->id);    
+        }
+
+        if(!empty($request->shop_medicine_detail_id)){
+            $query = $query->where('shop_medicine_detail_id', $request->shop_medicine_detail_id);    
+        }
+  
+        $query = $query->orderBy('id','desc')->first();
+        
+        return $query;
+       
+    }
     
 }
