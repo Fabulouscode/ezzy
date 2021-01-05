@@ -143,6 +143,7 @@ class Chat_history extends Model
         if(!empty($chatDetails)){
             foreach ($chatDetails as $key => $value) {
                 $data[]=[
+                        'id'=> (isset($value->shopMedicineDetails->id)) ? $value->shopMedicineDetails->id : '',
                         'medicine_name'=> (isset($value->shopMedicineDetails->medicineDetails)) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '',
                         'effective_date'=> (isset($value->effective_date)) ? $value->effective_date : '',
                         'patient_direction'=> (isset($value->patient_direction)) ? $value->patient_direction : '',
