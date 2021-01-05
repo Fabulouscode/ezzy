@@ -28,7 +28,7 @@ class UserCardRequest extends FormRequest
         return [
            'name' => 'required|string|max:255',
            'bank_name' => 'required|string|max:255',
-           'card_number'=> 'required|integer',
+           'card_number'=> 'required|string|max:16',
            'card_expiry' => 'required|date_format:Y-m',
         ];
     }
