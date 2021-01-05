@@ -84,7 +84,8 @@ class ShoppingCartController extends BaseApiController
     {
         $data = $this->shop_cart_repo->getUserCart($request->user()->id)->map(function ($response){
                                     return [
-                                        'id'=>$response->shopMedicineDetails->id,
+                                        'id'=>$response->id,
+                                        'shop_id'=>$response->shopMedicineDetails->id,
                                         'mrp_price'=>$response->shopMedicineDetails->mrp_price,
                                         'offer_price'=>$response->shopMedicineDetails->offer_price,
                                         'medicine_type'=>$response->shopMedicineDetails->medicine_type,
