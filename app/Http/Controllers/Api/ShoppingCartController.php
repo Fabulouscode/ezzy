@@ -82,7 +82,28 @@ class ShoppingCartController extends BaseApiController
 
     public function getUserCart(Request $request)
     {
-        $data = $this->shop_cart_repo->getUserCart($request->user()->id);
+        $data = $this->shop_cart_repo->getUserCart($request->user()->id)->map(function ($response){
+                                    return [
+                                        'id'=>$response->shopMedicineDetails->id,
+                                        'mrp_price'=>$response->shopMedicineDetails->mrp_price,
+                                        'offer_price'=>$response->shopMedicineDetails->offer_price,
+                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
+                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
+                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
+                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
+                                        'shipping_price'=>(!empty($response->shopMedicineDetails->user) && !empty($response->shopMedicineDetails->user->userDetails)) ? $response->shopMedicineDetails->user->userDetails->delivery_charge : '',
+                                        'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
+                                                        [
+                                                            'id'=>$response->shopMedicineDetails->medicineDetails->id,
+                                                            'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
+                                                            'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
+                                                            'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
+                                                        ]:'',
+                                        'favorite_product'=> 1,
+                                        'status'=>$response->shopMedicineDetails->status,
+                                        'status_name'=>$response->shopMedicineDetails->status_name,
+                                    ];
+                                });
         return self::sendSuccess($data , 'get Cart data');
     }
 

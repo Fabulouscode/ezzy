@@ -238,10 +238,13 @@ class AppointmentController extends BaseApiController
         
         //user timing check
         $user_available = $this->user_repo->checkUserAvailable($request);
-        
+        if(empty($user_available)){
+            return self::sendError([], 'Please Change Appointment Time Provider not available.');
+        }
+
         //user free or not checking
         $check_appointment = $this->appointment_repo->checkUserAvailable($request);
-        if(!empty($check_appointment) || empty($user_available)){
+        if(!empty($check_appointment)){
             return self::sendError([], 'Please Change Appointment Time Provider not available.');
         }
       

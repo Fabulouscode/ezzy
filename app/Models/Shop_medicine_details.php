@@ -51,6 +51,10 @@ class Shop_medicine_details extends Model
         return $this->belongsTo('App\Models\Medicine_details','medicine_detail_id','id');
     }
 
+    public function user() {
+        return $this->belongsTo('App\Models\User','user_id','id');
+    }
+
     public function medicineCategory() {
         return $this->belongsTo('App\Models\Medicine_category', 'medicine_category_id');
     }
