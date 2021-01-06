@@ -27,6 +27,7 @@ class UserDetailsRepository extends Repository
         '5' => 'pharmacist_certificate',
         '6' => 'support_request',
         '7' => 'client_lab_report',
+        '8' => 'chat_attachment',
     );
 
     public function __construct()
