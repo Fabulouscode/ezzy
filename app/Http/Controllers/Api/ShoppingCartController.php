@@ -144,7 +144,7 @@ class ShoppingCartController extends BaseApiController
         try{
             DB::beginTransaction();
             $this->shop_cart_repo->dataCrud($update_data, $id);
-            $data = self::getUserCartList($request);
+            $data = $this->shop_cart_repo->getById($id)->format();
             DB::commit();
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
@@ -163,7 +163,7 @@ class ShoppingCartController extends BaseApiController
                            ];
            try{
                 $this->shop_cart_repo->dataCrud($update_data, $id);
-                $data = self::getUserCartList($request);
+                $data = $this->shop_cart_repo->getById($id)->format();
                 return self::sendSuccess($data, 'Cart add Success');
             }catch(\Exception $e){
                 return self::sendException($e);
@@ -202,32 +202,7 @@ class ShoppingCartController extends BaseApiController
         return self::sendError('Data Not found');
     }
     
-    public function getUserCartList(Request $request)
-    {
-        return $this->shop_cart_repo->getUserCart($request->user()->id)->map(function ($response){
-                                    return [
-                                        'id'=>$response->id,                                        
-                                        'quantity'=>$response->quantity,
-                                        'shop_id'=>$response->shopMedicineDetails->id,
-                                        'mrp_price'=>$response->shopMedicineDetails->mrp_price,
-                                        'offer_price'=>$response->shopMedicineDetails->offer_price,
-                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
-                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
-                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
-                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
-                                        'shipping_price'=>(!empty($response->shopMedicineDetails->user) && !empty($response->shopMedicineDetails->user->userDetails)) ? $response->shopMedicineDetails->user->userDetails->delivery_charge : '',
-                                        'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
-                                                        [
-                                                            'id'=>$response->shopMedicineDetails->medicineDetails->id,
-                                                            'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
-                                                            'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
-                                                            'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
-                                                        ]:'',
-                                        'status'=>$response->shopMedicineDetails->status,
-                                        'status_name'=>$response->shopMedicineDetails->status_name,
-                                    ];
-                                });
-    }
+
 
 
 }
