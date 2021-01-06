@@ -101,7 +101,6 @@ class ShoppingCartController extends BaseApiController
                                                             'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
                                                             'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
                                                         ]:'',
-                                        'favorite_product'=> 1,
                                         'status'=>$response->shopMedicineDetails->status,
                                         'status_name'=>$response->shopMedicineDetails->status_name,
                                     ];
