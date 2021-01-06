@@ -47,6 +47,16 @@ class ShoppingCartController extends BaseApiController
         
         $cart_check = $this->shop_cart_repo->checkCart($request->user()->id, $request->shop_medicine_detail_id);
         
+        $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
+        if(!empty($cart_details)){
+            foreach ($cart_details as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                if(empty($stock_available)){
+                     return self::sendError('', 'Stock is not available');
+                }
+            }
+        }
+
         if(!empty($cart_check) && !empty($cart_check->id)){
         
             $update_data = [
@@ -114,8 +124,18 @@ class ShoppingCartController extends BaseApiController
         return self::sendSuccess($data , 'get Cart data');
     }
 
-    public function updateToCartAddition($id)
+    public function updateToCartAddition(Request $request, $id)
     {
+        $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
+        if(!empty($cart_details)){
+            foreach ($cart_details as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                if(empty($stock_available) && $value->id == $id){
+                     return self::sendError('', 'Stock is not available');
+                }
+            }
+        }
+
         $cart_check = $this->shop_cart_repo->getById($id);
         $update_data = [
                         'quantity'=> $cart_check->quantity + 1,
@@ -124,7 +144,7 @@ class ShoppingCartController extends BaseApiController
         try{
             DB::beginTransaction();
             $this->shop_cart_repo->dataCrud($update_data, $id);
-            $data = $this->shop_cart_repo->getById($id);
+            $data = self::getUserCartList($request);
             DB::commit();
             return self::sendSuccess($data, 'Cart add Success');
         }catch(\Exception $e){
@@ -133,8 +153,9 @@ class ShoppingCartController extends BaseApiController
         }
     }
    
-    public function updateToCartSubtraction($id)
+    public function updateToCartSubtraction(Request $request, $id)
     {
+       
         $cart_check = $this->shop_cart_repo->getById($id);
         if(!empty($cart_check->quantity) && $cart_check->quantity > 0){
             $update_data = [
@@ -142,7 +163,7 @@ class ShoppingCartController extends BaseApiController
                            ];
            try{
                 $this->shop_cart_repo->dataCrud($update_data, $id);
-                $data = $this->shop_cart_repo->getById($id);
+                $data = self::getUserCartList($request);
                 return self::sendSuccess($data, 'Cart add Success');
             }catch(\Exception $e){
                 return self::sendException($e);
@@ -181,7 +202,32 @@ class ShoppingCartController extends BaseApiController
         return self::sendError('Data Not found');
     }
     
-
+    public function getUserCartList(Request $request)
+    {
+        return $this->shop_cart_repo->getUserCart($request->user()->id)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,                                        
+                                        'quantity'=>$response->quantity,
+                                        'shop_id'=>$response->shopMedicineDetails->id,
+                                        'mrp_price'=>$response->shopMedicineDetails->mrp_price,
+                                        'offer_price'=>$response->shopMedicineDetails->offer_price,
+                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
+                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
+                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
+                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
+                                        'shipping_price'=>(!empty($response->shopMedicineDetails->user) && !empty($response->shopMedicineDetails->user->userDetails)) ? $response->shopMedicineDetails->user->userDetails->delivery_charge : '',
+                                        'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
+                                                        [
+                                                            'id'=>$response->shopMedicineDetails->medicineDetails->id,
+                                                            'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
+                                                            'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
+                                                            'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
+                                                        ]:'',
+                                        'status'=>$response->shopMedicineDetails->status,
+                                        'status_name'=>$response->shopMedicineDetails->status_name,
+                                    ];
+                                });
+    }
 
 
 }
