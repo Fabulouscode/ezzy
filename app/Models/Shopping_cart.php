@@ -28,7 +28,8 @@ class Shopping_cart extends Model
       return [
                 'id'=>$this->id,                                        
                 'quantity'=>$this->quantity,
-                'shop_id'=>$this->shopMedicineDetails->id,
+                'shop_id'=>$this->shopMedicineDetails->user_id,
+                'shop_medicine_id'=>$this->shopMedicineDetails->id,
                 'mrp_price'=>$this->shopMedicineDetails->mrp_price,
                 'offer_price'=>$this->shopMedicineDetails->offer_price,
                 'medicine_type'=>$this->shopMedicineDetails->medicine_type,
