@@ -18,6 +18,7 @@ use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
 use App\Http\Requests\Api\UserLocationRequest;
 use App\Http\Requests\Api\UploadFileRequest;
+use App\Http\Requests\Api\UploadDocFileRequest;
 use App\Http\Requests\Api\UserRequest;
 
 class UserProfileController extends BaseApiController
@@ -58,7 +59,21 @@ class UserProfileController extends BaseApiController
     }
 
     // upload Document
-    public function uploadDocumentFile(UploadFileRequest $request)
+    public function uploadImageFile(UploadFileRequest $request)
+    {
+        $user_document = $this->user_details_repo->user_documents;
+        if(!empty($request->file('document')) && !empty($user_document)) {          
+            $file = $request->file('document');
+            $storagePath = 'images/'.$user_document[$request->document_key];
+            $data['file'] = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
+            $data['url'] = url('storage/'.$data['file']);
+            return self::sendSuccess($data, 'file Upload Successfully');
+        }
+        return self::sendError('', 'File Not Uploaded', 500);
+    }
+
+    // upload Document
+    public function uploadDocumentFile(UploadDocFileRequest $request)
     {
         $user_document = $this->user_details_repo->user_documents;
         if(!empty($request->file('document')) && !empty($user_document)) {          

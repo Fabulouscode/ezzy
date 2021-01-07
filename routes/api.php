@@ -25,7 +25,8 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
 });
 
 Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){
-    Route::post('/user/document/upload', 'UserProfileController@uploadDocumentFile');
+    Route::post('/user/document/upload', 'UserProfileController@uploadImageFile');
+    Route::post('/user/file/upload', 'UserProfileController@uploadDocumentFile');
 });
 
 Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(function(){
