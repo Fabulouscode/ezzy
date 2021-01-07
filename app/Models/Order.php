@@ -45,7 +45,7 @@ class Order extends Model
         'transaction_id',
         'voucher_code_id',
         'voucher_amount',
-        'delivery_type'
+        'delivery_type',
     ];
 
     protected $appends = ['invoice_no_generate','order_no_generate','status_name','delivery_type_name','order_medicine_name'];
@@ -100,6 +100,7 @@ class Order extends Model
         return [
             'id'=>$this->id,
             'total_price'=>$this->total_price,
+            'transaction'=>(!empty($this->getTransaction))? 1 : 0,
             'shipping_price'=>$this->shipping_price,
             'user_rating'=>$this->user_rating,
             'user_review'=>$this->user_review,
