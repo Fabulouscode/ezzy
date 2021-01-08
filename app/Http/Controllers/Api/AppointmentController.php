@@ -10,6 +10,7 @@ use App\Repositories\AppointmentServiceRepository;
 use App\Repositories\UserServiceRepository;
 use App\Repositories\NotificationRepository;
 use App\Http\Requests\Api\AppointmentRequest;
+use App\Http\Requests\Api\UrgentAppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
@@ -286,6 +287,67 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $request->user_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment Book',
+                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                        'msg_type' => '1',
+                                    ];  
+                $this->notification_repo->sendingNotification($send_notification);          
+            }
+            DB::commit();
+            return self::sendSuccess($data);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return self::sendException($e);
+        }
+    }
+   
+    public function addUrgentAppointment(UrgentAppointmentRequest $request)
+    {
+        $data = array();
+        
+        if(!empty($request->appointment_type) && $request->appointment_type == '1'){
+             //Appointment home care book
+            $check_user_location = $this->user_repo->checkUserLocation($request);
+            if(empty($check_user_location)){
+                return self::sendError([], 'Please Add address.');
+            }
+        }
+        
+        // //user timing check
+        // $user_available = $this->user_repo->checkUserAvailable($request);
+        // if(empty($user_available)){
+        //     return self::sendError([], 'Please Change Appointment Time Provider not available.');
+        // }
+
+        // //user free or not checking
+        // $check_appointment = $this->appointment_repo->checkUserAvailable($request);
+        // if(!empty($check_appointment)){
+        //     return self::sendError([], 'Please Change Appointment Time Provider not available.');
+        // }
+      
+        $add_data = [
+                        'client_id' => $request->user()->id,
+                        'user_id' => $request->user_id,
+                        'appointment_type' => $request->appointment_type,
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'mobile_no' => $request->mobile_no,
+                        'gender' => $request->gender,
+                        'urgent' => 1,
+                        'appointment_date' => $request->appointment_date,
+                        'appointment_time' => $request->appointment_time,
+                        'full_day' => isset($request->full_day) ? $request->full_day : 0,
+                        'status' => '0'
+                    ];
+             
+        try {
+            DB::beginTransaction();
+            $data = $this->appointment_repo->dataCrud($add_data);
+            if(!empty($data)){
+                $send_notification = [
+                                        'sender_id' => $request->user()->id,
+                                        'receiver_id' => $request->user_id,
+                                        'title' => 'Urgent Appointment',
+                                        'message' => 'Urgent Appointment Book',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '1',
                                     ];  
