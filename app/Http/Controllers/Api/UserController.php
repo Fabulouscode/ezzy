@@ -82,7 +82,7 @@ class UserController extends BaseApiController
                                         'status_name'=>$response->status_name,
                                     ];
                                 });
-        return self::sendSuccess($user_list, 'User Profile Add Successfully');
+        return self::sendSuccess($user_list, 'User Profile list Successfully');
     }
 
     public function getHealthcareProvidersUrgent(Request $request)
@@ -97,11 +97,13 @@ class UserController extends BaseApiController
                                         'user_order_review'=>$response->user_order_review,
                                         'user_order_rating'=>$response->user_order_rating,
                                         'user_eduction_details'=>$response->user_eduction_details,
+                                        'latitude'=>$response->latitude,
+                                        'longitude'=>$response->longitude,
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
                                 });
-        return self::sendSuccess($user_list, 'User Profile Add Successfully');
+        return self::sendSuccess($user_list, 'User Profile list Successfully');
     }
 
 }
