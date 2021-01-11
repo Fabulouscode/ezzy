@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UrgentAppointmentRequest extends FormRequest
+class AppointmentAcceptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,16 +26,7 @@ class UrgentAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
-            'appointment_type' => 'required',
-            'name' => 'required',
-            'email' => 'required|email',
-            'mobile_no' => 'required',
-            'gender' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'appointment_date' => 'required|date_format:Y-m-d',
-            'appointment_time' => 'required|date_format:H:i:s',
+            'id' => 'required',
         ];
     }
 

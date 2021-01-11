@@ -19,6 +19,7 @@ use App\Http\Requests\Api\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 use PDF;
+use Log;
 
 class AppointmentController extends BaseApiController
 {
@@ -326,7 +327,6 @@ class AppointmentController extends BaseApiController
       
         $add_data = [
                         'client_id' => $request->user()->id,
-                        'user_id' => $request->user_id,
                         'appointment_type' => $request->appointment_type,
                         'name' => $request->name,
                         'email' => $request->email,
@@ -342,16 +342,43 @@ class AppointmentController extends BaseApiController
         try {
             DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
-            if(!empty($data)){
-                $send_notification = [
-                                        'sender_id' => $request->user()->id,
-                                        'receiver_id' => $request->user_id,
-                                        'title' => 'Urgent Appointment',
-                                        'message' => 'Urgent Appointment Book',
-                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                        'msg_type' => '1',
-                                    ];  
-                $this->notification_repo->sendingNotification($send_notification);          
+            $healthcare_providers = $this->user_repo->getHealthcareProvidersUrgent($request);
+            
+            $healthcare_provider_assign = 0;
+            if(count($healthcare_providers) > 0){
+                foreach ($healthcare_providers as $healthcare_provider){
+                    $healthcare_providerReq = $this->appointment_repo->getById($data->id);
+                    $healthcare_provider_assign = $healthcare_providerReq->user_id;
+                    // send notification
+                    if($healthcare_provider_assign == 0){
+                        $send_notification = [
+                                'sender_id' => $request->user()->id,
+                                'receiver_id' => $healthcare_provider->id,
+                                'title' => 'Urgent Appointment',
+                                'message' => 'Urgent Appointment Book',
+                                'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                'msg_type' => '1',
+                            ];  
+                        $this->notification_repo->sendingNotification($send_notification);  
+                        Log::info("Notification send ".date('H:i:s'));
+                        sleep(30);
+                    }else{
+                        break;
+                    }
+                }
+                $healthcareProvider = $this->appointment_repo->getById($data->id);
+                $healthcare_provider_assign = $healthcareProvider->user_id;
+                Log::info($healthcare_provider_assign);
+                Log::info("healthcare provider assign time ".date('H:i:s'));
+                if($healthcare_provider_assign){
+                    Log::info("healthcare provider assign ".date('H:i:s'));
+                    return self::sendSuccess($healthcareProvider);
+                }else{
+                     Log::info("healthcare provider not available ".date('H:i:s'));
+                    return self::sendError([],"No healthcare provider available, please try again.");
+                }
+            }else{
+                return Self::sendError([],"No healthcare provider available, please try again.");
             }
             DB::commit();
             return self::sendSuccess($data);
@@ -511,4 +538,34 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($file_url, 'Appointment Invoice get');
     }
 
+        /** Accept Appointment */
+    public function acceptAppointment(AppointmentStatusRequest $request){
+        DB::beginTransaction();
+        try{
+            $appointmentRequest= $this->appointment_repo->getById($request->id);
+            $update_user = [
+                        'user_id' => $request->user()->id,
+                        'status' => '1',
+                    ];
+            $this->appointment_repo->dataCrud($update_user, $request->id);
+            if(!empty($data)){
+                $send_notification = [
+                                        'sender_id' => $request->user()->id,
+                                        'receiver_id' => $appointmentRequest->client_id,
+                                        'title' => 'Urgent Appointment',
+                                        'message' => 'Urgent Appointment Request Accepted',
+                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                        'msg_type' => '1',
+                                    ];  
+                $this->notification_repo->sendingNotification($send_notification);          
+            }
+            Log::info("Appointment Request Accepted".date('H:i:s'));
+            DB::commit();
+            $data = $this->appointment_repo->getById($request->id);
+            return self::sendSuccess($data, 'Appointment Request Accepted Successfully');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return Self::sendException($e);
+        }
+    }
 }

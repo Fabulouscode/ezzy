@@ -573,12 +573,15 @@ class UserRepository extends Repository
 
         // distance filter
         if(!empty($request->latitude) && !empty($request->longitude)){
+            $query->whereHas('userDetails', function ($query) {
+                $query->where('urgent', '1');
+            });
             $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
                            ->where([
                                     ['users.latitude', '!=', ''],
                                     ['users.longitude', '!=', '']
                                 ])
-                           ->havingRaw('distance <= 50')
+                           ->havingRaw('distance <= 100')
                            ->orderBy('distance','asc');
         } else{
             $query = $query->orderBy('id','desc');
@@ -713,6 +716,20 @@ class UserRepository extends Repository
         return $query;
     }
 
+    /**
+     * find nerest healthcare provider.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findHealthcareProvider($request)
+    {
+        $query = $this->model;   
+        $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('urgent', '1');
+            });
 
+        $query = $query->orderBy('appointment_date','desc')->get();
+        return $query;
+    }
 
 }
