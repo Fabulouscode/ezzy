@@ -576,6 +576,8 @@ class UserRepository extends Repository
             $query->whereHas('userDetails', function ($query) {
                 $query->where('urgent', '1');
             });
+            $query = $query->where('category_id', '4');
+
             $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
                            ->where([
                                     ['users.latitude', '!=', ''],
