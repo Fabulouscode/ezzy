@@ -16,7 +16,8 @@ class User_available_time extends Model
         '3'=>'Wednesday', 
         '4'=>'Thursday', 
         '5'=>'Friday', 
-        '6'=>'Saturday'
+        '6'=>'Saturday',
+        '7'=>'Monday - Friday'
     );
     
     public $appointment_type_value = array(
