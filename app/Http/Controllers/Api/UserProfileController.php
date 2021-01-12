@@ -231,10 +231,11 @@ class UserProfileController extends BaseApiController
         $data = array();
         $add_data = [
                     'user_id' => $request->user()->id,
-                    'day' => $request->day,
+                    'day' => (isset($request->day)) ? $request->day : '',
                     'appointment_type' => $request->appointment_type,
                     'start_time'=> $request->start_time,
                     'end_time' =>  $request->end_time,
+                    'same_timing' => (!empty($request->same_timing)) ?  $request->same_timing : 0,
                     ];
         try{
             $data = $this->user_available_time_repo->dataCrud($add_data);
@@ -248,10 +249,11 @@ class UserProfileController extends BaseApiController
     {
         $data = array();
         $update_data = [
-                    'day' => $request->day,
+                    'day' => (isset($request->day)) ? $request->day : '',
                     'appointment_type' => $request->appointment_type,
                     'start_time'=> $request->start_time,
                     'end_time' =>  $request->end_time,
+                    'same_timing' => (isset($request->same_timing)) ?  $request->same_timing : 0,
                     ];
         try{
             $data = $this->user_available_time_repo->dataCrud($update_data, $request->id);

@@ -36,6 +36,7 @@ class User_available_time extends Model
         'appointment_type',
         'start_time',
         'end_time',
+        'same_timing'
     ];
     
     protected $appends = ['day_name','appointment_type_name'];

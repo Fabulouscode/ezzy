@@ -26,7 +26,6 @@ class UserAvailableTimesRequest extends FormRequest
     public function rules()
     {
         return [
-           'day' => 'required',
            'appointment_type' => 'required',
            'start_time'=> 'required|date_format:H:i:s',
            'end_time' => 'required|date_format:H:i:s',
