@@ -276,11 +276,29 @@ class AppointmentRepository extends Repository
     {   
         $query = $this->model;
         
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
         }
-        
-        $query = $query->limit($this->api_data_limit); 
 
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
@@ -288,7 +306,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
        
@@ -303,11 +321,29 @@ class AppointmentRepository extends Repository
     {   
         $query = $this->model;
         
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
         }
-        
-        $query = $query->limit($this->api_data_limit); 
 
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
@@ -315,7 +351,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
        
@@ -330,11 +366,29 @@ class AppointmentRepository extends Repository
     {   
         $query = $this->model;
         
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
-        }
-        
-        $query = $query->limit($this->api_data_limit);      
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
+        } 
        
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
@@ -342,7 +396,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['0'])->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['0'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
 
@@ -355,13 +409,31 @@ class AppointmentRepository extends Repository
      */
     public function getCancelledAppointment($request)
     {   
-        $query = $this->model;
-        
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
+        $query = $this->model;        
+
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
         }
-        
-        $query = $query->limit($this->api_data_limit);    
        
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
@@ -369,7 +441,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['6'])->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['6'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
     }
@@ -381,13 +453,31 @@ class AppointmentRepository extends Repository
      */
     public function getCompletedAppointment($request)
     {   
-        $query = $this->model;
-        
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
-        }
-        
-        $query = $query->limit($this->api_data_limit);     
+        $query = $this->model;        
+
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
+        }   
         
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
@@ -395,7 +485,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['5'])->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['5'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
 
         return $query;
     }
