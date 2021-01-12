@@ -82,34 +82,45 @@ class Helper
         ];
 
         $dataTemp = [
-            'title' => config('app.name'),
-            'data' => $message
+            'click_action' => "FLUTTER_NOTIFICATION_CLICK",
+            'screen' => $notification->type,
+            'object' => $message
         ];
         
-        if($receiver->device_type == '1' && $receiver->device_token != '') {
-            $msg = array ('title' => config('app.name'), 'body' => $notification->message);
-            $message = array(
-                "message" => $notification->message,
-                "data" => $message,
-            );
-            $data['registration_ids'] = array($receiver->device_token);
-            $data['data'] = $message;
-            $data['notification']['sound'] = "default";
-            $data['notification']['title'] = config('app.APP_NAME');
-            $data['notification']['mutable_content'] = true;
-            $data['notification']['category'] = "CustomSamplePush";
-            $data['notification']['body'] = $notification->message;
-            $data['notification']['badge'] = $unreadNotification;
+       
+        $data = array(
+            'to' => $receiver->device_token,
+            'data' => $dataTemp,
+            'notification'=>array(
+                'title'=> config('app.name'),
+                'body'=>$notification->message
+            )
+        );
         
-        }
+        // if($receiver->device_type == '1' && $receiver->device_token != '') {
+        //     $msg = array ('title' => config('app.name'), 'body' => $notification->message);
+        //     $message = array(
+        //         "message" => $notification->message,
+        //         "data" => $message,
+        //     );
+        //     $data['registration_ids'] = array($receiver->device_token);
+        //     $data['data'] = $message;
+        //     $data['notification']['sound'] = "default";
+        //     $data['notification']['title'] = config('app.APP_NAME');
+        //     $data['notification']['mutable_content'] = true;
+        //     $data['notification']['category'] = "CustomSamplePush";
+        //     $data['notification']['body'] = $notification->message;
+        //     $data['notification']['badge'] = $unreadNotification;
+        
+        // }
 
-        if($receiver->device_type == '0' && $receiver->device_token != '') {
-            $data = array(
-                'to' => $receiver->device_token,
-                'data' => $dataTemp,
-                'priority'=>'high'
-            );
-        }
+        // if($receiver->device_type == '0' && $receiver->device_token != '') {
+        //     $data = array(
+        //         'to' => $receiver->device_token,
+        //         'data' => $dataTemp,
+        //         'priority'=>'high'
+        //     );
+        // }
 
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
