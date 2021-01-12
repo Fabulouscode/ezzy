@@ -306,7 +306,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
         
         return $query;
        
@@ -351,7 +351,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
         
         return $query;
        
@@ -396,7 +396,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['0'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        $query = $query->whereIn('status',['0'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
         
         return $query;
 
@@ -441,7 +441,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['6'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        $query = $query->whereIn('status',['6'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
         
         return $query;
     }
@@ -485,7 +485,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['5'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        $query = $query->whereIn('status',['5'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
 
         return $query;
     }
