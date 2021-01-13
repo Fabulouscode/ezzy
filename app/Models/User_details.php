@@ -71,19 +71,19 @@ class User_details extends Model
 
 
     public function getQualificationCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+        return !empty($value) ?  url('storage/'.$value) : '';
     }
     public function getPracticingLicenceAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+        return !empty($value) ?  url('storage/'.$value) : '';
     }
     public function getHealthFacilityCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+        return !empty($value) ?  url('storage/'.$value) : '';
     }
     public function getRegstrationCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+        return !empty($value) ?  url('storage/'.$value) : '';
     }
     public function getPharmacistCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : asset('/admin/images/avatar.jpg');
+        return !empty($value) ?  url('storage/'.$value) : '';
     }
 
     public function getAllergiesAttribute($value) {
