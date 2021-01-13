@@ -487,7 +487,6 @@ class UserRepository extends Repository
      */
     public function getHealthcareProviders($request)
     {   
-        //DB::connection()->enableQueryLog(); 
         $query = $this->model->select('users.*'); 
 
         // distance filter
@@ -542,23 +541,11 @@ class UserRepository extends Repository
         }          
         
         // rating filter
-        if(isset($request->rating)){
-            // $query = $query->withCount(['userReview as rating' => function ($query) {
-            //             $query->select(DB::raw('avg(rating)'))->where('status', '0');
-            //         }])->havingRaw('rating >= '. $request->rating);
+        if(!empty($request->rating)){
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->havingRaw('rating >= '. $request->rating);
         }          
-        
-        // if(isset($request->rating)){
-        //     $query = $query->havingRaw('user_appointment_rating', '>=', $request->rating);
-        //     // $query = $query->with(['userAppointmentRating']);
-        //     // $query = $query->weherehass(['userAppointmentRating' => function ($query) {
-        //     //             $query->where('user_rating >= '. $request->rating);
-        //     //         }]);
-        //     // $query = $query->whereHas('userAppointmentRating', function($query) use ($request){
-        //     //     // $query->addSelect('user_rating');
-        //     //     $query->where('user_rating', '>=', $request->rating);
-        //     // });
-        // } 
 
         // top listing
         if(isset($request->last_id)){            
@@ -571,7 +558,8 @@ class UserRepository extends Repository
         }         
         
         $query = $query->where('status', '0')->get();
-       
+       print_r(DB::getQueryLog());
+       die;
         return $query;
     }
 

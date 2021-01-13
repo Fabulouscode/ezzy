@@ -147,6 +147,8 @@ class User extends Authenticatable
     public function userReview() {
         return $this->hasMany('App\Models\User_review');
     }
+
+
  
     public function userLabReport() {
         return $this->hasMany('App\Models\Lab_report','client_id','id');
@@ -176,6 +178,11 @@ class User extends Authenticatable
 
     }
 
+    public function userAppointmentRating(){
+        return $this->hasMany('App\Models\Appointment','user_id','id')->where('status', '5');        
+    }
+    
+    
     public function getUserAppointmentRatingAttribute(){
         return $this->hasOne('App\Models\Appointment','user_id','id')
                     ->where('status', '5')->avg('user_rating');        
