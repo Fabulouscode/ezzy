@@ -12,6 +12,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\OrderProductRepository;
 use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ManageFeesRepository;
+use App\Repositories\NotificationRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
@@ -21,7 +22,7 @@ use Carbon\Carbon as Carbon;
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo, $fees_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
+    private $appointment_repo, $fees_repo, $notification_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
@@ -31,7 +32,8 @@ class TransactionController extends BaseApiController
         OrderRepository $order_repo,
         OrderProductRepository $order_product_repo,
         OrderTrackingRepository $order_tracking_repo,
-        ManageFeesRepository $fees_repo
+        ManageFeesRepository $fees_repo,
+        NotificationRepository $notification_repo
         )
     {
         parent::__construct();
@@ -43,6 +45,7 @@ class TransactionController extends BaseApiController
         $this->order_product_repo = $order_product_repo;
         $this->order_tracking_repo = $order_tracking_repo;
         $this->fees_repo = $fees_repo;
+        $this->notification_repo = $notification_repo;
     }
 
     public function updateUserWalletBalance($user_id)
@@ -164,6 +167,17 @@ class TransactionController extends BaseApiController
                 // }
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
+                if (!empty($data)) {
+                    $send_notification = [
+                                            'sender_id' => $request->user()->id,
+                                            'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                            'title' => 'Appointment',
+                                            'message' => 'Appointmnent Payment Completed',
+                                            'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                            'msg_type' => '3',
+                                        ];
+                    $this->notification_repo->sendingNotification($send_notification);
+                }
                 DB::commit();
                 return self::sendSuccess($data, 'Transaction Completed');
             }
@@ -236,6 +250,17 @@ class TransactionController extends BaseApiController
                 $this->order_tracking_repo->dataCrud($add_tracking);
 
                 $data = $this->order_repo->getById($request->id);
+                if (!empty($data)) {
+                    $send_notification = [
+                                            'sender_id' => $request->user()->id,
+                                            'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                            'title' => 'Order',
+                                            'message' => 'Order Payment Completed',
+                                            'parameter' => json_encode(['order_id'=> $data->id]),
+                                            'msg_type' => '6',
+                                        ];
+                    $this->notification_repo->sendingNotification($send_notification);
+                }
                  DB::commit();
                 return self::sendSuccess($data, 'Transaction Completed');
             }

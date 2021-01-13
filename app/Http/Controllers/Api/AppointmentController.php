@@ -411,7 +411,7 @@ class AppointmentController extends BaseApiController
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is '. $data->status_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                        'msg_type' => '1',
+                                        'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
@@ -443,7 +443,7 @@ class AppointmentController extends BaseApiController
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is Reschedule',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                        'msg_type' => '1',
+                                        'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
@@ -474,7 +474,7 @@ class AppointmentController extends BaseApiController
                                         'title' => 'Appointment',
                                         'message' => 'Appointment is Completed',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                        'msg_type' => '1',
+                                        'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
@@ -506,7 +506,7 @@ class AppointmentController extends BaseApiController
                                         'title' => 'Appointment',
                                         'message' => 'Appointment review add',
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                        'msg_type' => '1',
+                                        'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
@@ -555,7 +555,7 @@ class AppointmentController extends BaseApiController
                                         'title' => 'Urgent Appointment',
                                         'message' => 'Urgent Appointment Request Accepted',
                                         'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
-                                        'msg_type' => '1',
+                                        'msg_type' => '2',
                                     ];  
                 $this->notification_repo->sendingNotification($send_notification);          
             }

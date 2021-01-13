@@ -11,9 +11,13 @@ class Notification extends Model
     use HasFactory, SoftDeletes;
 
     public $notification_type = array(
-        '0' => '',
-        '1' => 'Appointment',
-        '2' => 'Order'
+        '0' => 'General Notification',
+        '1' => 'Appointment Request',
+        '2' => 'Appointmnent Status',
+        '3' => 'Appointmnent Payment Completed',
+        '4' => 'Order Placed',
+        '5' => 'Order Status',
+        '6' => 'Order Payment Completed'
     );
  
     public $notification_topic = array(
