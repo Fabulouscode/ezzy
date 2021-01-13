@@ -558,8 +558,7 @@ class UserRepository extends Repository
         }         
         
         $query = $query->where('status', '0')->get();
-       print_r(DB::getQueryLog());
-       die;
+ 
         return $query;
     }
 
