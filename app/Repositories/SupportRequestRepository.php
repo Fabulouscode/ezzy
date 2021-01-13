@@ -141,11 +141,16 @@ class SupportRequestRepository extends Repository
     {   
         $query = $this->model;
         
-        if(!empty($request->last_id)){
-            $query = $query->where('id', '<', $request->last_id);    
-        }
-        
-        $query = $query->limit($this->api_data_limit);     
+        if(!empty($request->search)){
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('title', 'LIKE', '%'.$request->search.'%');
+            });
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
+        }   
        
         $query = $query->where('user_id',$request->user()->id);
         // $query = $query->with(['userDetails']);
