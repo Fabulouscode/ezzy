@@ -70,6 +70,7 @@ class Shop_medicine_details extends Model
     public function format(){
         return [
             'id'=>$this->id,
+            'name'=>(!empty($this->user)) ? $this->user->user_name : '',
             'medicine_category_id'=>$this->medicine_category_id,
             'medicine_subcategoy_id'=>$this->medicine_subcategoy_id,
             'medicine_detail_id'=>$this->medicine_detail_id,
