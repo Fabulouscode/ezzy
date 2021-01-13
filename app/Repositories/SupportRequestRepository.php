@@ -142,7 +142,7 @@ class SupportRequestRepository extends Repository
         $query = $this->model;
         
         if(!empty($request->search)){
-            $query->where(function ($query) use ($request) {
+            $query = $query->where(function ($query) use ($request) {
                 $query->orWhere('title', 'LIKE', '%'.$request->search.'%');
             });
         }else{
