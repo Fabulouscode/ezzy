@@ -300,6 +300,10 @@ class AppointmentRepository extends Repository
             $query = $query->limit($this->api_data_limit); 
         }
 
+        if(!empty($request->status)){
+            $query = $query->where('status',$request->status);
+        }
+        
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
         }else{
@@ -345,13 +349,19 @@ class AppointmentRepository extends Repository
             $query = $query->limit($this->api_data_limit); 
         }
 
+        if(!empty($request->status)){
+            $query = $query->where('status',$request->status);
+        }else{
+          $query = $query->whereIn('status',['1','2','3','4']);
+        }
+    
         if(!empty($request->user()->category_id)){
             $query = $query->with(['client'])->where('user_id',$request->user()->id);
         }else{
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['1','2','3','4'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
         
         return $query;
        
