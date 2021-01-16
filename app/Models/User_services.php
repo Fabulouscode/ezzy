@@ -32,6 +32,18 @@ class User_services extends Model
         'service_charge_type',
         'status',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'service_charge_type_name',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
  
     protected $appends = ['status_name','service_charge_type_name'];
 

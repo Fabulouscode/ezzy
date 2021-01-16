@@ -280,7 +280,7 @@ class UserRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userLocation','userAvailableTime','categoryParent','categoryChild','userservices','userservices.service'])->find($id);
+        return $this->model->with(['userDetails','userEduction','userExperiance','userBankAccount','userLocation','userAvailableTime','categoryParent','categoryChild','userOwnServices'])->find($id);
 
     }
 

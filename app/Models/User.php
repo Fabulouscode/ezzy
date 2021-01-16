@@ -158,6 +158,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_services','user_id','id');
     }
 
+    public function userOwnServices() {
+        $user_services = $this->hasMany('App\Models\User_services','user_id','id')
+                        ->with(['service' => function($query){
+                            $query->addSelect('id','service_name');
+                        }])->select('id','service_id','user_id','service_charge','status');
+
+        return $user_services;
+    }
+  
+
     public function getUserEductionDetailsAttribute(){
         return $this->hasMany('App\Models\User_education')->orderBy('end_year','desc')->pluck('degree_name')->implode(', ');        
     }

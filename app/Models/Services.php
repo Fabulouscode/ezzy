@@ -33,6 +33,17 @@ class Services extends Model
         'status',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'status_name',
+        'service_type_name',
+        'updated_at',
+        'deleted_at',
+    ];
     	
     protected $appends = ['status_name','service_type_name'];
 
