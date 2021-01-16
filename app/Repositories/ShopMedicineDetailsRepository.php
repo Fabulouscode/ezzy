@@ -191,9 +191,9 @@ class ShopMedicineDetailsRepository extends Repository
 
         //price order
         if(isset($request->price_order) && $request->price_order == '1'){
-            $query = $query->orderBy('mrp_price', 'desc');
+            $query = $query->orderBy('offer_price', 'desc');
         } else if(isset($request->price_order) && $request->price_order == '0'){
-            $query = $query->orderBy('mrp_price', 'asc');
+            $query = $query->orderBy('offer_price', 'asc');
         }else{
             $query = $query->orderBy('id','desc');
         }

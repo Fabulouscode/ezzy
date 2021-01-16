@@ -344,13 +344,14 @@ class AppointmentController extends BaseApiController
             $data = $this->appointment_repo->dataCrud($add_data);
             $healthcare_providers = $this->user_repo->getHealthcareProvidersUrgent($request);
             
+            DB::commit();
             $healthcare_provider_assign = 0;
             if(count($healthcare_providers) > 0){
                 foreach ($healthcare_providers as $healthcare_provider){
                     $healthcare_providerReq = $this->appointment_repo->getById($data->id);
                     $healthcare_provider_assign = $healthcare_providerReq->user_id;
                     // send notification
-                    if($healthcare_provider_assign == 0){
+                    if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
                         $send_notification = [
                                 'sender_id' => $request->user()->id,
                                 'receiver_id' => $healthcare_provider->id,
@@ -370,17 +371,19 @@ class AppointmentController extends BaseApiController
                 $healthcare_provider_assign = $healthcareProvider->user_id;
                 Log::info($healthcare_provider_assign);
                 Log::info("healthcare provider assign time ".date('H:i:s'));
-                if($healthcare_provider_assign){
+                if(!empty($healthcare_provider_assign)){
                     Log::info("healthcare provider assign ".date('H:i:s'));
                     return self::sendSuccess($healthcareProvider);
                 }else{
-                     Log::info("healthcare provider not available ".date('H:i:s'));
+                    Log::info("healthcare provider not available ".date('H:i:s'));
+                    $this->appointment_repo->destroy($data->id);
                     return self::sendError([],"No healthcare provider available, please try again.");
                 }
             }else{
+                Log::info("healthcare provider not available ".date('H:i:s'));
+                $this->appointment_repo->destroy($data->id);
                 return Self::sendError([],"No healthcare provider available, please try again.");
             }
-            DB::commit();
             return self::sendSuccess($data);
         } catch (\Exception $e) {
             DB::rollBack();
