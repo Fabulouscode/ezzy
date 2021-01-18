@@ -154,6 +154,7 @@ class Appointment extends Model
             'address'=>$this->address,
             'latitude'=>$this->latitude,
             'longitude'=>$this->longitude,
+            'appointment_services'=>(!empty($this->appointmentServices))? $this->serviceDetailsformat($this->appointmentServices) :'',
             'client'=>(isset($this->client))?
                             [
                                 'id'=>$this->client->id,
@@ -172,5 +173,20 @@ class Appointment extends Model
             'status'=>$this->status,
             'status_name'=>$this->status_name,
         ];
+    }
+
+    public function serviceDetailsformat($appointmentServices){
+        $data = [];
+        if(!empty($appointmentServices)){
+            foreach ($appointmentServices as $key => $value) {
+                $data[]=[
+                    "id"=> !empty($value->userService) ? $value->id : '',
+                    "service_id"=> !empty($value->userService) ? $value->userService->id : '',
+                    "service_charge"=> !empty($value->userService) ? $value->userService->service_charge : '',
+                    "service_name"=>!empty($value->userService) && !empty($value->userService->service) ? $value->userService->service->service_name : '',
+               ];
+            }
+        }
+        return $data;
     }
 }
