@@ -24,28 +24,15 @@ class OfflineNotificationController extends BaseApiController
 
 
         Log::info("=============offline message========");
-        Log::info($request->getContent(), $request->all());
-        Log::info([$request->header('Authorization'), config('app.offline_message_token')]);
+        Log::info($request->getContent());
         Log::info("========================");
 
         if( $request->hasHeader('Authorization') && config('app.offline_message_token') == $request->header('Authorization') ) {
         	$input = $request->all();
-        	Log::info('input', [$input]);
-
             $content = $input['content'];
-
             $data = json_decode($content);
         	Log::info('content', [$content, $data]);
-
-            if( is_object($data) ) {
-            //    $notification_array=[];
-            //    $notification_array['message']="new message from ".$data->senderName;
-            //    $notification_array['parameter']=$data;
-            //    $notification_array['sender_id']=$input['from'];
-            //    $notification_array['receiver_id']=$input['to'];
-            //    $notification_array['receiver_name']="";
-            //    $notification_array['type']=99;
-                // Receiver Id
+            if(is_object($data) ) {
                 $receiver_id = isset($input['to']) ? $input['to'] : '';
                 $sender_id = isset($input['from']) ? $input['from'] : '';
                 if(!empty($receiver_id) && !empty($sender_id)) {

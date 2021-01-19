@@ -163,12 +163,12 @@ class Helper
      */ 
     public static function sendOfflineChatNotification($notification, $receiver, $sender = '', $unreadNotification = 0) 
     {
-       
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverApiKey = config('app.FCM_KEY');
  
         $parameter = json_decode($notification['parameter'],true);
         $image = (isset($parameter['notification_image']) && $parameter['notification_image'] != '') ? $parameter['notification_image'] : '';
+        
         $message = [
             'message' => $notification['message'],
             'parameter' => json_decode($notification['parameter'],true),
@@ -183,40 +183,27 @@ class Helper
         ];
 
         $dataTemp = [
-            'title' => config('app.name'),
-            'data' => $message
+            'click_action' => "FLUTTER_NOTIFICATION_CLICK",
+            'screen' => $notification['msg_type'],
+            'object' => $message
         ];
         
-        if($receiver->device_type == '1' && $receiver->device_token != '') {
-            $msg = array ('title' => config('app.name'), 'body' => $notification['message']);
-            $message = array(
-                "message" => $notification['message'],
-                "data" => $message,
-            );
-            $data['registration_ids'] = array($receiver->device_token);
-            $data['data'] = $message;
-            $data['notification']['sound'] = "default";
-            $data['notification']['title'] = config('app.APP_NAME');
-            $data['notification']['mutable_content'] = true;
-            $data['notification']['category'] = "CustomSamplePush";
-            $data['notification']['body'] = $notification['message'];
-            $data['notification']['badge'] = $unreadNotification;
-        
-        }
-
-        if($receiver->device_type == '0' && $receiver->device_token != '') {
-            $data = array(
-                'to' => $receiver->device_token,
-                'data' => $dataTemp,
-                'priority'=>'high'
-            );
-        }
-
+       
+        $data = array(
+            'to' => $receiver->device_token,
+            'data' => $dataTemp,
+            'notification'=>array(
+                'title'=> config('app.name'),
+                'body'=>$notification['message'],
+            )
+        );
+        Log::info('data'.json_encode($data));
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
         }
         return true;
     }
+
 
     /**
      * check notification
