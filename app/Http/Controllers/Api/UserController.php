@@ -45,8 +45,9 @@ class UserController extends BaseApiController
     public function getUserbyCardNumberDetails($card_num)
     {
         $data = array();
-        $data = $this->user_repo->getUserbyCardNumber($card_num)->format();
-        if(!empty($data)){            
+        $data = $this->user_repo->getUserbyCardNumber($card_num);
+        if(!empty($data)){          
+            $data = $this->user_repo->getUserbyCardNumber($card_num)->format();  
             return self::sendSuccess($data, 'User Details');
         }
         return self::sendError($data, 'User Details not found');
