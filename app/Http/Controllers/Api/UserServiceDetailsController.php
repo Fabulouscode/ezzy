@@ -70,7 +70,9 @@ class UserServiceDetailsController extends BaseApiController
                                             'service_charge'=>$response->service_charge,
                                             'service_name'=>(isset($response->service))? $response->service->service_name :'',
                                             'status'=>$response->status,
-                                            'status_name'=>$response->status_name
+                                            'status_name'=>$response->status_name,
+                                            'service_charge_type'=>$response->service_charge_type,
+                                            'service_id'=>$response->service_id,
                                         ];
                                     });
         return self::sendSuccess($data, 'User Experiance details');
