@@ -43,9 +43,9 @@ class OfflineNotificationController extends BaseApiController
                             'sender_id' => $sender_id,
                             'receiver_id' => $receiver_id,
                             'title' => 'Chat',
-                            'message' => 'new message from '.(!empty($sender))?$sender->user_name:'-',
+                            'message' => (!empty($sender))? 'New message from '.$sender->user_name:'-',
                             'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
-                            'msg_type' => '0',
+                            'msg_type' => '99',
                         ];       
                     try{
                         Helper::sendOfflineChatNotification($data, $receiver, $sender);
