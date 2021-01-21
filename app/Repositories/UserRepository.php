@@ -310,7 +310,7 @@ class UserRepository extends Repository
         $appointment_day = $appointment_date->dayOfWeek;
                     
         if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
-            $query = $query->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
+            $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                             $query->where('appointment_type', $request->appointment_type);
                             $query->where('start_time', '<=' ,$request->appointment_time);
                             $query->where('end_time', '>=' ,$request->appointment_time);
