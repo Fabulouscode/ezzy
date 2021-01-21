@@ -31,7 +31,8 @@ class OfflineNotificationController extends BaseApiController
         	$input = $request->all();
             $content = $input['content'];
             $data = json_decode($content);
-        	Log::info('content', [$content, $data]);
+            $msg_type = json_decode($data->content);
+
             if(is_object($data) ) {
                 $receiver_id = isset($input['to']) ? $input['to'] : '';
                 $sender_id = isset($input['from']) ? $input['from'] : '';
@@ -39,16 +40,28 @@ class OfflineNotificationController extends BaseApiController
                     // send notification
                     $receiver = $this->user_repo->getbyId($receiver_id);
                     $sender = $this->user_repo->getbyId($sender_id);
-                    $data = [
+                    if(!empty($msg_type->type) && $msg_type->type == "topic_call"){
+                        $notification_data = [
+                            'sender_id' => $sender_id,
+                            'receiver_id' => $receiver_id,
+                            'title' => 'Chat',
+                            'message' => (!empty($sender))? 'Missed call from '.$sender->user_name:'-',
+                            'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
+                            'msg_type' => '99',
+                        ];  
+                    }else{
+                        $notification_data = [
                             'sender_id' => $sender_id,
                             'receiver_id' => $receiver_id,
                             'title' => 'Chat',
                             'message' => (!empty($sender))? 'New message from '.$sender->user_name:'-',
                             'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
                             'msg_type' => '99',
-                        ];       
+                        ];  
+                    }
+     
                     try{
-                        Helper::sendOfflineChatNotification($data, $receiver, $sender);
+                        Helper::sendOfflineChatNotification($notification_data, $receiver, $sender);
                         return self::sendSuccess('','Notification Send Success');
                     }catch(\Exception $e){
                         return self::sendException($e);
