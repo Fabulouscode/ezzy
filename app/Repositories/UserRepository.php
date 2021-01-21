@@ -303,15 +303,32 @@ class UserRepository extends Repository
      */
     public function checkUserAvailable($request)
     {   
+        $day_arr = ['1','2','3','4','5'];
+        $same_timing = $this->model->getById($request->user_id);
+
         $appointment_date = new Carbon($request->appointment_date);
         $appointment_day = $appointment_date->dayOfWeek;
-        $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
+                    
+        if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+            $query = $query->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
+                            $query->where('appointment_type', $request->appointment_type);
+                            $query->where('start_time', '<=' ,$request->appointment_time);
+                            $query->where('end_time', '>=' ,$request->appointment_time);
+                            $query->where('day', '7');
+                            $query->where('same_timing', '1');
+                            $query->where('user_id', $request->user_id);
+                        });
+        }else{
+            $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                         $query->where('appointment_type', $request->appointment_type);
                         $query->where('start_time', '<=' ,$request->appointment_time);
                         $query->where('end_time', '>=' ,$request->appointment_time);
                         $query->where('day', $appointment_day);
+                        $query->where('same_timing', '0');
                         $query->where('user_id', $request->user_id);
                     });
+        }
+
         $query = $query->whereHas('userDetails', function($query) use ($request){
                         $query->where('availability', '0');
                     });
