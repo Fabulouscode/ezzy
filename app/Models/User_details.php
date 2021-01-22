@@ -66,7 +66,8 @@ class User_details extends Model
         'injuries',
         'surgeries',
         'emergency_contact_name',
-        'fees_minute'
+        'fees_minute',
+        'urgent_criteria'
     ];
 
 

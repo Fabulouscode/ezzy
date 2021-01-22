@@ -304,11 +304,12 @@ class UserRepository extends Repository
     public function checkUserAvailable($request)
     {   
         $day_arr = ['1','2','3','4','5'];
-        $same_timing = $this->model->getById($request->user_id);
+        $same_timing = $this->getById($request->user_id);
 
         $appointment_date = new Carbon($request->appointment_date);
         $appointment_day = $appointment_date->dayOfWeek;
-                    
+        \Log::info("request send ".json_encode($request->all()));            
+        \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));     
         if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
             $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                             $query->where('appointment_type', $request->appointment_type);
@@ -330,10 +331,11 @@ class UserRepository extends Repository
         }
 
         $query = $query->whereHas('userDetails', function($query) use ($request){
-                        $query->where('availability', '0');
+                        $query->where('availability', '1');
                     });
 
         $query = $query->first();
+        \Log::info("result ".json_encode($query));     
         return $query;
     }
 
