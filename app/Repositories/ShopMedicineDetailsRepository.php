@@ -158,9 +158,9 @@ class ShopMedicineDetailsRepository extends Repository
        
        
         //category filter
-        if(!empty($request->medicine_category_id)){
-            $query = $query->where('medicine_category_id', $request->medicine_category_id);
-        }       
+        if(!empty($request->medicine_category_id) && is_array($request->medicine_category_id)){
+            $query = $query->whereIn('medicine_category_id', $request->medicine_category_id);
+        }            
       
         //search filter
         if(!empty($request->search)){

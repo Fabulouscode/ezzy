@@ -12,6 +12,8 @@ use App\Http\Requests\Api\UserEducationDetailsRequest;
 use App\Http\Requests\Api\UserExperianceDetailsRequest;
 use App\Http\Requests\Api\UploadFileRequest;
 use App\Http\Requests\Api\UserRequest;
+use App\Http\Requests\Api\CallNotificationSend;
+use App\Http\Helpers\Helper;
 
 class UserController extends BaseApiController
 {
@@ -105,6 +107,26 @@ class UserController extends BaseApiController
                                     ];
                                 });
         return self::sendSuccess($user_list, 'User Profile list Successfully');
+    }
+
+    public function callNotificationSend(CallNotificationSend $request)
+    {
+         $sender = $this->user_repo->getbyId($request->user()->id);
+         $receiver = $this->user_repo->getbyId($request->user_id);
+         $notification_data = [
+                            'sender_id' => $request->user()->id,
+                            'receiver_id' => $request->user_id,
+                            'title' => 'Call',
+                            'message' => (!empty($sender))? 'New call from '.$sender->user_name:'-','Testing',
+                            'parameter' => json_encode(['notification_time'=> $this->user_repo->getCurrentDateTime()]),
+                            'msg_type' => '98',
+                        ];         
+        try{
+            Helper::sendOfflineChatNotification($notification_data, $receiver, $sender);
+            return self::sendSuccess('','Notification Send Success');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
     }
 
 }

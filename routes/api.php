@@ -61,6 +61,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
        
          // notification checking
         Route::get('/send_notification', 'DashboardController@sendingNotification');
+        
+         // call notification send
+        Route::post('/call/notification/send', 'UserController@callNotificationSend');
 
         // User request
         Route::prefix('user')->group(function(){
