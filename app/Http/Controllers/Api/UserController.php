@@ -117,7 +117,7 @@ class UserController extends BaseApiController
                             'sender_id' => $request->user()->id,
                             'receiver_id' => $request->user_id,
                             'title' => 'Call',
-                            'message' => (!empty($sender))? 'New call from '.$sender->user_name:'-','Testing',
+                            'message' => (!empty($sender))? 'Incoming call from '.$sender->user_name:'-','Incoming call',
                             'parameter' => json_encode(['notification_time'=> $this->user_repo->getCurrentDateTime()]),
                             'msg_type' => '98',
                         ];         

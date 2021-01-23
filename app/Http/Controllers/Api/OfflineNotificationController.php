@@ -45,7 +45,7 @@ class OfflineNotificationController extends BaseApiController
                             'sender_id' => $sender_id,
                             'receiver_id' => $receiver_id,
                             'title' => 'Chat',
-                            'message' => (!empty($sender))? 'Missed call from '.$sender->user_name:'-',
+                            'message' => (!empty($sender))? 'Missed call from '.$sender->user_name:'Missed call',
                             'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
                             'msg_type' => '99',
                         ];  
@@ -54,7 +54,7 @@ class OfflineNotificationController extends BaseApiController
                             'sender_id' => $sender_id,
                             'receiver_id' => $receiver_id,
                             'title' => 'Chat',
-                            'message' => (!empty($sender))? 'New message from '.$sender->user_name:'-',
+                            'message' => (!empty($sender))? 'New message from '.$sender->user_name:'New message',
                             'parameter' => json_encode(['notification_time'=> $this->notification_repo->getCurrentDateTime()]),
                             'msg_type' => '99',
                         ];  
