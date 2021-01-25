@@ -194,10 +194,12 @@ class UserRepository extends Repository
                         }
                         
                         if (Auth::user()->hasPermissionTo($request->provider.'-transaction')) {
-                            if (!empty($request->provider) && $request->provider == 'patients') {
-                                $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
-                            }else{
-                                $data .=  '<a href="'.url($request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                            if($request->status != '1'){
+                                if (!empty($request->provider) && $request->provider == 'patients') {
+                                    $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                                }else{
+                                    $data .=  '<a href="'.url($request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                                }
                             }
                         }
 
