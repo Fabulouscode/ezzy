@@ -308,9 +308,9 @@ class UserRepository extends Repository
 
         $appointment_date = new Carbon($request->appointment_date);
         $appointment_day = $appointment_date->dayOfWeek;
-        \Log::info("request send ".json_encode($request->all()));            
-        \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));     
+        \Log::info("request send ".json_encode($request->all()));              
         if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+        \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
             $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                             $query->where('appointment_type', $request->appointment_type);
                             $query->where('start_time', '<=' ,$request->appointment_time);
@@ -320,6 +320,7 @@ class UserRepository extends Repository
                             $query->where('user_id', $request->user_id);
                         });
         }else{
+              \Log::info("not same timing day ".json_encode($appointment_day));   
             $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
                         $query->where('appointment_type', $request->appointment_type);
                         $query->where('start_time', '<=' ,$request->appointment_time);
@@ -445,6 +446,7 @@ class UserRepository extends Repository
      */
     public function getLaboratoryProvider($request)
     {   
+        \Log::info("LaboratoryProvider request ".json_encode($request->all()));   
         DB::connection()->enableQueryLog(); 
         $query = $this->model->select('users.*'); 
 
@@ -480,7 +482,7 @@ class UserRepository extends Repository
         if(isset($request->rating)){
             $query = $query->withCount(['userReview as rating' => function ($query) {
                         $query->select(DB::raw('avg(rating)'))->where('status', '0');
-                    }])->havingRaw('rating >= '. $request->rating);
+                    }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
         }          
         
         // top listing
@@ -506,6 +508,7 @@ class UserRepository extends Repository
      */
     public function getHealthcareProviders($request)
     {   
+        \Log::info("HealthcareProviders request ".json_encode($request->all()));   
         $query = $this->model->select('users.*'); 
 
         // distance filter
@@ -563,18 +566,92 @@ class UserRepository extends Repository
         if(!empty($request->rating)){
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
                 $query->select(DB::raw('avg(user_rating) as rating'));
-            }])->havingRaw('rating >= '. $request->rating);
+            }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
         }          
 
-        // top listing
-        if(isset($request->last_id)){            
+        //pagination
+        if(isset($request->last_id) && empty($request->distance) && empty($request->search) && (empty($request->rating) || $request->rating == '0')){            
             if(!empty($request->last_id)){
                 $query = $query->where('id', '<', $request->last_id);    
             }            
-            $query = $query->limit($this->api_data_limit);     
+            $query = $query->limit($this->api_data_limit);    
+        }     
+        
+        $query = $query->where('status', '0')->get();
+ 
+        return $query;
+    }
+   
+    /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHealthcareProvidersTop($request)
+    {   
+        \Log::info("HealthcareProvidersTop request ".json_encode($request->all()));   
+        $query = $this->model->select('users.*'); 
+
+        // distance filter
+        if(!empty($request->distance) && !empty($request->latitude) && !empty($request->longitude)){
+            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                           ->where([
+                                    ['users.latitude', '!=', ''],
+                                    ['users.longitude', '!=', '']
+                                ])
+                           ->havingRaw('distance <= '. $request->distance)
+                           ->orderBy('distance','asc');
         } else{
-            $query = $query->offset(0)->limit(10);  
+            $query = $query->orderBy('id','desc');
         }         
+        
+        
+        // urgent and not urgent filter
+        if(!empty($request->urgent)){
+           $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('urgent', $request->urgent);
+                    });
+        }          
+        
+         // category filter
+        if(!empty($request->category_id)){
+            $query = $query->where('category_id', $request->category_id);
+        }          
+     
+        // subcategory filter
+        if(!empty($request->subcategory_id)){
+            $query = $query->where('subcategory_id', $request->subcategory_id);
+        }          
+       
+        // erecommendation filter
+        if(!empty($request->erecommendation)){
+            $query = $query->where('id', '!=' , $request->user()->id);
+        }          
+        
+         // consultation filter
+        if(isset($request->consultation)){
+            $query = $query->whereHas('userAvailableTime', function($query) use ($request){
+                        $query->where('appointment_type', $request->consultation);
+                    });
+        }          
+        
+        // search filter
+        if(isset($request->search)){
+            $query = $query->where(function($query) use($request){
+                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+            });
+        }          
+        
+        // rating filter
+        if(!empty($request->rating)){
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
+        }          
+
+        // top listing
+        $query = $query->offset(0)->limit(10);  
         
         $query = $query->where('status', '0')->get();
  
@@ -588,6 +665,7 @@ class UserRepository extends Repository
      */
     public function getHealthcareProvidersUrgent($request)
     {   
+        \Log::info("HealthcareProvidersUrgent request ".json_encode($request->all()));
         $query = $this->model->select('users.*'); 
 
         // distance filter
