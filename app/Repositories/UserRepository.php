@@ -570,12 +570,15 @@ class UserRepository extends Repository
         }          
 
         //pagination
-        if(isset($request->last_id) && empty($request->distance) && empty($request->search) && (empty($request->rating) || $request->rating == '0')){            
+        if(isset($request->last_id) && empty($request->distance) && empty($request->search) && empty($request->rating)){  
             if(!empty($request->last_id)){
                 $query = $query->where('id', '<', $request->last_id);    
             }            
             $query = $query->limit($this->api_data_limit);    
-        }     
+        }
+        // else{
+        //      $query = $query->offset(0)->limit($this->api_data_limit);  
+        // }     
         
         $query = $query->where('status', '0')->get();
  
