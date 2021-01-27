@@ -149,6 +149,10 @@ class SupportRequestController extends Controller
         $data = $this->support_request_repo->getById($id);
         try{
             if(!empty($data)){
+                $support_chat = $this->support_chat_repo->getbySupportIdDelete($id);
+                foreach($support_chat as $chat){
+                     $this->support_chat_repo->forceDelete($chat->id); 
+                }
                 $this->support_request_repo->forceDelete($id); 
                 return response()->json(['msg'=>'Deleted success'], 200);
             }

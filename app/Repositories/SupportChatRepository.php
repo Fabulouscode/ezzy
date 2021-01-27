@@ -46,4 +46,14 @@ class SupportChatRepository extends Repository
     {
         return $this->model->with(['user','admin'])->where('support_request_id', $support_id)->orderby('created_at','asc')->get();
     }
+    
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $support_id
+     */
+    public function getbySupportIdDelete($support_id)
+    {
+        return $this->model->where('support_request_id', $support_id)->get();
+    }
 }
