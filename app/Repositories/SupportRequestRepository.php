@@ -72,6 +72,9 @@ class SupportRequestRepository extends Repository
                     if (Auth::user()->hasPermissionTo('support_ticket-edit')) {
                         $data .= '<a href="'.url('support_request/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
+                    if (Auth::user()->hasPermissionTo('support_ticket-edit') && $selected->status != '3') {
+                        $data .= '<a href="javascript:void(0)" onclick="closeTicketRow('.$selected->id.')" class="btn btn-sm btn-danger" title="Close Ticket"><i class="fa fa-recycle"></i></a>&nbsp;&nbsp;';
+                    }
                     if (Auth::user()->hasPermissionTo('support_ticket-delete')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     }
@@ -85,9 +88,9 @@ class SupportRequestRepository extends Repository
                     if($selected->status == '1'){
                         $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else if($selected->status == '2'){
-                        $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';                        
-                    }else if($selected->status == '3'){
                         $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
+                    }else if($selected->status == '3'){
+                        $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';                        
                     }else {
                         $data .= '<div class="badge badge-info" >'.$selected->status_name.'</div>';
                     }
@@ -127,9 +130,18 @@ class SupportRequestRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function getbyIdedit($id)
-    {   
+    {
         return $this->model->with(['userDetails'])->find($id);
+    }
 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdeditChat($id)
+    {   
+        return $this->model->with(['userDetails','chatSupport','chatSupport.user','chatSupport.admin'])->find($id);
     }
 
      /**

@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 @endcan
-                @if(Auth::user()->hasMultiplePermissionTo('healthcare-dashboard','healthcare-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('healthcare-dashboard','healthcare-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-heart"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -51,7 +51,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->hasMultiplePermissionTo('pharmacy-list','pharmacy-list','order-list','order-review'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('pharmacy-list','pharmacy-list','order-list','order-review'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-box"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -73,7 +73,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->hasMultiplePermissionTo('laboratories-dashboard','laboratories-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('laboratories-dashboard','laboratories-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-medical"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -92,7 +92,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->hasMultiplePermissionTo('appointments-list','appointments-review'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('appointments-list','appointments-review'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -118,7 +118,7 @@
                         <li><a href="{{url('/payout')}}">Approved Payout</a></li>
                     </ul>
                 </li>
-                @if(Auth::user()->hasMultiplePermissionTo('medicine_category-list','medicine_subcategory-list','medicine_details-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('medicine_category-list','medicine_subcategory-list','medicine_details-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-duplicate"></i> <span> Manage Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -134,7 +134,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->hasMultiplePermissionTo('static_page-list','hcp_type-list','services-list','fees-list','voucher_code-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('static_page-list','hcp_type-list','services-list','fees-list','voucher_code-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i> <span> Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -163,7 +163,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->hasMultiplePermissionTo('permission_category-list','permission-list','role-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('permission_category-list','permission-list','role-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i> <span> Admin Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">

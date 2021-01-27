@@ -313,7 +313,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // support request
         Route::prefix('support_request')->group(function(){            
             Route::post('', 'SupportRequestController@getSupportRequest');
-            Route::post('/add', 'SupportRequestController@addSupportReques');
+            Route::post('/add', 'SupportRequestController@addSupportRequest');
+            Route::post('/add/message', 'SupportRequestController@addSupportMessage');
             Route::get('/get/{id?}', 'SupportRequestController@getSupportRequestInfo');
         });
   

@@ -53,4 +53,8 @@ class Support_request extends Model
     public function getSupportRequestNoGenerateAttribute(){
        return str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
+
+    public function chatSupport() {
+        return $this->hasMany('App\Models\Support_chat')->orderBy('created_at','asc');
+    }
 }

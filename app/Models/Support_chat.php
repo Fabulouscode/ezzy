@@ -21,5 +21,20 @@ class Support_chat extends Model
         'message',
     ];
     
+    public function supportTicket() {
+        return $this->hasOne('App\Models\Support_request', 'id', 'support_request_id');
+    }
+    
+    public function user() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
+    
+    public function admin() {
+        return $this->hasOne('App\Models\Admin', 'id', 'admin_id');
+    }
+
+    public function getMessageAttribute($value) {
+        return !empty($value) ?  json_decode($value) : '';
+    }
 
 }

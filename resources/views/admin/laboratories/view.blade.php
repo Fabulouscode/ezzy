@@ -245,7 +245,13 @@
                         @if(count($data->userAvailableTime) > 0)
                         <div class="border border-light rounded mb-3">
                             <div class="card-detail-view">
-                                <h4 class="mt-0 mb-0 header-title">Available Time Details</h4>
+                                <h4 class="mt-0 mb-0 header-title">Available Time Details
+                                            @if(!empty($data->userDetails->availability))
+                                               <span class="badge badge-info">Available</span>
+                                            @else
+                                                <span class="badge badge-danger">Not Available</span>
+                                            @endif 
+                                </h4>
                                 <div class="card-detail-list">
                                     <div class="table-responsive">
                                         <table class="table mb-0">

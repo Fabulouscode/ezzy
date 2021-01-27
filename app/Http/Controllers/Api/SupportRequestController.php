@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\SupportRequestRepository;
+use App\Repositories\SupportChatRepository;
 use App\Http\Requests\Api\SupportRequestRequest;
+use App\Http\Requests\Api\SupportChatRequest;
 
 class SupportRequestController extends BaseApiController
 {
-    private $support_request_repo;
+    private $support_request_repo, $support_chat_repo;
 
-    public function __construct(SupportRequestRepository $support_request_repo)
+    public function __construct(
+        SupportRequestRepository $support_request_repo,
+        SupportChatRepository $support_chat_repo
+        )
     {
         parent::__construct();
         $this->support_request_repo = $support_request_repo;
+        $this->support_chat_repo = $support_chat_repo;
     }
 
 
@@ -32,7 +38,7 @@ class SupportRequestController extends BaseApiController
         return self::sendSuccess($data, 'Support request list', $extra);
     } 
  
-    public function addSupportReques(SupportRequestRequest $request)
+    public function addSupportRequest(SupportRequestRequest $request)
     {
 
         $add_data = [
@@ -45,7 +51,32 @@ class SupportRequestController extends BaseApiController
 
         try{
             $data = $this->support_request_repo->dataCrud($add_data);
+            if(!empty($data->id)){
+                $chat_data = [
+                        'support_request_id' => $data->id,
+                        'user_id' => $request->user()->id,
+                        'message' => json_encode($request->description),
+                    ];
+                $this->support_chat_repo->dataCrud($chat_data);
+            }
             return self::sendSuccess($data, 'Support request add');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+    
+    public function addSupportMessage(SupportChatRequest $request)
+    {
+        $chat_data = [
+                'support_request_id' => $request->support_id,
+                'user_id' => $request->user()->id,
+                'message' => json_encode($request->message),
+            ];
+
+        try{
+            $this->support_chat_repo->dataCrud($chat_data);
+            $data = $this->support_request_repo->getbyIdedit($request->support_id);
+            return self::sendSuccess($data, 'Support request add chat msg');
         }catch(\Exception $e){
             return self::sendException($e);
         }

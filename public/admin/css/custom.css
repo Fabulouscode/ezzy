@@ -248,3 +248,158 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 .widget-chart li {
     width: 45.5%;
 }
+
+/*------------------ support chat --------------------- */
+.order-chat-section{
+    border: 2px solid #dadee3;
+    border-radius: 7px;
+    overflow: hidden;
+}
+.order-chat-header {
+    padding: 12px 30px;
+    background-color: #ebeef2;
+    border-bottom: 2px solid #dadee3;
+}
+.order-store-detail {
+    display: flex;
+    align-items: center;
+}
+.order-store-img {
+    margin-right: 0;
+}
+.order-store-img img {
+    min-width: 40px;
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.order-store-text-head h3 {
+    font-size: 18px;
+    margin-top: 0;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+.order-chat-content {
+    padding: 20px 30px;
+    max-height: 400px;
+    min-height: 200px;
+    overflow-x: hidden;
+    position: relative;
+}
+.order-chat-area {
+    max-width: 45%;
+    font-size: 13px;
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    line-height: 20px;
+    display: inline-block;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.16);
+}
+.order-chat-list-sec {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 40px;
+    position: relative;
+}
+.order-chat-list-sec.left-chat{
+    text-align: left;
+}
+.order-chat-list-sec.right-chat{
+    text-align: right;
+}
+.order-chat-list-sec.left-chat .order-chat-area{
+        background-color: #585858;
+    color: #fff;
+}
+.order-chat-list-sec.right-chat .order-chat-area {
+    background-color: #35bcd6;
+    text-align: left;
+    color: #fff;
+}
+.order-chat-footer{
+    background-color: #f6f8fb;
+}
+.order-chat-footer {
+    background-color: #f6f8fb;
+    display: inline-block;
+    width: 100%;
+    border-top: 2px solid #dadee3;
+    padding: 10px 15px;
+    padding-bottom: 5px;
+}
+.order-chat-enter-area{
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+.order-chat-enter-area .form-control {
+    border: none;
+    background-color: transparent;
+    max-height: 43px;
+    resize: none;
+    padding-right: 35px;
+}
+.chat-attach-link {
+    display: inline-block;
+    padding: 11px 12px;
+    position: relative;
+    cursor: pointer;
+}
+.chat-file-link-set {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.chat-attach-link img{
+    width: 20px;
+    cursor: pointer;
+}
+.chat-actions-button{
+        position: absolute;
+    right: 0px;
+    top: 5px;
+}
+.chat-msg-send-btn {
+    border: none;
+    background-color: transparent;
+    padding: 7px 11px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.chat-msg-send-btn img{
+    width: 20px;
+}
+.order-chat-list-sec.right-chat .msg-time {
+    right: 0px;
+}
+.order-chat-list-sec.left-chat .msg-time {
+left: 0px;
+}
+
+.order-chat-list-sec .msg-time {
+    position: absolute;
+    font-size: 12px;
+    top: 100%;
+    font-weight: 700;
+    padding: 2px;
+    white-space: nowrap;
+}
+@media (max-width: 991px){
+    .order-chat-area {
+        max-width: 60%;
+    }
+}
+@media (max-width: 575px){
+    .order-chat-area {
+        max-width: 90%;
+    }
+}

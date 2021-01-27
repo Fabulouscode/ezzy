@@ -35,7 +35,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         });
     });
 
-
+    Route::view('/support_chat', 'admin.support_request.chat');
     Route::namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
        
         // Main Dashoard
@@ -148,7 +148,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
         Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
-        // Support request  routes        
+        // Support request  routes       
+        Route::post('support_request/chat_msg/add', 'SupportRequestController@addChatMessages')->middleware('role-permission:support_ticket-edit');
+        Route::get('support_request/chat_msg/{id?}', 'SupportRequestController@getChatMessages')->middleware('role-permission:support_ticket-edit');
+        Route::get('support_request/close_request/{id?}', 'SupportRequestController@closeSupportRequest')->middleware('role-permission:support_ticket-edit');
         Route::resource('support_request', 'SupportRequestController')->middleware('role-permission-resource:support_ticket-list,support_ticket-add,support_ticket-edit,support_ticket-delete');        
     
     });

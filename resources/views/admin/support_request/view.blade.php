@@ -26,7 +26,7 @@
        
                     <form method="POST" id="support_request_form" name="support_request_form">
                         @csrf
-                        <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
+                        <input id="support_id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="border border-light rounded mb-3">
                             <div class="card-detail-view">
                                 <h4 class="mt-0 mb-0 header-title">Support Details</h4>
@@ -63,15 +63,7 @@
                                                 Click Here to Download
                                             </a>
                                         </dd>
-                                    </div>                                    
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Comment</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->comment))
-                                                {{$data->comment}}
-                                            @endif 
-                                        </dd>
-                                    </div>
+                                    </div>                  
                                     @if($data->status == '3')
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Close Date</label></dt>
@@ -102,6 +94,36 @@
             </div>
         </div> <!-- end col -->
     </div>
+
+
+    @if(!empty($data->chatSupport) && count($data->chatSupport) > 0)
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <h4 class="text-center">Support Chat</h4>
+                    <div class="order-chat-section">
+                        <div class="order-chat-header">
+                            <div class="order-store-detail">
+                                <div class="order-store-img bg-dark-shop">
+                                    @if(!empty($data->userDetails))
+                                    <img src="{{$data->userDetails->profile_image}}" alt="">
+                                    @endif
+                                </div>
+                                <div class="order-store-text-head">
+                                    @if(!empty($data->userDetails))
+                                    <h3>{{$data->userDetails->user_name}}</h3>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div id="chat_window" class="mCSB_container"></div> 
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    @endif
 </div>
 @endsection
 
@@ -110,4 +132,13 @@
     var support_request_url = "{{url('/support_request')}}";
 </script>
 <script src="{{ asset('js/admin/support_request.js') }}" ></script>
+<script>
+    $(document).ready(function() {
+        getChatMessage();
+    });
+var timerID = setInterval(function() {
+                getChatMessage();
+            }, 60 * 1000);
+    // clearInterval(timerID);
+</script>
 @endsection
