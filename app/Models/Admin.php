@@ -25,6 +25,10 @@ class Admin extends Authenticatable
     public function getRole(){
         return $this->belongsTo('App\Models\Role');
     }
+    
+    public function getAvatarAttribute(){
+       return asset('/admin/images/avatar.jpg');
+    }
 
 
 }

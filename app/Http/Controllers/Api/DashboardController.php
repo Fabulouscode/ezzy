@@ -196,6 +196,11 @@ class DashboardController extends BaseApiController
         }
     }
 
+    public function checkNotification(Request $request)
+    {
+        Helper::checkNotification();
+    }
+
     public function getBankDetails(Request $request)
     {
         $data = array();        

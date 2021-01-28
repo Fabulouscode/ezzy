@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('App\Http\Controllers\Api')->group(function(){
    Route::any('/send/offline/push', 'OfflineNotificationController@offlineNotificationSend');
+   Route::get('/notification/check', 'DashboardController@checkNotification');
 });
 
 Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){
@@ -316,6 +317,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/add', 'SupportRequestController@addSupportRequest');
             Route::post('/add/message', 'SupportRequestController@addSupportMessage');
             Route::get('/get/{id?}', 'SupportRequestController@getSupportRequestInfo');
+            Route::post('/get/message', 'SupportRequestController@getSupportRequestMessages');
         });
   
         // support request

@@ -208,21 +208,42 @@ class Helper
     /**
      * check notification
      */ 
-    public static function checkNotification($notification_tokens) 
+    public static function checkNotification() 
     {
+        $notification_token = "ceeU5WOtSR-y3BXpscLyjX:APA91bF78VEwEMjSLydKNI94OaJpTgL2pd-CDSgz3Lu4z-ZqczoS8pKuihYDEkzk2l3ZP_jy7xle3bYjvd223-cmyq5javHXKj5HGBib8Xz0iyfTiMfTxCEmyJFa-F0bb_9mn9diu3m6";
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $message = array(
-            "message" => 'This is test Notification',
-            "title" => 'EzzyCare'
+    
+        $message = [
+            'message' => 'This is test Notificationas',
+            'parameter' => "",
+            'sender_id' => "",
+            'sender_name' => "",
+            'receiver_id' => "",
+            'type' => "99",
+            'sender_avatar' => "",
+            'attachment' => '',
+            'notification_count' => "0",
+            'media_type' => "image",
+            'TTL'=>"5"
+        ];
+
+        $dataTemp = [
+            'click_action' => "FLUTTER_NOTIFICATION_CLICK",
+            'screen' => '99',
+            'object' => $message,
+            'TTL'=>"5"
+        ];
+        
+       
+        $data = array(
+            'to' => $notification_token,
+            'data' => $dataTemp,
+            'notification'=>array(
+                'title'=> config('app.name'),
+                'body'=>'This is test Notificationas',
+                'TTL'=>"5"
+            )
         );
-        $data['registration_ids'] = $notification_tokens;
-        $data['data'] = $message;
-        $data['notification']['sound'] = "default";
-        $data['notification']['title'] = 'EzzyCare';
-        $data['notification']['mutable_content'] = true;
-        $data['notification']['category'] = "CustomSamplePush";
-        $data['notification']['body'] = 'This is test Notification';
-        $data['notification']['badge'] = '1';
         self::sendCurlRequest($url, $data);
     }
   

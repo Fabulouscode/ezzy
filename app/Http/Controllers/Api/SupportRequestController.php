@@ -37,6 +37,29 @@ class SupportRequestController extends BaseApiController
         $data = $this->support_request_repo->getbyIdedit($id);
         return self::sendSuccess($data, 'Support request list', $extra);
     } 
+  
+    public function getSupportRequestMessages(Request $request)
+    {
+        $extra = array();
+        $data = $this->support_chat_repo->getSupportMessages($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'message'=>$response->message,
+                                        'created_at'=>$response->created_at,
+                                        'admin'=>(isset($response->admin))?
+                                                        [
+                                                            'user_name'=>$response->admin->name,
+                                                            'profile_image'=>$response->admin->avatar
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                    ];
+                                });
+        return self::sendSuccess($data, 'Support request list', $extra);
+    } 
  
     public function addSupportRequest(SupportRequestRequest $request)
     {

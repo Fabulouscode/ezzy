@@ -56,4 +56,27 @@ class SupportChatRepository extends Repository
     {
         return $this->model->where('support_request_id', $support_id)->get();
     }
+
+     /**
+     * Display a list of record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSupportMessages($request)
+    {   
+        $query = $this->model->with(['user','admin']);
+
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        $query = $query->limit($this->api_data_limit); 
+       
+        if (!empty($request->support_id)) {
+           $query = $query->where('support_request_id', $request->support_id);
+        }
+        
+        $query = $query->orderBy('id','asc')->get();
+        
+        return $query;
+    }
 }
