@@ -117,7 +117,7 @@ class SupportRequestController extends Controller
                     'receiver_id' => $support->user_id,
                     'title' => 'Support Chat',
                     'message' => (!empty($request->message))? $request->message :'',
-                    'parameter' => json_encode(['notification_time'=> $this->user_repo->getCurrentDateTime()]),
+                    'parameter' => json_encode(['notification_time'=> $this->user_repo->getCurrentDateTime(), 'support_id'=> $support->id]),
                     'msg_type' => '97',
                 ]; 
             Helper::sendOfflineChatNotification($notification_data, $receiver, $sender);
