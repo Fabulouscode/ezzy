@@ -45,17 +45,8 @@ class SupportRequestController extends BaseApiController
                                     return [
                                         'id'=>$response->id,
                                         'message'=>$response->message,
+                                        'is_admin'=> (!empty($response->admin)) ? 1 : 0,
                                         'created_at'=>$response->created_at,
-                                        'admin'=>(isset($response->admin))?
-                                                        [
-                                                            'user_name'=>$response->admin->name,
-                                                            'profile_image'=>$response->admin->avatar
-                                                        ]:'',
-                                        'user'=>(isset($response->user))?
-                                                    [
-                                                        'user_name'=>$response->user->user_name,
-                                                        'profile_image'=>$response->user->profile_image
-                                                    ]:'',
                                     ];
                                 });
         return self::sendSuccess($data, 'Support request list', $extra);
