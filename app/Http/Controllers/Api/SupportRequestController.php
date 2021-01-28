@@ -45,7 +45,7 @@ class SupportRequestController extends BaseApiController
                                     return [
                                         'id'=>$response->id,
                                         'message'=>$response->message,
-                                        'is_admin'=> (!empty($response->admin)) ? 1 : 0,
+                                        'is_admin'=> (!empty($response->admin_id)) ? 1 : 0,
                                         'created_at'=>$response->created_at,
                                     ];
                                 });
@@ -88,8 +88,11 @@ class SupportRequestController extends BaseApiController
             ];
 
         try{
-            $this->support_chat_repo->dataCrud($chat_data);
-            $data = $this->support_request_repo->getbyIdedit($request->support_id);
+            $chat_msg = $this->support_chat_repo->dataCrud($chat_data);
+            $data = array();
+            if(!empty($chat_msg)){
+                $data = $this->support_chat_repo->getbyId($chat_msg->id)->format();
+            }
             return self::sendSuccess($data, 'Support request add chat msg');
         }catch(\Exception $e){
             return self::sendException($e);

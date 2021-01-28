@@ -37,4 +37,12 @@ class Support_chat extends Model
         return !empty($value) ?  json_decode($value) : '';
     }
 
+     public function format(){
+        return [
+            'id'=>$this->id,
+            'message'=>$this->message,
+            'is_admin'=> (!empty($this->admin_id)) ? 1 : 0,
+            'created_at'=>$this->created_at,
+        ];
+     }
 }
