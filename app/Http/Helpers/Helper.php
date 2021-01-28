@@ -176,7 +176,7 @@ class Helper
             'sender_name' => (!empty($sender))?$sender->user_name:'-',
             'receiver_id' => $notification['receiver_id'],
             'type' => $notification['msg_type'],
-            'sender_avatar' => (!empty($sender))?$sender->profile_image:'',
+            'sender_avatar' => (!empty($sender))?$sender->profile_image : asset('/admin/images/avatar.jpg'),
             'attachment' => '',
             'notification_count' => $unreadNotification,
             'media_type' => "image",

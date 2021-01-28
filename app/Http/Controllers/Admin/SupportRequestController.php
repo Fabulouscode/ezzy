@@ -6,20 +6,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\SupportRequestRepository;
 use App\Repositories\SupportChatRepository;
+use App\Repositories\NotificationRepository;
+use App\Repositories\UserRepository;
 use App\Http\Requests\Admin\SupportRequest;
 use App\Http\Requests\Admin\SupportChatRequest;
+use App\Http\Helpers\Helper;
 
 class SupportRequestController extends Controller
 {
-    private $support_request_repo, $support_chat_repo;
+    private $support_request_repo, $support_chat_repo, $notification_repo, $user_repo;
 
     public function __construct(
         SupportRequestRepository $support_request_repo,
-        SupportChatRepository $support_chat_repo
+        SupportChatRepository $support_chat_repo,
+        NotificationRepository $notification_repo,
+        UserRepository $user_repo
     )
     {
         $this->support_request_repo = $support_request_repo;
         $this->support_chat_repo = $support_chat_repo;
+        $this->notification_repo = $notification_repo;
+        $this->user_repo = $user_repo;
     }
 
     /**
@@ -100,7 +107,21 @@ class SupportRequestController extends Controller
                     'admin_id' => $request->user()->id,
                     'message' => json_encode($request->message),
                 ];
-        $this->support_chat_repo->dataCrud($data);
+        $chat_add = $this->support_chat_repo->dataCrud($data);
+        $support = $this->support_request_repo->getById($request->support_id);
+        if (!empty($support)) {
+            $receiver = $this->user_repo->getById($support->user_id);
+            $sender = '';
+            $notification_data = [
+                    'sender_id' => NULL,
+                    'receiver_id' => $support->user_id,
+                    'title' => 'Support Chat',
+                    'message' => (!empty($request->message))? $request->message :'',
+                    'parameter' => json_encode(['notification_time'=> $this->user_repo->getCurrentDateTime()]),
+                    'msg_type' => '98',
+                ]; 
+            Helper::sendOfflineChatNotification($notification_data, $receiver, $sender);
+        }
         return response()->json(['msg'=>'Send New Message'], 200);
     }
     
