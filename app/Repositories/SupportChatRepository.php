@@ -75,7 +75,7 @@ class SupportChatRepository extends Repository
            $query = $query->where('support_request_id', $request->support_id);
         }
         
-        $query = $query->orderBy('id','asc')->get();
+        $query = $query->orderBy('id','desc')->get();
         
         return $query;
     }
