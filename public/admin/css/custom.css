@@ -403,3 +403,11 @@ left: 0px;
         max-width: 90%;
     }
 }
+.dropzone .dz-preview .dz-image {
+    width: 120px;
+    height: 120px;
+}
+.dz-image img {
+    width: 120px;
+    height: 120px;
+}
