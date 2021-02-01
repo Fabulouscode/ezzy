@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if($this->app->environment() != 'local'){
+           \URL::forceScheme('https');
+        }
     }
 
     /**
@@ -25,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        if($this->app->environment() != 'local'){
+           $this->app['request']->server->set('HTTPS', true);
+           \URL::forceScheme('https');
+        }
     }
 }
