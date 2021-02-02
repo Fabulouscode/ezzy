@@ -38,7 +38,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('home_visit_fees')->nullable();
             $table->string('delivery_charge')->nullable();
             $table->boolean('urgent')->default(0)->comment('0-Not Urgent Available, 1-Urgent Available');
-            $table->boolean('availability')->default(0)->comment('0-Availability, 1-Not Available');
+            $table->boolean('availability')->default(1)->comment('0-Not Available, 1-Available');
             $table->string('registration_no')->nullable();
             $table->string('registration_council')->nullable();
             $table->integer('registration_year')->signed()->nullable();
