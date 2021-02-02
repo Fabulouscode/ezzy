@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\UserRepository;
+use App\Repositories\UserDetailsRepository;
 use App\Repositories\NotificationRepository;
 use App\Http\Requests\Api\Auth\UserAuthRequest;
 use App\Http\Requests\Api\Auth\UserLoginRequest;
@@ -23,13 +24,18 @@ use Illuminate\Support\Facades\DB;
 class UserAuthController extends BaseApiController
 {
 
-    private $user_repo;
+    private $user_repo, $notification_repo, $user_details_repo;
 
-    public function __construct(UserRepository $user_repo, NotificationRepository $notification_repo)
+    public function __construct(
+        UserRepository $user_repo,
+        UserDetailsRepository $user_details_repo, 
+        NotificationRepository $notification_repo
+        )
     {
         parent::__construct();
         $this->user_repo = $user_repo;
         $this->notification_repo = $notification_repo;
+        $this->user_details_repo = $user_details_repo;
     }
 
      /**
@@ -57,6 +63,9 @@ class UserAuthController extends BaseApiController
                 // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
                 // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 $user = $this->user_repo->registerWithMobileno($request);
+                if(!empty($user) && !empty($user->id)){
+                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
+                }
                 DB::commit();
                 return self::sendSuccess([
                     'token' => $user->createToken('EzzyCare')->accessToken,
@@ -87,7 +96,9 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->registerWithRestore($request);
                 $user = $this->user_repo->getbyMobileNo($request);           
                 $this->user_repo->removeOauthAccessTokens($user->id); 
-                
+                if(!empty($user) && !empty($user->id)){
+                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
+                }
                 // $notification_topic = $this->notification_repo->getNotificationTopic();
                 // if(!empty($user->device_token) && $status == '0'){                    
                 //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
@@ -128,7 +139,9 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->registerWithRestore($request);
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $this->user_repo->removeOauthAccessTokens($user->id);
-                
+                if(!empty($user) && !empty($user->id)){
+                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
+                }
                 // $notification_topic = $this->notification_repo->getNotificationTopic();
                 // if(!empty($user->device_token) && $status == '0'){                    
                 //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');

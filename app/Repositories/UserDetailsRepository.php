@@ -52,7 +52,8 @@ class UserDetailsRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function dataCrud($request, $id = '')
-    {   $data = array();
+    {  
+        $data = array();
         $json_enode_key = ['allergies','current_medications','past_medications'.'chronic_disease','injuries','surgeries'];
         if(!empty($request)){
             $filter = $request->all();
@@ -69,6 +70,34 @@ class UserDetailsRepository extends Repository
             return $this->update($data, $user_details->id);
         } else {
             $data['user_id'] =  $request->user()->id;
+            return $this->store($data);
+        }
+    }
+     
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function dataCrudByArray($filter, $id = '')
+    {  
+        $data = array();
+        $json_enode_key = ['allergies','current_medications','past_medications'.'chronic_disease','injuries','surgeries'];
+        if(!empty($filter)){
+            foreach ($filter as $key => $value) {
+                if(in_array($key, $json_enode_key)){
+                    $data[$key] = json_encode($value);
+                }else{
+                    $data[$key] = $value;
+                }
+            }
+        }
+        $user_details = $this->getbyColumnWithFirstValue('user_id', $id);
+        if(!empty($user_details) && !empty($user_details->id)){
+            return $this->update($data, $user_details->id);
+        } else {
+            $data['user_id'] =  $id;
             return $this->store($data);
         }
     }
