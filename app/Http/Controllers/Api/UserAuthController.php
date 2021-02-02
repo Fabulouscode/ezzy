@@ -133,7 +133,6 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegister(UserProviderAuthRequest $request)
     {
-        dd($request->all());
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
         if(!empty($user)){
             try{
