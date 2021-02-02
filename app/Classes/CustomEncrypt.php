@@ -116,7 +116,7 @@ class CustomEncrypt implements EncrypterContract {
 			return $this->sendException('EncryptException', 'Could not encrypt the data.');
 		}
 
-		return compact('value', 'mac','data');
+		return compact('value', 'mac');
 	}
 
 	/**
