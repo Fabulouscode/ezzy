@@ -165,6 +165,10 @@ class ShoppingCartController extends BaseApiController
            try{
                 $this->shop_cart_repo->dataCrud($update_data, $id);
                 $data = $this->shop_cart_repo->getById($id)->format();
+                if(isset($data['quantity']) && $data['quantity'] == '0'){
+                    $this->shop_cart_repo->destroy($id); 
+                    $data = array();
+                }
                 return self::sendSuccess($data, 'Cart add Success');
             }catch(\Exception $e){
                 return self::sendException($e);
