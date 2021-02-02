@@ -17,6 +17,7 @@ use App\Http\Requests\Api\Auth\UserRecoverPasswordRequest;
 use App\Http\Requests\Api\Auth\UserProviderAuthRequest;
 use App\Http\Requests\Api\Auth\PasswordChangeRequest;
 use App\Http\Requests\Api\Auth\SocialLoginRequest;
+use App\Http\Requests\Api\Auth\UserRegisterMobileRequest;
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +45,7 @@ class UserAuthController extends BaseApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveRegisterwithMobile(UserResendSMSRequest $request)
+    public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNo($request);
         if (!empty($request->email)) {
@@ -132,6 +133,7 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegister(UserProviderAuthRequest $request)
     {
+        dd($request->all());
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
         if(!empty($user)){
             try{
