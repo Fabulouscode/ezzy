@@ -115,8 +115,12 @@ class CustomEncrypt implements EncrypterContract {
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			return $this->sendException('EncryptException', 'Could not encrypt the data.');
 		}
-
-		return compact('value', 'mac');
+		
+		if(!empty(config('app.debug'))){
+				return compact('value', 'mac', 'data');
+		}else{
+			return compact('value', 'mac');
+		}
 	}
 
 	/**
