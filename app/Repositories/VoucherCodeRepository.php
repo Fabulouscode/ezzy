@@ -102,6 +102,14 @@ class VoucherCodeRepository extends Repository
             $query = $query->where('voucher_type', $request->voucher_code_type);    
         }
         
+         // search filter
+        if(!empty($request->search)){
+            $query = $query->where(function($query) use($request){
+                $query->orWhere('voucher_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhere('voucher_code', 'LIKE', '%'.$request->search.'%');
+            });
+        }    
+
         $query = $query->limit($this->api_data_limit);     
         $query = $query->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now());     
         

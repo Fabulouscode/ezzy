@@ -15,8 +15,8 @@ class Voucher_code extends Model
     );
  
     public $voucher_type_value = array(
-        '0' => 'Common',
-        '1' => 'Appointment',
+        // '0' => 'Common',
+        // '1' => 'Appointment',
         '2' => 'Order',
     );
  
