@@ -407,9 +407,9 @@ class User extends Authenticatable
             }
         }
 
-        if(!empty($required_userDetails) && count($required_userDetails) > 0){
+        if(!empty($this->userDetails) && !empty($required_userDetails) && count($required_userDetails) > 0){
             foreach ($required_userDetails as $key => $value) {
-                if(!empty($this->userDetails)){
+                if(!empty($this->userDetails) && isset($value) && ($value != '' || $value == '0')){
                     // $required_progress_array[] = $key;
                     $required_progress ++;
                 }    
