@@ -160,6 +160,12 @@ class DashboardController extends Controller
             $data['chart_data'] = $this->user_transaction_repo->userPayoutIncome($request);
             $data['total_income'] = $this->user_transaction_repo->userIncomeCalculate($request, 'amount');
             $data['total_payout'] = $this->user_transaction_repo->userIncomeCalculate($request, 'payout_amount');
+            if(!empty($data['total_income'])){
+                $data['total_income'] = number_format($data['total_income'], 2);
+            }
+            if (!empty($data['total_payout'])) {
+                $data['total_payout'] = number_format($data['total_payout'], 2);
+            }
             return response()->json(['status'=> true, 'data'=> $data], 200);
         }
         
@@ -192,6 +198,11 @@ class DashboardController extends Controller
             }
             $data['appointments_and_order_paid'] = $data['order_paid'] + $data['appointment_paid'];
             $data['appointments_and_order_total'] = $data['order_paid'] + $data['appointment_paid'] + $data['order_pending'] + $data['appointment_pending'];
+            
+            if (!empty($data['ezzycare_earning'])) {
+                $data['ezzycare_earning'] = number_format($data['ezzycare_earning'], 2);
+            }
+
             return response()->json(['status'=> true, 'data'=> $data], 200);
         } 
         
