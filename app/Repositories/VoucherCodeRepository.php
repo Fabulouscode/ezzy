@@ -97,6 +97,10 @@ class VoucherCodeRepository extends Repository
         if(!empty($request->last_id)){
             $query = $query->where('id', '<', $request->last_id);    
         }
+       
+        if(isset($request->voucher_code_type)){
+            $query = $query->where('voucher_type', $request->voucher_code_type);    
+        }
         
         $query = $query->limit($this->api_data_limit);     
         $query = $query->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now());     
@@ -113,6 +117,7 @@ class VoucherCodeRepository extends Repository
      */
     public function getbyIdVoucherType($id, $voucher_type)
     {
-        return $this->model->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now())->where('voucher_type', $voucher_type)->where('id', $id)->first();
+        return $this->model->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now())->where('id', $id)->first();
+        // return $this->model->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now())->where('voucher_type', $voucher_type)->where('id', $id)->first();
     }
 }
