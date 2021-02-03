@@ -328,11 +328,13 @@ class User extends Authenticatable
         $required_progress = 0;
         $required_progress_array = [];
         $required_user = [];
+        $required_userDetails = [];
         $required_userDetails_count = 0;
         $required_userCounts = [];
         if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
             //Heathcare Provider
             $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
             if (!empty($this->userDetails)) {
                $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
@@ -345,7 +347,6 @@ class User extends Authenticatable
             }else{
                 $required_userDetails_count = 20;
             }
-            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
         
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
             //Medicine 
