@@ -99,9 +99,20 @@ class VoucherCodeRepository extends Repository
         }
         
         $query = $query->limit($this->api_data_limit);     
+        $query = $query->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now());     
         
         $query = $query->orderBy('id','desc')->get();
 
         return $query;
+    }
+
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $ids
+     */
+    public function getbyIdVoucherType($id, $voucher_type)
+    {
+        return $this->model->where('quantity','>','0')->where('status','0')->where('expiry_date','>=', Carbon::now())->where('voucher_type', $voucher_type)->where('id', $id)->first();
     }
 }

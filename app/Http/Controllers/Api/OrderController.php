@@ -11,6 +11,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\ShoppingCartRepository;
+use App\Repositories\VoucherCodeRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ use PDF;
 
 class OrderController extends BaseApiController
 {
-    private $order_repo, $user_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo, $notification_repo;
+    private $order_repo, $user_repo, $voucher_code_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo, $notification_repo;
 
     public function __construct(
         ShoppingCartRepository $shop_cart_repo,
@@ -27,7 +28,8 @@ class OrderController extends BaseApiController
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderTrackingRepository $order_tracking_repo,
         NotificationRepository $notification_repo,
-        UserRepository $user_repo
+        UserRepository $user_repo,
+        VoucherCodeRepository $voucher_code_repo
         )
     {
         parent::__construct();
@@ -38,6 +40,7 @@ class OrderController extends BaseApiController
         $this->order_tracking_repo = $order_tracking_repo;
         $this->notification_repo = $notification_repo;
         $this->user_repo = $user_repo;
+        $this->voucher_code_repo = $voucher_code_repo;
     }
 
     public function getOrderHistory(Request $request)
@@ -252,6 +255,7 @@ class OrderController extends BaseApiController
     
     public function saveCartCheckout(CartCheckoutRequest $request)
     { 
+        
         $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
         $pharmacy_user = $this->user_repo->getById($request->user_id);
         if(empty($cart_details) || count($cart_details) == '0'){
@@ -272,12 +276,14 @@ class OrderController extends BaseApiController
                             'user_id'=> $request->user_id,
                             'client_id'=> $request->user()->id,
                             'user_location_id' => !empty($request->user_location_id) ? $request->user_location_id : NULL,
+                            'voucher_code_id' => !empty($request->voucher_code_id) ? $request->voucher_code_id : NULL,
                             'delivery_type'=> $request->delivery_type
                         ];
                         
             $order = $this->order_repo->dataCrud($order_data); 
             $transaction_amount = 0;
             $shipping_price = 0;
+            $voucher_amount_apply = 0;
             if($request->delivery_type == '0'){
                 $shipping_price = $pharmacy_user->userDetails->delivery_charge;
             }
@@ -301,10 +307,31 @@ class OrderController extends BaseApiController
                        
                     $transaction_amount += $stock_available->offer_price * $value->quantity;                
                 }
+                if(!empty($request->voucher_code_id)){
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
+                    if(!empty($voucher_code) && !empty($voucher_code->id)){
+                        
+                        if(!empty($voucher_code->percentage)){
+                            $voucher_amount_apply = (($transaction_amount * 100 ) /$voucher_code->percentage);
+                        }else{
+                            $voucher_amount_apply = $transaction_amount;
+                        }
 
+                        if($voucher_amount_apply <= $voucher_code->min_amount){
+                            $voucher_amount_apply = $voucher_code->min_amount;
+                        }else if($voucher_amount_apply >= $voucher_code->fix_amount){
+                            $voucher_amount_apply = $voucher_code->fix_amount;
+                        }
+
+                        $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity - 1)], $request->voucher_code_id);    
+                    }
+
+                }
+            $transaction_amount = $transaction_amount - $voucher_amount_apply;
             $order_update = [
                             'total_price' => $transaction_amount,
-                            'shipping_price' => $shipping_price
+                            'shipping_price' => $shipping_price,
+                            'voucher_amount' => $voucher_amount_apply,
                         ];
                         
                 $this->order_repo->dataCrud($order_update, $order->id); 
