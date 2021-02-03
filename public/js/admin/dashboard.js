@@ -151,8 +151,8 @@ function createBarChart(data, xkey, ykeys) {
         hoverCallback: function (index, options, content, row) {
             var hover = "";
             hover += "<div class='morris-hover-row-label'>" + months[row.month] + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Income: </b>₦ " + row.total_income + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Payout: </b>₦ " + row.total_payout + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Income: </b>₦ " + row.total_income.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
+            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Payout: </b>₦ " + row.total_payout.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
             return hover;
             // return (content);
         },
