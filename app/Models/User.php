@@ -328,7 +328,7 @@ class User extends Authenticatable
         $required_progress = 0;
         $required_progress_array = [];
         $required_user = [];
-        $required_userDetails = [];
+        $required_userDetails_count = 0;
         $required_userCounts = [];
         if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
             //Heathcare Provider
@@ -341,24 +341,32 @@ class User extends Authenticatable
                                  $this->userDetails->normal_fees, $this->userDetails->urgent_fees, $this->userDetails->home_visit_fees,
                                  $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, $this->userDetails->health_facility_certificate,
                                  $this->userDetails->about_us];
+                $required_userDetails_count = count($required_userDetails);
+            }else{
+                $required_userDetails_count = 20;
             }
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
         
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
             //Medicine 
             $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_userCounts = [$this->userAvailableTime];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
                                  $this->userDetails->clinic_locality, $this->userDetails->country, $this->userDetails->city, $this->userDetails->pincode,
                                  $this->userDetails->address, $this->userDetails->delivery_charge, $this->userDetails->regstration_certificate,
                                  $this->userDetails->pharmacist_certificate, $this->userDetails->about_us];
+                $required_userDetails_count = count($required_userDetails);
+            }else{
+                $required_userDetails_count = 15;
             }
-            $required_userCounts = [$this->userAvailableTime];
+            
      
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '3'){
             //Laboratories 
             $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
@@ -366,9 +374,12 @@ class User extends Authenticatable
                                  $this->userDetails->country, $this->userDetails->city, $this->userDetails->pincode, $this->userDetails->address,
                                  $this->userDetails->home_visit_fees, $this->userDetails->regstration_certificate, $this->userDetails->pharmacist_certificate,
                                  $this->userDetails->about_us];
+               $required_userDetails_count = count($required_userDetails);
+            }else{
+                $required_userDetails_count = 17;
             }
-            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
-            
+           
+      
         }else{
             //client 
             $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
@@ -376,10 +387,14 @@ class User extends Authenticatable
                  $required_userDetails = [$this->userDetails->dob, $this->userDetails->blood_group, $this->userDetails->marital_status,
                                  $this->userDetails->height, $this->userDetails->weight, $this->userDetails->emergency_contact,
                                  $this->userDetails->emergency_contact_name];
+                $required_userDetails_count = count($required_userDetails);
+            }else{
+                $required_userDetails_count = 7;
             }
+      
         }
 
-        if(count($required_user) > 0){
+        if(!empty($required_user) && count($required_user) > 0){
             foreach ($required_user as $key => $value) {
                 if($key == '0' && strpos($value, 'admin/images/avatar.jpg') == false) {
                     // $required_progress_array[] = $key;
@@ -391,7 +406,7 @@ class User extends Authenticatable
             }
         }
 
-        if(count($required_userDetails) > 0){
+        if(!empty($required_userDetails) && count($required_userDetails) > 0){
             foreach ($required_userDetails as $key => $value) {
                 if(!empty($this->userDetails)){
                     // $required_progress_array[] = $key;
@@ -400,7 +415,7 @@ class User extends Authenticatable
             }
         }
 
-        if(count($required_userCounts) > 0){
+        if(!empty($required_userCounts) && count($required_userCounts) > 0){
             foreach ($required_userCounts as $key => $value) {
                 if(!empty($value) && count($value) > 0){
                     // $required_progress_array[] = $key;
@@ -410,7 +425,7 @@ class User extends Authenticatable
         }
 
         // dd($required_progress_array);
-        $total_fields_count = (count($required_user) + count($required_userDetails) + count($required_userCounts));
+        $total_fields_count = (count($required_user) + count($required_userCounts) + $required_userDetails_count);
         if($total_fields_count > 0){
             $total_progress_point = ($required_progress * 100) / $total_fields_count;
         }else{
