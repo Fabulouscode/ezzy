@@ -94,8 +94,7 @@ class User extends Authenticatable
         $last_name = !empty($this->last_name)? ' '.$this->last_name : '' ;
         return $this->first_name.$last_name;
     }
-   
-   
+      
     public function getMobileNoCountryCodeAttribute($value) {
         return $this->country_code .' '.$this->mobile_no;
     }
@@ -143,6 +142,8 @@ class User extends Authenticatable
     public function userReview() {
         return $this->hasMany('App\Models\User_review');
     }
+
+
  
     public function userLabReport() {
         return $this->hasMany('App\Models\Lab_report','client_id','id');
@@ -323,210 +324,92 @@ class User extends Authenticatable
 
 
     public function getProfileCompletedProgressAttribute() {
-
-        $progress_point = 0;
-            if(!empty($this->profile_image) && strpos($this->profile_image, '/admin/images/avatar.jpg') != true){
-                $progress_point += 10;
-            }
-            if(!empty($this->first_name)){
-                $progress_point += 10;
-            }
-            if(!empty($this->email)){
-                $progress_point += 10;
-            }
-            if(!empty($this->mobile_no)){
-                $progress_point += 10;
-            }
+        $total_progress_point = 0;
+        $required_progress = 0;
+        $required_progress_array = [];
+        $required_user = [];
+        $required_userDetails = [];
+        $required_userCounts = [];
         if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
-           //Heathcare Provider (point = 60)
-            if(!empty($this->subcategory_id)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_hospital_name)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->registration_no) && !empty($this->userDetails->registration_council) && !empty($this->userDetails->registration_year)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userEduction) && count($this->userEduction) > 0){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_name) && !empty($this->userDetails->clinic_city) && !empty($this->userDetails->clinic_locality)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->total_experiance_year)){
-                $progress_point += 3;
-            }
-            if(!empty($this->gender)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->dob)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->country)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->city)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->pincode)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->address)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->normal_fees)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->urgent_fees)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->home_visit_fees)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userAvailableTime) && count($this->userAvailableTime) > 0){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->qualification_certificate)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->practicing_licence)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->health_facility_certificate)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->about_us)){
-                $progress_point += 3;
-            }
-
-
-        }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
-            //Medicine (point = 60)
-
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_hospital_name)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->registration_no) && !empty($this->userDetails->registration_council) && !empty($this->userDetails->registration_year)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_name) && !empty($this->userDetails->clinic_city) && !empty($this->userDetails->clinic_locality)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->country)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->city)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->pincode)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->address)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userAvailableTime) && count($this->userAvailableTime) > 0){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->delivery_charge)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->regstration_certificate)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->pharmacist_certificate)){
-                $progress_point += 5;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->about_us)){
-                $progress_point += 5;
-            }
-
+            //Heathcare Provider
+            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+            $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                 $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
+                                 $this->userDetails->country, $this->userDetails->city, $this->userDetails->pincode, $this->userDetails->address,
+                                 $this->userDetails->normal_fees, $this->userDetails->urgent_fees, $this->userDetails->home_visit_fees,
+                                 $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, $this->userDetails->health_facility_certificate,
+                                 $this->userDetails->about_us];
+            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
         
+        }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
+            //Medicine 
+            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                 $this->userDetails->clinic_locality, $this->userDetails->country, $this->userDetails->city, $this->userDetails->pincode, 
+                                 $this->userDetails->address, $this->userDetails->delivery_charge, $this->userDetails->regstration_certificate, 
+                                 $this->userDetails->pharmacist_certificate, $this->userDetails->about_us];
+            $required_userCounts = [$this->userAvailableTime];
+     
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '3'){
-            //Laboratories (point = 60)
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_hospital_name)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->registration_no) && !empty($this->userDetails->registration_council) && !empty($this->userDetails->registration_year)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userEduction) && count($this->userEduction) > 0){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->clinic_name) && !empty($this->userDetails->clinic_city) && !empty($this->userDetails->clinic_locality)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->total_experiance_year)){
-                $progress_point += 4;
-            }
-            if(!empty($this->gender)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->dob)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->country)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->city)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->pincode)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->address)){
-                $progress_point += 4;
-            }            
-            if(!empty($this->userAvailableTime) && count($this->userAvailableTime) > 0){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->home_visit_fees)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->regstration_certificate)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->pharmacist_certificate)){
-                $progress_point += 3;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->about_us)){
-                $progress_point += 3;
-            }
-
-
+            //Laboratories 
+            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                 $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
+                                 $this->userDetails->country, $this->userDetails->city, $this->userDetails->pincode, $this->userDetails->address,
+                                 $this->userDetails->home_visit_fees, $this->userDetails->regstration_certificate, $this->userDetails->pharmacist_certificate,
+                                 $this->userDetails->about_us];
+            $required_userCounts = [$this->userAvailableTime, $this->userEduction];
+            
         }else{
-            //client (point = 60)
-            if(!empty($this->gender)){
-                $progress_point += 4;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->dob)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->blood_group)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->marital_status)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->height)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->weight)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->emergency_contact)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->emergency_contact_name)){
-                $progress_point += 7;
-            }
-            if(!empty($this->userDetails) && !empty($this->userDetails->allergies)){
-                $progress_point += 7;
+            //client 
+            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
+            $required_userDetails = [$this->userDetails->dob, $this->userDetails->blood_group, $this->userDetails->marital_status,
+                                 $this->userDetails->height, $this->userDetails->weight, $this->userDetails->emergency_contact,
+                                 $this->userDetails->emergency_contact_name];
+        }
+
+        if(count($required_user) > 0){
+            foreach ($required_user as $key => $value) {
+                if($key == '0' && strpos($value, 'admin/images/avatar.jpg') == false) {
+                    // $required_progress_array[] = $key;
+                    $required_progress ++;
+                }else if(!empty($value)){
+                    // $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
             }
         }
-        if($progress_point > 100){
-            $progress_point = 100;
+
+        if(count($required_userDetails) > 0){
+            foreach ($required_userDetails as $key => $value) {
+                if(!empty($this->userDetails) && isset($value) && ($value != '' || $value == '0')){
+                    // $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
+            }
         }
-        return $progress_point;
+
+        if(count($required_userCounts) > 0){
+            foreach ($required_userCounts as $key => $value) {
+                if(!empty($value) && count($value) > 0){
+                    // $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
+            }
+        }
+
+        // dd($required_progress_array);
+        $total_fields_count = (count($required_user) + count($required_userDetails) + count($required_userCounts));
+        if($total_fields_count > 0){
+            $total_progress_point = ($required_progress * 100) / $total_fields_count;
+        }else{
+            $total_progress_point = 0;
+        }
+        // dd($required_progress.' '.(count($required_user) + count($required_userDetails)));
+        $total_progress_point = round($total_progress_point);
+        return $total_progress_point;
     }
 }
