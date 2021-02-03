@@ -63,6 +63,14 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Voucher Code</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{$data->voucherDetails->voucher_code}}
+                                        </dd>
+                                    </div>
+                                    @endif
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Delivery Type</label></dt>
                                         <dd class="col-sm-7"> 
@@ -123,6 +131,15 @@
                                                                 <strong>Subtotal</strong></td>
                                                             <td class="thick-line ">{{$currency_symbol.$sub_total}}</td>
                                                         </tr>
+                                                        @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                                        @php ($sub_total -= $data->voucher_amount)
+                                                        <tr>
+                                                            <td class="no-line " colspan="4"></td>
+                                                             <td class="no-line ">
+                                                                <strong>Voucher Amount</strong></td>
+                                                            <td class="no-line ">{{$currency_symbol.$data->voucher_amount}}</td>
+                                                        </tr>
+                                                        @endif
                                                         @if($data->delivery_type == '0')
                                                         @php ($sub_total += $data->shipping_price)
                                                         <tr>

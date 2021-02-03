@@ -61,6 +61,9 @@
                             <div class="row">
                                 <div class="col-6 m-t-30">
                                     <b>Order Date: </b>{{Helper::getDateTimeFormate($data->created_at)}}<br>
+                                    @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                    <b>Voucher Code: </b>{{$data->voucherDetails->voucher_code}}<br>
+                                    @endif
                                     <b>Delivery Type: </b>{{$data->delivery_type_name}} <br>
                                     <b>Status: </b>{{$data->status_name}}
                                 </div>
@@ -111,6 +114,15 @@
                                                     <strong>Subtotal</strong></td>
                                                 <td class="thick-line text-right">{{$currency_symbol.$sub_total}}</td>
                                             </tr>
+                                            @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                            @php ($sub_total -= $data->voucher_amount)
+                                            <tr>
+                                                <td class="no-line text-center" colspan="4"></td>
+                                                <td class="no-line  text-center">
+                                                    <strong>Voucher Amount</strong></td>
+                                                <td class="no-line text-right">{{$currency_symbol.$data->voucher_amount}}</td>
+                                            </tr>
+                                            @endif
                                             @if($data->delivery_type == '0')
                                             @php ($sub_total += $data->shipping_price)
                                             <tr>

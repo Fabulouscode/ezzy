@@ -97,7 +97,7 @@ class OrderRepository extends Repository
      */
     public function getbyEditId($id)
     {   
-        return $this->model->with(['clientDetails', 'userDetails', 'orderProductDetails','getTransaction','orderProductDetails.shopMedicineDetails', 'orderProductDetails.shopMedicineDetails.medicineDetails','userLocationDetails'])->find($id);
+        return $this->model->with(['clientDetails', 'userDetails', 'orderProductDetails','voucherDetails','getTransaction','orderProductDetails.shopMedicineDetails', 'orderProductDetails.shopMedicineDetails.medicineDetails','userLocationDetails'])->find($id);
 
     }
 

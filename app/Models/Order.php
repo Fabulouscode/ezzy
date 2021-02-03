@@ -73,6 +73,10 @@ class Order extends Model
     public function userLocationDetails() {
         return $this->hasOne('App\Models\User_location', 'id', 'user_location_id');
     }
+ 
+    public function voucherDetails() {
+        return $this->hasOne('App\Models\Voucher_code', 'id', 'voucher_code_id');
+    }
    
     public function orderProductDetails() {
         return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
