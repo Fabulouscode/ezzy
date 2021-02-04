@@ -188,14 +188,6 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Postalcode</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->pincode))
-                                                {{$data->userDetails->pincode}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Delivery Charge</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->delivery_charge))
