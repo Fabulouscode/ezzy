@@ -11,7 +11,7 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserServiceRepository;
 use Auth;
-
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -230,7 +230,11 @@ class UserController extends Controller
     {
         $data = $this->user_repo->getById($request->user_id);
         if(!empty($data)){
-            $data = ['status' => $request->status];
+            if(isset($request->status) && $data->status == '1' && $request->status == '0'){
+                 $data = ['status' => $request->status, 'approved_date' => Carbon::now()];
+            }else{
+                 $data = ['status' => $request->status];
+            }
             $this->user_repo->update($data, $request->user_id); 
             return response()->json(['msg'=>'Status Change success'], 200);
         }

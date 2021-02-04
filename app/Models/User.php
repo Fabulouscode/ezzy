@@ -53,7 +53,8 @@ class User extends Authenticatable
         'longitude',
         'wallet_balance',
         'status',
-        'notification_status'
+        'notification_status',
+        'approved_date'
     ];
 
     /**
@@ -64,6 +65,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'approved_date'
     ];
 
     /**

@@ -44,14 +44,22 @@ class DashboardController extends Controller
         
      
         $data['patient'] = $this->user_repo->getPatientsCount();
+        $data['today_patient'] = $this->user_repo->getPatientsCountToday();
         if($provider == 'healthcare'){
 
             $data['approved_count'] = $this->user_repo->getUserParentCategoryWiseCount('1','0');
             $data['pending_count'] = $this->user_repo->getUserParentCategoryWiseCount('1','1');
 
+            $data['today_approved_count'] = $this->user_repo->getUserParentCategoryWiseCountApprovedToday('1','0');
+            $data['today_pending_count'] = $this->user_repo->getUserParentCategoryWiseCountToday('1','1');
+
             $data['doctor'] = $this->user_repo->getUserCategoryWiseCount('4');
             $data['nurses'] = $this->user_repo->getUserCategoryWiseCount('5');
             $data['massage_therapist'] = $this->user_repo->getUserCategoryWiseCount('6');
+            
+            $data['today_doctor'] = $this->user_repo->getUserCategoryWiseCountToday('4');
+            $data['today_nurses'] = $this->user_repo->getUserCategoryWiseCountToday('5');
+            $data['today_massage_therapist'] = $this->user_repo->getUserCategoryWiseCountToday('6');
             
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount('', '1');
             $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount('', '1');
@@ -70,6 +78,9 @@ class DashboardController extends Controller
             $data['approved_count'] = $this->user_repo->getUserParentCategoryWiseCount('2','0');
             $data['pending_count'] = $this->user_repo->getUserParentCategoryWiseCount('2', '1');
 
+            $data['today_approved_count'] = $this->user_repo->getUserParentCategoryWiseCountApprovedToday('2','0');
+            $data['today_pending_count'] = $this->user_repo->getUserParentCategoryWiseCountToday('2','1');
+
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
 
@@ -87,9 +98,16 @@ class DashboardController extends Controller
             $data['approved_count'] = $this->user_repo->getUserParentCategoryWiseCount('3', '0');
             $data['pending_count'] = $this->user_repo->getUserParentCategoryWiseCount('3', '1');
 
+            $data['today_approved_count'] = $this->user_repo->getUserParentCategoryWiseCountApprovedToday('3','0');
+            $data['today_pending_count'] = $this->user_repo->getUserParentCategoryWiseCountToday('3','1');
+
             $data['pathologist'] = $this->user_repo->getUserCategoryWiseCount('9');
             $data['scientist'] = $this->user_repo->getUserCategoryWiseCount('8');
             $data['radiologist'] = $this->user_repo->getUserCategoryWiseCount('10');
+
+            $data['today_pathologist'] = $this->user_repo->getUserCategoryWiseCountToday('9');
+            $data['today_scientist'] = $this->user_repo->getUserCategoryWiseCountToday('8');
+            $data['today_radiologist'] = $this->user_repo->getUserCategoryWiseCountToday('10');
       
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount('', '3');
             $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount('', '3');
@@ -108,6 +126,10 @@ class DashboardController extends Controller
             $data['healthcare'] = $this->user_repo->getUserParentCategoryWiseCount('1');
             $data['pharmacist'] = $this->user_repo->getUserParentCategoryWiseCount('2');
             $data['laboratories'] = $this->user_repo->getUserParentCategoryWiseCount('3');
+
+            $data['today_healthcare'] = $this->user_repo->getUserParentCategoryWiseCountToday('1');
+            $data['today_pharmacist'] = $this->user_repo->getUserParentCategoryWiseCountToday('2');
+            $data['today_laboratories'] = $this->user_repo->getUserParentCategoryWiseCountToday('3');
             
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
@@ -128,7 +150,7 @@ class DashboardController extends Controller
             $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 
 
             $currency_symbol = $this->user_transaction_repo->currency_symbol;
-
+            
             return view('admin.dashboard.dashboard', compact('data','currency_symbol'));
         }
     }

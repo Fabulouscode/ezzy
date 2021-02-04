@@ -85,8 +85,16 @@ class AppointmentRepository extends Repository
      */
     public function getTodayAppointmentStatusWiseCount($status = '', $provider = '')
     {
-        $query = $this->model->where('appointment_date', '=', Carbon::now()->format('Y-m-d'));
+        $query = $this->model;
         
+        if(isset($status) && $status == '5'){
+            $query = $query->whereDate('completed_datetime',Carbon::now());
+        }else if(isset($status) && $status == '6'){
+            $query = $query->whereDate('cancel_date',Carbon::now());
+        } else{
+            $query = $query->whereDate('appointment_date',Carbon::now());
+        }
+       
         if($status != ''){
             $query = $query->whereIn('status', $status);
         } 

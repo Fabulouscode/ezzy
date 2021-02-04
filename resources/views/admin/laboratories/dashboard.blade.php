@@ -32,7 +32,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['approved_count']) ? $data['approved_count'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_approved_count']) ? $data['today_approved_count'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pending_count']) ? $data['pending_count'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_pending_count']) ? $data['today_pending_count'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pathologist']) ? $data['pathologist'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_pathologist']) ? $data['today_pathologist'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['scientist']) ? $data['scientist'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_scientist']) ? $data['today_scientist'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
                             <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['radiologist']) ? $data['radiologist'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">0</span> </h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_radiologist']) ? $data['today_radiologist'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>

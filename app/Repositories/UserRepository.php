@@ -772,6 +772,52 @@ class UserRepository extends Repository
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserParentCategoryWiseCountToday($category_id, $status = '')
+    {
+
+        $query = $this->model;    
+        if(!empty($category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('parent_id', $category_id);
+            });
+        }
+
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->whereDate('created_at',Carbon::now())->orderBy('id','desc')->count();
+        return $query;
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserParentCategoryWiseCountApprovedToday($category_id, $status = '')
+    {
+
+        $query = $this->model;    
+        if(!empty($category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('parent_id', $category_id);
+            });
+        }
+
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->whereDate('approved_date',Carbon::now())->orderBy('id','desc')->count();
+        return $query;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -788,6 +834,23 @@ class UserRepository extends Repository
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserCategoryWiseCountToday($category_id, $status = '')
+    {
+        $query = $this->model->where('category_id',$category_id);
+       
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->whereDate('created_at',Carbon::now())->orderBy('id','desc')->count();
+        return $query;
+    }
  
     /**
      * Display a listing of the resource.
@@ -799,6 +862,19 @@ class UserRepository extends Repository
 
         $query = $this->model->where('status', '0')->whereNULL('category_id');
         $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+ 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPatientsCountToday()
+    {
+
+        $query = $this->model->where('status', '0')->whereNULL('category_id');
+        $query = $query->whereDate('created_at',Carbon::now())->orderBy('id','desc')->count();
         return $query;
     }
   
