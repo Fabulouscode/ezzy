@@ -16,6 +16,8 @@ use App\Repositories\NotificationRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
+use App\Http\Requests\Api\AppointmentPayStatusRequest;
+use App\Http\Requests\Api\OrderPayStatusRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 
@@ -130,7 +132,7 @@ class TransactionController extends BaseApiController
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
-                        'status'=> '0',
+                        'status'=> '1',
                     ];
                 
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
@@ -212,7 +214,7 @@ class TransactionController extends BaseApiController
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
-                        'status'=> '0',
+                        'status'=> '1',
                     ];
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
 
@@ -272,5 +274,53 @@ class TransactionController extends BaseApiController
     }
 
 
+    public function appointmentBillPayment(AppointmentPayStatusRequest $request)
+    {
+        $data = array();
+        $appointment_details = $this->appointment_repo->getbyIdCheckNotNullTransaction($request->id);
+        if(empty($appointment_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
+        try {
+            DB::beginTransaction();
+            $add_payout = [
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'payment_gateway_response'=> $request->payment_transaction,
+                        'status'=> $request->status,
+                    ];
+            $this->user_transaction_repo->dataCrud($add_payout, $appointment_details->transaction_id);
+            DB::commit();
+            return self::sendSuccess($data, 'Transaction Completed');
+        } catch (\Exception $e) {
+             DB::rollBack();
+            return self::sendException($e);
+        }
+    }
+
+
+    public function orderPharmacyBillPayment(OrderPayStatusRequest $request)
+    {
+        $data = array();
+        $order_details = $this->order_repo->getbyIdCheckNotNullTransaction($request->id);
+        if(empty($order_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
+        try {
+            DB::beginTransaction();
+            $add_payout = [
+                        'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                        'payment_gateway_response'=> $request->payment_transaction,
+                        'status'=> $request->status,
+                    ];
+            $this->user_transaction_repo->dataCrud($add_payout, $order_details->transaction_id);
+            DB::commit();
+            return self::sendSuccess($data, 'Transaction Completed');
+        } catch (\Exception $e) {
+             DB::rollBack();
+            return self::sendException($e);
+        }
+    }
 
 }

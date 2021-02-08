@@ -89,6 +89,17 @@ class OrderRepository extends Repository
         return $this->model->whereNull('transaction_id')->where('id',$id)->whereNotIn('status',['1','2'])->first();
 
     }
+   
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdCheckNotNullTransaction($id)
+    {   
+        return $this->model->whereNotNull('transaction_id')->where('id',$id)->first();
+
+    }
         
      /**
      * Display a edit of the record.

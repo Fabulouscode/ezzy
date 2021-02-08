@@ -254,6 +254,17 @@ class AppointmentRepository extends Repository
 
     }
  
+     /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdCheckNotNullTransaction($id)
+    {   
+        return $this->model->whereNotNull('transaction_id')->where('id',$id)->first();
+
+    }
+
     /**
      * Display a edit of the record.
      *
