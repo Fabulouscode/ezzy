@@ -194,7 +194,7 @@ class UserRepository extends Repository
                         }
                         
                         if (Auth::user()->hasPermissionTo($request->provider.'-transaction')) {
-                            if($request->status != '1'){
+                            if($request->status == '0' || $selected->status == '2'){
                                 if (!empty($request->provider) && $request->provider == 'patients') {
                                     $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                                 }else{
@@ -226,7 +226,7 @@ class UserRepository extends Repository
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                         } elseif (!empty($selected->status == '2')) {
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-                        } else {
+                        } else if (!empty($selected->status == '0')) {
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                         }
                     }
