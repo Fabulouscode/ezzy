@@ -274,7 +274,7 @@ class TransactionController extends BaseApiController
     }
 
 
-    public function appointmentBillPayment(AppointmentPayStatusRequest $request)
+    public function appointmentBillPaymentStatus(AppointmentPayStatusRequest $request)
     {
         $data = array();
         $appointment_details = $this->appointment_repo->getbyIdCheckNotNullTransaction($request->id);
@@ -304,7 +304,7 @@ class TransactionController extends BaseApiController
     }
 
 
-    public function orderPharmacyBillPayment(OrderPayStatusRequest $request)
+    public function orderPharmacyBillPaymentStatus(OrderPayStatusRequest $request)
     {
         $data = array();
         $order_details = $this->order_repo->getbyIdCheckNotNullTransaction($request->id);

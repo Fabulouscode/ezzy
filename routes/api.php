@@ -198,7 +198,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/change/completed', 'AppointmentController@completedAppointment');                
                 Route::post('/review/add', 'AppointmentController@addAppointmentReview');    
                 Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
-                Route::post('/status/bill_pay', 'TransactionController@appointmentBillPayment');
+                Route::post('/status/bill_pay', 'TransactionController@appointmentBillPaymentStatus');
                 Route::get('/get/{appointment_id?}', 'AppointmentController@getAppointmentById'); 
                 Route::get('/invoice/{appointment_id?}', 'AppointmentController@generateInvoice'); 
             });
@@ -273,7 +273,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 
                 Route::post('/checkout', 'OrderController@saveCartCheckout');       
                 Route::post('/bill_pay', 'TransactionController@orderPharmacyBillPay');   
-                Route::post('/status/bill_pay', 'TransactionController@orderPharmacyBillPayment');   
+                Route::post('/status/bill_pay', 'TransactionController@orderPharmacyBillPaymentStatus');   
             });
 
 
@@ -305,7 +305,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/change/completed', 'AppointmentController@completedAppointment');  
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
                 Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
-                Route::post('/status/bill_pay', 'TransactionController@appointmentBillPayment');
+                Route::post('/status/bill_pay', 'TransactionController@appointmentBillPaymentStatus');
                 Route::get('/get/{appointment_id?}', 'AppointmentController@getAppointmentById'); 
                 Route::get('/invoice/{appointment_id?}', 'AppointmentController@generateInvoice'); 
             });
