@@ -282,6 +282,11 @@ class TransactionController extends BaseApiController
             return self::sendError([], 'Transaction already Completed');
         }
 
+        $transaction_details = $this->user_transaction_repo->getCompletedTransaction($appointment_details->transaction_id);
+        if(!empty($transaction_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
         try {
             DB::beginTransaction();
             $add_payout = [
@@ -304,6 +309,11 @@ class TransactionController extends BaseApiController
         $data = array();
         $order_details = $this->order_repo->getbyIdCheckNotNullTransaction($request->id);
         if(empty($order_details)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+        
+        $transaction_details = $this->user_transaction_repo->getCompletedTransaction($order_details->transaction_id);
+        if(!empty($transaction_details)){
             return self::sendError([], 'Transaction already Completed');
         }
 

@@ -113,6 +113,11 @@ class UserTransactionRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->get();
     }
+   
+    public function getCompletedTransaction($id)
+    {
+        return $this->model->WhereNotNull('payment_gateway_response')->where('status', '0')->where('id', $id)->first();
+    }
     
     public function getTransactionHistory($request)
     {
