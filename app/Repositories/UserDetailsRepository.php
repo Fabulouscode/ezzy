@@ -44,6 +44,16 @@ class UserDetailsRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->first();
     }
+   
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function getbyDelete($user_id)
+    {
+        return $this->model->where('user_id', $user_id)->delete();
+    }
 
      /**
      * Store a newly created resource in storage.

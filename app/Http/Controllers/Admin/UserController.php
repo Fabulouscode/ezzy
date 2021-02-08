@@ -6,20 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserTransactionRepository;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
+use App\Repositories\UserDetailsRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserServiceRepository;
 use Auth;
 use Carbon\Carbon;
+use DB;
 
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
+    private $user_repo, $category_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
 
     public function __construct(
         UserRepository $user_repo, 
+        UserDetailsRepository $user_details_repo, 
         CategoryRepository  $category_repo, 
         AppointmentRepository $appointment_repo,
         UserTransactionRepository $user_trans_repo,
@@ -33,6 +36,7 @@ class UserController extends Controller
         $this->user_trans_repo = $user_trans_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->user_service_repo = $user_service_repo;
+        $this->user_details_repo = $user_details_repo;
     }
      
     /**
@@ -210,11 +214,15 @@ class UserController extends Controller
     {
         $data = $this->user_repo->getById($id);
         try{
+            DB::beginTransaction();
             if(!empty($data)){
+                $this->user_details_repo->getbyDelete($id); 
                 $this->user_repo->forceDelete($id); 
                 return response()->json(['msg'=>'Deleted success'], 200);
             }
+            DB::commit();
         }catch(\Exception $e){
+            DB::rollBack();
             return response()->json(['msg'=>'Can not delete this user'], 500);
         }  
         return response()->json(['msg'=>'Data Not success'], 500);
