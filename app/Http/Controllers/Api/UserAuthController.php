@@ -273,7 +273,7 @@ class UserAuthController extends BaseApiController
             }else if(isset($user) && $user->status == '2'){
                  return self::sendError('', 'You have Inactive please wait for active');
             }else if(isset($user) && $user->status == '3'){
-                 return self::sendError('', 'You have Pending Verify mobile number');
+                 return self::sendError('', 'Please Verify mobile number');
             }else {
                  return self::sendError('', 'Please Fill up register details');
             }
