@@ -194,7 +194,7 @@ class UserRepository extends Repository
                         }
                         
                         if (Auth::user()->hasPermissionTo($request->provider.'-transaction')) {
-                            if($request->status == '0' || $selected->status == '2'){
+                            if($selected->status == '0' || $selected->status == '2'){
                                 if (!empty($request->provider) && $request->provider == 'patients') {
                                     $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                                 }else{
