@@ -210,11 +210,12 @@ class TransactionController extends BaseApiController
                 $add_transaction = [
                         'user_id'=> $order_details->userDetails->id,
                         'client_id'=> $request->user()->id,
+                        'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
-                        'status'=> '1',
+                        'status'=> '0',
                     ];
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
 
@@ -304,33 +305,5 @@ class TransactionController extends BaseApiController
     }
 
 
-    public function orderPharmacyBillPaymentStatus(OrderPayStatusRequest $request)
-    {
-        $data = array();
-        $order_details = $this->order_repo->getbyIdCheckNotNullTransaction($request->id);
-        if(empty($order_details)){
-            return self::sendError([], 'Transaction already Completed');
-        }
-        
-        $transaction_details = $this->user_transaction_repo->getCompletedTransaction($order_details->transaction_id);
-        if(!empty($transaction_details)){
-            return self::sendError([], 'Transaction already Completed');
-        }
-
-        try {
-            DB::beginTransaction();
-            $add_payout = [
-                        'transaction_date'=> $this->order_repo->getCurrentDateTime(),
-                        'payment_gateway_response'=> $request->payment_transaction,
-                        'status'=> $request->status,
-                    ];
-            $this->user_transaction_repo->dataCrud($add_payout, $order_details->transaction_id);
-            DB::commit();
-            return self::sendSuccess($data, 'Transaction Completed');
-        } catch (\Exception $e) {
-             DB::rollBack();
-            return self::sendException($e);
-        }
-    }
 
 }

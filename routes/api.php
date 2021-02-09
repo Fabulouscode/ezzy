@@ -272,8 +272,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 
                 
                 Route::post('/checkout', 'OrderController@saveCartCheckout');       
-                Route::post('/bill_pay', 'TransactionController@orderPharmacyBillPay');   
-                Route::post('/status/bill_pay', 'TransactionController@orderPharmacyBillPaymentStatus');   
+                Route::post('/bill_pay', 'TransactionController@orderPharmacyBillPay');    
             });
 
 
