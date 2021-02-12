@@ -860,7 +860,7 @@ class UserRepository extends Repository
     public function getPatientsCount()
     {
 
-        $query = $this->model->where('status', '0')->whereNULL('category_id');
+        $query = $this->model->whereNULL('category_id');
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
@@ -873,7 +873,7 @@ class UserRepository extends Repository
     public function getPatientsCountToday()
     {
 
-        $query = $this->model->where('status', '0')->whereNULL('category_id');
+        $query = $this->model->whereNULL('category_id');
         $query = $query->whereDate('created_at',Carbon::now())->orderBy('id','desc')->count();
         return $query;
     }
