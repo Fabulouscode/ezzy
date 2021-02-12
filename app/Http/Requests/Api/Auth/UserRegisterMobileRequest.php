@@ -26,7 +26,7 @@ class UserRegisterMobileRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|numeric|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL',
+           'mobile_no' => 'required|numeric|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
            'country_code'=> 'required',
         ];
     }
