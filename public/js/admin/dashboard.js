@@ -143,55 +143,59 @@ $(function () {
 function createBarChart(data, xkey, ykeys) {
     $("#morris-revenue-bar-chart").empty();
     var months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    Morris.Bar({
-        element: 'morris-revenue-bar-chart',
-        data: data,
-        xkey: xkey,
-        ykeys: ykeys,
-        hoverCallback: function (index, options, content, row) {
-            var hover = "";
-            hover += "<div class='morris-hover-row-label'>" + months[row.month] + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Income: </b>₦ " + row.total_income.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Payout: </b>₦ " + row.total_payout.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
-            return hover;
-            // return (content);
-        },
-        xLabelFormat: function (x) {
-            return months[x.src.month];
-        },
-        labels: ['Total Income', 'Total Payout'],
-        gridLineColor: '#eef0f2',
-        barSizeRatio: 0.4,
-        resize: true,
-        hideHover: 'auto',
-        barColors: ['#508aeb', '#fcc24c']
-    });
+    if (data.length > 0) {
+        Morris.Bar({
+            element: 'morris-revenue-bar-chart',
+            data: data,
+            xkey: xkey,
+            ykeys: ykeys,
+            hoverCallback: function (index, options, content, row) {
+                var hover = "";
+                hover += "<div class='morris-hover-row-label'>" + months[row.month] + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Income: </b>₦ " + row.total_income.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Total Payout: </b>₦ " + row.total_payout.toLocaleString('en-US', { maximumFractionDigits: 2 }) + "</div>";
+                return hover;
+                // return (content);
+            },
+            xLabelFormat: function (x) {
+                return months[x.src.month];
+            },
+            labels: ['Total Income', 'Total Payout'],
+            gridLineColor: '#eef0f2',
+            barSizeRatio: 0.4,
+            resize: true,
+            hideHover: 'auto',
+            barColors: ['#508aeb', '#fcc24c']
+        });
+    }
 }
 
 
 function createAreaChart(data) {
     $("#morris-count-area-chart").empty();
-    Morris.Area({
-        element: 'morris-count-area-chart',
-        data: data,
-        xkey: 'date',
-        parseTime: false,
-        ykeys: ['hcp_count', 'order_count', 'lab_count'],
-        hoverCallback: function (index, options, content, row) {
-            var hover = "";
-            hover += "<div class='morris-hover-row-label'>" + row.date + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#ff5560;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>HCP Appointments: </b> " + row.hcp_count + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Pharmacy Orders: </b> " + row.order_count + "</div>";
-            hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Laboratories Appointments: </b> " + row.lab_count + "</div>";
-            return hover;
-            // return (content);
-        },
-        labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'],
-        lineColors: ['#ff5560', '#fcc24c', '#508aeb'],
-        hideHover: 'auto',
-        gridIntegers: true,
-        ymin: 0
-    });
+    if (data.length > 0) {
+        Morris.Area({
+            element: 'morris-count-area-chart',
+            data: data,
+            xkey: 'date',
+            parseTime: false,
+            ykeys: ['hcp_count', 'order_count', 'lab_count'],
+            hoverCallback: function (index, options, content, row) {
+                var hover = "";
+                hover += "<div class='morris-hover-row-label'>" + row.date + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#ff5560;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>HCP Appointments: </b> " + row.hcp_count + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Pharmacy Orders: </b> " + row.order_count + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Laboratories Appointments: </b> " + row.lab_count + "</div>";
+                return hover;
+                // return (content);
+            },
+            labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'],
+            lineColors: ['#ff5560', '#fcc24c', '#508aeb'],
+            hideHover: 'auto',
+            gridIntegers: true,
+            ymin: 0
+        });
+    }
 }
 
 
