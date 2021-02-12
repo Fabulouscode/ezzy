@@ -26,7 +26,7 @@ class UserLoginRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|string|max:255',
+           'mobile_no' => 'required|numeric',
            'country_code'=> 'required',
            'password' => 'required|string|min:8',
            'device_type' => 'required',

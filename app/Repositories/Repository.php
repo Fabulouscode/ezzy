@@ -208,14 +208,42 @@ class Repository
      * @param Number $recipients string or array of phone number of recepient
      */  
     public function sendMessage($message, $recipients)
-    {
+    {    //twilio
+        // try{
+        //     $account_sid = config("app.TWILIO_SID");
+        //     $auth_token = config("app.TWILIO_AUTH_TOKEN");
+        //     $twilio_number = config("app.TWILIO_NUMBER");
+        //     $client = new Client($account_sid, $auth_token);
+        //     $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+        //     return '';
+        //  }catch(\Exception $e){
+        //       throw new HttpResponseException(response()->json([
+        //         'success' => false,
+        //         'errors' => $e->getMessage(),
+        //         'message' => 'The given data was invalid.',
+        //     ], 422));
+        // }
+
+
+       //bulksmsnigeria
         try{
-            $account_sid = config("app.TWILIO_SID");
-            $auth_token = config("app.TWILIO_AUTH_TOKEN");
-            $twilio_number = config("app.TWILIO_NUMBER");
-            $client = new Client($account_sid, $auth_token);
-            $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
-            return '';
+            $bulksms_url = config("app.BULKSMS_URL");
+            $bulksms_token = config("app.BULKSMS_TOKEN");
+            $bulksms_from = config("app.name");
+            if(!empty($bulksms_url) && !empty($bulksms_token) && !empty($bulksms_from) && !empty($recipients) ){
+                $data['api_token'] = $bulksms_token;
+                $data['from'] = $bulksms_from;
+                $data['to'] = $recipients;
+                $data['body'] = $message;
+                $data['dnd'] = 2;
+                $msg_sent = Helper::sendBULKSMSRequest($bulksms_url, $data);
+                if(!empty($msg_sent) && $msg_sent != 'true'){
+                    return $msg_sent;
+                }
+            }else{
+                $msg_sent = 'SMS Sending Failed';
+                return $msg_sent;
+            }
          }catch(\Exception $e){
               throw new HttpResponseException(response()->json([
                 'success' => false,

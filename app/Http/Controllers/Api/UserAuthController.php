@@ -296,7 +296,10 @@ class UserAuthController extends BaseApiController
             $mobile_code = $this->user_repo->generateOTPCode();
             $data = ['otp_code' => $mobile_code];
             // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-            // $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+            // $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+            // if(!empty($sent_msg)){
+            //    return self::sendError('', 'SMS Sending Failed');
+            // }
             $this->user_repo->dataCrudUsingData($data, $user->id);
             $update_user = $this->user_repo->getById($user->id);
             return self::sendSuccess([
@@ -358,7 +361,7 @@ class UserAuthController extends BaseApiController
             }
 
         }else{
-            return self::sendError('', 'User Mobile No. Invalid');
+            return self::sendError('', 'User Mobile No. Not Registered');
         }
     }
 
@@ -381,7 +384,7 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         }else{
-            return self::sendError('', 'User Mobile No. Invalid');
+            return self::sendError('', 'User Mobile No. Not Registered');
         }
     }
     
@@ -407,7 +410,7 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         }else{
-            return self::sendError('', 'User Mobile No. Invalid');
+            return self::sendError('', 'User Mobile No. Not Registered');
         }
     }
 

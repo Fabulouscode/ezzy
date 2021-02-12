@@ -26,7 +26,7 @@ class UserVerifySMSRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|string|max:255',
+           'mobile_no' => 'required|numeric',
            'country_code'=> 'required',
            'otp_code'=> 'required',
         ];

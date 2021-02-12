@@ -272,6 +272,34 @@ class Helper
         }
         return true;
     }
+   
+    /**
+     * msg sending curl request
+     */ 
+    public static function sendBULKSMSRequest($url, $data) 
+    { 
+        if(!empty($url) && !empty($data)){
+            $headers = array( 'Content-Type:application/json');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            if ($headers)
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            $response = curl_exec($ch);
+            $response_arr =  json_decode($response, true);
+            if(!empty($response_arr['error'])) {
+                Log::info($response);
+                Log::info('SMS Send Failed');
+                return $response_arr['error'];
+            }
+            return true;
+        }
+        $response_arr = 'SMS Send Failed';
+        return $response_arr;
+    }
     
 
     
