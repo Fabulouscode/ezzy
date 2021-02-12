@@ -218,9 +218,9 @@ class UserController extends Controller
             if(!empty($data)){
                 $this->user_details_repo->getbyDelete($id); 
                 $this->user_repo->forceDelete($id); 
+                DB::commit();
                 return response()->json(['msg'=>'Deleted success'], 200);
             }
-            DB::commit();
         }catch(\Exception $e){
             DB::rollBack();
             return response()->json(['msg'=>'Can not delete this user'], 500);
