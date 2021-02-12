@@ -240,12 +240,12 @@ class UserAuthController extends BaseApiController
             $user = $this->user_repo->getById(Auth::user()->id);
             if($request->hcp_type == '0'){
                 if(!empty($user->category_id)){
-                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                    return self::sendError('', 'User Mobile No. Register as a Patient');
                 } 
             }
             if($request->hcp_type == '1'){
                 if(empty($user->category_id)){
-                    return self::sendError('', 'User Mobile No. and Password Invalid');
+                    return self::sendError('', 'User Mobile No. Register as a Health Care Provider');
                 } 
             }
             if(isset($user) && in_array($user->status, ['0','1'])){
