@@ -59,11 +59,12 @@
                 <form method="POST" id="manage_fees_form" name="manage_fees_form">
                     @csrf
                     <input id="fees_id" type="hidden" name="id" >
+                    <input id="category_id" type="hidden" name="category_id" >
                                 
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label>HCP Type</label>
-                            <select  type="text" required id="category_id" class="form-control" name="category_id" >
+                            <select  type="text" disabled required id="category_id_select" class="form-control" name="category_id_select" >
                             </select>
                         </div>
                     </div>

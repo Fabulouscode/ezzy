@@ -36,6 +36,7 @@ $(function () {
             success: function (response) {
                 $('#fees_id').val('');
                 $('#category_id').val('');
+                $('#category_id_select').val('');
                 $('#fees_percentage').val('');
                 $('#addManageFees').modal('hide');
                 var oTable = $('#manage_fees_datatable').dataTable();
@@ -69,11 +70,12 @@ function addRow() {
                 $('#submit_btn').text('Add');
                 $('#fees_id').val('');
                 $('#category_id').val('');
+                $('#category_id_select').val('');
                 $('#fees_percentage').val('');
                 if (response.hcp_types) {
-                    $("#category_id option").remove();
+                    $("#category_id_select option").remove();
                     response.hcp_types.forEach(element => {
-                        $('#category_id').append(new Option(element.name, element.id));
+                        $('#category_id_select').append(new Option(element.name, element.id));
                     });
                 }
                 setTimeout(function () {
@@ -104,14 +106,15 @@ function editRow(id) {
                 $('.modal-title').text('Edit Manage Fees Details');
                 $('#submit_btn').text('Update');
                 if (response.hcp_types) {
-                    $("#category_id option").remove();
+                    $("#category_id_select option").remove();
                     response.hcp_types.forEach(element => {
-                        $('#category_id').append(new Option(element.name, element.id));
+                        $('#category_id_select').append(new Option(element.name, element.id));
                     });
                 }
                 if (response.data) {
                     $('#fees_id').val(response.data.id);
                     $('#category_id').val(response.data.category_id);
+                    $('#category_id_select').val(response.data.category_id);
                     $('#fees_percentage').val(response.data.fees_percentage);
                 }
                 setTimeout(function () {
