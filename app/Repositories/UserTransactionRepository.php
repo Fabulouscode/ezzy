@@ -116,7 +116,7 @@ class UserTransactionRepository extends Repository
         }
 
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
+            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
         }
         
         $query = $query->where('wallet_transaction','0')->orderBy('id','desc')->sum('amount');
@@ -148,9 +148,13 @@ class UserTransactionRepository extends Repository
         if(!empty($request->last_id)){
             $query = $query->where('id', '<', $request->last_id);    
         }            
-        $query = $query->where('client_id',$request->user()->id)->where('status','0');
-      
-        $query = $query->orderBy('id','desc');
+     
+        $query = $query->where(function($query) use ($request){
+            $query->orWhere('user_id',$request->user()->id);
+            $query->orWhere('client_id',$request->user()->id);
+        });
+     
+        $query = $query->where('status','0')->orderBy('id','desc');
 
         $query = $query->limit($this->api_data_limit);
 
