@@ -9,6 +9,8 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\AppointmentServiceRepository;
 use App\Repositories\UserServiceRepository;
 use App\Repositories\NotificationRepository;
+use App\Repositories\UserTransactionRepository;
+use App\Repositories\ManageFeesRepository;
 use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\UrgentAppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
@@ -23,14 +25,16 @@ use Log;
 
 class AppointmentController extends BaseApiController
 {
-    private $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo;
+    private $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
 
     public function __construct(
             AppointmentRepository $appointment_repo, 
             AppointmentServiceRepository $appointment_service_repo,
             UserServiceRepository $user_service_repo,
             NotificationRepository $notification_repo,
-            UserRepository $user_repo
+            UserRepository $user_repo,
+            UserTransactionRepository $user_transaction_repo,
+            ManageFeesRepository $manage_fees_repo
         )
     {
         parent::__construct();
@@ -39,6 +43,8 @@ class AppointmentController extends BaseApiController
         $this->user_service_repo = $user_service_repo;
         $this->user_repo = $user_repo;
         $this->notification_repo = $notification_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
+        $this->manage_fees_repo = $manage_fees_repo;
     }
 
 
@@ -229,12 +235,19 @@ class AppointmentController extends BaseApiController
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
+      
+        //Appointment book check user wallet balance
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
+            return self::sendError([], 'Please Add Wallet Balance after Book Appointment.');
+        }
         
+        //Appointment home care book
         if(!empty($request->appointment_type) && $request->appointment_type == '1'){
-             //Appointment home care book
             $check_user_location = $this->user_repo->checkUserLocation($request);
             if(empty($check_user_location)){
-                return self::sendError([], 'Please Add address.');
+                return self::sendError([], 'Please Add Location after Book Appointment.');
             }
         }
         
@@ -403,6 +416,7 @@ class AppointmentController extends BaseApiController
                     'cancel_date'=> !empty($request->cancel_date) && $request->status == '6' ? $request->cancel_date : null,
                     'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : null,
                     'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : null,
+                    'accepted_date' => (!empty($request->status) && $request->status == '1') ? $this->appointment_repo->getCurrentDateTime() : NULL,
                   ];
         try {
             DB::beginTransaction();
@@ -551,6 +565,7 @@ class AppointmentController extends BaseApiController
             $update_user = [
                         'user_id' => $request->user()->id,
                         'status' => '1',
+                        'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
                     ];
             $this->appointment_repo->dataCrud($update_user, $request->id);
             if(!empty($data)){

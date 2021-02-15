@@ -47,7 +47,7 @@ class UserTransactionRepository extends Repository
   
     public function userIncomeCalculate($request, $column_name = 'amount')
     {   
-        return $this->model->whereBetween('transaction_date', array($request->start_date, $request->end_date))->sum($column_name);
+        return $this->model->where('wallet_transaction','0')->whereBetween(DB::raw('DATE(transaction_date)'), array($request->start_date, $request->end_date))->sum($column_name);
     }
     
     public function userPayoutIncome($request)
@@ -55,24 +55,40 @@ class UserTransactionRepository extends Repository
         return $this->model->addSelect(DB::raw('MONTH(transaction_date) as month'))
                             ->addSelect(DB::raw('SUM(amount) as total_income'))
                             ->addSelect(DB::raw('SUM(payout_amount) as total_payout'))
-                            ->whereBetween('transaction_date', array($request->start_date, $request->end_date))
+                            ->where('wallet_transaction','0')
+                            ->whereBetween(DB::raw('DATE(transaction_date)'), array($request->start_date, $request->end_date))
                             ->groupBy('month')->get();
     }
   
     public function userPayoutData($user_ids, $payout_status = '1')
     {   
-        return $this->model->whereIn('user_id',$user_ids)->where('payout_status', $payout_status)->get();
+        return $this->model->where('wallet_transaction','0')->whereIn('user_id',$user_ids)->where('payout_status', $payout_status)->get();
     }
 
     public function getUserbyCalculate($user_id, $mode_of_payment = 0)
     {
         // return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
-        return $this->model->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+        return $this->model->where('wallet_transaction','0')->where('transaction_type', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
     }
     
     public function getPayoutCalculte($user_id, $payout_status = '1')
     {
-        return $this->model->where('payout_status', $payout_status)->where('status', '0')->where('user_id', $user_id)->sum('payout_amount');
+        return $this->model->where('wallet_transaction','0')->where('payout_status', $payout_status)->where('status', '0')->where('user_id', $user_id)->sum('payout_amount');
+    }
+ 
+
+    public function calculatePatientWalletBalance($user_id, $mode_of_payment = 0)
+    {
+        return $this->model->where('wallet_transaction','1')->where('mode_of_payment', $mode_of_payment)->where('status', '0')->where('user_id', $user_id)->sum('amount');
+    }
+
+    public function checkPatientWalletBalance($user_id)
+    {
+        $total_earning =  $credit_balance = $debit_balance  = 0;
+        $debit_balance = $this->calculatePatientWalletBalance($user_id, '0'); 
+        $credit_balance = $this->calculatePatientWalletBalance($user_id, '1');
+        $total_earning = $debit_balance - $credit_balance; 
+        return $total_earning;
     }
    
     public function getUserbyWalletBalance($user_id)
@@ -82,6 +98,11 @@ class UserTransactionRepository extends Repository
         $credit_balance = $this->getUserbyCalculate($user_id, '1');
         $total_earning = $debit_balance - $credit_balance;      
         return $total_earning;
+    }
+  
+    public function getPatientWalletBalanceCalculte($user_id)
+    {
+        return $this->model->where('wallet_transaction','1')->where('mode_of_payment', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
     }
    
     public function getHCPTYPEWalletBalanceDateRange($request)
@@ -98,7 +119,7 @@ class UserTransactionRepository extends Repository
             $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
         }
         
-        $query = $query->orderBy('id','desc')->sum('amount');
+        $query = $query->where('wallet_transaction','0')->orderBy('id','desc')->sum('amount');
 
         return $query;
     }
@@ -106,7 +127,7 @@ class UserTransactionRepository extends Repository
 
     public function getPayoutCount($payout_status = '1')
     {
-        return $this->model->where('status', '0')->where('payout_status', $payout_status)->count();
+        return $this->model->where('wallet_transaction','0')->where('status', '0')->where('payout_status', $payout_status)->count();
     }
    
     public function getbyUserId($user_id)
@@ -145,11 +166,16 @@ class UserTransactionRepository extends Repository
     {
         $query = $this->model->with(['users','transactionAppointment','transactionOrder','transactionOrder.userDetails','transactionAppointment.user']);
       
-        if($request->provider != 'patients'){
-            $query = $query->where('user_id',$request->id);
+        if($request->provider == 'patients'){
+            $query = $query->where(function($query) use ($request){
+                $query->orWhere('user_id',$request->id);
+                $query->orWhere('client_id',$request->id);
+            });
         }else{            
-            $query = $query->where('client_id',$request->id);
+            $query = $query->where('user_id',$request->id);
         }
+
+
         
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
@@ -166,11 +192,19 @@ class UserTransactionRepository extends Repository
     {
         $data = $this->getWithRelationship($request); 
         return Datatables::of($data)
-            ->editColumn('client_name', function($selected) use ($request) {   
-                return $selected->client ? $selected->client->user_name : '-';
+            ->editColumn('client_name', function($selected) use ($request) {  
+                if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1'){
+                    return $selected->users ? $selected->users->user_name : '-'; 
+                }else{
+                    return $selected->client ? $selected->client->user_name : '-';
+                }    
             })
             ->editColumn('user_name', function($selected) use ($request) { 
-                return $selected->users ? $selected->users->user_name : '-';      
+                if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1'){
+                    return '-';
+                }else{
+                    return $selected->users ? $selected->users->user_name : '-'; 
+                }                      
             })
             ->editColumn('created_at', function($selected) {
                 return $selected->created_at ? $this->getDateTimeFormate($selected->created_at) : '-';
@@ -182,6 +216,8 @@ class UserTransactionRepository extends Repository
                     $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Appointment #'.$selected->transactionAppointment->id.'</a>';
                 }else if(!empty($selected->transactionOrder)){
                     $data .= '<a href="'.url('pharmacy/order/'.$selected->transactionOrder->id).'" target="_blank">Order #'.$selected->transactionOrder->id.'</a>';
+                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1'){
+                     $data .= 'Add in Wallet';
                 }
                 return $data;
             })
@@ -227,7 +263,7 @@ class UserTransactionRepository extends Repository
             $query = $query->where('payout_status',$status);
         }
         
-        $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
+        $query = $query->where('wallet_transaction','0')->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
 
         return $query;
     }
@@ -243,7 +279,7 @@ class UserTransactionRepository extends Repository
             $query = $query->where('payout_status', '!=', '0');
         }
         
-        $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
+        $query = $query->where('wallet_transaction','0')->where('status', '0')->groupBy('user_id')->orderBy('id','desc')->get();
 
         return $query;
     }

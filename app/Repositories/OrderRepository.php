@@ -337,7 +337,7 @@ class OrderRepository extends Repository
         
    
         if(!empty($request->start_date) && !empty($request->end_date)){
-           $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
+           $query = $query->whereBetween(DB::raw('DATE(created_at)'), array($request->start_date, $request->end_date));
         }
 
         $query = $query->orderBy('created_date','desc')->groupBy('created_date');
@@ -356,7 +356,7 @@ class OrderRepository extends Repository
         $query = $this->model;   
         
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->whereBetween('created_at', array($request->start_date, $request->end_date));
+            $query = $query->whereBetween(DB::raw('DATE(created_at)'), array($request->start_date, $request->end_date));
         }
         
         if(!empty($paid) && $paid != '0'){

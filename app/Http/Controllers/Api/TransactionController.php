@@ -142,7 +142,7 @@ class TransactionController extends BaseApiController
                 $user_payout = 0;
                 $ezzycare_fees = 0;
                 if(!empty($appointment_details->user->category_id)){
-                    $manage_fees = $this->fees_repo->getById($appointment_details->user->category_id);
+                    $manage_fees = $this->fees_repo->getbyCategoryId($appointment_details->user->category_id);
                     if(!empty($manage_fees->fees_percentage)){
                         $ezzycare_fees = $manage_fees->fees_percentage;
                     }
@@ -224,7 +224,7 @@ class TransactionController extends BaseApiController
                 $user_payout = 0;
                 $ezzycare_fees = 0;
                 if(!empty($order_details->userDetails->category_id)){
-                    $manage_fees = $this->fees_repo->getById($order_details->userDetails->category_id);
+                    $manage_fees = $this->fees_repo->getbyCategoryId($order_details->userDetails->category_id);
                     if(!empty($manage_fees->fees_percentage)){
                         $ezzycare_fees = $manage_fees->fees_percentage;
                     }

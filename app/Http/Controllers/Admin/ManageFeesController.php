@@ -51,8 +51,8 @@ class ManageFeesController extends Controller
      */
     public function store(ManageFeesRequest $request)
     {
+
         $data = [
-                    'category_id' => $request->category_id,
                     'fees_percentage' => $request->fees_percentage,
                 ];
                 

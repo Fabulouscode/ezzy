@@ -18,6 +18,7 @@ $(function () {
             // { data: 'id', name: 'id', searchable: false },
             { data: 'category', name: 'category' },
             { data: 'fees_percentage', name: 'fees_percentage' },
+            { data: 'fees_amount', name: 'fees_amount' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         //  order: [[0, 'desc']],
@@ -70,12 +71,11 @@ function addRow() {
                 $('#submit_btn').text('Add');
                 $('#fees_id').val('');
                 $('#category_id').val('');
-                $('#category_id_select').val('');
                 $('#fees_percentage').val('');
                 if (response.hcp_types) {
-                    $("#category_id_select option").remove();
+                    $("#category_id option").remove();
                     response.hcp_types.forEach(element => {
-                        $('#category_id_select').append(new Option(element.name, element.id));
+                        $('#category_id').append(new Option(element.name, element.id));
                     });
                 }
                 setTimeout(function () {
@@ -106,16 +106,30 @@ function editRow(id) {
                 $('.modal-title').text('Edit Manage Fees Details');
                 $('#submit_btn').text('Update');
                 if (response.hcp_types) {
-                    $("#category_id_select option").remove();
+                    $("#category_id option").remove();
                     response.hcp_types.forEach(element => {
-                        $('#category_id_select').append(new Option(element.name, element.id));
+                        $('#category_id').append(new Option(element.name, element.id));
                     });
                 }
                 if (response.data) {
-                    $('#fees_id').val(response.data.id);
-                    $('#category_id').val(response.data.category_id);
-                    $('#category_id_select').val(response.data.category_id);
-                    $('#fees_percentage').val(response.data.fees_percentage);
+                    if (response.data.fees_type == '0') {
+                        $('#hcp_type').hide();
+                        $('#no_hcp_type').show();
+                        $('#fees_percentage_label').text('Fees Amount');
+                        $('#fees_id').val(response.data.id);
+                        $('#category_id').val('');
+                        $('#fees_name').val(response.data.fees_name);
+                        $('#fees_percentage').val(response.data.fees_percentage);
+                    } else {
+                        $('#no_hcp_type').hide();
+                        $('#hcp_type').show();
+                        $('#fees_percentage_label').text('Fees (%)');
+                        $('#fees_id').val(response.data.id);
+                        $('#category_id').val(response.data.category_id);
+                        $('#fees_name').val('');
+                        $('#fees_percentage').val(response.data.fees_percentage);
+                    }
+
                 }
                 setTimeout(function () {
                     $('#fees_percentage').focus();

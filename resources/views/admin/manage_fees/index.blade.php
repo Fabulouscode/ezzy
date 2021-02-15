@@ -21,19 +21,23 @@
     <div class="row">
         <div class="col-12">
             <div class="card m-b-30">
+                <!-- <div class="card-header">
+                    <h5 class="page-title">Provider Deduction Fees</h5>   
+                </div> -->
                 <div class="card-body">     
                     @can('fees-add')
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="addRow()" class="btn btn-info">Add Fees</a>
                     </div>  -->
-                    @endcan                                            
+                    @endcan                                         
                     <div class="table-responsive">
                         <table id="manage_fees_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <!-- <th>Id</th> -->
-                                    <th>HCP Type</th>
+                                    <th>Fees Name</th>
                                     <th>Fees (%)</th>
+                                    <th>Fees Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>                        
@@ -44,6 +48,7 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
+    
 </div>
 <!-- Add modal -->
 <div class="modal fade bs-addManageFees" id="addManageFees" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -59,19 +64,24 @@
                 <form method="POST" id="manage_fees_form" name="manage_fees_form">
                     @csrf
                     <input id="fees_id" type="hidden" name="id" >
-                    <input id="category_id" type="hidden" name="category_id" >
                                 
-                    <div class="row">
+                    <div class="row" id="hcp_type">
                         <div class="form-group col-md-12">
                             <label>HCP Type</label>
-                            <select  type="text" disabled required id="category_id_select" class="form-control" name="category_id_select" >
+                            <select  type="text" disabled  id="category_id" class="form-control" name="category_id" >
                             </select>
+                        </div>
+                    </div>
+                    <div class="row" id="no_hcp_type">
+                        <div class="form-group col-md-12">
+                            <label>Fees Name</label>
+                            <input type="text" disabled class="form-control" id="fees_name" name="fees_name">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label>Fees (%)</label>
+                            <label id="fees_percentage_label"></label>
                             <input type="text" required placeholder="Fees (%)" class="form-control" id="fees_percentage" name="fees_percentage"  autocomplete="fees_percentage" autofocus>
                         </div>
                     </div>

@@ -327,7 +327,7 @@ class User extends Authenticatable
 
     public function getProfileCompletedProgressAttribute() {
         $total_progress_point = 0;
-        $required_progress = 0;
+        $required_progress = 1;
         $required_progress_array = [];
         $required_user = [];
         $required_userDetails = [];
@@ -429,6 +429,7 @@ class User extends Authenticatable
 
         // dd($required_progress_array);
         $total_fields_count = (count($required_user) + count($required_userCounts) + $required_userDetails_count);
+        // dd($required_progress.' '.(count($required_user) + count($required_userDetails)));
         if($total_fields_count > 0){
             $total_progress_point = ($required_progress * 100) / $total_fields_count;
         }else{

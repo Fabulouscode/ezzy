@@ -159,11 +159,13 @@ class UserController extends Controller
         $total_balance = '0';
         $payout_approved_balance = '0';
         $payout_pending_balance = '0';
+        $patient_wallet_balance = '0';
         $payout_approved_balance = $this->user_trans_repo->getPayoutCalculte($id, '0');
         $payout_pending_balance = $this->user_trans_repo->getPayoutCalculte($id, '1');
+        $patient_wallet_balance = $this->user_trans_repo->getPatientWalletBalanceCalculte($id);
         $currency_symbol = $this->user_repo->currency_symbol;
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.transactions',compact('currency_symbol','provider','provider_names','id','payout_pending_balance','payout_approved_balance','total_balance'));
+        return view('admin.provider.transactions',compact('patient_wallet_balance','currency_symbol','provider','provider_names','id','payout_pending_balance','payout_approved_balance','total_balance'));
     }
 
     public function getTransactionDatatable(Request $request)

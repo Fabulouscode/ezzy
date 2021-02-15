@@ -15,7 +15,10 @@ class Manage_fees extends Model
      */
     protected $fillable = [
         'category_id',
-        'fees_percentage'
+        'fees_percentage',
+        'fees_name',
+        'fees_key',
+        'fees_type'
     ];
 
     public function category() {

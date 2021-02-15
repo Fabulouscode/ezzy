@@ -22,9 +22,9 @@ class Appointment extends Model
     );
 
     public $appointment_type_value = array(
-        '0' => 'Clinic Care',
-        '1' => 'Home Care',
-        '2' => 'Video Call'
+        '0' => 'Clinic Consultation',
+        '1' => 'Home Consultation',
+        '2' => 'Video Consultation'
     );
    
     public $gender_value = array(
@@ -74,7 +74,8 @@ class Appointment extends Model
         'video_start_time',
         'video_end_time',
         'longitude',
-        'latitude'
+        'latitude',
+        'accepted_date'
     ];
 
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];

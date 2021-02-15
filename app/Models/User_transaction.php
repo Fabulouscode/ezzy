@@ -46,7 +46,8 @@ class User_transaction extends Model
         'payout_status',
         'payout_amount',
         'fees_charge',
-        'payout_date'
+        'payout_date',
+        'wallet_transaction'
     ];
 
     protected $appends = ['status_name','payout_status_name','transaction_type_name'];

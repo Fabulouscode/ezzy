@@ -38,13 +38,45 @@ class ManageFeesRepository extends Repository
     }
     
     /**
+     * get Model and return the instance.
+     *
+     * @param int $CategoryId
+     */
+    public function getbyCategoryId($category_id)
+    {
+        return $this->model->where('category_id', $category_id)->first();
+    }
+   
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $CategoryId
+     */
+    public function getbyFeesKey($fees_key)
+    {
+        return $this->model->where('fees_key', $fees_key)->first();
+    }
+    
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $CategoryId
+     */
+    public function getWithRelationship()
+    {
+        $query = $this->model->with(['category']);    
+        $query = $query->orderBy('id','desc')->get();
+        return $query;
+    }
+
+    /**
      * Display a listing of the Datatable.
      *
      * @return \Illuminate\Http\Response
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -57,14 +89,34 @@ class ManageFeesRepository extends Repository
                     }
                     return $data;
                 })
-                ->editColumn('category',function($selected)
+                ->editColumn('fees_percentage',function($selected)
                 {
-                    if(!empty($selected->category)){
-                       return $selected->category->name;
+                    if($selected->fees_type == '1'){
+                       return $selected->fees_percentage;
+                    }else {
+                        return '-';
                     }
                     return '';
                 })
-                ->rawColumns(['action'])
+                ->editColumn('fees_amount',function($selected)
+                {
+                    if($selected->fees_type == '0'){
+                       return $selected->fees_percentage;
+                    }else {
+                        return '-';
+                    }
+                    return '';
+                })
+                ->editColumn('category',function($selected)
+                {
+                    if(!empty($selected->category)){
+                       return $selected->category->name .' HCP Type';
+                    }else if($selected->fees_name){
+                        return $selected->fees_name;
+                    }
+                    return '';
+                })
+                ->rawColumns(['action','fees_amount'])
                 ->make(true);
     }
     

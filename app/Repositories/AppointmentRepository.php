@@ -573,7 +573,7 @@ class AppointmentRepository extends Repository
        
         
         if(!empty($request->start_date) && !empty($request->end_date)){
-           $query = $query->whereBetween('appointment_date', array($request->start_date, $request->end_date));
+           $query = $query->whereBetween(DB::raw('DATE(appointment_date)'), array($request->start_date, $request->end_date));
         }
 
         $query = $query->orderBy('created_date','desc')->groupBy('created_date');
@@ -617,7 +617,7 @@ class AppointmentRepository extends Repository
         $query = $this->model;   
         
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->whereBetween('appointment_date', array($request->start_date, $request->end_date));
+            $query = $query->whereBetween(DB::raw('DATE(appointment_date)'), array($request->start_date, $request->end_date));
         }
         
         if(!empty($paid) && $paid != '0'){
