@@ -240,7 +240,7 @@ class AppointmentController extends BaseApiController
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
         if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
-            return self::sendError([$wallet => 'wallet'], 'Please Add Wallet Balance before Booking Appointment.', 402);
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Add Wallet Balance before Booking Appointment.', 402);
         }
         
         //Appointment home care book
@@ -319,6 +319,13 @@ class AppointmentController extends BaseApiController
     public function addUrgentAppointment(UrgentAppointmentRequest $request)
     {
         $data = array();
+        
+        //Appointment book check user wallet balance
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Add Wallet Balance before Booking Appointment.', 402);
+        }
         
         if(!empty($request->appointment_type) && $request->appointment_type == '1'){
              //Appointment home care book
