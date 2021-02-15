@@ -342,6 +342,50 @@ class UserRepository extends Repository
         return $query;
     }
 
+      /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkRescheduleAppointmentUserAvailable($request, $appointment)
+    {   
+        $day_arr = ['1','2','3','4','5'];
+        $same_timing = $this->getById($appointment->user_id);
+
+        $appointment_date = new Carbon($request->appointment_date);
+        $appointment_day = $appointment_date->dayOfWeek;
+        \Log::info("request send ".json_encode($request->all()));              
+        if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+        \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
+            $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment){
+                            $query->where('appointment_type', $appointment->appointment_type);
+                            $query->where('start_time', '<=' ,$request->appointment_time);
+                            $query->where('end_time', '>=' ,$request->appointment_time);
+                            $query->where('day', '7');
+                            $query->where('same_timing', '1');
+                            $query->where('user_id', $appointment->user_id);
+                        });
+        }else{
+              \Log::info("not same timing day ".json_encode($appointment_day));   
+            $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day, $appointment){
+                        $query->where('appointment_type', $appointment->appointment_type);
+                        $query->where('start_time', '<=' ,$request->appointment_time);
+                        $query->where('end_time', '>=' ,$request->appointment_time);
+                        $query->where('day', $appointment_day);
+                        $query->where('same_timing', '0');
+                        $query->where('user_id', $appointment->user_id);
+                    });
+        }
+
+        $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('availability', '1');
+                    });
+
+        $query = $query->first();
+        \Log::info("result ".json_encode($query));     
+        return $query;
+    }
+
     /**
      * Display a edit of the record.
      *

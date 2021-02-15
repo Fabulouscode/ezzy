@@ -148,15 +148,14 @@ class UserTransactionRepository extends Repository
         if(!empty($request->last_id)){
             $query = $query->where('id', '<', $request->last_id);    
         }            
+        $query = $query->where('client_id',$request->user()->id)->where('status','0');
+      
+        $query = $query->orderBy('id','desc');
 
         $query = $query->limit($this->api_data_limit);
 
-        $query = $this->model->where('client_id',$request->user()->id)->where('status','0');
-      
-        $query = $query->orderBy('transaction_date','desc');
-        
         $query = $query->get();
-
+        
         return $query;
     }
 
@@ -178,7 +177,7 @@ class UserTransactionRepository extends Repository
 
         
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->where('transaction_date', '>=',$request->start_date)->where('transaction_date' , '<=',$request->end_date);
+            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
         }
         
         $query = $query->orderBy('id','desc')->get();
@@ -191,6 +190,7 @@ class UserTransactionRepository extends Repository
     public function getDatatablebyUserId($request)
     {
         $data = $this->getWithRelationship($request); 
+
         return Datatables::of($data)
             ->editColumn('client_name', function($selected) use ($request) {  
                 if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1'){
@@ -212,12 +212,16 @@ class UserTransactionRepository extends Repository
             ->editColumn('transaction_data',function($selected)
             {
                 $data = '';
-                if(!empty($selected->transactionAppointment)){
+                if(!empty($selected->transactionAppointment) && $selected->wallet_transaction == '1'){                    
+                    $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Cancel Appointment #'.$selected->transactionAppointment->id.'</a>';
+                }else if(!empty($selected->transactionAppointment)){
                     $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Appointment #'.$selected->transactionAppointment->id.'</a>';
                 }else if(!empty($selected->transactionOrder)){
                     $data .= '<a href="'.url('pharmacy/order/'.$selected->transactionOrder->id).'" target="_blank">Order #'.$selected->transactionOrder->id.'</a>';
-                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1'){
+                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '0'){
                      $data .= 'Add in Wallet';
+                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '1'){
+                     $data .= 'Appointment reschedule charge';
                 }
                 return $data;
             })

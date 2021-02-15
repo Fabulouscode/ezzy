@@ -22,6 +22,8 @@ class Repository
     public $api_data_limit = 10;
 
     public $currency_symbol = '₦ ';
+   
+    public $cancel_timing_no_charge = '30';
     
     public $gender = array(
         '0' => 'Male',
