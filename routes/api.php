@@ -171,10 +171,15 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/get/{id?}', 'MedicalController@getMedicalItemUsingCatID');
             });
             
+            // wallet request
+            Route::prefix('wallet')->group(function(){
+                Route::post('/add', 'WalletController@addWalletBalance');
+            });
 
         });
         
-       
+
+
         // healthcare request
         Route::prefix('healthcare')->group(function(){            
             Route::post('/top/list', 'UserController@getHealthcareProvidersTop');

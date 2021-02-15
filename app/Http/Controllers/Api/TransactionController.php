@@ -131,7 +131,7 @@ class TransactionController extends BaseApiController
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
-                        'transaction_type'=> '0',
+                        'transaction_type'=> '1',
                         'status'=> '1',
                     ];
                 
@@ -214,7 +214,7 @@ class TransactionController extends BaseApiController
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
-                        'transaction_type'=> '0',
+                        'transaction_type'=> '1',
                         'status'=> '0',
                     ];
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
