@@ -325,6 +325,13 @@ class User extends Authenticatable
     }
 
 
+    public function patientWalletFormat() {
+        return [
+            'id'=>$this->id,
+            'wallet_balance'=>$this->wallet_balance,
+        ];
+    }
+
     public function getProfileCompletedProgressAttribute() {
         $total_progress_point = 0;
         $required_progress = 1;

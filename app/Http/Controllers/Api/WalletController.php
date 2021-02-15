@@ -79,4 +79,10 @@ class WalletController extends BaseApiController
             return self::sendException($e);
         }
     }
+  
+    public function getWalletBalance(Request $request)
+    {          
+        $data = $this->user_repo->getById($request->user()->id)->patientWalletFormat();
+        return self::sendSuccess($data, 'Wallet balance add Successfully');
+    }
 }
