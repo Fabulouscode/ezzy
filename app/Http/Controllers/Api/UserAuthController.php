@@ -100,14 +100,16 @@ class UserAuthController extends BaseApiController
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
                 }
-                // $notification_topic = $this->notification_repo->getNotificationTopic();
-                // if(!empty($user->device_token) && $status == '0'){                    
-                //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
-                //     $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                // }else if(!empty($user->device_token) && $status == '1'){
-                //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
-                //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                // }
+               
+                if(!empty($request->env)){
+
+                }else{
+                    $notification_topic = $this->notification_repo->getNotificationTopic();
+                    if(!empty($user->device_token)){                    
+                        $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
+                        $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                    }
+                }
 
                 DB::commit();  
                 return self::sendSuccess([
@@ -143,14 +145,16 @@ class UserAuthController extends BaseApiController
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
                 }
-                // $notification_topic = $this->notification_repo->getNotificationTopic();
-                // if(!empty($user->device_token) && $status == '0'){                    
-                //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
-                //     $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                // }else if(!empty($user->device_token) && $status == '1'){
-                //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
-                //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                // }
+                
+                if(!empty($request->env)){
+
+                }else{
+                    $notification_topic = $this->notification_repo->getNotificationTopic();
+                    if(!empty($user->device_token)){                    
+                        $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
+                        $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                    }
+                }
 
                 DB::commit(); 
                 return self::sendSuccess([
@@ -200,14 +204,20 @@ class UserAuthController extends BaseApiController
                             ];
                     $this->user_repo->dataCrudUsingData($data, $user->id);
 
-                    // $notification_topic = $this->notification_repo->getNotificationTopic();
-                    // if(!empty($user->device_token) && $status == '0'){                    
-                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
-                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                    // }else if(!empty($user->device_token) && $status == '1'){
-                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
-                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                    // }
+                    if(!empty($request->env)){
+
+                    }else{
+                        $notification_topic = $this->notification_repo->getNotificationTopic();
+                        if(!empty($user->device_token) && $user->notification_status == '0'){                    
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                            $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                        }else if(!empty($user->device_token) && $user->notification_status == '1'){
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                        }
+                    }
 
                     return self::sendSuccess([
                         'token' => $user->createToken('EzzyCare')->accessToken,
@@ -254,14 +264,21 @@ class UserAuthController extends BaseApiController
                     $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token];
                     $this->user_repo->dataCrudUsingData($data, $user->id);
 
-                    // $notification_topic = $this->notification_repo->getNotificationTopic();
-                    // if(!empty($user->device_token) && $status == '0'){                    
-                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
-                    //     $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                    // }else if(!empty($user->device_token) && $status == '1'){
-                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
-                    //     $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
-                    // }
+                    if(!empty($request->env)){
+
+                    }else{
+                        $notification_topic = $this->notification_repo->getNotificationTopic();
+                        if(!empty($user->device_token) && $user->notification_status == '0'){       
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                            $this->notification_repo->subscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->subscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                        }else if(!empty($user->device_token) && $user->notification_status == '1'){
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+                            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
+                        }
+                    }
+
 
                     return self::sendSuccess([
                         'token' => $user->createToken('EzzyCare')->accessToken,
@@ -420,6 +437,10 @@ class UserAuthController extends BaseApiController
     public function userLogout(Request $request) 
     {
         try{
+            $user = $this->user_repo->getById($request->user()->id); 
+            $notification_topic = $this->notification_repo->getNotificationTopic();
+            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, 'Ezzycare');
+            $this->notification_repo->unsubscribeNotificationTopic($user->device_token, !empty($user->category_id) ? $notification_topic[$user->category_id] : $notification_topic['1']);
             $data = ['device_type' => NULL,'device_token'=> NULL];
             $this->user_repo->dataCrudUsingData($data, $request->user()->id);
             $this->user_repo->removeOauthAccessTokens($request->user()->id);

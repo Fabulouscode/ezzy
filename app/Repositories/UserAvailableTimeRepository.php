@@ -56,5 +56,15 @@ class UserAvailableTimeRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->orderby('day','asc')->get();
     }
+   
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function getbyUserIdWithAppointmentType($user_id, $appointment_type = '0')
+    {
+        return $this->model->where('user_id', $user_id)->where('appointment_type',$appointment_type)->orderby('day','asc')->get();
+    }
     
 }

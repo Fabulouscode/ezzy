@@ -270,6 +270,29 @@ class UserProfileController extends BaseApiController
         return self::sendSuccess($data, 'Available times details');
     }
    
+    public function getByUserWithAppointmentTypeAvailableTimes(Request $request, $type)
+    {
+        $data = array();
+        $user_details = $this->user_details_repo->getbyUserId($request->user()->id);
+        if(!empty($user_details) && $user_details->availability == '1'){
+            $data = $this->user_available_time_repo
+                                    ->getbyUserIdWithAppointmentType($request->user()->id, $type)
+                                    ->map(function ($response){
+                                    return [
+                                        "appointment_type"=> $response->appointment_type,
+                                        "start_time"=> $response->start_time,
+                                        "end_time"=> $response->end_time,
+                                        "same_timing"=> $response->same_timing,
+                                        "day_name"=> $response->day_name,
+                                        "appointment_type_name"=> $response->appointment_type_name,
+                                    ];
+                                });;
+            return self::sendSuccess($data, 'Available times details');   
+        }else{
+            return self::sendSuccess($data, 'User not available');
+        }
+    }
+   
     public function deleteUserAvailableTimes($id)
     {
         $data = $this->user_available_time_repo->getById($id);

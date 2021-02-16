@@ -100,6 +100,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserAvailableTimes');
                 Route::post('/add', 'UserProfileController@addUserAvailableTimes');
                 Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
+                Route::get('/get/type/{type?}', 'UserProfileController@getByUserWithAppointmentTypeAvailableTimes');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserAvailableTimes');
                 Route::delete('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
             });
