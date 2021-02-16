@@ -65,7 +65,7 @@
                                         <dt class="col-sm-5"><label>Mobile No.</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->mobile_no))
-                                                {{$data->mobile_no}} 
+                                                {{$data->mobile_no_country_code}} 
                                             @endif 
                                         </dd>
                                     </div>
