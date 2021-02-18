@@ -112,7 +112,16 @@ class User_details extends Model
       return $value;
     }
     public function getUrgentCriteriaAttribute($value) {
-      return !empty($value) ?  explode(',', $value) : $value;
+      $data = [];
+      if(isset($value) && $value != '' && $value != 'NULL') {
+        $tmp_data = explode(',', $value);
+        foreach ($tmp_data as $k => $v) {
+          $data[] = (int)$v;
+        }
+      }else{
+        $data = [];
+      }
+      return $data;
     }
 
 }

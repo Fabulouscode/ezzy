@@ -73,6 +73,8 @@ class UserDetailsRepository extends Repository
                 }else if($key == 'urgent_criteria'){
                     if(is_array($value)){
                         $data[$key] = implode(',', $value);
+                    }else{
+                        $data[$key] = '';
                     }
                 }else{
                     $data[$key] = $value;
