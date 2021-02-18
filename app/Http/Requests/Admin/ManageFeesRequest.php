@@ -26,7 +26,7 @@ class ManageFeesRequest extends FormRequest
     public function rules()
     {
         return [
-           'category_id'=>'required|unique:manage_fees,category_id,'.$this->id,
+        //    'category_id'=>'required|unique:manage_fees,category_id,'.$this->id,
            'fees_percentage'=>'required',
         ];
     }
