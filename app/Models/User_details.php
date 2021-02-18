@@ -111,5 +111,8 @@ class User_details extends Model
       // return !empty($value) ?  json_decode($value) : '';
       return $value;
     }
+    public function getUrgentCriteriaAttribute($value) {
+      return !empty($value) ?  explode(',', $value) : $value;
+    }
 
 }

@@ -14,7 +14,7 @@ class UserDetailsAddTable extends Migration
     public function up()
     {
         Schema::table('user_details', function (Blueprint $table) {
-            $table->integer('urgent_criteria')->signed()->default(0)->comment('0-In Clinic, 1-Home Care, 2-Video Call');
+            $table->string('urgent_criteria')->nullable()->comment('0-In Clinic, 1-Home Care, 2-Video Call');
         });
     }
 

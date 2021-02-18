@@ -719,9 +719,13 @@ class UserRepository extends Repository
 
         // distance filter
         if(!empty($request->latitude) && !empty($request->longitude)){
-            $query->whereHas('userDetails', function ($query) {
-                $query->where('urgent', '1');
-            });
+    
+            if(isset($request->appointment_type)){
+                $query = $query->whereHas('userDetails', function ($query) use ($request) {
+                    $query->whereRaw("FIND_IN_SET('".$request->appointment_type."', urgent_criteria)");
+                });
+            }
+
             $query = $query->where('category_id', '4');
 
             $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))

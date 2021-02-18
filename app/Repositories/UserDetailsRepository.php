@@ -70,6 +70,10 @@ class UserDetailsRepository extends Repository
             foreach ($filter as $key => $value) {
                 if(in_array($key, $json_enode_key)){
                     $data[$key] = json_encode($value);
+                }else if($key == 'urgent_criteria'){
+                    if(is_array($value)){
+                        $data[$key] = implode(',', $value);
+                    }
                 }else{
                     $data[$key] = $value;
                 }

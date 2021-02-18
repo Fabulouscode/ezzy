@@ -26,7 +26,6 @@ class UrgentAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'appointment_type' => 'required',
             'name' => 'required',
             'email' => 'required|email',
