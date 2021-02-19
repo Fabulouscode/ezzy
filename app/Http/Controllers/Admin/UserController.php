@@ -11,6 +11,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserServiceRepository;
+use App\Repositories\NotificationRepository;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -18,7 +19,7 @@ use DB;
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
+    private $user_repo, $category_repo, $notification_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -27,7 +28,8 @@ class UserController extends Controller
         AppointmentRepository $appointment_repo,
         UserTransactionRepository $user_trans_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
-        UserServiceRepository $user_service_repo
+        UserServiceRepository $user_service_repo,
+        NotificationRepository $notification_repo
         )
     {
         $this->user_repo = $user_repo;
@@ -242,6 +244,15 @@ class UserController extends Controller
         if(!empty($data)){
             if(isset($request->status) && $data->status == '1' && $request->status == '0'){
                  $data = ['status' => $request->status, 'approved_date' => Carbon::now()];
+                 $send_notification = [
+                                    'sender_id' => '',
+                                    'receiver_id' => $request->user_id,
+                                    'title' => 'Profile',
+                                    'message' => 'Your Profile is Approved by Admin.',
+                                    'parameter' => '',
+                                    'msg_type' => '0',
+                                ];  
+                $this->notification_repo->sendingNotification($send_notification);    
             }else{
                  $data = ['status' => $request->status];
             }

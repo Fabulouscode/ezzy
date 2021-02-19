@@ -306,6 +306,24 @@ class AppointmentRepository extends Repository
         return $query;
       
     }
+ 
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserBusyTimingforCalendar($request)
+    {   
+        $query = $this->model->whereDate('appointment_date','>=', $request->start_date)
+                ->whereDate('appointment_date','<=', $request->end_date)
+                ->where('user_id',$request->user_id)
+                ->where('appointment_type',$request->appointment_type)
+                ->whereNotIn('status',['5','6']);
+   
+        $query = $query->get();
+        return $query;
+      
+    }
     
     /**
      * Display a list of Upcoming Appointment record.

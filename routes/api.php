@@ -78,6 +78,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');
             Route::get('/get/card_nuber/{card_num?}', 'UserController@getUserbyCardNumberDetails');
             Route::get('/change/status/{status?}', 'UserController@changeUserStatus');
+
+            Route::post('/calendar/available_times', 'UserProfileController@getByUserCalendarAvailableTimes');
+            Route::post('/calendar/busy_times', 'UserProfileController@getByUserCalendarBusyTimes');
          
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
@@ -100,7 +103,6 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('', 'UserProfileController@getUserAvailableTimes');
                 Route::post('/add', 'UserProfileController@addUserAvailableTimes');
                 Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
-                Route::get('/get/type/{type?}', 'UserProfileController@getByUserWithAppointmentTypeAvailableTimes');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserAvailableTimes');
                 Route::delete('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
             });

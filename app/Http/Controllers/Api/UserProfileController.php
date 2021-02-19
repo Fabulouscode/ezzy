@@ -11,6 +11,7 @@ use App\Repositories\UserAvailableTimeRepository;
 use App\Repositories\UserEductaionRepository;
 use App\Repositories\UserExperianceRepository;
 use App\Repositories\UserLocationRepository;
+use App\Repositories\AppointmentRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserCardRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
@@ -20,10 +21,13 @@ use App\Http\Requests\Api\UserLocationRequest;
 use App\Http\Requests\Api\UploadFileRequest;
 use App\Http\Requests\Api\UploadDocFileRequest;
 use App\Http\Requests\Api\UserRequest;
+use App\Http\Requests\Api\CalenderUserAvailableTimeRequest;
+use App\Http\Requests\Api\CalenderUserBusyTimeRequest;
+use Carbon\Carbon;
 
 class UserProfileController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $user_bank_account_repo, $user_location_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
+    private $user_repo, $user_details_repo, $appointment_repo, $user_bank_account_repo, $user_location_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
 
     public function __construct(
         UserRepository $user_repo,
@@ -32,7 +36,8 @@ class UserProfileController extends BaseApiController
         UserAvailableTimeRepository $user_available_time_repo,
         UserEductaionRepository $user_education_repo,
         UserExperianceRepository $user_experiance_repo,
-        UserLocationRepository $user_location_repo
+        UserLocationRepository $user_location_repo,
+        AppointmentRepository $appointment_repo
         )
     {
         parent::__construct();
@@ -43,6 +48,7 @@ class UserProfileController extends BaseApiController
         $this->user_education_repo = $user_education_repo;
         $this->user_experiance_repo = $user_experiance_repo;
         $this->user_location_repo = $user_location_repo;
+        $this->appointment_repo = $appointment_repo;
     }
 
 
@@ -270,27 +276,42 @@ class UserProfileController extends BaseApiController
         return self::sendSuccess($data, 'Available times details');
     }
    
-    public function getByUserWithAppointmentTypeAvailableTimes(Request $request, $type)
+    public function getByUserCalendarAvailableTimes(CalenderUserAvailableTimeRequest $request)
     {
         $data = array();
-        $user_details = $this->user_details_repo->getbyUserId($request->user()->id);
+        $user_details = $this->user_details_repo->getbyUserId($request->user_id);
         if(!empty($user_details) && $user_details->availability == '1'){
             $data = $this->user_available_time_repo
-                                    ->getbyUserIdWithAppointmentType($request->user()->id, $type)
+                                    ->getbyUserIdWithAppointmentType($request->user_id, $request->appointment_type)
                                     ->map(function ($response){
                                     return [
-                                        "appointment_type"=> $response->appointment_type,
+                                        "day"=> $response->day,
                                         "start_time"=> $response->start_time,
                                         "end_time"=> $response->end_time,
                                         "same_timing"=> $response->same_timing,
                                         "day_name"=> $response->day_name,
-                                        "appointment_type_name"=> $response->appointment_type_name,
                                     ];
                                 });;
             return self::sendSuccess($data, 'Available times details');   
         }else{
             return self::sendSuccess($data, 'User not available');
         }
+    }
+  
+    public function getByUserCalendarBusyTimes(CalenderUserBusyTimeRequest $request)
+    {
+        $data = array();
+            $data = $this->appointment_repo
+                                    ->getUserBusyTimingforCalendar($request)
+                                    ->map(function ($response){
+                                    return [
+                                        "appointment_date"=> $response->appointment_date,
+                                        "start_time"=> $response->appointment_time,
+                                        "end_time"=> Carbon::parse($response->appointment_time)->addMinute(30)->format('H:i:s'),
+                                    ];
+                                });;
+        return self::sendSuccess($data, 'Available times details');   
+      
     }
    
     public function deleteUserAvailableTimes($id)
