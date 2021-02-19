@@ -169,17 +169,6 @@ class TransactionController extends BaseApiController
                 // }
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
-                if (!empty($data)) {
-                    $send_notification = [
-                                            'sender_id' => $request->user()->id,
-                                            'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
-                                            'title' => 'Appointment',
-                                            'message' => 'Appointmnent Payment Completed',
-                                            'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                            'msg_type' => '3',
-                                        ];
-                    $this->notification_repo->sendingNotification($send_notification);
-                }
                 DB::commit();
                 return self::sendSuccess($data, 'Transaction Completed');
             }
@@ -258,7 +247,7 @@ class TransactionController extends BaseApiController
                                             'sender_id' => $request->user()->id,
                                             'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                             'title' => 'Order',
-                                            'message' => 'Order Payment Completed',
+                                            'message' => 'Order payment completed by '. $request->user()->user_name,
                                             'parameter' => json_encode(['order_id'=> $data->id]),
                                             'msg_type' => '6',
                                         ];
@@ -296,6 +285,18 @@ class TransactionController extends BaseApiController
                         'status'=> $request->status,
                     ];
             $this->user_transaction_repo->dataCrud($add_payout, $appointment_details->transaction_id);
+            $data = $this->appointment_repo->getById($request->id);
+            if (!empty($data)) {
+                $send_notification = [
+                                'sender_id' => $request->user()->id,
+                                'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                'title' => 'Appointment',
+                                'message' => 'Appointmnent payment completed by '. $request->user()->user_name,
+                                'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                'msg_type' => '3',
+                            ];
+                $this->notification_repo->sendingNotification($send_notification);
+            }
             DB::commit();
             return self::sendSuccess($data, 'Transaction Completed');
         } catch (\Exception $e) {

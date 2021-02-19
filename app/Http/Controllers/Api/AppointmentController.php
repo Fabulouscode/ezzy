@@ -314,7 +314,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $request->user_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment Book',
+                                        'message' => 'Appointment booked by '.$request->user()->user_name.' on '.$request->appointment_time,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '1',
                                     ];  
@@ -390,7 +390,7 @@ class AppointmentController extends BaseApiController
                                 'sender_id' => $request->user()->id,
                                 'receiver_id' => $healthcare_provider->id,
                                 'title' => 'Urgent Appointment',
-                                'message' => 'Urgent Appointment Book',
+                                'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$request->appointment_time,
                                 'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                 'msg_type' => '1',
                             ];  
@@ -470,12 +470,25 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
             // '0' => 'Pending','1' => 'Upcoming','2' => 'In progress','3' => 'Paid','4' => 'Unpaid','5' => 'Completed','6' => 'Cancel'
+            $notification_message = '';
+            if($request->status == '1'){
+                $notification_message = 'Appointment accepted by '. $request->user()->user_name;
+            }else if($request->status == '2'){
+                $notification_message = 'Appointment started by '. $request->user()->user_name;
+            }else if($request->status == '5'){
+                $notification_message = 'Appointment completed by '. $request->user()->user_name;
+            }else if($request->status == '6'){
+                $notification_message = 'Appointment cancelled by '. $request->user()->user_name;
+            }else{
+                $notification_message = 'Appointment '.strtolower($data->status_name).' by '. $request->user()->user_name;
+            }            
+
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment is '. $data->status_name,
+                                        'message' => $notification_message,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];
@@ -546,7 +559,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment is Reschedule',
+                                        'message' => 'Appointment rescheduled by '. $request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];
@@ -577,7 +590,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $data->client_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment is Completed',
+                                        'message' => 'Appointment completed by '. $request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];
@@ -609,7 +622,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $data->user_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment review add',
+                                        'message' => 'Appointment review added by '.$request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];
@@ -659,7 +672,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $appointmentRequest->client_id,
                                         'title' => 'Urgent Appointment',
-                                        'message' => 'Urgent Appointment Request Accepted',
+                                        'message' => 'Urgent appointment request accepted by '.$request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                         'msg_type' => '2',
                                     ];  

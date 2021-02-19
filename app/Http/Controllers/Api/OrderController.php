@@ -200,12 +200,23 @@ class OrderController extends BaseApiController
             DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+
+            if($request->status == '0'){
+                $notification_message = 'Order booked by '. $request->user()->user_name;
+            }else if($request->status == '1'){
+                $notification_message = 'Order accepted by '. $request->user()->user_name;
+            }else if($request->status == '2'){
+                $notification_message = 'Order cancelled by '. $request->user()->user_name;
+            }else{
+                $notification_message = 'Order '.strtolower($data->status_name).' by '. $request->user()->user_name;
+            } 
+
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Order',
-                                        'message' => 'Order is '. $data->status_name,
+                                        'message' => $notification_message,
                                         'parameter' => json_encode(['order_id'=> $data->id]),
                                         'msg_type' => '5',
                                     ];
@@ -237,7 +248,7 @@ class OrderController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                         'title' => 'Order',
-                                        'message' => 'Order review add',
+                                        'message' => 'Order review added by '.$request->user()->user_name,
                                         'parameter' => json_encode(['order_id'=> $data->id]),
                                         'msg_type' => '5',
                                     ];
@@ -342,7 +353,7 @@ class OrderController extends BaseApiController
                                             'sender_id' => $request->user()->id,
                                             'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
                                             'title' => 'Order',
-                                            'message' => 'Order Placed',
+                                            'message' => 'Order placed by '. $request->user()->user_name,
                                             'parameter' => json_encode(['order_id'=> $data->id]),
                                             'msg_type' => '4',
                                         ];
