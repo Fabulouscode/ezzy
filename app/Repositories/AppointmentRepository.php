@@ -317,7 +317,6 @@ class AppointmentRepository extends Repository
         $query = $this->model->whereDate('appointment_date','>=', $request->start_date)
                 ->whereDate('appointment_date','<=', $request->end_date)
                 ->where('user_id',$request->user_id)
-                ->where('appointment_type',$request->appointment_type)
                 ->whereNotIn('status',['5','6']);
    
         $query = $query->get();

@@ -28,8 +28,7 @@ class CalenderUserBusyTimeRequest extends FormRequest
         return [
             'user_id' => 'required',
             'start_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d',
-            'appointment_type' => 'required',
+            'end_date' => 'required|date_format:Y-m-d'
         ];
     }
 
