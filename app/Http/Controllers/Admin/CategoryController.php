@@ -36,7 +36,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = $this->category_repo->get();
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
         return view('admin.category.add',compact('categories'));
     }
 
@@ -73,7 +73,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $categories = $this->category_repo->get();
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
         $data = $this->category_repo->getById($id);
         return view('admin.category.add',compact('data','categories'));
     }
