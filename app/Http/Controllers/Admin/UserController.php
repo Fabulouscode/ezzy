@@ -245,15 +245,15 @@ class UserController extends Controller
         if(!empty($data)){
             if(isset($request->status) && $data->status == '1' && $request->status == '0'){
                  $data = ['status' => $request->status, 'approved_date' => Carbon::now()];
-                 $send_notification = [
-                                    'sender_id' => '',
-                                    'receiver_id' => $request->user_id,
-                                    'title' => 'Profile',
-                                    'message' => 'Your Profile is Approved by Admin.',
-                                    'parameter' => '',
-                                    'msg_type' => '0',
-                                ];  
-                $this->notification_repo->sendingNotification($send_notification);    
+                //  $send_notification = [
+                //                     'sender_id' => '',
+                //                     'receiver_id' => $request->user_id,
+                //                     'title' => 'Profile',
+                //                     'message' => 'Your Profile is Approved by Admin.',
+                //                     'parameter' => '',
+                //                     'msg_type' => '0',
+                //                 ];  
+                // $this->notification_repo->sendingNotification($send_notification);    
             }else{
                  $data = ['status' => $request->status];
             }
