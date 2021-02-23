@@ -75,6 +75,14 @@ class NotificationRepository extends Repository
         $unreadNotification = $this->getUnreadNotificationCount($notification->receiver_id);
         return Helper::sendNotification($notification, $receiver, $sender, $unreadNotification);
     }
+  
+    public function sendingWithoutSenderNotification($data){
+        $sender = '';
+        $notification = $this->dataCrud($data);            
+        $receiver = $this->user_repo->getById($notification->receiver_id);
+        $unreadNotification = $this->getUnreadNotificationCount($notification->receiver_id);
+        return Helper::sendNotification($notification, $receiver, $sender, $unreadNotification);
+    }
    
     /**
      * Display a list of the record.
