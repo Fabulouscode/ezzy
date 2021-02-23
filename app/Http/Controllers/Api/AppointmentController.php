@@ -441,8 +441,14 @@ class AppointmentController extends BaseApiController
         }
         
         $appointment = $this->appointment_repo->getById($request->id);
+        $check_appointment_book  = new Carbon($appointment->appointment_date.''.$appointment->appointment_time);
         $start_appointment  = new Carbon($appointment->accepted_date);
         $end_appointment   = $this->appointment_repo->getCurrentDateTime();
+        $current_time   = new Carbon();
+        $current_time = $current_time->format('Y-m-d');
+        if($request->status == '2' && $check_appointment_book->format('Y-m-d') != $current_time){
+                return self::sendError([], 'Please check appointment date');
+        }
         $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing > $this->appointment_repo->cancel_timing_no_charge)){
             $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');

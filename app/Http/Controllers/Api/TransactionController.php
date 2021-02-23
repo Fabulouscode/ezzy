@@ -248,6 +248,7 @@ class TransactionController extends BaseApiController
 
                 $update = [
                         'transaction_id'=> $transaction->id,
+                        'status'=> '5',
                     ];
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
