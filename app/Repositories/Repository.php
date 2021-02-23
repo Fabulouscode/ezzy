@@ -295,7 +295,8 @@ class Repository
      */  
     public function generateOTPCode()
     {
-        return rand(100000, 999999);
+        return '111111';
+        // return rand(100000, 999999);
     }
    
     /**

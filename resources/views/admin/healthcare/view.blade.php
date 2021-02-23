@@ -249,7 +249,7 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    @if($data->category_id == '4' || $data->category_id == '5')
+                                    @if($data->category_id == '4' || $data->category_id == '5' || $data->category_id == '6')
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 

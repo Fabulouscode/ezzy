@@ -342,19 +342,48 @@ class User extends Authenticatable
         $required_userCounts = [];
         if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
             //Heathcare Provider
-            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
-            if (!empty($this->userDetails)) {
-               $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
-                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                 $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
-                                 $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                 $this->userDetails->normal_fees, $this->userDetails->urgent_fees, $this->userDetails->home_visit_fees,
-                                 $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, $this->userDetails->health_facility_certificate,
-                                 $this->userDetails->about_us];
-                $required_userDetails_count = count($required_userDetails);
-            }else{
-                $required_userDetails_count = 19;
+            if ($this->categoryParent->id == '5') {               
+                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+                if (!empty($this->userDetails)) {
+                $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                    $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
+                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
+                                    $this->userDetails->about_us];
+                    $required_userDetails_count = count($required_userDetails);
+                }else{
+                    $required_userDetails_count = 16;
+                }
+            }else if ($this->categoryParent->id == '6') {                
+                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
+                if (!empty($this->userDetails)) {
+                $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                    $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
+                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
+                                    $this->userDetails->about_us];
+                    $required_userDetails_count = count($required_userDetails);
+                }else{
+                    $required_userDetails_count = 16;
+                }
+
+            }else {                
+                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+                if (!empty($this->userDetails)) {
+                $required_userDetails = [$this->userDetails->clinic_hospital_name, $this->userDetails->registration_no, $this->userDetails->registration_council,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
+                                    $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
+                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
+                                    $this->userDetails->normal_fees, $this->userDetails->urgent_fees, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, $this->userDetails->health_facility_certificate,
+                                    $this->userDetails->about_us];
+                    $required_userDetails_count = count($required_userDetails);
+                }else{
+                    $required_userDetails_count = 19;
+                }
             }
         
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
