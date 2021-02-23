@@ -39,6 +39,7 @@ class UserController extends Controller
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->user_service_repo = $user_service_repo;
         $this->user_details_repo = $user_details_repo;
+        $this->notification_repo = $notification_repo;
     }
      
     /**
