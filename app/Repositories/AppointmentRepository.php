@@ -409,7 +409,7 @@ class AppointmentRepository extends Repository
         if(!empty($request->status)){
             $query = $query->where('status',$request->status);
         }else{
-          $query = $query->whereIn('status',['1','2','3','4']);
+          $query = $query->whereIn('status',['1']);
         }
     
         if(!empty($request->user()->category_id)){
