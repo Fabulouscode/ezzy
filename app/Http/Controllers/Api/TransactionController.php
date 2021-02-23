@@ -72,68 +72,16 @@ class TransactionController extends BaseApiController
         }
         
         try {
-            DB::beginTransaction();
-            $transaction_amount = 0;
-            $voucher_amount = 0;
-            $hcp_fees = 0;
-            $home_visit_fees = 0;
-            $full_day = 0;
-            $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
-            $end_appointment   = new Carbon($appointment_details->completed_datetime);
-            $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
-            
-            if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
-                foreach ($appointment_details->appointmentServices as $key => $value) {
-                    $transaction_amount += $value->service_price;
-                }
-                
-            } else { 
-                
-                if ($appointment_details->user->category_id == '6') {
-                    if ($appointment_timing > '60') {
-                        $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
-                        $hcp_fees = $appointment_details->user->userDetails->fees_hour;
-                    } else {      
-                        $transaction_amount = $appointment_details->user->userDetails->fees_minute * $appointment_timing;
-                        $hcp_fees = $appointment_details->user->userDetails->fees_minute;
-                    }
-                } else {
-                    if ($appointment_details->user->category_id == '5') {
-                        if (empty($appointment_details->completed_datetime)) {
-                            $transaction_amount = $appointment_details->user->userDetails->fees_day;
-                            $hcp_fees = $appointment_details->user->userDetails->fees_day;
-                            $full_day = 1;
-                        } else {
-                            $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
-                            $hcp_fees = $appointment_details->user->userDetails->fees_hour;                           
-                        }
-                    } else {
-                        if ($appointment_details->urgent == '1') {
-                            $transaction_amount = $appointment_details->user->userDetails->urgent_fees * $appointment_timing;
-                            $hcp_fees = $appointment_details->user->userDetails->urgent_fees;
-                        } else {
-                            $transaction_amount = $appointment_details->user->userDetails->normal_fees * $appointment_timing;
-                            $hcp_fees = $appointment_details->user->userDetails->normal_fees;
-                        }
-                    }
-                }
-            }
-            if($appointment_details->appointment_type == '1'){
-                $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
-                $home_visit_fees =  $appointment_details->user->userDetails->home_visit_fees;
-            }
-
-
-            
-                $add_transaction = [
-                        'user_id'=> $appointment_details->user->id,
-                        'client_id'=> $request->user()->id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> $transaction_amount,
-                        'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'status'=> '1',
-                    ];
+            DB::beginTransaction();        
+            $add_transaction = [
+                    'user_id'=> $appointment_details->user_id,
+                    'client_id'=> $appointment_details->client_id,
+                    'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                    'amount'=> $appointment_details->appointment_price,
+                    'mode_of_payment'=> '1',
+                    'transaction_type'=> '1',
+                    'status'=> '1',
+                ];
                 
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
                     
@@ -141,6 +89,7 @@ class TransactionController extends BaseApiController
                 $ezzycare_charge = 0;
                 $user_payout = 0;
                 $ezzycare_fees = 0;
+                $transaction_amount = $appointment_details->appointment_price;
                 if(!empty($appointment_details->user->category_id)){
                     $manage_fees = $this->fees_repo->getbyCategoryId($appointment_details->user->category_id);
                     if(!empty($manage_fees->fees_percentage)){
@@ -156,17 +105,8 @@ class TransactionController extends BaseApiController
                 $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
 
                 $update = [
-                        'status'=> $request->status,
-                        'full_day'=> $full_day,
-                        'appointment_price'=> $transaction_amount,
                         'transaction_id'=> $transaction->id,
-                        'hcp_fees'=> $hcp_fees,
-                        'home_visit_fees'=> $home_visit_fees,
                     ];
-                // if(){
-                //     $update['voucher_amount'] = $voucher_amount;
-                //     $update['voucher_code_id'] = $voucher_code_id;
-                // }
                 $this->appointment_repo->dataCrud($update, $request->id);
                 $data = $this->appointment_repo->getById($request->id);
                 DB::commit();
@@ -267,38 +207,67 @@ class TransactionController extends BaseApiController
     public function appointmentBillPaymentStatus(AppointmentPayStatusRequest $request)
     {
         $data = array();
-        $appointment_details = $this->appointment_repo->getbyIdCheckNotNullTransaction($request->id);
+        $appointment_details = $this->appointment_repo->getbyIdCheckTransaction($request->id);
         if(empty($appointment_details)){
-            return self::sendError([], 'Transaction already Completed');
-        }
-
-        $transaction_details = $this->user_transaction_repo->getCompletedTransaction($appointment_details->transaction_id);
-        if(!empty($transaction_details)){
             return self::sendError([], 'Transaction already Completed');
         }
 
         try {
             DB::beginTransaction();
-            $add_payout = [
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'payment_gateway_response'=> $request->payment_transaction,
-                        'status'=> $request->status,
+             $add_transaction = [
+                    'user_id'=> $appointment_details->user_id,
+                    'client_id'=> $appointment_details->client_id,
+                    'amount'=> $appointment_details->appointment_price,
+                    'mode_of_payment'=> '1',
+                    'transaction_type'=> '1',
+                    'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                    'payment_gateway_response'=> $request->payment_transaction,
+                    'status'=> $request->status,
+                ];
+                
+            $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                    
+            if (!empty($transaction)) {
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                $transaction_amount = $appointment_details->appointment_price;
+                if (!empty($appointment_details->user->category_id)) {
+                    $manage_fees = $this->fees_repo->getbyCategoryId($appointment_details->user->category_id);
+                    if (!empty($manage_fees->fees_percentage)) {
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_payout = [
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charge,
                     ];
-            $this->user_transaction_repo->dataCrud($add_payout, $appointment_details->transaction_id);
-            $data = $this->appointment_repo->getById($request->id);
-            if (!empty($data)) {
-                $send_notification = [
-                                'sender_id' => $request->user()->id,
-                                'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
-                                'title' => 'Appointment',
-                                'message' => 'Appointmnent payment completed by '. $request->user()->user_name,
-                                'parameter' => json_encode(['appointment_id'=> $data->id]),
-                                'msg_type' => '3',
-                            ];
-                $this->notification_repo->sendingNotification($send_notification);
+                $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
+
+                $update = [
+                        'transaction_id'=> $transaction->id,
+                    ];
+                $this->appointment_repo->dataCrud($update, $request->id);
+                $data = $this->appointment_repo->getById($request->id);
+            
+                if (!empty($data)) {
+                    $send_notification = [
+                                    'sender_id' => $request->user()->id,
+                                    'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                    'title' => 'Appointment',
+                                    'message' => 'Appointmnent payment completed by '. $request->user()->user_name,
+                                    'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                    'msg_type' => '3',
+                                ];
+                    $this->notification_repo->sendingNotification($send_notification);
+                }
+                
+                DB::commit();
+                return self::sendSuccess($data, 'Transaction Completed');
             }
-            DB::commit();
-            return self::sendSuccess($data, 'Transaction Completed');
+            return self::sendError([], 'Transaction Uncompleted Error');
         } catch (\Exception $e) {
              DB::rollBack();
             return self::sendException($e);

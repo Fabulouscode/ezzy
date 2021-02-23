@@ -557,7 +557,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment rescheduled by '. $request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
@@ -578,24 +578,86 @@ class AppointmentController extends BaseApiController
         $data = array();
         $update = [
                     'completed_datetime'=> Carbon::parse($request->completed_datetime)->format('Y-m-d H:i:s'),
+                    'consult_notes'=> (!empty($request->consult_notes)) ? $request->consult_notes : "",
                     'status'=> $request->status,
                   ];
 
         try {
             DB::beginTransaction();
             $this->appointment_repo->dataCrud($update, $request->id);
-            $data = $this->appointment_repo->getById($request->id);
-            if (!empty($data)) {
+            $appointment_details = $this->appointment_repo->getById($request->id);
+            $transaction_amount = 0;
+            $voucher_amount = 0;
+            $hcp_fees = 0;
+            $home_visit_fees = 0;
+            $full_day = 0;
+            $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
+            $end_appointment   = new Carbon($appointment_details->completed_datetime);
+            $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+            
+            if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
+                foreach ($appointment_details->appointmentServices as $key => $value) {
+                    $transaction_amount += $value->service_price;
+                }
+                
+            } else { 
+                
+                if ($appointment_details->user->category_id == '6') {
+                    if ($appointment_timing > '60') {
+                        $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
+                        $hcp_fees = $appointment_details->user->userDetails->fees_hour;
+                    } else {      
+                        $transaction_amount = $appointment_details->user->userDetails->fees_minute * $appointment_timing;
+                        $hcp_fees = $appointment_details->user->userDetails->fees_minute;
+                    }
+                } else {
+                    if ($appointment_details->user->category_id == '5') {
+                        if (empty($appointment_details->completed_datetime)) {
+                            $transaction_amount = $appointment_details->user->userDetails->fees_day;
+                            $hcp_fees = $appointment_details->user->userDetails->fees_day;
+                            $full_day = 1;
+                        } else {
+                            $transaction_amount = $appointment_details->user->userDetails->fees_hour * ($appointment_timing/60);
+                            $hcp_fees = $appointment_details->user->userDetails->fees_hour;                           
+                        }
+                    } else {
+                        if ($appointment_details->urgent == '1') {
+                            $transaction_amount = $appointment_details->user->userDetails->urgent_fees * $appointment_timing;
+                            $hcp_fees = $appointment_details->user->userDetails->urgent_fees;
+                        } else {
+                            $transaction_amount = $appointment_details->user->userDetails->normal_fees * $appointment_timing;
+                            $hcp_fees = $appointment_details->user->userDetails->normal_fees;
+                        }
+                    }
+                }
+            }
+            if($appointment_details->appointment_type == '1'){
+                $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
+                $home_visit_fees =  $appointment_details->user->userDetails->home_visit_fees;
+            }
+
+            $update = [
+                    'status'=> $request->status,
+                    'full_day'=> $full_day,
+                    'appointment_price'=> $transaction_amount,
+                    'hcp_fees'=> $hcp_fees,
+                    'home_visit_fees'=> $home_visit_fees,
+                ];
+            $this->appointment_repo->dataCrud($update, $request->id);
+            
+            if (!empty($appointment_details)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $data->client_id,
+                                        'receiver_id' => $appointment_details->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment completed by '. $request->user()->user_name,
-                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id]),
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
+
+            $data = $this->appointment_repo->getById($request->id);
             DB::commit();
             return self::sendSuccess($data, 'Appointment Completed');
         } catch (\Exception $e) {
