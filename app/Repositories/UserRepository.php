@@ -736,7 +736,28 @@ class UserRepository extends Repository
                            ->havingRaw('distance <= 100')
                            ->orderBy('distance','asc');
         } else{
-            $query = $query->orderBy('id','desc');
+
+            if(isset($request->appointment_type)){
+                $query = $query->whereHas('userDetails', function ($query) use ($request) {
+                    $query->whereRaw("FIND_IN_SET('".$request->appointment_type."', urgent_criteria)");
+                });
+            }
+
+            $query = $query->where('category_id', '4');
+
+            if(!empty($request->user()->latitude) && !empty($request->user()->longitude)){
+
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->user()->latitude.' * PI() / 180) * SIN(`users`.`latitude` * PI() / 180) + COS('.$request->user()->latitude.' * PI() / 180) * COS(`users`.`latitude` * PI() / 180) * COS(('.$request->user()->longitude.' - `users`.`longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                            ->where([
+                                        ['users.latitude', '!=', ''],
+                                        ['users.longitude', '!=', '']
+                                    ])
+                            ->havingRaw('distance <= 100');
+
+            }else{
+                $query = $query->orderBy('id','desc');
+            }
+       
         }         
         
         
