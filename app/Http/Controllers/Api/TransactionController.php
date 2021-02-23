@@ -185,7 +185,7 @@ class TransactionController extends BaseApiController
                 if (!empty($data)) {
                     $send_notification = [
                                             'sender_id' => $request->user()->id,
-                                            'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                            'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                             'title' => 'Order',
                                             'message' => 'Order payment completed by '. $request->user()->user_name,
                                             'parameter' => json_encode(['order_id'=> $data->id]),
@@ -256,7 +256,7 @@ class TransactionController extends BaseApiController
                 if (!empty($data)) {
                     $send_notification = [
                                     'sender_id' => $request->user()->id,
-                                    'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                    'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                     'title' => 'Appointment',
                                     'message' => 'Appointmnent payment completed by '. $request->user()->user_name,
                                     'parameter' => json_encode(['appointment_id'=> $data->id]),

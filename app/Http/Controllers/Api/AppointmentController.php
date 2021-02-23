@@ -492,7 +492,7 @@ class AppointmentController extends BaseApiController
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->user_id : $data->client_id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => $notification_message,
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
