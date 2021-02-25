@@ -333,6 +333,7 @@ class User extends Authenticatable
     }
 
     public function getProfileCompletedProgressAttribute() {
+
         $total_progress_point = 0;
         $required_progress = 1;
         $required_progress_array = [];
@@ -343,13 +344,14 @@ class User extends Authenticatable
         if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
             //Heathcare Provider
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
-            if ($this->categoryParent->id == '5') {               
+            if ($this->categoryParent->id == '5') {     
+                // nurses
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
-                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge, $this->userDetails->nursing_facility_charge_full_day,
@@ -358,13 +360,14 @@ class User extends Authenticatable
                 }else{
                     $required_userDetails_count = 16;
                 }
-            }else if ($this->categoryParent->id == '6') {                
+            }else if ($this->categoryParent->id == '6') {     
+                // Massage Therapist
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
-                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, 
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge];
@@ -373,14 +376,15 @@ class User extends Authenticatable
                     $required_userDetails_count = 16;
                 }
 
-            }else {                
+            }else {               
+                // Doctor, Physiotherapy
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                    $this->userDetails->normal_fees, $this->userDetails->urgent_fees, $this->userDetails->home_visit_fees,
+                                    $this->userDetails->normal_fees, $this->userDetails->urgent_fees, 
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge, $this->userDetails->video_consultation_charge];
@@ -402,7 +406,7 @@ class User extends Authenticatable
                                  $this->userDetails->pharmacist_certificate, $this->userDetails->about_us];
                 $required_userDetails_count = count($required_userDetails);
             }else{
-                $required_userDetails_count = 14;
+                $required_userDetails_count = 13;
             }
             
      
@@ -415,11 +419,11 @@ class User extends Authenticatable
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
                                  $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                  $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                 $this->userDetails->home_visit_fees, $this->userDetails->regstration_certificate, $this->userDetails->pharmacist_certificate,
+                                 $this->userDetails->regstration_certificate, $this->userDetails->pharmacist_certificate,
                                  $this->userDetails->about_us];
                $required_userDetails_count = count($required_userDetails);
             }else{
-                $required_userDetails_count = 16;
+                $required_userDetails_count = 14;
             }
            
       
