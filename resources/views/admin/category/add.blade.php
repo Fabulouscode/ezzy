@@ -45,7 +45,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Parent Category</label>
-                                <select id="parent_id"  type="text" class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" >
+                                <select id="parent_id"  type="text" required class="form-control @error('parent_id') is-invalid @enderror" name="parent_id" >
                                     <option value="">Select Parent Category</option>
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}"  {{ !empty($data->parent_id) && $category->id == $data->parent_id ? 'selected' : '' }}>{{$category->name}}</option>
