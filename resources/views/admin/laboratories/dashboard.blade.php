@@ -79,8 +79,6 @@
             </div>
             </a>
         </div>
-    </div>
-    <div class="row"> 
         <div class="col-xl-4 col-md-6">
             <a href="{{url('/laboratories/user').'?hcp_type=Pathologist'}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
@@ -140,9 +138,7 @@
                 </div>
             </div>
             </a>
-        </div>
-    </div>
-    <div class="row">        
+        </div>       
         <div class="col-xl-4 col-md-6">
             <a href="{{url('/appointment')}}">
             <div class="card d-card-part bg-light-green mini-stat m-b-30">

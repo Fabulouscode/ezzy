@@ -80,8 +80,6 @@
             </div>
             </a>
         </div>
-    </div>
-    <div class="row">
         <div class="col-xl-4 col-md-6">
             <a href="{{url('/pharmacy/order')}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
