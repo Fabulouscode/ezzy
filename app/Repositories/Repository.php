@@ -225,20 +225,18 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
-
-
-       //bulksmsnigeria
         try{
-            $bulksms_url = config("app.BULKSMS_URL");
-            $bulksms_token = config("app.BULKSMS_TOKEN");
-            $bulksms_from = config("app.name");
-            if(!empty($bulksms_url) && !empty($bulksms_token) && !empty($bulksms_from) && !empty($recipients) ){
-                $data['api_token'] = $bulksms_token;
-                $data['from'] = $bulksms_from;
+            $nexemo_url = config("app.NEXEMO_URL");
+            $nexemo_api_key = config("app.NEXEMO_API_KEY");
+            $nexemo_api_secret = config("app.NEXEMO_API_SECRET");
+            $data = [];
+            if(!empty($nexemo_url) && !empty($nexemo_api_key) && !empty($nexemo_api_secret) && !empty($recipients)){
+                $data['from'] = 'Vonage APIs';
                 $data['to'] = $recipients;
-                $data['body'] = $message;
-                $data['dnd'] = 2;
-                $msg_sent = Helper::sendBULKSMSRequest($bulksms_url, $data);
+                $data['text'] = $message;
+                $data['api_key'] = $nexemo_api_key;
+                $data['api_secret'] = $nexemo_api_secret;
+                $msg_sent = Helper::sendBULKSMSRequest($nexemo_url, $data);
                 if(!empty($msg_sent) && $msg_sent != 'true'){
                     return $msg_sent;
                 }

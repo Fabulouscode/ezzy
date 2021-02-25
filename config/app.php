@@ -135,6 +135,11 @@ return [
     'TWILIO_AUTH_TOKEN'=> env('TWILIO_AUTH_TOKEN'),
     'TWILIO_NUMBER'=> env('TWILIO_NUMBER'),
 
+    /* NEXEMO sms */
+    'NEXEMO_URL'=> env('NEXEMO_URL'),
+    'NEXEMO_API_KEY'=> env('NEXEMO_API_KEY'),
+    'NEXEMO_API_SECRET'=> env('NEXEMO_API_SECRET'),
+
     /* bulksmsnigeria sms */
     'BULKSMS_URL'=> env('BULKSMS_URL'),
     'BULKSMS_TOKEN'=> env('BULKSMS_TOKEN'),

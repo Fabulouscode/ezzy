@@ -290,6 +290,7 @@ class Helper
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
+            dd($response);
             if(!empty($response_arr['error'])) {
                 Log::info($response);
                 Log::info('SMS Send Failed');

@@ -67,7 +67,12 @@ class User_details extends Model
         'surgeries',
         'emergency_contact_name',
         'fees_minute',
-        'urgent_criteria'
+        'urgent_criteria',
+        'clinic_consultation_charge',
+        'home_consultation_charge',
+        'video_consultation_charge',
+        'nursing_facility_charge_full_day',
+        'nursing_home_visit_charge_full_day',
     ];
 
 
