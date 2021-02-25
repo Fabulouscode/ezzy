@@ -23,6 +23,7 @@ use App\Http\Requests\Api\UploadDocFileRequest;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Requests\Api\CalenderUserAvailableTimeRequest;
 use App\Http\Requests\Api\CalenderUserBusyTimeRequest;
+use App\Http\Requests\Api\UserAddMultipleAvailableTimesRequest;
 use Carbon\Carbon;
 
 class UserProfileController extends BaseApiController
@@ -249,6 +250,27 @@ class UserProfileController extends BaseApiController
         }catch(\Exception $e){
             return self::sendException($e);
         }
+    }
+
+    public function multipleAddUserAvailableTimes(UserAddMultipleAvailableTimesRequest $request)
+    {
+        $add_data = $request->all();
+        if(!empty($add_data['available_times']) && count($add_data['available_times']) > 0){
+            foreach ($add_data['available_times'] as $key => $value) {
+                $value_data = [];
+                $value_data = [
+                    'user_id' => $request->user()->id,
+                    'day' => (isset($value['day'])) ? $value['day'] : '',
+                    'appointment_type' => $value['appointment_type'],
+                    'start_time'=> $value['start_time'],
+                    'end_time' =>  $value['end_time'],
+                    'same_timing' => (!empty($value['same_timing'])) ?  $value['same_timing'] : 0,
+                    ];
+                $this->user_available_time_repo->dataCrud($value_data);
+            }
+            return self::sendSuccess([], 'Available times details Add Successfully');
+        }
+        return self::sendError('', 'Available times details not added');
     }
     
     public function updateUserAvailableTimes(UserAvailableTimesRequest $request)

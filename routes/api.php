@@ -102,6 +102,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::prefix('available_times')->group(function(){
                 Route::get('', 'UserProfileController@getUserAvailableTimes');
                 Route::post('/add', 'UserProfileController@addUserAvailableTimes');
+                Route::post('/multiple_add', 'UserProfileController@multipleAddUserAvailableTimes');
                 Route::post('/update', 'UserProfileController@updateUserAvailableTimes');
                 Route::get('/get/{id?}', 'UserProfileController@getByIdUserAvailableTimes');
                 Route::delete('/delete/{id?}', 'UserProfileController@deleteUserAvailableTimes');
