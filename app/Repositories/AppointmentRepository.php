@@ -367,7 +367,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->get();
         
         return $query;
        
