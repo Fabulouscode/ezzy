@@ -100,14 +100,6 @@
                                 <h4 class="mt-0 mb-0 header-title">User Extra Details</h4>
                                 <div class="card-detail-list">
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Pharmacy Name</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->clinic_hospital_name))
-                                                {{$data->userDetails->clinic_hospital_name}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Registration Number</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->registration_no))

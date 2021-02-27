@@ -101,14 +101,6 @@
                                 <h4 class="mt-0 mb-0 header-title">User Extra Details</h4>
                                 <div class="card-detail-list">
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Clinic & Hospital Name</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->clinic_hospital_name))
-                                                {{$data->userDetails->clinic_hospital_name}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Registration Number</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->registration_no))
@@ -205,51 +197,50 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    @if($data->category_id == '4')
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Normal Fees</label></dt>
+                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (Hour)</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->normal_fees))
-                                                {{$currency_symbol.$data->userDetails->normal_fees}} 
+                                            @if(!empty($data->userDetails->clinic_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->clinic_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Urgent Fees</label></dt>
+                                        <dt class="col-sm-5"><label>Home Consultation Fees (Hour)</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->urgent_fees))
-                                                {{$currency_symbol.$data->userDetails->urgent_fees}} 
+                                            @if(!empty($data->userDetails->home_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->home_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
-                                    @endif
-                                    @if($data->category_id == '5')
+                                    @if($data->category_id == '4' || $data->category_id == '42')
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Hour Fees</label></dt>
+                                        <dt class="col-sm-5"><label>Video Consultation Fees (Hour)</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->fees_hour))
-                                                {{$currency_symbol.$data->userDetails->fees_hour}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Day Fees</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->fees_day))
-                                                {{$currency_symbol.$data->userDetails->fees_day}} 
+                                            @if(!empty($data->userDetails->video_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->video_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
                                     @endif
+                                    @if($data->category_id == '5' || $data->category_id == '6')
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
+                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (Day)</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->home_visit_fees))
-                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
+                                            @if(!empty($data->userDetails->nursing_facility_charge_full_day))
+                                                {{$currency_symbol.$data->userDetails->nursing_facility_charge_full_day}} 
                                             @endif 
                                         </dd>
                                     </div>
-                                    @if($data->category_id == '4' || $data->category_id == '5' || $data->category_id == '6')
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Home Consultation Fees (Day)</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->nursing_home_visit_charge_full_day))
+                                                {{$currency_symbol.$data->userDetails->nursing_home_visit_charge_full_day}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @endif
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
@@ -266,17 +257,6 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    @endif
-                                    @if($data->category_id == '4')
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Health Facility Certificate</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->health_facility_certificate))
-                                                <img src="{{$data->userDetails->health_facility_certificate}}" width="100px" height="100px">
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>

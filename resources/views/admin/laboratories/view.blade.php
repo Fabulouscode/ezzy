@@ -103,8 +103,8 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Laboratory Name</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->clinic_hospital_name))
-                                                {{$data->userDetails->clinic_hospital_name}} 
+                                            @if(!empty($data->user_name))
+                                               {{$data->user_name}}
                                             @endif 
                                         </dd>
                                     </div>                                    
@@ -198,14 +198,6 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Home Visit Fees</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->home_visit_fees))
-                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->qualification_certificate))
@@ -218,14 +210,6 @@
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->practicing_licence))
                                                 <img src="{{$data->userDetails->practicing_licence}}" width="100px" height="100px">
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Health Facility Certificate</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->health_facility_certificate))
-                                                <img src="{{$data->userDetails->health_facility_certificate}}" width="100px" height="100px">
                                             @endif 
                                         </dd>
                                     </div>
