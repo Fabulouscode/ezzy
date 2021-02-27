@@ -200,8 +200,8 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Home Visit Charge</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->home_visit_fees))
-                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
+                                            @if(!empty($data->userDetails->home_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->home_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>

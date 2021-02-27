@@ -604,11 +604,12 @@ class AppointmentController extends BaseApiController
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
                 foreach ($appointment_details->appointmentServices as $key => $value) {
                     $transaction_amount += $value->service_price;
+                    $hcp_fees += $value->service_price;
                 }
-                
-                // if($appointment_details->appointment_type == '1'){
-                //     $transaction_amount +=  $appointment_details->user->userDetails->home_visit_fees;
-                // }
+                if($appointment_details->appointment_type == '1'){
+                    $transaction_amount +=  $appointment_details->user->userDetails->home_consultation_charge;
+                    $home_visit_fees =  $appointment_details->user->userDetails->home_consultation_charge;
+                }
             } else {                 
                 if ($appointment_details->user->category_id == '6' || $appointment_details->user->category_id == '5') {
                     $appointment_hour = $appointment_timing/60;

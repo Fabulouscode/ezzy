@@ -419,7 +419,7 @@ class User extends Authenticatable
                                  $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                  $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                  $this->userDetails->regstration_certificate, $this->userDetails->pharmacist_certificate,
-                                 $this->userDetails->about_us];
+                                 $this->userDetails->about_us, $this->userDetails->home_consultation_charge];
                $required_userDetails_count = count($required_userDetails);
             }else{
                 $required_userDetails_count = 14;
