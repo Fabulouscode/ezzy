@@ -137,6 +137,18 @@ class ShopMedicineDetailsRepository extends Repository
                     ->where('capsual_quantity','>=',$data->quantity)->first();
 
     }
+    
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkCartUpdateMedicineStock($data)
+    {   
+        return $this->model->where('id', $data->shop_medicine_detail_id)
+                    ->where('capsual_quantity','>',$data->quantity)->first();
+
+    }
 
      /**
      * Display a list of Medicine product record.

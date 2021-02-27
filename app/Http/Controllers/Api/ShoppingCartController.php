@@ -79,6 +79,11 @@ class ShoppingCartController extends BaseApiController
                         'shop_medicine_detail_id' => $request->shop_medicine_detail_id,
                         'quantity'=> $request->quantity,
                     ];
+        
+        $stock_available = $this->shop_medicine_repo->checkMedicineStock($request); 
+        if(empty($stock_available)){
+                return self::sendError('', 'Stock is not available');
+        }
         try{
             DB::beginTransaction();
             $data = $this->shop_cart_repo->dataCrud($add_data);
@@ -130,7 +135,7 @@ class ShoppingCartController extends BaseApiController
         $cart_details = $this->shop_cart_repo->getUserCart($request->user()->id);
         if(!empty($cart_details)){
             foreach ($cart_details as $key => $value) {
-                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                $stock_available = $this->shop_medicine_repo->checkCartUpdateMedicineStock($value); 
                 if(empty($stock_available) && $value->id == $id){
                      return self::sendError('', 'Stock is not available');
                 }
