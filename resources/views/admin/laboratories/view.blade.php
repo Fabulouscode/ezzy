@@ -198,6 +198,14 @@
                                         </dd>
                                     </div>
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Home Visit Charge</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->home_visit_fees))
+                                                {{$currency_symbol.$data->userDetails->home_visit_fees}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->qualification_certificate))

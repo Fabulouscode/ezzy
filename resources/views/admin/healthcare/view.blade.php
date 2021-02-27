@@ -198,7 +198,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (Hour)</label></dt>
+                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (per Hour)</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->clinic_consultation_charge))
                                                 {{$currency_symbol.$data->userDetails->clinic_consultation_charge}} 
@@ -206,16 +206,16 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Home Consultation Fees (Hour)</label></dt>
+                                        <dt class="col-sm-5"><label>Home Consultation Fees (per Hour)</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->home_consultation_charge))
                                                 {{$currency_symbol.$data->userDetails->home_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
-                                    @if($data->category_id == '4' || $data->category_id == '42')
+                                    @if($data->category_id == '4')
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Video Consultation Fees (Hour)</label></dt>
+                                        <dt class="col-sm-5"><label>Video Consultation Fees (per Hour)</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->video_consultation_charge))
                                                 {{$currency_symbol.$data->userDetails->video_consultation_charge}} 
@@ -225,7 +225,7 @@
                                     @endif
                                     @if($data->category_id == '5' || $data->category_id == '6')
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (Day)</label></dt>
+                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (per Day)</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->nursing_facility_charge_full_day))
                                                 {{$currency_symbol.$data->userDetails->nursing_facility_charge_full_day}} 
@@ -233,7 +233,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Home Consultation Fees (Day)</label></dt>
+                                        <dt class="col-sm-5"><label>Home Consultation Fees (per Day)</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->nursing_home_visit_charge_full_day))
                                                 {{$currency_symbol.$data->userDetails->nursing_home_visit_charge_full_day}} 
