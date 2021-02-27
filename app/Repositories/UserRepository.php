@@ -55,7 +55,7 @@ class UserRepository extends Repository
                 'deleted_at' => NULL
             ])->restore();    
     
-        return $this->model->where('mobile_no', $request->mobile_no)->first();
+        return $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
         // if(!empty($user)){
         //     $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
         // }
