@@ -81,25 +81,17 @@
                                         @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                              @php($appointment_charge = 0)
                                         @else
-                                            @if($data->user->category_id == '5')
+                                            @if($data->user->category_id == '5' || $data->user->category_id == '6')
                                                 @if($data->full_day == '1')
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
-                                                    @php ($appointment_charge_text = 'Charge (In Day)')
+                                                    @php ($appointment_charge_text = 'Charge (per Day)')
                                                 @else
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
-                                                    @php ($appointment_charge_text = 'Charge (In Hours)')
-                                                @endif
-                                            @elseif($data->user->category_id == '6')
-                                                @if($data->start_to_end_time_diff > '60')
-                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * ($data->start_to_end_time_diff/60) : 0)
-                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Hour)' : 'Charge (In Hour)')
-                                                @else
-                                                    @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
-                                                    @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                                    @php ($appointment_charge_text = 'Charge (per Hour)')
                                                 @endif
                                             @else
                                                 @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
-                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (In Minute)' : 'Charge (In Minute)')
+                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (per Hour)' : 'Charge (per Hour)')
                                             @endif
                                         @endif
                                         
@@ -157,7 +149,7 @@
                                                     <strong>Subtotal</strong></td>
                                                 <td class="thick-line text-center">{{$currency_symbol.$appointment_charge}}</td>
                                             </tr>
-                                            @if($data->appointment_type == '1')
+                                            @if($data->appointment_type == '1' && ($data->user->category_id == '8' || $data->user->category_id == '9' || $data->user->category_id == '10'))
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                                 <td class="no-line text-center" colspan="2"></td>

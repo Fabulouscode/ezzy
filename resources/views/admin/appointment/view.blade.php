@@ -112,22 +112,60 @@
                                         </dd>
                                     </div>
                                     @if(isset($data->completed_datetime))
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->completed_datetime))
-                                                {{Helper::getDateTimeFormate($data->completed_datetime)}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Appointment Amount</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(isset($data->appointment_price))
-                                                {{$currency_symbol.$data->appointment_price}}
-                                            @endif 
-                                        </dd>
-                                    </div>
+                                        <div class="row">
+                                            <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
+                                            <dd class="col-sm-7"> 
+                                                @if(isset($data->completed_datetime))
+                                                    {{Helper::getDateTimeFormate($data->completed_datetime)}}
+                                                @endif 
+                                            </dd>
+                                        </div>
+                                        @if($data->user->category_id != '8' || $data->user->category_id != '9' || $data->user->category_id != '10')
+                                            <div class="row">
+                                                <dt class="col-sm-5"><label>Appointment Charge</label></dt>
+                                                <dd class="col-sm-7"> 
+                                                    @if(isset($data->appointment_price))
+                                                        {{$currency_symbol.$data->appointment_price}}
+                                                    @endif 
+                                                </dd>
+                                            </div> 
+                                        @else
+                                            @if($data->appointment_type == '1')
+                                                <div class="row">
+                                                    <dt class="col-sm-5"><label>Home Visit Charge</label></dt>
+                                                    <dd class="col-sm-7"> 
+                                                        @if(isset($data->home_visit_fees))
+                                                            {{$currency_symbol.$data->home_visit_fees}}
+                                                        @endif 
+                                                    </dd>
+                                                </div>  
+                                                <div class="row">
+                                                    <dt class="col-sm-5"><label>Service Charges</label></dt>
+                                                    <dd class="col-sm-7"> 
+                                                        @if(isset($data->hcp_fees))
+                                                            {{$currency_symbol.$data->hcp_fees}}
+                                                        @endif 
+                                                    </dd>
+                                                </div>  
+                                                <div class="row">
+                                                    <dt class="col-sm-5"><label>Total Appointment Charge</label></dt>
+                                                    <dd class="col-sm-7"> 
+                                                        @if(isset($data->appointment_price))
+                                                            {{$currency_symbol.$data->appointment_price}}
+                                                        @endif 
+                                                    </dd>
+                                                </div>  
+                                            @else
+                                                <div class="row">
+                                                    <dt class="col-sm-5"><label>Appointment Charge</label></dt>
+                                                    <dd class="col-sm-7"> 
+                                                        @if(isset($data->appointment_price))
+                                                            {{$currency_symbol.$data->appointment_price}}
+                                                        @endif 
+                                                    </dd>
+                                                </div>
+                                            @endif
+                                        @endif
                                     @endif
                                 </div>
                             </div>
