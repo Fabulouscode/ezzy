@@ -82,6 +82,9 @@ class UserController extends BaseApiController
                                         'user_order_review'=>$response->user_order_review,
                                         'user_order_rating'=>$response->user_order_rating,
                                         'user_eduction_details'=>$response->user_eduction_details,
+                                        'user_eduction_details'=>$response->user_eduction_details,
+                                        'category_name'=> (isset($response->categoryParent)) ? $response->categoryParent->name : '',
+                                        'subcategory_name'=> (isset($response->categoryChild)) ? $response->categoryChild->name : '',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
@@ -101,6 +104,8 @@ class UserController extends BaseApiController
                                         'user_order_review'=>$response->user_order_review,
                                         'user_order_rating'=>$response->user_order_rating,
                                         'user_eduction_details'=>$response->user_eduction_details,
+                                        'category_name'=>(isset($response->categoryParent)) ? $response->categoryParent->name : '',
+                                        'subcategory_name'=>(isset($response->categoryChild)) ? $response->categoryChild->name : '',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
@@ -122,6 +127,8 @@ class UserController extends BaseApiController
                                         'user_eduction_details'=>$response->user_eduction_details,
                                         'latitude'=>$response->latitude,
                                         'longitude'=>$response->longitude,
+                                        'category_name'=>(isset($response->categoryParent)) ? $response->categoryParent->name : '',
+                                        'subcategory_name'=>(isset($response->categoryChild)) ? $response->categoryChild->name : '',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
