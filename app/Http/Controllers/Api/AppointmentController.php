@@ -644,30 +644,41 @@ class AppointmentController extends BaseApiController
                             $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;      
                         }                     
                     }
-                } else {
+                } else if ($appointment_details->user->category_id == '4') {
                     if ($appointment_details->urgent == '1') {
                         if($appointment_details->appointment_type == '1'){
-                            $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
                         }else if($appointment_details->appointment_type == '2'){
-                            $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;      
                         }else {
-                            $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;      
                         }  
                     } else {
                         if($appointment_details->appointment_type == '1'){
-                            $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
                         }else if($appointment_details->appointment_type == '2'){
-                            $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;      
                         }else {
-                            $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * ($appointment_timing/60);
+                            $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;      
                         }  
                     }
+                } else {
+                    if($appointment_details->appointment_type == '1'){
+                        $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * ($appointment_timing/60);
+                        $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
+                    }else if($appointment_details->appointment_type == '2'){
+                        $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * ($appointment_timing/60);
+                        $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;      
+                    }else {
+                        $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * ($appointment_timing/60);
+                        $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;      
+                    }  
                 }
             }
      

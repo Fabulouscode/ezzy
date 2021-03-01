@@ -376,7 +376,7 @@ class User extends Authenticatable
                     $required_userDetails_count = 16;
                 }
 
-            }else if ($this->categoryParent->id == '6') {             
+            }else if ($this->categoryParent->id == '4') {             
                 // Doctor
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
@@ -389,7 +389,7 @@ class User extends Authenticatable
                                     $this->userDetails->home_consultation_charge, $this->userDetails->video_consultation_charge];
                     $required_userDetails_count = count($required_userDetails);
                 }else{
-                    $required_userDetails_count = 17;
+                    $required_userDetails_count = 18;
                 }
             }else {               
                 // Physiotherapy

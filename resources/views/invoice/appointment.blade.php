@@ -77,7 +77,10 @@
                                         @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
                                              @php($appointment_charge = 0)
                                         @else
-                                            @if($data->user->category_id == '5' || $data->user->category_id == '6')
+                                            @if($data->user->category_id == '4')
+                                                @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
+                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (per Minute)' : 'Charge (per Minute)')
+                                            @elseif($data->user->category_id == '5' || $data->user->category_id == '6')
                                                 @if($data->full_day == '1')
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
                                                     @php ($appointment_charge_text = 'Charge (per Day)')
