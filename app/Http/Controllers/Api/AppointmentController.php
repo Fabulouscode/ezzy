@@ -252,7 +252,7 @@ class AppointmentController extends BaseApiController
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
         if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
-            return self::sendError(['data' => 'no_minimum_balance'], 'Please Add Wallet Balance before Booking Appointment.', 402);
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please fund wallet.', 402);
         }
         
         //Appointment home care book
@@ -276,7 +276,14 @@ class AppointmentController extends BaseApiController
             \Log::info("Provider is busy ".json_encode($user_available));   
             return self::sendError([], 'Provider is already booked on your selected time.');
         }
-      
+        
+        $appointment_address = "";
+        if(!empty($request->address) && !empty($request->my_appointment)){
+            $appointment_address = $request->address;
+        }else if(!empty($check_user_location) && !empty($check_user_location->userLocation)){
+            $appointment_address = $check_user_location->userLocation->address;
+        }
+        
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,
@@ -292,7 +299,11 @@ class AppointmentController extends BaseApiController
                         'appointment_time' => $request->appointment_time,
                         'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
                         'full_day' => isset($request->full_day) ? $request->full_day : 0,
-                        'status' => '0'
+                        'my_appointment' => isset($request->my_appointment) ? $request->my_appointment : 0,
+                        'address' => isset($appointment_address) ? $appointment_address : '',
+                        'city' => isset($request->city) ? $request->city : '',
+                        'country' => isset($request->country) ? $request->country : '',
+                        'status' => '0',
                     ];
              
         try {

@@ -197,6 +197,40 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    @if($data->category_id == '4')
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic Consultation Fees (per Minute)</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->clinic_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->clinic_consultation_charge}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Home Consultation Fees (per Minute)</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->home_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->home_consultation_charge}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Video Consultation Fees (per Minute)</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->video_consultation_charge))
+                                                {{$currency_symbol.$data->userDetails->video_consultation_charge}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Urgent Fees</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->urgent_fees))
+                                                {{$currency_symbol.$data->userDetails->urgent_fees}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @else
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Clinic Consultation Fees (per Hour)</label></dt>
                                         <dd class="col-sm-7"> 
@@ -210,15 +244,6 @@
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->home_consultation_charge))
                                                 {{$currency_symbol.$data->userDetails->home_consultation_charge}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    @if($data->category_id == '4')
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Video Consultation Fees (per Hour)</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->video_consultation_charge))
-                                                {{$currency_symbol.$data->userDetails->video_consultation_charge}} 
                                             @endif 
                                         </dd>
                                     </div>
