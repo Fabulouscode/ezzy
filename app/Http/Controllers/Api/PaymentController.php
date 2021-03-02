@@ -20,6 +20,39 @@ class PaymentController extends BaseApiController
     }
     
     /**
+     * Redirect the User to Paystack Payment Page
+     * @return Url
+     */
+    public function makePaymentRequest(Request $request)
+    {
+        $data = $request->all();
+        try{       
+            $response = $this->paystack_integration_repo->makePaymentRequest($data);
+            return self::sendSuccess($response, 'Payment initialize');
+        }catch(\Exception $e) {
+            return self::sendException($e);
+        }        
+    }
+
+     /**
+     * Obtain Paystack payment information
+     * @return void
+     */
+    public function handleGatewayCallback($refrence)
+    {
+        try{       
+            $response = $this->paystack_integration_repo->handleGatewayCallback($refrence);
+            return self::sendSuccess($response, 'Payment verify');
+        }catch(\Exception $e) {
+            return self::sendException($e);
+        } 
+        
+        // Now you have the payment details,
+        // you can store the authorization_code in your db to allow for recurrent subscriptions
+        // you can then redirect or do whatever you want
+    }
+
+    /**
      * create customer
      * @return Url
      */
@@ -49,34 +82,7 @@ class PaymentController extends BaseApiController
         }        
     }
     
-    /**
-     * Redirect the User to Paystack Payment Page
-     * @return Url
-     */
-    public function makePaymentRequest(Request $request)
-    {
-        $data = $request->all();
-        try{       
-            return $this->paystack_integration_repo->makePaymentRequest($data);
-        }catch(\Exception $e) {
-            return self::sendException($e);
-        }        
-    }
 
-    /**
-     * Obtain Paystack payment information
-     * @return void
-     */
-    public function handleGatewayCallback()
-    {
-        try{       
-            return $this->paystack_integration_repo->handleGatewayCallback();
-        }catch(\Exception $e) {
-            return self::sendException($e);
-        } 
-        
-        // Now you have the payment details,
-        // you can store the authorization_code in your db to allow for recurrent subscriptions
-        // you can then redirect or do whatever you want
-    }
+
+
 }

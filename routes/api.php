@@ -332,11 +332,13 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/get/message', 'SupportRequestController@getSupportRequestMessages');
         });
   
-        // support request
+        // paystack request
         Route::prefix('paystack')->group(function(){                        
-            Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
-            Route::post('/payment/post', 'PaymentController@makePaymentRequest');
-            Route::get('/payment/get', 'PaymentController@createCustomer');
+            Route::post('/transaction/initialize', 'PaymentController@makePaymentRequest');
+            Route::get('/transaction/verify/{refrence?}', 'PaymentController@handleGatewayCallback');
+          
+            // Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+            // Route::get('/payment/get', 'PaymentController@createCustomer');
         });
   
 

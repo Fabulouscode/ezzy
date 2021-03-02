@@ -13,11 +13,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Paystack;
 use Redirect;
+use App\Http\Helpers\Helper;
 
 class PaystackIntegrationRepository extends Repository
 {
     protected $model_name = 'App\Models\User_transaction';
-    protected $base_url = 'https://api.paystack.co/';
+    protected $base_url = 'https://api.paystack.co';
     protected $headers;
     protected $model;
     
@@ -25,77 +26,28 @@ class PaystackIntegrationRepository extends Repository
     public function __construct()
     {
         parent::__construct();
-        // $this->headers = [
-        //                     'Content-Type'=> 'application/json',
-        //                     'Authorization'=> 'Bearer '.config('app.PAYSTACK_SECRET')
-        //                 ];
-    }
 
-    /**
-     * Create customer
-     * @return Url
-     */
-    public function createCustomer($request){
-        // "email" : "customer11@gmail.com",
-        // "first_name" : "customer11",
-        // "last_name" : "customer11",
-        // "phone" : "+918000865549",
-        // "metadata" : "" 
-       return Paystack::createCustomer();
     }
-
-    /**
-     * Create customer
-     * @return Url
-     */
-    public function updateCustomer($customer_id){
-        // "email" : "customer11@gmail.com",
-        // "first_name" : "customer11",
-        // "last_name" : "customer11",
-        // "phone" : "+918000865549",
-        // "metadata" : "" 
-       return Paystack::updateCustomer($customer_id);
-    }
-
+    
     /**
      * make payment
      * @return Url
      */
     public function makePaymentRequest($data)
     {           
-                // "amount" : 5000,
-                // "reference" :"",
-                // "email" :"test1@gmail.com",
-                // "plan" :"",
-                // "first_name" :"",
-                // "last_name" :"",
-                // "callback_url" :"",
-                // "currency" :"NGN",
-                // "subaccount" :"",
-                // "transaction_charge" :"",
-                // "metadata" :"",
-        return Paystack::getAuthorizationResponse($data);
+        $url = $this->base_url."/transaction/initialize";
+        $fields_string = http_build_query($data);
+        return Helper::sendCurlRequestPaystack($url, $fields_string);
     }
     
-    /**
-     * make payment
-     * @return Url
-    */
-    public function getAllCustomers(){
-       return Paystack::getAllCustomers();
-    }
-
     /**
      * Obtain Paystack payment information
      * @return void
      */
-    public function handleGatewayCallback()
+    public function handleGatewayCallback($refrence)
     {
-        $paymentDetails = Paystack::getPaymentData();
-        return  $paymentDetails;
-        // Now you have the payment details,
-        // you can store the authorization_code in your db to allow for recurrent subscriptions
-        // you can then redirect or do whatever you want
+        $url = $this->base_url."/transaction/verify/".$refrence;
+        return Helper::sendCurlGetRequestPaystack($url);
     }
 
 
