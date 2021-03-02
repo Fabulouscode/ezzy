@@ -616,9 +616,9 @@ class UserRepository extends Repository
         }          
 
         //pagination
-        if(isset($request->last_id) && empty($request->distance) && empty($request->search) && empty($request->rating)){  
+        if(isset($request->last_id)){  
             if(!empty($request->last_id)){
-                $query = $query->where('id', '<', $request->last_id);    
+                $query = $query->skip($request->last_id);    
             }            
             $query = $query->limit($this->api_data_limit);    
         }
