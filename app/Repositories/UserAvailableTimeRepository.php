@@ -60,7 +60,7 @@ class UserAvailableTimeRepository extends Repository
         $day_arr = ['1','2','3','4','5'];
         $same_timing = $this->user_repo->getById($user_id);
         \Log::info("request send ".json_encode($request));           
-        if(in_array($request['day'], $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+        if($request['same_timing'] == '1' && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
         \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
             $query = $this->model->where('appointment_type', $request['appointment_type'])
                                 ->where(function($query) use ($request){
