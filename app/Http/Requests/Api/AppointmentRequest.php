@@ -36,6 +36,8 @@ class AppointmentRequest extends FormRequest
             'reason' => 'required',
             'appointment_date' => 'required|date_format:Y-m-d',
             'appointment_time' => 'required|date_format:H:i:s',
+            'appointment_end_date' => 'required|date_format:Y-m-d',
+            'appointment_end_time' => 'required|date_format:H:i:s',
         ];
     }
 

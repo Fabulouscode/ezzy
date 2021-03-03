@@ -273,7 +273,7 @@ class AppointmentController extends BaseApiController
         //user free or not checking
         $check_appointment = $this->appointment_repo->checkUserAvailable($request);
         if(!empty($check_appointment)){
-            \Log::info("Provider is busy ".json_encode($user_available));   
+            \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Provider is already booked on your selected time.');
         }
         
@@ -297,6 +297,8 @@ class AppointmentController extends BaseApiController
                         'urgent' => !empty($request->urgent) ? $request->urgent : 0,
                         'appointment_date' => $request->appointment_date,
                         'appointment_time' => $request->appointment_time,
+                        'appointment_end_date' => !empty($request->appointment_end_date) ? $request->appointment_end_date : null,
+                        'appointment_end_time' => !empty($request->appointment_end_time) ? $request->appointment_end_time : null,
                         'user_service_id' => !empty($request->user_service_id) ? $request->user_service_id : null,
                         'full_day' => isset($request->full_day) ? $request->full_day : 0,
                         'my_appointment' => isset($request->my_appointment) ? $request->my_appointment : 0,

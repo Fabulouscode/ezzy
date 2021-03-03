@@ -295,14 +295,20 @@ class AppointmentRepository extends Repository
     {   
             // appointment same time not book
         $start_appointment  = new Carbon($request->appointment_time);
-        $end_appointment  = new Carbon($request->appointment_time);
-        $query = $this->model->where('appointment_date', $request->appointment_date)
-                ->where('appointment_time','<=', $start_appointment->addMinute('10')->format('H:i:s'))
-                ->where('appointment_time','>=', $end_appointment->subMinute('10')->format('H:i:s'))
+        $end_appointment  = new Carbon($request->appointment_end_time);
+        $query = $this->model
+                    ->where(function($query) use ($request){
+                        $query->whereBetween('appointment_date', [$request->appointment_date, $request->appointment_end_date])
+                            ->orWhereBetween('appointment_end_date', [$request->appointment_date, $request->appointment_end_date]);
+                    })
+                    ->where(function($query) use ($start_appointment, $end_appointment){
+                        $query->whereBetween('appointment_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
+                    })
                 ->where('user_id',$request->user_id);
    
         $query = $query->first();
-
+   
         return $query;
       
     }

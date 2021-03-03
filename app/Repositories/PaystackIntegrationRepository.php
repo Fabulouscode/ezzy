@@ -26,7 +26,10 @@ class PaystackIntegrationRepository extends Repository
     public function __construct()
     {
         parent::__construct();
-
+        $this->headers = [
+                    "Authorization: Bearer ".config('app.PAYSTACK_SECRET_KEY'),
+                    "Cache-Control: no-cache",
+                ];
     }
     
     /**
@@ -37,7 +40,7 @@ class PaystackIntegrationRepository extends Repository
     {           
         $url = $this->base_url."/transaction/initialize";
         $fields_string = http_build_query($data);
-        return Helper::sendCurlRequestPaystack($url, $fields_string);
+        return Helper::sendCurlRequestPaystack($url, $this->headers, 'POST',$fields_string);
     }
     
     /**
@@ -47,7 +50,7 @@ class PaystackIntegrationRepository extends Repository
     public function handleGatewayCallback($refrence)
     {
         $url = $this->base_url."/transaction/verify/".$refrence;
-        return Helper::sendCurlGetRequestPaystack($url);
+        return Helper::sendCurlRequestPaystack($url, $this->headers);
     }
 
 

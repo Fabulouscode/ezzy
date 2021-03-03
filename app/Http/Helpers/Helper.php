@@ -305,21 +305,23 @@ class Helper
     /**
      * sending curl request paystack
      */ 
-    public static function sendCurlRequestPaystack($url, $data = '') 
+    public static function sendCurlRequestPaystack($url, $headers, $method = 'GET', $data = '') 
     {
-        $headers = [
-                    "Authorization: Bearer ".config('app.PAYSTACK_SECRET_KEY'),
-                    "Cache-Control: no-cache",
-                ];
-        if(!empty($url)){
+        if(!empty($url) && !empty($headers)){
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             if ($headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POST, true);
+            if($method == 'POST'){
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            }else{
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            }
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
             return $response_arr;
@@ -328,27 +330,5 @@ class Helper
         return true;
     }
     
-    public static function sendCurlGetRequestPaystack($url) 
-    {
-        $headers = [
-                    "Authorization: Bearer ".config('app.PAYSTACK_SECRET_KEY'),
-                    "Cache-Control: no-cache",
-                ];
-        if(!empty($url)){
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            if ($headers)
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            $response = curl_exec($ch);
-            $response_arr =  json_decode($response, true);
-            return $response_arr;
-        }
-        return true;
-    }
     
 }

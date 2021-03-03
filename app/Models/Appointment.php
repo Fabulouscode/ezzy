@@ -78,7 +78,9 @@ class Appointment extends Model
         'video_end_time',
         'longitude',
         'latitude',
-        'accepted_date'
+        'accepted_date',
+        'appointment_end_date',
+        'appointment_end_time'
     ];
 
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];
