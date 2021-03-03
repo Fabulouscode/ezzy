@@ -769,7 +769,12 @@ class UserRepository extends Repository
          // category filter
         if(!empty($request->category_id)){
             $query = $query->where('category_id', $request->category_id);
-        }          
+        }      
+        
+         // subcategory filter
+        if(!empty($request->subcategory_id)){
+            $query = $query->where('subcategory_id', $request->subcategory_id);
+        }  
         
          // consultation filter
         if(isset($request->consultation)){
