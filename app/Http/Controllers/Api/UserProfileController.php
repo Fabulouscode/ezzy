@@ -236,6 +236,10 @@ class UserProfileController extends BaseApiController
     public function addUserAvailableTimes(UserAvailableTimesRequest $request)
     {
         $data = array();
+        $user_available = $this->user_available_time_repo->checkUserAvailableTime($request, $request->user()->id);
+        if(!empty($user_available)){
+                return self::sendError('', "You have already added selected time.");
+        }
         $add_data = [
                     'user_id' => $request->user()->id,
                     'day' => (isset($request->day)) ? $request->day : '',
@@ -255,6 +259,15 @@ class UserProfileController extends BaseApiController
     public function multipleAddUserAvailableTimes(UserAddMultipleAvailableTimesRequest $request)
     {
         $add_data = $request->all();
+
+        if(!empty($add_data['available_times']) && count($add_data['available_times']) > 0){
+            foreach ($add_data['available_times'] as $key => $value) {
+                $user_available = $this->user_available_time_repo->checkUserAvailableTime($value, $request->user()->id);
+                if(!empty($user_available)){
+                     return self::sendError('', "You have already added selected time.");
+                }
+            }
+        }
         if(!empty($add_data['available_times']) && count($add_data['available_times']) > 0){
             foreach ($add_data['available_times'] as $key => $value) {
                 $value_data = [];
@@ -329,7 +342,7 @@ class UserProfileController extends BaseApiController
                                     return [
                                         "appointment_date"=> $response->appointment_date,
                                         "start_time"=> $response->appointment_time,
-                                        "end_time"=> Carbon::parse($response->appointment_time)->addMinute(30)->format('H:i:s'),
+                                        "end_time"=> $response->appointment_end_time,
                                     ];
                                 });;
         return self::sendSuccess($data, 'Available times details');   
