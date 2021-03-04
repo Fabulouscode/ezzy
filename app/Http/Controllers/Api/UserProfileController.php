@@ -343,6 +343,7 @@ class UserProfileController extends BaseApiController
                                         "appointment_date"=> $response->appointment_date,
                                         "start_time"=> $response->appointment_time,
                                         "end_time"=> $response->appointment_end_time,
+                                        "appointment_end_date"=> $response->appointment_end_date,
                                     ];
                                 });;
         return self::sendSuccess($data, 'Available times details');   
