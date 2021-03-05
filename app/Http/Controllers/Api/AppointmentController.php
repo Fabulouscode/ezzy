@@ -70,6 +70,8 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
@@ -100,6 +102,8 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
@@ -130,6 +134,8 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
@@ -190,6 +196,8 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
                                         'cancel_reason'=>$response->cancel_reason,
                                         'cancel_date'=>$response->cancel_date,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
@@ -222,6 +230,8 @@ class AppointmentController extends BaseApiController
                                         'appointment_type_name'=>$response->appointment_type_name,
                                         'appointment_date'=>$response->appointment_date,
                                         'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
                                         'completed_datetime'=>$response->completed_datetime,
                                         'appointment_price'=>$response->appointment_price,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
