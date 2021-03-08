@@ -46,14 +46,6 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>HCP Subtype</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->categoryChild))
-                                                {{$data->categoryChild->name}}
-                                            @endif 
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>User Name</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->first_name))
