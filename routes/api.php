@@ -86,6 +86,13 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
 
 
+             // location
+            Route::prefix('location')->group(function(){
+                Route::get('/country', 'UserProfileController@getCountrys');
+                Route::get('/state/{country_id?}', 'UserProfileController@getStateByCountryId');
+                Route::get('/city/{state_id?}', 'UserProfileController@getCityByStateId');
+            });
+
              // bank details
             Route::prefix('bank_details')->group(function(){
                 Route::get('', 'UserProfileController@getUserBankDetails');

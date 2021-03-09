@@ -12,6 +12,9 @@ use App\Repositories\UserEductaionRepository;
 use App\Repositories\UserExperianceRepository;
 use App\Repositories\UserLocationRepository;
 use App\Repositories\AppointmentRepository;
+use App\Repositories\CountryRepository;
+use App\Repositories\StateRepository;
+use App\Repositories\CityRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserCardRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
@@ -28,7 +31,7 @@ use Carbon\Carbon;
 
 class UserProfileController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $appointment_repo, $user_bank_account_repo, $user_location_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
+    private $country_repo, $state_repo, $city_repo, $user_repo, $user_details_repo, $appointment_repo, $user_bank_account_repo, $user_location_repo, $user_available_time_repo, $user_education_repo, $user_experiance_repo;
 
     public function __construct(
         UserRepository $user_repo,
@@ -38,7 +41,10 @@ class UserProfileController extends BaseApiController
         UserEductaionRepository $user_education_repo,
         UserExperianceRepository $user_experiance_repo,
         UserLocationRepository $user_location_repo,
-        AppointmentRepository $appointment_repo
+        AppointmentRepository $appointment_repo,
+        CountryRepository $country_repo,
+        StateRepository $state_repo,
+        CityRepository $city_repo
         )
     {
         parent::__construct();
@@ -50,6 +56,9 @@ class UserProfileController extends BaseApiController
         $this->user_experiance_repo = $user_experiance_repo;
         $this->user_location_repo = $user_location_repo;
         $this->appointment_repo = $appointment_repo;
+        $this->country_repo = $country_repo;
+        $this->state_repo = $state_repo;
+        $this->city_repo = $city_repo;
     }
 
 
@@ -591,7 +600,26 @@ class UserProfileController extends BaseApiController
     }
 
    
+    public function getCountrys(Request $request)
+    {
+        $data = array();
+        $data = $this->country_repo->getAll();
+        return self::sendSuccess($data, 'country data');
+    }
+    
+    public function getStateByCountryId($country_id)
+    {
+        $data = array();
+        $data = $this->state_repo->getbyCountryId($country_id);
+        return self::sendSuccess($data, 'state data');
+    }
 
+    public function getCityByStateId($state_id)
+    {
+        $data = array();
+        $data = $this->city_repo->getbyStateId($state_id);
+        return self::sendSuccess($data, 'city data');
+    }
 
 
 
