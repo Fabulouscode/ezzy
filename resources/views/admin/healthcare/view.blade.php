@@ -133,6 +133,22 @@
                                         </dd>
                                     </div>
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic Country</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->clinic_country))
+                                                {{$data->userDetails->clinic_country}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Clinic State</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->clinic_state))
+                                                {{$data->userDetails->clinic_state}} 
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Clinic City</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->clinic_city))

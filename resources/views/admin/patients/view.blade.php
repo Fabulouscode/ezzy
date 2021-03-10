@@ -111,8 +111,8 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Marital Status</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->marital_status))
-                                                {{$data->userDetails->marital_status}} 
+                                            @if(isset($data->userDetails->marital_status))
+                                                {{ ($data->userDetails->marital_status == '1') ? 'Married' : 'Single'}} 
                                             @endif 
                                         </dd>
                                     </div>
