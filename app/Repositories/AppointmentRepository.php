@@ -429,6 +429,57 @@ class AppointmentRepository extends Repository
         return $query;
        
     }
+    
+    /**
+     * Display a list of Upcoming Appointment record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getActiveAppointment($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }
+            $query = $query->limit($this->api_data_limit); 
+        }
+
+        if(!empty($request->status)){
+            $query = $query->where('status',$request->status);
+        }else{
+          $query = $query->whereIn('status',['1','2','3','4']);
+        }
+    
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        
+        return $query;
+       
+    }
    
     /**
      * Display a list of Pending Appointment record.

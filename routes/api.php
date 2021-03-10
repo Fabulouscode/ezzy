@@ -207,6 +207,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
                 Route::post('/completed', 'AppointmentController@getCompletedAppointment');
+                Route::post('/active', 'AppointmentController@getActiveAppointment');
                 Route::post('/add', 'AppointmentController@addAppointment');
                 Route::post('/urgent/add', 'AppointmentController@addUrgentAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
@@ -317,6 +318,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/upcoming', 'AppointmentController@getUpcomingAppointment');
                 Route::post('/cancelled', 'AppointmentController@getCancelledAppointment');
                 Route::post('/completed', 'AppointmentController@getCompletedAppointment');
+                Route::post('/active', 'AppointmentController@getActiveAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
                 Route::post('/change/completed', 'AppointmentController@completedAppointment');  
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
