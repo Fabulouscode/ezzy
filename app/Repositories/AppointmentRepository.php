@@ -724,5 +724,17 @@ class AppointmentRepository extends Repository
         $query = $query->orderBy('appointment_date','desc')->count();
         return $query;
     }
+
+
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyClientIdToCheckAppointment($client_id)
+    {   
+        return $this->model->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2,3,4])->first();
+
+    }
 }
 

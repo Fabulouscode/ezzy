@@ -17,6 +17,7 @@ use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\AppointmentRescheduleRequest;
 use App\Http\Requests\Api\AppointmentLaboratoryRequest;
 use App\Http\Requests\Api\AppointmentCompletedRequest;
+use App\Http\Requests\Api\AppointmentCheckRequest;
 use App\Http\Requests\Api\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
@@ -587,7 +588,7 @@ class AppointmentController extends BaseApiController
         $update = [
                     'appointment_date'=> Carbon::parse($request->appointment_date)->format('Y-m-d'),
                     'appointment_time'=> Carbon::parse($request->appointment_time)->format('H:i:s'),
-                    'status' => '0'
+                    'status' => '1'
                   ];
        
         $appointment = $this->appointment_repo->getById($request->id);
@@ -842,5 +843,20 @@ class AppointmentController extends BaseApiController
             DB::rollBack();
             return Self::sendException($e);
         }
+    }
+
+
+    public function getAppointmentProgressByUserId(AppointmentCheckRequest $request){
+        $data = $this->appointment_repo->getbyClientIdToCheckAppointment($request->client_id); 
+        return self::sendSuccess($data, 'Appointment get data');
+    }
+
+    public function checkAppointmentClientWallet(AppointmentCheckRequest $request){
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->client_id);
+        $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please fund wallet.', 402);
+        }
+        return self::sendSuccess([], 'wallet');
     }
 }
