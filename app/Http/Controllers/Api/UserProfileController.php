@@ -164,7 +164,7 @@ class UserProfileController extends BaseApiController
                     'bank_name' => $request->bank_name,
                     'bank_branch_name'=> $request->bank_branch_name,
                     'account_number' => $request->account_number,
-                    'ifsc_code' => $request->ifsc_code,
+                    'ifsc_code' => isset($request->ifsc_code) ? $request->ifsc_code : '',
                     'primary_account' => $primary_status,
                     ];
         try{
@@ -183,7 +183,7 @@ class UserProfileController extends BaseApiController
                         'bank_name' => $request->bank_name,
                         'bank_branch_name'=> $request->bank_branch_name,
                         'account_number' => $request->account_number,
-                        'ifsc_code' => $request->ifsc_code,
+                        'ifsc_code' => isset($request->ifsc_code) ? $request->ifsc_code : '',
                         ];
         try{
             $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);

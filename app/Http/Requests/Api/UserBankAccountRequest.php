@@ -30,7 +30,7 @@ class UserBankAccountRequest extends FormRequest
            'bank_name' => 'required|string|max:255',
            'bank_branch_name'=> 'required',
            'account_number' => 'required',
-           'ifsc_code' => 'required',
+        //    'ifsc_code' => 'required',
         ];
     }
 
