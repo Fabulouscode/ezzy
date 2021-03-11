@@ -26,6 +26,21 @@ class Appointment extends Model
         '1' => 'Home Consultation',
         '2' => 'Video Consultation'
     );
+
+    public $nurse_appointment_type_value = array(
+        '0' => 'Nursing Facility',
+        '1' => 'Home Visit'
+    );
+  
+    public $laboratory_appointment_type_value = array(
+        '0' => 'Visit Laboratory',
+        '1' => 'Home Visit'
+    );
+
+    public $massage_appointment_type_value = array(
+        '0' => 'Care Facility',
+        '1' => 'Home Visit'
+    );
    
     public $gender_value = array(
         '0' => 'Male',
@@ -94,7 +109,15 @@ class Appointment extends Model
     }
 
     public function getAppointmentTypeNameAttribute() {
-        return array_key_exists($this->appointment_type, $this->appointment_type_value) ? $this->appointment_type_value[$this->appointment_type]: '';
+        if(!empty($this->user->categoryParent) && $this->user->categoryParent->id == '5'){
+            return array_key_exists($this->appointment_type, $this->nurse_appointment_type_value) ? $this->nurse_appointment_type_value[$this->appointment_type]: '';
+        }else if(!empty($this->user->categoryParent) && $this->user->categoryParent->id == '6'){
+            return array_key_exists($this->appointment_type, $this->massage_appointment_type_value) ? $this->massage_appointment_type_value[$this->appointment_type]: '';
+        }else if(!empty($this->user->categoryParent) && $this->user->categoryParent->parent_id == '3'){
+            return array_key_exists($this->appointment_type, $this->laboratory_appointment_type_value) ? $this->laboratory_appointment_type_value[$this->appointment_type]: '';
+        }else{
+            return array_key_exists($this->appointment_type, $this->appointment_type_value) ? $this->appointment_type_value[$this->appointment_type]: '';
+        }
     }
 
     public function user() {
