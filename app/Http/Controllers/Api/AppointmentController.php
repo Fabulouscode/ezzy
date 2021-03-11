@@ -10,6 +10,7 @@ use App\Repositories\AppointmentServiceRepository;
 use App\Repositories\UserServiceRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\UserTransactionRepository;
+use App\Repositories\UserLocationRepository;
 use App\Repositories\ManageFeesRepository;
 use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\UrgentAppointmentRequest;
@@ -26,7 +27,7 @@ use Log;
 
 class AppointmentController extends BaseApiController
 {
-    private $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
+    private $user_location_repo, $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
 
     public function __construct(
             AppointmentRepository $appointment_repo, 
@@ -35,7 +36,8 @@ class AppointmentController extends BaseApiController
             NotificationRepository $notification_repo,
             UserRepository $user_repo,
             UserTransactionRepository $user_transaction_repo,
-            ManageFeesRepository $manage_fees_repo
+            ManageFeesRepository $manage_fees_repo,
+            UserLocationRepository $user_location_repo
         )
     {
         parent::__construct();
@@ -46,6 +48,7 @@ class AppointmentController extends BaseApiController
         $this->notification_repo = $notification_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->manage_fees_repo = $manage_fees_repo;
+        $this->user_location_repo = $user_location_repo;
     }
 
     public function walletUpdateBalance($user_id)
@@ -323,12 +326,14 @@ class AppointmentController extends BaseApiController
         }
         
         $appointment_address = "";
+        
+        $check_user_location = $this->user_location_repo->getbyUserPrimaryAddress($request->user()->id);
         if(!empty($request->address) && !empty($request->my_appointment)){
             $appointment_address = $request->address;
-        }else if(!empty($check_user_location) && !empty($check_user_location->userLocation)){
-            $appointment_address = $check_user_location->userLocation->address;
+        }else if(!empty($check_user_location) && !empty($check_user_location->address)){
+            $appointment_address = $check_user_location->address;
         }
-        
+
         $add_data = [
                         'client_id' => $request->user()->id,
                         'user_id' => $request->user_id,
