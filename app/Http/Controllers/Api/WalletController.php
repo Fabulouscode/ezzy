@@ -14,6 +14,7 @@ use App\Repositories\OrderTrackingRepository;
 use App\Repositories\ManageFeesRepository;
 use App\Repositories\NotificationRepository;
 use App\Http\Requests\Api\AddWalletBalanceRequest;
+use App\Http\Requests\Api\DeductionWalletBalanceRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 
@@ -75,6 +76,33 @@ class WalletController extends BaseApiController
             $this->user_transaction_repo->dataCrud($add_transaction);
             self::walletUpdateBalance($request->user()->id);        
             return self::sendSuccess([], 'Wallet balance add Successfully');
+        } catch (\Exception $e) {
+            return self::sendException($e);
+        }
+    }
+
+    public function deductionWalletBalance(DeductionWalletBalanceRequest $request)
+    {          
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        if($wallet_balance <= $request->amount){
+            return self::sendError([], 'Please fund wallet.');
+        } 
+       
+            $add_transaction = [
+                        'user_id'=> $request->user()->id,
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'amount'=> $request->amount,                        
+                        'payment_gateway_response'=> $request->payment_transaction,
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '1',
+                        'wallet_transaction'=> '1',
+                        'payout_status'=> '0',
+                        'status'=> '0',
+                    ];
+        try {
+            $this->user_transaction_repo->dataCrud($add_transaction);
+            self::walletUpdateBalance($request->user()->id);        
+            return self::sendSuccess([], 'Wallet balance deduction Successfully');
         } catch (\Exception $e) {
             return self::sendException($e);
         }

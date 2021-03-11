@@ -185,6 +185,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // wallet request
             Route::prefix('wallet')->group(function(){
                 Route::post('/add', 'WalletController@addWalletBalance');
+                Route::post('/deduction', 'WalletController@deductionWalletBalance');
                 Route::get('/get/balance', 'WalletController@getWalletBalance');
             });
 
