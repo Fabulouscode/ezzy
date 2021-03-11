@@ -141,13 +141,13 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user').'?hcp_type=Physiotherapy'}}">
+            <a href="{{url('/healthcare/user').'?hcp_type=Physiotherapist'}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Physiotherapy</h6>
+                    <h6 class="mb-0">Physiotherapist</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
