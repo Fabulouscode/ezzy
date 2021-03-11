@@ -846,13 +846,13 @@ class AppointmentController extends BaseApiController
     }
 
 
-    public function getAppointmentProgressByUserId(AppointmentCheckRequest $request){
-        $data = $this->appointment_repo->getbyClientIdToCheckAppointment($request->client_id); 
+    public function getAppointmentProgressByUserId($client_id){
+        $data = $this->appointment_repo->getbyClientIdToCheckAppointment($client_id); 
         return self::sendSuccess($data, 'Appointment get data');
     }
 
-    public function checkAppointmentClientWallet(AppointmentCheckRequest $request){
-        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->client_id);
+    public function checkAppointmentClientWallet($client_id){
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($client_id);
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
         if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
             return self::sendError(['data' => 'no_minimum_balance'], 'Please fund wallet.', 402);

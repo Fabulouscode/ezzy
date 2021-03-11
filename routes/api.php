@@ -351,8 +351,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // Route::get('/payment/get', 'PaymentController@createCustomer');
         });
   
-        Route::post('/video/appointment/check', 'AppointmentController@getAppointmentProgressByUserId');
-        Route::post('/video/appointment/check/wallet', 'AppointmentController@checkAppointmentClientWallet');
+        Route::get('/video/appointment/check/{client_id?}', 'AppointmentController@getAppointmentProgressByUserId');
+        Route::get('/video/appointment/check/wallet/{client_id?}', 'AppointmentController@checkAppointmentClientWallet');
 
 
 
