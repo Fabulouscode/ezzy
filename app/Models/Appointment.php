@@ -152,7 +152,7 @@ class Appointment extends Model
         $appointment_timing = '0';
         if(!empty($this->appointment_date) && !empty($this->appointment_date) && $this->appointment_date){
             $start_appointment  = new Carbon($this->appointment_date.''.$this->appointment_time);
-            $end_appointment   = new Carbon($this->completed_datetime);
+            $end_appointment   = new Carbon($this->appointment_end_date.''.$this->appointment_end_time);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
         }
        return $appointment_timing;

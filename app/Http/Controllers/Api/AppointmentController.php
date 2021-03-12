@@ -660,8 +660,8 @@ class AppointmentController extends BaseApiController
             $home_visit_fees = 0;
             $full_day = 0;
             $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
-            // $end_appointment  = new Carbon($appointment_details->appointment_end_date.''.$appointment_details->appointment_end_time);
-            $end_appointment   = new Carbon($appointment_details->completed_datetime);
+            $end_appointment  = new Carbon($appointment_details->appointment_end_date.''.$appointment_details->appointment_end_time);
+            // $end_appointment   = new Carbon($appointment_details->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
             
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
