@@ -733,7 +733,7 @@ class AppointmentRepository extends Repository
      */
     public function getbyClientIdToCheckAppointment($client_id)
     {   
-        return $this->model->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2,3,4])->first();
+        return $this->model->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2,3,4])->whereNull('completed_datetime')->first();
 
     }
 }
