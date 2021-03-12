@@ -859,7 +859,7 @@ class AppointmentController extends BaseApiController
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($client_id);
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
         if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
-            return self::sendError(['data' => 'no_minimum_balance'], 'Please fund wallet.', 402);
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before start an appointment.', 402);
         }
         return self::sendSuccess([], 'wallet');
     }
