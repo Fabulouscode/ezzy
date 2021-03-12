@@ -204,9 +204,11 @@ class OrderController extends BaseApiController
             if($request->status == '0'){
                 $notification_message = 'Order booked by '. $request->user()->user_name;
             }else if($request->status == '1'){
-                $notification_message = 'Order accepted by '. $request->user()->user_name;
+                $notification_message = 'Order completed by '. $request->user()->user_name;
             }else if($request->status == '2'){
                 $notification_message = 'Order cancelled by '. $request->user()->user_name;
+            }else if($request->status == '4'){
+                $notification_message = 'Order tracking by '. $request->user()->user_name;
             }else{
                 $notification_message = 'Order '.strtolower($data->status_name).' by '. $request->user()->user_name;
             } 

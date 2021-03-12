@@ -15,6 +15,7 @@ class Order extends Model
         '1' => 'Success',
         '2' => 'Cancel',
         '3' => 'Active',
+        '4' => 'Order Tracking',
     );
 
     public $delivery_type_value = array(

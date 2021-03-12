@@ -249,7 +249,7 @@ class UserController extends Controller
                                     'sender_id' => NULL,
                                     'receiver_id' => $request->user_id,
                                     'title' => 'Profile',
-                                    'message' => 'Your Profile is Approved by Admin.',
+                                    'message' => 'Congratulations! Your profile has been approved, you can now accept appointments on Ezzycare',
                                     'parameter' => '',
                                     'msg_type' => '0',
                                 ];  
