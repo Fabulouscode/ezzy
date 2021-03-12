@@ -511,6 +511,14 @@ class AppointmentController extends BaseApiController
         if($request->status == '2' && $check_appointment_book->format('Y-m-d') != $current_time){
                 return self::sendError([], 'Please check appointment date');
         }
+        
+        if($request->status == '2' && !empty($request->start_datetime)){
+            $start_appointment = [
+                    'start_datetime'=> Carbon::parse($request->start_datetime)->format('Y-m-d H:i:s'),
+                ];
+            $this->appointment_repo->dataCrud($start_appointment, $request->id);
+        }
+
         $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing > $this->appointment_repo->cancel_timing_no_charge)){
             $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
@@ -659,9 +667,14 @@ class AppointmentController extends BaseApiController
             $hcp_fees = 0;
             $home_visit_fees = 0;
             $full_day = 0;
-            $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
-            $end_appointment  = new Carbon($appointment_details->appointment_end_date.''.$appointment_details->appointment_end_time);
-            // $end_appointment   = new Carbon($appointment_details->completed_datetime);
+            if(!empty($appointment_details->start_datetime)){
+                    $start_appointment  = new Carbon($appointment_details->start_datetime);
+            }else{
+                    $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
+            }
+     
+            // $end_appointment  = new Carbon($appointment_details->appointment_end_date.''.$appointment_details->appointment_end_time);
+            $end_appointment   = new Carbon($appointment_details->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
             
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           

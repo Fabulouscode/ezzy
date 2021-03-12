@@ -95,7 +95,8 @@ class Appointment extends Model
         'latitude',
         'accepted_date',
         'appointment_end_date',
-        'appointment_end_time'
+        'appointment_end_time',
+        'start_datetime'
     ];
 
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];
@@ -150,9 +151,9 @@ class Appointment extends Model
   
     public function getStartToEndTimeDiffAttribute(){
         $appointment_timing = '0';
-        if(!empty($this->appointment_date) && !empty($this->appointment_date) && $this->appointment_date){
-            $start_appointment  = new Carbon($this->appointment_date.''.$this->appointment_time);
-            $end_appointment   = new Carbon($this->appointment_end_date.''.$this->appointment_end_time);
+        if(!empty($this->start_datetime) && !empty($this->completed_datetime)){
+            $start_appointment  = new Carbon($this->start_datetime);
+            $end_appointment   = new Carbon($this->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
         }
        return $appointment_timing;
