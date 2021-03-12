@@ -111,6 +111,14 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment Started Date Time</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->start_datetime))
+                                                {{Helper::getDateTimeFormate($data->start_datetime)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
                                     @if(isset($data->completed_datetime))
                                         <div class="row">
                                             <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
