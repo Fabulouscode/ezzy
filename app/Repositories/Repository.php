@@ -267,7 +267,7 @@ class Repository
     public function getDateTimeFormate($date_time)
     {
         $date_time_formate = new Carbon($date_time);
-        return $date_time_formate->format('d M, Y H:i:s');
+        return $date_time_formate->format('d M, Y h:i a');
     }
 
     /**

@@ -17,7 +17,8 @@ class Notification extends Model
         '3' => 'Appointmnent Payment Completed',
         '4' => 'Order Placed',
         '5' => 'Order Status',
-        '6' => 'Order Payment Completed'
+        '6' => 'Order Payment Completed',
+        '7' => 'User Approved'
     );
  
     public $notification_topic = array(

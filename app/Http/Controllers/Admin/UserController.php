@@ -251,7 +251,7 @@ class UserController extends Controller
                                     'title' => 'Profile',
                                     'message' => 'Congratulations! Your profile has been approved, you can now accept appointments on Ezzycare',
                                     'parameter' => '',
-                                    'msg_type' => '0',
+                                    'msg_type' => '7',
                                 ];  
                 $this->notification_repo->sendingWithoutSenderNotification($send_notification);    
             }else{
