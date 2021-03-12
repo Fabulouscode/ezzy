@@ -85,7 +85,7 @@ class WalletController extends BaseApiController
     {          
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
         if($wallet_balance <= $request->amount){
-            return self::sendError([], 'Please fund wallet.');
+            return self::sendError([], "You haven't enough balance in wallet. Please Top up your wallet.");
         } 
        
             $add_transaction = [
@@ -100,9 +100,9 @@ class WalletController extends BaseApiController
                         'status'=> '0',
                     ];
         try {
-            $this->user_transaction_repo->dataCrud($add_transaction);
+            $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
             self::walletUpdateBalance($request->user()->id);        
-            return self::sendSuccess([], 'Wallet balance deduction Successfully');
+            return self::sendSuccess($transaction, 'Wallet balance deduction Successfully');
         } catch (\Exception $e) {
             return self::sendException($e);
         }

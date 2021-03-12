@@ -27,7 +27,6 @@ class AppointmentPayStatusRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'payment_transaction' => 'required',
             'status' => 'required',
         ];
     }
