@@ -96,7 +96,7 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Appointment Book Date</label></dt>
+                                        <dt class="col-sm-5"><label>Appointment Created Date</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->created_at))
                                                 {{Helper::getDateTimeFormate($data->created_at)}}
