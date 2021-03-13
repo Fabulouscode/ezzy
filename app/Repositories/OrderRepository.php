@@ -180,6 +180,8 @@ class OrderRepository extends Repository
                         $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
                     }else  if($selected->status == '2'){
                         $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
+                   }else {
+                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })
