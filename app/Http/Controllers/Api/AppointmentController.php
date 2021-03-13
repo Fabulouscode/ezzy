@@ -513,10 +513,10 @@ class AppointmentController extends BaseApiController
         }
         
         if($request->status == '2' && !empty($request->start_datetime)){
-            $start_appointment = [
+            $startappointment = [
                     'start_datetime'=> Carbon::parse($request->start_datetime)->format('Y-m-d H:i:s'),
                 ];
-            $this->appointment_repo->dataCrud($start_appointment, $request->id);
+            $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
 
         $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);

@@ -9,6 +9,8 @@ use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderProductRepository;
 use App\Repositories\FavoriteMedicineRepository;
+use App\Repositories\ChatHistoryRepository;
+use App\Repositories\ChateServicesRepository;
 use App\Http\Requests\Api\ShoppingCartRequest;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\FavoriteRequest;
@@ -17,9 +19,11 @@ use Illuminate\Support\Facades\DB;
 class ShoppingCartController extends BaseApiController
 {
 
-    private $shop_cart_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $favorite_medicine_repo;
+    private $chat_history_repo, $chat_service_repo, $shop_cart_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $favorite_medicine_repo;
 
     public function __construct(
+        ChatHistoryRepository $chat_history_repo, 
+        ChateServicesRepository $chat_service_repo,
         ShoppingCartRepository $shop_cart_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         OrderRepository $order_repo,
@@ -33,6 +37,8 @@ class ShoppingCartController extends BaseApiController
         $this->order_repo = $order_repo;
         $this->order_product_repo = $order_product_repo;
         $this->favorite_medicine_repo = $favorite_medicine_repo;
+        $this->chat_history_repo = $chat_history_repo;
+        $this->chat_service_repo = $chat_service_repo;
     }
 
 
@@ -213,6 +219,27 @@ class ShoppingCartController extends BaseApiController
     }
     
 
+    public function addToCartUsingTreatmentPlan(Request $request, $plan_id)
+    {
+        $treatment_plan = $this->chat_history_repo->getTreatmentPlanbyId($plan_id);
+        
+        $this->shop_cart_repo->clearUserCart($request->user()->id); 
 
+        if(count($treatment_plan->chatDetails) > 0){
+            foreach ($treatment_plan->chatDetails as $key => $value) {
+                $add_data = [
+                        'user_id' => $request->user()->id,
+                        'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
+                        'quantity'=> $value->quanity,
+                    ];
+        
+                // $stock_available = $this->shop_medicine_repo->checkMedicineStock($request); 
+                // if(!empty($stock_available)){
+                     $this->shop_cart_repo->dataCrud($add_data);
+                // }
+            }
+        }
+        return self::sendSuccess([], 'Cart add Success');
+    }
 
 }

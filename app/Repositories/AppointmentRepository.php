@@ -734,7 +734,17 @@ class AppointmentRepository extends Repository
     public function getbyClientIdToCheckAppointment($client_id)
     {   
         return $this->model->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2])->first();
+    }
 
+    
+    public function getCurrentlyRunningAppointment()
+    {   
+        $current_time  =  Carbon::now();
+        \Log::info("current_time ".json_encode($current_time));     
+        return $this->model->whereDate('appointment_end_date', Carbon::now())
+                            ->whereTime('appointment_end_time', $current_time->addMinute(5)->format('H:i:s'))
+                            ->where('status',2)->get();
+   
     }
 }
 

@@ -266,6 +266,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/remove/{id?}', 'ShoppingCartController@removeToCart');       
                 Route::get('/clear', 'ShoppingCartController@clearUserCart');       
                 Route::get('/shop/clear/{shop_id?}', 'ShoppingCartController@clearShopCart');          
+                Route::get('/treatment/plan/{plan_id?}', 'ShoppingCartController@addToCartUsingTreatmentPlan');          
             });
 
             // favorite request

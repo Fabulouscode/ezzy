@@ -47,5 +47,11 @@ class ChatHistoryRepository extends Repository
         return $this->model->with(['user','client','recommended','chatDetails','chatDetails.userService.service'])->find($id);
 
     }
+
+    public function getTreatmentPlanbyId($id)
+    {   
+        return $this->model->with(['user','client','recommended','chatDetails.userService.shopMedicineDetails'])->where('chat_type','3')->where('id',$id)->first();
+
+    }
     
 }
