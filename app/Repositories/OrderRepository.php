@@ -298,7 +298,7 @@ class OrderRepository extends Repository
             $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->where('status','0')->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['0','3','4'])->orderBy('id','desc')->get();
         
         return $query;
     }
