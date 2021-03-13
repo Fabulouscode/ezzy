@@ -65,7 +65,9 @@ class OrderController extends BaseApiController
                                                         [
                                                             'id'=>$response->userDetails->id,
                                                             'user_name'=>$response->userDetails->user_name,
-                                                            'profile_image'=>$response->userDetails->profile_image
+                                                            'profile_image'=>$response->userDetails->profile_image,
+                                                            'latitude'=>$response->userDetails->latitude,
+                                                            'longitude'=>$response->userDetails->longitude,
                                                         ]:'',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
@@ -121,7 +123,9 @@ class OrderController extends BaseApiController
                                                         [
                                                             'id'=>$response->userDetails->id,
                                                             'user_name'=>$response->userDetails->user_name,
-                                                            'profile_image'=>$response->userDetails->profile_image
+                                                            'profile_image'=>$response->userDetails->profile_image,
+                                                            'latitude'=>$response->userDetails->latitude,
+                                                            'longitude'=>$response->userDetails->longitude,
                                                         ]:'',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
@@ -150,7 +154,9 @@ class OrderController extends BaseApiController
                                                         [
                                                             'id'=>$response->userDetails->id,
                                                             'user_name'=>$response->userDetails->user_name,
-                                                            'profile_image'=>$response->userDetails->profile_image
+                                                            'profile_image'=>$response->userDetails->profile_image,
+                                                            'latitude'=>$response->userDetails->latitude,
+                                                            'longitude'=>$response->userDetails->longitude,
                                                         ]:'',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
@@ -177,7 +183,9 @@ class OrderController extends BaseApiController
                                                         [
                                                             'id'=>$response->userDetails->id,
                                                             'user_name'=>$response->userDetails->user_name,
-                                                            'profile_image'=>$response->userDetails->profile_image
+                                                            'profile_image'=>$response->userDetails->profile_image,
+                                                            'latitude'=>$response->userDetails->latitude,
+                                                            'longitude'=>$response->userDetails->longitude,
                                                         ]:'',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
