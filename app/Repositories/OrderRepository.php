@@ -297,8 +297,18 @@ class OrderRepository extends Repository
         }else{
             $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
         }
+
+        if(!empty($request->status)){
+            $query = $query->where('status','4');
+        }else{
+            $query = $query->whereIn('status',['0','3','4']);
+        }
         
-        $query = $query->whereIn('status',['0','3','4'])->orderBy('id','desc')->get();
+        if(isset($request->delivery_type)){
+            $query = $query->where('delivery_type', $request->delivery_type);
+        }
+
+        $query = $query->orderBy('id','desc')->get();
         
         return $query;
     }
