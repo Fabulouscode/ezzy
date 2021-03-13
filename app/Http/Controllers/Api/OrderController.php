@@ -325,7 +325,7 @@ class OrderController extends BaseApiController
                     if(!empty($voucher_code) && !empty($voucher_code->id)){
                         
                         if(!empty($voucher_code->percentage)){
-                            $voucher_amount_apply = (($transaction_amount * 100 ) /$voucher_code->percentage);
+                            $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
                         }else{
                             $voucher_amount_apply = $transaction_amount;
                         }
