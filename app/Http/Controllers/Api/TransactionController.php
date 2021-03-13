@@ -136,6 +136,9 @@ class TransactionController extends BaseApiController
                 $transaction_amount += $order_details->shipping_price;
             }
 
+            if(!empty($request->transaction_id)){
+                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
+            }else{
                 $add_transaction = [
                         'user_id'=> $order_details->userDetails->id,
                         'client_id'=> $request->user()->id,
@@ -146,7 +149,9 @@ class TransactionController extends BaseApiController
                         'transaction_type'=> '1',
                         'status'=> '0',
                     ];
-            $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+            }
+
 
             if(!empty($transaction)){
                 $ezzycare_charge = 0;
