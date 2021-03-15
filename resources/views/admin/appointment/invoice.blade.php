@@ -130,7 +130,7 @@
                                             @endforeach
                                             @else 
                                             <tr>
-                                                <td class="text-center">{{Helper::getDateTimeFormate($data->appointment_date .' '. $data->appointment_time)}}</td>
+                                                <td class="text-center">{{Helper::getDateTimeFormate($data->start_datetime)}}</td>
                                                 <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
                                                 <td class="text-center">{{$currency_symbol.$data->hcp_fees}}</td>
                                                 @if(!empty($data->full_day) &&  $data->full_day == '1')

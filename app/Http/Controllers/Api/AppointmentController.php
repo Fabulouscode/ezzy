@@ -827,18 +827,11 @@ class AppointmentController extends BaseApiController
 
     public function getAppointmentById($appointment_id)
     {
-        $data = $this->appointment_repo->getbyIdedit($appointment_id)->format(); 
-        return self::sendSuccess($data, 'Appointment get');
-    }
-  
-    public function getAppointmentTimeExpiredById($appointment_id)
-    {
-        $data = $this->appointment_repo->getbyUrgentAppointmentId($appointment_id); 
+        $data = $this->appointment_repo->getbyIdedit($appointment_id); 
         if(!empty($data)){
             return self::sendSuccess($data->format(), 'Appointment get');
         }
         return self::sendError($data, 'Appointment accept timing is over');
-
     }
 
     public function generateInvoice($appointment_id)

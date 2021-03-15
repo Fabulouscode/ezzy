@@ -218,7 +218,6 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/review/add', 'AppointmentController@addAppointmentReview');    
                 Route::post('/bill_pay', 'TransactionController@appointmentBillPay');
                 Route::post('/status/bill_pay', 'TransactionController@appointmentBillPaymentStatus');
-                Route::get('/accept/get/{appointment_id?}', 'AppointmentController@getAppointmentTimeExpiredById'); 
                 Route::get('/get/{appointment_id?}', 'AppointmentController@getAppointmentById'); 
                 Route::get('/invoice/{appointment_id?}', 'AppointmentController@generateInvoice'); 
             });

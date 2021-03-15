@@ -18,7 +18,7 @@ class Appointment extends Model
         '3' => 'Paid',
         '4' => 'Unpaid',
         '5' => 'Completed',
-        '6' => 'Cancel'
+        '6' => 'Cancelled'
     );
 
     public $appointment_type_value = array(
