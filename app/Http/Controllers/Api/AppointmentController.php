@@ -428,6 +428,7 @@ class AppointmentController extends BaseApiController
                         'email' => $request->email,
                         'mobile_no' => $request->mobile_no,
                         'gender' => $request->gender,
+                        'age' => isset($request->age) ? $request->age : '',
                         'urgent' => 1,
                         'appointment_date' => $request->appointment_date,
                         'appointment_time' => $request->appointment_time,
