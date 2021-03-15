@@ -197,6 +197,8 @@ class Appointment extends Model
                                 'id'=>$this->user->id,
                                 'user_name'=>$this->user->user_name,
                                 'profile_image'=>$this->user->profile_image,
+                                'category_id' =>$this->user->category_id,
+                                'category_name' => (!empty($this->user->categoryParent)) ? $this->user->categoryParent->name : '',
                                 'address'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->address : '',
                                 'eduction_details'=>(!empty($this->user->user_eduction_details)) ? $this->user->user_eduction_details : ''
                             ]:'',
