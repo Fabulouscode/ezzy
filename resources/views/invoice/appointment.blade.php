@@ -79,7 +79,7 @@
                                         @else
                                             @if($data->user->category_id == '4')
                                                 @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees * $data->start_to_end_time_diff : 0)
-                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Urgent Charge (per Minute)' : 'Charge (per Minute)')
+                                                @php ($appointment_charge_text = ($data->urgent == '1')? 'Charge (per Minute)' : 'Charge (per Minute)')
                                             @elseif($data->user->category_id == '5' || $data->user->category_id == '6')
                                                 @if($data->full_day == '1')
                                                     @php ($appointment_charge = !empty($data->hcp_fees) ? $data->hcp_fees : 0)
@@ -160,6 +160,18 @@
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Home Visit Fees</strong></td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
+                                            </tr>
+                                            @endif
+                                            @if($data->urgent == '1' && $data->user->category_id == '4')
+                                            <tr>
+                                                @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                                                <td class="no-line text-center" colspan="2"></td>
+                                                @else
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                @endif
+                                                <td class="thick-line text-center">
+                                                    <strong>Urgent Fees</strong></td>
                                                 <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
                                             </tr>
                                             @endif

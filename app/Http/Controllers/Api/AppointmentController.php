@@ -728,12 +728,18 @@ class AppointmentController extends BaseApiController
                         if($appointment_details->appointment_type == '1'){
                             $transaction_amount = $appointment_details->user->userDetails->home_consultation_charge * $appointment_timing;
                             $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
+                            $transaction_amount += $appointment_details->user->userDetails->urgent_fees;      
+                            $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;      
                         }else if($appointment_details->appointment_type == '2'){
                             $transaction_amount = $appointment_details->user->userDetails->video_consultation_charge * $appointment_timing;
-                            $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;      
+                            $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;  
+                            $transaction_amount += $appointment_details->user->userDetails->urgent_fees;     
+                            $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
                         }else {
                             $transaction_amount = $appointment_details->user->userDetails->clinic_consultation_charge * $appointment_timing;
-                            $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;      
+                            $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;    
+                            $transaction_amount += $appointment_details->user->userDetails->urgent_fees;   
+                            $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
                         }  
                     } else {
                         if($appointment_details->appointment_type == '1'){
