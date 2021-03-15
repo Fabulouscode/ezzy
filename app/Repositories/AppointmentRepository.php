@@ -289,7 +289,7 @@ class AppointmentRepository extends Repository
         $query = $this->model->where('appointment_date', $request->appointment_date)
                 ->where('appointment_time','<=', $start_appointment->addMinute('10')->format('H:i:s'))
                 ->where('appointment_time','>=', $end_appointment->subMinute('10')->format('H:i:s'))
-                ->where('user_id',$appointment->user_id);
+                ->where('user_id',$appointment->user_id)->whereNotIn('status',['5','6']);
    
         $query = $query->first();
 
@@ -316,7 +316,7 @@ class AppointmentRepository extends Repository
                         $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->format('H:i:s')])
                             ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
                     })
-                ->where('user_id',$request->user_id)->whereIn('status',['0','1','2','3','4']);
+                ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
    
         $query = $query->first();
    
