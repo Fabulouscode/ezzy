@@ -505,7 +505,7 @@ class AppointmentController extends BaseApiController
         $appointment = $this->appointment_repo->getById($request->id);
         $check_appointment_book  = new Carbon($appointment->appointment_date.''.$appointment->appointment_time);
         $accept_appointment  = new Carbon($appointment->accepted_date);
-        $cancel_appointment   = new Carbon($request->appointment_date.''.$request->appointment_time);
+        $current_appointment   = $this->appointment_repo->getCurrentDateTime();
         $current_time   = new Carbon();
         $current_time = $current_time->format('Y-m-d');
         if($request->status == '2' && $check_appointment_book->format('Y-m-d') != $current_time){
@@ -519,7 +519,7 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
 
-        $appointment_timing =  $accept_appointment->diffInMinutes($cancel_appointment);
+        $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);            
             $cancellation_charges = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
