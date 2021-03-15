@@ -498,14 +498,14 @@ class AppointmentController extends BaseApiController
                     'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : null,
                     'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : null,
                   ];
-        if(!empty($request->status) && $request->status == '1'){
+        if(!empty($request->user()->category_id) && !empty($request->status) && $request->status == '1'){
             $update['accepted_date'] =  $this->appointment_repo->getCurrentDateTime();
         }
         
         $appointment = $this->appointment_repo->getById($request->id);
         $check_appointment_book  = new Carbon($appointment->appointment_date.''.$appointment->appointment_time);
-        $start_appointment  = new Carbon($appointment->accepted_date);
-        $end_appointment   = $this->appointment_repo->getCurrentDateTime();
+        $accept_appointment  = new Carbon($appointment->accepted_date);
+        $cancel_appointment   = new Carbon($request->appointment_date.''.$request->appointment_time);
         $current_time   = new Carbon();
         $current_time = $current_time->format('Y-m-d');
         if($request->status == '2' && $check_appointment_book->format('Y-m-d') != $current_time){
@@ -519,13 +519,17 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
 
-        $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
-        if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing > $this->appointment_repo->cancel_timing_no_charge)){
-            $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        $appointment_timing =  $accept_appointment->diffInMinutes($cancel_appointment);
+        if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+            $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);            
+            $cancellation_charges = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+            if(isset($wallet_balance) && !empty($cancellation_charges) && !empty($cancellation_charges->fees_percentage) && ($cancellation_charges->fees_percentage > $wallet_balance)){
+                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before cancellation an appointment.', 402);
+            }
             $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> !empty($minimum_balance) ? $minimum_balance->fees_percentage : '',                        
+                        'amount'=> !empty($cancellation_charges) ? $cancellation_charges->fees_percentage : '',                        
                         'payment_gateway_response'=> '',
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '1',
@@ -581,7 +585,6 @@ class AppointmentController extends BaseApiController
     public function rescheduleAppointment(AppointmentRescheduleRequest $request)
     {
         $appointment = $this->appointment_repo->getById($request->id);
-        
         //user timing check
         $user_available = $this->user_repo->checkRescheduleAppointmentUserAvailable($request, $appointment);
         if(empty($user_available)){
@@ -592,27 +595,39 @@ class AppointmentController extends BaseApiController
         //user free or not checking
         $check_appointment = $this->appointment_repo->checkRescheduleAppointmentUserAvailable($request, $appointment);
         if(!empty($check_appointment)){
-            \Log::info("Provider is busy ".json_encode($user_available));   
+            \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Please Change Appointment Time Provider is busy.');
         }
 
         $data = array();
+        $start_appointment  = new Carbon($appointment->appointment_time);
+        $end_appointment   = new Carbon($appointment->appointment_end_time);
+        $appointment_timing_slot =  $start_appointment->diffInMinutes($end_appointment);
+          
+      
         $update = [
                     'appointment_date'=> Carbon::parse($request->appointment_date)->format('Y-m-d'),
                     'appointment_time'=> Carbon::parse($request->appointment_time)->format('H:i:s'),
+                    'appointment_end_date'=> Carbon::parse($request->appointment_date)->addMinute($appointment_timing_slot)->format('Y-m-d'),
+                    'appointment_end_time'=> Carbon::parse($request->appointment_time)->addMinute($appointment_timing_slot)->format('H:i:s'),
+                    'accepted_date' => Carbon::parse($request->appointment_date.' '.$request->appointment_time)->format('Y-m-d H:i:s'),
                     'status' => '1'
                   ];
        
         $appointment = $this->appointment_repo->getById($request->id);
-        $start_appointment  = new Carbon($appointment->accepted_date);
-        $end_appointment   = $this->appointment_repo->getCurrentDateTime();
-        $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
-        if(empty($request->user()->category_id) && !empty($appointment_timing) && ($appointment_timing > $this->appointment_repo->cancel_timing_no_charge)){
-            $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        $accepted_date  = new Carbon($appointment->accepted_date);
+        $current_appointment   = $this->appointment_repo->getCurrentDateTime();
+        $appointment_timing =  $accepted_date->diffInMinutes($current_appointment);
+        if(empty($request->user()->category_id) && !empty($appointment_timing) && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+            $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+            $reschedule_charges = $this->manage_fees_repo->getbyFeesKey('reschedule_charges');
+            if(isset($wallet_balance) && !empty($reschedule_charges) && !empty($reschedule_charges->fees_percentage) && ($reschedule_charges->fees_percentage > $wallet_balance)){
+                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before reschedule an appointment.', 402);
+            }
             $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> !empty($minimum_balance) ? $minimum_balance->fees_percentage : '',                        
+                        'amount'=> !empty($reschedule_charges) ? $reschedule_charges->fees_percentage : '',                        
                         'payment_gateway_response'=> '',
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '1',
@@ -621,7 +636,6 @@ class AppointmentController extends BaseApiController
                         'status'=> '0',
                     ];
         }
-
         try {
             DB::beginTransaction();
             if(!empty($add_transaction)){
@@ -635,7 +649,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment rescheduled by '. $request->user()->user_name,
+                                        'message' => 'Appointment rescheduled by '.$request->user()->user_name.' on '.$this->appointment_repo->getDateTimeFormate($request->appointment_date.''.$request->appointment_time),                                        
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];
@@ -815,6 +829,16 @@ class AppointmentController extends BaseApiController
     {
         $data = $this->appointment_repo->getbyIdedit($appointment_id)->format(); 
         return self::sendSuccess($data, 'Appointment get');
+    }
+  
+    public function getAppointmentTimeExpiredById($appointment_id)
+    {
+        $data = $this->appointment_repo->getbyUrgentAppointmentId($appointment_id); 
+        if(!empty($data)){
+            return self::sendSuccess($data->format(), 'Appointment get');
+        }
+        return self::sendError($data, 'Appointment accept timing is over');
+
     }
 
     public function generateInvoice($appointment_id)

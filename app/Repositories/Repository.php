@@ -23,7 +23,7 @@ class Repository
 
     public $currency_symbol = '₦ ';
    
-    public $cancel_timing_no_charge = '30';
+    public $timing_no_charges = '30';
     
     public $gender = array(
         '0' => 'Male',

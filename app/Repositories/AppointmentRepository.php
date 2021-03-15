@@ -242,6 +242,17 @@ class AppointmentRepository extends Repository
         return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','getTransaction','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->find($id);
 
     }
+    
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyUrgentAppointmentId($id)
+    {   
+        return $this->model->with(['user','client','cancelUser', 'appointmentServices', 'userService','getTransaction','appointmentServices.userService.service','user.categoryParent','user.categoryChild'])->whereNull('user_id')->where('status','0')->where('id',$id)->first();
+
+    }
  
     /**
      * Display a edit of the record.
