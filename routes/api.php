@@ -75,6 +75,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/payout/history', 'DashboardController@getPayoutAmountHistory');
 
             Route::get('/profile', 'UserController@getUserDetails');
+            Route::get('/get/profile/location/{id?}', 'UserController@getUserbyIdLocationDetails');
             Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');
             Route::get('/get/card_nuber/{card_num?}', 'UserController@getUserbyCardNumberDetails');
             Route::get('/change/status/{status?}', 'UserController@changeUserStatus');

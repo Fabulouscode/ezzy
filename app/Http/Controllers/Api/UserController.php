@@ -44,6 +44,16 @@ class UserController extends BaseApiController
         return self::sendError($data, 'User Details not found');
     }
 
+    public function getUserbyIdLocationDetails($id)
+    {
+        $data = array();
+        $data = $this->user_repo->getbyIdedit($id);
+        if(!empty($data)){            
+            return self::sendSuccess($data->userLocationFormat(), 'User Details');
+        }
+        return self::sendError($data, 'User Details not found');
+    }
+
     public function getUserbyCardNumberDetails($card_num)
     {
         $data = array();

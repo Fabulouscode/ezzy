@@ -332,6 +332,19 @@ class User extends Authenticatable
         ];
     }
 
+    public function userLocationFormat() {
+        return [
+            'id' =>$this->id,
+            'user_name' =>$this->user_name,
+            'rating' =>$this->user_appointment_rating,
+            'reviews' =>$this->user_appointment_review,
+            'category_id' =>$this->category_id,
+            'category_name' => (!empty($this->categoryParent)) ? $this->categoryParent->name : '',
+            'latitude' =>$this->latitude,
+            'longitude' =>$this->longitude,
+        ];
+    }
+
     public function getProfileCompletedProgressAttribute() {
 
         $total_progress_point = 0;
