@@ -30,6 +30,7 @@ class Notification extends Model
         '8' => 'Scientists',
         '9' => 'Pathologist',
         '10' => 'Radiologist',
+        '42' => 'Physiotherapist',
     );
 
     /**
