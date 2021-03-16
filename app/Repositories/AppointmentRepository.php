@@ -298,8 +298,9 @@ class AppointmentRepository extends Repository
                             ->orWhereBetween('appointment_end_date', [$start_appointment->format('Y-m-d'), $end_appointment->format('Y-m-d')]);
                     })
                     ->where(function($query) use ($start_appointment, $end_appointment){
-                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
-                            ->orWhereBetween('appointment_end_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')]);
+                        $query->orWhere([['appointment_time', '<=', $start_appointment->format('H:i:s')], ['appointment_end_time', '>=', $end_appointment->format('H:i:s')]])
+                            ->orWhereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
                     })
                 ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
    
@@ -316,7 +317,8 @@ class AppointmentRepository extends Repository
      */
     public function checkUserAvailable($request)
     {   
-            // appointment same time not book
+            // appointment same time not book	
+
         $start_appointment  = new Carbon($request->appointment_time);
         $end_appointment  = new Carbon($request->appointment_end_time);
         $query = $this->model
@@ -325,13 +327,14 @@ class AppointmentRepository extends Repository
                             ->orWhereBetween('appointment_end_date', [$request->appointment_date, $request->appointment_end_date]);
                     })
                     ->where(function($query) use ($start_appointment, $end_appointment){
-                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
-                            ->orWhereBetween('appointment_end_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')]);
+                        $query->orWhere([['appointment_time', '<=', $start_appointment->format('H:i:s')], ['appointment_end_time', '>=', $end_appointment->format('H:i:s')]])
+                            ->orWhereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
                     })
                 ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
    
         $query = $query->first();
-   
+
         return $query;
       
     }
