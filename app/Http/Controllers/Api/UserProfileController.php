@@ -27,6 +27,7 @@ use App\Http\Requests\Api\UserRequest;
 use App\Http\Requests\Api\CalenderUserAvailableTimeRequest;
 use App\Http\Requests\Api\CalenderUserBusyTimeRequest;
 use App\Http\Requests\Api\UserAddMultipleAvailableTimesRequest;
+use App\Http\Requests\Api\UserCurrentLocationUpdate;
 use Carbon\Carbon;
 
 class UserProfileController extends BaseApiController
@@ -62,6 +63,21 @@ class UserProfileController extends BaseApiController
     }
 
 
+    // user current location update
+    public function updateUserCurrentLocation(UserCurrentLocationUpdate $request)
+    {
+        $update_data = [
+                        'current_latitude' => $request->current_latitude,
+                        'current_longitude' => $request->current_longitude,
+                    ];
+         try{
+            $user = $this->user_repo->dataCrudUsingData($update_data, $request->user()->id);
+            return self::sendSuccess($user, 'User current location update Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+    
     // user add details
     public function addUserDetails(Request $request)
     {

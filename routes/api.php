@@ -69,6 +69,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // User request
         Route::prefix('user')->group(function(){
             
+            // every 1 min. run url
+            Route::post('/current/location/update', 'UserProfileController@updateUserCurrentLocation');
+
             Route::get('/dashboard', 'DashboardController@getDashboardDetails');
             Route::get('/hcp/types/{id?}', 'DashboardController@getHealthCareTypes');
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
