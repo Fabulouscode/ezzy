@@ -344,6 +344,7 @@ class User extends Authenticatable
             'category_name' => (!empty($this->categoryParent)) ? $this->categoryParent->name : '',
             'latitude' =>$this->latitude,
             'longitude' =>$this->longitude,
+            'profile_image' =>$this->profile_image,
         ];
     }
 
