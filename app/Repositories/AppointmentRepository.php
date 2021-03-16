@@ -298,8 +298,8 @@ class AppointmentRepository extends Repository
                             ->orWhereBetween('appointment_end_date', [$start_appointment->format('Y-m-d'), $end_appointment->format('Y-m-d')]);
                     })
                     ->where(function($query) use ($start_appointment, $end_appointment){
-                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->format('H:i:s')])
-                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
+                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')]);
                     })
                 ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
    
@@ -325,8 +325,8 @@ class AppointmentRepository extends Repository
                             ->orWhereBetween('appointment_end_date', [$request->appointment_date, $request->appointment_end_date]);
                     })
                     ->where(function($query) use ($start_appointment, $end_appointment){
-                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->format('H:i:s')])
-                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
+                        $query->whereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')]);
                     })
                 ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
    
