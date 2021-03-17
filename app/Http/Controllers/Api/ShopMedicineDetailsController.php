@@ -99,6 +99,9 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'description'=>$response->description,
                                         'medicine_image'=>$response->medicine_image,
                                         'medicine_multiple_images'=>$response->medicine_multiple_images,
+                                        'medicine_type'=> $response->medicine_type,
+                                        'medicine_type_name'=> $response->medicine_type_name,
+                                        'shirap_ml'=> $response->size_dosage,
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
@@ -136,10 +139,8 @@ class ShopMedicineDetailsController extends BaseApiController
                         "medicine_subcategoy_id" => $request->medicine_subcategoy_id,
                         "medicine_detail_id" => $request->medicine_detail_id,
                         "capsual_quantity" => $request->capsual_quantity,
-                        "shirap_ml" => $request->shirap_ml,
                         "mrp_price" => $request->mrp_price,
                         "offer_price" => $request->offer_price,
-                        "medicine_type" => $request->medicine_type,
                         "status" => '0'
                     ];
             
@@ -178,10 +179,10 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'id'=>$response->id,
                                         'mrp_price'=>$response->mrp_price,
                                         'offer_price'=>$response->offer_price,
-                                        'medicine_type'=>$response->medicine_type,
-                                        'medicine_type_name'=>$response->medicine_type_name,
-                                        'capsual_quantity'=>$response->capsual_quantity,
-                                        'shirap_ml'=>$response->shirap_ml,
+                                        'capsual_quantity'=>$response->capsual_quantity,                                        
+                                        'medicine_type'=> isset($response->medicineDetails) ? $response->medicineDetails->medicine_type : '',
+                                        'medicine_type_name'=> isset($response->medicineDetails) ? $response->medicineDetails->medicine_type_name : '',
+                                        'shirap_ml'=> isset($response->medicineDetails) ? $response->medicineDetails->size_dosage : '',
                                         'medicine_details'=>(isset($response->medicineDetails))?
                                                         [
                                                             'id'=>$response->medicineDetails->id,
@@ -248,10 +249,10 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'shop_id'=>$response->shopMedicineDetails->user_id,
                                         'mrp_price'=>$response->shopMedicineDetails->mrp_price,
                                         'offer_price'=>$response->shopMedicineDetails->offer_price,
-                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
-                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
-                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
-                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
+                                        'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,                                        
+                                        'medicine_type'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->medicine_type : '',
+                                        'medicine_type_name'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->medicine_type_name : '',
+                                        'shirap_ml'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->size_dosage : '',
                                         'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
                                                         [
                                                             'id'=>$response->shopMedicineDetails->medicineDetails->id,

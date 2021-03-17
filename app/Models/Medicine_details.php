@@ -18,6 +18,15 @@ class Medicine_details extends Model
     public $medicine_type_value = array(
         '0' => 'Capsules',
         '1' => 'Bottle',
+        '2' => 'Tablets',
+        '3' => 'Syrup',
+        '4' => 'Suspension',
+        '5' => 'Injection',
+        '6' => 'Cream/lotion',
+        '7' => 'Drops',
+        '8' => 'Spray',
+        '9' => 'Suppository',
+        '10' => 'Others'
     );
 
     /**
@@ -34,6 +43,7 @@ class Medicine_details extends Model
         'medicine_image',
         'medicine_type',
         'status',
+        'size_dosage'
     ];
 
     protected $appends = ['medicine_multiple_images','status_name','medicine_type_name'];

@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label>Medicine Types</label>
                                 <select required class="form-control @error('medicine_type') is-invalid @enderror" name="medicine_type" >
                                     <option value="">Select Medicine Types</option>
@@ -94,7 +94,16 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                             <div class="form-group col-md-4">
+                                <label>Size / Dosage</label>
+                                <input id="size_dosage" type="text" required class="form-control @error('size_dosage') is-invalid @enderror" name="size_dosage" value="{{!empty($data->size_dosage) ? $data->size_dosage : old('size_dosage') }}" />
+                                @error('size_dosage')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label>Status</label>
                                 <select required class="form-control @error('status') is-invalid @enderror" name="status" >
                                     <option value="">Select Status</option>

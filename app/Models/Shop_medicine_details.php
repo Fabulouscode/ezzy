@@ -75,11 +75,11 @@ class Shop_medicine_details extends Model
             'medicine_subcategoy_id'=>$this->medicine_subcategoy_id,
             'medicine_detail_id'=>$this->medicine_detail_id,
             'capsual_quantity'=>$this->capsual_quantity,
-            'shirap_ml'=>$this->shirap_ml,
             'offer_price'=>$this->offer_price,
             'mrp_price'=>$this->mrp_price,
-            'medicine_type'=>$this->medicine_type,
-            'medicine_type_name'=>$this->medicine_type_name,
+            'medicine_type'=> isset($this->medicineDetails) ? $this->medicineDetails->medicine_type : '',
+            'medicine_type_name'=> isset($this->medicineDetails) ? $this->medicineDetails->medicine_type_name : '',            
+            'shirap_ml'=>isset($this->medicineDetails) ? $this->medicineDetails->size_dosage : '',    
             'medicine_details'=>(isset($this->medicineDetails))?
                             [
                                 'id'=>$this->medicineDetails->id,

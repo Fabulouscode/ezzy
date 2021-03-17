@@ -111,10 +111,10 @@ class ShoppingCartController extends BaseApiController
                                         'shop_medicine_id'=>$response->shopMedicineDetails->id,
                                         'mrp_price'=>$response->shopMedicineDetails->mrp_price,
                                         'offer_price'=>$response->shopMedicineDetails->offer_price,
-                                        'medicine_type'=>$response->shopMedicineDetails->medicine_type,
-                                        'medicine_type_name'=>$response->shopMedicineDetails->medicine_type_name,
+                                        'medicine_type'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->medicine_type : '',
+                                        'medicine_type_name'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->medicine_type_name : '',
                                         'capsual_quantity'=>$response->shopMedicineDetails->capsual_quantity,
-                                        'shirap_ml'=>$response->shopMedicineDetails->shirap_ml,
+                                        'shirap_ml'=> isset($response->shopMedicineDetails->medicineDetails) ? $response->shopMedicineDetails->medicineDetails->size_dosage : '',
                                         'shipping_price'=>(!empty($response->shopMedicineDetails->user) && !empty($response->shopMedicineDetails->user->userDetails)) ? $response->shopMedicineDetails->user->userDetails->delivery_charge : '',
                                         'medicine_details'=>(isset($response->shopMedicineDetails->medicineDetails))?
                                                         [
