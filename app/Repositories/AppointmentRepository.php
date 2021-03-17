@@ -302,7 +302,7 @@ class AppointmentRepository extends Repository
                             ->orWhereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
                             ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
                     })
-                ->where('user_id',$request->user_id)->whereNotIn('status',['5','6']);
+                ->where('user_id',$appointment->user_id)->whereNotIn('status',['5','6']);
    
         $query = $query->first();
         
