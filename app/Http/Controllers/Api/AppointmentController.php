@@ -704,16 +704,14 @@ class AppointmentController extends BaseApiController
             } else {                 
                 if ($appointment_details->user->category_id == '6' || $appointment_details->user->category_id == '5') {
                     $appointment_hour = $appointment_timing/60;
-                    if ($appointment_hour > '24') {
+                    if ($appointment_details->full_day == '1') {
                         if($appointment_details->appointment_type == '1'){
-                            $appointment_timing = $appointment_timing - 1440;
                             $transaction_amount = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day;
                             $hcp_fees = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day;      
-                        }
-                        if($appointment_timing > '0') {
+                        }else{
                             $transaction_amount = $appointment_details->user->userDetails->nursing_facility_charge_full_day;
-                            $hcp_fees = $appointment_details->user->userDetails->nursing_facility_charge_full_day;      
-                        }  
+                            $hcp_fees = $appointment_details->user->userDetails->nursing_facility_charge_full_day;   
+                        }
                         $full_day = 1;
                     } else {
                         if($appointment_details->appointment_type == '1'){
