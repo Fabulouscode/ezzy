@@ -11,6 +11,7 @@ use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserReviewRepository;
 use App\Repositories\FavoriteMedicineRepository;
 use App\Http\Requests\Api\ShopProductAddRequest;
+use App\Http\Requests\Api\ShopProductEditRequest;
 use App\Http\Requests\Api\ShopProductDeleteRequest;
 use App\Http\Requests\Api\FavoriteRequest;
 use Illuminate\Support\Facades\DB;
@@ -157,6 +158,27 @@ class ShopMedicineDetailsController extends BaseApiController
                 }
             }
 
+            DB::commit();
+            return self::sendSuccess($data);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return self::sendException($e);
+        }
+        
+    }
+   
+    public function editShopProduct(ShopProductEditRequest $request)
+    {
+        $data = array();
+        $insert_data = [
+                        "capsual_quantity" => $request->capsual_quantity,
+                        "mrp_price" => $request->mrp_price,
+                        "offer_price" => $request->offer_price,
+                    ];
+            
+        try{
+            DB::beginTransaction();            
+            $data = $this->shop_medicine_repo->dataCrud($insert_data, $request->id);
             DB::commit();
             return self::sendSuccess($data);
         }catch(\Exception $e){

@@ -253,7 +253,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // shop request
             Route::prefix('shop')->group(function(){  
                 Route::post('/product/add', 'ShopMedicineDetailsController@addShopProduct');
-                Route::post('/product/edit', 'ShopMedicineDetailsController@addShopProduct');
+                Route::post('/product/edit', 'ShopMedicineDetailsController@editShopProduct');
                 Route::post('/product/list', 'ShopMedicineDetailsController@getShopProduct');                        
                 Route::post('/product/delete', 'ShopMedicineDetailsController@deleteShopProduct');    
                 Route::post('/product/filter', 'ShopMedicineDetailsController@getShopProductWithSearch');     
