@@ -138,6 +138,7 @@ class TransactionController extends BaseApiController
 
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
+                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $order_details->user_id,
@@ -228,6 +229,7 @@ class TransactionController extends BaseApiController
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
+                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
