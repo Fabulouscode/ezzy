@@ -138,6 +138,8 @@ class TransactionController extends BaseApiController
 
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
+                        'payout_status' => '1',
+                        'wallet_transaction' => '0',
                         'client_id'=> $order_details->user_id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
@@ -152,6 +154,7 @@ class TransactionController extends BaseApiController
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '1',
                         'status'=> '0',
+                        'payout_status' => '1',
                     ];
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
             }
@@ -225,6 +228,8 @@ class TransactionController extends BaseApiController
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
+                        'payout_status' => '1',
+                        'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
@@ -239,6 +244,7 @@ class TransactionController extends BaseApiController
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'payment_gateway_response'=> isset($request->payment_transaction) ? $request->payment_transaction : '',
                         'status'=> $request->status,
+                        'payout_status' => '1',
                     ];
                     
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
