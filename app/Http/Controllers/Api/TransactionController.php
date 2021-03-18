@@ -137,7 +137,11 @@ class TransactionController extends BaseApiController
             }
 
             if(!empty($request->transaction_id)){
-                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
+                $updateUserTran = [
+                        'user_id'=> $order_details->user_id,
+                    ];
+                $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
+                $transaction = $this->user_transaction_repo->getById($request->transaction_id);
             }else{
                 $add_transaction = [
                         'user_id'=> $order_details->userDetails->id,
@@ -220,7 +224,11 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
-                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
+                $updateUserTran = [
+                        'user_id'=> $appointment_details->user_id,
+                    ];
+                $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
+                $transaction = $this->user_transaction_repo->getById($request->transaction_id);
             }else{
                 $add_transaction = [
                         'user_id'=> $appointment_details->user_id,
