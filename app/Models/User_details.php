@@ -74,7 +74,8 @@ class User_details extends Model
         'nursing_facility_charge_full_day',
         'nursing_home_visit_charge_full_day',
         'clinic_country',
-        'clinic_state'
+        'clinic_state',
+        'address_type'
     ];
 
 
