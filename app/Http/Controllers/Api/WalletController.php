@@ -110,7 +110,10 @@ class WalletController extends BaseApiController
   
     public function getWalletBalance(Request $request)
     {          
-        $data = $this->user_repo->getById($request->user()->id)->patientWalletFormat();
+        $data = array();
+        $wallet_balance = $this->user_repo->getById($request->user()->id)->patientWalletFormat();
+        $data [] = ["balance"=> $wallet_balance['wallet_balance'],"balance_type"=> "Available Balance"];
+        $data []= ["balance"=> $wallet_balance['lock_wallet_balance'],"balance_type"=> "Locaked Balance"];
         return self::sendSuccess($data, 'Wallet balance add Successfully');
     }
 }

@@ -56,7 +56,9 @@ class User extends Authenticatable
         'notification_status',
         'approved_date',
         'current_latitude',
-        'current_longitude'
+        'current_longitude',
+        'lock_wallet_balance',
+        'user_timezone'
     ];
 
     /**
@@ -331,6 +333,7 @@ class User extends Authenticatable
         return [
             'id'=>$this->id,
             'wallet_balance'=>$this->wallet_balance,
+            'lock_wallet_balance'=>$this->lock_wallet_balance,
         ];
     }
 

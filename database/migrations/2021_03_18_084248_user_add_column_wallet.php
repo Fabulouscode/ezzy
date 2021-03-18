@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserTableAddColumn extends Migration
+class UserAddColumnWallet extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class UserTableAddColumn extends Migration
      */
     public function up()
     {
-         Schema::table('users', function (Blueprint $table) {            
-            $table->double('current_latitude')->after('longitude')->nullable();
-            $table->double('current_longitude')->after('current_latitude')->nullable();
+        Schema::table('users', function (Blueprint $table) {  
+           $table->float('lock_wallet_balance')->after('wallet_balance')->default(0);          
+           $table->string('user_timezone')->after('lock_wallet_balance')->nullable();       
         });
     }
 
@@ -27,7 +27,7 @@ class UserTableAddColumn extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['current_latitude','current_longitude']);
+            $table->dropColumn(['lock_wallet_balance','user_timezone']);
         });
     }
 }
