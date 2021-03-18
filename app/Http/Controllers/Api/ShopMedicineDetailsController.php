@@ -96,14 +96,9 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'id'=>$response->id,
                                         'medicine_name'=>$response->medicine_name,
                                         'medicine_sku'=>$response->medicine_sku,
-                                        'description'=>$response->description,
-                                        'medicine_image'=>$response->medicine_image,
-                                        'medicine_multiple_images'=>$response->medicine_multiple_images,
                                         'medicine_type'=> $response->medicine_type,
                                         'medicine_type_name'=> $response->medicine_type_name,
                                         'shirap_ml'=> $response->size_dosage,
-                                        'status'=>$response->status,
-                                        'status_name'=>$response->status_name,
                                     ];
                                 });
         return self::sendSuccess($data);   
