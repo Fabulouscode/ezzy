@@ -62,7 +62,7 @@ class UserTransactionRepository extends Repository
   
     public function userPayoutData($user_ids, $payout_status = '1')
     {   
-        return $this->model->where('wallet_transaction','0')->whereIn('user_id',$user_ids)->where('payout_status', $payout_status)->get();
+        return $this->model->where('wallet_transaction','0')->whereIn('client_id',$user_ids)->where('payout_status', $payout_status)->get();
     }
 
     public function getUserbyCalculate($user_id, $mode_of_payment = 0)
@@ -278,7 +278,7 @@ class UserTransactionRepository extends Repository
 
     public function getPayoutsWithRelationship($request)
     {
-        $query = $this->model->with(['users'])->select()
+        $query = $this->model->with(['client'])->select()
         ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
         ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
         ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
@@ -298,30 +298,30 @@ class UserTransactionRepository extends Repository
         $data = $this->getPayoutsWithRelationship($request); 
         return Datatables::of($data)
             ->addColumn('checkbox', function($selected) {   
-                return '<input type="checkbox" name="id" class="minimal" value="'.$selected->user_id.'">';
+                return '<input type="checkbox" name="id" class="minimal" value="'.$selected->client_id.'">';
             })
             ->addColumn('service_provider', function($selected) {   
                  $data = '';
-                if(!empty($selected->users->categoryParent)){
-                    $data .='<div class="text-success"><strong>'. $selected->users->categoryParent->name.'</strong></div>';
+                if(!empty($selected->client->categoryParent)){
+                    $data .='<div class="text-success"><strong>'. $selected->client->categoryParent->name.'</strong></div>';
                 }                            
-                if(!empty($selected->users->categoryChild)){
-                    $data .='<div class="text-success"><strong>'. $selected->users->categoryChild->name.'</strong></div>';
+                if(!empty($selected->client->categoryChild)){
+                    $data .='<div class="text-success"><strong>'. $selected->client->categoryChild->name.'</strong></div>';
                 }  
                 return $data; 
             })
             ->addColumn('bank_details', function($selected) {   
                  $data = '';
-                if(!empty($selected->users->userPrimaryBankAccount)){
-                    $data .='<div><strong>Bank Name: </strong>'. $selected->users->userPrimaryBankAccount->bank_name.'</div>';
-                    $data .='<div><strong>Account Name: </strong>'. $selected->users->userPrimaryBankAccount->name.'</div>';
-                    $data .='<div><strong>Account No.: </strong>'. $selected->users->userPrimaryBankAccount->account_number.'</div>';
-                    $data .='<div><strong>IFSC Code: </strong>'. $selected->users->userPrimaryBankAccount->ifsc_code.'</div>';
+                if(!empty($selected->client->userPrimaryBankAccount)){
+                    $data .='<div><strong>Bank Name: </strong>'. $selected->client->userPrimaryBankAccount->bank_name.'</div>';
+                    $data .='<div><strong>Account Name: </strong>'. $selected->client->userPrimaryBankAccount->name.'</div>';
+                    $data .='<div><strong>Account No.: </strong>'. $selected->client->userPrimaryBankAccount->account_number.'</div>';
+                    $data .='<div><strong>IFSC Code: </strong>'. $selected->client->userPrimaryBankAccount->ifsc_code.'</div>';
                 }      
                 return $data; 
             })
             ->editColumn('user_name', function($selected) { 
-                return $selected->users ? $selected->users->user_name : '-';      
+                return $selected->client ? $selected->client->user_name : '-';      
             })
             ->editColumn('payout_amount', function($selected) {
                 return $this->currency_symbol.$selected->payout_total ;
@@ -347,7 +347,7 @@ class UserTransactionRepository extends Repository
             { 
                 $data = '';
                 // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  data-user_id="'.$selected->user_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
                 // }
                 return $data;
             })

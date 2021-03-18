@@ -40,7 +40,7 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
     
     public function query()
     {
-        $query = User_transaction::query()->with(['users'])->select('id','user_id')
+        $query = User_transaction::query()->with(['client'])->select('id','client_id')
         ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
         ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
         ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
@@ -63,16 +63,16 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
     {
 
         $bank_details = "";
-        if(!empty($data->users) && !empty($data->users->userPrimaryBankAccount)){
-            $bank_details = 'Bank Name: '.$data->users->userPrimaryBankAccount->bank_name.', ';
-            $bank_details .= 'Account Name: '.$data->users->userPrimaryBankAccount->name.', ';
-            $bank_details .= 'Account No.: '.$data->users->userPrimaryBankAccount->account_number.', ';
-            $bank_details .= 'IFSC Code: '.$data->users->userPrimaryBankAccount->ifsc_code;
+        if(!empty($data->client) && !empty($data->client->userPrimaryBankAccount)){
+            $bank_details = 'Bank Name: '.$data->client->userPrimaryBankAccount->bank_name.', ';
+            $bank_details .= 'Account Name: '.$data->client->userPrimaryBankAccount->name.', ';
+            $bank_details .= 'Account No.: '.$data->client->userPrimaryBankAccount->account_number.', ';
+            $bank_details .= 'IFSC Code: '.$data->client->userPrimaryBankAccount->ifsc_code;
         } 
           
         return [
-            !empty($data->users) ? $data->users->user_name : '-',            
-            !empty($data->users) && !empty($data->users->categoryParent) ? $data->users->categoryParent->name : '-',
+            !empty($data->client) ? $data->client->user_name : '-',            
+            !empty($data->client) && !empty($data->client->categoryParent) ? $data->client->categoryParent->name : '-',
             isset($bank_details) ? $bank_details : '',
             isset($data->amount) ? $data->amount : '0',
             isset($data->fees_charge) ? $data->fees_charge : '0',
