@@ -74,8 +74,8 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();        
             $add_transaction = [
-                    'user_id'=> $appointment_details->user_id,
-                    'client_id'=> $appointment_details->client_id,
+                    'user_id'=> $appointment_details->client_id,
+                    'client_id'=> $appointment_details->user_id,
                     'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                     'amount'=> $appointment_details->appointment_price,
                     'mode_of_payment'=> '1',
@@ -138,14 +138,14 @@ class TransactionController extends BaseApiController
 
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
-                        'user_id'=> $order_details->user_id,
+                        'client_id'=> $order_details->user_id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
             }else{
                 $add_transaction = [
-                        'user_id'=> $order_details->userDetails->id,
-                        'client_id'=> $request->user()->id,
+                        'user_id'=> $request->user()->id,
+                        'client_id'=> $order_details->userDetails->id,
                         'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
@@ -225,14 +225,14 @@ class TransactionController extends BaseApiController
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
-                        'user_id'=> $appointment_details->user_id,
+                        'client_id'=> $appointment_details->user_id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
             }else{
                 $add_transaction = [
-                        'user_id'=> $appointment_details->user_id,
-                        'client_id'=> $appointment_details->client_id,
+                        'user_id'=> $appointment_details->client_id,
+                        'client_id'=> $appointment_details->user_id,
                         'amount'=> $appointment_details->appointment_price,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '1',
