@@ -301,7 +301,7 @@ class OrderRepository extends Repository
         if(!empty($request->status)){
             $query = $query->where('status','4');
         }else{
-            $query = $query->whereIn('status',['0','3','4']);
+            $query = $query->whereIn('status',['3','4']);
         }
         
         if(isset($request->delivery_type)){
