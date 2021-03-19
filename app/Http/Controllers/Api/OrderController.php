@@ -221,6 +221,20 @@ class OrderController extends BaseApiController
                 $notification_message = 'Order '.strtolower($data->status_name).' by '. $request->user()->user_name;
             } 
 
+            if($request->status == '2'){
+                if(!empty($data) && !empty($data->orderProductDetails)){
+                    foreach ($data->orderProductDetails as $key => $value) {
+                        $stock_available = $this->shop_medicine_repo->checkMedicineStock($value);
+                        if (!empty($stock_available)) {
+                            $product_data = [
+                                            'capsual_quantity' => $stock_available->capsual_quantity + $value->quantity
+                                            ];
+                            $this->shop_medicine_repo->dataCrud($product_data, $stock_available->id);
+                        }
+                    }
+                }
+            }
+
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
@@ -311,13 +325,6 @@ class OrderController extends BaseApiController
             if(!empty($cart_details) && !empty($order)){
                 foreach ($cart_details as $key => $value) {
                     $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
-                    if(!empty($stock_available)){                    
-                        $product_data = [
-                                        'capsual_quantity' => $stock_available->capsual_quantity - $value->quantity
-                                        ];
-                        $this->shop_medicine_repo->dataCrud($product_data, $stock_available->id); 
-                    }
-
                     $order_product_data = [
                                             'order_id'=> $order->id,
                                             'shop_medicine_detail_id' => $value->shop_medicine_detail_id,

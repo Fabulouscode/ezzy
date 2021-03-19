@@ -124,10 +124,31 @@ class TransactionController extends BaseApiController
         
         $data = array();
         $order_details = $this->order_repo->getbyIdCheckTransaction($request->id);
+ 
         if(empty($order_details)){
             return self::sendError([], 'Transaction already Completed');
         }
 
+        if(!empty($order_details) && !empty($order_details->orderProductDetails)){
+            foreach ($order_details->orderProductDetails as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                if(empty($stock_available)){
+                     return self::sendError('', 'Stock is not available');
+                }
+            }
+        }
+        
+        if(!empty($order_details) && !empty($order_details->orderProductDetails)){
+            foreach ($order_details->orderProductDetails as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value);
+                if (!empty($stock_available)) {
+                    $product_data = [
+                                    'capsual_quantity' => $stock_available->capsual_quantity - $value->quantity
+                                    ];
+                    $this->shop_medicine_repo->dataCrud($product_data, $stock_available->id);
+                }
+            }
+        }
         try {
             DB::beginTransaction();
             $transaction_amount = 0;
