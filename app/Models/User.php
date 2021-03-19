@@ -420,7 +420,7 @@ class User extends Authenticatable
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
-                                    $this->userDetails->home_consultation_charge, $this->userDetails->video_consultation_charge];
+                                    $this->userDetails->home_consultation_charge];
                     $required_userDetails_count = count($required_userDetails);
                 }else{
                     $required_userDetails_count = 19;
