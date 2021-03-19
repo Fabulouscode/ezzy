@@ -368,8 +368,7 @@ class User extends Authenticatable
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
-                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                    $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
@@ -385,8 +384,7 @@ class User extends Authenticatable
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
-                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                    $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, 
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
@@ -402,8 +400,7 @@ class User extends Authenticatable
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council, $this->userDetails->urgent_fees,
-                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                    $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name,
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
@@ -418,8 +415,7 @@ class User extends Authenticatable
                 $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
-                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                    $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                    $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                     $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
@@ -437,8 +433,7 @@ class User extends Authenticatable
             $required_userCounts = [$this->userAvailableTime];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [ $this->userDetails->registration_no, $this->userDetails->registration_council,
-                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                 $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                  $this->userDetails->clinic_locality, $this->userDetails->country, $this->userDetails->city,
                                  $this->userDetails->address, $this->userDetails->delivery_charge, $this->userDetails->regstration_certificate,
                                  $this->userDetails->pharmacist_certificate, $this->userDetails->about_us];
@@ -454,8 +449,7 @@ class User extends Authenticatable
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [ $this->userDetails->registration_no, $this->userDetails->registration_council,
-                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, $this->userDetails->clinic_city,
-                                 $this->userDetails->clinic_state, $this->userDetails->clinic_country,
+                                 $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                  $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                  $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
                                  $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
