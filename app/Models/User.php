@@ -412,7 +412,7 @@ class User extends Authenticatable
                 }
             }else {               
                 // Physiotherapy
-                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
