@@ -245,7 +245,7 @@ class User extends Authenticatable
 
     public function getUserActiveProductAttribute(){
         return $this->hasMany('App\Models\Shop_medicine_details','user_id','id')
-                    ->whereIn('status', ['3','4'])->count('id');      
+                    ->where('status', '0')->count('id');      
     }
  
     public function getUserOrderReviewAttribute(){
@@ -269,7 +269,7 @@ class User extends Authenticatable
     
     public function getUserActiveOrderAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '0')->count('*');     
+                    ->whereIn('status', ['3','4'])->count('*');     
     }
 
     public function format(){
