@@ -241,5 +241,27 @@ class ShoppingCartController extends BaseApiController
         }
         return self::sendSuccess([], 'Cart add Success');
     }
+    
+    public function addToCartUsingePrescibePlan(Request $request, $plan_id)
+    {
+        $eprescibe_plan = $this->chat_history_repo->getePrescibePlanbyId($plan_id);
+        $this->shop_cart_repo->clearUserCart($request->user()->id); 
+
+        if(count($eprescibe_plan->chatDetails) > 0){
+            foreach ($eprescibe_plan->chatDetails as $key => $value) {
+                $add_data = [
+                        'user_id' => $request->user()->id,
+                        'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
+                        'quantity'=> $value->dispense_unit * $value->days_supply,
+                    ];
+        
+                // $stock_available = $this->shop_medicine_repo->checkMedicineStock($request); 
+                // if(!empty($stock_available)){
+                     $this->shop_cart_repo->dataCrud($add_data);
+                // }
+            }
+        }
+        return self::sendSuccess([], 'Cart add Success');
+    }
 
 }
