@@ -349,6 +349,9 @@ class OrderController extends BaseApiController
 
                 }
             $transaction_amount = $transaction_amount - $voucher_amount_apply;
+            if(!empty($order) && $order->delivery_type == '0'){
+                    $transaction_amount += $shipping_price;
+            }
             $order_update = [
                             'total_price' => $transaction_amount,
                             'shipping_price' => $shipping_price,
