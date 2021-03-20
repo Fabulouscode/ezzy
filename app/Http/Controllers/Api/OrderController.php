@@ -14,6 +14,7 @@ use App\Repositories\ShoppingCartRepository;
 use App\Repositories\VoucherCodeRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
+use App\Http\Requests\Api\OrderTrackingStatusRequest;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -233,6 +234,25 @@ class OrderController extends BaseApiController
                         }
                     }
                 }
+                $order_tracking = [
+                    'order_id'=> $request->id,
+                    'title'=> 'Order Cancelled',
+                    'description'=> 'Order Cancelled',
+                    'status'=> '3',
+                    'estimation_datetime'=> !empty($request->cancel_date) ? $request->cancel_date : NULL,
+                  ];
+                $this->order_tracking_repo->dataCrud($order_tracking);
+
+            }else if($request->status == '1'){
+                $order_tracking = [
+                    'order_id'=> $request->id,
+                    'title'=> 'Order Completed',
+                    'description'=> 'Order Completed',
+                    'status'=> '4',
+                    'estimation_datetime'=>  $this->order_tracking_repo->getCurrentDateTime(),
+                  ];
+                $this->order_tracking_repo->dataCrud($order_tracking);
+
             }
 
             if (!empty($data)) {
@@ -248,6 +268,52 @@ class OrderController extends BaseApiController
             }
             DB::commit();
             return self::sendSuccess($data, 'Order status change');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return self::sendException($e);
+        }
+    }
+   
+    public function changeOrderTrackingStatus(OrderTrackingStatusRequest $request)
+    {
+        $data = array();
+        $order_tracking = [
+                    'order_id'=> $request->order_id,
+                    'title'=> $request->title,
+                    'description'=> $request->description,
+                    'status'=> $request->status,
+                    'estimation_datetime'=> $request->estimation_datetime
+                  ];
+
+        try{
+            DB::beginTransaction();
+            $this->order_tracking_repo->dataCrud($order_tracking);
+            $data = $this->order_repo->getById($request->order_id);
+            if($request->status == '0'){
+                $notification_message = 'Order Placed';
+            }else if($request->status == '1'){
+                $notification_message = 'Order On the Way';
+            }else if($request->status == '2'){
+                $notification_message = 'Order Delivered';
+            }else if($request->status == '3'){
+                $notification_message = 'Order Cancel';
+            }else{
+                $notification_message = 'Order Completed';
+            } 
+
+            if (!empty($data)) {
+                $send_notification = [
+                                        'sender_id' => $request->user()->id,
+                                        'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
+                                        'title' => 'Order Tracking',
+                                        'message' => $notification_message,
+                                        'parameter' => json_encode(['order_id'=> $data->id]),
+                                        'msg_type' => '5',
+                                    ];
+                $this->notification_repo->sendingNotification($send_notification);
+            }
+            DB::commit();
+            return self::sendSuccess($data, 'Order tracking status change');
         }catch(\Exception $e){
             DB::rollBack();
             return self::sendException($e);
