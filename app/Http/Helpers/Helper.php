@@ -5,6 +5,7 @@ namespace App\Http\Helpers;
 use Log;
 use App\Repositories\CategoryRepository;
 use App\Models\Category;
+use App\Models\User;
 use Carbon\Carbon;
 
 class Helper
@@ -64,7 +65,12 @@ class Helper
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverApiKey = config('app.FCM_KEY');
- 
+        
+        $notification_check = User::where('id', $receiver->id)->where('notification_status','1')->first();
+        if(!empty($notification_check)){
+            return true;
+        }
+
         $parameter = json_decode($notification->parameter,true);
         $image = (isset($parameter['notification_image']) && $parameter['notification_image'] != '') ? $parameter['notification_image'] : '';
         $message = [
