@@ -225,7 +225,7 @@ class OrderController extends BaseApiController
             if($request->status == '2'){
                 if(!empty($data) && !empty($data->orderProductDetails)){
                     foreach ($data->orderProductDetails as $key => $value) {
-                        $stock_available = $this->shop_medicine_repo->checkMedicineStock($value);
+                        $stock_available = $this->shop_medicine_repo->addMedicineStockCancel($value);
                         if (!empty($stock_available)) {
                             $product_data = [
                                             'capsual_quantity' => $stock_available->capsual_quantity + $value->quantity
