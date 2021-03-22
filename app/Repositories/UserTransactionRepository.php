@@ -142,7 +142,7 @@ class UserTransactionRepository extends Repository
 
     public function getPayoutCount($payout_status = '1')
     {
-        return $this->model->where('wallet_transaction','0')->where('status', '0')->where('payout_status', $payout_status)->count();
+        return $this->model->where('wallet_transaction','0')->where('status', '0')->where('payout_status', $payout_status)->groupBy('client_id')->count();
     }
    
     public function getbyUserId($user_id)
