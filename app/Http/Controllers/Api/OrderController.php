@@ -15,15 +15,17 @@ use App\Repositories\VoucherCodeRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\OrderTrackingStatusRequest;
+use App\Repositories\UserTransactionRepository;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
 class OrderController extends BaseApiController
 {
-    private $order_repo, $user_repo, $voucher_code_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo, $notification_repo;
+    private $order_repo, $user_repo, $user_transaction_repo, $voucher_code_repo, $shop_medicine_repo, $order_tracking_repo, $shop_cart_repo, $order_product_repo, $notification_repo;
 
     public function __construct(
-        ShoppingCartRepository $shop_cart_repo,
+        ShoppingCartRepository $shop_cart_repo,        
+        UserTransactionRepository $user_transaction_repo, 
         OrderRepository $order_repo,
         OrderProductRepository $order_product_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
@@ -42,6 +44,7 @@ class OrderController extends BaseApiController
         $this->notification_repo = $notification_repo;
         $this->user_repo = $user_repo;
         $this->voucher_code_repo = $voucher_code_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
     }
 
     public function getOrderHistory(Request $request)
