@@ -242,6 +242,25 @@ class OrderController extends BaseApiController
                     'estimation_datetime'=> !empty($request->cancel_date) ? $request->cancel_date : NULL,
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
+              
+                    $update_transaction = [
+                        'payout_amount'=> '0',
+                        'fees_charge'=> '0',
+                    ];
+                    $this->user_transaction_repo->dataCrud($update_transaction,$data->transaction_id);
+
+                    $add_transaction = [
+                        'user_id'=> $data->client_id,
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'amount'=> $data->total_price,                        
+                        'mode_of_payment'=> '0',
+                        'transaction_type'=> '1',
+                        'wallet_transaction'=> '1',
+                        'payout_status'=> '0',
+                        'status'=> '0',
+                    ];
+                    $this->user_transaction_repo->dataCrud($add_transaction);
+                    $this->user_repo->userWalletUpdate($data->client_id);   
 
             }else if($request->status == '1'){
                 $order_tracking = [
@@ -422,7 +441,7 @@ class OrderController extends BaseApiController
 
                 }
             $transaction_amount = $transaction_amount - $voucher_amount_apply;
-            if(!empty($order) && $order->delivery_type == '0'){
+            if(!empty($order) && $request->delivery_type == '0'){
                     $transaction_amount += $shipping_price;
             }
             $order_update = [

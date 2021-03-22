@@ -152,11 +152,7 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();
             $transaction_amount = 0;
-            $transaction_amount += $order_details->total_price;
-            if($order_details->delivery_type == '0'){
-                $transaction_amount += $order_details->shipping_price;
-            }
-
+            $transaction_amount = $order_details->total_price;
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
                         'transaction_type' => '0',
@@ -166,7 +162,8 @@ class TransactionController extends BaseApiController
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
-            }else{
+            }else{              
+
                 $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'client_id'=> $order_details->userDetails->id,
