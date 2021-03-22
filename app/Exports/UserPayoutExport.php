@@ -49,7 +49,7 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
             $query = $query->where('payout_status',$this->status);
         }
         
-        $query = $query->where('status', '0')->groupBy('user_id')->orderBy('id','desc');
+        $query = $query->where('status', '0')->groupBy('client_id')->orderBy('id','desc');
 
         return $query;
     }

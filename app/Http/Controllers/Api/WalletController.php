@@ -50,7 +50,8 @@ class WalletController extends BaseApiController
     {          
         try {
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($user_id); 
-            $update = ['wallet_balance'=> $wallet_balance];
+            $lock_wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($user_id); 
+            $update = ['wallet_balance'=> $wallet_balance, 'lock_wallet_balance'=> $lock_wallet_balance];
             $this->user_repo->dataCrudUsingData($update, $user_id);             
             return self::sendSuccess($data, 'Wallet Update');
         } catch (\Exception $e) {
@@ -74,7 +75,7 @@ class WalletController extends BaseApiController
                     ];
         try {
             $this->user_transaction_repo->dataCrud($add_transaction);
-            self::walletUpdateBalance($request->user()->id);        
+            $this->user_repo->userWalletUpdate($request->user()->id);        
             return self::sendSuccess([], 'Wallet balance add Successfully');
         } catch (\Exception $e) {
             return self::sendException($e);
@@ -101,7 +102,7 @@ class WalletController extends BaseApiController
                     ];
         try {
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
-            self::walletUpdateBalance($request->user()->id);        
+            $this->user_repo->userWalletUpdate($request->user()->id);        
             return self::sendSuccess($transaction, 'Wallet balance deduction Successfully');
         } catch (\Exception $e) {
             return self::sendException($e);
@@ -113,7 +114,7 @@ class WalletController extends BaseApiController
         $data = array();
         $wallet_balance = $this->user_repo->getById($request->user()->id)->patientWalletFormat();
         $data [] = ["balance"=> $wallet_balance['wallet_balance'],"balance_type"=> "Available Balance"];
-        $data []= ["balance"=> $wallet_balance['lock_wallet_balance'],"balance_type"=> "Locaked Balance"];
+        $data []= ["balance"=> $wallet_balance['lock_wallet_balance'],"balance_type"=> "Locked Balance"];
         return self::sendSuccess($data, 'Wallet balance add Successfully');
     }
 }

@@ -100,6 +100,7 @@ $(function () {
             { data: 'client_name', name: 'Patient name' },
             { data: 'transaction_data', name: 'transaction_data' },
             { data: 'transaction_date', name: 'Transaction date' },
+            { data: 'transaction_type', name: 'Transaction Type' },
             { data: 'amount', name: 'Amount' },
             { data: 'payout_amount', name: 'Payout Amount' },
             // { data: 'fees_charge', name: 'Ezzycare Fees' },
@@ -111,11 +112,12 @@ $(function () {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             if ($('#provider').val() == 'patients') {
-                api.columns([5]).visible(showColumn);
-                // api.columns([6]).visible(showColumn);
-                api.columns([7]).visible(showColumn);
-            } else {
                 api.columns([6]).visible(showColumn);
+                // api.columns([6]).visible(showColumn);
+                api.columns([8]).visible(showColumn);
+            } else {
+                api.columns([4]).visible(showColumn);
+                api.columns([7]).visible(showColumn);
             }
         },
         drawCallback: function (settings) {
@@ -323,4 +325,4 @@ function changeStatusRow(row_id, status) {
             }
         });
     }
-}    
+}

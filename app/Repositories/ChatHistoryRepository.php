@@ -53,5 +53,11 @@ class ChatHistoryRepository extends Repository
         return $this->model->with(['user','client','recommended','chatDetails.userService.shopMedicineDetails'])->where('chat_type','3')->where('id',$id)->first();
 
     }
+
+    public function getePrescibePlanbyId($id)
+    {   
+        return $this->model->with(['user','client','recommended','chatDetails.userService.shopMedicineDetails'])->where('chat_type','0')->where('id',$id)->first();
+
+    }
     
 }

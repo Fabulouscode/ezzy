@@ -22,6 +22,7 @@ use App\Http\Requests\Api\AppointmentCheckRequest;
 use App\Http\Requests\Api\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
+use App\Http\Controllers\Api\WalletController;
 use PDF;
 use Log;
 
@@ -295,10 +296,12 @@ class AppointmentController extends BaseApiController
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
+
         //Appointment book check user wallet balance
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
-        $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
-        if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
+        $appointment_charges = Self::calculateAppointmentCharges($request);
+        // $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
             return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before booking an appointment.', 402);
         }
         
@@ -306,7 +309,7 @@ class AppointmentController extends BaseApiController
         if(!empty($request->appointment_type) && $request->appointment_type == '1'){
             $check_user_location = $this->user_repo->checkUserLocation($request);
             if(empty($check_user_location)){
-                return self::sendError([], 'Please Add Location after Book Appointment.');
+                return self::sendError([], 'Please Add Location before Book Appointment.');
             }
         }
         
@@ -372,6 +375,25 @@ class AppointmentController extends BaseApiController
                 }
             }
             if(!empty($data)){
+                $add_transaction = [
+                        'user_id'=> $data->client_id,
+                        'amount'=> $appointment_charges,
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '0',
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'status'=> '3',
+                        'payout_status' => '0',
+                    ];                    
+                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                
+                $update_appointment = [
+                        'transaction_id'=> $transaction->id,
+                    ];                    
+                $this->appointment_repo->dataCrud($update_appointment, $data->id);
+                    
+                // update Wallet Balance
+                $this->user_repo->userWalletUpdate($request->user()->id);
+
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $request->user_id,
@@ -474,7 +496,7 @@ class AppointmentController extends BaseApiController
                 }else{
                     Log::info("healthcare provider not available ".date('H:i:s'));
                     $this->appointment_repo->destroy($data->id);
-                    return self::sendError([],"No healthcare provider available, please try again.");
+                    return self::sendError([],"No any healthcare provider has accepted your appointment, please try again.");
                 }
             }else{
                 Log::info("healthcare provider not available ".date('H:i:s'));
@@ -487,7 +509,6 @@ class AppointmentController extends BaseApiController
             return self::sendException($e);
         }
     }
-
 
     public function changeAppointmentStatus(AppointmentStatusRequest $request)
     {
@@ -522,31 +543,40 @@ class AppointmentController extends BaseApiController
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
-            $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);            
-            $cancellation_charges = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
-            if(isset($wallet_balance) && !empty($cancellation_charges) && !empty($cancellation_charges->fees_percentage) && ($cancellation_charges->fees_percentage > $wallet_balance)){
-                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before cancellation an appointment.', 402);
+            $transaction_amount = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+            $extra_charges = 0;
+            $ezzycare_charge = 0;
+            $user_payout = 0;
+            $ezzycare_fees = 0;
+            if(!empty($appointment->user->category_id)){                    
+                $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
+                if(!empty($manage_fees->fees_percentage)){
+                    $ezzycare_fees = $manage_fees->fees_percentage;
+                }
             }
-            $add_transaction = [
-                        'user_id'=> $request->user()->id,
+            $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+            $user_payout = $transaction_amount - $ezzycare_charge;
+            $update_transaction = [
+                        'client_id'=> $appointment->user_id,
+                        'amount'=> $transaction_amount,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> !empty($cancellation_charges) ? $cancellation_charges->fees_percentage : '',                        
-                        'payment_gateway_response'=> '',
                         'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'wallet_transaction'=> '1',
-                        'payout_status'=> '0',
+                        'transaction_type'=> '0',
                         'status'=> '0',
+                        'payout_status' => '1',
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charge,
                     ];
+    
         }
              
      
         try {
             DB::beginTransaction();
-            if(!empty($add_transaction)){
-                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
-                $update['transaction_id'] = $transaction->id;
-                self::walletUpdateBalance($request->user()->id);   
+            if(!empty($update_transaction)){
+                $this->user_transaction_repo->dataCrud($update_transaction, $appointment->transaction_id);
+                // update Wallet Balance
+                $this->user_repo->userWalletUpdate($appointment->client_id);  
             }        
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
@@ -621,27 +651,39 @@ class AppointmentController extends BaseApiController
         $appointment_timing =  $accepted_date->diffInMinutes($current_appointment);
         if(empty($request->user()->category_id) && !empty($appointment_timing) && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
-            $reschedule_charges = $this->manage_fees_repo->getbyFeesKey('reschedule_charges');
+            $reschedule_charges = $this->manage_fees_repo->getbyFeesKey('reschedule_charges');            
             if(isset($wallet_balance) && !empty($reschedule_charges) && !empty($reschedule_charges->fees_percentage) && ($reschedule_charges->fees_percentage > $wallet_balance)){
                 return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before reschedule an appointment.', 402);
             }
+            $ezzycare_charge = 0;
+            $user_payout = 0;
+            $ezzycare_fees = 0;
+            if(!empty($appointment->user->category_id)){                    
+                $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
+                if(!empty($manage_fees->fees_percentage)){
+                    $ezzycare_fees = $manage_fees->fees_percentage;
+                }
+            }
+            $ezzycare_charge = (($reschedule_charges->fees_percentage * $ezzycare_fees ) / 100);
+            $user_payout = $reschedule_charges->fees_percentage - $ezzycare_charge;
             $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> !empty($reschedule_charges) ? $reschedule_charges->fees_percentage : '',                        
-                        'payment_gateway_response'=> '',
                         'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'wallet_transaction'=> '1',
-                        'payout_status'=> '0',
+                        'transaction_type'=> '0',
                         'status'=> '0',
+                        'payout_status' => '1',
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charge,
                     ];
         }
         try {
             DB::beginTransaction();
             if(!empty($add_transaction)){
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
-                self::walletUpdateBalance($request->user()->id);                   
+                // update Wallet Balance
+                $this->user_repo->userWalletUpdate($appointment->client_id);                  
             } 
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
@@ -682,13 +724,8 @@ class AppointmentController extends BaseApiController
             $hcp_fees = 0;
             $home_visit_fees = 0;
             $full_day = 0;
-            if(!empty($appointment_details->start_datetime)){
-                    $start_appointment  = new Carbon($appointment_details->start_datetime);
-            }else{
-                    $start_appointment  = new Carbon($appointment_details->appointment_date.''.$appointment_details->appointment_time);
-            }
-     
-            // $end_appointment  = new Carbon($appointment_details->appointment_end_date.''.$appointment_details->appointment_end_time);
+           
+            $start_appointment  = new Carbon($appointment_details->start_datetime);
             $end_appointment   = new Carbon($appointment_details->completed_datetime);
             $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
             
@@ -703,7 +740,6 @@ class AppointmentController extends BaseApiController
                 }
             } else {                 
                 if ($appointment_details->user->category_id == '6' || $appointment_details->user->category_id == '5') {
-                    $appointment_hour = $appointment_timing/60;
                     if ($appointment_details->full_day == '1') {
                         if($appointment_details->appointment_type == '1'){
                             $transaction_amount = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day;
@@ -777,6 +813,40 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             
             if (!empty($appointment_details)) {
+                $transaction = $this->user_transaction_repo->getById($appointment_details->transaction_id);
+                $extra_charges = 0;
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                if(!empty($appointment_details->user->category_id)){                    
+                    $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment_details->user->category_id);
+                    if(!empty($manage_fees->fees_percentage)){
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $update_transaction = [
+                            'client_id'=> $appointment_details->user_id,
+                            'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '0',
+                            'status'=> '0',
+                            'payout_status' => '1',
+                            'payout_amount'=> $user_payout,
+                            'fees_charge'=> $ezzycare_charge,
+                        ];
+                
+                if($transaction_amount > $transaction->amount){
+                    $update_transaction['amount'] = $transaction_amount;
+                }else if($transaction_amount != $transaction->amount){
+                    $update_transaction['amount'] = $transaction_amount;
+                }
+               $this->user_transaction_repo->dataCrud($update_transaction, $appointment_details->transaction_id);
+
+                 // update Wallet Balance
+                $this->user_repo->userWalletUpdate($appointment_details->client_id);
+
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $appointment_details->client_id,
@@ -786,6 +856,18 @@ class AppointmentController extends BaseApiController
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
+
+                // if(!empty($extra_charges) && $extra_charges != '0'){
+                //         $send_notification = [
+                //             'sender_id' => $request->user()->id,
+                //             'receiver_id' => $appointment_details->client_id,
+                //             'title' => 'Appointment',
+                //             'message' => 'Appointment completed by '. $request->user()->user_name,
+                //             'parameter' => json_encode(['appointment_id'=> $appointment_details->id]),
+                //             'msg_type' => '2',
+                //         ];
+                //     $this->notification_repo->sendingNotification($send_notification);
+                // }
             }
 
             $data = $this->appointment_repo->getById($request->id);
@@ -897,5 +979,70 @@ class AppointmentController extends BaseApiController
             return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before start an appointment.', 402);
         }
         return self::sendSuccess([], 'wallet');
+    }
+
+    public function calculateAppointmentCharges($appointment_details){
+            $transaction_amount = 0;
+            $user = $this->user_repo->getById($appointment_details->user_id);   
+            $start_appointment  = new Carbon($appointment_details->appointment_time);
+            $end_appointment   = new Carbon($appointment_details->appointment_end_time);
+            $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+            
+            if(!empty($appointment_details->user_services) && count($appointment_details->user_services) > 0){           
+                foreach ($appointment_details->user_services as $key => $value) {
+                    $appointment_service = $this->user_service_repo->getById($value);
+                    $transaction_amount += $appointment_service->service_charge;
+                }
+                if($appointment_details->appointment_type == '1'){
+                    $transaction_amount +=  $user->userDetails->home_consultation_charge;
+                }
+            } else {                 
+                if ($user->category_id == '6' || $user->category_id == '5') {
+                    if ($appointment_details->full_day == '1') {
+                        if($appointment_details->appointment_type == '1'){
+                            $transaction_amount = $user->userDetails->nursing_home_visit_charge_full_day;
+                        }else{
+                            $transaction_amount = $user->userDetails->nursing_facility_charge_full_day;
+                        }
+                    } else {
+                        if($appointment_details->appointment_type == '1'){
+                            $transaction_amount = $user->userDetails->home_consultation_charge * ($appointment_timing/60);
+                        }else {
+                            $transaction_amount = $user->userDetails->clinic_consultation_charge * ($appointment_timing/60);
+                        }                     
+                    }
+                } else if ($user->category_id == '4') {
+                    if ($appointment_details->urgent == '1') {
+                        if($appointment_details->appointment_type == '1'){
+                            $transaction_amount = $user->userDetails->home_consultation_charge * $appointment_timing;
+                            $transaction_amount += $user->userDetails->urgent_fees;      
+                        }else if($appointment_details->appointment_type == '2'){
+                            $transaction_amount = $user->userDetails->video_consultation_charge * $appointment_timing; 
+                            $transaction_amount += $user->userDetails->urgent_fees;   
+                        }else {
+                            $transaction_amount = $user->userDetails->clinic_consultation_charge * $appointment_timing; 
+                            $transaction_amount += $user->userDetails->urgent_fees;   
+                        }  
+                    } else {
+                        if($appointment_details->appointment_type == '1'){
+                            $transaction_amount = $user->userDetails->home_consultation_charge * $appointment_timing;
+                        }else if($appointment_details->appointment_type == '2'){
+                            $transaction_amount = $user->userDetails->video_consultation_charge * $appointment_timing;
+                        }else {
+                            $transaction_amount = $user->userDetails->clinic_consultation_charge * $appointment_timing;
+                        }  
+                    }
+                } else {
+                    if($appointment_details->appointment_type == '1'){
+                        $transaction_amount = $user->userDetails->home_consultation_charge * ($appointment_timing/60);
+                    }else if($appointment_details->appointment_type == '2'){
+                        $transaction_amount = $user->userDetails->video_consultation_charge * ($appointment_timing/60);
+                    }else {
+                        $transaction_amount = $user->userDetails->clinic_consultation_charge * ($appointment_timing/60);
+                    }  
+                }
+            }
+
+        return $transaction_amount;
     }
 }

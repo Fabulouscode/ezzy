@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Repositories\UserTransactionRepository;
 use Validator;
 use DB;
 
@@ -17,6 +18,7 @@ class UserRepository extends Repository
 {
     protected $model_name = 'App\Models\User';
     protected $model;
+    private $user_transaction_repo;
    
     public $provider_name = array(
         'healthcare'=>'Health Care Provider', 
@@ -25,9 +27,10 @@ class UserRepository extends Repository
         'patients'=>'Patients'
     );
 
-    public function __construct()
+    public function __construct(UserTransactionRepository $user_transaction_repo)
     {
         parent::__construct();
+        $this->user_transaction_repo = $user_transaction_repo;
     }
 
     public function getStatusValue()
@@ -984,6 +987,15 @@ class UserRepository extends Repository
 
         $query = $query->orderBy('appointment_date','desc')->get();
         return $query;
+    }
+   
+    public function userWalletUpdate($user_id)
+    {
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($user_id); 
+        $lock_wallet_balance = $this->user_transaction_repo->checkPatientWalletLockBalance($user_id); 
+        $update = ['wallet_balance'=> $wallet_balance, 'lock_wallet_balance'=> $lock_wallet_balance];
+        $this->dataCrudUsingData($update, $user_id);     
+        return true;    
     }
 
 }
