@@ -262,7 +262,8 @@ class ShopMedicineDetailsController extends BaseApiController
     {
         $data = $this->favorite_medicine_repo->getFavoriteMedicine($request)->map(function ($response){
                                     return [
-                                        'id'=>$response->shopMedicineDetails->id,
+                                        'id'=>$response->id,
+                                        'shop_medicine_detail_id'=>$response->shopMedicineDetails->id,
                                         'shop_id'=>$response->shopMedicineDetails->user_id,
                                         'mrp_price'=>$response->shopMedicineDetails->mrp_price,
                                         'offer_price'=>$response->shopMedicineDetails->offer_price,
