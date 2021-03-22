@@ -804,7 +804,7 @@ class AppointmentController extends BaseApiController
      
 
             $update = [
-                    'status'=> $request->status,
+                    'status'=> '5',
                     'full_day'=> $full_day,
                     'appointment_price'=> $transaction_amount,
                     'hcp_fees'=> $hcp_fees,
