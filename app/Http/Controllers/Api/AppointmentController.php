@@ -383,6 +383,7 @@ class AppointmentController extends BaseApiController
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'status'=> '3',
                         'payout_status' => '0',
+                        'appointment_id' => $data->id,
                     ];                    
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
                 
@@ -675,7 +676,8 @@ class AppointmentController extends BaseApiController
                         'status'=> '0',
                         'payout_status' => '1',
                         'payout_amount'=> $user_payout,
-                        'fees_charge'=> $ezzycare_charge,
+                        'fees_charge'=> $ezzycare_charge,                        
+                        'appointment_id' => $appointment->id,
                     ];
         }
         try {

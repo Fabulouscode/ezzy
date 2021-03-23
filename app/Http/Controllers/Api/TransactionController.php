@@ -81,6 +81,7 @@ class TransactionController extends BaseApiController
                     'mode_of_payment'=> '1',
                     'transaction_type'=> '1',
                     'status'=> '1',
+                    'appointment_id' => $appointment_details->id,
                 ];
                 
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
@@ -159,6 +160,7 @@ class TransactionController extends BaseApiController
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $order_details->user_id,
+                        'order_id' => $order_details->id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
@@ -174,6 +176,7 @@ class TransactionController extends BaseApiController
                         'transaction_type'=> '1',
                         'status'=> '0',
                         'payout_status' => '1',
+                        'order_id' => $order_details->id,
                     ];
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
             }
@@ -251,6 +254,7 @@ class TransactionController extends BaseApiController
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
+                        'appointment_id' => $appointment_details->id,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
@@ -265,6 +269,7 @@ class TransactionController extends BaseApiController
                         'payment_gateway_response'=> isset($request->payment_transaction) ? $request->payment_transaction : '',
                         'status'=> $request->status,
                         'payout_status' => '1',
+                        'appointment_id' => $appointment_details->id,
                     ];
                     
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
