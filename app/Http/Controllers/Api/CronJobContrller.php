@@ -30,4 +30,10 @@ class CronJobContrller extends BaseApiController
         Log::info("running_appointment ".json_encode($running_appointment));     
         return self::sendSuccess([], 'Notification send.');
     }
+   
+    public function updateAppointmentCancel(Request $request){          
+        $old_appointment = $this->appointment_repo->getOldAppointmentPending();
+        Log::info("old_appointment ".json_encode($old_appointment));     
+        return self::sendSuccess([], 'old appointment cancel.');
+    }
 }

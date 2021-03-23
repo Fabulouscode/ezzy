@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\AppointmentExtendNotification::class,
+        Commands\AppointmentCancel::class,
     ];
 
     /**
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         // $schedule->command('appointment:extend')->everyMinute();   
+        $schedule->command('appointment:cancel')->dailyAt('1:00');   
     }
 
     /**
