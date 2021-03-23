@@ -169,6 +169,7 @@ class Appointment extends Model
             'appointment_time'=>$this->appointment_time,            
             'appointment_end_date'=>$this->appointment_end_date,
             'appointment_end_time'=>$this->appointment_end_time,
+            'start_datetime'=>$this->start_datetime,
             'completed_datetime'=>$this->completed_datetime,
             'appointment_price'=>$this->appointment_price,
             'home_visit_fees'=>$this->home_visit_fees,
