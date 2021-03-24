@@ -177,6 +177,8 @@ class OrderController extends BaseApiController
                                         'id'=>$response->id,
                                         'order_no_generate'=>$response->order_no_generate,
                                         'total_price'=>$response->total_price,
+                                        'completed_datetime'=>$response->completed_datetime,
+                                        'created_at'=>$response->created_at,
                                         'client'=>(isset($response->clientDetails))?
                                                         [
                                                             'id'=>$response->clientDetails->id,
@@ -200,6 +202,7 @@ class OrderController extends BaseApiController
   
     public function changeOrderStatus(OrderStatusRequest $request)
     {
+
         $data = array();
         $update = [
                     'status'=> $request->status,
@@ -254,7 +257,7 @@ class OrderController extends BaseApiController
 
                     $add_transaction = [
                         'user_id'=> $data->client_id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'transaction_date'=> $this->user_transaction_repo->getCurrentDateTime(),
                         'amount'=> $data->total_price,                        
                         'mode_of_payment'=> '0',
                         'transaction_type'=> '1',
