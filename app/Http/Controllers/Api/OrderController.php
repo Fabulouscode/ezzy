@@ -257,7 +257,7 @@ class OrderController extends BaseApiController
 
                     $add_transaction = [
                         'user_id'=> $data->client_id,
-                        'transaction_date'=> $this->user_transaction_repo->getCurrentDateTime(),
+                        'transaction_date'=> $this->user_repo->getCurrentDateTime(),
                         'amount'=> $data->total_price,                        
                         'mode_of_payment'=> '0',
                         'transaction_type'=> '1',
