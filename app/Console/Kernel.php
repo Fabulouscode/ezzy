@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         // $schedule->command('appointment:extend')->everyMinute();   
-        $schedule->command('appointment:cancel')->dailyAt('1:00');   
+        $schedule->command('appointment:cancel')->dailyAt('3:00');   
     }
 
     /**

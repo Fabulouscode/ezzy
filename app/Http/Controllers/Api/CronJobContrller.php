@@ -27,7 +27,7 @@ class CronJobContrller extends BaseApiController
 
     public function sendAppointmentExtendNotification(Request $request){          
         $running_appointment = $this->appointment_repo->getCurrentlyRunningAppointment();
-        Log::info("running_appointment ".json_encode($running_appointment));     
+        // Log::info("running_appointment ".json_encode($running_appointment));     
         return self::sendSuccess([], 'Notification send.');
     }
    
@@ -44,7 +44,7 @@ class CronJobContrller extends BaseApiController
               $this->appointment_repo->dataCrud($update, $value->id);
             }
         }
-        Log::info("old_appointment ".json_encode($old_appointment));     
+        // Log::info("old_appointment ".json_encode($old_appointment));     
         return self::sendSuccess([], 'old appointment cancel.');
     }
 }
