@@ -557,25 +557,32 @@ class AppointmentController extends BaseApiController
             }
             $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
             $user_payout = $transaction_amount - $ezzycare_charge;
-            $update_transaction = [
-                        'client_id'=> $appointment->user_id,
-                        'amount'=> $transaction_amount,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'mode_of_payment'=> '1',
-                        'transaction_type'=> '0',
-                        'status'=> '0',
-                        'payout_status' => '1',
-                        'payout_amount'=> $user_payout,
-                        'fees_charge'=> $ezzycare_charge,
-                    ];
-    
+            $add_transaction = [
+                            'user_id'=> $appointment->client_id,
+                            'client_id'=> $appointment->user_id,
+                            'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '0',
+                            'status'=> '0',
+                            'payout_status' => '1',
+                            'amount' => $transaction_amount,
+                            'payout_amount'=> $user_payout,
+                            'fees_charge'=> $ezzycare_charge,
+                            'appointment_id' => $appointment->id,
+                        ];
+                
         }
              
      
         try {
             DB::beginTransaction();
-            if(!empty($update_transaction)){
-                $this->user_transaction_repo->dataCrud($update_transaction, $appointment->transaction_id);
+            if(!empty($add_transaction)){
+                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);                
+                $update_appoint = [
+                        'transaction_id'=> $transaction->id,
+                    ];
+                $this->appointment_repo->dataCrud($update_appoint, $request->id);            
+                $this->user_transaction_repo->destroy($appointment->transaction_id);
                 // update Wallet Balance
                 $this->user_repo->userWalletUpdate($appointment->client_id);  
             }        
@@ -828,23 +835,26 @@ class AppointmentController extends BaseApiController
                 }
                 $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
                 $user_payout = $transaction_amount - $ezzycare_charge;
-                $update_transaction = [
+                $add_transaction = [
+                            'user_id'=> $appointment_details->client_id,
                             'client_id'=> $appointment_details->user_id,
                             'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                             'mode_of_payment'=> '1',
                             'transaction_type'=> '0',
                             'status'=> '0',
                             'payout_status' => '1',
+                            'amount' => $transaction_amount,
                             'payout_amount'=> $user_payout,
                             'fees_charge'=> $ezzycare_charge,
+                            'appointment_id' => $appointment_details->id,
                         ];
                 
-                if($transaction_amount > $transaction->amount){
-                    $update_transaction['amount'] = $transaction_amount;
-                }else if($transaction_amount != $transaction->amount){
-                    $update_transaction['amount'] = $transaction_amount;
-                }
-               $this->user_transaction_repo->dataCrud($update_transaction, $appointment_details->transaction_id);
+                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);                
+                $update_appoint = [
+                        'transaction_id'=> $transaction->id,
+                    ];
+                $this->appointment_repo->dataCrud($update_appoint, $request->id);            
+                $this->user_transaction_repo->destroy($appointment_details->transaction_id);
 
                  // update Wallet Balance
                 $this->user_repo->userWalletUpdate($appointment_details->client_id);
