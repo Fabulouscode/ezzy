@@ -647,8 +647,8 @@ class AppointmentController extends BaseApiController
         $update = [
                     'appointment_date'=> Carbon::parse($request->appointment_date)->format('Y-m-d'),
                     'appointment_time'=> Carbon::parse($request->appointment_time)->format('H:i:s'),
-                    'appointment_end_date'=> Carbon::parse($request->appointment_date)->addMinute($appointment_timing_slot)->format('Y-m-d'),
-                    'appointment_end_time'=> Carbon::parse($request->appointment_time)->addMinute($appointment_timing_slot)->format('H:i:s'),
+                    'appointment_end_date'=> !empty($request->appointment_end_date) ?  Carbon::parse($request->appointment_end_date)->format('Y-m-d') : Carbon::parse($request->appointment_date)->addMinute($appointment_timing_slot)->format('Y-m-d'),
+                    'appointment_end_time'=> !empty($request->appointment_end_time) ?  Carbon::parse($request->appointment_end_time)->format('H:i:s') : Carbon::parse($request->appointment_time)->addMinute($appointment_timing_slot)->format('H:i:s'),
                     'accepted_date' => Carbon::parse($request->appointment_date.' '.$request->appointment_time)->format('Y-m-d H:i:s'),
                     'status' => '1'
                   ];
