@@ -102,9 +102,17 @@ class UserAvailableTimeRepository extends Repository
      *
      * @param int $user_id
      */
-    public function getbyUserIdWithAppointmentType($user_id, $appointment_type = '0')
-    {
-        return $this->model->where('user_id', $user_id)->where('appointment_type',$appointment_type)->orderby('day','asc')->orderby('start_time','asc')->get();
+    public function getbyUserIdWithAppointmentType($user_id, $appointment_type = '0', $same_timing = '0')
+    {       
+        if($same_timing == '1'){
+            $data = $this->model->where('user_id', $user_id)->where('appointment_type',$appointment_type)->orderby('day','asc')->where('same_timing','1')->where('day','7')->orderby('start_time','asc');
+        }else{
+            $data = $this->model->where('user_id', $user_id)->where('appointment_type',$appointment_type)->orderby('day','asc')->where('same_timing','0')->whereIn('day',['1','2','3','4','5'])->orderby('start_time','asc');
+        }
+        $user_data = $this->model->where('user_id', $user_id)->where('appointment_type',$appointment_type)->whereIn('day',['0','6'])->orderby('day','asc')->orderby('start_time','asc')
+                ->union($data)    
+                ->get();
+        return $user_data;
     }
     
 }

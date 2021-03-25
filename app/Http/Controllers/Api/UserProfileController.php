@@ -342,7 +342,7 @@ class UserProfileController extends BaseApiController
         $user_details = $this->user_details_repo->getbyUserId($request->user_id);
         if(!empty($user_details) && $user_details->availability == '1'){
             $data = $this->user_available_time_repo
-                                    ->getbyUserIdWithAppointmentType($request->user_id, $request->appointment_type)
+                                    ->getbyUserIdWithAppointmentType($request->user_id, $request->appointment_type, $user_details->same_timing)
                                     ->map(function ($response){
                                     return [
                                         "day"=> $response->day,
