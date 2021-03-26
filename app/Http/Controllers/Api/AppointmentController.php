@@ -614,6 +614,9 @@ class AppointmentController extends BaseApiController
                 $this->notification_repo->sendingNotification($send_notification);
             }
             DB::commit();
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'Appointment status change');
+            }
             return self::sendSuccess($data, 'Appointment status change');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -708,6 +711,9 @@ class AppointmentController extends BaseApiController
                 $this->notification_repo->sendingNotification($send_notification);
             }
             DB::commit();
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'Reschedule Appointment');
+            }
             return self::sendSuccess($data, 'Reschedule Appointment');
         } catch (\Exception $e) {
             DB::rollBack();
