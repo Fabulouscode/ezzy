@@ -144,6 +144,13 @@ return [
     'BULKSMS_URL'=> env('BULKSMS_URL'),
     'BULKSMS_TOKEN'=> env('BULKSMS_TOKEN'),
  
+    
+    /* SMS_PROVIDER integration key (otp sms) */
+    'SMS_PROVIDER_URL'=> env('SMS_PROVIDER_URL'),
+    'SMS_PROVIDER_USERNAME'=> env('SMS_PROVIDER_USERNAME'),
+    'SMS_PROVIDER_PASSWORD'=> env('SMS_PROVIDER_PASSWORD'),
+    'SMS_PROVIDER_SENDER'=> env('SMS_PROVIDER_SENDER'),
+
     /* Firebase notification */
     'FCM_KEY'=> env('FCM_KEY'),
 
@@ -155,6 +162,7 @@ return [
     'PAYSTACK_PUBLIC_KEY'=> env('PAYSTACK_PUBLIC_KEY'),
     'PAYSTACK_PAYMENT_URL'=> env('PAYSTACK_PAYMENT_URL'),
     'MERCHANT_EMAIL'=> env('MERCHANT_EMAIL'),
+
 
     /*
     |--------------------------------------------------------------------------

@@ -282,21 +282,19 @@ class Helper
     /**
      * msg sending curl request
      */ 
-    public static function sendBULKSMSRequest($url, $data) 
+    public static function sendBULKSMSRequest($url) 
     { 
-        if(!empty($url) && !empty($data)){
+        if(!empty($url)){
             $headers = array( 'Content-Type:application/json');
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             if ($headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPGET, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
-            dd($response);
             if(!empty($response_arr['error'])) {
                 Log::info($response);
                 Log::info('SMS Send Failed');

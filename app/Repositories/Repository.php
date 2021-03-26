@@ -226,17 +226,19 @@ class Repository
         //     ], 422));
         // }
         try{
-            $nexemo_url = config("app.NEXEMO_URL");
-            $nexemo_api_key = config("app.NEXEMO_API_KEY");
-            $nexemo_api_secret = config("app.NEXEMO_API_SECRET");
+            $sms_provider_url = config("app.SMS_PROVIDER_URL");
+            $sms_provider_username = config("app.SMS_PROVIDER_USERNAME");
+            $sms_provider_password = config("app.SMS_PROVIDER_PASSWORD");
+            $sms_provider_Sender = config("app.SMS_PROVIDER_SENDER");
             $data = [];
-            if(!empty($nexemo_url) && !empty($nexemo_api_key) && !empty($nexemo_api_secret) && !empty($recipients)){
-                $data['from'] = 'Vonage APIs';
-                $data['to'] = $recipients;
-                $data['text'] = $message;
-                $data['api_key'] = $nexemo_api_key;
-                $data['api_secret'] = $nexemo_api_secret;
-                $msg_sent = Helper::sendBULKSMSRequest($nexemo_url, $data);
+           if(!empty($sms_provider_url) && !empty($sms_provider_username) && !empty($sms_provider_password) && !empty($sms_provider_Sender) && !empty($recipients)){
+                $smsprovider_url = $sms_provider_url;
+                $smsprovider_url .= '?username='.$sms_provider_username;
+                $smsprovider_url .= '&password='.$sms_provider_password;
+                $smsprovider_url .= '&message='.$message;
+                $smsprovider_url .= '&sender='.$sms_provider_Sender;
+                $smsprovider_url .= '&mobiles='.$recipients;
+                $msg_sent = Helper::sendBULKSMSRequest($smsprovider_url);
                 if(!empty($msg_sent) && $msg_sent != 'true'){
                     return $msg_sent;
                 }
