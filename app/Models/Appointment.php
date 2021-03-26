@@ -195,8 +195,8 @@ class Appointment extends Model
                                 'user_name'=>$this->client->user_name,
                                 'profile_image'=>$this->client->profile_image,
                                 'address'=>(!empty($this->client->userPrimaryAddress)) ? $this->client->userPrimaryAddress->address : '',
-                                'latitude'=>(!empty($this->client->userDetails)) ? $this->client->userDetails->latitude : '',
-                                'longitude'=>(!empty($this->client->userDetails)) ? $this->client->userDetails->longitude : '',
+                                'latitude'=>(!empty($this->client)) ? $this->client->latitude : '',
+                                'longitude'=>(!empty($this->client)) ? $this->client->longitude : '',
                             ]:'',
             'user'=>(isset($this->user))?
                             [
@@ -208,8 +208,8 @@ class Appointment extends Model
                                 'subcategory_name' => (!empty($this->user->categoryChild)) ? $this->user->categoryChild->name : '',
                                 'address'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->clinic_locality : '',
                                 'eduction_details'=>(!empty($this->user->user_eduction_details)) ? $this->user->user_eduction_details : '',
-                                'latitude'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->latitude : '',
-                                'longitude'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->longitude : '',
+                                'latitude'=>(!empty($this->user)) ? $this->user->latitude : '',
+                                'longitude'=>(!empty($this->user)) ? $this->user->longitude : '',
                             ]:'',
             'status'=>$this->status,
             'status_name'=>$this->status_name,
