@@ -69,6 +69,8 @@ class UserProfileController extends BaseApiController
         $update_data = [
                         'current_latitude' => $request->current_latitude,
                         'current_longitude' => $request->current_longitude,
+                        'latitude' => (isset($request->latitude)) ? $request->latitude : '',
+                        'longitude' => (isset($request->longitude)) ? $request->longitude : '',
                     ];
          try{
             $user = $this->user_repo->dataCrudUsingData($update_data, $request->user()->id);
