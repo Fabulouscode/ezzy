@@ -164,6 +164,7 @@ class Appointment extends Model
             'id'=>$this->id,
             'urgent'=> !empty($this->urgent) ? $this->urgent : 0,
             'appointment_type'=>$this->appointment_type,
+            'my_appointment'=>$this->my_appointment,
             'appointment_type_name'=>$this->appointment_type_name,
             'appointment_date'=>$this->appointment_date,
             'appointment_time'=>$this->appointment_time,            
