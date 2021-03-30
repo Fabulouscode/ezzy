@@ -243,6 +243,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/eprescibe/get/{id?}', 'ChatController@getEPrescibeChat');
             Route::post('/treatment/save', 'ChatController@saveTreatmentPlan');
             Route::get('/treatment/get/{id?}', 'ChatController@getTreatmentPlanChat');
+            Route::post('/treatment/item/get', 'ChatController@getTreatmentPlanSuggestItem');
             
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');

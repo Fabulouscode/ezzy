@@ -36,4 +36,8 @@ class Chat_eservices extends Model
     public function userService() {
         return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
     }
+    
+    public function chat() {
+        return $this->belongsTo('App\Models\Chat_history', 'chat_history_id','id');
+    }
 }

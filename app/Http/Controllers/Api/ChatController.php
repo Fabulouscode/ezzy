@@ -64,6 +64,20 @@ class ChatController extends BaseApiController
         $chat_history = $this->chat_history_repo->getbyIdedit($id)->TreatmentPlanFormat();
         return self::sendSuccess($chat_history, 'Treatment Plan Chat');
     }
+  
+    public function getTreatmentPlanSuggestItem(Request $request)
+    {
+        $recommnd_list = $this->chat_service_repo->getSuggestItemTreatmentPlan($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'medicine_name'=> $response->medicine_name,
+                                        'description'=> $response->description,
+                                        'quantity'=> $response->quantity,
+                                        'price'=> $response->price,
+                                    ];
+                                });
+        return self::sendSuccess($recommnd_list, 'User get list Successfully');
+    }
 
 
     public function getERecommendationProviders(Request $request)

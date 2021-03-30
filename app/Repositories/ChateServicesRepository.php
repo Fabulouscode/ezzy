@@ -39,6 +39,36 @@ class ChateServicesRepository extends Repository
         }
     }
     
+
+    /**
+     * Display a list of lab report record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSuggestItemTreatmentPlan($request)
+    {   
+        $query = $this->model->with(['chat']);
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }
+        
+        $query = $query->limit($this->api_data_limit);     
+        
+        $query = $query->whereHas('chat', function ($query) {
+            $query->where('chat_type', '3');
+        });
+
+        if(!empty($request->search)){
+        $query =  $query->where(function ($query) use ($request) {
+                        $query->orWhere('medicine_name', 'LIKE', '%'.$request->search.'%');
+                    });
+        }
+
+
+        $query = $query->orderBy('id','desc')->get();
+        return $query;
+    }
     
     
 }
