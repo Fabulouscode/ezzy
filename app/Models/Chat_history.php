@@ -162,13 +162,8 @@ class Chat_history extends Model
             'id'=>$this->id,         
             'chat_type'=>$this->chat_type,
             'chat_type_name'=>$this->chat_type_name,
+            'treatment_name'=>$this->treatment_name,
             'medicines'=> !empty($this->chatDetails) ? $this->getMedicineNames($this->chatDetails) :'',
-            'client'=>(!empty($this->client))?
-                            [
-                                'id'=>$this->client->id,
-                                'user_name'=>$this->client->user_name,
-                                'profile_image'=>$this->client->profile_image,
-                            ]:'',
             'client'=>(!empty($this->client))?
                             [
                                 'id'=>$this->client->id,
@@ -183,13 +178,6 @@ class Chat_history extends Model
                                 'address'=>(!empty($this->user->userDetails)) ? $this->user->userDetails->address : '',
                                 'eduction_details'=>(!empty($this->user->user_eduction_details)) ? $this->user->user_eduction_details : ''
                             ]:'',
-            'recommended'=>(!empty($this->recommended))?
-                            [
-                                'id'=>$this->recommended->id,
-                                'user_name'=>$this->recommended->user_name,
-                                'profile_image'=>$this->recommended->profile_image,
-                                'address'=>(!empty($this->recommended->userDetails)) ? $this->recommended->userDetails->address : '',
-                             ]:'',
         ];
     }
 
@@ -198,7 +186,8 @@ class Chat_history extends Model
         if(!empty($chatDetails)){
             foreach ($chatDetails as $key => $value) {
                 $data[]=[
-                        'medicine_name'=> (isset($value->shopMedicineDetails->medicineDetails)) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '',
+                        'medicine_name'=> (isset($value->medicine_name)) ? $value->medicine_name : '',
+                        'description'=> (isset($value->quanity)) ? $value->patient_direction : '',
                         'quantity'=> (isset($value->quanity)) ? $value->quanity : '',
                         'price'=> (isset($value->price)) ? $value->price : ''
                 ];
