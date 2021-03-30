@@ -28,12 +28,8 @@ class TreatmentPlanRequest extends FormRequest
     {
         return [
             'client_id' => 'required|integer',
-            'recommended_id' => 'required|integer',
-            'chat_type' => 'required|integer',
-            'plan_name' => 'required',
-            'treatment_name' => 'required',
             'medicines' => 'required|array|min:1',
-            "medicines.*.shop_medicine_detail_id"  => "required|integer",
+            "medicines.*.item_name"  => "required",
             "medicines.*.quantity"  => "required|integer",
             "medicines.*.price"  => "required",
         ];

@@ -180,8 +180,8 @@ class ChatController extends BaseApiController
           $add_data = [
                     'user_id' => $request->user()->id,
                     'client_id' => $request->client_id,
-                    'recommended_id' => $request->recommended_id,
-                    'chat_type' => $request->chat_type,
+                    'recommended_id' => !empty($request->recommended_id) ? $request->recommended_id : '',
+                    'chat_type' => '3',
                     'plan_name' => (!empty($request->plan_name)) ? $request->plan_name : '',
                     'treatment_name' => (!empty($request->treatment_name)) ? $request->treatment_name : '',
                 ];
@@ -193,7 +193,8 @@ class ChatController extends BaseApiController
                     foreach ($request->medicines as $key => $value) {
                         $add_chat = [
                             'chat_history_id' => $chat->id,
-                            'shop_medicine_detail_id'=> (!empty($value['shop_medicine_detail_id'])) ? $value['shop_medicine_detail_id'] : '',
+                            'medicine_name'=> (isset($value['item_name'])) ?$value['item_name'] : '',
+                            'patient_direction'=> (isset($value['description'])) ?$value['description'] : '',
                             'quanity'=> (isset($value['quantity'])) ?$value['quantity'] : '',
                             'price'=> (isset($value['price'])) ?$value['price'] : ''
                         ];
