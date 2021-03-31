@@ -27,8 +27,6 @@ class OrderTrackingStatusRequest extends FormRequest
     {
           return [
             'order_id' => 'required',
-            'title' => 'required',
-            'description' => 'required',
             'estimation_datetime' => 'required',
             'status' => 'required',
         ];

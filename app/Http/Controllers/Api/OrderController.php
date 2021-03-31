@@ -304,8 +304,8 @@ class OrderController extends BaseApiController
         $data = array();
         $order_tracking = [
                     'order_id'=> $request->order_id,
-                    'title'=> $request->title,
-                    'description'=> $request->description,
+                    // 'title'=> $request->title,
+                    // 'description'=> $request->description,
                     'status'=> $request->status,
                     'estimation_datetime'=> $request->estimation_datetime
                   ];
