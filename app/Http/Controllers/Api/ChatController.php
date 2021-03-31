@@ -194,7 +194,7 @@ class ChatController extends BaseApiController
           $add_data = [
                     'user_id' => $request->user()->id,
                     'client_id' => $request->client_id,
-                    'recommended_id' => !empty($request->recommended_id) ? $request->recommended_id : '',
+                    'recommended_id' => !empty($request->user()->id) ? $request->user()->id : '',
                     'chat_type' => '3',
                     'plan_name' => (!empty($request->plan_name)) ? $request->plan_name : '',
                     'treatment_name' => (!empty($request->treatment_name)) ? $request->treatment_name : '',
