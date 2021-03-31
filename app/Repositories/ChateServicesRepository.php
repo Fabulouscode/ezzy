@@ -66,7 +66,7 @@ class ChateServicesRepository extends Repository
         }
 
 
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->groupBy('medicine_name')->get();
         return $query;
     }
     
