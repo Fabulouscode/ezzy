@@ -15,6 +15,7 @@ use App\Repositories\VoucherCodeRepository;
 use App\Http\Requests\Api\CartCheckoutRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\OrderTrackingStatusRequest;
+use App\Http\Requests\Api\OrderVerifySMSRequest;
 use App\Repositories\UserTransactionRepository;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -326,6 +327,16 @@ class OrderController extends BaseApiController
                 $notification_message = 'Order Completed';
             } 
 
+            if($request->status == '2'){
+                $order_otp_code = $this->order_repo->generateOTPCode();
+                $order_update = ['otp_code' => $order_otp_code];
+                $message = 'The OTP is '.$order_otp_code.' to Verify Order Completed.';
+                // $sent_msg = $this->order_repo->sendMessage($message, $data->clientDetails->country_code.$data->clientDetails->mobile_no);
+                // if(!empty($sent_msg)){
+                //      return self::sendError('', 'SMS Sending Failed');
+                // }
+                $this->order_repo->dataCrud($order_update, $request->order_id);
+            }
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
@@ -342,6 +353,50 @@ class OrderController extends BaseApiController
         }catch(\Exception $e){
             DB::rollBack();
             return self::sendException($e);
+        }
+    }
+
+    public function resendSMS($order_id)
+    {
+        try{
+            $data = $this->order_repo->getById($order_id);
+            $order_otp_code = $this->order_repo->generateOTPCode();
+            $order_update = ['otp_code' => $order_otp_code];
+            $message = 'The OTP is '.$order_otp_code.' to Verify Order Completed.';
+            // $sent_msg = $this->order_repo->sendMessage($message, $data->clientDetails->country_code.$data->clientDetails->mobile_no);
+            // if(!empty($sent_msg)){
+            //    return self::sendError('', 'SMS Sending Failed');
+            // }
+            $this->order_repo->dataCrud($order_update, $order_id);
+            return self::sendSuccess([
+                'data' => $data,
+            ]);
+    
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
+
+    public function verifyOTP(OrderVerifySMSRequest $request)
+    {
+        $data = $this->order_repo->getById($request->order_id);  
+        if(!empty($data) && $data->otp_code == $request->otp_code){   
+            try{
+                $order_tracking = [
+                    'order_id'=> $request->order_id,
+                    'title'=> 'Order Completed',
+                    'description'=> 'Order Completed',
+                    'status'=> '4',
+                    'estimation_datetime'=>  $request->completed_datetime,
+                ];
+                $order_update = ['status' => 1,'completed_datetime' => $request->completed_datetime];
+                $this->order_repo->dataCrud($order_update, $request->order_id);
+                return self::sendSuccess([],'Mobile no verify');
+            }catch(\Exception $e){
+                return self::sendException($e);
+            }
+        }else{
+            return self::sendError('', 'Verify OTP code is wrong please check');
         }
     }
 
