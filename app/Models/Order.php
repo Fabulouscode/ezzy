@@ -83,6 +83,10 @@ class Order extends Model
         return $this->hasMany('App\Models\Order_product', 'order_id', 'id');
     }
 
+    public function orderProductTrackingDetails() {
+        return $this->hasOne('App\Models\Order_tracking', 'order_id', 'id')->orderby('id','desc');
+    }
+
     public function getOrderMedicineNameAttribute(){
         return $this->orderProductNamesformat($this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get());        
         // return $this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get();    
@@ -114,6 +118,7 @@ class Order extends Model
             'order_no_generate'=>$this->order_no_generate,
             'completed_datetime'=>$this->completed_datetime,
             'created_at'=>$this->created_at,
+            'order_tracking_status'=>(!empty($this->orderProductTrackingDetails)) ? $this->orderProductTrackingDetails->status : '',
             'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
