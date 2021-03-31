@@ -55,8 +55,9 @@ class ChateServicesRepository extends Repository
         
         $query = $query->limit($this->api_data_limit);     
         
-        $query = $query->whereHas('chat', function ($query) {
+        $query = $query->whereHas('chat', function ($query) use ($request) {
             $query->where('chat_type', '3');
+            $query->where('user_id', $request->user()->id);
         });
 
         if(!empty($request->search)){
@@ -64,7 +65,7 @@ class ChateServicesRepository extends Repository
                         $query->orWhere('medicine_name', 'LIKE', '%'.$request->search.'%');
                     });
         }
-
+ 
 
         $query = $query->orderBy('id','desc')->groupBy('medicine_name')->get();
         return $query;
