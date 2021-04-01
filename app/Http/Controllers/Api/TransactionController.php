@@ -212,6 +212,7 @@ class TransactionController extends BaseApiController
                         'title'=> 'Order Placed',
                         'description'=> '',
                         'status'=> '0',
+                        'estimation_datetime'=>  $this->order_repo->getCurrentDateTime(),
                     ];
                 $this->order_tracking_repo->dataCrud($add_tracking);
 
