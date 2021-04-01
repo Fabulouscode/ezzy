@@ -276,6 +276,39 @@
                         </div>
                         @endif
 
+                        @if(!empty($data->orderTrackingDetails) && count($data->orderTrackingDetails) > 0)
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 mb-0 header-title">Order Tracking Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tracking Status</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if(!empty($data->orderTrackingDetails))    
+                                                @foreach($data->orderTrackingDetails as $key => $order_tracking)    
+                                                    <tr>
+                                                        <td>{{$order_tracking->status_name}}</td>
+                                                        <td>@if(isset($order_tracking->estimation_datetime))
+                                                                {{Helper::getDateTimeFormate($order_tracking->estimation_datetime)}}
+                                                            @endif 
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                @endif                                                    
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <a href="{{ url('pharmacy/order') }}">

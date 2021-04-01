@@ -87,6 +87,10 @@ class Order extends Model
         return $this->hasOne('App\Models\Order_tracking', 'order_id', 'id')->orderby('id','desc');
     }
 
+    public function orderTrackingDetails() {
+        return $this->hasMany('App\Models\Order_tracking', 'order_id', 'id')->orderby('id','desc');
+    }
+
     public function getOrderMedicineNameAttribute(){
         return $this->orderProductNamesformat($this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get());        
         // return $this->hasMany('App\Models\Order_product', 'order_id', 'id')->with(['shopMedicineDetails','shopMedicineDetails.medicineDetails'])->get();    
