@@ -18,6 +18,7 @@ use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\AppointmentPayStatusRequest;
 use App\Http\Requests\Api\OrderPayStatusRequest;
+use App\Http\Requests\Api\TreatmentPlanRequestBillPay;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ChatHistoryRepository;
 use Carbon\Carbon as Carbon;
@@ -327,7 +328,7 @@ class TransactionController extends BaseApiController
         }
     }
  
-    public function treatmentPlanBillPay(Request $request)
+    public function treatmentPlanBillPay(TreatmentPlanRequestBillPay $request)
     {
         $data = array();
         $chat_history = $this->chat_history_repo->getTransactionCompleted($request->id);
