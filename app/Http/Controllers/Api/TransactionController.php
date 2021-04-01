@@ -19,15 +19,17 @@ use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\AppointmentPayStatusRequest;
 use App\Http\Requests\Api\OrderPayStatusRequest;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\ChatHistoryRepository;
 use Carbon\Carbon as Carbon;
 
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo, $fees_repo, $notification_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
+    private $appointment_repo, $chat_history_repo, $fees_repo, $notification_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
+        ChatHistoryRepository $chat_history_repo, 
         UserTransactionRepository $user_transaction_repo, 
         UserRepository $user_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
@@ -40,6 +42,7 @@ class TransactionController extends BaseApiController
     {
         parent::__construct();
         $this->appointment_repo = $appointment_repo;
+        $this->chat_history_repo = $chat_history_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->user_repo = $user_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
@@ -310,6 +313,72 @@ class TransactionController extends BaseApiController
                                     'message' => 'Appointmnent payment completed by '. $request->user()->user_name,
                                     'parameter' => json_encode(['appointment_id'=> $data->id]),
                                     'msg_type' => '3',
+                                ];
+                    $this->notification_repo->sendingNotification($send_notification);
+                }
+                
+                DB::commit();
+                return self::sendSuccess($data, 'Transaction Completed');
+            }
+            return self::sendError([], 'Transaction Uncompleted Error');
+        } catch (\Exception $e) {
+             DB::rollBack();
+            return self::sendException($e);
+        }
+    }
+ 
+    public function treatmentPlanBillPay(Request $request)
+    {
+        $data = array();
+        $chat_history = $this->chat_history_repo->getTransactionCompleted($request->id);
+        if(empty($chat_history)){
+            return self::sendError([], 'Transaction already Completed');
+        }
+
+        try {
+            DB::beginTransaction();
+                $updateUserTran = [
+                        'transaction_type' => '0',
+                        'payout_status' => '1',
+                        'wallet_transaction' => '0',
+                        'client_id'=> $chat_history->user_id,
+                    ];
+                $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
+                $transaction = $this->user_transaction_repo->getById($request->transaction_id);
+                    
+            if (!empty($transaction)) {
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                $transaction_amount = $appointment_details->appointment_price;
+                if (!empty($appointment_details->user->category_id)) {
+                    $manage_fees = $this->fees_repo->getbyCategoryId($appointment_details->user->category_id);
+                    if (!empty($manage_fees->fees_percentage)) {
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_payout = [
+                        'payout_amount'=> $user_payout,
+                        'fees_charge'=> $ezzycare_charge,
+                    ];
+                $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
+
+                $update = [
+                        'transaction_id'=> $transaction->id,
+                    ];
+                $this->chat_history_repo->dataCrud($update, $request->id);
+                $data = $this->chat_history_repo->getById($request->id);
+            
+                if (!empty($data)) {
+                    $send_notification = [
+                                    'sender_id' => $request->user()->id,
+                                    'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
+                                    'title' => 'Treatment plan',
+                                    'message' => 'Treatment plan payment completed by '. $request->user()->user_name,
+                                    'parameter' => json_encode(['treatment_plan'=> $data->id]),
+                                    'msg_type' => '0',
                                 ];
                     $this->notification_repo->sendingNotification($send_notification);
                 }

@@ -59,5 +59,11 @@ class ChatHistoryRepository extends Repository
         return $this->model->with(['user','client','recommended','chatDetails.userService.shopMedicineDetails'])->where('chat_type','0')->where('id',$id)->first();
 
     }
+   
+    public function getTransactionCompleted($id)
+    {   
+        return $this->model->where('chat_type','3')->whereNull('transaction_id')->where('id',$id)->first();
+
+    }
     
 }

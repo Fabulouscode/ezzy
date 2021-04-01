@@ -244,6 +244,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/treatment/save', 'ChatController@saveTreatmentPlan');
             Route::get('/treatment/get/{id?}', 'ChatController@getTreatmentPlanChat');
             Route::post('/treatment/item/get', 'ChatController@getTreatmentPlanSuggestItem');
+            Route::post('/treatment/bill/pay', 'TransactionController@treatmentPlanBillPay');
             
             Route::get('/categories/get', 'ShopMedicineDetailsController@getMedicineCategories');
             Route::get('/subcategories/get/{cate_id?}', 'ShopMedicineDetailsController@getMedicineSubcategories');

@@ -28,6 +28,7 @@ class Chat_history extends Model
         'chat_type',
         'plan_name',
         'treatment_name',
+        'transaction_id'
     ];
 
     protected $appends = ['chat_type_name'];
