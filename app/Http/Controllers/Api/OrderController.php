@@ -389,6 +389,7 @@ class OrderController extends BaseApiController
                     'status'=> '4',
                     'estimation_datetime'=>  $request->completed_datetime,
                 ];
+                $this->order_tracking_repo->dataCrud($order_tracking);
                 $order_update = ['status' => 1,'completed_datetime' => $request->completed_datetime];
                 $this->order_repo->dataCrud($order_update, $request->order_id);
                 return self::sendSuccess([],'Mobile no verify');
