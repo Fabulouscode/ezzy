@@ -828,7 +828,7 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             
             if (!empty($appointment_details)) {
-                $transaction = $this->user_transaction_repo->getById($appointment_details->transaction_id);
+                $old_transaction = $this->user_transaction_repo->getById($appointment_details->transaction_id);
                 $extra_charges = 0;
                 $ezzycare_charge = 0;
                 $user_payout = 0;
@@ -859,7 +859,18 @@ class AppointmentController extends BaseApiController
                 $update_appoint = [
                         'transaction_id'=> $transaction->id,
                     ];
-                $this->appointment_repo->dataCrud($update_appoint, $request->id);            
+                $this->appointment_repo->dataCrud($update_appoint, $request->id);    
+                if(!empty($old_transaction) && !empty($transaction) && $transaction_amount > $old_transaction->amount){
+                        $send_notification = [
+                            'sender_id' => $request->user()->id,
+                            'receiver_id' => $appointment_details->client_id,
+                            'title' => 'Appointment',
+                            'message' => 'Appointment charges is exceeded',
+                            'parameter' => json_encode(['appointment_id'=> $appointment_details->id]),
+                            'msg_type' => '2',
+                        ];
+                        $this->notification_repo->sendingNotification($send_notification);
+                }        
                 $this->user_transaction_repo->destroy($appointment_details->transaction_id);
 
                  // update Wallet Balance
