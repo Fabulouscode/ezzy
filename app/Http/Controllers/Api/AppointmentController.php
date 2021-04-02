@@ -617,6 +617,7 @@ class AppointmentController extends BaseApiController
             if(!empty($data)){
                 return self::sendSuccess($data->format(), 'Appointment status change');
             }
+            $this->user_repo->userWalletUpdate($appointment->client_id); 
             return self::sendSuccess($data, 'Appointment status change');
         } catch (\Exception $e) {
             DB::rollBack();
