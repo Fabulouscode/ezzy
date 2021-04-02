@@ -153,7 +153,7 @@
                                     <th>Transaction Type</th>
                                     <th>Amount</th>
                                     <th>Payout Amount</th>
-                                    <!-- <th>Ezzycare Fees</th> -->
+                                    <th>Paymet Type</th>
                                     <th>Status</th>
                                     <th>Payout Status</th>
                                 </tr>

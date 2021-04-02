@@ -232,16 +232,14 @@ class UserTransactionRepository extends Repository
             ->editColumn('transaction_data',function($selected)
             {
                 $data = '';
-                if(!empty($selected->transactionAppointment) && $selected->wallet_transaction == '1'){                    
-                    $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Cancel Appointment #'.$selected->transactionAppointment->id.'</a>';
-                }else if(!empty($selected->transactionAppointment)){
-                    $data .= '<a href="'.url('appointment/'.$selected->transactionAppointment->id).'" target="_blank">Appointment #'.$selected->transactionAppointment->id.'</a>';
-                }else if(!empty($selected->transactionOrder)){
-                    $data .= '<a href="'.url('pharmacy/order/'.$selected->transactionOrder->id).'" target="_blank">Order #'.$selected->transactionOrder->id.'</a>';
+                if(!empty($selected->appointment_id) && !empty($selected->transactionAppointment)){
+                    $data .= '<a href="'.url('appointment/'.$selected->appointment_id).'" target="_blank">Appointment #'.$selected->appointment_id.'</a>';
+                }else if(!empty($selected->order_id)){
+                    $data .= '<a href="'.url('pharmacy/order/'.$selected->order_id).'" target="_blank">Order #'.$selected->order_id.'</a>';
+                }else if(!empty($selected->appointment_id)){
+                     $data .= 'Appointment charges';
                 }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '0'){
                      $data .= 'Add in Wallet';
-                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '1'){
-                     $data .= 'Appointment reschedule charge';
                 }
                 return $data;
             })
@@ -256,6 +254,13 @@ class UserTransactionRepository extends Repository
                     return '<div class="badge badge-success">'.$selected->status_name.'</div>';
                 } else{
                     return '<div class="badge badge-info">'.$selected->status_name.'</div>';
+                }
+            })
+            ->editColumn('payment_type', function($selected) {
+                 if($selected->mode_of_payment == '0'){
+                    return '<div >Online Pay</div>';
+                } else{
+                    return '<div >Wallet</div>';
                 }
             })
             ->editColumn('transaction_type', function($selected) {
@@ -278,7 +283,7 @@ class UserTransactionRepository extends Repository
                     return '<div class="badge badge-info">'.$selected->payout_status_name.'</div>';
                 }
             })
-            ->rawColumns(['transaction_data','transaction_type','status','payout_amount','fees_charge','payout_status'])
+            ->rawColumns(['transaction_data','transaction_type','status','payout_amount','fees_charge','payout_status','payment_type'])
             ->make(true);
     }
  

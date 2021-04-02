@@ -103,7 +103,7 @@ $(function () {
             { data: 'transaction_type', name: 'Transaction Type' },
             { data: 'amount', name: 'Amount' },
             { data: 'payout_amount', name: 'Payout Amount' },
-            // { data: 'fees_charge', name: 'Ezzycare Fees' },
+            { data: 'payment_type', name: 'Payment Type' },
             { data: 'status', name: 'Status' },
             { data: 'payout_status', name: 'Payout Status' },
         ],
@@ -114,10 +114,11 @@ $(function () {
             if ($('#provider').val() == 'patients') {
                 api.columns([6]).visible(showColumn);
                 // api.columns([6]).visible(showColumn);
-                api.columns([8]).visible(showColumn);
+                api.columns([9]).visible(showColumn);
             } else {
                 api.columns([4]).visible(showColumn);
                 api.columns([7]).visible(showColumn);
+                api.columns([8]).visible(showColumn);
             }
         },
         drawCallback: function (settings) {
