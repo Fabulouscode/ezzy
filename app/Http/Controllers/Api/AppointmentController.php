@@ -541,6 +541,15 @@ class AppointmentController extends BaseApiController
                 ];
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
+      
+        if($request->status == '6'){
+            $update_appoint = [
+                    'transaction_id'=> NULL,
+                ];
+            $this->appointment_repo->dataCrud($update_appoint, $request->id);            
+            $this->user_transaction_repo->destroy($appointment->transaction_id);
+            $this->user_repo->userWalletUpdate($appointment->client_id);  
+        }
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
@@ -581,8 +590,7 @@ class AppointmentController extends BaseApiController
                 $update_appoint = [
                         'transaction_id'=> $transaction->id,
                     ];
-                $this->appointment_repo->dataCrud($update_appoint, $request->id);            
-                $this->user_transaction_repo->destroy($appointment->transaction_id);
+                $this->appointment_repo->dataCrud($update_appoint, $request->id);        
                 // update Wallet Balance
                 $this->user_repo->userWalletUpdate($appointment->client_id);  
             }        
