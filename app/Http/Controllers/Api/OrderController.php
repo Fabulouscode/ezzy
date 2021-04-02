@@ -266,6 +266,7 @@ class OrderController extends BaseApiController
                         'wallet_transaction'=> '1',
                         'payout_status'=> '0',
                         'status'=> '0',
+                        'order_id'=> $request->id,
                     ];
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($data->client_id);   
@@ -294,7 +295,7 @@ class OrderController extends BaseApiController
                 $this->notification_repo->sendingNotification($send_notification);
             }
             DB::commit();            
-            $data = $this->order_repo->getById($order_id);
+            $data = $this->order_repo->getById($request->id);
             if(!empty($data)){
                 return self::sendSuccess($data->format(), 'Appointment status change');
             }
