@@ -72,6 +72,7 @@ class UserRepository extends Repository
      */
     public function registerWithRestore($request)
     {   
+       
         $card_number = $this->genrateCardNumber();
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
@@ -87,6 +88,7 @@ class UserRepository extends Repository
                 'facebook_id'=> !empty($request->facebook_id) ? $request->facebook_id : NULL,
                 'google_id'=>!empty($request->google_id) ? $request->google_id : NULL,
                 'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
+                'user_timezone'=> !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '',
                 'deleted_at' => NULL
             ])->restore();    
     

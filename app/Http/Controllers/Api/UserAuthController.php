@@ -93,6 +93,7 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterPatient(UserAuthRequest $request)
     {
+              
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
         if(!empty($user)){      
             try{
@@ -264,9 +265,9 @@ class UserAuthController extends BaseApiController
             if(isset($user) && in_array($user->status, ['0','1'])){
                 try{
                     $this->user_repo->removeOauthAccessTokens($user->id);
-                    $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token];
+                    $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token,'user_timezone' => !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : ''];
                     $this->user_repo->dataCrudUsingData($data, $user->id);
-
+                    $user = $this->user_repo->getById(Auth::user()->id);
                     if(!empty($request->env)){
 
                     }else{

@@ -300,6 +300,33 @@ class Repository
     }
    
     /**
+     * convert date utc timezone
+     */  
+    public function getConvertTimezoneDate($timestamp, $timezone)
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $timestamp, $timezone);
+        return $date->setTimezone('UTC');
+    }
+
+    /**
+     * convert time utc timezone
+     */  
+    public function getConvertTimezoneTime($timestamp, $timezone)
+    {
+        $date = Carbon::createFromFormat('H:i:s', $timestamp, $timezone);
+        return $date->setTimezone('UTC');
+    }
+
+    /**
+     * convert date time utc timezone
+     */  
+    public function getConvertTimezoneDateTime($timestamp, $timezone)
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, $timezone);
+        return $date->setTimezone('UTC');
+    }
+   
+    /**
      * File Upload
      */  
     public function uploadFolderWiseFile($file, $folderPath){
