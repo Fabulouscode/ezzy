@@ -266,7 +266,6 @@ class OrderController extends BaseApiController
                         'wallet_transaction'=> '1',
                         'payout_status'=> '0',
                         'status'=> '0',
-                        'order_id'=> $request->id,
                     ];
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($data->client_id);   
