@@ -315,7 +315,7 @@ class UserTransactionRepository extends Repository
             $query = $query->where('payout_status', '!=', '0');
         }
         
-        $query = $query->where('wallet_transaction','0')->where('status', '0')->groupBy('client_id')->orderBy('id','desc')->get();
+        $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id')->orderBy('id','desc')->get();
 
         return $query;
     }
