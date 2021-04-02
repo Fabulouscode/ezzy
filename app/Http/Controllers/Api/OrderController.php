@@ -261,7 +261,7 @@ class OrderController extends BaseApiController
                         'transaction_date'=> $this->user_repo->getCurrentDateTime(),
                         'amount'=> $data->total_price,                        
                         'mode_of_payment'=> '0',
-                        'transaction_type'=> '1',
+                        'transaction_type'=> '0',
                         'wallet_transaction'=> '1',
                         'payout_status'=> '0',
                         'status'=> '0',
