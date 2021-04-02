@@ -113,7 +113,11 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getShopProductInfo($id)
     {
         $data = array();
-        $data = $this->shop_medicine_repo->getbyIdedit($id)->format();
+        
+        $data = $this->shop_medicine_repo->getbyIdedit($id);
+        if(!empty($data)){
+            $data->format();
+        }
         return self::sendSuccess($data);
     }
  
