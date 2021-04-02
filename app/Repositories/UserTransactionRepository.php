@@ -257,7 +257,7 @@ class UserTransactionRepository extends Repository
                 }
             })
             ->editColumn('payment_type', function($selected) {
-                 if($selected->mode_of_payment == '0'){
+                 if($selected->transaction_type == '1'){
                     return '<div >Online Pay</div>';
                 } else{
                     return '<div >Wallet</div>';
