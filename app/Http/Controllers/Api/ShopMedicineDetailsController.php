@@ -124,7 +124,7 @@ class ShopMedicineDetailsController extends BaseApiController
             $check_product = [["user_id",'=' ,$request->user()->id], ['medicine_detail_id','=', $request->medicine_detail_id], ['status','0']];
             $shop_product = $this->shop_medicine_repo->getbyMultipleColumnWithFirstValue($check_product);
             if(!empty($shop_product)){
-                return self::sendError([],'Product already registerd please Check');
+                return self::sendError([],'Product is already registered. Please check.');
             }
         }
 
