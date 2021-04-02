@@ -94,7 +94,7 @@ class UserTransactionRepository extends Repository
         $credit_balance = $this->calculatePatientWalletBalance($user_id, '0'); 
         $debit_balance = $this->calculatePatientWalletBalance($user_id, '1');
         $lock_balance =  $this->calculatePatientWalletLockBalance($user_id, '0'); 
-        $total_earning = $credit_balance - $lock_balance - $debit_balance; 
+        $total_earning = $debit_balance - $lock_balance - $credit_balance; 
         return $total_earning;
     }
   

@@ -378,7 +378,7 @@ class AppointmentController extends BaseApiController
                 $add_transaction = [
                         'user_id'=> $data->client_id,
                         'amount'=> $appointment_charges,
-                        'mode_of_payment'=> '1',
+                        'mode_of_payment'=> '0',
                         'transaction_type'=> '0',
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'status'=> '3',
@@ -845,7 +845,7 @@ class AppointmentController extends BaseApiController
                             'user_id'=> $appointment_details->client_id,
                             'client_id'=> $appointment_details->user_id,
                             'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                            'mode_of_payment'=> '1',
+                            'mode_of_payment'=> '0',
                             'transaction_type'=> '0',
                             'status'=> '0',
                             'payout_status' => '1',
