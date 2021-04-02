@@ -80,12 +80,12 @@ class UserTransactionRepository extends Repository
 
     public function calculatePatientWalletBalance($user_id, $mode_of_payment = 0)
     {
-        return $this->model->where('mode_of_payment', $mode_of_payment)->where('wallet','0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
+        return $this->model->where('mode_of_payment', $mode_of_payment)->where('transaction_type','0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
     }
 
     public function calculatePatientWalletLockBalance($user_id)
     {
-        return $this->model->where('mode_of_payment', '1')->where('status', '3')->where('wallet','0')->where('user_id', $user_id)->sum('amount');
+        return $this->model->where('mode_of_payment', '1')->where('status', '3')->where('transaction_type','0')->where('user_id', $user_id)->sum('amount');
     }
 
     public function checkPatientWalletBalance($user_id)
