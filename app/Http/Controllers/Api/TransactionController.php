@@ -19,6 +19,7 @@ use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\AppointmentPayStatusRequest;
 use App\Http\Requests\Api\OrderPayStatusRequest;
 use App\Http\Requests\Api\TreatmentPlanRequestBillPay;
+use App\Http\Requests\Api\OrderTransactionRequest;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ChatHistoryRepository;
 use Carbon\Carbon as Carbon;
@@ -124,7 +125,7 @@ class TransactionController extends BaseApiController
         }
     }
 
-    public function orderPharmacyBillPay(OrderStatusRequest $request)
+    public function orderPharmacyBillPay(OrderPayStatusRequest $request)
     {
         
         $data = array();
@@ -160,7 +161,7 @@ class TransactionController extends BaseApiController
             $transaction_amount = $order_details->total_price;
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
-                        'transaction_type' => '0',
+                        'transaction_type' => $request->transaction_type,
                         'mode_of_payment' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
@@ -178,7 +179,7 @@ class TransactionController extends BaseApiController
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
+                        'transaction_type'=> $request->transaction_type,
                         'status'=> '0',
                         'payout_status' => '1',
                         'order_id' => $order_details->id,
