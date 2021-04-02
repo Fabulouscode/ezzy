@@ -18,11 +18,6 @@ use App\Http\Requests\Api\AppointmentStatusRequest;
 use App\Http\Requests\Api\OrderStatusRequest;
 use App\Http\Requests\Api\AppointmentPayStatusRequest;
 use App\Http\Requests\Api\OrderPayStatusRequest;
-<<<<<<< HEAD
-use App\Http\Requests\Api\TreatmentPlanRequestBillPay;
-use App\Http\Requests\Api\OrderTransactionRequest;
-=======
->>>>>>> parent of 52d17d7 (request add)
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ChatHistoryRepository;
 use Carbon\Carbon as Carbon;
@@ -86,8 +81,8 @@ class TransactionController extends BaseApiController
                     'client_id'=> $appointment_details->user_id,
                     'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                     'amount'=> $appointment_details->appointment_price,
-                    'mode_of_payment'=> '0',
-                    'transaction_type'=> '0',
+                    'mode_of_payment'=> '1',
+                    'transaction_type'=> '1',
                     'status'=> '1',
                     'appointment_id' => $appointment_details->id,
                 ];
@@ -164,8 +159,7 @@ class TransactionController extends BaseApiController
             $transaction_amount = $order_details->total_price;
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
-                        'transaction_type' => $request->transaction_type,
-                        'mode_of_payment' => '0',
+                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $order_details->user_id,
@@ -181,8 +175,8 @@ class TransactionController extends BaseApiController
                         'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
                         'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                         'amount'=> $transaction_amount,
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> $request->transaction_type,
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '1',
                         'status'=> '0',
                         'payout_status' => '1',
                         'order_id' => $order_details->id,
@@ -260,8 +254,7 @@ class TransactionController extends BaseApiController
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
                 $updateUserTran = [
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
+                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
@@ -274,8 +267,8 @@ class TransactionController extends BaseApiController
                         'user_id'=> $appointment_details->client_id,
                         'client_id'=> $appointment_details->user_id,
                         'amount'=> $appointment_details->appointment_price,
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '1',
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'payment_gateway_response'=> isset($request->payment_transaction) ? $request->payment_transaction : '',
                         'status'=> $request->status,
@@ -345,8 +338,7 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();
                 $updateUserTran = [
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
+                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $chat_history->user_id,
