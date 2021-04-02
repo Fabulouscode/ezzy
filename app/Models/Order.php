@@ -122,7 +122,7 @@ class Order extends Model
             'order_no_generate'=>$this->order_no_generate,
             'completed_datetime'=>$this->completed_datetime,
             'created_at'=>$this->created_at,
-            'order_tracking_status'=>(!empty($this->orderProductTrackingDetails)) ? $this->orderProductTrackingDetails->status : '',
+            'order_tracking_status'=>(!empty($this->orderProductTrackingDetails)) ? $this->orderProductTrackingDetails->status : 0,
             'order_product_details'=>(!empty($this->orderProductDetails))? $this->orderProductDetailsformat($this->orderProductDetails) : '',
             'client'=>(isset($this->clientDetails))?
                             [
