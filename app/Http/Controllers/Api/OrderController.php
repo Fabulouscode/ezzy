@@ -293,7 +293,11 @@ class OrderController extends BaseApiController
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
             }
-            DB::commit();
+            DB::commit();            
+            $data = $this->order_repo->getById($order_id);
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'Appointment status change');
+            }
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
             DB::rollBack();
