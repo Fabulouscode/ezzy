@@ -543,10 +543,10 @@ class AppointmentController extends BaseApiController
         }
       
         if($request->status == '6'){
-            $update_appoint = [
+            $updaappoint = [
                     'transaction_id'=> NULL,
                 ];
-            $this->appointment_repo->dataCrud($update_appoint, $request->id);            
+            $this->appointment_repo->dataCrud($updaappoint, $request->id);            
             $this->user_transaction_repo->destroy($appointment->transaction_id);
             $this->user_repo->userWalletUpdate($appointment->client_id);  
         }
