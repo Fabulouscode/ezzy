@@ -754,9 +754,18 @@ class AppointmentController extends BaseApiController
             $home_visit_fees = 0;
             $full_day = 0;
            
-            $start_appointment  = new Carbon($appointment_details->start_datetime);
-            $end_appointment   = new Carbon($appointment_details->completed_datetime);
-            $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+            $appointment_days = 0;
+            $appointment_timing = 0;
+            if(!empty($appointment_details->full_day) && $appointment_details->full_day == '1'){
+                $start_appointment  = new Carbon($appointment_details->start_datetime);
+                $end_appointment   = new Carbon($appointment_details->completed_datetime);
+                $appointment_days =  $start_appointment->diffInDays($end_appointment);
+                $appointment_days =  $appointment_days + 1;
+            }else{              
+                $start_appointment  = new Carbon($appointment_details->start_datetime);
+                $end_appointment   = new Carbon($appointment_details->completed_datetime);
+                $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+            }
             
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
                 foreach ($appointment_details->appointmentServices as $key => $value) {
@@ -771,10 +780,10 @@ class AppointmentController extends BaseApiController
                 if ($appointment_details->user->category_id == '6' || $appointment_details->user->category_id == '5') {
                     if ($appointment_details->full_day == '1') {
                         if($appointment_details->appointment_type == '1'){
-                            $transaction_amount = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day;
+                            $transaction_amount = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day * $appointment_days;
                             $hcp_fees = $appointment_details->user->userDetails->nursing_home_visit_charge_full_day;      
                         }else{
-                            $transaction_amount = $appointment_details->user->userDetails->nursing_facility_charge_full_day;
+                            $transaction_amount = $appointment_details->user->userDetails->nursing_facility_charge_full_day * $appointment_days;
                             $hcp_fees = $appointment_details->user->userDetails->nursing_facility_charge_full_day;   
                         }
                         $full_day = 1;
@@ -1029,7 +1038,7 @@ class AppointmentController extends BaseApiController
             $appointment_days = 0;
             $appointment_timing = 0;
             $user = $this->user_repo->getById($appointment_details->user_id);   
-             if(!empty($appointment_details->full_day) && $appointment_details->full_day == '1'){
+            if(!empty($appointment_details->full_day) && $appointment_details->full_day == '1'){
                 $start_appointment  = new Carbon($appointment_details->appointment_date.' 00:00:01');
                 $end_appointment   = new Carbon($appointment_details->appointment_end_date.' 23:59:00');
                 $appointment_days =  $start_appointment->diffInDays($end_appointment);
