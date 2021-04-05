@@ -128,6 +128,7 @@ class DashboardController extends BaseApiController
                                             return [
                                                 'id'=>$response->id,
                                                 'amount'=>$response->amount,
+                                                'transaction_type'=>$response->transaction_type,
                                                 'transaction_date'=>$response->transaction_date,
                                                 'wallet_transaction'=>$response->wallet_transaction,
                                                 'mode_of_payment'=>$response->mode_of_payment,

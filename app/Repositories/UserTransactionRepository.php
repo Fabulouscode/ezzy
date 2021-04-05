@@ -169,6 +169,17 @@ class UserTransactionRepository extends Repository
             $query->orWhere('user_id',$request->user()->id);
             $query->orWhere('client_id',$request->user()->id);
         });
+
+        // $query = $query->where([
+        //             ['transaction_type', '!=', '1'],
+        //             ['wallet_transaction', '!=', '1']
+        //         ]);
+        $query = $query->where(function($query) use ($request){
+            $query->where('transaction_type','!=', '1');
+            $query->orWhere('wallet_transaction','!=', '1');
+            $query->orWhere('mode_of_payment','!=', '1');
+        });
+     
      
         $query = $query->where('status','0')->orderBy('id','desc');
 
