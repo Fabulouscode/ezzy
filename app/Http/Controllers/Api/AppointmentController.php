@@ -851,7 +851,9 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             
             if (!empty($appointment_details)) {
-                $old_transaction = $this->user_transaction_repo->getById($appointment_details->transaction_id);
+                if(!empty($appointment_details->transaction_id)){
+                    $old_transaction = $this->user_transaction_repo->getById($appointment_details->transaction_id);
+                }
                 $extra_charges = 0;
                 $ezzycare_charge = 0;
                 $user_payout = 0;
@@ -894,8 +896,8 @@ class AppointmentController extends BaseApiController
                         ];
                         $this->notification_repo->sendingNotification($send_notification);
                 }     
-                if(!empty($appointment_details->transaction_id)){                    
-                    $this->user_transaction_repo->destroy($appointment_details->transaction_id);
+                if(!empty($old_transaction->id)){                    
+                    $this->user_transaction_repo->destroy($old_transaction->id);
                 }   
 
                  // update Wallet Balance
