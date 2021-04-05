@@ -553,11 +553,16 @@ class AppointmentController extends BaseApiController
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
         if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
-            $transaction_amount = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
             $extra_charges = 0;
             $ezzycare_charge = 0;
             $user_payout = 0;
             $ezzycare_fees = 0;
+            $transaction_amount = 0;
+            $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+            if(!empty($cancellation_charge->fees_percentage)){                    
+                $transaction_amount = $cancellation_charge->fees_percentage;
+            } 
+
             if(!empty($appointment->user->category_id)){                    
                 $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
                 if(!empty($manage_fees->fees_percentage)){
