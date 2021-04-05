@@ -893,8 +893,10 @@ class AppointmentController extends BaseApiController
                             'msg_type' => '2',
                         ];
                         $this->notification_repo->sendingNotification($send_notification);
-                }        
-                $this->user_transaction_repo->destroy($appointment_details->transaction_id);
+                }     
+                if(!empty($appointment_details->transaction_id)){                    
+                    $this->user_transaction_repo->destroy($appointment_details->transaction_id);
+                }   
 
                  // update Wallet Balance
                 $this->user_repo->userWalletUpdate($appointment_details->client_id);
