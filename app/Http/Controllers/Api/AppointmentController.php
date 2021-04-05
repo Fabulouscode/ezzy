@@ -482,7 +482,7 @@ class AppointmentController extends BaseApiController
                             ];  
                         $this->notification_repo->sendingNotification($send_notification);  
                         Log::info("Notification send ".date('H:i:s'));
-                        sleep(30);
+                        sleep(20);
                     }else{
                         break;
                     }

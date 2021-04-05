@@ -757,7 +757,8 @@ class UserRepository extends Repository
                                         ['users.current_latitude', '!=', ''],
                                         ['users.current_longitude', '!=', '']
                                     ])
-                            ->havingRaw('distance <= 200');
+                            ->havingRaw('distance <= 200')
+                            ->orderBy('distance','asc');
 
             }else{
                 $query = $query->orderBy('id','desc');
