@@ -96,6 +96,7 @@ $(function () {
             }
         },
         columns: [
+            { data: 'id', name: 'id' },
             { data: 'user_name', name: 'HCP Provider' },
             { data: 'client_name', name: 'Patient name' },
             { data: 'transaction_data', name: 'transaction_data' },
@@ -107,18 +108,20 @@ $(function () {
             { data: 'status', name: 'Status' },
             { data: 'payout_status', name: 'Payout Status' },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             if ($('#provider').val() == 'patients') {
-                api.columns([6]).visible(showColumn);
-                // api.columns([6]).visible(showColumn);
-                api.columns([9]).visible(showColumn);
-            } else {
-                api.columns([4]).visible(showColumn);
+                api.columns([0]).visible(showColumn);
                 api.columns([7]).visible(showColumn);
+                // api.columns([6]).visible(showColumn);
+                api.columns([10]).visible(showColumn);
+            } else {
+                api.columns([0]).visible(showColumn);
+                api.columns([5]).visible(showColumn);
                 api.columns([8]).visible(showColumn);
+                api.columns([9]).visible(showColumn);
             }
         },
         drawCallback: function (settings) {

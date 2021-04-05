@@ -240,6 +240,8 @@ class UserTransactionRepository extends Repository
                      $data .= 'Appointment charges';
                 }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '0'){
                      $data .= 'Add in Wallet';
+                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '1' && $selected->transaction_type == '1'){
+                     $data .= 'Add in Wallet';
                 }
                 return $data;
             })
