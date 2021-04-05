@@ -542,7 +542,7 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
       
-        if($appointment->urgent == '0' && $request->status == '6'){
+        if($appointment->urgent == '0' && $request->status == '6' && !empty($appointment->transaction_id)){
             $updaappoint = [
                     'transaction_id'=> NULL,
                 ];
