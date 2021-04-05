@@ -62,6 +62,17 @@ class WalletController extends BaseApiController
 
     public function addWalletBalance(AddWalletBalanceRequest $request)
     {          
+            $wallet_transaction = [
+                        'user_id'=> $request->user()->id,
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'amount'=> $request->amount,                        
+                        'payment_gateway_response'=> $request->payment_transaction,
+                        'mode_of_payment'=> '1',
+                        'transaction_type'=> '1',
+                        'wallet_transaction'=> '1',
+                        'payout_status'=> '0',
+                        'status'=> '0',
+                    ];
             $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
@@ -74,6 +85,7 @@ class WalletController extends BaseApiController
                         'status'=> '0',
                     ];
         try {
+            $this->user_transaction_repo->dataCrud($wallet_transaction);
             $this->user_transaction_repo->dataCrud($add_transaction);
             $this->user_repo->userWalletUpdate($request->user()->id);        
             return self::sendSuccess([], 'Wallet balance add Successfully');
