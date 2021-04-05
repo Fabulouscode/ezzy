@@ -535,14 +535,14 @@ class AppointmentController extends BaseApiController
                 return self::sendError([], 'Please check appointment date');
         }
         
-        if($request->status == '2' && !empty($request->start_datetime)){
+        if($appointment->urgent == '0' && $request->status == '2' && !empty($request->start_datetime)){
             $startappointment = [
                     'start_datetime'=> Carbon::parse($request->start_datetime)->format('Y-m-d H:i:s'),
                 ];
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
       
-        if($request->status == '6'){
+        if($appointment->urgent == '0' && $request->status == '6'){
             $updaappoint = [
                     'transaction_id'=> NULL,
                 ];
@@ -552,7 +552,7 @@ class AppointmentController extends BaseApiController
         }
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
-        if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+        if($appointment->urgent == '0' && empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
             $transaction_amount = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
             $extra_charges = 0;
             $ezzycare_charge = 0;
@@ -585,7 +585,7 @@ class AppointmentController extends BaseApiController
      
         try {
             DB::beginTransaction();
-            if(!empty($add_transaction)){
+            if($appointment->urgent == '0' && !empty($add_transaction)){
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);                
                 $update_appoint = [
                         'transaction_id'=> $transaction->id,
