@@ -1026,10 +1026,19 @@ class AppointmentController extends BaseApiController
 
     public function calculateAppointmentCharges($appointment_details){
             $transaction_amount = 0;
+            $appointment_days = 0;
+            $appointment_timing = 0;
             $user = $this->user_repo->getById($appointment_details->user_id);   
-            $start_appointment  = new Carbon($appointment_details->appointment_time);
-            $end_appointment   = new Carbon($appointment_details->appointment_end_time);
-            $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+             if(!empty($appointment_details->full_day) && $appointment_details->full_day == '1'){
+                $start_appointment  = new Carbon($appointment_details->appointment_date.' 00:00:01');
+                $end_appointment   = new Carbon($appointment_details->appointment_end_date.' 23:59:00');
+                $appointment_days =  $start_appointment->diffInDays($end_appointment);
+                $appointment_days =  $appointment_days + 1;
+            }else{              
+                $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                $end_appointment   = new Carbon($appointment_details->appointment_end_date.' '.$appointment_details->appointment_end_time);
+                $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+            }
             
             if(!empty($appointment_details->user_services) && count($appointment_details->user_services) > 0){           
                 foreach ($appointment_details->user_services as $key => $value) {
@@ -1043,9 +1052,9 @@ class AppointmentController extends BaseApiController
                 if ($user->category_id == '6' || $user->category_id == '5') {
                     if ($appointment_details->full_day == '1') {
                         if($appointment_details->appointment_type == '1'){
-                            $transaction_amount = $user->userDetails->nursing_home_visit_charge_full_day;
+                            $transaction_amount = $user->userDetails->nursing_home_visit_charge_full_day * $appointment_days;
                         }else{
-                            $transaction_amount = $user->userDetails->nursing_facility_charge_full_day;
+                            $transaction_amount = $user->userDetails->nursing_facility_charge_full_day * $appointment_days;
                         }
                     } else {
                         if($appointment_details->appointment_type == '1'){
