@@ -329,6 +329,7 @@ class TransactionController extends BaseApiController
     {
         $data = array();
         $chat_history = $this->chat_history_repo->getTransactionCompleted($request->id);
+     
         if(empty($chat_history)){
             return self::sendError([], 'Transaction already Completed');
         }
@@ -348,9 +349,9 @@ class TransactionController extends BaseApiController
                 $ezzycare_charge = 0;
                 $user_payout = 0;
                 $ezzycare_fees = 0;
-                $transaction_amount = $appointment_details->appointment_price;
-                if (!empty($appointment_details->user->category_id)) {
-                    $manage_fees = $this->fees_repo->getbyCategoryId($appointment_details->user->category_id);
+                $transaction_amount = $transaction->amount;
+                if (!empty($chat_history->user->category_id)) {
+                    $manage_fees = $this->fees_repo->getbyCategoryId($chat_history->user->category_id);
                     if (!empty($manage_fees->fees_percentage)) {
                         $ezzycare_fees = $manage_fees->fees_percentage;
                     }
