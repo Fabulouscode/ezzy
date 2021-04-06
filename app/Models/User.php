@@ -341,8 +341,8 @@ class User extends Authenticatable
         return [
             'id' =>$this->id,
             'user_name' =>$this->user_name,
-            'rating' => (!empty($this->category_id))  ? ($this->categoryParent->id != '7') ? $this->user_order_rating : $this->user_appointment_rating : 0,
-            'reviews' => (!empty($this->category_id)) ? ($this->categoryParent->id != '7') ? $this->user_order_review : $this->user_appointment_review : 0,
+            'rating' => (!empty($this->category_id))  ? ($this->categoryParent->id == '7') ? $this->user_order_rating : $this->user_appointment_rating : 0,
+            'reviews' => (!empty($this->category_id)) ? ($this->categoryParent->id == '7') ? $this->user_order_review : $this->user_appointment_review : 0,
             'category_id' =>$this->category_id,
             'category_name' => (!empty($this->categoryParent)) ? $this->categoryParent->name : '',
             'clinic_locality' => (!empty($this->userDetails)) ? ($this->userDetails->address_type == '0') ? $this->userDetails->clinic_locality : $this->userDetails->clinic_locality.', '.$this->userDetails->clinic_city.', '.$this->userDetails->clinic_state.', '.$this->userDetails->clinic_country : NULL,
