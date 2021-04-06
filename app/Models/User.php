@@ -341,7 +341,7 @@ class User extends Authenticatable
         return [
             'id' =>$this->id,
             'user_name' =>$this->user_name,
-            'rating' => (!empty($this->category_id))  ? ($this->categoryParent->id == '7') ? $this->user_order_rating : $this->user_appointment_rating : 0,
+            'rating' => (!empty($this->category_id))  ? ($this->categoryParent->id == '7') ? round($this->user_order_rating, 1) : round($this->user_appointment_rating, 1) : 0,
             'reviews' => (!empty($this->category_id)) ? ($this->categoryParent->id == '7') ? $this->user_order_review : $this->user_appointment_review : 0,
             'category_id' =>$this->category_id,
             'category_name' => (!empty($this->categoryParent)) ? $this->categoryParent->name : '',
