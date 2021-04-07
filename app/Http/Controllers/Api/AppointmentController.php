@@ -497,12 +497,12 @@ class AppointmentController extends BaseApiController
                 }else{
                     Log::info("healthcare provider not available ".date('H:i:s'));
                     $this->appointment_repo->destroy($data->id);
-                    return self::sendError([],"No any healthcare provider has accepted your appointment, please try again.");
+                    return self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
                 }
             }else{
                 Log::info("healthcare provider not available ".date('H:i:s'));
                 $this->appointment_repo->destroy($data->id);
-                return Self::sendError([],"No healthcare provider available, please try again.");
+                return Self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
             }
             return self::sendSuccess($data);
         } catch (\Exception $e) {
