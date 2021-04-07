@@ -146,6 +146,7 @@
                             <table id="user_transaction_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>HCP Provider Name</th>
                                     <th>Patient Name</th>                                    
                                     <th>Transaction</th>

@@ -121,13 +121,22 @@ function editRow(id) {
                         $('#fees_name').val(response.data.fees_name);
                         $('#fees_percentage').val(response.data.fees_percentage);
                     } else {
-                        $('#no_hcp_type').hide();
-                        $('#hcp_type').show();
                         $('#fees_percentage_label').text('Fees (%)');
                         $('#fees_id').val(response.data.id);
-                        $('#category_id').val(response.data.category_id);
-                        $('#fees_name').val('');
                         $('#fees_percentage').val(response.data.fees_percentage);
+                        console.log(response.data.category_id);
+                        if (response.data.category_id != '' && response.data.category_id != null) {
+                            $('#no_hcp_type').hide();
+                            $('#hcp_type').show();
+                            $('#category_id').val(response.data.category_id);
+                            $('#fees_name').val('');
+                        } else {
+                            $('#hcp_type').hide();
+                            $('#no_hcp_type').show();
+                            $('#category_id').val('');
+                            $('#fees_name').val(response.data.fees_name);
+                        }
+
                     }
 
                 }

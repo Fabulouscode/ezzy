@@ -543,6 +543,16 @@ class AppointmentController extends BaseApiController
         }
       
         if($appointment->urgent == '0' && $request->status == '6' && !empty($appointment->transaction_id)){
+            $old_transaction_cahrges = 0;
+            $cancellation_charge_per = 0;
+            $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+            $old_transaction = $this->user_transaction_repo->getById($appointment->transaction_id);
+            if(!empty($cancellation_charge->fees_percentage)){                    
+                $cancellation_charge_per = $cancellation_charge->fees_percentage;
+            } 
+            if(!empty($old_transaction) && !empty($cancellation_charge_per)){
+                $old_transaction_cahrges = (($old_transaction->amount * $cancellation_charge_per ) / 100);
+            }
             $updaappoint = [
                     'transaction_id'=> NULL,
                 ];
@@ -552,16 +562,12 @@ class AppointmentController extends BaseApiController
         }
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
-        if(empty($request->user()->category_id) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+        if(empty($request->user()->category_id) && !empty($old_transaction_cahrges) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
             $extra_charges = 0;
             $ezzycare_charge = 0;
             $user_payout = 0;
             $ezzycare_fees = 0;
-            $transaction_amount = 0;
-            $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
-            if(!empty($cancellation_charge->fees_percentage)){                    
-                $transaction_amount = $cancellation_charge->fees_percentage;
-            } 
+            $transaction_amount = $old_transaction_cahrges;
 
             if(!empty($appointment->user->category_id)){                    
                 $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
@@ -674,10 +680,19 @@ class AppointmentController extends BaseApiController
         $accepted_date  = new Carbon($appointment->accepted_date);
         $current_appointment   = $this->appointment_repo->getCurrentDateTime();
         $appointment_timing =  $accepted_date->diffInMinutes($current_appointment);
-        if(empty($request->user()->category_id) && !empty($appointment_timing) && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+        $reschedule_charges = 0;
+        $reschedule_charge_per = 0;
+        $reschedule_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+        $old_transaction = $this->user_transaction_repo->getById($appointment->transaction_id);
+        if(!empty($reschedule_charge->fees_percentage)){                    
+            $reschedule_charge_per = $reschedule_charge->fees_percentage;
+        } 
+        if(!empty($old_transaction) && !empty($reschedule_charge_per)){
+            $reschedule_charges = (($old_transaction->amount * $reschedule_charge_per ) / 100);
+        }
+        if(empty($request->user()->category_id) && !empty($reschedule_charges) && !empty($appointment_timing) && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
-            $reschedule_charges = $this->manage_fees_repo->getbyFeesKey('reschedule_charges');            
-            if(isset($wallet_balance) && !empty($reschedule_charges) && !empty($reschedule_charges->fees_percentage) && ($reschedule_charges->fees_percentage > $wallet_balance)){
+           if(isset($wallet_balance) && !empty($reschedule_charges) && ($reschedule_charges > $wallet_balance)){
                 return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before reschedule an appointment.', 402);
             }
             $ezzycare_charge = 0;
@@ -689,12 +704,12 @@ class AppointmentController extends BaseApiController
                     $ezzycare_fees = $manage_fees->fees_percentage;
                 }
             }
-            $ezzycare_charge = (($reschedule_charges->fees_percentage * $ezzycare_fees ) / 100);
-            $user_payout = $reschedule_charges->fees_percentage - $ezzycare_charge;
+            $ezzycare_charge = (($reschedule_charges * $ezzycare_fees ) / 100);
+            $user_payout = $reschedule_charges - $ezzycare_charge;
             $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> !empty($reschedule_charges) ? $reschedule_charges->fees_percentage : '',                        
+                        'amount'=> !empty($reschedule_charges) ? $reschedule_charges : '',                        
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
                         'status'=> '0',
