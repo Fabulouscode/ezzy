@@ -78,14 +78,19 @@ class PayoutAmountController extends Controller
     public function savePayoutsInprocess(Request $request)
     {
         if(!empty($request->transaction_ids)){
+            $some_user_no_bank = 0;
             $data = ['payout_status' => '3','payout_date' => $this->user_transaction_repo->getCurrentDateTime()];
             $user_data = $this->user_transaction_repo->userPayoutData($request->transaction_ids, '1');
             if(!empty($user_data) && count($user_data) > 0){
                 foreach ($user_data as $key => $value) {
-                    $user_transaction = $this->user_transaction_repo->getById($value->id);
-                    if(!empty($user_transaction)){
-                        $this->user_transaction_repo->dataCrud($data, $value->id);
-                    } 
+                    if(count($value->client->userBankAccount) > 0){
+                        $user_transaction = $this->user_transaction_repo->getById($value->id);
+                        if(!empty($user_transaction)){
+                            $this->user_transaction_repo->dataCrud($data, $value->id);
+                        } 
+                    }else{
+                         $some_user_no_bank = 1;
+                    }
                 }
             }
 
@@ -95,8 +100,14 @@ class PayoutAmountController extends Controller
                 'name' => "payout_users", //no extention needed
                 'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($payout_file) //mime type of used format
             );
+
+            if($some_user_no_bank == '1'){
+                $notification_msg = 'Some User not Add Bank Account Please Add Bank then to Payout proceed';
+            }else{
+                $notification_msg = 'Payout success';
+            }
         
-            return response()->json(['data'=>$response, 'msg'=>'Payout success'], 200);
+            return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);
         }
 
           return response()->json(['msg'=>'Data Not success'], 500);
