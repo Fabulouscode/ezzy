@@ -186,8 +186,8 @@ class Appointment extends Model
             'age'=>$this->age,
             'reason'=>$this->reason,
             'address'=>$this->address,
-            'latitude'=>$this->latitude,
-            'longitude'=>$this->longitude,
+            'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
+            'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
             'appointment_services'=>(!empty($this->appointmentServices))? $this->serviceDetailsformat($this->appointmentServices) :'',
             'client'=>(isset($this->client))?
                             [
@@ -195,8 +195,8 @@ class Appointment extends Model
                                 'user_name'=>$this->client->user_name,
                                 'profile_image'=>$this->client->profile_image,
                                 'address'=>(!empty($this->client->userPrimaryAddress)) ? $this->client->userPrimaryAddress->address : '',
-                                'latitude'=>(!empty($this->client)) ? $this->client->latitude : '',
-                                'longitude'=>(!empty($this->client)) ? $this->client->longitude : '',
+                                'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
+                                'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
                             ]:'',
             'user'=>(isset($this->user))?
                             [
