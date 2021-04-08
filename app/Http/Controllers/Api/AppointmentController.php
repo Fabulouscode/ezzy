@@ -1030,6 +1030,9 @@ class AppointmentController extends BaseApiController
             Log::info("Appointment Request Accepted".date('H:i:s'));
             DB::commit();
             $data = $this->appointment_repo->getById($request->id);
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'Appointment Request Accepted Successfully');
+            }
             return self::sendSuccess($data, 'Appointment Request Accepted Successfully');
         }catch(\Exception $e){
             DB::rollBack();
