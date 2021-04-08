@@ -110,7 +110,8 @@ class PayoutAmountController extends Controller
     public function savePayoutTransaction(PayoutAmountRequest $request)
     {
         $data = $request->all();
-        if(!empty($data)){
+        $user_data = $this->user_transaction_repo->userPayoutData([$request->user_id], '3');
+        if(!empty($data) && count($user_data) > 0){
             $user = $this->user_repo->getById($request->user_id);
             
             $data = [
@@ -141,7 +142,7 @@ class PayoutAmountController extends Controller
             return response()->json(['msg'=>'Payout success'], 200);
         }
 
-          return response()->json(['msg'=>'Data Not success'], 500);
+          return response()->json(['msg'=>'No any payment In-progress Please check'], 500);
     }
 
     /**

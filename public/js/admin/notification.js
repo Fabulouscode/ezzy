@@ -55,10 +55,10 @@ function deleteRow(row_id) {
                         )
                         var oTable = $('#notification_datatable').dataTable();
                         oTable.fnDraw(false);
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }

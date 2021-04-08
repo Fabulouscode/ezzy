@@ -119,14 +119,12 @@ $(function () {
                 $('#addPayoutAmount').modal('hide');
                 var oTable = $('#payout_datatable').dataTable();
                 oTable.fnDraw(false);
-                toastr.success(response.msg, 'EzzyCare App');
+                toastr.success(response.msg, App_name_global);
                 return false;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var myArr = JSON.parse(jqXHR.responseText);
-                $.each(myArr.errors, function (index, value) {
-                    toastr.error(value, 'Vyzum App');
-                });
+                toastr.error(myArr.msg, App_name_global);
                 return false;
             },
         });
@@ -186,12 +184,12 @@ function payout() {
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                toastr.success(response.msg, 'EzzyCare App');
+                toastr.success(response.msg, App_name_global);
                 var oTable = $('#payout_datatable').dataTable();
                 oTable.fnDraw(false);
             },
             error: function (error) {
-                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                toastr.error(error.responseJSON.msg, App_name_global);
             }
         });
     }
@@ -205,12 +203,12 @@ function Export() {
         dataType: 'json',
         success: function (data) {
 
-            toastr.success(data.msg, 'EzzyCare App');
+            toastr.success(data.msg, App_name_global);
             var oTable = $('#payout_datatable').dataTable();
             oTable.fnDraw(false);
         },
         error: function (error) {
-            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
-}    
+}

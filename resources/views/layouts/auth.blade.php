@@ -37,7 +37,9 @@
             
         </div>
         <!-- END page -->
-
+        <script>
+            var App_name_global =  "{{ config('app.name', 'Laravel') }}";
+        </script>
         <!-- jQuery  -->
         <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
         <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>

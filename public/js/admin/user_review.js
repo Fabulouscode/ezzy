@@ -80,7 +80,7 @@ function deleteRow(row_id) {
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }

@@ -253,7 +253,7 @@ function walletBalanceGet() {
             }
         },
         error: function (error) {
-            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
 }
@@ -283,10 +283,10 @@ function deleteRow(row_id) {
                         )
                         var oTable = $('#user_datatable').dataTable();
                         oTable.fnDraw(false);
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }
@@ -320,10 +320,10 @@ function changeStatusRow(row_id, status) {
                         )
                         var oTable = $('#user_datatable').dataTable();
                         oTable.fnDraw(false);
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }

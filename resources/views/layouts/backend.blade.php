@@ -90,6 +90,9 @@
         <!-- END wrapper -->
 
         <!-- jQuery  -->
+        <script>
+            var App_name_global =  "{{ config('app.name', 'Laravel') }}";
+        </script>
         <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
         <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('admin/js/modernizr.min.js') }}"></script>

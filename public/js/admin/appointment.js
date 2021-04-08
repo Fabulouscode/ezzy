@@ -101,15 +101,15 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                         var oTable = $('#appointments_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }
         });
     }
-}    
+}

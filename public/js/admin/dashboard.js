@@ -213,7 +213,7 @@ function getAreaChart() {
             }
         },
         error: function (error) {
-            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
 }
@@ -236,7 +236,7 @@ function getBarChart() {
             }
         },
         error: function (error) {
-            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
 }
@@ -266,7 +266,7 @@ function getAppointmentAndOrderEarning() {
             }
         },
         error: function (error) {
-            toastr.error(error.responseJSON.msg, 'EzzyCare App');
+            toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
 }

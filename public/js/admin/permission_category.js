@@ -38,13 +38,13 @@ $(function () {
                 $('#addPermissionCategory').modal('hide');
                 var oTable = $('#permission_category_datatable').dataTable();
                 oTable.fnDraw(false);
-                toastr.success(response.msg, 'EzzyCare App');
+                toastr.success(response.msg, App_name_global);
                 return false;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var myArr = JSON.parse(jqXHR.responseText);
                 $.each(myArr.errors, function (index, value) {
-                    toastr.error(value, 'Vyzum App');
+                    toastr.error(value, App_name_global);
                 });
                 return false;
             },
@@ -73,11 +73,11 @@ function addRow() {
                 $('#addPermissionCategory').modal();
             }
             else {
-                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                toastr.error(error.responseJSON.msg, App_name_global);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            toastr.error(jqXHR.responseJSON.msg, App_name_global);
             return false;
         },
     });
@@ -105,11 +105,11 @@ function editRow(id) {
                 $('#addPermissionCategory').modal();
             }
             else {
-                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                toastr.error(error.responseJSON.msg, App_name_global);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            toastr.error(jqXHR.responseJSON.msg, 'EzzyCare App');
+            toastr.error(jqXHR.responseJSON.msg, App_name_global);
             return false;
         },
     });
@@ -140,10 +140,10 @@ function deleteRow(row_id) {
                         )
                         var oTable = $('#permission_category_datatable').dataTable();
                         oTable.fnDraw(false);
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }

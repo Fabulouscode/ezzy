@@ -77,10 +77,10 @@ Dropzone.options.imageDropzone = {
             dataType: 'json',
             data: { 'file_name': name },
             success: function (data) {
-                toastr.success(data.msg, 'EzzyCare App');
+                toastr.success(data.msg, App_name_global);
             },
             error: function (error) {
-                toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                toastr.error(error.responseJSON.msg, App_name_global);
             }
         });
     },
@@ -128,12 +128,12 @@ function deleteRow(row_id) {
                             data.msg,
                             'success'
                         )
-                        toastr.success(data.msg, 'EzzyCare App');
+                        toastr.success(data.msg, App_name_global);
                         var oTable = $('#medicine_details_datatable').dataTable();
                         oTable.fnDraw(false);
                     },
                     error: function (error) {
-                        toastr.error(error.responseJSON.msg, 'EzzyCare App');
+                        toastr.error(error.responseJSON.msg, App_name_global);
                     }
                 });
             }
