@@ -768,9 +768,19 @@ class AppointmentRepository extends Repository
         $current_time  =  Carbon::now();
         // \Log::info("current_time ".json_encode($current_time));     
         return $this->model->whereDate('appointment_end_date', Carbon::now())
-                            ->whereTime('appointment_end_time', $current_time->addMinute(5)->format('H:i:s'))
+                            ->whereTime('appointment_end_time', $current_time->addMinute(5)->format('H:i'))
                             ->where('status',2)->get();
    
+    }
+   
+    public function getCurrentlyUpcomingAppointment()
+    {   
+        $current_time  =  Carbon::now();
+        // \Log::info("current_time ".json_encode($current_time));     
+        return $this->model->whereDate('appointment_date', Carbon::now())
+                            ->whereTime('appointment_time', $current_time->addMinute(10)->format('H:i'))
+                            ->where('status',1)->get();
+                            
     }
   
     public function getOldAppointmentPending()
