@@ -7,6 +7,7 @@ use App\Repositories\CategoryRepository;
 use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
+use Timezone;
 
 class Helper
 {
@@ -37,7 +38,8 @@ class Helper
     public static function getDateTimeFormate($date_time)
     {
         $date_time_formate = new Carbon($date_time);
-        return $date_time_formate->format('d M, Y H:i:s');
+        $date_time_formate = Timezone::convertToLocal($date_time_formate, 'd M, Y h:i:s a');
+        return $date_time_formate;
     }
 
     /**
@@ -46,7 +48,8 @@ class Helper
     public static function getDateFormate($date)
     {
         $date_formate = new Carbon($date);
-        return $date_formate->format('d M, Y');
+        $date_formate = Timezone::convertToLocal($date_formate, 'd M, Y');
+        return $date_formate;
     }
    
     /**
@@ -55,7 +58,8 @@ class Helper
     public static function getTimeFormate($time)
     {
         $time_formate = new Carbon($time);
-        return $time_formate->format('H:i:s');
+        $time_formate = Timezone::convertToLocal($time_formate, 'h:i:s a');
+        return $time_formate;
     }
 
     /**

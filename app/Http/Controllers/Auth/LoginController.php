@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\Admin;
 use Auth;
+
 class LoginController extends Controller
 {
     /*
@@ -49,10 +51,15 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             'email'   => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+            $admin =  Admin::find(Auth::guard('admin')->user()->id);
+            $data = [
+                        'timezone' => !empty($request->timezone) ? $request->timezone : 'UTC'
+                    ];
+            $admin->update($data);  
             return redirect()->intended('/');
         }
         return back()->withInput($request->only('email', 'remember'))->withError('These credentials do not match our records.');

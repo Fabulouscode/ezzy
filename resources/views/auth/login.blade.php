@@ -23,6 +23,7 @@
                                 <form  class="form-horizontal m-t-20" name="login_form" method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                                 @endisset
                                     @csrf
+                                <input type="hidden" name="timezone" id="get_timezone">
                                 <div class="form-group row">
                                         <div class="col-12">
                                             <input required parsley-type="email" value="{{old('email')}}"   class="form-control @if (session('error')) is-invalid @endif @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Email" autocomplete="email" autofocus>
@@ -90,7 +91,8 @@
 $(document).ready(function () {
    
     $("form[name='login_form']").parsley();
-        
+    $("#get_timezone").val('UTC');
+    // $("#get_timezone").val(Intl.DateTimeFormat().resolvedOptions().timeZone);
     // $("form[name='login_form']").validate({
     //     rules: {
     //         'email': { required: true, email:true },
