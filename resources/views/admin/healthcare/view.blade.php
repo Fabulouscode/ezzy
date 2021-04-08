@@ -329,8 +329,8 @@
                                                 <tr>
                                                     <td>{{$user_avalibale_time->day_name}}</td>
                                                     <td>{{$user_avalibale_time->appointment_type_name}}</td>
-                                                    <td>{{$user_avalibale_time->start_time}}</td>
-                                                    <td>{{$user_avalibale_time->end_time}}</td>
+                                                    <td>{{ Helper::getUserTimezoneConvertFormate($user_avalibale_time->start_time, $data->user_timezone)}}</td>
+                                                    <td>{{ Helper::getUserTimezoneConvertFormate($user_avalibale_time->end_time, $data->user_timezone)}}</td>                                             
                                                 </tr>
                                             @endforeach
                                             </tbody>

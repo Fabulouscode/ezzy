@@ -61,6 +61,16 @@ class Helper
         $time_formate = Timezone::convertToLocal($time_formate, 'h:i:s a');
         return $time_formate;
     }
+ 
+    /**
+     * get timestamp formate time
+     */  
+    public static function getUserTimezoneConvertFormate($time, $timezone = 'UTC')
+    {
+        //$timezone
+        $time_formate = Carbon::createFromFormat('H:i:s', $time, 'UTC')->setTimezone('UTC');
+        return $time_formate->format('h:i a');
+    }
 
     /**
      * sending firebase notification
