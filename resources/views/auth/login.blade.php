@@ -91,8 +91,8 @@
 $(document).ready(function () {
    
     $("form[name='login_form']").parsley();
-    $("#get_timezone").val('UTC');
-    // $("#get_timezone").val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    // $("#get_timezone").val('UTC');
+    $("#get_timezone").val(Intl.DateTimeFormat().resolvedOptions().timeZone);
     // $("form[name='login_form']").validate({
     //     rules: {
     //         'email': { required: true, email:true },

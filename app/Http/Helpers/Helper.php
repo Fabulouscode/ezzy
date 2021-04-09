@@ -68,7 +68,7 @@ class Helper
     public static function getUserTimezoneConvertFormate($time, $timezone = 'UTC')
     {
         //$timezone
-        $time_formate = Carbon::createFromFormat('H:i:s', $time, 'UTC')->setTimezone('UTC');
+        $time_formate = Carbon::createFromFormat('H:i:s', $time, 'UTC')->setTimezone($timezone);
         return $time_formate->format('h:i a');
     }
 
