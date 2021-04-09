@@ -300,7 +300,7 @@ class OrderController extends BaseApiController
             DB::commit();            
             $data = $this->order_repo->getById($request->id);
             if(!empty($data)){
-                return self::sendSuccess($data->format(), 'Appointment status change');
+                return self::sendSuccess($data->format(), 'Order status change');
             }
             return self::sendSuccess($data, 'Order status change');
         }catch(\Exception $e){
@@ -356,6 +356,10 @@ class OrderController extends BaseApiController
                                         'msg_type' => '5',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
+            }
+            $data = $this->order_repo->getById($request->order_id);
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'order tracking status change');
             }
             DB::commit();
             return self::sendSuccess($data, 'Order tracking status change');
