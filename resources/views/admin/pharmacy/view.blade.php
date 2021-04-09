@@ -266,7 +266,6 @@
                                                     <th>Bank Name</th>
                                                     <th>Bank Branch_Name</th>
                                                     <th>Account Number</th>
-                                                    <th>IFSC Code</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -275,7 +274,6 @@
                                                     <td>{{$user_bank_account->bank_name}}</td>
                                                     <td>{{$user_bank_account->bank_branch_name}}</td>
                                                     <td>{{$user_bank_account->account_number}}</td>
-                                                    <td>{{$user_bank_account->ifsc_code}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

@@ -357,7 +357,6 @@ class UserTransactionRepository extends Repository
                     $data .='<div><strong>Bank Name: </strong>'. $selected->client->userPrimaryBankAccount->bank_name.'</div>';
                     $data .='<div><strong>Account Name: </strong>'. $selected->client->userPrimaryBankAccount->name.'</div>';
                     $data .='<div><strong>Account No.: </strong>'. $selected->client->userPrimaryBankAccount->account_number.'</div>';
-                    $data .='<div><strong>IFSC Code: </strong>'. $selected->client->userPrimaryBankAccount->ifsc_code.'</div>';
                 }      
                 return $data; 
             })
