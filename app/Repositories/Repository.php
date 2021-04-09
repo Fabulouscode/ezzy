@@ -9,6 +9,7 @@ use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 use Storage;
 use Log;
+use Auth;
 
 class Repository
 {
@@ -269,6 +270,7 @@ class Repository
     public function getDateTimeFormate($date_time)
     {
         $date_time_formate = new Carbon($date_time);
+        (!empty(Auth::user()) && !empty(Auth::user()->timezone)) ? $date_time_formate->setTimezone(Auth::user()->timezone) : '' ;
         return $date_time_formate->format('d M, Y h:i a');
     }
 
@@ -278,6 +280,7 @@ class Repository
     public function getDateFormate($date)
     {
         $date_formate = new Carbon($date);
+        (!empty(Auth::user()) && !empty(Auth::user()->timezone)) ? $date_formate->setTimezone(Auth::user()->timezone) : '' ;
         return $date_formate->format('d M, Y');
     }
    
@@ -287,6 +290,7 @@ class Repository
     public function getTimeFormate($time)
     {
         $time_formate = new Carbon($time);
+        (!empty(Auth::user()) && !empty(Auth::user()->timezone)) ? $time_formate->setTimezone(Auth::user()->timezone) : '' ;
         return $time_formate->format('H:i:s');
     }
    
@@ -302,7 +306,7 @@ class Repository
     /**
      * convert date utc timezone
      */  
-    public function getConvertTimezoneDate($timestamp, $timezone)
+    public function getConvertTimezoneDate($timestamp, $timezone = 'UTC')
     {
         $date = Carbon::createFromFormat('Y-m-d', $timestamp, $timezone);
         return $date->setTimezone('UTC');
@@ -311,7 +315,7 @@ class Repository
     /**
      * convert time utc timezone
      */  
-    public function getConvertTimezoneTime($timestamp, $timezone)
+    public function getConvertTimezoneTime($timestamp, $timezone = 'UTC')
     {
         $date = Carbon::createFromFormat('H:i:s', $timestamp, $timezone);
         return $date->setTimezone('UTC');
@@ -320,10 +324,37 @@ class Repository
     /**
      * convert date time utc timezone
      */  
-    public function getConvertTimezoneDateTime($timestamp, $timezone)
+    public function getConvertTimezoneDateTime($timestamp, $timezone = 'UTC')
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, $timezone);
         return $date->setTimezone('UTC');
+    }
+  
+    /**
+     * convert date local timezone
+     */  
+    public function getConvertLocalTimezoneDate($timestamp, $timezone = '')
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $timestamp, 'UTC');
+        return !empty($timezone) ? $date->setTimezone($timezone) : $date;     
+    }
+
+    /**
+     * convert time local timezone
+     */  
+    public function getConvertLocalTimezoneTime($timestamp, $timezone = '')
+    {
+        $date = Carbon::createFromFormat('H:i:s', $timestamp, 'UTC');
+        return !empty($timezone) ? $date->setTimezone($timezone) : $date;
+    }
+
+    /**
+     * convert date time local timezone
+     */  
+    public function getConvertLocalTimezoneDateTime($timestamp, $timezone = '')
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'UTC');
+        return !empty($timezone) ? $date->setTimezone($timezone) : $date;
     }
    
     /**
