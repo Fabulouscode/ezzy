@@ -281,6 +281,9 @@ class OrderController extends BaseApiController
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
 
+                $order_update = ['status' => $request->status,'completed_datetime' => $this->user_repo->getCurrentDateTime()];
+                $this->order_repo->dataCrud($order_update, $request->id);
+
             }
 
             if (!empty($data)) {
