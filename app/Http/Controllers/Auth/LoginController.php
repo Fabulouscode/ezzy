@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\Admin;
+
 class LoginController extends Controller
 {
     /*
@@ -53,6 +55,11 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+            $admin =  Admin::find(Auth::guard('admin')->user()->id);
+            $data = [
+                        'timezone' => !empty($request->timezone) ? $request->timezone : 'UTC'
+                    ];
+            $admin->update($data);  
             return redirect()->intended('/');
         }
         return back()->withInput($request->only('email', 'remember'))->withError('These credentials do not match our records.');
