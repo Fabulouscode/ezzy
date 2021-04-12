@@ -185,6 +185,7 @@ class Appointment extends Model
             'gender_name'=>$this->gender_name,
             'age'=>$this->age,
             'reason'=>$this->reason,
+            'full_day'=>$this->full_day,
             'address'=>$this->address,
             'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
             'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
