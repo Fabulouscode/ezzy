@@ -278,6 +278,9 @@ class UserRepository extends Repository
                     }  
                     return $data;                          
                 })
+                ->editColumn('created_at',function($selected){
+                    return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
+                })
                 ->rawColumns(['action','categoryParent','status','hcp_type'])
                 ->make(true);
     }

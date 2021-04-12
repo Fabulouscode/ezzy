@@ -25,6 +25,7 @@ $(function () {
             { data: 'email', name: 'email' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'hcp_type', name: 'hcp_type' },
+            { data: 'created_at', name: 'created_at' },
             {
                 data: '', name: 'Ratings', orderable: false, searchable: false,
                 render: function (data, type, row) {
@@ -63,10 +64,10 @@ $(function () {
             api.columns([0]).visible(showColumn);
             if (data_obj.category_id == '') {
                 api.columns([4]).visible(showColumn);
-                api.columns([5]).visible(showColumn);
+                api.columns([6]).visible(showColumn);
             }
             if (data_obj.status == '1') {
-                api.columns([5]).visible(showColumn);
+                api.columns([6]).visible(showColumn);
             }
         },
         drawCallback: function (settings) {

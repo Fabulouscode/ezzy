@@ -83,6 +83,22 @@
                                             {{$currency_symbol.$data->wallet_balance}} 
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Date of Joining</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->created_at))
+                                                {{Helper::getDateTimeFormate($data->created_at)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    @if(!empty($data->approved_date))
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Date of Approval</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{Helper::getDateTimeFormate($data->approved_date)}}
+                                        </dd>
+                                    </div>
+                                    @endif 
                                 </div>
                             </div>
                         </div>

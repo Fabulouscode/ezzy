@@ -111,6 +111,7 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    @if(!empty($data->start_datetime))
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Appointment Started Date Time</label></dt>
                                         <dd class="col-sm-7"> 
@@ -119,7 +120,8 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    @if(isset($data->completed_datetime))
+                                    @endif
+                                    @if(!empty($data->completed_datetime))
                                         <div class="row">
                                             <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
                                             <dd class="col-sm-7"> 
@@ -173,6 +175,15 @@
                                                     </dd>
                                                 </div>
                                             @endif
+                                        @endif
+                                    @else
+                                        @if(!empty($data->getTransaction) && !empty($data->getTransaction->id))
+                                        <div class="row">
+                                            <dt class="col-sm-5"><label>Appointment Locked Amount</label></dt>
+                                            <dd class="col-sm-7"> 
+                                                {{$currency_symbol.$data->getTransaction->amount}}
+                                            </dd>
+                                        </div>
                                         @endif
                                     @endif
                                 </div>

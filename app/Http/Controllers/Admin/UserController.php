@@ -244,7 +244,7 @@ class UserController extends Controller
         $data = $this->user_repo->getById($request->user_id);
         if(!empty($data)){
             if(isset($request->status) && $data->status == '1' && $request->status == '0'){
-                 $data = ['status' => $request->status, 'approved_date' => Carbon::now()];
+                 $data = ['status' => $request->status, 'approved_date' => $this->user_repo->getCurrentDateTime()];
                  $send_notification = [
                                     'sender_id' => NULL,
                                     'receiver_id' => $request->user_id,

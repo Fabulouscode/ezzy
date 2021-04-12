@@ -51,6 +51,7 @@
                                     <th>Email</th>
                                     <th>Mobile No.</th>
                                     <th>HCP Type</th>
+                                    <th>Date of Joining</th>
                                     <th>Rating</th>
                                     <th>Status</th>
                                     <th>Action</th>
