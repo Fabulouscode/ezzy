@@ -14,13 +14,18 @@ $(function () {
             async: true,
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'medicineCategory', name: 'medicineCategory' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
     });
 
     $(document).on('submit', '#medicine_subcategory_form', function (event) {

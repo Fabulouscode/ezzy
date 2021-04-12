@@ -228,17 +228,19 @@ class UserRepository extends Repository
                     if (Auth::user()->hasPermissionTo($request->provider.'-edit')) {
                         // Change Status
                         if (!empty($selected->status == '1')) {
-                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="User Active" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-close"></i></a>&nbsp;&nbsp;';
                         } elseif (!empty($selected->status == '2')) {
-                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="User UnBlock" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
                         } else if (!empty($selected->status == '0')) {
-                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Change Status" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="User Block" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-close"></i></a>&nbsp;&nbsp;';
                         }
                     }
 
                     // Delete
                     if (Auth::user()->hasPermissionTo($request->provider.'-delete')) {
-                       $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                        if (!empty($selected->category_id)) {
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                        }
                     }
                     // Show Review
                     // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';

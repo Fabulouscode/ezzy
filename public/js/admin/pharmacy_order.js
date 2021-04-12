@@ -15,16 +15,17 @@ $(function () {
             async: true
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+            api.columns([0]).visible(showColumn);
         }
     });
 
@@ -41,7 +42,7 @@ $(function () {
             async: true,
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'order_no', name: 'Order No' },
             { data: 'user_name', name: 'User name' },
             { data: 'patient_name', name: 'Patient name' },
@@ -57,7 +58,7 @@ $(function () {
             },
             { data: 'user_review', name: 'Reviews' },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
         createdRow: function (row, data, dataIndex) {
             var ratingInput = $(row).find('.rating');
             $(ratingInput).rating();
@@ -65,6 +66,7 @@ $(function () {
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+            api.columns([0]).visible(showColumn);
         },
         drawCallback: function (settings) {
             $('.rating').each(function () {

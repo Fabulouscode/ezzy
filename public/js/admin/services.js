@@ -14,13 +14,18 @@ $(function () {
             async: true,
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'service_name', name: 'service_name' },
             { data: 'service_type', name: 'service_type' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
     });
 
 });

@@ -81,6 +81,7 @@ $(function () {
             data: payout_history,
         },
         columns: [
+            { data: 'id', name: 'id', searchable: false },
             { data: 'user_name', name: 'User Name' },
             { data: 'amount', name: 'Amount' },
             { data: 'deduction_amount', name: 'Deduction' },
@@ -89,9 +90,11 @@ $(function () {
             { data: 'admin_name', name: 'Approved Name' },
             { data: 'approved_date', name: 'Approved Date' },
         ],
+        order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+            api.columns([0]).visible(showColumn);
         },
         drawCallback: function (settings) {
             $('#select_all').prop('checked', false);

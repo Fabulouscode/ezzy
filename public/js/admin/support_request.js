@@ -14,7 +14,7 @@ $(function () {
             async: true
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'id', searchable: false },
             { data: 'support_id', name: 'support_id', searchable: false },
             { data: 'userDetails', name: 'User Details' },
             { data: 'title', name: 'Subject' },
@@ -24,6 +24,11 @@ $(function () {
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
     });
     // $('#reply_message').keypress(function (e) {
     //     var key = e.which;
