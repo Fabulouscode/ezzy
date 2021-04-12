@@ -190,6 +190,37 @@
                             </div>
                         </div>
 
+                        
+                        @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
+                        <div class="border border-light rounded mb-3">
+                            <div class="card-detail-view">
+                                <h4 class="mt-0 header-title">Services Details</h4>
+                                <div class="card-detail-list">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Service Name</th>
+                                                    <th>Service Amount</th>
+                                                    <!-- <th>Report</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($data->appointmentServices as $service) 
+                                                <tr>
+                                                    <td>{{$service->userService->service->service_name}}</td>
+                                                    <td>{{$currency_symbol.$service->service_price}}</td>
+                                                    <!-- <td> </td> -->
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                         @if(!empty($data->cancelUser))
                         <div class="border border-light rounded mb-3">
                             <div class="card-detail-view">
@@ -310,35 +341,6 @@
                         </div>
                         @endif
                       
-                        @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
-                        <div class="border border-light rounded mb-3">
-                            <div class="card-detail-view">
-                                <h4 class="mt-0 header-title">Services Details</h4>
-                                <div class="card-detail-list">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Service Name</th>
-                                                    <th>Service Amount</th>
-                                                    <!-- <th>Report</th> -->
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($data->appointmentServices as $service) 
-                                                <tr>
-                                                    <td>{{$service->userService->service->service_name}}</td>
-                                                    <td>{{$currency_symbol.$service->service_price}}</td>
-                                                    <!-- <td> </td> -->
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                         <div class="row">
                             <div class="form-group col-md-12">
                                  <a href="#" onclick="history.go(-1)">
