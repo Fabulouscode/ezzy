@@ -26,7 +26,7 @@ class UploadFileRequest extends FormRequest
     public function rules()
     {
         return [
-           'document' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+           'document' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
            'document_key' => 'required',
         ];
     }
