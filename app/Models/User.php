@@ -464,6 +464,7 @@ class User extends Authenticatable
       
         }else{
             //client 
+            $required_userCounts = [$this->userLocation];
             $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
             if (!empty($this->userDetails)) {
                  $required_userDetails = [$this->userDetails->dob, $this->userDetails->blood_group, $this->userDetails->marital_status,
