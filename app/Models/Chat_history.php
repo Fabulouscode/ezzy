@@ -31,7 +31,7 @@ class Chat_history extends Model
         'transaction_id'
     ];
 
-    protected $appends = ['chat_type_name'];
+    protected $appends = ['chat_type_name','invoice_no_generate'];
 
     public function getChatTypeNameAttribute() {
         return array_key_exists($this->chat_type, $this->chat_type_value) ? $this->chat_type_value[$this->chat_type]: '';
@@ -51,6 +51,10 @@ class Chat_history extends Model
 
     public function chatDetails() {
         return $this->hasMany('App\Models\Chat_eservices', 'chat_history_id', 'id');
+    }
+
+    public function getInvoiceNoGenerateAttribute(){
+       return 'INV-TREATMENT-'.str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 
     public function EDignosticsFormat(){

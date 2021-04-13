@@ -13,6 +13,7 @@ use App\Http\Requests\Api\EDignosticsRequest;
 use App\Http\Requests\Api\TreatmentPlanRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use PDF;
 
 class ChatController extends BaseApiController
 {
@@ -224,6 +225,18 @@ class ChatController extends BaseApiController
             DB::rollBack();
             return self::sendException($e);
         }
+    }
+   
+    public function generateInvoiceTreatmentPlan($id)
+    {
+        $currency_symbol  = $this->chat_history_repo->currency_symbol;
+        $data = $this->chat_history_repo->getbyId($id); 
+        view()->share(['data' => $data,'currency_symbol' => $currency_symbol]);
+        // return view('invoice.treatment_plan');
+        $pdf = PDF::loadView('invoice.treatment_plan', [$data, $currency_symbol]);
+        $pdf_file = $this->chat_history_repo->uploadPDFFile($pdf->output(), 'pdf/treatment_plan'); 
+        $file_url = url('storage/'.$pdf_file);
+        return self::sendSuccess($file_url, 'Treatment plan Invoice get');
     }
 
 }
