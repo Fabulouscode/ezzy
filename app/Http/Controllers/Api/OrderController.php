@@ -110,6 +110,36 @@ class OrderController extends BaseApiController
     }
 
 
+    public function getPendingOrder(Request $request)
+    {
+        $data = array();
+        $data = $this->order_repo->getPendingOrder($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'order_no_generate'=>$response->order_no_generate,
+                                        'total_price'=>$response->total_price,
+                                        'completed_datetime'=>$response->completed_datetime,
+                                        'client'=>(isset($response->clientDetails))?
+                                                        [
+                                                            'id'=>$response->clientDetails->id,
+                                                            'user_name'=>$response->clientDetails->user_name,
+                                                            'profile_image'=>$response->clientDetails->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->userDetails))?
+                                                        [
+                                                            'id'=>$response->userDetails->id,
+                                                            'user_name'=>$response->userDetails->user_name,
+                                                            'profile_image'=>$response->userDetails->profile_image,
+                                                            'latitude'=>$response->userDetails->latitude,
+                                                            'longitude'=>$response->userDetails->longitude,
+                                                        ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
+        return self::sendSuccess($data);
+    }
+
     public function getCompletedOrder(Request $request)
     {
         $data = array();

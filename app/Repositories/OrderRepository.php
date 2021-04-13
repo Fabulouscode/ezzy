@@ -278,6 +278,30 @@ class OrderRepository extends Repository
     }
 
     /**
+     * Display a list of Pending Order record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPendingOrder($request)
+    {   
+        $query = $this->model;
+        
+        $query = $query->limit($this->api_data_limit);     
+                
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+        }
+            
+        $query = $query->where('status','0');
+
+        $query = $query->orderBy('id','desc')->get();
+        
+        return $query;
+    }
+  
+    /**
      * Display a list of Active Order record.
      *
      * @return \Illuminate\Http\Response

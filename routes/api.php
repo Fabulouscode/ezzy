@@ -293,6 +293,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/tracking/{order_id?}', 'OrderController@getOrderTracking'); 
                 Route::post('/change/tracking/status', 'OrderController@changeOrderTrackingStatus'); 
 
+                Route::get('/pending', 'OrderController@getPendingOrder'); 
                 Route::post('/completed', 'OrderController@getCompletedOrder'); 
                 Route::post('/cancelled', 'OrderController@getCancelledOrder'); 
                 Route::post('/active', 'OrderController@getActiveOrder'); 
