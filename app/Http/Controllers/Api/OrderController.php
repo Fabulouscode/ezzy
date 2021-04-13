@@ -285,7 +285,7 @@ class OrderController extends BaseApiController
                     'title'=> 'Order Cancelled',
                     'description'=> 'Order Cancelled',
                     'status'=> '4',
-                    'estimation_datetime'=> !empty($request->cancel_date) ? $request->cancel_date : NULL,
+                    'estimation_datetime'=> $this->order_tracking_repo->getCurrentDateTime(),
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
               
@@ -373,7 +373,7 @@ class OrderController extends BaseApiController
                     // 'title'=> $request->title,
                     // 'description'=> $request->description,
                     'status'=> $request->status,
-                    'estimation_datetime'=> $request->estimation_datetime
+                    'estimation_datetime'=> $this->order_tracking_repo->getCurrentDateTime(),
                   ];
 
         try{
