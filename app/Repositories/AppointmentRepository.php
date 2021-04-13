@@ -792,5 +792,10 @@ class AppointmentRepository extends Repository
                             ->whereIn('status',['0','1'])->get();
    
     }
+ 
+    public function checkAppointmentisRunning($request)
+    {   			
+        return $this->model->where('client_id', $request->user()->id)->whereIn('status',['1','2','3','4'])->first();   
+    }
 }
 

@@ -78,6 +78,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
             Route::post('/payout/history', 'DashboardController@getPayoutAmountHistory');
 
+            Route::get('/check/chat_module', 'DashboardController@checkUserChatModule');
+
             Route::get('/profile', 'UserController@getUserDetails');
             Route::get('/get/profile/location/{id?}', 'UserController@getUserbyIdLocationDetails');
             Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');

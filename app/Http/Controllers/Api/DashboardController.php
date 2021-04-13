@@ -211,4 +211,15 @@ class DashboardController extends BaseApiController
         return self::sendSuccess($data, 'Paystack Bank details');
     }
  
+    public function checkUserChatModule(Request $request)
+    {
+        $data = array();        
+        $appointment = $this->appointment_repo->checkAppointmentisRunning($request);
+        $order = $this->order_repo->checkOrderisRunning($request);
+        if(!empty($appointment) || !empty($order)){
+            return self::sendSuccess(true, 'user chat module show');    
+        }
+        return self::sendSuccess(false, 'user chat module hide');
+    }
+ 
 }
