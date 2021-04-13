@@ -61,7 +61,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Last Name</label></dt>
                                         <dd class="col-sm-7"> 
-                                           <input type="text" required class="form-control" name="last_name" value="{{$data->last_name}}"> 
+                                           <input type="text"  class="form-control" name="last_name" value="{{$data->last_name}}"> 
                                         </dd>
                                     </div>
                                     <div class="row">
@@ -115,25 +115,25 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Pharmacy Country</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="text" required class="form-control" name="userDetails[clinic_country]" value="{{$data->userDetails->clinic_country}}">
+                                            <input type="text"  class="form-control" name="userDetails[clinic_country]" value="{{$data->userDetails->clinic_country}}">
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Pharmacy State</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="text" required class="form-control" name="userDetails[clinic_state]" value="{{$data->userDetails->clinic_state}}">
+                                            <input type="text"  class="form-control" name="userDetails[clinic_state]" value="{{$data->userDetails->clinic_state}}">
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Pharmacy City</label></dt>
                                         <dd class="col-sm-7"> 
-                                             <input type="text" required class="form-control" name="userDetails[clinic_city]" value="{{$data->userDetails->clinic_city}}">
+                                             <input type="text"  class="form-control" name="userDetails[clinic_city]" value="{{$data->userDetails->clinic_city}}">
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Pharmacy Locality</label></dt>
                                         <dd class="col-sm-7"> 
-                                             <input type="text" required class="form-control" name="userDetails[clinic_locality]" value="{{$data->userDetails->clinic_locality}}">
+                                             <input type="text"  class="form-control" name="userDetails[clinic_locality]" value="{{$data->userDetails->clinic_locality}}">
                                         </dd>
                                     </div>                            
                                     <div class="row">
@@ -151,13 +151,13 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>City</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="text" required class="form-control" name="userDetails[city]" value="{{$data->userDetails->city}}">
+                                            <input type="text"  class="form-control" name="userDetails[city]" value="{{$data->userDetails->city}}">
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Address</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="text" required class="form-control" name="userDetails[address]" value="{{$data->userDetails->address}}">
+                                            <input type="text"  class="form-control" name="userDetails[address]" value="{{$data->userDetails->address}}">
                                         </dd>
                                     </div>
                                     <div class="row">
