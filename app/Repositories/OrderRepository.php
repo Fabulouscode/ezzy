@@ -65,7 +65,7 @@ class OrderRepository extends Repository
         
         if(isset($request->delivery_type)){
             $query = $query->where('delivery_type',$request->delivery_type);
-            $query = $query->where('status', '1');
+            $query = $query->whereIn('status', ['1','2']);
         }
       
         if(!empty($request->user()->category_id)){
@@ -187,7 +187,7 @@ class OrderRepository extends Repository
                     }else  if($selected->status == '4'){
                         $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                    }else {
-                        $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
+                        $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
                     }
                     return $data;
                 })
