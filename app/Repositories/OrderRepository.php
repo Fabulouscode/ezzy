@@ -121,7 +121,9 @@ class OrderRepository extends Repository
     {
         $query = $this->model;
         
-        if($status != ''){
+        if($status != '' && is_array($status)){
+            $query = $query->whereIn('status', $status);
+        }else if($status != ''){
             $query = $query->where('status', $status);
         }
         
@@ -139,7 +141,9 @@ class OrderRepository extends Repository
         
         $query = $this->model->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'));
         
-        if($status != ''){
+        if($status != '' && is_array($status)){
+            $query = $query->whereIn('status', $status);
+        }else if($status != ''){
             $query = $query->where('status', $status);
         }
         

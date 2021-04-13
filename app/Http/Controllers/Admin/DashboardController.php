@@ -86,13 +86,13 @@ class DashboardController extends Controller
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
 
-            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('1');
-            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('2');
-            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount('0');
+            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('3');
+            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('4');
+            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2']);
             
-            $data['today_completed_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('1');
-            $data['today_cancel_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('2');
-            $data['today_pending_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('0');
+            $data['today_completed_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('3');
+            $data['today_cancel_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('4');
+            $data['today_pending_orders'] = $this->order_repo->getTodayOrderStatusWiseCount(['0','1','2']);
 
             return view('admin.pharmacy.dashboard', compact('data'));
         }else if($provider == 'laboratories'){
@@ -135,9 +135,9 @@ class DashboardController extends Controller
             
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
-            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('1');
-            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount('0');
-            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('2');
+            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('3');
+            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2']);
+            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('4');
 
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount();             
             $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount();
