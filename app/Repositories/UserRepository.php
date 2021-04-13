@@ -193,10 +193,10 @@ class UserRepository extends Repository
                         if (Auth::user()->hasPermissionTo($request->provider.'-list')) {
                             if (!empty($request->provider) && $request->provider == 'patients') {
                                 $data .= '<a href="'.url('customer/patient/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
-                                // $data .= '<a href="'.url('customer/patient/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url('customer/patient/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
                             }else{
                                 $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
-                                // $data .= '<a href="'.url($request->provider.'/user/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url($request->provider.'/user/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
                             }
                         }
                         

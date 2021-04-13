@@ -335,3 +335,29 @@ function changeStatusRow(row_id, status) {
         });
     }
 }
+
+function fileValidation(id_name) {
+    var fileInput = document.getElementById(id_name);
+    var filePath = fileInput.value;
+    // Allowing file type
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!allowedExtensions.exec(filePath)) {
+        alert('Invalid file type');
+        fileInput.value = '';
+        return false;
+    } else {
+        // Image preview
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + id_name + 'Preview').empty();
+                document.getElementById(
+                    id_name + 'Preview').innerHTML =
+                    '<img src="' + e.target.result
+                    + '" height="100px" width="100px"/>';
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+}

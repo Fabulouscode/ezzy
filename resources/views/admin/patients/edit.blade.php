@@ -24,15 +24,19 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('user') }}"  id="user_form" name="user_form">
+                    <form method="POST" action="{{ url('user') }}"  id="user_form" name="user_form" enctype="multipart/form-data">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <input type="hidden" required class="form-control" name="category_id" value="{{$data->category_id}}"> 
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <input type="file" name="profile_image" class="form-control"> 
-                                <img src="{{$data->profile_image}}"  style="max-width: 100%;height:100px;display:block;">
+                                <input type="file" id="profile_image" name="profile_image" class="form-control" accept="image/*" onchange="return fileValidation('profile_image')"> 
+                                <div id="profile_imagePreview">
+                                    @if(!empty($data->profile_image)) 
+                                    <img src="{{$data->profile_image}}"  style="max-width: 100%;height:100px;display:block;">
+                                    @endif
+                                </div>
                             </dd>
                         </div>
                         <div class="border border-light rounded mb-3">

@@ -23,17 +23,19 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('user') }}"  id="user_form" name="user_form">
+                    <form method="POST" action="{{ url('user') }}"  id="user_form" name="user_form" enctype="multipart/form-data">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <input type="hidden" required class="form-control" name="category_id" value="{{$data->category_id}}"> 
                         <div class="row">
                             <dt class="col-sm-5"><label>Profile Image</label></dt>
                             <dd class="col-sm-7"> 
-                                <input type="file" name="profile_image" class="form-control"> 
+                                <input type="file" class="form-control" name="profile_image" id="profile_image" accept="image/*" onchange="return fileValidation('profile_image')">
+                                <div id="profile_imagePreview">
                                 @if(!empty($data->profile_image)) 
                                 <img src="{{$data->profile_image}}"  style="max-width: 100%;height:100px;display:block;">
                                 @endif
+                                </div>
                             </dd>
                         </div>
                         <div class="border border-light rounded mb-3">
@@ -167,19 +169,23 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Regstration Certificate</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="file" required class="form-control" name="userDetails[regstration_certificate]" >
+                                            <input type="file" class="form-control" name="userDetails[regstration_certificate]" id="regstration_certificate" accept="image/*" onchange="return fileValidation('regstration_certificate')">
+                                            <div id="regstration_certificatePreview">
                                             @if(!empty($data->userDetails->regstration_certificate))
                                                 <img src="{{$data->userDetails->regstration_certificate}}" width="100px" height="100px">
                                             @endif 
+                                            </div>
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Pharmacist Certificate</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="file" required class="form-control" name="userDetails[pharmacist_certificate]" >
+                                            <input type="file" class="form-control" name="userDetails[pharmacist_certificate]" id="pharmacist_certificate" accept="image/*" onchange="return fileValidation('pharmacist_certificate')">
+                                            <div id="pharmacist_certificatePreview">
                                             @if(!empty($data->userDetails->pharmacist_certificate))
                                                 <img src="{{$data->userDetails->pharmacist_certificate}}" width="100px" height="100px">
                                             @endif 
+                                            </div>
                                         </dd>
                                     </div>
                                 </div>
