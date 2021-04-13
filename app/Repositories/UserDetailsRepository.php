@@ -61,6 +61,42 @@ class UserDetailsRepository extends Repository
      * @param  \Illuminate\Http\Request  $data
      * @return \Illuminate\Http\Response
      */
+    public function dataCrudUsingData($request, $id = '')
+    {  
+        $data = array();
+        $json_enode_key = ['allergies','current_medications','past_medications'.'chronic_disease','injuries','surgeries'];
+        if(!empty($request)){
+            foreach ($request as $key => $value) {
+                if(in_array($key, $json_enode_key)){
+                    $data[$key] = json_encode($value);
+                }else if($key == 'urgent_criteria'){
+                    if(is_array($value)){
+                        $data[$key] = implode(',', $value);
+                    }else{
+                        $data[$key] = '';
+                    }
+                }else{
+                    $data[$key] = $value;
+                }
+            }
+        }
+        if(!empty($data['user_id'])){
+            $user_details = $this->getbyColumnWithFirstValue('user_id', $data['user_id']);
+        }
+        if(!empty($user_details) && !empty($user_details->id)){
+            return $this->update($data, $user_details->id);
+        } else {
+            return $this->store($data);
+        }
+    }
+     
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $data
+     * @return \Illuminate\Http\Response
+     */
     public function dataCrud($request, $id = '')
     {  
         $data = array();

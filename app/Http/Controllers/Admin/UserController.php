@@ -86,7 +86,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        unset($data['userDetails']);
+        $this->user_repo->dataCrudUsingData($data, $request->id); 
+        if(!empty($request->userDetails)){
+            $this->user_details_repo->dataCrudUsingData($request->userDetails,$request->userDetails['id']); 
+        }
+        $user = $this->user_repo->getByID($request->id);
+        if(!empty($user->category_id) && in_array($user->category_id, ['4','5','6','42'])){
+            if ($user->status == '1') {
+                return redirect('healthcare/user/pending');
+            }else{
+                return redirect('healthcare/user');
+            }
+        }else if(!empty($user->category_id) && $user->category_id == '7'){
+            if ($user->status == '1') {
+                return redirect('pharmacy/user/pending');
+            }else{                
+                return redirect('pharmacy/user');
+            }
+        }else if(!empty($user->category_id) && in_array($user->category_id, ['8','9','10'])){
+            if ($user->status == '1') {
+                return redirect('laboratories/user/pending');
+            }else{
+                return redirect('laboratories/user');
+            }            
+        }else{            
+            return redirect('customer/patient');
+        }
     }
 
     /**
@@ -115,6 +142,20 @@ class UserController extends Controller
         $currency_symbol = $this->user_repo->currency_symbol;         
         return view('admin.patients.view',compact('data','categories','currency_symbol'));
     }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editPatient($id)
+    {
+        $categories = $this->category_repo->get();
+        $data = $this->user_repo->getbyIdedit($id);
+        $currency_symbol = $this->user_repo->currency_symbol;         
+        return view('admin.patients.edit',compact('data','categories','currency_symbol'));
+    }
 
     /**
      * Display the specified resource.
@@ -139,6 +180,33 @@ class UserController extends Controller
              return view('admin.laboratories.view',compact('data','categories','currency_symbol'));
         }else{            
             return view('admin.patients.view',compact('data','categories','currency_symbol'));
+        }
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editUser($provider = '', $id)
+    {
+        $categories = $this->category_repo->get();
+        $data = $this->user_repo->getbyIdedit($id);
+        $currency_symbol = $this->user_repo->currency_symbol;
+        // dd($data);
+        
+        // $provider_names = $this->user_repo->provider_name;
+        // return view('admin.provider.view', compact('data','categories','days','appointment_types','provider','provider_names'));
+        if($provider == 'healthcare'){
+             return view('admin.healthcare.edit',compact('data','categories','currency_symbol'));
+        }else if($provider == 'pharmacy'){
+             return view('admin.pharmacy.edit',compact('data','categories','currency_symbol'));
+        }else if($provider == 'laboratories'){
+             return view('admin.laboratories.edit',compact('data','categories','currency_symbol'));
+        }else{            
+            return view('admin.patients.edit',compact('data','categories','currency_symbol'));
         }
 
     }

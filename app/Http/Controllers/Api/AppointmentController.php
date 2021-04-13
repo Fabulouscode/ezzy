@@ -394,12 +394,13 @@ class AppointmentController extends BaseApiController
                     
                 // update Wallet Balance
                 $this->user_repo->userWalletUpdate($request->user()->id);
+                $user = $this->user_repo->getById($request->user_id);
 
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => $request->user_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getDateTimeFormate($request->appointment_date.''.$request->appointment_time),
+                                        'message' => 'Appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user->user_timezone),
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '1',
                                     ];  
@@ -472,11 +473,12 @@ class AppointmentController extends BaseApiController
                     $healthcare_provider_assign = $healthcare_providerReq->user_id;
                     // send notification
                     if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
+                        $user_timezone = $this->appointment_repo->getById($healthcare_provider->id);
                         $send_notification = [
                                 'sender_id' => $request->user()->id,
                                 'receiver_id' => $healthcare_provider->id,
                                 'title' => 'Urgent Appointment',
-                                'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getDateTimeFormate($request->appointment_date.''.$request->appointment_time),
+                                'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),
                                 'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                 'msg_type' => '1',
                             ];  
@@ -562,7 +564,7 @@ class AppointmentController extends BaseApiController
         }
 
         $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
-        if(empty($request->user()->category_id) && !empty($old_transaction_cahrges) && !empty($request->status) && !empty($appointment_timing) && $request->status == '6' && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+        if(empty($request->user()->category_id) && !empty($old_transaction_cahrges) && $request->status == '6' && $appointment->status == '1'){
             $extra_charges = 0;
             $ezzycare_charge = 0;
             $user_payout = 0;
@@ -690,7 +692,7 @@ class AppointmentController extends BaseApiController
         if(!empty($old_transaction) && !empty($reschedule_charge_per)){
             $reschedule_charges = (($old_transaction->amount * $reschedule_charge_per ) / 100);
         }
-        if(empty($request->user()->category_id) && !empty($reschedule_charges) && !empty($appointment_timing) && ($appointment_timing >= $this->appointment_repo->timing_no_charges)){
+        if(empty($request->user()->category_id) && !empty($reschedule_charges) && $appointment->status == '1'){
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
            if(isset($wallet_balance) && !empty($reschedule_charges) && ($reschedule_charges > $wallet_balance)){
                 return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet before reschedule an appointment.', 402);
@@ -729,11 +731,12 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             $data = $this->appointment_repo->getById($request->id);
             if (!empty($data)) {
+                $user_timezone = $this->user_repo->getById($data->client_id);
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
-                                        'message' => 'Appointment rescheduled by '.$request->user()->user_name.' on '.$this->appointment_repo->getDateTimeFormate($request->appointment_date.''.$request->appointment_time),                                        
+                                        'message' => 'Appointment rescheduled by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),                                        
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '2',
                                     ];

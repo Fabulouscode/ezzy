@@ -217,20 +217,26 @@ class OrderController extends BaseApiController
             DB::beginTransaction();
             $this->order_repo->dataCrud($update, $request->id);
             $data = $this->order_repo->getById($request->id);
+            
+            if($request->status == '4' && $data->status == '2'){
+                return self::sendError('', 'Order is dispatched you can not cancel.');
+            }
 
             if($request->status == '0'){
                 $notification_message = 'Order booked by '. $request->user()->user_name;
             }else if($request->status == '1'){
-                $notification_message = 'Order received by '. $request->user()->user_name;
+                $notification_message = 'Order accepted by '. $request->user()->user_name;
             }else if($request->status == '2'){
-                $notification_message = 'Order cancelled by '. $request->user()->user_name;
+                $notification_message = 'Order dispatched by '. $request->user()->user_name;
+            }else if($request->status == '3'){
+                $notification_message = 'Order received by '. $request->user()->user_name;
             }else if($request->status == '4'){
-                $notification_message = 'Order tracking by '. $request->user()->user_name;
+                $notification_message = 'Order canceled by '. $request->user()->user_name;
             }else{
                 $notification_message = 'Order '.strtolower($data->status_name).' by '. $request->user()->user_name;
             } 
 
-            if($request->status == '2'){
+            if($request->status == '4' && $data->status != '2'){
                 if(!empty($data) && !empty($data->orderProductDetails)){
                     foreach ($data->orderProductDetails as $key => $value) {
                         $stock_available = $this->shop_medicine_repo->addMedicineStockCancel($value);
@@ -246,7 +252,7 @@ class OrderController extends BaseApiController
                     'order_id'=> $request->id,
                     'title'=> 'Order Cancelled',
                     'description'=> 'Order Cancelled',
-                    'status'=> '3',
+                    'status'=> '4',
                     'estimation_datetime'=> !empty($request->cancel_date) ? $request->cancel_date : NULL,
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
@@ -271,12 +277,12 @@ class OrderController extends BaseApiController
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($data->client_id);   
 
-            }else if($request->status == '1'){
+            }else if($request->status == '3'){
                 $order_tracking = [
                     'order_id'=> $request->id,
                     'title'=> 'Order Completed',
                     'description'=> 'Order Completed',
-                    'status'=> '4',
+                    'status'=> '5',
                     'estimation_datetime'=>  $this->order_tracking_repo->getCurrentDateTime(),
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
@@ -284,6 +290,24 @@ class OrderController extends BaseApiController
                 $order_update = ['status' => $request->status,'completed_datetime' => $this->user_repo->getCurrentDateTime()];
                 $this->order_repo->dataCrud($order_update, $request->id);
 
+            }else if($request->status == '1'){
+                $order_tracking = [
+                    'order_id'=> $request->id,
+                    'title'=> 'Order Accepted',
+                    'description'=> 'Order Accepted',
+                    'status'=> '1',
+                    'estimation_datetime'=>  $this->order_tracking_repo->getCurrentDateTime(),
+                  ];
+                $this->order_tracking_repo->dataCrud($order_tracking);
+            }else if($request->status == '2'){
+                $order_tracking = [
+                    'order_id'=> $request->id,
+                    'title'=> 'Order Dispatched',
+                    'description'=> 'Order Dispatched',
+                    'status'=> '2',
+                    'estimation_datetime'=>  $this->order_tracking_repo->getCurrentDateTime(),
+                  ];
+                $this->order_tracking_repo->dataCrud($order_tracking);
             }
 
             if (!empty($data)) {
@@ -327,25 +351,27 @@ class OrderController extends BaseApiController
             if($request->status == '0'){
                 $notification_message = 'Order Placed';
             }else if($request->status == '1'){
-                $notification_message = 'Order On the Way';
+                $notification_message = 'Order Accepted';
             }else if($request->status == '2'){
-                $notification_message = 'Order Delivered';
+                $notification_message = 'Order On the Way';
             }else if($request->status == '3'){
+                $notification_message = 'Order Delivered';
+            }else if($request->status == '4'){
                 $notification_message = 'Order Cancel';
             }else{
                 $notification_message = 'Order Completed';
             } 
 
-            if($request->status == '2'){
-                $order_otp_code = $this->order_repo->generateOTPCode();
-                $order_update = ['otp_code' => $order_otp_code];
-                $message = 'The OTP is '.$order_otp_code.' to Verify Order Completed.';
-                // $sent_msg = $this->order_repo->sendMessage($message, $data->clientDetails->country_code.$data->clientDetails->mobile_no);
-                // if(!empty($sent_msg)){
-                //      return self::sendError('', 'SMS Sending Failed');
-                // }
-                $this->order_repo->dataCrud($order_update, $request->order_id);
-            }
+            // if($request->status == '2'){
+            //     $order_otp_code = $this->order_repo->generateOTPCode();
+            //     $order_update = ['otp_code' => $order_otp_code];
+            //     $message = 'The OTP is '.$order_otp_code.' to Verify Order Completed.';
+            //     // $sent_msg = $this->order_repo->sendMessage($message, $data->clientDetails->country_code.$data->clientDetails->mobile_no);
+            //     // if(!empty($sent_msg)){
+            //     //      return self::sendError('', 'SMS Sending Failed');
+            //     // }
+            //     $this->order_repo->dataCrud($order_update, $request->order_id);
+            // }
             if (!empty($data)) {
                 $send_notification = [
                                         'sender_id' => $request->user()->id,

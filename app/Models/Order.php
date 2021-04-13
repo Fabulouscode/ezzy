@@ -12,10 +12,10 @@ class Order extends Model
     
     public $status_value = array(
         '0' => 'Pending',
-        '1' => 'Success',
-        '2' => 'Cancel',
-        '3' => 'Active',
-        '4' => 'Order Tracking',
+        '1' => 'Accepted',
+        '2' => 'Order Dispatch',        
+        '3' => 'Success',
+        '4' => 'Cancel',
     );
 
     public $delivery_type_value = array(

@@ -175,10 +175,12 @@ class OrderRepository extends Repository
                 {
                     $data = '';
                     if($selected->status == '0'){
+                        $data .= '<div class="badge badge-warning">'.$selected->status_name.'</div>';
+                    }else  if($selected->status == '1' || $selected->status == '2'){
                         $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
-                    }else  if($selected->status == '1'){
+                    }else  if($selected->status == '3'){
                         $data .= '<div class="badge badge-success">'.$selected->status_name.'</div>';
-                    }else  if($selected->status == '2'){
+                    }else  if($selected->status == '4'){
                         $data .= '<div class="badge badge-danger">'.$selected->status_name.'</div>';
                    }else {
                         $data .= '<div class="badge badge-info">'.$selected->status_name.'</div>';
@@ -195,7 +197,7 @@ class OrderRepository extends Repository
                         $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-primary title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('order-invoice')) {
-                        if ($selected->status == '1') {
+                        if ($selected->status == '3') {
                                 $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                         }
                     }
@@ -242,7 +244,7 @@ class OrderRepository extends Repository
             $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->where('status','1')->orderBy('id','desc')->get();
+        $query = $query->where('status','3')->orderBy('id','desc')->get();
         
         return $query;
     }
@@ -270,7 +272,7 @@ class OrderRepository extends Repository
             $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->where('status','2')->orderBy('id','desc')->get();
+        $query = $query->where('status','4')->orderBy('id','desc')->get();
         
         return $query;
     }
@@ -299,9 +301,9 @@ class OrderRepository extends Repository
         }
 
         if(!empty($request->status)){
-            $query = $query->where('status','4');
+            $query = $query->where('status', $request->status);
         }else{
-            $query = $query->whereIn('status',['3','4']);
+            $query = $query->whereIn('status',['0','1','2']);
         }
         
         if(isset($request->delivery_type)){
@@ -341,7 +343,7 @@ class OrderRepository extends Repository
     public function getOrdersQuery($request, $hcp_provider, $laboratories_provider)
     {
 
-        $query = $this->model->where('status', '1')->select(DB::raw('DATE(created_at) as created_date'));
+        $query = $this->model->where('status', '3')->select(DB::raw('DATE(created_at) as created_date'));
         
         $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
                 ->addSelect(DB::raw("count(id) AS orders"))    

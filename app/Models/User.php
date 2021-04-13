@@ -238,19 +238,19 @@ class User extends Authenticatable
                     ->whereIn('status', ['1','2','3','4'])->count('*');
     }
 
-    public function getUserOrderRatingAttribute(){
-        return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '1')->avg('user_rating');      
-    }
-
     public function getUserActiveProductAttribute(){
         return $this->hasMany('App\Models\Shop_medicine_details','user_id','id')
                     ->where('status', '0')->count('id');      
     }
- 
+
+    public function getUserOrderRatingAttribute(){
+        return $this->hasOne('App\Models\Order','user_id','id')
+                    ->where('status', '3')->avg('user_rating');      
+    }
+
     public function getUserOrderReviewAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '1')                    
+                    ->where('status', '3')                    
                     ->where(function($query){
                                 $query->orWhereNotNull('user_review');
                                 $query->orWhereNotNull('user_rating');
@@ -259,17 +259,17 @@ class User extends Authenticatable
 
     public function getUserCompletedOrderAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '1')->count('*');        
+                    ->where('status', '3')->count('*');        
     }
 
     public function getUserCancelledOrderAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->where('status', '2')->count('*');     
+                    ->where('status', '4')->count('*');     
     }
     
     public function getUserActiveOrderAttribute(){
         return $this->hasOne('App\Models\Order','user_id','id')
-                    ->whereIn('status', ['3','4'])->count('*');     
+                    ->whereIn('status', ['1','2'])->count('*');     
     }
 
     public function format(){

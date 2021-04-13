@@ -75,11 +75,13 @@ Route::namespace('App\Http\Controllers')->group(function(){
  
         Route::get('customer/patient', 'UserController@index')->middleware('role-permission:patients-list');
         Route::get('customer/patient/{id?}', 'UserController@showPatient')->middleware('role-permission:patients-list');
+        Route::get('customer/patient/edit/{id?}', 'UserController@editPatient')->middleware('role-permission:patients-edit');
         Route::get('customer/patient/account/payment/{id?}', 'UserController@showPatientTransaction')->middleware('role-permission:patients-list');
         
         Route::get('{provider?}/user', 'UserController@index')->middleware('role-permission:{provider}-list');
         Route::get('{provider?}/user/pending', 'UserController@getPending')->middleware('role-permission:{provider}-list');
         Route::get('{provider?}/user/{id?}', 'UserController@show')->middleware('role-permission:{provider}-list');
+        Route::get('{provider?}/user/edit/{id?}', 'UserController@editUser')->middleware('role-permission:{provider}-edit');
         Route::get('{provider?}/user/account/payment/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
         Route::get('{provider?}/user/services/{id?}', 'UserController@showHCPService')->middleware('role-permission:{provider}-services');        
         Route::get('pharmacy/user/medicine/{id?}', 'UserController@showMedicineDetails')->middleware('role-permission:pharmacy-services');

@@ -10,10 +10,11 @@ class Order_tracking extends Model
     use HasFactory;
     public $status_value = array(
             '0' => 'Order Placed',
-            '1' => 'Order On the Way',
-            '2' => 'Order Delivered',
-            '3' => 'Order Cancel',
-            '4' => 'Order Completed',
+            '1' => 'Order Accepted',
+            '2' => 'Order On the Way',
+            '3' => 'Order Delivered',
+            '4' => 'Order Cancel',
+            '5' => 'Order Completed',
         );
 
      /**
