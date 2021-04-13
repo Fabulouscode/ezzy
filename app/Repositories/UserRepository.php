@@ -567,6 +567,7 @@ class UserRepository extends Repository
     public function getHealthcareProviders($request)
     {   
         \Log::info("HealthcareProviders request ".json_encode($request->all()));   
+        // DB::connection()->enableQueryLog(); 
         $query = $this->model->select('users.*'); 
 
         // distance filter
@@ -578,8 +579,12 @@ class UserRepository extends Repository
                                 ])
                            ->havingRaw('distance <= '. $request->distance)
                            ->orderBy('distance','asc');
+                           
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->orderBy('rating','desc');
         } else{
-            $query = $query->orderBy('id','desc');
+            // $query = $query->orderBy('id','desc');
         }         
         
         
@@ -625,6 +630,14 @@ class UserRepository extends Repository
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
                 $query->select(DB::raw('avg(user_rating) as rating'));
             }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
+            $query = $query->orderBy('id','desc');
+        }
+        
+        if((empty($request->distance) || empty($request->latitude) || empty($request->longitude)) && empty($request->rating)){
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->orderBy('rating','desc');
+            $query = $query->orderBy('id','desc');
         }          
 
         //pagination
@@ -640,6 +653,8 @@ class UserRepository extends Repository
         
         $query = $query->where('status', '0')->get();
  
+        // print_r(DB::getQueryLog());
+        // die;
         return $query;
     }
    
@@ -662,8 +677,11 @@ class UserRepository extends Repository
                                 ])
                            ->havingRaw('distance <= '. $request->distance)
                            ->orderBy('distance','asc');
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->orderBy('rating','desc');
         } else{
-            $query = $query->orderBy('id','desc');
+            // $query = $query->orderBy('id','desc');
         }         
         
         
@@ -709,7 +727,15 @@ class UserRepository extends Repository
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
                 $query->select(DB::raw('avg(user_rating) as rating'));
             }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
-        }          
+            $query = $query->orderBy('id','desc');
+        }   
+        
+        if((empty($request->distance) || empty($request->latitude) || empty($request->longitude)) && empty($request->rating)){
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                $query->select(DB::raw('avg(user_rating) as rating'));
+            }])->orderBy('rating','desc');
+            $query = $query->orderBy('id','desc');
+        }  
 
         // top listing
         $query = $query->offset(0)->limit(10);  
@@ -747,6 +773,10 @@ class UserRepository extends Repository
                                 ])
                            ->havingRaw('distance <= 200')
                            ->orderBy('distance','asc');
+
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
         } else{
 
             if(isset($request->appointment_type)){
@@ -766,8 +796,15 @@ class UserRepository extends Repository
                                     ])
                             ->havingRaw('distance <= 200')
                             ->orderBy('distance','asc');
+                
+                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
 
             }else{
+                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
                 $query = $query->orderBy('id','desc');
             }
        
