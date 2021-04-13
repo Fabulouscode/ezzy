@@ -118,7 +118,9 @@ class OrderController extends BaseApiController
                                         'id'=>$response->id,
                                         'order_no_generate'=>$response->order_no_generate,
                                         'total_price'=>$response->total_price,
-                                        'completed_datetime'=>$response->completed_datetime,
+                                        'delivery_type'=>$response->delivery_type,
+                                        'delivery_type_name'=>$response->delivery_type_name,
+                                        'delivery_location'=> !empty($response->userLocationDetails) && !empty($response->userLocationDetails->address) && $response->delivery_type == '0' ? $response->userLocationDetails->address : NULL,
                                         'client'=>(isset($response->clientDetails))?
                                                         [
                                                             'id'=>$response->clientDetails->id,
