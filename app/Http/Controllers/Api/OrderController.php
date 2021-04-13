@@ -528,7 +528,8 @@ class OrderController extends BaseApiController
                             'client_id'=> $request->user()->id,
                             'user_location_id' => !empty($request->user_location_id) ? $request->user_location_id : NULL,
                             'voucher_code_id' => !empty($request->voucher_code_id) ? $request->voucher_code_id : NULL,
-                            'delivery_type'=> $request->delivery_type
+                            'delivery_type'=> $request->delivery_type,
+                            'status'=> '5'
                         ];
                         
             $order = $this->order_repo->dataCrud($order_data); 

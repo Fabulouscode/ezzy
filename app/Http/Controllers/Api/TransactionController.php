@@ -203,7 +203,7 @@ class TransactionController extends BaseApiController
                  $this->user_transaction_repo->dataCrud($add_payout, $transaction->id);
 
                 $update = [
-                        'status'=> '4',
+                        'status'=> '0',
                         'completed_datetime'=> $this->order_repo->getCurrentDateTime(),
                         'transaction_id'=> $transaction->id,
                     ];
