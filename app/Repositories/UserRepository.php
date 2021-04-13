@@ -239,11 +239,11 @@ class UserRepository extends Repository
                     }
 
                     // Delete
-                    if (Auth::user()->hasPermissionTo($request->provider.'-delete')) {
-                        if (!empty($selected->category_id)) {
-                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
-                        }
-                    }
+                    // if (Auth::user()->hasPermissionTo($request->provider.'-delete')) {
+                    //     if (!empty($selected->category_id)) {
+                    //         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                    //     }
+                    // }
                     // Show Review
                     // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
           
