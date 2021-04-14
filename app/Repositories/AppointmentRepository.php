@@ -450,7 +450,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
        
@@ -501,7 +501,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
        
@@ -546,7 +546,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['0'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['0'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
 
@@ -591,7 +591,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['6'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['6'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
         return $query;
     }
@@ -635,7 +635,7 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->whereIn('status',['5'])->orderBy('urgent','desc')->orderBy('id','desc')->get();
+        $query = $query->whereIn('status',['5'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
 
         return $query;
     }

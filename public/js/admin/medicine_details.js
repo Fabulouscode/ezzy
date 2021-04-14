@@ -1,6 +1,7 @@
 
 $(function () {
     $("form[name='medicine_details_form']").parsley();
+    $("form[name='medicine_import_form']").parsley();
     $('#medicine_details_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -52,6 +53,36 @@ $(function () {
         }
     });
     $("#image-dropzone").disableSelection();
+
+    $(document).on('submit', '#medicine_import_form', function (event) {
+        var formData = new FormData($("#medicine_import_form")[0]);
+        event.preventDefault();
+        $.ajax({
+            type: 'post',
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: medicine_details_url + '/import',
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
+                $('#medicine_file').val('');
+                $('#addMedicineImport').modal('hide');
+                var oTable = $('#medicine_details_datatable').dataTable();
+                oTable.fnDraw(false);
+                toastr.success(response.msg, App_name_global);
+                return false;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var myArr = JSON.parse(jqXHR.responseText);
+                $.each(myArr.errors, function (index, value) {
+                    toastr.error(value, App_name_global);
+                });
+                return false;
+            },
+        });
+        return false;
+    });
 
 });
 
@@ -108,6 +139,15 @@ Dropzone.options.imageDropzone = {
             formData.append("folder_name", "medicine_images");
         });
     }
+
+
+}
+
+function addImportRow() {
+    $("form[name='medicine_import_form']").parsley().destroy();
+    $("form[name='medicine_import_form']").parsley();
+    $('#medicine_file').val('');
+    $('#addMedicineImport').modal();
 }
 
 function deleteRow(row_id) {

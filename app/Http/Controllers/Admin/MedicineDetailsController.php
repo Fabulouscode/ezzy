@@ -9,6 +9,9 @@ use App\Repositories\MedicineCategoryRepository;
 use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineImagesRepository;
 use App\Http\Requests\Admin\MedicineDetailsRequest;
+use App\Http\Requests\Admin\MedicineDetailsImportRequest;
+use App\Imports\MedicineDetaisImport;
+use Excel;
 
 class MedicineDetailsController extends Controller
 {
@@ -143,5 +146,16 @@ class MedicineDetailsController extends Controller
             return response()->json(['msg'=>'Can not delete this Medicine'], 500);
         }  
         return response()->json(['msg'=>'Data Not success'], 500);
+    }
+   
+   
+    public function importMedicine(MedicineDetailsImportRequest $request)
+    {
+        if(!empty($request->file('medicine_file'))) {          
+            $file = $request->file('medicine_file');
+            Excel::queueImport(new MedicineDetaisImport, $file);
+            return response()->json(['msg'=>'Medicine Insert success'], 200);
+        }
+        return response()->json(['msg'=>'Medicine Not Insert'], 500);
     }
 }

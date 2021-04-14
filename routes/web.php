@@ -94,6 +94,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('medicine/subcategories', 'MedicineSubcategoryController')->middleware('role-permission-resource:medicine_subcategory-list,medicine_subcategory-add,medicine_subcategory-edit,medicine_subcategory-delete');
        
         // Medicine Details routes
+        Route::post('medicine/details/import', 'MedicineDetailsController@importMedicine');
         Route::resource('medicine/details', 'MedicineDetailsController')->middleware('role-permission-resource:medicine_details-list,medicine_details-add,medicine_details-edit,medicine_details-delete');
        
         // pharmacy order Details routes        
