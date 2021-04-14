@@ -224,7 +224,7 @@ class TransactionController extends BaseApiController
                                             'sender_id' => $request->user()->id,
                                             'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                             'title' => 'Order',
-                                            'message' => 'Order payment completed by '. $request->user()->user_name,
+                                            'message' => 'Order placed by '. $request->user()->user_name,
                                             'parameter' => json_encode(['order_id'=> $data->id]),
                                             'msg_type' => '6',
                                         ];
