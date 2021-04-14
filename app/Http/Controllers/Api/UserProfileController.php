@@ -74,7 +74,7 @@ class UserProfileController extends BaseApiController
                     ];
          try{
             $user = $this->user_repo->dataCrudUsingData($update_data, $request->user()->id);
-            return self::sendSuccess($user, 'User current location update Successfully');
+            return self::sendSuccess($user, 'User current location Updated Successfully');
         }catch(\Exception $e){
             return self::sendException($e);
         }
@@ -101,7 +101,7 @@ class UserProfileController extends BaseApiController
             $storagePath = 'images/'.$user_document[$request->document_key];
             $data['file'] = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
             $data['url'] = url('storage/'.$data['file']);
-            return self::sendSuccess($data, 'file Upload Successfully');
+            return self::sendSuccess($data, 'file Uploaded Successfully');
         }
         return self::sendError('', 'File Not Uploaded', 500);
     }
@@ -115,7 +115,7 @@ class UserProfileController extends BaseApiController
             $storagePath = 'images/'.$user_document[$request->document_key];
             $data['file'] = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
             $data['url'] = url('storage/'.$data['file']);
-            return self::sendSuccess($data, 'file Upload Successfully');
+            return self::sendSuccess($data, 'file Uploaded Successfully');
         }
         return self::sendError('', 'File Not Uploaded', 500);
     }
@@ -163,7 +163,7 @@ class UserProfileController extends BaseApiController
                         ];
         try{
             $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
-            return self::sendSuccess($data, 'Card details Update Successfully');
+            return self::sendSuccess($data, 'Card details Updated Successfully');
         }catch(\Exception $e){
             return self::sendException($e);
         }
@@ -205,7 +205,7 @@ class UserProfileController extends BaseApiController
                         ];
         try{
             $data = $this->user_bank_account_repo->dataCrud($update_data, $request->id);
-            return self::sendSuccess($data, 'Bank account details Update Successfully');
+            return self::sendSuccess($data, 'Bank account details Updated Successfully');
         }catch(\Exception $e){
             return self::sendException($e);
         }
@@ -225,7 +225,7 @@ class UserProfileController extends BaseApiController
         try{
             $this->user_bank_account_repo->updatebyUserId($data, $request->user()->id);
             $this->user_bank_account_repo->dataCrud($update_data, $id);
-            return self::sendSuccess([], 'Primary Bank account Update Successfully');
+            return self::sendSuccess([], 'Primary Bank account Updated Successfully');
         }catch(\Exception $e){
             return self::sendException($e);
         }
