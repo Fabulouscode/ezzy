@@ -169,12 +169,19 @@ class AppointmentRepository extends Repository
                     return $data;
                 })
                 ->editColumn('user_name',function($selected)
-                {                   
-                    return $selected->client->user_name;
+                {           
+                    if(!empty($selected->client) && !empty($selected->client->user_name)){
+                        return $selected->client->user_name;
+                    }  
+                    return '';      
+                    
                 })
                 ->editColumn('service_provider',function($selected)
-                {                   
-                     return $selected->user->user_name;
+                {       
+                    if(!empty($selected->user) && !empty($selected->user->user_name)){
+                        return $selected->user->user_name;
+                    }              
+                     return '';
                 })
                 ->editColumn('appointment_date',function($selected)
                 {                   
