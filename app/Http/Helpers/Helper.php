@@ -35,6 +35,16 @@ class Helper
     /**
      * get timestamp formate date and time
      */  
+    public static function getDateTimeLocalFormate($date_time, $timezone)
+    { 
+        $date_time_formate = new Carbon($date_time);
+        (!empty($timezone)) ? $date_time_formate->setTimezone($timezone) : '' ;
+        return $date_time_formate->format('d M, Y H:i:s');
+    }
+  
+    /**
+     * get timestamp formate date and time
+     */  
     public static function getDateTimeFormate($date_time)
     {
         $date_time_formate = new Carbon($date_time);

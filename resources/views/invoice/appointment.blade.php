@@ -9,14 +9,13 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-12">
                             <div class="invoice-title">
                                 <h4 class="float-right font-16">
                                 <div>
                                     <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
-                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeFormate($data->completed_datetime) : '' }}
+                                    <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeLocalFormate($data->completed_datetime, $data->client->user_timezone) : '' }}
                                 </div>
                                 </h4>
                                 <h3 class="m-t-0">
@@ -55,7 +54,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <b>Completed Date: </b>{{Helper::getDateTimeFormate($data->completed_datetime)}}<br>
+                                    <b>Completed Date: </b>{{Helper::getDateTimeLocalFormate($data->completed_datetime, $data->client->user_timezone)}}<br>
                                     @php($urgent = ($data->urgent == '1')? '(Urgent)' : '')
                                     <b>Type of Appointment: </b>{{$data->appointment_type_name}} <br>
                                     <b>Status: </b>{{$data->status_name}}
@@ -129,8 +128,8 @@
                                             @endforeach
                                             @else 
                                             <tr>
-                                                <td class="text-center">{{Helper::getDateTimeFormate($data->start_datetime)}}</td>
-                                                <td class="text-center">{{Helper::getDateTimeFormate($data->completed_datetime)}}</td>                                                
+                                                <td class="text-center">{{Helper::getDateTimeLocalFormate($data->start_datetime, $data->client->user_timezone)}}</td>
+                                                <td class="text-center">{{Helper::getDateTimeLocalFormate($data->completed_datetime, $data->client->user_timezone)}}</td>                                                
                                                 <td class="text-center currency_symbol">{{$currency_symbol.$data->hcp_fees}}</td>
                                                 @if(!empty($data->full_day) &&  $data->full_day == '1')
                                                     <td class="text-center">Full Day</td>

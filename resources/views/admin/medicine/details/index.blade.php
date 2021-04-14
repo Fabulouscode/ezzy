@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Category List')
+@section('title','Medicine Details List')
 
 @section('content')
 <!-- container fluid Start -->

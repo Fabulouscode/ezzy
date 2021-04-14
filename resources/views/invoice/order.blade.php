@@ -16,7 +16,7 @@
                                 <h5 class="float-right font-16">
                                     <div>
                                         <strong>Invoice : </strong>{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
-                                        <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeFormate($data->completed_datetime) : '' }}
+                                        <strong>Invoice Date : </strong>{{ !empty($data->completed_datetime) ? Helper::getDateTimeLocalFormate($data->completed_datetime, $data->clientDetails->user_timezone) : '' }}
                                     </div>
                                 </h5>
                                 <h3 class="m-t-0">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 m-t-30">
-                                    <b>Order Date: </b>{{Helper::getDateTimeFormate($data->created_at)}}<br>
+                                    <b>Order Date: </b>{{Helper::getDateTimeLocalFormate($data->created_at, $data->clientDetails->user_timezone)}}<br>
                                     @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
                                     <b>Voucher Code: </b>{{$data->voucherDetails->voucher_code}}<br>
                                     @endif

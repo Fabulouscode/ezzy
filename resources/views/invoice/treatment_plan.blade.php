@@ -16,7 +16,7 @@
                                 <h5 class="float-right font-16">
                                     <div>
                                         <strong>Invoice : </strong>#{{ !empty($data->id) ? $data->invoice_no_generate : '' }}<br>
-                                        <strong>Invoice Date : </strong>{{ !empty($data->created_at) ? Helper::getDateTimeFormate($data->created_at) : '' }}
+                                        <strong>Invoice Date : </strong>{{ !empty($data->created_at) ? Helper::getDateTimeLocalFormate($data->created_at, $data->client->user_timezone) : '' }}
                                     </div>
                                 </h5>
                                 <h3 class="m-t-0">
