@@ -334,8 +334,8 @@ class OrderController extends BaseApiController
             }else if($request->status == '2'){
                 $order_tracking = [
                     'order_id'=> $request->id,
-                    'title'=> 'Order Dispatched',
-                    'description'=> 'Order Dispatched',
+                    'title'=> 'Order On the Way',
+                    'description'=> 'Order On the Way',
                     'status'=> '2',
                     'estimation_datetime'=>  $this->order_tracking_repo->getCurrentDateTime(),
                   ];

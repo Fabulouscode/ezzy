@@ -324,14 +324,14 @@ class OrderRepository extends Repository
                 
         if(!empty($request->user()->category_id)){
             $query = $query->with(['clientDetails'])->where('user_id',$request->user()->id);
+            $query = $query->whereIn('status',['0','1','2']);
         }else{
             $query = $query->with(['userDetails'])->where('client_id',$request->user()->id);
+            $query = $query->whereIn('status',['1','2']);
         }
 
         if(!empty($request->status)){
             $query = $query->where('status', $request->status);
-        }else{
-            $query = $query->whereIn('status',['0','1','2']);
         }
         
         if(isset($request->delivery_type)){
