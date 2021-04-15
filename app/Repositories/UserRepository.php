@@ -797,10 +797,6 @@ class UserRepository extends Repository
                             ->havingRaw('distance <= 200')
                             ->orderBy('distance','asc');
                 
-                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
-                    $query->select(DB::raw('avg(user_rating) as rating'));
-                }])->orderBy('rating','desc');
-
             }else{
                 $query = $query->withCount(['userAppointmentRating as rating' => function($query){
                     $query->select(DB::raw('avg(user_rating) as rating'));
