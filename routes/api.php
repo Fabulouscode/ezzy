@@ -78,7 +78,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
             Route::post('/payout/history', 'DashboardController@getPayoutAmountHistory');
 
-            Route::get('/check/chat_module', 'DashboardController@checkUserChatModule');
+            Route::get('/check/chat_module/{id?}', 'DashboardController@checkUserChatModule');
 
             Route::get('/profile', 'UserController@getUserDetails');
             Route::get('/get/profile/location/{id?}', 'UserController@getUserbyIdLocationDetails');
@@ -291,6 +291,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             // order request
             Route::prefix('order')->group(function(){  
                 Route::post('/history', 'OrderController@getOrderHistory'); 
+                Route::get('/reorder/{order_id?}', 'OrderController@saveReorder'); 
                 Route::get('/get/{order_id?}', 'OrderController@getOrderProduct'); 
                 Route::get('/invoice/{order_id?}', 'OrderController@generateInvoice'); 
                 Route::post('/change/status', 'OrderController@changeOrderStatus'); 

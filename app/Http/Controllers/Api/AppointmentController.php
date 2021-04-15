@@ -484,7 +484,7 @@ class AppointmentController extends BaseApiController
                             ];  
                         $this->notification_repo->sendingNotification($send_notification);  
                         Log::info("Notification send ".date('H:i:s'));
-                        sleep(20);
+                        sleep(15);
                     }else{
                         break;
                     }
@@ -677,14 +677,14 @@ class AppointmentController extends BaseApiController
                     'accepted_date' => Carbon::parse($request->appointment_date.' '.$request->appointment_time)->format('Y-m-d H:i:s'),
                     'status' => '1'
                   ];
-       
+                  
         $appointment = $this->appointment_repo->getById($request->id);
         $accepted_date  = new Carbon($appointment->accepted_date);
         $current_appointment   = $this->appointment_repo->getCurrentDateTime();
         $appointment_timing =  $accepted_date->diffInMinutes($current_appointment);
         $reschedule_charges = 0;
         $reschedule_charge_per = 0;
-        $reschedule_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+        $reschedule_charge = $this->manage_fees_repo->getbyFeesKey('reschedule_charges');
         $old_transaction = $this->user_transaction_repo->getById($appointment->transaction_id);
         if(!empty($reschedule_charge->fees_percentage)){                    
             $reschedule_charge_per = $reschedule_charge->fees_percentage;
@@ -1134,4 +1134,7 @@ class AppointmentController extends BaseApiController
 
         return $transaction_amount;
     }
+
+
+    
 }

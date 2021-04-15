@@ -504,7 +504,6 @@ class OrderController extends BaseApiController
         }
         
     }
-
     
     public function saveCartCheckout(CartCheckoutRequest $request)
     { 
@@ -601,6 +600,45 @@ class OrderController extends BaseApiController
             }
             DB::commit();
             return self::sendSuccess($data, 'Order Completed');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return self::sendException($e);
+        }
+    }
+
+    public function saveReorder(Request $request, $order_id)
+    {
+        if(empty($order_id)){
+            return self::sendError('', 'Order is not available');
+        }
+
+        $data = $this->order_repo->getById($order_id);
+
+        $this->shop_cart_repo->clearUserCart($request->user()->id); 
+        
+        if(!empty($data->orderProductDetails) && count($data->orderProductDetails) > 0){
+            foreach ($data->orderProductDetails as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                if(empty($stock_available)){
+                     return self::sendError('', 'Stock is not available');
+                }
+            }
+        }
+        
+        try{
+            DB::beginTransaction();
+            if(!empty($data->orderProductDetails) && count($data->orderProductDetails) > 0){
+                foreach ($data->orderProductDetails as $key => $value) {
+                    $add_data = [
+                        'user_id' => $request->user()->id,
+                        'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
+                        'quantity'=> $value->quantity,
+                    ];
+                    $data = $this->shop_cart_repo->dataCrud($add_data);
+                }
+            }           
+            DB::commit();
+            return self::sendSuccess([], 'Cart add Success');
         }catch(\Exception $e){
             DB::rollBack();
             return self::sendException($e);

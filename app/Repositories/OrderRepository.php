@@ -411,9 +411,9 @@ class OrderRepository extends Repository
         return $query;
     }
 
-    public function checkOrderisRunning($request)
+    public function checkOrderisRunning($request, $id)
     {   			
-        return $this->model->where('client_id', $request->user()->id)->whereIn('status',['1','2'])->first();   
+        return $this->model->where('client_id', $request->user()->id)->where('user_id', $id)->whereIn('status',['1','2'])->first();   
     }
 
 }

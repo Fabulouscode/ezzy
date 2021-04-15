@@ -800,9 +800,9 @@ class AppointmentRepository extends Repository
    
     }
  
-    public function checkAppointmentisRunning($request)
+    public function checkAppointmentisRunning($request, $id)
     {   			
-        return $this->model->where('client_id', $request->user()->id)->whereIn('status',['1','2','3','4'])->first();   
+        return $this->model->where('client_id', $request->user()->id)->where('user_id', $id)->whereIn('status',['1','2','3','4'])->first();   
     }
 }
 
