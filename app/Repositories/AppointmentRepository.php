@@ -124,6 +124,7 @@ class AppointmentRepository extends Repository
             $query = $query->where('status', $request->status);
         }else{
             $query = $query->whereNotIn('status',['5','6']);
+            $query = $query->whereNotNull('user_id');
         }
      
         if(!empty($request->hacp_type)){
