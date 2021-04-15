@@ -65,7 +65,8 @@ class MedicineDetailsRepository extends Repository
     public function getWithRelationship()
     {
         $query = $this->model->with(['medicineSubcategory']);
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->leftJoin('medicine_subcategories', 'medicine_details.medicine_subcategoy_id', '=', 'medicine_subcategories.id');
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -99,6 +100,10 @@ class MedicineDetailsRepository extends Repository
                     
                     return $data;
                 })
+                ->filterColumn('medicine_subcategory', function ($query, $keyword) {
+                    $query->whereRaw("medicine_subcategories.name like ?", ["%$keyword%"]);
+                })
+
                 ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
@@ -110,6 +115,13 @@ class MedicineDetailsRepository extends Repository
                     }
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $appointment_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("medicine_details.status", $appointment_status);                       
+                    }
+                })
+
                 ->rawColumns(['action','medicine_subcategory','status'])
                 ->make(true);
     }
