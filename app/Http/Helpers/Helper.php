@@ -118,15 +118,29 @@ class Helper
             'object' => $message
         ];
         
-       
-        $data = array(
-            'to' => $receiver->device_token,
-            'data' => $dataTemp,
-            'notification'=>array(
-                'title'=> config('app.name'),
-                'body'=>$notification->message
-            )
-        );
+
+        if(!empty($notification->msg_type) && in_array($notification->msg_type,['1','2','3'])){
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification->message,
+                    'sound' => 'ezzycare_ringtone.wav',
+                    'android_channel_id' => 'ezzycare_channel_1',
+                )
+            );
+        }else{
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification->message
+                )
+            );
+        }
+
    
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
@@ -241,7 +255,7 @@ class Helper
      */ 
     public static function checkNotification() 
     {
-        $notification_token = "ceeU5WOtSR-y3BXpscLyjX:APA91bF78VEwEMjSLydKNI94OaJpTgL2pd-CDSgz3Lu4z-ZqczoS8pKuihYDEkzk2l3ZP_jy7xle3bYjvd223-cmyq5javHXKj5HGBib8Xz0iyfTiMfTxCEmyJFa-F0bb_9mn9diu3m6";
+        $notification_token = "dR3b-2AH7UhZqnsZ1zpva9:APA91bFX5lh0Dc5qcyQq6PbeIUXaibGmuu7FdvZgGLsVcKXPVdL7BrxXFT_eqqSqZV6tmayTqd1MVx_j-bk2dWsGorJllFoQdEHo_AFpB2GkkdQDmqHXJXxBTX4HMFq63lRMGaFtBGEY";
         $url = 'https://fcm.googleapis.com/fcm/send';
     
         $message = [
@@ -260,7 +274,7 @@ class Helper
 
         $dataTemp = [
             'click_action' => "FLUTTER_NOTIFICATION_CLICK",
-            'screen' => '99',
+            'screen' => '91',
             'object' => $message,
             'TTL'=>"5"
         ];
@@ -272,6 +286,8 @@ class Helper
             'notification'=>array(
                 'title'=> config('app.name'),
                 'body'=>'This is test Notificationas',
+                'sound' => 'ezzycare_ringtone.wav',
+                'android_channel_id' => 'ezzycare_channel_1',
                 'TTL'=>"5"
             )
         );
