@@ -85,6 +85,7 @@ class TransactionController extends BaseApiController
                     'transaction_type'=> '1',
                     'status'=> '1',
                     'appointment_id' => $appointment_details->id,
+                    'transaction_msg'=>'Appointment bill pay',
                 ];
                 
             $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
@@ -163,6 +164,7 @@ class TransactionController extends BaseApiController
                         'wallet_transaction' => '0',
                         'client_id'=> $order_details->user_id,
                         'order_id' => $order_details->id,
+                        'transaction_msg'=>'Order bill pay',
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
@@ -179,6 +181,7 @@ class TransactionController extends BaseApiController
                         'status'=> '0',
                         'payout_status' => '1',
                         'order_id' => $order_details->id,
+                        'transaction_msg'=>'Order bill pay',
                     ];
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
             }
@@ -257,6 +260,7 @@ class TransactionController extends BaseApiController
                         'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
                         'appointment_id' => $appointment_details->id,
+                        'transaction_msg'=>'Appointment bill pay',
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
@@ -272,6 +276,7 @@ class TransactionController extends BaseApiController
                         'status'=> $request->status,
                         'payout_status' => '1',
                         'appointment_id' => $appointment_details->id,
+                        'transaction_msg'=>'Appointment bill pay',
                     ];
                     
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
@@ -342,6 +347,7 @@ class TransactionController extends BaseApiController
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $chat_history->user_id,
+                        'transaction_msg'=>'Treatment plan bill pay',
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);

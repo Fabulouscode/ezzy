@@ -384,6 +384,7 @@ class AppointmentController extends BaseApiController
                         'status'=> '3',
                         'payout_status' => '0',
                         'appointment_id' => $data->id,
+                        'transaction_msg'=>'Appointment locked amount'
                     ];                    
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
                 
@@ -591,6 +592,7 @@ class AppointmentController extends BaseApiController
                             'payout_amount'=> $user_payout,
                             'fees_charge'=> $ezzycare_charge,
                             'appointment_id' => $appointment->id,
+                            'transaction_msg'=>'Appointment cancellation charges',
                         ];
                 
         }
@@ -719,6 +721,7 @@ class AppointmentController extends BaseApiController
                         'payout_amount'=> $user_payout,
                         'fees_charge'=> $ezzycare_charge,                        
                         'appointment_id' => $appointment->id,
+                        'transaction_msg'=>'Appointment reschedule charges',
                     ];
         }
         try {
@@ -896,6 +899,7 @@ class AppointmentController extends BaseApiController
                             'payout_amount'=> $user_payout,
                             'fees_charge'=> $ezzycare_charge,
                             'appointment_id' => $appointment_details->id,
+                            'transaction_msg'=>'Appointment bill pay',
                         ];
                 
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);                
