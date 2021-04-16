@@ -102,7 +102,18 @@ class Appointment extends Model
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];
 
     public function getStatusNameAttribute() {
-        return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+        if($this->status == '1'){
+            $current_time  =  Carbon::now();
+            $current_time = $current_time->subMinute(2);
+            if($current_time > $this->appointment_date.' '.$this->appointment_time){
+                return array_key_exists($this->status, $this->status_value) ? 'Elapsed': '';
+            }else{
+                return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+            }
+        }else{
+             return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
+        }
+       
     }
    
     public function getGenderNameAttribute() {

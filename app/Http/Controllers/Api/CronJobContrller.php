@@ -104,6 +104,24 @@ class CronJobContrller extends BaseApiController
 
         return self::sendSuccess([], 'Notification send.');
     }
+
+    // public function updateAppointmentElapsed(Request $request){        
+    //     //5 min after not start to elapsed
+    //     $upcoming_past_appointment = $this->appointment_repo->getUpcomingPastAppointment();
+      
+    //     // Log::info("upcoming_appointment ".json_encode($upcoming_past_appointment));       
+      
+    //     if(!empty($upcoming_past_appointment) && count($upcoming_past_appointment) > 0){
+    //         foreach ($upcoming_past_appointment as $key => $value) {
+    //                 $update_appointment = [
+    //                     'status'=> '7',
+    //                 ];                    
+    //             $this->appointment_repo->dataCrud($update_appointment, $value->id);
+    //         }
+    //     }
+
+    //     return self::sendSuccess([], 'Appointment update.');
+    // }
    
     public function updateAppointmentCancel(Request $request){          
         $old_appointment = $this->appointment_repo->getOldAppointmentPending();

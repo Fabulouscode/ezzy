@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\AppointmentUpcomingNotification::class,
         Commands\AppointmentExtendNotification::class,
+        Commands\AppointmentElapsed::class,
         Commands\AppointmentCancel::class,
     ];
 
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('appointment:extend')->everyMinute();   
         $schedule->command('appointment:upcoming')->everyMinute();  
+        // $schedule->command('appointment:elapsed')->everyMinute();  
         $schedule->command('appointment:cancel')->dailyAt('3:00');   
     }
 
