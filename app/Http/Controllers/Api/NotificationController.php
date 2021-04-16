@@ -30,6 +30,7 @@ class NotificationController extends BaseApiController
                                         'title'=>$response->title,
                                         'message'=>$response->message,
                                         'msg_type'=>$response->msg_type,
+                                        'parameter'=>$response->parameter,
                                         'msg_type_name'=>$response->msg_type_name,
                                         'read'=>$response->read,
                                         'created_at'=>$response->created_at,

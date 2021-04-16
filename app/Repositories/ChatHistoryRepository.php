@@ -62,7 +62,7 @@ class ChatHistoryRepository extends Repository
    
     public function getTransactionCompleted($id)
     {   
-        return $this->model->where('chat_type','3')->whereNull('transaction_id')->where('id',$id)->first();
+        return $this->model->where('chat_type','3')->whereNotNull('transaction_id')->where('id',$id)->first();
 
     }
     

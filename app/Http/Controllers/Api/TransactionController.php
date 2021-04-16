@@ -330,11 +330,12 @@ class TransactionController extends BaseApiController
         $data = array();
         $chat_history = $this->chat_history_repo->getTransactionCompleted($request->id);
      
-        if(empty($chat_history)){
+        if(!empty($chat_history)){
             return self::sendError([], 'Transaction already Completed');
         }
 
         try {
+            $chat_history = $this->chat_history_repo->getById($request->id);
             DB::beginTransaction();
                 $updateUserTran = [
                         'transaction_type' => '0',

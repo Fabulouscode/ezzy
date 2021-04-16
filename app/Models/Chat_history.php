@@ -168,6 +168,7 @@ class Chat_history extends Model
             'chat_type'=>$this->chat_type,
             'chat_type_name'=>$this->chat_type_name,
             'treatment_name'=>$this->treatment_name,
+            'transaction_id'=>$this->transaction_id,
             'medicines'=> !empty($this->chatDetails) ? $this->getMedicineNames($this->chatDetails) :'',
             'client'=>(!empty($this->client))?
                             [
