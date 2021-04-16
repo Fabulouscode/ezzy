@@ -774,9 +774,11 @@ class AppointmentRepository extends Repository
     public function getCurrentlyRunningAppointment()
     {   
         $current_time  =  Carbon::now();
+        $current_time = $current_time->addMinute(5);
+        $current_time = $current_time->format('H:i');    
         // \Log::info("current_time ".json_encode($current_time));     
         return $this->model->whereDate('appointment_end_date', Carbon::now())
-                            ->whereTime('appointment_end_time', $current_time->addMinute(5)->format('H:i'))
+                            ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59'])
                             ->where('status',2)->get();
    
     }
@@ -784,17 +786,20 @@ class AppointmentRepository extends Repository
     public function getCurrentlyUpcomingAppointment()
     {   
         $current_time  =  Carbon::now();
-        // \Log::info("current_time ".json_encode($current_time));     
+        $current_time = $current_time->addMinute(10);
+        $current_time = $current_time->format('H:i');   
+          // \Log::info("current_time ".json_encode($current_time)); 
         return $this->model->whereDate('appointment_date', Carbon::now())
-                            ->whereTime('appointment_time', $current_time->addMinute(10)->format('H:i'))
-                            ->where('status',1)->get();
+                            ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59'])
+                            ->where('status',1)->get();   
                             
     }
   
     public function getOldAppointmentPending()
     {   			
         $current_time  =  Carbon::now();
-        $current_time->subDays(1)->format('Y-m-d');
+        $current_time = $current_time->subDays(1);
+        $current_time = $current_time->format('Y-m-d');  
         return $this->model->whereDate('appointment_date','<=', $current_time)
                             ->whereDate('appointment_end_date','<=', $current_time)
                             ->whereIn('status',['0','1'])->get();
