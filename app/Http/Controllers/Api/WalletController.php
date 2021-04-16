@@ -72,6 +72,7 @@ class WalletController extends BaseApiController
                         'wallet_transaction'=> '1',
                         'payout_status'=> '0',
                         'status'=> '0',
+                        'transaction_msg'=>'Add Wallet to online pay',
                     ];
             $add_transaction = [
                         'user_id'=> $request->user()->id,
@@ -83,6 +84,7 @@ class WalletController extends BaseApiController
                         'wallet_transaction'=> '1',
                         'payout_status'=> '0',
                         'status'=> '0',
+                        'transaction_msg'=>'Wallet Topup',
                     ];
         try {
             $this->user_transaction_repo->dataCrud($wallet_transaction);
