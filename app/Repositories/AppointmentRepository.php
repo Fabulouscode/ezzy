@@ -876,12 +876,15 @@ class AppointmentRepository extends Repository
     }
   
     public function getOldAppointmentPending()
-    {   			
+    {   		
         $current_time  =  Carbon::now();
         $current_time = $current_time->subDays(1);
         $current_time = $current_time->format('Y-m-d');  
-        return $this->model->whereDate('appointment_date','<=', $current_time)
-                            ->whereDate('appointment_end_date','<=', $current_time)
+        return $this->model->whereDate('appointment_date','<=', $current_time)    
+                            ->where(function ($query) use ($current_time){
+                                $query->whereDate('appointment_end_date','<=', $current_time);
+                                $query->orWhereNull('appointment_end_date');
+                            })                            
                             ->whereIn('status',['0','1'])->get();
    
     }
