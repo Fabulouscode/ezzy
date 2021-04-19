@@ -899,7 +899,7 @@ class AppointmentController extends BaseApiController
                             'payout_amount'=> $user_payout,
                             'fees_charge'=> $ezzycare_charge,
                             'appointment_id' => $appointment_details->id,
-                            'transaction_msg'=>'Appointment bill pay',
+                            'transaction_msg'=>'Appointment',
                         ];
                 
                 $transaction = $this->user_transaction_repo->dataCrud($add_transaction);                
