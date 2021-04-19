@@ -18,7 +18,7 @@ $(function () {
             }
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'appointments.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'hcp_type', name: 'hcp_type' },
@@ -27,7 +27,12 @@ $(function () {
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
     });
 
     $('#laboratories_appointments_datatable').DataTable({
@@ -47,7 +52,7 @@ $(function () {
             }
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'appointments.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'hcp_type', name: 'hcp_type' },
@@ -56,7 +61,12 @@ $(function () {
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
     });
 
     //order
@@ -75,16 +85,17 @@ $(function () {
             data: pharmacy_order_obj
         },
         columns: [
-            // { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'orders.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
-        //  order: [[0, 'desc']],
+        order: [[0, 'desc']],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
+            api.columns([0]).visible(showColumn);
         }
     });
 

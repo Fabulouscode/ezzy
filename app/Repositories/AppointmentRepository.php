@@ -119,12 +119,12 @@ class AppointmentRepository extends Repository
      */
     public function getWithRelationship($request)
     {
-        $query = $this->model->with(['user','client','user.categoryParent','user.categoryChild']);    
+        $query = $this->model->select('appointments.*')->with(['user','client','user.categoryParent','user.categoryChild']);    
         if(isset($request->status) && $request->status != ''){
-            $query = $query->where('status', $request->status);
+            $query = $query->where('appointments.status', $request->status);
         }else{
-            $query = $query->whereNotIn('status',['5','6']);
-            $query = $query->whereNotNull('user_id');
+            $query = $query->whereNotIn('appointments.status',['5','6']);
+            $query = $query->whereNotNull('appointments.user_id');
         }
      
         if(!empty($request->hacp_type)){
@@ -134,8 +134,12 @@ class AppointmentRepository extends Repository
                 });
             });
         }
-        
-        $query = $query->orderBy('id','desc')->get();
+
+        $query = $query->leftJoin('users as user', 'appointments.user_id', '=', 'user.id')
+        ->leftJoin('users as client', 'appointments.client_id', '=', 'client.id')
+        ->leftJoin('categories as categoryParent', 'user.category_id', '=', 'categoryParent.id')
+        ->leftJoin('categories as categoryChild', 'user.subcategory_id', '=', 'categoryChild.id');
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -169,6 +173,7 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
+
                 ->editColumn('user_name',function($selected)
                 {           
                     if(!empty($selected->client) && !empty($selected->client->user_name)){
@@ -177,6 +182,13 @@ class AppointmentRepository extends Repository
                     return '';      
                     
                 })
+                ->filterColumn('user_name', function ($query, $keyword) {
+                    $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('user_name', function ($query, $order) {
+                    $query->orderBy('client.first_name', $order);
+                })
+
                 ->editColumn('service_provider',function($selected)
                 {       
                     if(!empty($selected->user) && !empty($selected->user->user_name)){
@@ -184,10 +196,21 @@ class AppointmentRepository extends Repository
                     }              
                      return '';
                 })
+                ->filterColumn('service_provider', function ($query, $keyword) {
+                    $query->whereRaw("concat(user.first_name, ' ', user.last_name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('service_provider', function ($query, $order) {
+                    $query->orderBy('user.first_name', $order);
+                })
+
                 ->editColumn('appointment_date',function($selected)
                 {                   
                      return $this->getDateTimeFormate($selected->appointment_date .' '.$selected->appointment_time);
                 })
+                ->orderColumn('appointment_date', function ($query, $order) {
+                    $query->orderBy('appointments.appointment_date', $order)->orderBy('appointments.appointment_time', $order);
+                })
+
                 ->editColumn('hcp_type',function($selected)
                 {
                     $data = '';
@@ -200,6 +223,13 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
+                ->filterColumn('hcp_type', function ($query, $keyword) {
+                    $query->whereRaw("concat(categoryParent.name, ' ', categoryChild.name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('hcp_type', function ($query, $order) {
+                    $query->orderBy('categoryParent.name', $order);
+                })
+                
                 ->editColumn('appointment_type',function($selected)
                 {
                     //	0-In Clinic, 1-Home Care, 2-Video Call
@@ -214,6 +244,16 @@ class AppointmentRepository extends Repository
                     
                     return $data;
                 })
+                ->filterColumn('appointment_type', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getAppointmentTypeValue())){
+                        $appointment_type = array_search($request->search['value'], $this->getAppointmentTypeValue());
+                        $query->where("appointments.appointment_type", $appointment_type);                       
+                    }
+                })
+                ->orderColumn('appointment_type', function ($query, $order) {
+                    $query->orderBy('appointments.appointment_type', $order);
+                })
+
                 ->editColumn('status',function($selected)
                 {
                     //	0-Pending, 1-Upcoming, 2-in_progress, 3-Paid, 4-Unpaid, 5-Success, 6-Cancel
@@ -236,6 +276,16 @@ class AppointmentRepository extends Repository
                     //  $data .= '<div class="badge badge-danger" >'.$selected->status_name.'</div>';
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $appointment_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("appointments.status", $appointment_status);                       
+                    }
+                })
+                ->orderColumn('status', function ($query, $order) {
+                    $query->orderBy('appointments.status', $order);
+                })
+
                 ->rawColumns(['action','hcp_type','appointment_type','status'])
                 ->make(true);
     }
@@ -658,14 +708,32 @@ class AppointmentRepository extends Repository
             {
                 return $selected->user ? $selected->user->user_name : '-';
             })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereRaw("concat(user.first_name, ' ', user.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->orderBy('user.first_name', $order);
+            })
+
             ->editColumn('patient_name',function($selected)
             {
                 return $selected->client ? $selected->client->user_name : '-';
             })
+            ->filterColumn('patient_name', function ($query, $keyword) {
+                $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('patient_name', function ($query, $order) {
+                $query->orderBy('client.first_name', $order);
+            })
+
             ->editColumn('appointment_no',function($selected)
             {
                 return '<a href="'.url('appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
             })
+            ->orderColumn('appointment_no', function ($query, $order) {
+                $query->orderBy('appointments.id', $order);
+            })
+
             ->rawColumns(['appointment_no'])->make(true);
     }
 

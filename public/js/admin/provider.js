@@ -20,12 +20,12 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'users.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
-            { data: 'email', name: 'email' },
+            { data: 'email', name: 'users.email' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'hcp_type', name: 'hcp_type' },
-            { data: 'created_at', name: 'created_at' },
+            { data: 'created_at', name: 'users.created_at', searchable: false },
             {
                 data: '', name: 'Ratings', orderable: false, searchable: false,
                 render: function (data, type, row) {

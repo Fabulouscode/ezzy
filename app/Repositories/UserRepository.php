@@ -152,8 +152,7 @@ class UserRepository extends Repository
      */
     public function getWithRelationship($request)
     {
-
-        $query = $this->model->with(['categoryChild','categoryParent']);    
+        $query = $this->model->select('users.*')->with(['categoryChild','categoryParent']);    
         if(!empty($request->category_id)){
             $query = $query->whereHas('categoryParent', function ($query) use ($request) {
                 $query->where('parent_id', $request->category_id);
@@ -168,7 +167,9 @@ class UserRepository extends Repository
             $query = $query->whereNull('category_id');
             $query = $query->whereNull('subcategory_id');
         }
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->leftJoin('categories as categoryParent', 'users.category_id', '=', 'categoryParent.id')
+                        ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id');;
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -262,14 +263,30 @@ class UserRepository extends Repository
           
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $user_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("users.status", $user_status);                       
+                    }
+                })
+
+
                 ->addColumn('user_name',function($selected)
                 {
                      return $selected->user_name;
+                })                
+                ->filterColumn('user_name', function ($query, $keyword) {
+                    $query->whereRaw("concat(users.first_name, ' ', users.last_name) like ?", ["%$keyword%"]);
                 })
+
                 ->addColumn('mobile_no',function($selected)
                 {
                      return $selected->mobile_no_country_code;
                 })
+                ->filterColumn('mobile_no', function ($query, $keyword) {
+                    $query->whereRaw("concat(users.country_code, ' ', users.mobile_no) like ?", ["%$keyword%"]);
+                })
+
                 ->editColumn('hcp_type',function($selected){
                     $data = '';
                     if(!empty($selected->categoryParent)){
@@ -280,9 +297,17 @@ class UserRepository extends Repository
                     }  
                     return $data;                          
                 })
+                ->filterColumn('hcp_type', function ($query, $keyword) {
+                    $query->whereRaw("concat(categoryParent.name, ' ', categoryChild.name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('hcp_type', function ($query, $order) {
+                    $query->orderBy('categoryParent.name', $order);
+                })
+
                 ->editColumn('created_at',function($selected){
                     return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
                 })
+                
                 ->rawColumns(['action','categoryParent','status','hcp_type'])
                 ->make(true);
     }

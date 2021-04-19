@@ -14,7 +14,7 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'categories.id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'categoryParent', name: 'categoryParent' },
             { data: 'action', name: 'action', orderable: false, searchable: false },

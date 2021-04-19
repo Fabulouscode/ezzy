@@ -64,7 +64,7 @@ class MedicineDetailsRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model->with(['medicineSubcategory']);
+        $query = $this->model->select('medicine_details.*')->with(['medicineSubcategory']);
         $query = $query->leftJoin('medicine_subcategories', 'medicine_details.medicine_subcategoy_id', '=', 'medicine_subcategories.id');
         // $query = $query->orderBy('id','desc')->get();
         return $query;
@@ -91,6 +91,7 @@ class MedicineDetailsRepository extends Repository
 
                     return $data;
                 })
+                
                 ->editColumn('medicine_subcategory',function($selected)
                 {
                     $data = '';
@@ -102,6 +103,9 @@ class MedicineDetailsRepository extends Repository
                 })
                 ->filterColumn('medicine_subcategory', function ($query, $keyword) {
                     $query->whereRaw("medicine_subcategories.name like ?", ["%$keyword%"]);
+                }) 
+                ->orderColumn('medicine_subcategory', function ($query, $order) {
+                    $query->orderBy('medicine_subcategories.name', $order);
                 })
 
                 ->editColumn('status',function($selected)

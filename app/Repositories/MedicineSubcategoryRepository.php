@@ -50,8 +50,10 @@ class MedicineSubcategoryRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model->with(['medicineCategory']);
-        $query = $query->orderBy('id','desc')->get();
+        $query = $this->model->select('medicine_subcategories.*')->with(['medicineCategory']);
+        $query = $query->leftJoin('medicine_categories', 'medicine_subcategories.medicine_category_id', '=', 'medicine_categories.id');
+      
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -76,11 +78,19 @@ class MedicineSubcategoryRepository extends Repository
 
                     return $data;
                 })
+
                 ->editColumn('medicineCategory',function($selected){
                     if(!empty($selected->medicineCategory)){
                         return $selected->medicineCategory->name;
                     }                            
                 })
+                ->filterColumn('medicineCategory', function ($query, $keyword) {
+                    $query->whereRaw("medicine_categories.name like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('medicineCategory', function ($query, $order) {
+                    $query->orderBy('medicine_categories.name', $order);
+                })
+                
                 ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
@@ -92,6 +102,13 @@ class MedicineSubcategoryRepository extends Repository
                     }
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $medicine_subcategories_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("medicine_subcategories.status", $medicine_subcategories_status);                       
+                    }
+                })
+
                 ->rawColumns(['action','medicineCategory','status'])
                 ->make(true);
     }

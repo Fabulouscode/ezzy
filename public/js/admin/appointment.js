@@ -16,7 +16,7 @@ $(function () {
             data: data_obj
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
+            { data: 'id', name: 'appointments.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'hcp_type', name: 'hcp_type' },
@@ -46,12 +46,12 @@ $(function () {
             async: true,
         },
         columns: [
-            { data: 'id', name: 'id', searchable: false },
-            { data: 'appointment_no', name: 'Appointment No' },
-            { data: 'user_name', name: 'User name' },
-            { data: 'patient_name', name: 'Patient name' },
+            { data: 'id', name: 'appointments.id', searchable: false },
+            { data: 'appointment_no', name: 'appointment_no', searchable: false },
+            { data: 'user_name', name: 'user_name' },
+            { data: 'patient_name', name: 'patient_name' },
             {
-                data: 'user_rating', name: 'Ratings',
+                data: 'user_rating', name: 'user_rating',
                 render: function (data, type, row) {
                     if (data == '' || data == null) {
                         data = '0';
@@ -60,7 +60,7 @@ $(function () {
                     return '<input type="hidden" class="rating" data-filled="mdi mdi-star font-32 text-primary" data-empty="mdi mdi-star-outline font-32 text-muted" data-readonly value = "' + data + '" />';
                 }
             },
-            { data: 'user_review', name: 'Reviews' },
+            { data: 'user_review', name: 'user_review' },
         ],
         order: [[0, 'desc']],
         createdRow: function (row, data, dataIndex) {

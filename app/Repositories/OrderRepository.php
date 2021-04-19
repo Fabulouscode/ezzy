@@ -158,11 +158,13 @@ class OrderRepository extends Repository
      */
     public function getWithRelationship($request)
     {
-        $query = $this->model->with(['clientDetails','userDetails']);    
+        $query = $this->model->select('orders.*')->with(['clientDetails','userDetails']);    
         if(isset($request->status) && $request->status != ''){
-            $query = $query->where('status', $request->status);
+            $query = $query->where('orders.status', $request->status);
         }
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->leftJoin('users as user', 'orders.user_id', '=', 'user.id')
+                        ->leftJoin('users as client', 'orders.client_id', '=', 'client.id');
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
 
@@ -191,6 +193,13 @@ class OrderRepository extends Repository
                     }
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $order_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("orders.status", $order_status);                       
+                    }
+                })
+
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
@@ -208,17 +217,32 @@ class OrderRepository extends Repository
                     //  $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                    
                     return $data;
-                })                
+                })     
+                           
                 ->editColumn('service_provider',function($selected){
                     if(!empty($selected->userDetails)){
                         return $selected->userDetails->user_name;
                     } 
                 })
+                ->filterColumn('service_provider', function ($query, $keyword) {
+                    $query->whereRaw("concat(user.first_name, ' ', user.last_name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('service_provider', function ($query, $order) {
+                    $query->orderBy('user.first_name', $order);
+                })
+
                 ->editColumn('user_name',function($selected){
                     if(!empty($selected->clientDetails)){
                         return $selected->clientDetails->user_name;
                     }
                 })
+                ->filterColumn('user_name', function ($query, $keyword) {
+                    $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('user_name', function ($query, $order) {
+                    $query->orderBy('client.first_name', $order);
+                })
+
                 ->rawColumns(['action','status'])
                 ->make(true);
         
@@ -352,14 +376,32 @@ class OrderRepository extends Repository
             {
                 return $selected->clientDetails ? $selected->clientDetails->user_name : '-';
             })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereRaw("concat(user.first_name, ' ', user.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->orderBy('user.first_name', $order);
+            })
+
             ->editColumn('patient_name',function($selected)
             {
                 return $selected->clientDetails ? $selected->clientDetails->user_name : '-';
             })
+            ->filterColumn('patient_name', function ($query, $keyword) {
+                $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('patient_name', function ($query, $order) {
+                $query->orderBy('client.first_name', $order);
+            })
+
             ->editColumn('order_no',function($selected)
             {
                 return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.' Order</a>';
             })
+            ->orderColumn('order_no', function ($query, $order) {
+                $query->orderBy('orders.id', $order);
+            })
+
             ->rawColumns(['order_no'])->make(true);
     }
 

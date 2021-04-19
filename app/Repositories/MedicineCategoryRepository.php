@@ -44,13 +44,23 @@ class MedicineCategoryRepository extends Repository
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getWithRelationship()
+    {
+        $query = $this->model->select('medicine_categories.*');
+        return $query;
+    }
+    /**
      * Display a listing of the Datatable.
      *
      * @return \Illuminate\Http\Response
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -63,6 +73,7 @@ class MedicineCategoryRepository extends Repository
                     }
                     return $data;
                 })
+                
                 ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
@@ -74,6 +85,13 @@ class MedicineCategoryRepository extends Repository
                     }
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $medicine_categories_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("medicine_categories.status", $medicine_categories_status);                       
+                    }
+                })
+
                 ->rawColumns(['action','status'])
                 ->make(true);
     }

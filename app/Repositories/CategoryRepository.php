@@ -67,8 +67,10 @@ class CategoryRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model->with(['categoryParent']);
-        $query = $query->orderBy('id','desc')->get();
+        $query = $this->model->select('categories.*')->with(['categoryParent']);
+        $query = $query->leftJoin('categories as category_parent', 'categories.parent_id', '=', 'category_parent.id');
+      
+        // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
     
@@ -79,7 +81,7 @@ class CategoryRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -100,6 +102,13 @@ class CategoryRepository extends Repository
                         return $selected->categoryParent->name;
                     }                            
                 })
+                ->filterColumn('categoryParent', function ($query, $keyword) {
+                    $query->whereRaw("category_parent.name like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('categoryParent', function ($query, $order) {
+                    $query->orderBy('category_parent.name', $order);
+                })
+
                 ->rawColumns(['action','categoryParent'])
                 ->make(true);
     }
