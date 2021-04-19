@@ -117,17 +117,19 @@ class User_transaction extends Model
                     [
                         'id'=>$this->tranAppointment->id,
                         'appointment_type_name'=>$this->tranAppointment->appointment_type_name,
-                        'appointment_date'=>$this->appointment_date .' '.$this->appointment_time,
+                        'appointment_date'=>$this->tranAppointment->appointment_date .' '.$this->tranAppointment->appointment_time,
                     ]:NULL,
             'order'=>(isset($this->tranOrder))?
                     [
                         'id'=>$this->tranOrder->id,
                         'products' => $this->tranOrder->order_medicine_name,
+                        'order_date'=>$this->tranOrder->created_at,
                     ]:NULL,
             'treatment_plan'=>(isset($this->transactionTreatmentPlan))?
                     [
                         'id'=>$this->transactionTreatmentPlan->id,
-                        'plan_name'=>$this->transactionTreatmentPlan->plan_name
+                        'plan_name'=>$this->transactionTreatmentPlan->plan_name,
+                        'plan_date'=>$this->transactionTreatmentPlan->created_at,
                     ]:NULL,
             'status'=> $this->status,
             'status_name'=> $this->status_name,
