@@ -64,6 +64,8 @@ class AppointmentRepository extends Repository
             $query = $query->whereIn('status', $status);
         }
 
+        $query = $query->whereNotNull('user_id');
+
         if($provider != ''){
             $query = $query->whereHas('user', function($query) use ($provider){
                 $query = $query->whereHas('categoryParent', function($query) use ($provider){
@@ -98,6 +100,8 @@ class AppointmentRepository extends Repository
         if($status != ''){
             $query = $query->whereIn('status', $status);
         } 
+ 
+        $query = $query->whereNotNull('user_id');
 
         if($provider != ''){
             $query = $query->whereHas('user', function($query) use ($provider){
