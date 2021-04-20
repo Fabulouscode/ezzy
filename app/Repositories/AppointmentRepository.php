@@ -123,10 +123,11 @@ class AppointmentRepository extends Repository
         if(isset($request->status) && $request->status != ''){
             $query = $query->where('appointments.status', $request->status);
         }else{
-            $query = $query->whereNotIn('appointments.status',['5','6']);
-            $query = $query->whereNotNull('appointments.user_id');
+            $query = $query->whereNotIn('appointments.status',['5','6']);           
         }
-     
+        
+        $query = $query->whereNotNull('appointments.user_id');
+
         if(!empty($request->hacp_type)){
             $query = $query->whereHas('user', function($query) use ($request){
                 $query = $query->whereHas('categoryParent', function($query) use ($request){
