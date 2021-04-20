@@ -125,7 +125,7 @@ class AppointmentRepository extends Repository
         }else{
             $query = $query->whereNotIn('appointments.status',['5','6']);           
         }
-        
+
         $query = $query->whereNotNull('appointments.user_id');
 
         if(!empty($request->hacp_type)){
@@ -882,10 +882,22 @@ class AppointmentRepository extends Repository
         $current_time = $current_time->subDays(1);
         $current_time = $current_time->format('Y-m-d');  
         return $this->model->whereDate('appointment_date','<=', $current_time)    
+                            ->where('urgent','0') 
                             // ->where(function ($query) use ($current_time){
                             //     $query->whereDate('appointment_end_date','<=', $current_time);
                             //     $query->orWhereNull('appointment_end_date');
                             // })                            
+                            ->whereIn('status',['0','1'])->get();
+   
+    }
+
+    public function getOldUrgentAppointmentPending()
+    {   		
+        $current_time  =  Carbon::now();
+        $current_time = $current_time->subDays(1);
+        $current_time = $current_time->format('Y-m-d');  
+        return $this->model->whereDate('appointment_date','<=', $current_time)    
+                            ->where('urgent','1')                         
                             ->whereIn('status',['0','1'])->get();
    
     }

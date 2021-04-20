@@ -125,6 +125,7 @@ class CronJobContrller extends BaseApiController
    
     public function updateAppointmentCancel(Request $request){          
         $old_appointment = $this->appointment_repo->getOldAppointmentPending();
+        $old_urgent_appointment = $this->appointment_repo->getOldUrgentAppointmentPending();
         // Log::info("old_appointment ".json_encode($old_appointment));    
         if(!empty($old_appointment) && count($old_appointment) > 0){
             foreach ($old_appointment as $key => $value) {
@@ -141,6 +142,11 @@ class CronJobContrller extends BaseApiController
                     $this->user_transaction_repo->destroy($value->transaction_id);
                     $this->user_repo->userWalletUpdate($value->client_id); 
                 }   
+            }
+        } 
+        if(!empty($old_urgent_appointment) && count($old_urgent_appointment) > 0){
+            foreach ($old_urgent_appointment as $key => $value) {
+                $this->appointment_repo->destroy($value->id);
             }
         } 
         return self::sendSuccess([], 'old appointment cancel.');
