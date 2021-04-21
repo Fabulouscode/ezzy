@@ -129,7 +129,8 @@ class Order extends Model
                             [
                                 'id'=>$this->clientDetails->id,
                                 'user_name'=>$this->clientDetails->user_name,
-                                'profile_image'=>$this->clientDetails->profile_image
+                                'profile_image'=>$this->clientDetails->profile_image,
+                                'address'=>(!empty($this->clientDetails->userPrimaryAddress)) ? $this->clientDetails->userPrimaryAddress->address : '',
                             ]:'',
             'user'=>(isset($this->userDetails))?
                             [
