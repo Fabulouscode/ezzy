@@ -323,6 +323,7 @@ class Helper
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
+            Log::info('sendCurlRequest '.$response);
             if(isset($response_arr['success']) && $response_arr['success'] == 0) {
                 Log::info($response);
                 Log::info('Push Notification Send Failed');

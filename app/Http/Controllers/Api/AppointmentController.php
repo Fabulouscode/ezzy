@@ -475,14 +475,14 @@ class AppointmentController extends BaseApiController
                     $healthcare_provider_assign = $healthcare_providerReq->user_id;
                     // send notification
                     if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
-                        $user_timezone = $this->appointment_repo->getById($healthcare_provider->id);
-                        $receiver_user = $this->appointment_repo->getById($healthcare_provider->id);
-                        $sender_user = $this->appointment_repo->getById($request->user()->id);
+                        $user_timezone = $this->user_repo->getById($healthcare_provider->id);
+                        $receiver_user = $this->user_repo->getById($healthcare_provider->id);
+                        $sender_user = $this->user_repo->getById($request->user()->id);
                         $notification_user = [
                             'sender_id' => $request->user()->id,
                             'receiver_id' => $healthcare_provider->id,
                             'title' => 'Urgent Appointment',
-                            'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),
+                            'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $receiver_user->user_timezone),
                             'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                             'msg_type' => '1',
                         ]; 
