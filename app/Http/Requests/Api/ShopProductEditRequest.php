@@ -28,7 +28,6 @@ class ShopProductEditRequest extends FormRequest
         return [
                 "id" => 'required',
                 "mrp_price" => 'required',
-                "offer_price" => 'required',
                 "capsual_quantity" => 'required',
             ];
     }

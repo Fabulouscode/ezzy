@@ -140,7 +140,7 @@ class ShopMedicineDetailsController extends BaseApiController
                         "medicine_detail_id" => $request->medicine_detail_id,
                         "capsual_quantity" => $request->capsual_quantity,
                         "mrp_price" => $request->mrp_price,
-                        "offer_price" => $request->offer_price,
+                        "offer_price" => !empty($request->offer_price) ? $request->offer_price : 0,
                         "status" => '0'
                     ];
             
@@ -177,7 +177,7 @@ class ShopMedicineDetailsController extends BaseApiController
         $insert_data = [
                         "capsual_quantity" => $request->capsual_quantity,
                         "mrp_price" => $request->mrp_price,
-                        "offer_price" => $request->offer_price,
+                        "offer_price" => !empty($request->offer_price) ? $request->offer_price : 0,
                     ];
             
         try{

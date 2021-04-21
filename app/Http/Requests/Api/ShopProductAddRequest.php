@@ -30,7 +30,6 @@ class ShopProductAddRequest extends FormRequest
                 "medicine_subcategoy_id" => 'required',
                 "medicine_detail_id" => 'required',
                 "mrp_price" => 'required',
-                "offer_price" => 'required',
                 "status" => 'required',
             ];
     }

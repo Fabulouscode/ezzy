@@ -548,11 +548,12 @@ class OrderController extends BaseApiController
                                             'order_id'=> $order->id,
                                             'shop_medicine_detail_id' => $value->shop_medicine_detail_id,
                                             'quantity' => $value->quantity,
-                                            'medicine_price' => $stock_available->offer_price,
+                                            'medicine_price' => !empty($stock_available->offer_price) ? $stock_available->offer_price : $stock_available->mrp_price,
                                         ];
                     $this->order_product_repo->dataCrud($order_product_data); 
-                       
-                    $transaction_amount += $stock_available->offer_price * $value->quantity;                
+                    $stock_available_offer_price = 0;
+                    $stock_available_offer_price = !empty($stock_available->offer_price) ? $stock_available->offer_price : $stock_available->mrp_price;
+                    $transaction_amount += $stock_available_offer_price * $value->quantity;                
                 }
                 if(!empty($request->voucher_code_id)){
                     $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
