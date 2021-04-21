@@ -130,6 +130,17 @@ class Helper
                     'android_channel_id' => 'ezzycare_channel_1',
                 )
             );
+        }else if(!empty($notification->msg_type) && in_array($notification->msg_type,['4','5','6'])){
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification->message,
+                    'sound' => 'ezzycare_ringtone.wav',
+                    'android_channel_id' => 'ezzycare_channel_2',
+                )
+            );
         }else{
             $data = array(
                 'to' => $receiver->device_token,

@@ -131,6 +131,7 @@ class Order extends Model
                                 'user_name'=>$this->clientDetails->user_name,
                                 'profile_image'=>$this->clientDetails->profile_image,
                                 'address'=>(!empty($this->clientDetails->userPrimaryAddress)) ? $this->clientDetails->userPrimaryAddress->address : '',
+                                'mobile'=>(!empty($this->clientDetails->mobile_no_country_code)) ? $this->clientDetails->mobile_no_country_code : '',
                             ]:'',
             'user'=>(isset($this->userDetails))?
                             [
