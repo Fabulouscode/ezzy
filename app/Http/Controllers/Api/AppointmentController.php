@@ -25,6 +25,7 @@ use Carbon\Carbon as Carbon;
 use App\Http\Controllers\Api\WalletController;
 use PDF;
 use Log;
+use App\Http\Helpers\Helper;
 
 class AppointmentController extends BaseApiController
 {
@@ -475,15 +476,17 @@ class AppointmentController extends BaseApiController
                     // send notification
                     if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
                         $user_timezone = $this->appointment_repo->getById($healthcare_provider->id);
-                        $send_notification = [
-                                'sender_id' => $request->user()->id,
-                                'receiver_id' => $healthcare_provider->id,
-                                'title' => 'Urgent Appointment',
-                                'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),
-                                'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
-                                'msg_type' => '1',
-                            ];  
-                        $this->notification_repo->sendingNotification($send_notification);  
+                        $receiver_user = $this->appointment_repo->getById($healthcare_provider->id);
+                        $sender_user = $this->appointment_repo->getById($request->user()->id);
+                        $notification_user = [
+                            'sender_id' => $request->user()->id,
+                            'receiver_id' => $healthcare_provider->id,
+                            'title' => 'Urgent Appointment',
+                            'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),
+                            'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                            'msg_type' => '1',
+                        ]; 
+                        Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
                         Log::info("Notification send ".date('H:i:s'));
                         sleep(15);
                     }else{
