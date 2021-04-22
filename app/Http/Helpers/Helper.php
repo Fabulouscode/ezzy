@@ -253,7 +253,7 @@ class Helper
                 'body'=>$notification['message'],
             )
         );
-        Log::info('data'.json_encode($data));
+        // Log::info('data'.json_encode($data));
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
         }
@@ -325,8 +325,8 @@ class Helper
             $response_arr =  json_decode($response, true);
             // Log::info('sendCurlRequest '.$response);
             if(isset($response_arr['success']) && $response_arr['success'] == 0) {
-                Log::info($response);
-                Log::info('Push Notification Send Failed');
+                // Log::info($response);
+                // Log::info('Push Notification Send Failed');
             }
         }
         return true;
