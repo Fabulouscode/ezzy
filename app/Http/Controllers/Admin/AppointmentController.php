@@ -36,7 +36,8 @@ class AppointmentController extends Controller
         if ($request->all()) {
             return $this->appointment_repo->getDatatable($request);
         }
-        return view('admin.appointment.index');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
+        return view('admin.appointment.index', compact('categories'));
     }
 
     /**
@@ -46,7 +47,9 @@ class AppointmentController extends Controller
      */
     public function getUpcomingAppointments()
     {
-        return view('admin.appointment.upcoming');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
+        $statuses = $this->appointment_repo->getStatusValue();
+        return view('admin.appointment.upcoming', compact('categories','statuses'));
     }
   
     /**
@@ -56,7 +59,8 @@ class AppointmentController extends Controller
      */
     public function getCancelAppointments()
     { 
-           return view('admin.appointment.cancel');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
+        return view('admin.appointment.cancel', compact('categories'));
     }
 
     /**
@@ -105,7 +109,8 @@ class AppointmentController extends Controller
         if ($request->all()) {
             return $this->appointment_repo->getReviewDatatable($request);
         }
-        return view('admin.appointment.reviews');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
+        return view('admin.appointment.reviews', compact('categories'));
     }
 
     /**

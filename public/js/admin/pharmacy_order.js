@@ -1,6 +1,9 @@
 
 $(function () {
     $("form[name='pharmacy_order_form']").parsley();
+    $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
+    $('#end_date').val(moment().format("YYYY-MM-DD"));
+
     $('#pharmacy_order_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -12,12 +15,18 @@ $(function () {
             url: pharmacy_order_url,
             type: 'get',
             dataType: "json",
-            async: true
+            async: true,
+            data: {
+                status: function () { return $('#searchByStatus').val() },  
+                end_date: function () { return $('#end_date').val() },
+                start_date: function () { return $('#start_date').val() }    
+            }
         },
         columns: [
             { data: 'id', name: 'orders.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
@@ -75,6 +84,24 @@ $(function () {
                     .insertAfter(this);
             });
         }
+    });
+
+    $('#searchByStatus').on('change', function (ev, picker) {
+        var oTable = $('#pharmacy_order_datatable').dataTable();
+        oTable.fnDraw(false);
+    });
+
+    $('#order-date-range').daterangepicker({
+        startDate: moment().subtract(3, 'months'),
+        endDate: moment(),
+        maxDate: moment()
+    });
+    $('#order-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        var oTable = $('#pharmacy_order_datatable').dataTable();
+        oTable.fnDraw(false);
+        // $('#user_transaction_datatable').DataTable().ajax.reload();
     });
 
 });

@@ -27,6 +27,31 @@
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
+                    <!-- Custom Filter -->
+                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                        <label>Advanced Filter</label>
+                        <div class="row mb-3">                               
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Date Range</label>
+                                    <input type="text" class="form-control" name="date_range" id="order-date-range"  />
+                                    <input type="hidden" class="form-control" id="start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="end_date" name="end_date"  />     
+                                </div>
+                            </div>          
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select id="searchByStatus" name="status" class="form-control">
+                                        <option value=''>Select Status</option>
+                                        @foreach($statuses as $key=>$value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="table-responsive">
                         <table id="pharmacy_order_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -35,6 +60,7 @@
                                     <th>Id</th>
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
+                                    <th>Created Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

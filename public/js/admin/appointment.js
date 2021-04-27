@@ -1,6 +1,8 @@
 
 $(function () {
     $("form[name='appointment_form']").parsley();
+    $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
+    $('#end_date').val(moment().format("YYYY-MM-DD"));
 
     $('#appointments_datatable').DataTable({
         lengthChange: true,
@@ -13,7 +15,12 @@ $(function () {
             type: 'get',
             dataType: "json",
             async: true,
-            data: data_obj
+            data: {
+                status: (data_status != '') ? data_status : function () { return $('#searchByStatus').val() },
+                category_id: function () { return $('#searchByHcpType').val() },     
+                end_date: function () { return $('#end_date').val() },
+                start_date: function () { return $('#start_date').val() }    
+            }
         },
         columns: [
             { data: 'id', name: 'appointments.id', searchable: false },
@@ -81,6 +88,23 @@ $(function () {
         }
     });
 
+    $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
+        var oTable = $('#appointments_datatable').dataTable();
+        oTable.fnDraw(false);
+    });
+
+    $('#appointment-date-range').daterangepicker({
+        startDate: moment().subtract(3, 'months'),
+        endDate: moment(),
+        maxDate: moment()
+    });
+    $('#appointment-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        var oTable = $('#appointments_datatable').dataTable();
+        oTable.fnDraw(false);
+        // $('#user_transaction_datatable').DataTable().ajax.reload();
+    });
 
 });
 

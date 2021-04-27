@@ -4,6 +4,9 @@ $(function () {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var searchHCPtype = url.searchParams.get("hcp_type");
+    $('#user_start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
+    $('#user_end_date').val(moment().format("YYYY-MM-DD"));
+
     $('#user_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -17,7 +20,15 @@ $(function () {
             type: 'post',
             dataType: "json",
             async: true,
-            data: data_obj
+            data: {
+                status : data_status, 
+                category_id : data_category_id, 
+                provider : data_provider, 
+                filter_status: function () { return $('#searchByStatus').val() },               
+                subcategory_id: function () { return $('#searchByHcpType').val() }, 
+                start_date: function () { return $('#user_start_date').val() },
+                end_date: function () { return $('#user_end_date').val() }                  
+            }
         },
         columns: [
             { data: 'id', name: 'users.id', searchable: false },
@@ -222,6 +233,22 @@ $(function () {
     //     order: [[0, 'desc']]
     // });
 
+    $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
+        var oTable = $('#user_datatable').dataTable();
+        oTable.fnDraw(false);
+    });
+
+    $('#user-date-range').daterangepicker({
+        startDate: moment().subtract(1, 'years'),
+        endDate: moment(),
+        maxDate: moment()
+    });
+    $('#user-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        var oTable = $('#user_datatable').dataTable();
+        oTable.fnDraw(false);
+    });
 
     $('#transaction-date-range').daterangepicker({
         startDate: moment().subtract(30, 'days'),

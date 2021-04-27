@@ -152,24 +152,40 @@ class UserRepository extends Repository
      */
     public function getWithRelationship($request)
     {
+        DB::enableQueryLog();
         $query = $this->model->select('users.*')->with(['categoryChild','categoryParent']);    
         if(!empty($request->category_id)){
             $query = $query->whereHas('categoryParent', function ($query) use ($request) {
                 $query->where('parent_id', $request->category_id);
             });
-
+            
+            if(!empty($request->subcategory_id)){
+                $query = $query->where('users.category_id', $request->subcategory_id);
+            }
+            
             if(is_array($request->status)){
-                $query = $query->whereIn('status', $request->status);
+                $query = $query->whereIn('users.status', $request->status);
             }else{
-                $query = $query->where('status', $request->status);
+                $query = $query->where('users.status', $request->status);
             }
         }else{
-            $query = $query->whereNull('category_id');
-            $query = $query->whereNull('subcategory_id');
+            $query = $query->whereNull('users.category_id');
+            $query = $query->whereNull('users.subcategory_id');
         }
+
+        if(!empty($request->filter_status) || $request->filter_status == '0'){
+            $query = $query->where('users.status', $request->filter_status);
+        } 
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('users.created_at', '>=',$request->start_date)->whereDate('users.created_at' , '<=',$request->end_date);
+        }
+
         $query = $query->leftJoin('categories as categoryParent', 'users.category_id', '=', 'categoryParent.id')
                         ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id');;
         // $query = $query->orderBy('id','desc')->get();
+        // print_r(DB::getQueryLog());
+        // die;
         return $query;
     }
     

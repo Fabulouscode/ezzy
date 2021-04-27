@@ -48,9 +48,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($provider = 'patients')
-    {   
+    {           
+        $categories = [];
+        if($provider == 'healthcare'){
+            $categories = $this->category_repo->getByParentId('1');
+        }else if($provider == 'laboratories'){
+            $categories = $this->category_repo->getByParentId('3');
+        }
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.index', compact('provider','provider_names'));
+        return view('admin.provider.index', compact('provider','provider_names','categories'));
     }
     
     /**
@@ -60,8 +66,14 @@ class UserController extends Controller
      */
     public function getPending($provider = '')
     {
+        $categories = [];
+        if($provider == 'healthcare'){
+            $categories = $this->category_repo->getByParentId('1');
+        }else if($provider == 'laboratories'){
+            $categories = $this->category_repo->getByParentId('3');
+        }
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.pending', compact('provider','provider_names'));
+        return view('admin.provider.pending', compact('provider','provider_names','categories'));
     }
     
     

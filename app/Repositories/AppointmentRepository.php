@@ -139,6 +139,17 @@ class AppointmentRepository extends Repository
                 });
             });
         }
+       
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('user', function($query) use ($request){
+                    $query->where('category_id', $request->category_id);
+            });
+        }
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('appointments.appointment_date', '>=',$request->start_date)->whereDate('appointments.appointment_date' , '<=',$request->end_date);
+        }
+
 
         $query = $query->leftJoin('users as user', 'appointments.user_id', '=', 'user.id')
         ->leftJoin('users as client', 'appointments.client_id', '=', 'client.id')
@@ -838,9 +849,13 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getbyClientIdToCheckAppointment($client_id)
+    public function getbyClientIdToCheckAppointment($client_id, $request)
     {   
-        return $this->model->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2])->first();
+        if(!empty($request->user()->category_id)){
+            return $this->model->where('user_id', $request->user()->id)->where('client_id', $client_id)->where('appointment_type','2')->whereIN('status',[2])->first();
+        }else{
+            return $this->model->where('user_id', $client_id)->where('client_id', $request->user()->id)->where('appointment_type','2')->whereIN('status',[2])->first();
+        }
     }
 
     

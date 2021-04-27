@@ -27,6 +27,44 @@
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/category/create')}}" class="btn btn-info">Add Appointments</a>
                     </div> -->
+                    <!-- Custom Filter -->
+                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                        <label>Advanced Filter</label>
+                        <div class="row mb-3">                       
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Hcp Type</label>
+                                    <select id="searchByHcpType" name="category_id" class="form-control">
+                                        <option value=''>Select Hcp Type</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endforeach
+                                    </select>       
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Date Range</label>
+                                    <input type="text" class="form-control" name="date_range" id="appointment-date-range"  />
+                                    <input type="hidden" class="form-control" id="start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="end_date" name="end_date"  />     
+                                </div>
+                            </div>                            
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select id="searchByStatus" name="status" class="form-control">
+                                        <option value=''>Select Status</option>
+                                        @foreach($statuses as $key=>$value)
+                                            @if($key != '5' && $key != '6')
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="table-responsive">
                         <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -56,7 +94,8 @@
 @section('script')
 <script>
     var appointment_url = "{{url('/appointment')}}";
-    var data_obj = {'status': '' }
+    var data_obj = {};
+    var data_status = '';
 </script>
 <script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

@@ -214,6 +214,7 @@
 <script>
     var appointment_url = "{{url('/appointment')}}";
     var data_obj = {};
+    var data_status = '';
 </script>
 <script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

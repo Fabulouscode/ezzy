@@ -1054,8 +1054,8 @@ class AppointmentController extends BaseApiController
     }
 
 
-    public function getAppointmentProgressByUserId($client_id){
-        $data = $this->appointment_repo->getbyClientIdToCheckAppointment($client_id); 
+    public function getAppointmentProgressByUserId(Request $request, $client_id){
+        $data = $this->appointment_repo->getbyClientIdToCheckAppointment($client_id, $request); 
         return self::sendSuccess($data, 'Appointment get data');
     }
 

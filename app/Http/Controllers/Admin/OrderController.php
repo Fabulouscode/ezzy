@@ -30,7 +30,8 @@ class OrderController extends Controller
         if($request->all()){
             return $this->order_repo->getDatatable($request);
         }
-        return view('admin.order.index');
+        $statuses = $this->order_repo->getStatusValue();
+        return view('admin.order.index', compact('statuses'));
     }
 
     /**

@@ -299,7 +299,10 @@
 @section('script')
 <script>
     var user_url = "{{url('/user')}}";
-     var data_obj = {};
+    var data_obj = {};
+    var data_status = '';
+    var data_category_id = '';
+    var data_provider = '';
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

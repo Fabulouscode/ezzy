@@ -159,9 +159,15 @@ class OrderRepository extends Repository
     public function getWithRelationship($request)
     {
         $query = $this->model->select('orders.*')->with(['clientDetails','userDetails']);    
-        if(isset($request->status) && $request->status != ''){
+          
+        if(isset($request->status)){
             $query = $query->where('orders.status', $request->status);
+        } 
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('orders.created_at', '>=',$request->start_date)->whereDate('orders.created_at' , '<=',$request->end_date);
         }
+
         $query = $query->leftJoin('users as user', 'orders.user_id', '=', 'user.id')
                         ->leftJoin('users as client', 'orders.client_id', '=', 'client.id');
         // $query = $query->orderBy('id','desc')->get();
@@ -243,7 +249,15 @@ class OrderRepository extends Repository
                     $query->orderBy('client.first_name', $order);
                 })
 
-                ->rawColumns(['action','status'])
+                ->editColumn('created_at',function($selected)
+                {                   
+                     return $this->getDateTimeFormate($selected->created_at);
+                })
+                ->orderColumn('created_at', function ($query, $order) {
+                    $query->orderBy('orders.created_at', $order);
+                })
+
+                ->rawColumns(['action','status','created_at'])
                 ->make(true);
         
     }
