@@ -12,7 +12,10 @@ $(function () {
             url: payout_url + '/data',
             type: 'post',
             dataType: "json",
-            data: payout_obj,
+            data: {
+                payout_status : payout_status,
+                category_id :  function () { return $('#searchByHcpType').val() },
+            },
             async: true
         },
         columns: [
@@ -47,7 +50,10 @@ $(function () {
             url: payout_url,
             type: 'get',
             dataType: "json",
-            async: true
+            async: true,
+            data: {
+                category_id :  function () { return $('#searchByHcpType').val() },
+            },
         },
         columns: [
             { data: 'user_name', name: 'User Name' },
@@ -132,6 +138,13 @@ $(function () {
             },
         });
         return false;
+    });
+
+    $('#searchByHcpType').on('change', function (ev, picker) {
+        var oTable = $('#payout_paid_datatable').dataTable();
+        oTable.fnDraw(false);
+        var oTable = $('#payout_datatable').dataTable();
+        oTable.fnDraw(false);
     });
 });
 

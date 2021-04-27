@@ -327,7 +327,13 @@ class UserTransactionRepository extends Repository
         if(isset($request->payout_status)){
             $query = $query->where('payout_status', '!=', '0');
         }
-        
+
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('client', function ($query) use ($request) {
+                $query->where('category_id', $request->category_id);
+            });
+        }
+
         $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id')->orderBy('id','desc')->get();
 
         return $query;

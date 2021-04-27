@@ -27,7 +27,23 @@
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
-
+                    <!-- Custom Filter -->
+                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                        <label>Advanced Filter</label>
+                        <div class="row mb-3">                       
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Hcp Type</label>
+                                    <select id="searchByHcpType" name="category_id" class="form-control">
+                                        <option value=''>Select Hcp Type</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endforeach
+                                    </select>       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="payout_paid_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -55,6 +71,7 @@
 <script>
     var payout_url = "{{url('/payout')}}";
     var payout_obj = {'payout_status':'0'};
+    var payout_status = 0;
     var payout_history = {};
 </script>
 <script src="{{ asset('js/admin/payout.js') }}" ></script>

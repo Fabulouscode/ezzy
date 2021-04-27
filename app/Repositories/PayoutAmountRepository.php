@@ -44,11 +44,17 @@ class PayoutAmountRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getWithRelationship($request)
     {
         $query = $this->model->select('*')->addSelect(DB::raw('sum(payable_amount) as payable_amount'))
         ->addSelect(DB::raw('sum(amount) as amount'))
         ->addSelect(DB::raw('sum(deduction_amount) as deduction_amount'));
+     
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('user', function ($query) use ($request) {
+                $query->where('category_id', $request->category_id);
+            });
+        }
         
         $query = $query->groupBy('user_id')->orderBy('id','desc')->get();
         return $query;
@@ -61,7 +67,7 @@ class PayoutAmountRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)        
                 ->editColumn('user_name', function($selected) use ($request) { 
                     return $selected->user ? $selected->user->user_name : '-';      

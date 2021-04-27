@@ -55,6 +55,7 @@
     var payout_url = "{{url('/payout')}}";
     var payout_obj = {'payout_status':''};    
     var payout_history = {'user_id': {{$id}}};
+    var payout_status = '';
 </script>
 <script src="{{ asset('js/admin/payout.js') }}" ></script>
 @endsection

@@ -7,19 +7,21 @@ use Illuminate\Http\Request;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\PayoutAmountRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\CategoryRepository;
 use App\Http\Requests\Admin\PayoutAmountRequest;
 use App\Exports\UserPayoutExport;
 use Excel;
 
 class PayoutAmountController extends Controller
 {
-    private $user_transaction_repo, $payout_amount_repo, $user_repo;
+    private $user_transaction_repo, $payout_amount_repo, $user_repo, $category_repo;
 
-    public function __construct(UserRepository $user_repo, PayoutAmountRepository $payout_amount_repo,UserTransactionRepository $user_transaction_repo)
+    public function __construct(CategoryRepository $category_repo, UserRepository $user_repo, PayoutAmountRepository $payout_amount_repo,UserTransactionRepository $user_transaction_repo)
     {
         $this->user_transaction_repo = $user_transaction_repo;
         $this->payout_amount_repo = $payout_amount_repo;
         $this->user_repo = $user_repo;
+        $this->category_repo = $category_repo;
     }
 
     /**
@@ -32,7 +34,8 @@ class PayoutAmountController extends Controller
         if($request->all()){
             return $this->payout_amount_repo->getDatatable($request);
         }
-        return view('admin.payout.index');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
+        return view('admin.payout.index', compact('categories'));
     }
  
     /**
@@ -55,7 +58,8 @@ class PayoutAmountController extends Controller
      */
     public function getPendingPayout(Request $request)
     {
-        return view('admin.payout.pending');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
+        return view('admin.payout.pending', compact('categories'));
     }
   
     /**
