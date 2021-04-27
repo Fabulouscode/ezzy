@@ -130,7 +130,8 @@ class Order extends Model
                                 'id'=>$this->clientDetails->id,
                                 'user_name'=>$this->clientDetails->user_name,
                                 'profile_image'=>$this->clientDetails->profile_image,
-                                'address'=>(!empty($this->clientDetails->userPrimaryAddress)) ? $this->clientDetails->userPrimaryAddress->address : '',
+                                'address'=>(!empty($this->userLocationDetails)) ? $this->userLocationDetails->address : '',
+                                'user_location'=>(!empty($this->userLocationDetails)) ? $this->userLocationDetails : NULL,
                                 'mobile'=>(!empty($this->clientDetails->mobile_no_country_code)) ? $this->clientDetails->mobile_no_country_code : '',
                             ]:'',
             'user'=>(isset($this->userDetails))?

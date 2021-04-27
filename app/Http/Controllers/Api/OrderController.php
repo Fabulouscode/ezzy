@@ -125,7 +125,8 @@ class OrderController extends BaseApiController
                                                         [
                                                             'id'=>$response->clientDetails->id,
                                                             'user_name'=>$response->clientDetails->user_name,
-                                                            'profile_image'=>$response->clientDetails->profile_image
+                                                            'profile_image'=>$response->clientDetails->profile_image,
+                                                            'user_location'=>(!empty($this->userLocationDetails)) ? $this->userLocationDetails : NULL,
                                                         ]:'',
                                         'user'=>(isset($response->userDetails))?
                                                         [
