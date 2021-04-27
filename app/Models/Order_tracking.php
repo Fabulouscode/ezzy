@@ -13,7 +13,7 @@ class Order_tracking extends Model
             '1' => 'Order Accepted',
             '2' => 'Order On the Way',
             '3' => 'Order Delivered',
-            '4' => 'Order Cancel',
+            '4' => 'Order Cancelled',
             '5' => 'Order Completed',
         );
 

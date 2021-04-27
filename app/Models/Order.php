@@ -15,7 +15,7 @@ class Order extends Model
         '1' => 'Accepted',
         '2' => 'Order Dispatch',        
         '3' => 'Success',
-        '4' => 'Cancel',
+        '4' => 'Cancelled',
         '5' => 'Payment Pending',
     );
 

@@ -391,7 +391,7 @@ class OrderController extends BaseApiController
             }else if($request->status == '3'){
                 $notification_message = 'Order Delivered';
             }else if($request->status == '4'){
-                $notification_message = 'Order Cancel';
+                $notification_message = 'Order Cancelled';
             }else{
                 $notification_message = 'Order Completed';
             } 

@@ -133,7 +133,7 @@ class CronJobContrller extends BaseApiController
                 $update = [
                     'status' => 6,
                     'cancel_date' => $this->appointment_repo->getCurrentDateTime(),
-                    'cancel_reason' => 'Appointment Cancel',
+                    'cancel_reason' => 'Appointment Cancelled',
                     'transaction_id' => NULL,
                 ];
                 
