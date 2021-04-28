@@ -41,7 +41,7 @@ $(function () {
                 $('#medical_item_status').val('');
                 $('#addMedicalItem').modal('hide');
                 var oTable = $('#medical_item_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -172,7 +172,7 @@ function deleteRow(row_id) {
                         )
                         toastr.success(data.msg, App_name_global);
                         var oTable = $('#medical_item_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, App_name_global);

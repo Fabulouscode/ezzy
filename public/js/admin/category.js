@@ -33,7 +33,7 @@ $(function () {
 
     $('#searchByHcpType').on('change', function (ev, picker) {
         var oTable = $('#category_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 });
 
@@ -62,7 +62,7 @@ function deleteRow(row_id) {
                         )
                         toastr.success(data.msg, App_name_global);
                         var oTable = $('#category_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, App_name_global);

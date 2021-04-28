@@ -53,7 +53,7 @@ function deleteRow(row_id) {
                         )
                         toastr.success(data.msg, App_name_global);
                         var oTable = $('#role_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, App_name_global);

@@ -41,7 +41,7 @@ $(function () {
                 $('#fees_percentage').val('');
                 $('#addManageFees').modal('hide');
                 var oTable = $('#manage_fees_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -180,7 +180,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#manage_fees_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {

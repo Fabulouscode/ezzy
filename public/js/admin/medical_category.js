@@ -39,7 +39,7 @@ $(function () {
                 $('#medical_category_status').val('');
                 $('#addMedicalCategory').modal('hide');
                 var oTable = $('#medical_category_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -155,7 +155,7 @@ function deleteRow(row_id) {
                         )
                         toastr.success(data.msg, App_name_global);
                         var oTable = $('#medical_category_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, App_name_global);

@@ -62,7 +62,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#static_pages_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {

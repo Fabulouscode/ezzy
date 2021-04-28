@@ -127,7 +127,7 @@ $(function () {
                 $('#notes').val('');
                 $('#addPayoutAmount').modal('hide');
                 var oTable = $('#payout_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -142,9 +142,9 @@ $(function () {
 
     $('#searchByHcpType').on('change', function (ev, picker) {
         var oTable = $('#payout_paid_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
         var oTable = $('#payout_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 });
 
@@ -202,7 +202,7 @@ function payout() {
                 a.remove();
                 toastr.success(response.msg, App_name_global);
                 var oTable = $('#payout_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
             },
             error: function (error) {
                 toastr.error(error.responseJSON.msg, App_name_global);
@@ -221,7 +221,7 @@ function Export() {
 
             toastr.success(data.msg, App_name_global);
             var oTable = $('#payout_datatable').dataTable();
-            oTable.fnDraw(false);
+            oTable.fnDraw(true);
         },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);

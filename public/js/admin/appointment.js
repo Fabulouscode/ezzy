@@ -91,7 +91,7 @@ $(function () {
 
     $('#searchByHcpType, #searchByStatus, #searchByAppointmentType').on('change', function (ev, picker) {
         var oTable = $('#appointments_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 
     $('#appointment-date-range').daterangepicker({
@@ -103,7 +103,7 @@ $(function () {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
         var oTable = $('#appointments_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();
     });
 
@@ -134,7 +134,7 @@ function deleteRow(row_id) {
                         )
                         toastr.success(data.msg, App_name_global);
                         var oTable = $('#appointments_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                     },
                     error: function (error) {
                         toastr.error(error.responseJSON.msg, App_name_global);

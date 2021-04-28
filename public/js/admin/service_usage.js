@@ -36,7 +36,7 @@ $(function () {
                 $('#service_usage_name').val('');
                 $('#addService').modal('hide');
                 var oTable = $('#service_usage_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -121,7 +121,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#service_usage_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {

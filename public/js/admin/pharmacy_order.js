@@ -88,7 +88,7 @@ $(function () {
 
     $('#searchByStatus').on('change', function (ev, picker) {
         var oTable = $('#pharmacy_order_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 
     $('#order-date-range').daterangepicker({
@@ -100,7 +100,7 @@ $(function () {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
         var oTable = $('#pharmacy_order_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();
     });
 
@@ -132,7 +132,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#pharmacy_order_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {

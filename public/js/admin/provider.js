@@ -235,7 +235,7 @@ $(function () {
 
     $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
         var oTable = $('#user_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 
     $('#user-date-range').daterangepicker({
@@ -247,7 +247,7 @@ $(function () {
         $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
         var oTable = $('#user_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
     });
 
     $('#transaction-date-range').daterangepicker({
@@ -259,7 +259,7 @@ $(function () {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
         var oTable = $('#user_transaction_datatable').dataTable();
-        oTable.fnDraw(false);
+        oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();
     });
 });
@@ -314,7 +314,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#user_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
@@ -351,7 +351,7 @@ function changeStatusRow(row_id, status) {
                             'success'
                         )
                         var oTable = $('#user_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {

@@ -37,7 +37,7 @@ $(function () {
                 $('#name').val('');
                 $('#addPermissionCategory').modal('hide');
                 var oTable = $('#permission_category_datatable').dataTable();
-                oTable.fnDraw(false);
+                oTable.fnDraw(true);
                 toastr.success(response.msg, App_name_global);
                 return false;
             },
@@ -139,7 +139,7 @@ function deleteRow(row_id) {
                             'success'
                         )
                         var oTable = $('#permission_category_datatable').dataTable();
-                        oTable.fnDraw(false);
+                        oTable.fnDraw(true);
                         toastr.success(data.msg, App_name_global);
                     },
                     error: function (error) {
