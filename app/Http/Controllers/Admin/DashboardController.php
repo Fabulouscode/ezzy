@@ -88,7 +88,7 @@ class DashboardController extends Controller
 
             $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('3');
             $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('4');
-            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2']);
+            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2','5']);
             
             $data['today_completed_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('3');
             $data['today_cancel_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('4');
@@ -136,7 +136,7 @@ class DashboardController extends Controller
             $data['orders'] = $this->order_repo->getOrderStatusWiseCount();
             $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount();
             $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('3');
-            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2']);
+            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2','5']);
             $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('4');
 
             $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount();             

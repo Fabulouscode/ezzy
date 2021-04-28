@@ -49,6 +49,7 @@
 @section('script')
 <script>
     var pharmacy_order_url = "{{url('pharmacy/order')}}";
+    var data_user_id = '';
 </script>
  <!-- Bootstrap rating js -->
 <script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>

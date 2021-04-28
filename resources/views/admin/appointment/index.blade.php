@@ -55,6 +55,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div className="form-group">
+                                    <label>Appointment Urgent</label>
+                                    <select id="searchByAppointmentUrgent" name="urgent" class="form-control">
+                                        <option value=''>Select Appointment Urgent</option>
+                                        <option value='0'>Not Urgent</option>
+                                        <option value='1'>Urgent</option>
+                                    </select>       
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div className="form-group">
                                     <label>Date Range</label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-date-range"  />
                                     <input type="hidden" class="form-control" id="start_date" name="start_date" />
@@ -93,7 +103,8 @@
 <script>
     var appointment_url = "{{url('/appointment')}}";
     var data_obj = {};
-    var data_status = '5'
+    var data_status = '5';
+    var data_user_id = '';
 </script>
 <script src="{{ asset('js/admin/appointment.js') }}" ></script>
 @endsection

@@ -19,7 +19,8 @@ $(function () {
             data: {
                 status: function () { return $('#searchByStatus').val() },  
                 end_date: function () { return $('#end_date').val() },
-                start_date: function () { return $('#start_date').val() }    
+                start_date: function () { return $('#start_date').val() },
+                user_id: data_user_id  
             }
         },
         columns: [

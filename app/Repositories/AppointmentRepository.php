@@ -56,7 +56,7 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAppointmentStatusWiseCount($status = '', $provider = '')
+    public function getAppointmentStatusWiseCount($status = '', $provider = '', $user_id = '')
     {
         $query = $this->model;
         
@@ -74,6 +74,10 @@ class AppointmentRepository extends Repository
             });
         }
         
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+
         $query = $query->orderBy('id','desc')->count();
 
         return $query;
@@ -85,7 +89,73 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTodayAppointmentStatusWiseCount($status = '', $provider = '')
+    public function getAppointmentTypeWiseCount($appointment_type = '', $provider = '', $user_id = '')
+    {
+        $query = $this->model;
+        
+        if($appointment_type != ''){
+            $query = $query->where('appointment_type', $appointment_type);
+        }
+
+        $query = $query->whereNotNull('user_id');
+
+        if($provider != ''){
+            $query = $query->whereHas('user', function($query) use ($provider){
+                $query = $query->whereHas('categoryParent', function($query) use ($provider){
+                    $query->where('parent_id', $provider);
+                });
+            });
+        }
+
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+
+        return $query;
+
+    }
+  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentTypeUrgentWiseCount($urgent = '', $provider = '', $user_id = '')
+    {
+        $query = $this->model;
+        
+        if($urgent != ''){
+            $query = $query->where('urgent', $urgent);
+        }
+
+        $query = $query->whereNotNull('user_id');
+
+        if($provider != ''){
+            $query = $query->whereHas('user', function($query) use ($provider){
+                $query = $query->whereHas('categoryParent', function($query) use ($provider){
+                    $query->where('parent_id', $provider);
+                });
+            });
+        }
+
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+        
+        $query = $query->orderBy('id','desc')->count();
+
+        return $query;
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTodayAppointmentStatusWiseCount($status = '', $provider = '', $user_id = '')
     {
         $query = $this->model;
         
@@ -111,6 +181,10 @@ class AppointmentRepository extends Repository
             });
         }
 
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+
         $query = $query->orderBy('id','desc')->count();
         
         return $query;
@@ -125,10 +199,17 @@ class AppointmentRepository extends Repository
     {
         
         $query = $this->model->select('appointments.*')->with(['user','client','user.categoryParent','user.categoryChild']);    
-        if(isset($request->status) && $request->status != ''){
+        
+        if(isset($request->filter_status) && $request->filter_status != ''){
+            $query = $query->where('appointments.status', $request->filter_status);
+        }else if(is_array($request->status) && count($request->status) > 0){
+            $query = $query->whereNotIn('appointments.status', $request->status);       
+        }else if(isset($request->status) && $request->status != ''){
             $query = $query->where('appointments.status', $request->status);
-        }else{
-            $query = $query->whereNotIn('appointments.status',['5','6']);           
+        }
+     
+        if(!empty($request->user_id)){
+            $query = $query->where('appointments.user_id', $request->user_id);
         }
 
         $query = $query->whereNotNull('appointments.user_id');
@@ -149,6 +230,10 @@ class AppointmentRepository extends Repository
 
         if(isset($request->appointment_type) && $request->appointment_type != ''){
             $query = $query->where('appointments.appointment_type', $request->appointment_type);
+        }
+       
+        if(isset($request->urgent) && $request->urgent != ''){
+            $query = $query->where('appointments.urgent', $request->urgent);
         }
         
         if(!empty($request->start_date) && !empty($request->end_date)){

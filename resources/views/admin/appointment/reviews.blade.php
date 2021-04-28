@@ -51,6 +51,8 @@
     var appointment_url = "{{url('/appointment')}}";
     var data_obj = {};
     var data_status = '';
+    var data_user_id = '';
+    var data_urgent = '';
 </script>
  <!-- Bootstrap rating js -->
 <script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>

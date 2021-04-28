@@ -117,7 +117,7 @@ class OrderRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getOrderStatusWiseCount($status = '')
+    public function getOrderStatusWiseCount($status = '', $user_id = '')
     {
         $query = $this->model;
         
@@ -127,6 +127,10 @@ class OrderRepository extends Repository
             $query = $query->where('status', $status);
         }
         
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+
         $query = $query->orderBy('id','desc')->count();
         return $query;
     }
@@ -136,7 +140,28 @@ class OrderRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTodayOrderStatusWiseCount($status = '')
+    public function getOrderTypeWiseCount($order_type = '', $user_id = '')
+    {
+        $query = $this->model;
+        
+        if($order_type != ''){
+            $query = $query->where('delivery_type', $order_type);
+        }
+        
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
+        }
+
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
+    }
+   
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTodayOrderStatusWiseCount($status = '', $user_id = '')
     {
         
         $query = $this->model->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'));
@@ -145,6 +170,10 @@ class OrderRepository extends Repository
             $query = $query->whereIn('status', $status);
         }else if($status != ''){
             $query = $query->where('status', $status);
+        }
+
+        if(!empty($user_id)){
+            $query = $query->where('user_id', $user_id);
         }
         
         $query = $query->orderBy('id','desc')->count();
@@ -162,6 +191,10 @@ class OrderRepository extends Repository
           
         if(isset($request->status)){
             $query = $query->where('orders.status', $request->status);
+        } 
+        
+        if(!empty($request->user_id)){
+            $query = $query->where('orders.user_id', $request->user_id);
         } 
 
         if(!empty($request->start_date) && !empty($request->end_date)){

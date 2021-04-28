@@ -12,6 +12,7 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserServiceRepository;
 use App\Repositories\NotificationRepository;
+use App\Repositories\OrderRepository;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -19,7 +20,7 @@ use DB;
 class UserController extends Controller
 {
 
-    private $user_repo, $category_repo, $notification_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
+    private $user_repo, $order_repo, $category_repo, $notification_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -29,7 +30,8 @@ class UserController extends Controller
         UserTransactionRepository $user_trans_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         UserServiceRepository $user_service_repo,
-        NotificationRepository $notification_repo
+        NotificationRepository $notification_repo,
+        OrderRepository $order_repo
         )
     {
         $this->user_repo = $user_repo;
@@ -40,6 +42,7 @@ class UserController extends Controller
         $this->user_service_repo = $user_service_repo;
         $this->user_details_repo = $user_details_repo;
         $this->notification_repo = $notification_repo;
+        $this->order_repo = $order_repo;
     }
      
     /**
@@ -299,6 +302,64 @@ class UserController extends Controller
         }catch(\Exception $e){
             return response()->json(['msg'=>'Can not get wallet balance'], 500);
         }  
+    }
+
+    public function showUserInfoDetails(Request $request, $provider = '', $id)
+    {
+        if($provider == 'healthcare'){
+            $statuses = $this->appointment_repo->getStatusValue();
+            $data = [];
+            $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount('', '1', $id);
+            $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount('', '1', $id);
+
+            $data['upcoming_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['0','1','2','3','4'], '1', $id);
+            $data['completed_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['5'], '1', $id);
+            $data['cancel_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['6'], '1', $id);   
+
+            $data['clinic_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('0', '1', $id);    
+            $data['home_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('1', '1', $id);    
+            $data['video_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('2', '1', $id);
+
+            $data['urgent_appointments'] = $this->appointment_repo->getAppointmentTypeUrgentWiseCount('0', '1', $id);    
+            $data['nonurgent_appointments'] = $this->appointment_repo->getAppointmentTypeUrgentWiseCount('1', '1', $id);    
+           
+            $user = $this->user_repo->getById($id);
+            
+            return view('admin.healthcare.history',compact('id','statuses','data','user'));
+        }else if($provider == 'pharmacy'){
+            $statuses = $this->order_repo->getStatusValue();
+            $data = [];
+            $data['orders'] = $this->order_repo->getOrderStatusWiseCount('', $id);
+            $data['today_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('', $id);
+
+            $data['completed_orders'] = $this->order_repo->getOrderStatusWiseCount('3', $id);
+            $data['cancel_orders'] = $this->order_repo->getOrderStatusWiseCount('4', $id);
+            $data['pending_orders'] = $this->order_repo->getOrderStatusWiseCount(['0','1','2','5'], $id);
+
+            $data['home_orders'] = $this->order_repo->getOrderTypeWiseCount('0', $id);    
+            $data['pick_orders'] = $this->order_repo->getOrderTypeWiseCount('1', $id);
+            
+            $user = $this->user_repo->getById($id);
+
+            return view('admin.pharmacy.history',compact('id','statuses','data','user'));
+        }else if($provider == 'laboratories'){
+            $statuses = $this->appointment_repo->getStatusValue();
+            $data = [];
+            $data['appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount('', '3', $id);
+            $data['today_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount('', '3', $id);
+
+            $data['upcoming_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['0','1','2','3','4'], '3', $id);
+            $data['completed_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['5'], '3', $id);
+            $data['cancel_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['6'], '3', $id);    
+
+            $data['clinic_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('0', '3', $id);    
+            $data['home_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('1', '3', $id);    
+            $data['video_appointments'] = $this->appointment_repo->getAppointmentTypeWiseCount('2', '3', $id); 
+            
+            $user = $this->user_repo->getById($id);
+
+            return view('admin.laboratories.history',compact('id','statuses','data','user'));
+        }
     }
 
     public function showMedicineDetails($id ='', Request $request)

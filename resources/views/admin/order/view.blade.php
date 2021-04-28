@@ -330,6 +330,7 @@
 @section('script')
 <script>
     var pharmacy_order_url = "{{url('/pharmacy/order')}}";
+    var data_user_id = '';
 </script>
 <script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>
 @endsection

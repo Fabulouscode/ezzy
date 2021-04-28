@@ -85,6 +85,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('{provider?}/user/account/payment/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
         Route::get('{provider?}/user/services/{id?}', 'UserController@showHCPService')->middleware('role-permission:{provider}-services');        
         Route::get('pharmacy/user/medicine/{id?}', 'UserController@showMedicineDetails')->middleware('role-permission:pharmacy-services');
+        Route::get('{provider?}/user/info/{id?}', 'UserController@showUserInfoDetails')->middleware('role-permission:{provider}-list');
         Route::resource('user', 'UserController');
 
         // Medicine Category routes

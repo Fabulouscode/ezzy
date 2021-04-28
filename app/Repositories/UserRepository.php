@@ -223,6 +223,7 @@ class UserRepository extends Repository
                                     $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                                 }else{
                                     $data .=  '<a href="'.url($request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                                    $data .=  '<a href="'.url($request->provider.'/user/info/'.$selected->id).'" class="btn btn-sm btn-info" title="User Info"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;';
                                 }
                             }
                         }
