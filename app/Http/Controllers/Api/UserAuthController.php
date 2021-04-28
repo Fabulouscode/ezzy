@@ -68,7 +68,7 @@ class UserAuthController extends BaseApiController
                 // }
                 $user = $this->user_repo->registerWithMobileno($request);
                 if(!empty($user) && !empty($user->id)){
-                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
+                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
                 }
                 DB::commit();
                 return self::sendSuccess([
@@ -147,7 +147,7 @@ class UserAuthController extends BaseApiController
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $this->user_repo->removeOauthAccessTokens($user->id);
                 if(!empty($user) && !empty($user->id)){
-                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id], $user->id);
+                    $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
                 }
                 
                 if(!empty($request->env)){
