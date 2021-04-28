@@ -793,6 +793,7 @@ class UserRepository extends Repository
      */
     public function getHealthcareProvidersUrgent($request)
     {   
+        // DB::enableQueryLog();
         \Log::info("HealthcareProvidersUrgent request ".json_encode($request->all()));
         $query = $this->model->select('users.*'); 
 
@@ -878,10 +879,15 @@ class UserRepository extends Repository
             $query = $query->limit($this->api_data_limit);    
         } else{
             $query = $query->offset(0)->limit(5);  
-        }         
-        
-        $query = $query->where('status', '0')->get();
-        
+        }    
+
+        $current_time  =  Carbon::now();
+        $current_time = $current_time->subHour(12);
+        $current_time = $current_time->format('Y-m-d H:i:s');   
+
+        $query = $query->where('users.status', '0')->where('users.updated_at', '>=', $current_time)->get();
+        // print_r(DB::getQueryLog());
+        // die;
         return $query;
     }
 
