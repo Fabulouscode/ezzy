@@ -44,6 +44,17 @@
                             </div>
                             <div class="col-md-3">
                                 <div className="form-group">
+                                    <label>Appointment Type</label>
+                                    <select id="searchByAppointmentType" name="appointment_type" class="form-control">
+                                        <option value=''>Select Appointment Type</option>
+                                        <option value='0'>Clinic</option>
+                                        <option value='1'>Home</option>
+                                        <option value='2'>Video</option>
+                                    </select>       
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div className="form-group">
                                     <label>Date Range</label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-date-range"  />
                                     <input type="hidden" class="form-control" id="start_date" name="start_date" />

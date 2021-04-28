@@ -19,7 +19,8 @@ $(function () {
                 status: (data_status != '') ? data_status : function () { return $('#searchByStatus').val() },
                 category_id: function () { return $('#searchByHcpType').val() },     
                 end_date: function () { return $('#end_date').val() },
-                start_date: function () { return $('#start_date').val() }    
+                start_date: function () { return $('#start_date').val() },    
+                appointment_type: function () { return $('#searchByAppointmentType').val() }    
             }
         },
         columns: [
@@ -88,7 +89,7 @@ $(function () {
         }
     });
 
-    $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
+    $('#searchByHcpType, #searchByStatus, #searchByAppointmentType').on('change', function (ev, picker) {
         var oTable = $('#appointments_datatable').dataTable();
         oTable.fnDraw(false);
     });

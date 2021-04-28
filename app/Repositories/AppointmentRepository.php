@@ -123,6 +123,7 @@ class AppointmentRepository extends Repository
      */
     public function getWithRelationship($request)
     {
+        
         $query = $this->model->select('appointments.*')->with(['user','client','user.categoryParent','user.categoryChild']);    
         if(isset($request->status) && $request->status != ''){
             $query = $query->where('appointments.status', $request->status);
@@ -146,6 +147,10 @@ class AppointmentRepository extends Repository
             });
         }
 
+        if(isset($request->appointment_type) && $request->appointment_type != ''){
+            $query = $query->where('appointments.appointment_type', $request->appointment_type);
+        }
+        
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('appointments.appointment_date', '>=',$request->start_date)->whereDate('appointments.appointment_date' , '<=',$request->end_date);
         }
