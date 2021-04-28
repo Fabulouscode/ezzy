@@ -23,11 +23,38 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    @can('hcp_type-add')
-                    <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/category/create')}}" class="btn btn-info">Add Health Care Provider Type</a>
+                    <!-- Custom Filter -->
+                    <div class="row col-md-12">
+                        <div class="col-md-6">
+                            <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                                <label>Advanced Filter</label>
+                                <div class="row mb-3">                       
+                                    <div class="col-md-6">
+                                        <div className="form-group">
+                                            <label>Hcp Type</label>
+                                            <select id="searchByHcpType" name="category_id" class="form-control">
+                                                <option value=''>Select Hcp Type</option>
+                                                <option value="1">Healthcare Provider</option>
+                                                <option value="2">Medicine</option>
+                                                <option value="3">Laboratories</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                                @endforeach
+                                            </select>       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @can('hcp_type-add')
+                                <div class="block-options-item mb-3 mr-3 float-right">
+                                    <a href="{{url('/category/create')}}" class="btn btn-info">Add Health Care Provider Type</a>
+                                </div>
+                            @endcan
+                        </div>
                     </div>
-                    @endcan
+
 
                     <div class="table-responsive">
                         <table id="category_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

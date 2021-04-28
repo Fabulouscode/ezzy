@@ -12,6 +12,9 @@ $(function () {
             type: 'get',
             dataType: "json",
             async: true,
+            data: {
+                parent_id: function () { return $('#searchByHcpType').val() }, 
+            }
         },
         columns: [
             { data: 'id', name: 'categories.id', searchable: false },
@@ -27,6 +30,11 @@ $(function () {
         }
     });
 
+
+    $('#searchByHcpType').on('change', function (ev, picker) {
+        var oTable = $('#category_datatable').dataTable();
+        oTable.fnDraw(false);
+    });
 });
 
 function deleteRow(row_id) {

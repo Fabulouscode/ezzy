@@ -1013,7 +1013,7 @@ class AppointmentController extends BaseApiController
         view()->share(['data' => $data, 'status' => $status,'currency_symbol' => $currency_symbol]);
         //  return view('invoice.appointment');
         $pdf = PDF::loadView('invoice.appointment', [$data, $status, $currency_symbol]);
-        $pdf_file = $this->appointment_repo->uploadPDFFile($pdf->output(), 'pdf/appointment_invoice'); 
+        $pdf_file = $this->appointment_repo->uploadPDFFile($pdf->output(), 'pdf/appointment_invoice','appointment_invoice'); 
         $file_url = url('storage/'.$pdf_file);
         return self::sendSuccess($file_url, 'Appointment Invoice get');
     }

@@ -372,9 +372,9 @@ class Repository
     /**
      * File Upload
      */  
-    public function uploadPDFFile($file, $folderPath){
+    public function uploadPDFFile($file, $folderPath, $file_name = 'order_invoice'){
          if(!empty($file)) {       
-            $orignalfileName = 'order_invoice.pdf';
+            $orignalfileName = $file_name.'.pdf';
             $storagePath = $folderPath.'/'. time() .'_'.$orignalfileName;
             Storage::disk('local')->put('/public/'.$storagePath, $file);
             return $storagePath;

@@ -234,7 +234,7 @@ class ChatController extends BaseApiController
         view()->share(['data' => $data,'currency_symbol' => $currency_symbol]);
         // return view('invoice.treatment_plan');
         $pdf = PDF::loadView('invoice.treatment_plan', [$data, $currency_symbol]);
-        $pdf_file = $this->chat_history_repo->uploadPDFFile($pdf->output(), 'pdf/treatment_plan'); 
+        $pdf_file = $this->chat_history_repo->uploadPDFFile($pdf->output(), 'pdf/treatment_plan','treatment_plan'); 
         $file_url = url('storage/'.$pdf_file);
         return self::sendSuccess($file_url, 'Treatment plan Invoice get');
     }

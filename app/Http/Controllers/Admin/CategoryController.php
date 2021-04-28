@@ -26,7 +26,8 @@ class CategoryController extends Controller
         if($request->all()){
             return $this->category_repo->getDatatable($request);
         }
-        return view('admin.category.index');
+        $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
+        return view('admin.category.index',compact('categories'));
     }
 
     /**

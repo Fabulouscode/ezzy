@@ -65,11 +65,16 @@ class CategoryRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getWithRelationship($request)
     {
         $query = $this->model->select('categories.*')->with(['categoryParent']);
+        
+        if(!empty($request->parent_id)){
+            $query = $query->where('categories.parent_id', $request->parent_id);
+        }
+
         $query = $query->leftJoin('categories as category_parent', 'categories.parent_id', '=', 'category_parent.id');
-      
+        
         // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
@@ -81,7 +86,7 @@ class CategoryRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
