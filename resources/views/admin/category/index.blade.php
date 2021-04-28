@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <!-- Custom Filter -->
-                    <div class="row col-md-12">
+                    <div class="row">
                         <div class="col-md-6">
                             <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                                 <label>Advanced Filter</label>
@@ -47,11 +47,14 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            @can('hcp_type-add')
-                                <div class="block-options-item mb-3 mr-3 float-right">
-                                    <a href="{{url('/category/create')}}" class="btn btn-info">Add Health Care Provider Type</a>
-                                </div>
-                            @endcan
+                            <div class="mt-5 mb-3">      
+                                <label></label>
+                                @can('hcp_type-add')
+                                    <div class="block-options-item mt-3 mb-3 mr-3 float-right">
+                                        <a href="{{url('/category/create')}}" class="btn btn-info">Add Health Care Provider Type</a>
+                                    </div>
+                                @endcan
+                            </div>
                         </div>
                     </div>
 
