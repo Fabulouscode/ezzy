@@ -28,7 +28,6 @@ class TreatmentPlanRequest extends FormRequest
     {
         return [
             'client_id' => 'required|integer',
-            'treatment_name' => 'required',
             'medicines' => 'required|array|min:1',
             "medicines.*.item_name"  => "required",
             "medicines.*.quantity"  => "required|integer",
