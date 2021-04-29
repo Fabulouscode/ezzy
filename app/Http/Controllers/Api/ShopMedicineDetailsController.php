@@ -69,17 +69,17 @@ class ShopMedicineDetailsController extends BaseApiController
     public function getMedicineSubcategories($cate_id)
     {
         $data = array();
-        $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
-        $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data)->map(function ($response){
-                                    return [
-                                        'id'=>$response->id,
-                                        'medicine_category_id'=>$response->medicine_category_id,
-                                        'name'=>$response->name,
-                                        'description'=>$response->description,
-                                        'status'=>$response->status,
-                                        'status_name'=>$response->status_name,
-                                    ];
-                                });
+        // $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
+        // $data = $this->medicine_subcategory_repo->getbyMultipleColumnWithValue($column_data)->map(function ($response){
+        //                             return [
+        //                                 'id'=>$response->id,
+        //                                 'medicine_category_id'=>$response->medicine_category_id,
+        //                                 'name'=>$response->name,
+        //                                 'description'=>$response->description,
+        //                                 'status'=>$response->status,
+        //                                 'status_name'=>$response->status_name,
+        //                             ];
+        //                         });
         return self::sendSuccess($data);
     }
 
