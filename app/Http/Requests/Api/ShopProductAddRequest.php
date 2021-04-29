@@ -27,7 +27,6 @@ class ShopProductAddRequest extends FormRequest
     {
         return [
                 "medicine_category_id" => 'required',
-                "medicine_subcategoy_id" => 'required',
                 "medicine_detail_id" => 'required',
                 "mrp_price" => 'required',
                 "status" => 'required',

@@ -18,7 +18,7 @@ $(function () {
             { data: 'id', name: 'medicine_details.id', searchable: false },
             { data: 'medicine_name', name: 'medicine_details.medicine_name' },
             { data: 'medicine_sku', name: 'medicine_details.medicine_sku' },
-            { data: 'medicine_subcategory', name: 'medicine_subcategory' },
+            { data: 'medicine_category', name: 'medicine_category' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],

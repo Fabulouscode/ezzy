@@ -54,7 +54,7 @@ class MedicineDetailsRepository extends Repository
      */
     public function getbyIdedit($id)
     {   
-        return $this->model->with(['medicineImages','medicineSubcategory','medicineCategory'])->find($id);
+        return $this->model->with(['medicineImages','medicineCategory'])->find($id);
 
     }
     /**
@@ -64,8 +64,8 @@ class MedicineDetailsRepository extends Repository
      */
     public function getWithRelationship()
     {
-        $query = $this->model->select('medicine_details.*')->with(['medicineSubcategory']);
-        $query = $query->leftJoin('medicine_subcategories', 'medicine_details.medicine_subcategoy_id', '=', 'medicine_subcategories.id');
+        $query = $this->model->select('medicine_details.*')->with(['medicineCategory']);
+        $query = $query->leftJoin('medicine_categories', 'medicine_details.medicine_category_id', '=', 'medicine_categories.id');
         // $query = $query->orderBy('id','desc')->get();
         return $query;
     }
@@ -92,20 +92,20 @@ class MedicineDetailsRepository extends Repository
                     return $data;
                 })
                 
-                ->editColumn('medicine_subcategory',function($selected)
+                ->editColumn('medicine_category',function($selected)
                 {
                     $data = '';
-                    if(!empty($selected->medicineSubcategory->name)){
-                        $data .= $selected->medicineSubcategory->name;
+                    if(!empty($selected->medicineCategory->name)){
+                        $data .= $selected->medicineCategory->name;
                     } 
                     
                     return $data;
                 })
-                ->filterColumn('medicine_subcategory', function ($query, $keyword) {
-                    $query->whereRaw("medicine_subcategories.name like ?", ["%$keyword%"]);
+                ->filterColumn('medicine_category', function ($query, $keyword) {
+                    $query->whereRaw("medicine_categories.name like ?", ["%$keyword%"]);
                 }) 
-                ->orderColumn('medicine_subcategory', function ($query, $order) {
-                    $query->orderBy('medicine_subcategories.name', $order);
+                ->orderColumn('medicine_category', function ($query, $order) {
+                    $query->orderBy('medicine_categories.name', $order);
                 })
 
                 ->editColumn('status',function($selected)
@@ -126,7 +126,7 @@ class MedicineDetailsRepository extends Repository
                     }
                 })
 
-                ->rawColumns(['action','medicine_subcategory','status'])
+                ->rawColumns(['action','medicine_category','status'])
                 ->make(true);
     }
 

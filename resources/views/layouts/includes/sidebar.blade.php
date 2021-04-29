@@ -125,9 +125,9 @@
                         @can('medicine_category-list')
                         <li><a href="{{url('/medicine/categories')}}">Medicine Categories</a></li>
                         @endcan
-                        @can('medicine_subcategory-list')
+                        <!-- @can('medicine_subcategory-list')
                         <li><a href="{{url('/medicine/subcategories')}}">Medicine Subcategories</a></li>
-                        @endcan
+                        @endcan -->
                         @can('medicine_details-list')
                         <li><a href="{{url('/medicine/details')}}">Medicine Details</a></li>
                         @endcan

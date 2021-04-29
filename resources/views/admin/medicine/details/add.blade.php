@@ -42,45 +42,8 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div>                                                 
                             <div class="form-group col-md-6">
-                                <label>Subcategory</label>
-                                <select id="medicine_subcategoy_id" required  type="text" class="form-control @error('medicine_subcategoy_id') is-invalid @enderror" name="medicine_subcategoy_id" >
-                                    <option value="">Select Subcategory</option>
-                                    @foreach($subcategories as $subcategory)
-                                        <option value="{{$subcategory->id}}" data-cat_id = "{{$subcategory->medicine_category_id}}" {{ !empty($data->medicine_subcategoy_id) && $subcategory->id == $data->medicine_subcategoy_id ? 'selected' : '' }}>{{$subcategory->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('medicine_subcategoy_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Medicine Name</label>
-                                <input id="medicine_name" type="text" required class="form-control @error('medicine_name') is-invalid @enderror" name="medicine_name" value="{{!empty($data->medicine_name) ? $data->medicine_name : old('medicine_name') }}" />
-                                @error('medicine_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Medicine SKU</label>
-                                <input id="medicine_sku" type="text" required class="form-control @error('medicine_sku') is-invalid @enderror" name="medicine_sku" value="{{!empty($data->medicine_sku) ? $data->medicine_sku : old('medicine_sku') }}" />
-                                @error('medicine_sku')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
                                 <label>Medicine Types</label>
                                 <select required class="form-control @error('medicine_type') is-invalid @enderror" name="medicine_type" >
                                     <option value="">Select Medicine Types</option>
@@ -94,7 +57,30 @@
                                 </span>
                                 @enderror
                             </div>
-                             <div class="form-group col-md-4">
+                        </div>
+                        <div class="row">                          
+                            <div class="form-group col-md-6">
+                                <label>Medicine Name</label>
+                                <input id="medicine_name" type="text" required class="form-control @error('medicine_name') is-invalid @enderror" name="medicine_name" value="{{!empty($data->medicine_name) ? $data->medicine_name : old('medicine_name') }}" />
+                                @error('medicine_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>                       
+                            <div class="form-group col-md-6">
+                                <label>Medicine SKU</label>
+                                <input id="medicine_sku" type="text" required class="form-control @error('medicine_sku') is-invalid @enderror" name="medicine_sku" value="{{!empty($data->medicine_sku) ? $data->medicine_sku : old('medicine_sku') }}" />
+                                @error('medicine_sku')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>       
+                        </div>
+
+                        <div class="row">
+                             <div class="form-group col-md-6">
                                 <label>Size / Dosage</label>
                                 <input id="size_dosage" type="text" required class="form-control @error('size_dosage') is-invalid @enderror" name="size_dosage" value="{{!empty($data->size_dosage) ? $data->size_dosage : old('size_dosage') }}" />
                                 @error('size_dosage')
@@ -103,7 +89,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label>Status</label>
                                 <select required class="form-control @error('status') is-invalid @enderror" name="status" >
                                     <option value="">Select Status</option>

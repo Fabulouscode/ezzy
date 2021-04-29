@@ -37,7 +37,7 @@
                                     <th>Id</th>
                                     <th>Medicine Name</th>
                                     <th>Medicine SKU</th>
-                                    <th>Medicine Subcategory Name</th>
+                                    <th>Medicine Category Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

@@ -88,10 +88,10 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMedicineDetails($sub_id)
+    public function getMedicineDetails($cate_id)
     {
         $data = array();
-        $column_data = [['medicine_subcategoy_id', '=', $sub_id], ['status', '=', '0']];
+        $column_data = [['medicine_category_id', '=', $cate_id], ['status', '=', '0']];
         $data = $this->medicine_details_repo->getbyMultipleColumnWithValue($column_data)->map(function ($response){
                                     return [
                                         'id'=>$response->id,
@@ -136,7 +136,6 @@ class ShopMedicineDetailsController extends BaseApiController
         $insert_data = [
                         "user_id" => $request->user()->id,
                         "medicine_category_id" => $request->medicine_category_id,
-                        "medicine_subcategoy_id" => $request->medicine_subcategoy_id,
                         "medicine_detail_id" => $request->medicine_detail_id,
                         "capsual_quantity" => $request->capsual_quantity,
                         "mrp_price" => $request->mrp_price,
