@@ -32,6 +32,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(func
     Route::post('/pharmacy/product/import', 'ShopMedicineDetailsController@importMedicineDetails'); 
 });
 
+
 Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(function(){
 
     // without auth
@@ -68,6 +69,12 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
          // call notification send
         Route::post('/call/notification/send', 'UserController@callNotificationSend');
 
+        // twilio video call
+        Route::prefix('twilio/video')->group(function() {
+            Route::get('join/{roomName}', 'TwilioController@joinRoom');
+            Route::get('create', 'TwilioController@createRoom');
+        });
+         
         // User request
         Route::prefix('user')->group(function(){
             

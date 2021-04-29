@@ -19,7 +19,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "maatwebsite/excel": "^3.1",
-        "twilio/sdk": "^6.11",
+        "twilio/sdk": "^6.22",
         "unicodeveloper/laravel-paystack": "^1.0",
         "yajra/laravel-datatables-buttons": "^4.10",
         "yajra/laravel-datatables-oracle": "^9.11"
