@@ -311,9 +311,9 @@
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_categories']) ? $data['medicine_categories'] : '0'}} </h4>
                             <p class="text-white">Medicine Categories</p>
                         </a>
-                        <a href="{{url('/medicine/subcategories')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
-                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_subcategories']) ? $data['medicine_subcategories'] : '0'}} </h4>
-                            <p class="text-white">Medicine Subcategories</p>
+                        <a href="{{url('/medicine/details')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
+                            <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_details']) ? $data['medicine_details'] : '0'}} </h4>
+                            <p class="text-white">Medicine Details</p>
                         </a>
                     </div>
                 </div>

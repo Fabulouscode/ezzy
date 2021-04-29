@@ -16,6 +16,10 @@ use App\Http\Requests\Api\ShopProductDeleteRequest;
 use App\Http\Requests\Api\FavoriteRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Exports\MedicineDetaisExport;
+use App\Imports\ApiMedicineDetaisImport;
+use Excel;
+
 
 class ShopMedicineDetailsController extends BaseApiController
 {
@@ -317,6 +321,31 @@ class ShopMedicineDetailsController extends BaseApiController
         return self::sendSuccess('', 'Favorite medicine remove');
     }
 
-
+    /**
+     * medicine details export.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportMedicineDetails(Request $request)
+    {
+        Excel::store(new MedicineDetaisExport, 'public/csv/medicine_details.csv');
+        $data['file'] = 'public/csv/medicine_details.csv';
+        $data['url'] = url('storage/csv/medicine_details.csv');
+        return self::sendSuccess($data, 'file export Successfully');
+    }
+  
+    /**
+     * medicine details export.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function importMedicineDetails(Request $request)
+    {
+        if(!empty($request->file('medicine_file'))) {          
+            $file = $request->file('medicine_file');
+            Excel::queueImport(new ApiMedicineDetaisImport($request->user()->id), $file);
+        }
+        return self::sendSuccess('', 'file export Successfully');
+    }
 
 }

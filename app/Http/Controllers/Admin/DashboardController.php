@@ -9,12 +9,13 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\MedicineCategoryRepository;
 use App\Repositories\MedicineSubcategoryRepository;
+use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\UserTransactionRepository;
 
 
 class DashboardController extends Controller
 {
-    private $user_repo, $order_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
+    private $user_repo, $order_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -22,6 +23,7 @@ class DashboardController extends Controller
         OrderRepository $order_repo,
         MedicineCategoryRepository $medicine_category_repo,
         MedicineSubcategoryRepository $medicine_subcategory_repo,
+        MedicineDetailsRepository $medicine_details_repo,
         UserTransactionRepository $user_transaction_repo
         )
     {
@@ -31,6 +33,7 @@ class DashboardController extends Controller
         $this->medicine_category_repo = $medicine_category_repo;
         $this->medicine_subcategory_repo = $medicine_subcategory_repo;
         $this->user_transaction_repo = $user_transaction_repo;
+        $this->medicine_details_repo = $medicine_details_repo;
     }
      
     /**
@@ -146,7 +149,7 @@ class DashboardController extends Controller
             $data['cancel_appointments'] = $this->appointment_repo->getAppointmentStatusWiseCount(['6']); 
 
             $data['medicine_categories'] = $this->medicine_category_repo->getCount(); 
-            $data['medicine_subcategories'] = $this->medicine_subcategory_repo->getCount(); 
+            $data['medicine_details'] = $this->medicine_details_repo->getCount(); 
             
             $data['pending_payout'] = $this->user_transaction_repo->getPayoutCount('1'); 
             $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 

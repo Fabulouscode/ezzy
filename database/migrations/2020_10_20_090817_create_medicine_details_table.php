@@ -16,7 +16,7 @@ class CreateMedicineDetailsTable extends Migration
         Schema::create('medicine_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('medicine_category_id')->unsigned();
-            $table->bigInteger('medicine_subcategoy_id')->unsigned();
+            $table->bigInteger('medicine_subcategoy_id')->unsigned()->nullable();
             $table->string('medicine_name');
             $table->text('medicine_sku')->nullable();
             $table->text('description')->nullable();
