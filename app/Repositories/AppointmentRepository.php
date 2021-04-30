@@ -434,10 +434,13 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getbyIdVideoCallCheck($id)
+    public function getbyIdVideoCallCheck($request, $user_id)
     {   
-        return $this->model->where('id',$id)->where('appointment_type','2')->whereNotIn('status',['0','5','6'])->first();
-
+        if(!empty($request->user()->id) && !empty($request->user()->category_id) && !empty($user_id)){
+            return $this->model->where('user_id', $request->user()->id)->where('client_id', $user_id)->where('appointment_type','2')->whereNotIn('status',['0','5','6'])->first();
+        }else{
+            return $this->model->where('user_id', $user_id)->where('client_id', $request->user()->id)->where('appointment_type','2')->whereNotIn('status',['0','5','6'])->first();
+        }      
     }
  
      /**

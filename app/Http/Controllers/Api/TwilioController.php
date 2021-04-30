@@ -30,9 +30,9 @@ class TwilioController extends BaseApiController
 
     }
 
-    public function createRoom(Request $request, $appointment_id)
+    public function createRoom(Request $request, $user_id)
     {
-        $appointment_detail = $this->appointment_repo->getbyIdVideoCallCheck($appointment_id);
+        $appointment_detail = $this->appointment_repo->getbyIdVideoCallCheck($request, $user_id);
         if(!empty($appointment_detail)){
             $client = new Client($this->sid, $this->token);
             $room_name = self::genrateRoomName();
