@@ -72,7 +72,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         // twilio video call
         Route::prefix('twilio/video')->group(function() {
             Route::get('join/{roomName}', 'TwilioController@joinRoom');
-            Route::get('create', 'TwilioController@createRoom');
+            Route::get('create/{appointment_id?}', 'TwilioController@createRoom');
         });
          
         // User request

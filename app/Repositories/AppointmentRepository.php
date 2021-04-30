@@ -429,6 +429,17 @@ class AppointmentRepository extends Repository
 
     }
  
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyIdVideoCallCheck($id)
+    {   
+        return $this->model->where('id',$id)->where('appointment_type','2')->whereNotIn('status',['0','5','6'])->first();
+
+    }
+ 
      /**
      * Display a edit of the record.
      *
