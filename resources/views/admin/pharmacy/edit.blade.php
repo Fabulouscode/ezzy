@@ -167,23 +167,23 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Regstration Certificate</label></dt>
+                                        <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="file" class="form-control" name="userDetails[regstration_certificate]" id="regstration_certificate" accept="image/*" onchange="return fileValidation('regstration_certificate')">
-                                            <div id="regstration_certificatePreview">
-                                            @if(!empty($data->userDetails->regstration_certificate))
-                                                <img src="{{$data->userDetails->regstration_certificate}}" width="100px" height="100px">
+                                            <input type="file" class="form-control" name="userDetails[qualification_certificate]" id="qualification_certificate" accept="image/*" onchange="return fileValidation('qualification_certificate')">
+                                            <div id="qualification_certificatePreview">
+                                            @if(!empty($data->userDetails->qualification_certificate))
+                                                <img src="{{$data->userDetails->qualification_certificate}}" width="100px" height="100px">
                                             @endif 
                                             </div>
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Pharmacist Certificate</label></dt>
+                                        <dt class="col-sm-5"><label>Practicing Licence</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="file" class="form-control" name="userDetails[pharmacist_certificate]" id="pharmacist_certificate" accept="image/*" onchange="return fileValidation('pharmacist_certificate')">
-                                            <div id="pharmacist_certificatePreview">
-                                            @if(!empty($data->userDetails->pharmacist_certificate))
-                                                <img src="{{$data->userDetails->pharmacist_certificate}}" width="100px" height="100px">
+                                            <input type="file" class="form-control" name="userDetails[practicing_licence]" id="practicing_licence" accept="image/*" onchange="return fileValidation('practicing_licence')">
+                                            <div id="practicing_licencePreview">
+                                            @if(!empty($data->userDetails->practicing_licence))
+                                                <img src="{{$data->userDetails->practicing_licence}}" width="100px" height="100px">
                                             @endif 
                                             </div>
                                         </dd>

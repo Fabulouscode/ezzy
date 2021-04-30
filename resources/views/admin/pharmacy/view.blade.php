@@ -212,18 +212,18 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Regstration Certificate</label></dt>
+                                        <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->regstration_certificate))
-                                                <img src="{{$data->userDetails->regstration_certificate}}" width="100px" height="100px">
+                                            @if(!empty($data->userDetails->qualification_certificate))
+                                                <img src="{{$data->userDetails->qualification_certificate}}" width="100px" height="100px">
                                             @endif 
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Pharmacist Certificate</label></dt>
+                                        <dt class="col-sm-5"><label>Practicing Licence</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->pharmacist_certificate))
-                                                <img src="{{$data->userDetails->pharmacist_certificate}}" width="100px" height="100px">
+                                            @if(!empty($data->userDetails->practicing_licence))
+                                                <img src="{{$data->userDetails->practicing_licence}}" width="100px" height="100px">
                                             @endif 
                                         </dd>
                                     </div>
