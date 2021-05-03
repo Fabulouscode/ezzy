@@ -57,7 +57,7 @@ class TwilioController extends BaseApiController
                         'sender_id' => $request->user()->id,
                         'receiver_id' => ($request->user()->id != $appointment_detail->user_id) ? $appointment_detail->user_id : $appointment_detail->client_id,
                         'title' => 'Video Call',
-                        'message' => 'Appointment video call',               
+                        'message' => (!empty($sender_user))? 'Incoming call from '.$sender_user->user_name:'Incoming call',         
                         'parameter' => json_encode(['appointment_id'=> $appointment_detail->id,'room_name'=>$room_name,'notification_time'=>$this->user_repo->getCurrentDateTime()]),   
                         'msg_type' => '96',
                     ]; 
