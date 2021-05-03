@@ -47,10 +47,12 @@ class TwilioController extends BaseApiController
                    
                     if($request->user()->id != $appointment_detail->user_id){
                         $receiver_user =  $this->user_repo->getById($appointment_detail->user_id);
+                        $sender_user =  $this->user_repo->getById($appointment_detail->client_id);
                     }else{
                         $receiver_user =  $this->user_repo->getById($appointment_detail->client_id);
+                        $sender_user =  $this->user_repo->getById($appointment_detail->user_id);
                     }
-                    $sender_user =  '';
+                    
                     $notification_user = [
                         'sender_id' => NULL,
                         'receiver_id' => ($request->user()->id != $appointment_detail->user_id) ? $appointment_detail->user_id : $appointment_detail->client_id,
