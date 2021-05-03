@@ -54,7 +54,7 @@ class TwilioController extends BaseApiController
                     }
                     
                     $notification_user = [
-                        'sender_id' => NULL,
+                        'sender_id' => $request->user()->id,
                         'receiver_id' => ($request->user()->id != $appointment_detail->user_id) ? $appointment_detail->user_id : $appointment_detail->client_id,
                         'title' => 'Video Call',
                         'message' => 'Appointment video call',               
