@@ -28,6 +28,7 @@ use App\Http\Requests\Api\CalenderUserAvailableTimeRequest;
 use App\Http\Requests\Api\CalenderUserBusyTimeRequest;
 use App\Http\Requests\Api\UserAddMultipleAvailableTimesRequest;
 use App\Http\Requests\Api\UserCurrentLocationUpdate;
+use App\Http\Requests\Api\UserLiveLocationUpdate;
 use Carbon\Carbon;
 
 class UserProfileController extends BaseApiController
@@ -62,6 +63,22 @@ class UserProfileController extends BaseApiController
         $this->city_repo = $city_repo;
     }
 
+    // user current location update using node event
+    public function updateUserLiveLocation(UserLiveLocationUpdate $request)
+    {
+        $update_data = [
+                        'current_latitude' => $request->latitude,
+                        'current_longitude' => $request->longitude,
+                        'latitude' => (isset($request->latitude)) ? $request->latitude : '',
+                        'longitude' => (isset($request->longitude)) ? $request->longitude : '',
+                    ];
+         try{
+            $user = $this->user_repo->dataCrudUsingData($update_data, $request->user_id);
+            return self::sendSuccess($user, 'User live location Updated Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
+    }
 
     // user current location update
     public function updateUserCurrentLocation(UserCurrentLocationUpdate $request)

@@ -32,6 +32,9 @@ Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(func
     Route::post('/pharmacy/product/import', 'ShopMedicineDetailsController@importMedicineDetails'); 
 });
 
+Route::namespace('App\Http\Controllers\Api')->group(function(){
+    Route::post('/user/live/location/update', 'UserProfileController@updateUserLiveLocation');
+});
 
 Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(function(){
 
