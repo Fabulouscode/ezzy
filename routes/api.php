@@ -103,7 +103,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
          
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
-
+            Route::get('/appointment/tracking', 'AppointmentController@getAllTrackingAppointment');
 
              // location
             Route::prefix('location')->group(function(){

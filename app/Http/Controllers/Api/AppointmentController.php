@@ -1143,5 +1143,10 @@ class AppointmentController extends BaseApiController
     }
 
 
+    public function getAllTrackingAppointment(Request $request){
+        $appointment_details = $this->appointment_repo->getAllTrackingAppointment($request);
+        return self::sendSuccess($appointment_details, 'TrackingAppointment');
+    }
+
     
 }
