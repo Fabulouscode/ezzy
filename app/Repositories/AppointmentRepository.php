@@ -966,8 +966,8 @@ class AppointmentRepository extends Repository
     public function getAllTrackingAppointment($request)
     {   			
         if(!empty($request->user()->category_id)){
-            $non_urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(id) AS usersId"))->where('user_id', $request->user()->id)->where('appointment_type','1')->where('urgent','0')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date');
-            $urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(id) AS usersId"))->union($non_urgent)->where('user_id', $request->user()->id)->where('urgent','1')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date')->get();
+            $non_urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(client_id) AS usersId"))->where('user_id', $request->user()->id)->where('appointment_type','1')->where('urgent','0')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date');
+            $urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(client_id) AS usersId"))->union($non_urgent)->where('user_id', $request->user()->id)->where('urgent','1')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date')->get();
             if(!empty($urgent) && count($urgent) > 0){
                 $not_urgent_userIds = (!empty($urgent['0']) && !empty($urgent['0']->usersId)) ? $urgent['0']->usersId : '';
                 $urgent_userIds = (!empty($urgent['1']) && !empty($urgent['1']->usersId)) ? $urgent['1']->usersId : '';
@@ -983,8 +983,8 @@ class AppointmentRepository extends Repository
                
             }
         }else{
-            $non_urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(id) AS usersId"))->where('client_id', $request->user()->id)->where('appointment_type','1')->where('urgent','0')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date');
-            $urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(id) AS usersId"))->union($non_urgent)->where('client_id', $request->user()->id)->where('urgent','1')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date')->get();
+            $non_urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(user_id) AS usersId"))->where('client_id', $request->user()->id)->where('appointment_type','1')->where('urgent','0')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date');
+            $urgent = $this->model->addSelect(DB::raw("GROUP_CONCAT(user_id) AS usersId"))->union($non_urgent)->where('client_id', $request->user()->id)->where('urgent','1')->where('status','1')->whereDate('appointment_date', Carbon::now())->groupBy('appointment_date')->get();
             if(!empty($urgent) && count($urgent) > 0){
                 $not_urgent_userIds = (!empty($urgent['0']) && !empty($urgent['0']->usersId)) ? $urgent['0']->usersId : '';
                 $urgent_userIds = (!empty($urgent['1']) && !empty($urgent['1']->usersId)) ? $urgent['1']->usersId : '';
