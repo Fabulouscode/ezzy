@@ -972,11 +972,11 @@ class AppointmentRepository extends Repository
                 $not_urgent_userIds = (!empty($urgent['0']) && !empty($urgent['0']->usersId)) ? $urgent['0']->usersId : '';
                 $urgent_userIds = (!empty($urgent['1']) && !empty($urgent['1']->usersId)) ? $urgent['1']->usersId : '';
                 if(!empty($not_urgent_userIds) && !empty($urgent_userIds)){
-                    return array_unique(array_merge(explode(",",$not_urgent_userIds),explode(",", $urgent_userIds)));
+                    return array_values(array_unique(array_merge(explode(",",$not_urgent_userIds),explode(",", $urgent_userIds))));
                 }else if(!empty($urgent_userIds)){
-                    return array_unique(explode(",", $urgent_userIds));
+                    return array_values(array_unique(explode(",", $urgent_userIds)));
                 }else if(!empty($not_urgent_userIds)){
-                    return array_unique(explode(",", $not_urgent_userIds));
+                    return array_values(array_unique(explode(",", $not_urgent_userIds)));
                 }else{
                     return '';
                 }
@@ -989,11 +989,11 @@ class AppointmentRepository extends Repository
                 $not_urgent_userIds = (!empty($urgent['0']) && !empty($urgent['0']->usersId)) ? $urgent['0']->usersId : '';
                 $urgent_userIds = (!empty($urgent['1']) && !empty($urgent['1']->usersId)) ? $urgent['1']->usersId : '';
                 if(!empty($not_urgent_userIds) && !empty($urgent_userIds)){
-                    return array_unique(array_merge(explode(",",$not_urgent_userIds),explode(",", $urgent_userIds)));
+                    return array_values(array_unique(array_merge(explode(",",$not_urgent_userIds),explode(",", $urgent_userIds))));
                 }else if(!empty($urgent_userIds)){
-                    return array_unique(explode(",", $urgent_userIds));
+                    return array_values(array_unique(explode(",", $urgent_userIds)));
                 }else if(!empty($not_urgent_userIds)){
-                    return array_unique(explode(",", $not_urgent_userIds));
+                    return array_values(array_unique(explode(",", $not_urgent_userIds)));
                 }else{
                     return '';
                 }
