@@ -1020,6 +1020,12 @@ class AppointmentController extends BaseApiController
 
         /** Accept Appointment */
     public function acceptAppointment(AppointmentStatusRequest $request){
+        
+        $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
+        if(empty($appointment_det)){
+            return self::sendError('', 'This appointment is already accepted to other doctor');
+        }
+     
         DB::beginTransaction();
         try{
             $appointmentRequest= $this->appointment_repo->getById($request->id);

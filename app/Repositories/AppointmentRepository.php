@@ -961,6 +961,16 @@ class AppointmentRepository extends Repository
             return $this->model->where('user_id', $client_id)->where('client_id', $request->user()->id)->where('appointment_type','2')->whereIN('status',[2])->first();
         }
     }
+  
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUrgentAppointmentAccepted($appointment_id)
+    {   
+        return $this->model->where('id', $appointment_id)->where('urgent','1')->where('status','0')->first();
+    }
 
  
     public function getAllTrackingAppointment($request)
