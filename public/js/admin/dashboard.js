@@ -13,7 +13,7 @@ $(function () {
             dataType: "json",
             async: true,
             data: {
-                'status': '',
+                'status': ['5','6'],
                 'hacp_type': '1',
             }
         },
@@ -47,7 +47,7 @@ $(function () {
             dataType: "json",
             async: true,
             data: {
-                'status': '',
+                'status': ['5','6'],
                 'hacp_type': '3',
             }
         },

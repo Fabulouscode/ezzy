@@ -401,7 +401,7 @@
     var pharmacy_order_url = "{{url('/pharmacy/order')}}";
     var dashboard_url = "{{url('/')}}";
     var appointment_obj = {'status': '' };
-    var pharmacy_order_obj = {'status': '0' };
+    var pharmacy_order_obj = {'status': ['3','4'] };
     $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
     $('#end_date').val(moment().format("YYYY-MM-DD"));
 </script>

@@ -189,7 +189,9 @@ class OrderRepository extends Repository
     {
         $query = $this->model->select('orders.*')->with(['clientDetails','userDetails']);    
           
-        if(isset($request->status)){
+        if(is_array($request->status) && count($request->status) > 0){
+            $query = $query->whereNotIn('orders.status', $request->status);       
+        }else if(isset($request->status)){
             $query = $query->where('orders.status', $request->status);
         } 
         
