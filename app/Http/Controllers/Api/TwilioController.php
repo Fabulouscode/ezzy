@@ -41,7 +41,7 @@ class TwilioController extends BaseApiController
                 if (empty($exists)) {
                     $client->video->rooms->create([
                         'uniqueName' => $room_name,
-                        'type' => 'group',
+                        'type' => 'peer-to-peer',
                         'recordParticipantsOnConnect' => false
                     ]);
                    
