@@ -141,7 +141,7 @@
         data_obj = {'status':['0','2'], 'category_id':'3', 'provider':'laboratories'};
     }else{ 
         data_status = ['0','2'];
-        data_category_id = '1';
+        data_category_id = '';
         data_provider = 'patients';           
         data_obj = {'status':['0','2'], 'category_id':'', 'provider':'patients'};
     }

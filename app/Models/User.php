@@ -149,6 +149,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_review');
     }
 
+    public function appointmentDetails() {
+        return $this->hasMany('App\Models\Appointment')->whereNotIn('status',['0','5','6']);
+    }
 
  
     public function userLabReport() {

@@ -809,6 +809,8 @@ class UserRepository extends Repository
 
             $query = $query->where('category_id', '4');
 
+            $query = $query->has('appointmentDetails', '=', 0);
+
             $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
                            ->where([
                                     ['users.current_latitude', '!=', ''],
@@ -829,6 +831,8 @@ class UserRepository extends Repository
             }
 
             $query = $query->where('category_id', '4');
+
+            $query = $query->has('appointmentDetails', '=', 0);
 
             if(!empty($request->user()->latitude) && !empty($request->user()->longitude)){
 
