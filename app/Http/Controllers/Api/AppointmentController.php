@@ -431,7 +431,7 @@ class AppointmentController extends BaseApiController
              //Appointment home care book
             $check_user_location = $this->user_repo->checkUserLocation($request);
             if(empty($check_user_location)){
-                return self::sendError([], 'Please Add address.');
+                return self::sendError([], 'Please Add Location before Book Appointment.');
             }
         }
         
