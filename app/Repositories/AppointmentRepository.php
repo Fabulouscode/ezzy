@@ -463,7 +463,7 @@ class AppointmentRepository extends Repository
     {   
         return $this->model->whereHas('client', function($query) use ($card_num){
                         $query->where('ezzycare_card', $card_num);
-                })->where('status','5')->get();
+                })->where('status','5')->orderBy('id','desc')->get();
 
     }
 
