@@ -171,9 +171,9 @@ class UserController extends BaseApiController
         }
     }
 
-    public function getUserAppointmentHistory($user_id)
+    public function getUserAppointmentHistory($card_num)
     {
-        $user_list = $this->appointment_repo->getCompletedAppointmentHistory($user_id)->map(function ($response){
+        $user_list = $this->appointment_repo->getCompletedAppointmentHistory($card_num)->map(function ($response){
                                     return [
                                         'id'=>$response->id,
                                         'appointment_date'=>$response->appointment_date,                                

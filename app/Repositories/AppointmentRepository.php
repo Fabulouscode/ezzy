@@ -459,10 +459,11 @@ class AppointmentRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCompletedAppointmentHistory($user_id)
+    public function getCompletedAppointmentHistory($card_num)
     {   
-        return $this->model->where('client_id', $user_id)
-                ->where('status','5')->get();
+        return $this->model->whereHas('client', function($query) use ($card_num){
+                        $query->where('ezzycare_card', $card_num);
+                })->where('status','5')->get();
 
     }
 
