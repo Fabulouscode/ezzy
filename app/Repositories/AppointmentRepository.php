@@ -453,6 +453,18 @@ class AppointmentRepository extends Repository
         return $this->model->whereNotNull('transaction_id')->where('id',$id)->first();
 
     }
+  
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCompletedAppointmentHistory($user_id)
+    {   
+        return $this->model->where('client_id', $user_id)
+                ->where('status','5')->get();
+
+    }
 
     /**
      * Display a edit of the record.

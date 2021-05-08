@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\UserDetailsRepository;
+use App\Repositories\AppointmentRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -17,13 +18,18 @@ use App\Http\Helpers\Helper;
 
 class UserController extends BaseApiController
 {
-    private $user_repo, $user_details_repo;
+    private $user_repo, $user_details_repo, $appointment_repo;
 
-    public function __construct(UserRepository $user_repo, UserDetailsRepository $user_details_repo)
+    public function __construct(
+        UserRepository $user_repo, 
+        UserDetailsRepository $user_details_repo,
+        AppointmentRepository $appointment_repo
+    )
     {
         parent::__construct();
         $this->user_repo = $user_repo;
         $this->user_details_repo = $user_details_repo;
+        $this->appointment_repo = $appointment_repo;
     }
 
 
@@ -165,4 +171,20 @@ class UserController extends BaseApiController
         }
     }
 
+    public function getUserAppointmentHistory($user_id)
+    {
+        $user_list = $this->appointment_repo->getCompletedAppointmentHistory($user_id)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_date'=>$response->appointment_date,                                
+                                        'user_name'=>(!empty($response->user)) ? $response->user->user_name : '',
+                                        'profile_image'=>(!empty($response->user)) ? $response->user->profile_image : '',
+                                        'category_name'=>(!empty($response->user) && !empty($response->user->categoryParent)) ? $response->user->categoryParent->name : '',
+                                        'subcategory_name'=>(!empty($response->user) && !empty($response->user->categoryChild)) ? $response->user->categoryChild->name : '',
+                                        'consult_notes' => $response->consult_notes,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                    ];
+                                });
+        return self::sendSuccess($user_list, 'User Profile list Successfully');
+    }
 }

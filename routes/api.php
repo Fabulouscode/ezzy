@@ -96,6 +96,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('/get/profile/location/{id?}', 'UserController@getUserbyIdLocationDetails');
             Route::get('/get/profile/{id?}', 'UserController@getUserbyIdDetails');
             Route::get('/get/card_nuber/{card_num?}', 'UserController@getUserbyCardNumberDetails');
+            Route::get('/get/appointment/history/{user_id?}', 'UserController@getUserAppointmentHistory');
             Route::get('/change/status/{status?}', 'UserController@changeUserStatus');
 
             Route::post('/calendar/available_times', 'UserProfileController@getByUserCalendarAvailableTimes');
