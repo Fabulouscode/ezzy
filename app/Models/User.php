@@ -149,8 +149,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\User_review');
     }
 
-    public function appointmentDetails() {
-        return $this->hasMany('App\Models\Appointment')->whereNotIn('status',['0','5','6']);
+    public function urgenAppointmentDetails() {
+        return $this->hasMany('App\Models\Appointment')->where('urgent','1')->whereNotIn('status',['0','5','6']);
+    }
+    
+    public function nonUrgentAppointmentDetails() {
+        return $this->hasMany('App\Models\Appointment')->where('urgent','0')->whereIn('status',['2']);
     }
 
  
