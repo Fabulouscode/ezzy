@@ -99,8 +99,9 @@ class WalletController extends BaseApiController
     public function deductionWalletBalance(DeductionWalletBalanceRequest $request)
     {          
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        $currency_symbol = $this->user_repo->currency_symbol;
         if($wallet_balance < $request->amount){
-            return self::sendError([], "Pls Top up your wallet to make payment.", 402);
+            return self::sendError([], "Pls Top up your wallet with minimum of '.$currency_symbol $request->amount.' to make payment.", 402);
         } 
        
             $add_transaction = [
