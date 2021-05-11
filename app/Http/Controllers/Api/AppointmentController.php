@@ -635,7 +635,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => $notification_message,
-                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                        'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
@@ -745,7 +745,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment rescheduled by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user_timezone->user_timezone),                                        
-                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                        'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
@@ -918,7 +918,7 @@ class AppointmentController extends BaseApiController
                             'receiver_id' => $appointment_details->client_id,
                             'title' => 'Appointment',
                             'message' => 'Appointment charges is exceeded',
-                            'parameter' => json_encode(['appointment_id'=> $appointment_details->id]),
+                            'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                             'msg_type' => '2',
                         ];
                         $this->notification_repo->sendingNotification($send_notification);
@@ -935,7 +935,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $appointment_details->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment completed by '. $request->user()->user_name,
-                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id]),
+                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
@@ -984,7 +984,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $data->user_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment review added by '.$request->user()->user_name,
-                                        'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                        'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
@@ -1043,7 +1043,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $appointmentRequest->client_id,
                                         'title' => 'Urgent Appointment',
                                         'message' => 'Urgent appointment request accepted by '.$request->user()->user_name,
-                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                         'msg_type' => '2',
                                     ];  
                 $this->notification_repo->sendingNotification($send_notification);          
