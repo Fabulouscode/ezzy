@@ -122,6 +122,7 @@ class ShoppingCartController extends BaseApiController
                                                             'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
                                                             'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
                                                             'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
+                                                            'size_dosage'=>$response->shopMedicineDetails->medicineDetails->size_dosage,
                                                         ]:'',
                                         'status'=>$response->shopMedicineDetails->status,
                                         'status_name'=>$response->shopMedicineDetails->status_name,
