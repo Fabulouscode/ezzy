@@ -226,16 +226,19 @@ class ChatController extends BaseApiController
             if(!empty($total_amount)){
                 $treatment_charge = 0;
                 $treatment_charge_per = 0;
+                $treatment_total_charge = 0;
                 $treatment_charges = $this->manage_fees_repo->getbyFeesKey('treatment_charges');
                 if(!empty($treatment_charges) && !empty($treatment_charges->fees_percentage)){                    
-                    $treatment_charges_per = $treatment_charges->fees_percentage;
-                } 
-                if(!empty($treatment_charges_per)){
+                    $treatment_charge_per = $treatment_charges->fees_percentage;
+                }               
+                if(!empty($treatment_charge_per)){
                     $treatment_charge = (($total_amount * $treatment_charge_per ) / 100);
+                    $treatment_total_charge = $total_amount + $treatment_charge; 
                 }     
                 $update_data = [
-                    'transaction_amount' => $treatment_charge
+                    'transaction_amount' => $treatment_total_charge
                 ];
+            
                 $this->chat_history_repo->dataCrud($update_data, $chat->id);
             }  
 
