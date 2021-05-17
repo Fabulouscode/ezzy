@@ -11,10 +11,10 @@ class Order extends Model
     use HasFactory, SoftDeletes;
     
     public $status_value = array(
-        '0' => 'Wait for Accept',
+        '0' => 'Pending',
         '1' => 'Accepted',
         '2' => 'Order Dispatch',        
-        '3' => 'Success',
+        '3' => 'Completed',
         '4' => 'Cancelled',
         '5' => 'Payment Pending',
     );
