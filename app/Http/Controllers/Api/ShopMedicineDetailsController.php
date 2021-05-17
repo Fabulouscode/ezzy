@@ -100,6 +100,7 @@ class ShopMedicineDetailsController extends BaseApiController
                                     return [
                                         'id'=>$response->id,
                                         'medicine_name'=>$response->medicine_name,
+                                        'size_dosage'=>$response->size_dosage,         
                                         'medicine_sku'=>$response->medicine_sku,
                                         'medicine_type'=> $response->medicine_type,
                                         'medicine_type_name'=> $response->medicine_type_name,
@@ -285,7 +286,7 @@ class ShopMedicineDetailsController extends BaseApiController
                                                             'medicine_image'=>$response->shopMedicineDetails->medicineDetails->medicine_image,
                                                             'medicine_name'=>$response->shopMedicineDetails->medicineDetails->medicine_name,
                                                             'medicine_sku'=>$response->shopMedicineDetails->medicineDetails->medicine_sku,
-                                                            'size_dosage'=>$response->medicineDetails->size_dosage,         
+                                                            'size_dosage'=>$response->shopMedicineDetails->medicineDetails->size_dosage,         
                                                         ]:'',
                                         'favorite_product'=> 1,
                                         'status'=>$response->shopMedicineDetails->status,

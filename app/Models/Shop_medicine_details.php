@@ -88,6 +88,7 @@ class Shop_medicine_details extends Model
                                 'medicine_name'=>$this->medicineDetails->medicine_name,
                                 'medicine_sku'=>$this->medicineDetails->medicine_sku,
                                 'description'=>$this->medicineDetails->description,
+                                'size_dosage'=>$this->medicineDetails->size_dosage,
                             ]:'',
             'favorite_product'=>(isset($this->favoriteProduct))? 1 : 0,
             'status'=>$this->status,
