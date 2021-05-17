@@ -717,6 +717,7 @@ class AppointmentController extends BaseApiController
             $user_payout = $reschedule_charges - $ezzycare_charge;
             $add_transaction = [
                         'user_id'=> $request->user()->id,
+                        'client_id'=> $appointment->user_id,
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> !empty($reschedule_charges) ? $reschedule_charges : '',                        
                         'mode_of_payment'=> '1',
