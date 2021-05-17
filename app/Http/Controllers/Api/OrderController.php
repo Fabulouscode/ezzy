@@ -289,7 +289,7 @@ class OrderController extends BaseApiController
                     'estimation_datetime'=> $this->order_tracking_repo->getCurrentDateTime(),
                   ];
                 $this->order_tracking_repo->dataCrud($order_tracking);
-              
+                if(!empty($data->transaction_id)){
                     $update_transaction = [
                         'payout_amount'=> '0',
                         'fees_charge'=> '0',
@@ -311,6 +311,8 @@ class OrderController extends BaseApiController
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($data->client_id);   
 
+                }
+     
             }else if($request->status == '3'){
                 $order_tracking = [
                     'order_id'=> $request->id,
