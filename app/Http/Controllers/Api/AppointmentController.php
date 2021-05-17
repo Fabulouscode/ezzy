@@ -1004,7 +1004,7 @@ class AppointmentController extends BaseApiController
         if(!empty($data)){
             return self::sendSuccess($data->format(), 'Appointment get');
         }
-        return self::sendError($data, 'Appointment accept timing is over');
+        return self::sendError($data, 'Appointment Timeout!');
     }
 
     public function generateInvoice($appointment_id)
