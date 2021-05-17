@@ -237,22 +237,47 @@ class Helper
             'notification_count' => $unreadNotification,
             'media_type' => "image",
         ];
-
+    
         $dataTemp = [
             'click_action' => "FLUTTER_NOTIFICATION_CLICK",
             'screen' => $notification['msg_type'],
             'object' => $message
         ];
         
+        if(!empty($notification['msg_type']) && in_array($notification['msg_type'],['1','2','3'])){
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification['message'],
+                    'sound' => 'ezzycare_ringtone.wav',
+                    'android_channel_id' => 'ezzycare_channel_1',
+                )
+            );
+        }else if(!empty($notification['msg_type']) && in_array($notification['msg_type'],['4','5','6'])){
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification['message'],
+                    'sound' => 'ezzycare_ringtone.wav',
+                    'android_channel_id' => 'ezzycare_channel_2',
+                )
+            );
+        }else{
+            $data = array(
+                'to' => $receiver->device_token,
+                'data' => $dataTemp,
+                'notification'=>array(
+                    'title'=> config('app.name'),
+                    'body'=>$notification['message'],
+                )
+            );
+        }
        
-        $data = array(
-            'to' => $receiver->device_token,
-            'data' => $dataTemp,
-            'notification'=>array(
-                'title'=> config('app.name'),
-                'body'=>$notification['message'],
-            )
-        );
+
         // Log::info('data'.json_encode($data));
         if(!empty($data)){
              self::sendCurlRequest($url, $data);
