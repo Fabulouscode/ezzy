@@ -159,6 +159,7 @@ class Order extends Model
                     'medicine_type_name'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails)  ? $value->shopMedicineDetails->medicineDetails->medicine_type_name : '',
                     'medicine_image'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails)  ? $value->shopMedicineDetails->medicineDetails->medicine_image : '',
                     'medicine_name'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_name : '',
+                    'size_dosage'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->size_dosage : '',
                     'medicine_sku'=> !empty($value->shopMedicineDetails) && !empty($value->shopMedicineDetails->medicineDetails) ? $value->shopMedicineDetails->medicineDetails->medicine_sku : '',
                 ];
             }
