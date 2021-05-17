@@ -8,6 +8,7 @@ use App\Repositories\ChatHistoryRepository;
 use App\Repositories\ChateServicesRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\UserServiceRepository;
+use App\Repositories\ManageFeesRepository;
 use App\Http\Requests\Api\EPrescibeRequest;
 use App\Http\Requests\Api\EDignosticsRequest;
 use App\Http\Requests\Api\TreatmentPlanRequest;
@@ -17,13 +18,14 @@ use PDF;
 
 class ChatController extends BaseApiController
 {
-    private $chat_history_repo, $chat_service_repo, $user_repo, $user_service_repo;
+    private $chat_history_repo, $chat_service_repo, $user_repo, $user_service_repo, $manage_fees_repo;
 
     public function __construct(
         ChatHistoryRepository $chat_history_repo, 
         ChateServicesRepository $chat_service_repo,
         UserRepository $user_repo,
-        UserServiceRepository $user_service_repo
+        UserServiceRepository $user_service_repo,
+        ManageFeesRepository $manage_fees_repo
         )
     {
         parent::__construct();
@@ -31,6 +33,7 @@ class ChatController extends BaseApiController
         $this->chat_service_repo = $chat_service_repo;
         $this->user_repo = $user_repo;
         $this->user_service_repo = $user_service_repo;
+        $this->manage_fees_repo = $manage_fees_repo;
     }
 
         
@@ -231,8 +234,8 @@ class ChatController extends BaseApiController
                     $treatment_charge = (($total_amount * $treatment_charge_per ) / 100);
                 }     
                 $update_data = [
-                    'transaction_amount' => $treatment_charge,
-                ]
+                    'transaction_amount' => $treatment_charge
+                ];
                 $this->chat_history_repo->dataCrud($update_data, $chat->id);
             }  
 
