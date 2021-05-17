@@ -62,10 +62,10 @@ class UserAuthController extends BaseApiController
                 $request->otp_code = $mobile_code;
                 $request->status = '3';
                 $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-                $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
-                if(!empty($sent_msg)){
-                    return self::sendError('', 'SMS Sending Failed');
-                }
+                // $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                // if(!empty($sent_msg)){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }
                 $user = $this->user_repo->registerWithMobileno($request);
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
@@ -317,10 +317,10 @@ class UserAuthController extends BaseApiController
             $mobile_code = $this->user_repo->generateOTPCode();
             $data = ['otp_code' => $mobile_code];
             $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-            $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
-            if(!empty($sent_msg)){
-               return self::sendError('', 'SMS Sending Failed');
-            }
+            // $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+            // if(!empty($sent_msg)){
+            //    return self::sendError('', 'SMS Sending Failed');
+            // }
             $this->user_repo->dataCrudUsingData($data, $user->id);
             $update_user = $this->user_repo->getById($user->id);
             return self::sendSuccess([
@@ -370,10 +370,10 @@ class UserAuthController extends BaseApiController
                 $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
                 $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
-                $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
-                if(!empty($sent_msg)){
-                    return self::sendError('', 'SMS Sending Failed');
-                }
+                // $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                // if(!empty($sent_msg)){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }
                 $this->user_repo->dataCrudUsingData($data, $user->id);
                 $update_user = $this->user_repo->getById($user->id);
                 return self::sendSuccess([
