@@ -28,7 +28,8 @@ class Chat_history extends Model
         'chat_type',
         'plan_name',
         'treatment_name',
-        'transaction_id'
+        'transaction_id',
+        'transaction_amount'
     ];
 
     protected $appends = ['chat_type_name','invoice_no_generate'];
@@ -169,6 +170,7 @@ class Chat_history extends Model
             'chat_type_name'=>$this->chat_type_name,
             'treatment_name'=>$this->treatment_name,
             'transaction_id'=>$this->transaction_id,
+            'transaction_amount'=>$this->transaction_amount,
             'medicines'=> !empty($this->chatDetails) ? $this->getMedicineNames($this->chatDetails) :'',
             'client'=>(!empty($this->client))?
                             [

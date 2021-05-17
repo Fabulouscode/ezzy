@@ -192,6 +192,7 @@ class ChatController extends BaseApiController
   
     public function saveTreatmentPlan(TreatmentPlanRequest $request)
     {
+    
           $add_data = [
                     'user_id' => $request->user()->id,
                     'client_id' => $request->client_id,
@@ -203,6 +204,7 @@ class ChatController extends BaseApiController
         try{
             DB::beginTransaction();
             $chat = $this->chat_history_repo->dataCrud($add_data);
+            $total_amount = 0;
             if(!empty($chat) && !empty($chat->id)){
                 if(!empty($request->medicines) && count($request->medicines)){
                     foreach ($request->medicines as $key => $value) {
@@ -213,11 +215,27 @@ class ChatController extends BaseApiController
                             'quanity'=> (isset($value['quantity'])) ?$value['quantity'] : '',
                             'price'=> (isset($value['price'])) ?$value['price'] : ''
                         ];
-                      
+                        $total_amount = $value['price'] * $value['quantity'];
                         $this->chat_service_repo->dataCrud($add_chat);
                     }
                 }
-            }      
+            }    
+            if(!empty($total_amount)){
+                $treatment_charge = 0;
+                $treatment_charge_per = 0;
+                $treatment_charges = $this->manage_fees_repo->getbyFeesKey('treatment_charges');
+                if(!empty($treatment_charges) && !empty($treatment_charges->fees_percentage)){                    
+                    $treatment_charges_per = $treatment_charges->fees_percentage;
+                } 
+                if(!empty($treatment_charges_per)){
+                    $treatment_charge = (($total_amount * $treatment_charge_per ) / 100);
+                }     
+                $update_data = [
+                    'transaction_amount' => $treatment_charge,
+                ]
+                $this->chat_history_repo->dataCrud($update_data, $chat->id);
+            }  
+
             DB::commit();       
             $data = $this->chat_history_repo->getbyId($chat->id);   
             return self::sendSuccess($data, 'save ePrescibe Successfully');
