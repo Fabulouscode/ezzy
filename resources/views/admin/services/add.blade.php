@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Service Usage</label>
-                                <select required class="form-control @error('sevice_usages') is-invalid @enderror" name="sevice_usages[]" multiple>
+                                <select  class="form-control @error('sevice_usages') is-invalid @enderror" name="sevice_usages[]" multiple>
                                     @foreach($service_usage as $key => $value)
                                         <option value="{{$value->id}}"  {{ !empty($data->sevice_usages) && in_array($value->id, $data->sevice_usages) ? 'selected' : '' }}>{{$value->name}}</option>
                                     @endforeach

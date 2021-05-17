@@ -26,7 +26,6 @@ class ServicesRequest extends FormRequest
         return [
             'service_name'=>'required|string|unique:services,service_name,'.$this->id.',id,service_type,'.$this->service_type,
             'service_type'=>'required',
-            'sevice_usages'=>'required',
             'status'=>'required',
         ];
     }
