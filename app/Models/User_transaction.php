@@ -105,6 +105,8 @@ class User_transaction extends Model
             'wallet_transaction'=>$this->wallet_transaction,
             'mode_of_payment'=>$this->mode_of_payment,
             'transaction_msg'=>$this->transaction_msg,
+            'payout_amount'=>$this->payout_amount,
+            'fees_charge'=>$this->fees_charge,
             'user'=>(isset($this->client))?
                         [
                             'id'=>$this->client->id,
