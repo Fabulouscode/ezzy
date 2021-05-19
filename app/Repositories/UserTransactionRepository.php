@@ -189,6 +189,37 @@ class UserTransactionRepository extends Repository
         
         return $query;
     }
+ 
+    public function getHCPTransactionHistory($request)
+    {
+       
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }            
+     
+
+        $query = $query->where('client_id',$request->user()->id);
+        // $query = $query->where([
+        //             ['transaction_type', '!=', '1'],
+        //             ['wallet_transaction', '!=', '1']
+        //         ]);
+        $query = $query->where(function($query) use ($request){
+            $query->where('transaction_type','!=', '1');
+            $query->orWhere('wallet_transaction','!=', '1');
+            $query->orWhere('mode_of_payment','!=', '1');
+        });
+     
+     
+        $query = $query->where('status','0')->orderBy('id','desc');
+
+        $query = $query->limit($this->api_data_limit);
+
+        $query = $query->get();
+        
+        return $query;
+    }
 
 
 

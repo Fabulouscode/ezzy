@@ -150,6 +150,48 @@ class DashboardController extends BaseApiController
                                         });;
         return self::sendSuccess($data, 'User Transaction History');
     }
+  
+    public function getHCPPaymentHistory(PayAmountHistoryRequest $request)
+    {
+        $data = array();        
+        $data = $this->user_trans_repo->getHCPTransactionHistory($request)->map(function ($response){
+                                            return [
+                                                'id'=>$response->id,
+                                                'amount'=>$response->amount,
+                                                'transaction_type'=>$response->transaction_type,
+                                                'transaction_date'=>$response->transaction_date,
+                                                'wallet_transaction'=>$response->wallet_transaction,
+                                                'mode_of_payment'=>$response->mode_of_payment,
+                                                'users'=>(isset($response->users))?
+                                                        [
+                                                            'id'=>$response->users->id,
+                                                            'user_name'=>$response->users->user_name,
+                                                            'profile_image'=>$response->users->profile_image
+                                                        ]:NULL,
+                                                'appointment'=>(isset($response->tranAppointment))?
+                                                        [
+                                                            'id'=>$response->tranAppointment->id,
+                                                            'appointment_type_name'=>$response->tranAppointment->appointment_type_name,
+                                                            'appointment_date'=>$response->tranAppointment->appointment_date .' '.$response->tranAppointment->appointment_time,
+                                                        ]:NULL,
+                                                'order'=>(isset($response->tranOrder))?
+                                                        [
+                                                            'id'=>$response->tranOrder->id,
+                                                            'products' => $response->tranOrder->order_medicine_name,
+                                                            'order_date'=>$response->tranOrder->created_at,
+                                                        ]:NULL,
+                                                'treatment_plan'=>(isset($response->transactionTreatmentPlan))?
+                                                        [
+                                                            'id'=>$response->transactionTreatmentPlan->id,
+                                                            'plan_name'=>$response->transactionTreatmentPlan->plan_name,
+                                                            'plan_date'=>$response->transactionTreatmentPlan->created_at,
+                                                        ]:NULL,
+                                                'status'=> $response->status,
+                                                'status_name'=> $response->status_name,
+                                            ];
+                                        });;
+        return self::sendSuccess($data, 'User Transaction History');
+    }
  
     public function getPaymentHistoryInfo($id)
     {

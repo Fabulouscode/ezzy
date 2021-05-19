@@ -86,6 +86,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
             Route::get('/dashboard', 'DashboardController@getDashboardDetails');
             Route::get('/hcp/types/{id?}', 'DashboardController@getHealthCareTypes');
+            Route::post('/hcp/payment/history', 'DashboardController@getHCPPaymentHistory');
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
             Route::get('/payment/history/info/{id?}', 'DashboardController@getPaymentHistoryInfo');
             Route::post('/payout/history', 'DashboardController@getPayoutAmountHistory');
