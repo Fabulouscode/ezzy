@@ -303,7 +303,7 @@ class AppointmentController extends BaseApiController
         $appointment_charges = Self::calculateAppointmentCharges($request);
         $currency_symbol = $this->user_repo->currency_symbol;
         if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
-            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with minimum of '.$currency_symbol.$appointment_charges.' before booking an appointment.', 402);
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$appointment_charges.' before booking an appointment.', 402);
         }
         
         //Appointment home care book
@@ -425,7 +425,7 @@ class AppointmentController extends BaseApiController
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
         $currency_symbol = $this->user_repo->currency_symbol;
         if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
-            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with minimum of '.$currency_symbol.$minimum_balance->fees_percentage.' before booking an appointment.', 402);
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$minimum_balance->fees_percentage.' before booking an appointment.', 402);
         }
         
         if(!empty($request->appointment_type) && $request->appointment_type == '1'){
@@ -702,7 +702,7 @@ class AppointmentController extends BaseApiController
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
             $currency_symbol = $this->user_repo->currency_symbol;
             if(isset($wallet_balance) && !empty($reschedule_charges) && ($reschedule_charges > $wallet_balance)){
-                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with minimum of '.$currency_symbol.$reschedule_charges.' before reschedule an appointment.', 402);
+                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$reschedule_charges.' before reschedule an appointment.', 402);
             }
             $ezzycare_charge = 0;
             $user_payout = 0;
