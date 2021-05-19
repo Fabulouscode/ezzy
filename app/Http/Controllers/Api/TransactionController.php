@@ -343,9 +343,9 @@ class TransactionController extends BaseApiController
             $chat_history = $this->chat_history_repo->getById($request->id);
             DB::beginTransaction();
                 $updateUserTran = [
-                        'transaction_type' => '0',
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
+                        'status' => '0',
                         'client_id'=> $chat_history->user_id,
                         'transaction_msg'=>'Treatment plan',
                     ];
@@ -358,7 +358,7 @@ class TransactionController extends BaseApiController
                 $ezzycare_fees = 0;
                 $transaction_amount = $transaction->amount;
                 if (!empty($chat_history->user->category_id)) {
-                    $manage_fees = $this->fees_repo->getbyCategoryId($chat_history->user->category_id);
+                    $manage_fees = $this->fees_repo->getbyFeesKey('treatment_charges');
                     if (!empty($manage_fees->fees_percentage)) {
                         $ezzycare_fees = $manage_fees->fees_percentage;
                     }
