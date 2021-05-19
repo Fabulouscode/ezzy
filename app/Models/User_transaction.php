@@ -115,6 +115,12 @@ class User_transaction extends Model
                             'category'=> (!empty($this->client->categoryParent) && !empty($this->client->categoryParent->name))? $this->client->categoryParent->name : NULL,
                             'subcategory'=> (!empty($this->client->categoryChild) && !empty($this->client->categoryChild->name))? $this->client->categoryChild->name : NULL,
                         ]:NULL,
+            'client'=>(isset($this->users))?
+                        [
+                            'id'=>$this->users->id,
+                            'user_name'=>$this->users->user_name,
+                            'profile_image'=>$this->users->profile_image,
+                         ]:NULL,
             'appointment'=>(isset($this->tranAppointment))?
                     [
                         'id'=>$this->tranAppointment->id,
