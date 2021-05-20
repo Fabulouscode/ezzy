@@ -200,6 +200,7 @@ class Appointment extends Model
             'address'=>$this->address,
             'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
             'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
+            'urgent_fees'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->urgent_fees : '',
             'appointment_services'=>(!empty($this->appointmentServices))? $this->serviceDetailsformat($this->appointmentServices) :'',
             'client'=>(isset($this->client))?
                             [
