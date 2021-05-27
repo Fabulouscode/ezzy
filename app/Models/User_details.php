@@ -75,7 +75,8 @@ class User_details extends Model
         'nursing_home_visit_charge_full_day',
         'clinic_country',
         'clinic_state',
-        'address_type'
+        'address_type',
+        'practicing_licence_date'
     ];
 
 
