@@ -11,11 +11,12 @@ use App\Repositories\MedicineCategoryRepository;
 use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\UserTransactionRepository;
+use App\Repositories\ChatHistoryRepository;
 
 
 class DashboardController extends Controller
 {
-    private $user_repo, $order_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
+    private $user_repo, $order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -24,7 +25,8 @@ class DashboardController extends Controller
         MedicineCategoryRepository $medicine_category_repo,
         MedicineSubcategoryRepository $medicine_subcategory_repo,
         MedicineDetailsRepository $medicine_details_repo,
-        UserTransactionRepository $user_transaction_repo
+        UserTransactionRepository $user_transaction_repo,
+        ChatHistoryRepository $chat_history_repo
         )
     {
         $this->user_repo = $user_repo;
@@ -34,6 +36,7 @@ class DashboardController extends Controller
         $this->medicine_subcategory_repo = $medicine_subcategory_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->medicine_details_repo = $medicine_details_repo;
+        $this->chat_history_repo = $chat_history_repo;
     }
      
     /**
@@ -212,19 +215,25 @@ class DashboardController extends Controller
             $data['appointments_and_order_paid'] = 0;
             $data['appointments_and_order_total'] = 0;
             $data['orders_percentage'] = 0;
+            $data['treatment_plan_percentage'] = 0;
             $data['ezzycare_earning'] = $this->user_transaction_repo->userIncomeCalculate($request, 'fees_charge');
             $data['appointment_paid'] = $this->appointment_repo->getAppointmentCount($request, '1');
             $data['appointment_pending'] = $this->appointment_repo->getAppointmentCount($request, '0');
             $data['order_paid'] = $this->order_repo->getOrderCount($request, '1');
             $data['order_pending'] = $this->order_repo->getOrderCount($request, '0');
+            $data['treatment_plan_paid'] = $this->chat_history_repo->getTreatmentPlanCount($request, '1');
+            $data['treatment_plan_pending'] = $this->chat_history_repo->getTreatmentPlanCount($request, '0');
             if(!empty($data['appointment_paid']) || !empty($data['appointment_pending'])){
                 $data['appointments_percentage'] = ($data['appointment_paid'] * 100) / ($data['appointment_paid'] + $data['appointment_pending']);
             }
             if(!empty($data['order_paid']) || !empty($data['order_pending'])){
                 $data['orders_percentage'] = ($data['order_paid'] * 100) / ($data['order_paid'] + $data['order_pending']);
             }
-            $data['appointments_and_order_paid'] = $data['order_paid'] + $data['appointment_paid'];
-            $data['appointments_and_order_total'] = $data['order_paid'] + $data['appointment_paid'] + $data['order_pending'] + $data['appointment_pending'];
+            if(!empty($data['treatment_plan_paid']) || !empty($data['treatment_plan_pending'])){
+                $data['treatment_plan_percentage'] = ($data['treatment_plan_paid'] * 100) / ($data['treatment_plan_paid'] + $data['treatment_plan_pending']);
+            }
+            $data['appointments_and_order_paid'] = $data['order_paid'] + $data['appointment_paid'] + $data['treatment_plan_paid'];
+            $data['appointments_and_order_total'] = $data['order_paid'] + $data['appointment_paid'] + $data['order_pending'] + $data['appointment_pending'] + $data['treatment_plan_paid'] + $data['treatment_plan_pending'];
             
             if (!empty($data['ezzycare_earning'])) {
                 $data['ezzycare_earning'] = number_format($data['ezzycare_earning'], 2);

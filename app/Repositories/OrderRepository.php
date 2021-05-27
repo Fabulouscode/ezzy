@@ -459,14 +459,15 @@ class OrderRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getOrdersQuery($request, $hcp_provider, $laboratories_provider)
+    public function getOrdersQuery($request, $hcp_provider, $laboratories_provider, $treatment_plan)
     {
 
         $query = $this->model->where('status', '3')->select(DB::raw('DATE(created_at) as created_date'));
         
         $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
                 ->addSelect(DB::raw("count(id) AS orders"))    
-                ->addSelect(DB::raw("'0' AS lab_appointments"));       
+                ->addSelect(DB::raw("'0' AS lab_appointments"))
+                ->addSelect(DB::raw("'0' AS treatment_plan"));       
         
    
         if(!empty($request->start_date) && !empty($request->end_date)){
@@ -475,7 +476,7 @@ class OrderRepository extends Repository
 
         $query = $query->orderBy('created_date','desc')->groupBy('created_date');
 
-        $query = $query->union($hcp_provider)->union($laboratories_provider);
+        $query = $query->union($hcp_provider)->union($laboratories_provider)->union($treatment_plan);
         
         return $query;
     }

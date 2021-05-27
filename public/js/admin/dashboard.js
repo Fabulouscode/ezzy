@@ -190,18 +190,19 @@ function createAreaChart(data) {
             data: data,
             xkey: 'date',
             parseTime: false,
-            ykeys: ['hcp_count', 'order_count', 'lab_count'],
+            ykeys: ['hcp_count', 'order_count', 'lab_count', 'treatment_plan_count'],
             hoverCallback: function (index, options, content, row) {
                 var hover = "";
                 hover += "<div class='morris-hover-row-label'>" + row.date + "</div>";
                 hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#ff5560;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>HCP Appointments: </b> " + row.hcp_count + "</div>";
                 hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#fcc24c;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Pharmacy Orders: </b> " + row.order_count + "</div>";
                 hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#508aeb;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Laboratories Appointments: </b> " + row.lab_count + "</div>";
+                hover += "<div class='morris-hover-point' style='color: #A4ADD3'><span style='background-color:#28b16d;margin:2px 2px 0px 0px;padding:0px 5px 0px 10px;'></span><b>Treatment Plan: </b> " + row.treatment_plan_count + "</div>";
                 return hover;
                 // return (content);
             },
-            labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments'],
-            lineColors: ['#ff5560', '#fcc24c', '#508aeb'],
+            labels: ['HCP Appointments', 'Pharmacy Orders', 'Laboratories Appointments', 'Treatment Plan'],
+            lineColors: ['#ff5560', '#fcc24c', '#508aeb', '#28b16d'],
             hideHover: 'auto',
             gridIntegers: true,
             ymin: 0
@@ -270,10 +271,13 @@ function getAppointmentAndOrderEarning() {
                 $('#orders_earning').peity("donut", $('#orders_earning').data());
                 $('#appointments_earning').text(response.appointment_paid + ',' + response.appointment_pending);
                 $('#appointments_earning').peity("donut", $('#appointments_earning').data());
-                $('#appointments_and_order_earning').text(response.appointments_and_order_paid + '/' + response.appointments_and_order_total);
-                $('#appointments_and_order_earning').peity("pie", $('#appointments_and_order_earning').data());
+                $('#treatment_plan_earning').text(response.treatment_plan_paid + ',' + response.treatment_plan_pending);
+                $('#treatment_plan_earning').peity("donut", $('#treatment_plan_earning').data());
+                $('#appointments_order_treatment_earning').text(response.appointments_and_order_paid + '/' + response.appointments_and_order_total);
+                $('#appointments_order_treatment_earning').peity("pie", $('#appointments_order_treatment_earning').data());
                 $('#appointments_percentage').text(parseInt(response.appointments_percentage));
                 $('#orders_percentage').text(parseInt(response.orders_percentage));
+                $('#treatment_plan_percentage').text(parseInt(response.treatment_plan_percentage));
             }
         },
         error: function (error) {

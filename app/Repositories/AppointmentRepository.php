@@ -10,18 +10,20 @@ use Yajra\DataTables\DataTables;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
 use App\Repositories\OrderRepository;
+use App\Repositories\ChatHistoryRepository;
 use DB;
 
 class AppointmentRepository extends Repository
 {
     protected $model_name = 'App\Models\Appointment';
     protected $model;
-    private $order_repo;
+    private $order_repo, $chat_history_repo;
 
-    public function __construct(OrderRepository $order_repo)
+    public function __construct(OrderRepository $order_repo, ChatHistoryRepository $chat_history_repo)
     {
         parent::__construct();
         $this->order_repo = $order_repo;
+        $this->chat_history_repo = $chat_history_repo;
     }
 
     public function getStatusValue()
@@ -890,11 +892,13 @@ class AppointmentRepository extends Repository
         if(!empty($category_id) && $category_id == '1'){
              $query = $query->addSelect(DB::raw("count(id) AS hcp_appointments"))
                         ->addSelect(DB::raw("'0' AS orders"))    
-                        ->addSelect(DB::raw("'0' AS lab_appointments"));
+                        ->addSelect(DB::raw("'0' AS lab_appointments"))
+                        ->addSelect(DB::raw("'0' AS treatment_plan"));
         }else if(!empty($category_id) && $category_id == '3'){
              $query = $query->addSelect(DB::raw("'0' AS hcp_appointments"))
                         ->addSelect(DB::raw("'0' AS orders"))    
-                        ->addSelect(DB::raw("count(id) AS lab_appointments"));
+                        ->addSelect(DB::raw("count(id) AS lab_appointments"))
+                        ->addSelect(DB::raw("'0' AS treatment_plan"));
         }
 
         if(!empty($category_id)){
@@ -925,7 +929,8 @@ class AppointmentRepository extends Repository
         $data = array();
         $hcp_provider = $this->getHCPTypeWiseAppointment($request, '1', 'hcp');
         $laboratories_provider = $this->getHCPTypeWiseAppointment($request, '3', 'lab');
-        $pharmacy_provider = $this->order_repo->getOrdersQuery($request, $hcp_provider, $laboratories_provider);
+        $treatment_plan = $this->chat_history_repo->getTreatmentPlanChart($request);
+        $pharmacy_provider = $this->order_repo->getOrdersQuery($request, $hcp_provider, $laboratories_provider, $treatment_plan);
         
         // DB::connection()->enableQueryLog(); 
         $query = DB::query()->fromSub($pharmacy_provider, 'i_t');
@@ -934,6 +939,7 @@ class AppointmentRepository extends Repository
         $query = $query->addSelect(DB::raw("sum(hcp_appointments) AS hcp_count"));
         $query = $query->addSelect(DB::raw("sum(orders) AS order_count"));
         $query = $query->addSelect(DB::raw("sum(lab_appointments) AS lab_count"));
+        $query = $query->addSelect(DB::raw("sum(treatment_plan) AS treatment_plan_count"));
         $data = $query->orderBy('created_date','asc')->groupBy('created_date')->get()->toArray();
         // print_r($query);
         // die;

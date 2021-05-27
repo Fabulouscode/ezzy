@@ -259,12 +259,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="text-center">
-                                    <span class="peity-pie" id="appointments_and_order_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"]}' data-width="84" data-height="84">0/0</span>
+                                    <span class="peity-pie" id="appointments_order_treatment_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"]}' data-width="84" data-height="84">0/0</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row text-center">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div>
                                     <div class="mb-4">
                                         <span class="peity-donut appointments_earning" id="appointments_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">0,0</span>
@@ -273,13 +273,22 @@
                                     <p class="mb-0 text-muted">Appointment Earning</p>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div>
                                     <div class="mb-4">
                                         <span class="peity-donut" id="orders_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">0,0</span>
                                     </div>
                                     <h4><span id="orders_percentage">0</span>%</h4>
                                     <p class="text-muted mb-0">Order Earning</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div>
+                                    <div class="mb-4">
+                                        <span class="peity-donut" id="treatment_plan_earning" data-peity='{ "fill": ["#508aeb", "#f2f2f2"], "innerRadius": 22, "radius": 32 }' data-width="60" data-height="60">0,0</span>
+                                    </div>
+                                    <h4><span id="treatment_plan_percentage">0</span>%</h4>
+                                    <p class="text-muted mb-0">Treatment Plan Earning</p>
                                 </div>
                             </div>
                         </div>
