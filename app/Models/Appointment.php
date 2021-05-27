@@ -201,9 +201,9 @@ class Appointment extends Model
             'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
             'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
             'urgent_fees'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->urgent_fees : '',
-            'clinic_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->clinic_consultation_charge : '',
-            'home_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->home_consultation_charge : '',
-            'video_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->video_consultation_charge : '',
+            'clinic_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->clinic_consultation_charge : 0.0,
+            'home_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->home_consultation_charge : 0.0,
+            'video_consultation_charge'=> (!empty($this->user) && !empty($this->user->userDetails)) ? $this->user->userDetails->video_consultation_charge : 0.0,
             'appointment_services'=>(!empty($this->appointmentServices))? $this->serviceDetailsformat($this->appointmentServices) :'',
             'client'=>(isset($this->client))?
                             [
