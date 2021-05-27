@@ -80,7 +80,16 @@ class User_details extends Model
 
 
     public function getQualificationCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : '';
+      $data = json_decode($value);
+      $temp_arr = [];
+      if(!empty($data) && is_array($data)){        
+        foreach ($data as $k => $v) {
+          $temp_arr[] = url('storage/'.$v);
+        }        
+      }else{
+        $temp_arr[] = !empty($value) ? url('storage/'.$value) : '';
+      }
+      return json_encode($temp_arr);
     }
     public function getPracticingLicenceAttribute($value) {
         return !empty($value) ?  url('storage/'.$value) : '';
