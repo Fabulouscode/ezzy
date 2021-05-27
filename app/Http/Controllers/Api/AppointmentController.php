@@ -549,16 +549,17 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
       
-        if($appointment->urgent == '0' && $request->status == '6' && !empty($appointment->transaction_id)){
+        if($appointment->urgent == '1' && $request->status == '6'){
             $old_transaction_cahrges = 0;
             $cancellation_charge_per = 0;
-            $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
-            $old_transaction = $this->user_transaction_repo->getById($appointment->transaction_id);
+            $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('urgent_cancellation_charges');
             if(!empty($cancellation_charge->fees_percentage)){                    
                 $cancellation_charge_per = $cancellation_charge->fees_percentage;
             } 
-            if(!empty($old_transaction) && !empty($cancellation_charge_per)){
-                $old_transaction_cahrges = (($old_transaction->amount * $cancellation_charge_per ) / 100);
+            $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+            $currency_symbol = $this->user_repo->currency_symbol;
+            if(isset($wallet_balance) && !empty($cancellation_charge_per) && ($cancellation_charge_per > $wallet_balance)){
+                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$cancellation_charge_per.' before reschedule an appointment.', 402);
             }
             $updaappoint = [
                     'transaction_id'=> NULL,
@@ -566,41 +567,91 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($updaappoint, $request->id);            
             $this->user_transaction_repo->destroy($appointment->transaction_id);
             $this->user_repo->userWalletUpdate($appointment->client_id);  
-        }
-
-        $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
-        if(empty($request->user()->category_id) && !empty($old_transaction_cahrges) && $request->status == '6' && $appointment->status == '1'){
-            $extra_charges = 0;
-            $ezzycare_charge = 0;
-            $user_payout = 0;
-            $ezzycare_fees = 0;
-            $transaction_amount = $old_transaction_cahrges;
-
-            if(!empty($appointment->user->category_id)){                    
-                $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
-                if(!empty($manage_fees->fees_percentage)){
-                    $ezzycare_fees = $manage_fees->fees_percentage;
+            $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
+            if(empty($request->user()->category_id) && $request->status == '6' && $appointment->status == '1'){
+                $extra_charges = 0;
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                $transaction_amount = $cancellation_charge_per;
+    
+                if(!empty($appointment->user->category_id)){                    
+                    $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
+                    if(!empty($manage_fees->fees_percentage)){
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
                 }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_transaction = [
+                                'user_id'=> $appointment->client_id,
+                                'client_id'=> $appointment->user_id,
+                                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                                'mode_of_payment'=> '1',
+                                'transaction_type'=> '0',
+                                'status'=> '0',
+                                'payout_status' => '1',
+                                'amount' => $transaction_amount,
+                                'payout_amount'=> $user_payout,
+                                'fees_charge'=> $ezzycare_charge,
+                                'appointment_id' => $appointment->id,
+                                'transaction_msg'=>'Appointment cancellation charges',
+                            ];
+                    
             }
-            $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
-            $user_payout = $transaction_amount - $ezzycare_charge;
-            $add_transaction = [
-                            'user_id'=> $appointment->client_id,
-                            'client_id'=> $appointment->user_id,
-                            'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                            'mode_of_payment'=> '1',
-                            'transaction_type'=> '0',
-                            'status'=> '0',
-                            'payout_status' => '1',
-                            'amount' => $transaction_amount,
-                            'payout_amount'=> $user_payout,
-                            'fees_charge'=> $ezzycare_charge,
-                            'appointment_id' => $appointment->id,
-                            'transaction_msg'=>'Appointment cancellation charges',
-                        ];
-                
-        }
-             
+
+        }else if($appointment->urgent == '0' && $request->status == '6'){
+            if(!empty($appointment->transaction_id)){
+                $old_transaction_cahrges = 0;
+                $cancellation_charge_per = 0;
+                $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('cancellation_charges');
+                $old_transaction = $this->user_transaction_repo->getById($appointment->transaction_id);
+                if(!empty($cancellation_charge->fees_percentage)){                    
+                    $cancellation_charge_per = $cancellation_charge->fees_percentage;
+                } 
+                if(!empty($old_transaction) && !empty($cancellation_charge_per)){
+                    $old_transaction_cahrges = (($old_transaction->amount * $cancellation_charge_per ) / 100);
+                }
+                $updaappoint = [
+                        'transaction_id'=> NULL,
+                    ];
+                $this->appointment_repo->dataCrud($updaappoint, $request->id);            
+                $this->user_transaction_repo->destroy($appointment->transaction_id);
+                $this->user_repo->userWalletUpdate($appointment->client_id);  
+            }    
+            $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
+            if(empty($request->user()->category_id) && !empty($old_transaction_cahrges) && $request->status == '6' && $appointment->status == '1'){
+                $extra_charges = 0;
+                $ezzycare_charge = 0;
+                $user_payout = 0;
+                $ezzycare_fees = 0;
+                $transaction_amount = $old_transaction_cahrges;
+    
+                if(!empty($appointment->user->category_id)){                    
+                    $manage_fees = $this->manage_fees_repo->getbyCategoryId($appointment->user->category_id);
+                    if(!empty($manage_fees->fees_percentage)){
+                        $ezzycare_fees = $manage_fees->fees_percentage;
+                    }
+                }
+                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $transaction_amount - $ezzycare_charge;
+                $add_transaction = [
+                                'user_id'=> $appointment->client_id,
+                                'client_id'=> $appointment->user_id,
+                                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                                'mode_of_payment'=> '1',
+                                'transaction_type'=> '0',
+                                'status'=> '0',
+                                'payout_status' => '1',
+                                'amount' => $transaction_amount,
+                                'payout_amount'=> $user_payout,
+                                'fees_charge'=> $ezzycare_charge,
+                                'appointment_id' => $appointment->id,
+                                'transaction_msg'=>'Appointment cancellation charges',
+                            ];
+                    
+            }
+        }   
      
         try {
             DB::beginTransaction();
