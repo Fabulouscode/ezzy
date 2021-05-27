@@ -96,6 +96,8 @@ class ChatController extends BaseApiController
                                         'user_order_review'=>$response->user_order_review,
                                         'user_order_rating'=>$response->user_order_rating,
                                         'user_eduction_details'=>$response->user_eduction_details,
+                                        'category_name'=> (!empty($response->categoryParent)) ? $response->categoryParent->name : '',
+                                        'subcategory_name'=> (!empty($response->categoryChild)) ? $response->categoryChild->name : '',
                                         'status'=>$response->status,
                                         'status_name'=>$response->status_name,
                                     ];
