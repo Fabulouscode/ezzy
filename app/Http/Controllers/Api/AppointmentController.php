@@ -595,7 +595,7 @@ class AppointmentController extends BaseApiController
                                 'payout_amount'=> $user_payout,
                                 'fees_charge'=> $ezzycare_charge,
                                 'appointment_id' => $appointment->id,
-                                'transaction_msg'=>'Appointment cancellation charges',
+                                'transaction_msg'=>'Urgent Appointment cancellation charges',
                             ];
                     
             }
