@@ -231,7 +231,7 @@ class UserAuthController extends BaseApiController
                     return self::sendException($e);
                 }
             }else if(isset($user) && $user->status == '2'){
-                return self::sendError('', 'You have Inactive please wait for active');
+                return self::sendError('', 'You have been deactivated please wait to be activated');
             }else {
                 return self::sendError('', 'Please Fill up register details');
             }
@@ -292,7 +292,7 @@ class UserAuthController extends BaseApiController
                     return self::sendException($e);
                 }
             }else if(isset($user) && $user->status == '2'){
-                 return self::sendError('', 'You have Inactive please wait for active');
+                 return self::sendError('', 'You have been deactivated please wait to be activated');
             }else if(isset($user) && $user->status == '3'){
                  return self::sendError('', 'Please Verify mobile number');
             }else {
@@ -351,7 +351,7 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         }else{
-            return self::sendError('', 'Verify OTP code is wrong please check');
+            return self::sendError('', 'Wrong OTP code. Please check');
         }
     }
 

@@ -170,7 +170,7 @@
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
                                                 <td class="thick-line text-center">
-                                                    <strong>Urgent Fees</strong></td>
+                                                    <strong>Urgent Care</strong></td>
                                                 <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
                                             </tr>
                                             @endif
