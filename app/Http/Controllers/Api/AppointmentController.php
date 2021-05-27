@@ -561,13 +561,7 @@ class AppointmentController extends BaseApiController
             if(isset($wallet_balance) && !empty($cancellation_charge_per) && ($cancellation_charge_per > $wallet_balance)){
                 return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$cancellation_charge_per.' before reschedule an appointment.', 402);
             }
-            $updaappoint = [
-                    'transaction_id'=> NULL,
-                ];
-            $this->appointment_repo->dataCrud($updaappoint, $request->id);            
-            $this->user_transaction_repo->destroy($appointment->transaction_id);
-            $this->user_repo->userWalletUpdate($appointment->client_id);  
-            $appointment_timing =  $accept_appointment->diffInMinutes($current_appointment);
+            
             if(empty($request->user()->category_id) && $request->status == '6' && $appointment->status == '1'){
                 $extra_charges = 0;
                 $ezzycare_charge = 0;
@@ -1072,7 +1066,7 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($file_url, 'Appointment Invoice get');
     }
 
-        /** Accept Appointment */
+    /** Accept Appointment */
     public function acceptAppointment(AppointmentStatusRequest $request){
         
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
@@ -1083,7 +1077,19 @@ class AppointmentController extends BaseApiController
         DB::beginTransaction();
         try{
             $appointmentRequest= $this->appointment_repo->getById($request->id);
+            if($appointmentRequest->appointment_type == '1'){
+                $hcp_fees = $appointmentRequest->user->userDetails->home_consultation_charge;      
+                $home_visit_fees = $appointmentRequest->user->userDetails->urgent_fees;      
+            }else if($appointmentRequest->appointment_type == '2'){
+                $hcp_fees = $appointmentRequest->user->userDetails->video_consultation_charge;     
+                $home_visit_fees = $appointmentRequest->user->userDetails->urgent_fees;    
+            }else {
+                $hcp_fees = $appointmentRequest->user->userDetails->clinic_consultation_charge;    
+                $home_visit_fees = $appointmentRequest->user->userDetails->urgent_fees;    
+            }   
             $update_user = [
+                        'hcp_fees'=> $hcp_fees,
+                        'home_visit_fees'=> $home_visit_fees,
                         'user_id' => $request->user()->id,
                         'status' => '1',
                         'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
@@ -1112,7 +1118,6 @@ class AppointmentController extends BaseApiController
             return Self::sendException($e);
         }
     }
-
 
     public function getAppointmentProgressByUserId(Request $request, $client_id){
         $data = $this->appointment_repo->getbyClientIdToCheckAppointment($client_id, $request); 
@@ -1201,7 +1206,6 @@ class AppointmentController extends BaseApiController
 
         return $transaction_amount;
     }
-
 
     public function getAllTrackingAppointment(Request $request){
         $appointment_details = $this->appointment_repo->getAllTrackingAppointment($request);
