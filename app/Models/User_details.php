@@ -87,7 +87,7 @@ class User_details extends Model
         foreach ($data as $k => $v) {
           $temp_arr[] = url('storage/'.$v);
         }        
-      }else{
+      }else if(!empty($value)){
         $temp_arr[] = !empty($value) ? url('storage/'.$value) : '';
       }
       return json_encode($temp_arr);
