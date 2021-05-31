@@ -1027,6 +1027,7 @@ class AppointmentController extends BaseApiController
                     'status'=> '5',
                     'full_day'=> $full_day,
                     'appointment_price'=> $transaction_amount,
+                    'voucher_amount'=> $voucher_amount_apply,
                 ];
             $this->appointment_repo->dataCrud($update, $request->id);
             
