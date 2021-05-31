@@ -53,6 +53,7 @@ class AppointmentController extends BaseApiController
         $this->user_transaction_repo = $user_transaction_repo;
         $this->manage_fees_repo = $manage_fees_repo;
         $this->user_location_repo = $user_location_repo;
+        $this->voucher_code_repo = $voucher_code_repo;
     }
 
     public function walletUpdateBalance($user_id)
