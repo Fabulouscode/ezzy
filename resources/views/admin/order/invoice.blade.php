@@ -119,7 +119,7 @@
                                             <tr>
                                                 <td class="no-line text-center" colspan="4"></td>
                                                 <td class="no-line  text-center">
-                                                    <strong>Voucher Amount</strong></td>
+                                                    <strong>Voucher Amount (-)</strong></td>
                                                 <td class="no-line text-right">{{$currency_symbol.$data->voucher_amount}}</td>
                                             </tr>
                                             @endif
@@ -128,7 +128,7 @@
                                             <tr>
                                                 <td class="no-line text-center" colspan="4"></td>
                                                 <td class="thick-line text-center">
-                                                    <strong>Shipping</strong></td>
+                                                    <strong>Shipping (+)</strong></td>
                                                 <td class="thick-line text-right">{{$currency_symbol.$data->shipping_price}}</td>
                                             </tr>
                                             @endif

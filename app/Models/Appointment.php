@@ -159,6 +159,10 @@ class Appointment extends Model
     public function getInvoiceNoGenerateAttribute(){
        return 'INV-'.str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
+
+    public function voucherDetails() {
+        return $this->hasOne('App\Models\Voucher_code', 'id', 'voucher_code_id');
+    }
   
     public function getStartToEndTimeDiffAttribute(){
         $appointment_timing = '0';

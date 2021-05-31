@@ -29,6 +29,10 @@ class VoucherCodeRequest extends FormRequest
                 'quantity' => 'required|numeric',
                 'expiry_date' => 'required',
                 'voucher_type' => 'required',
+                'voucher_used' => 'required',
+                'percentage' => 'required',
+                'fix_amount' => 'required',
+                'min_amount' => 'required',
                 'status' =>'required',
         ];
     }

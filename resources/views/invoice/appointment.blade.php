@@ -150,6 +150,14 @@
                                                     <strong>Subtotal</strong></td>
                                                 <td class="thick-line text-center currency_symbol">{{$currency_symbol.$appointment_charge}}</td>
                                             </tr>
+                                            @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                            <tr>
+                                                <td class="no-line text-center" colspan="3"></td>
+                                                <td class="thick-line text-center">
+                                                    <strong>Voucher Amount (-)</strong></td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->voucher_amount}}</td>
+                                            </tr>
+                                            @endif
                                             @if($data->appointment_type == '1' && ($data->user->category_id == '8' || $data->user->category_id == '9' || $data->user->category_id == '10'))
                                             <tr>
                                                 @if(!empty($data->appointmentServices) && count($data->appointmentServices) > 0)
@@ -158,7 +166,7 @@
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
                                                 <td class="thick-line text-center">
-                                                    <strong>Home Visit Fees</strong></td>
+                                                    <strong>Home Visit Fees (+)</strong></td>
                                                 <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
                                             </tr>
                                             @endif
@@ -170,7 +178,7 @@
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 @endif
                                                 <td class="thick-line text-center">
-                                                    <strong>Urgent Care</strong></td>
+                                                    <strong>Urgent Care (+)</strong></td>
                                                 <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
                                             </tr>
                                             @endif

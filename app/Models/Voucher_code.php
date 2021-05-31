@@ -16,8 +16,13 @@ class Voucher_code extends Model
  
     public $voucher_type_value = array(
         // '0' => 'Common',
-        // '1' => 'Appointment',
+        '1' => 'Appointment',
         '2' => 'Order',
+    );
+ 
+    public $voucher_used_value = array(
+        '0' => 'One Time',
+        '1' => 'Multiple Time',
     );
  
     /**
@@ -35,10 +40,11 @@ class Voucher_code extends Model
         'fix_amount',
         'min_amount',
         'voucher_type',
-        'status'
+        'status',
+        'voucher_used'
     ];
 
-    protected $appends = ['status_name','voucher_type_name'];
+    protected $appends = ['status_name', 'voucher_type_name', 'voucher_used_name'];
 
     public function getStatusNameAttribute() {
         return array_key_exists($this->status, $this->status_value) ? $this->status_value[$this->status]: '';
@@ -46,6 +52,10 @@ class Voucher_code extends Model
  
     public function getVoucherTypeNameAttribute() {
         return array_key_exists($this->voucher_type, $this->voucher_type_value) ? $this->voucher_type_value[$this->voucher_type]: '';
+    }
+  
+    public function getVoucherUsedNameAttribute() {
+        return array_key_exists($this->voucher_used, $this->voucher_used_value) ? $this->voucher_used_value[$this->voucher_used]: '';
     }
     
 }

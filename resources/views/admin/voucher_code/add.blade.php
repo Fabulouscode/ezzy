@@ -73,8 +73,17 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
+                                <label>Minimum Bill Amount</label>
+                                <input id="min_amount" type="text" required class="form-control @error('min_amount') is-invalid @enderror" name="min_amount" value="{{!empty($data->min_amount) ? $data->min_amount : old('min_amount') }}" />
+                                @error('min_amount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label>Percentage</label>
-                                <input id="percentage" type="text" class="form-control @error('percentage') is-invalid @enderror" name="percentage" value="{{!empty($data->percentage) ? $data->percentage : old('percentage') }}" />
+                                <input id="percentage" type="text" required class="form-control @error('percentage') is-invalid @enderror" name="percentage" value="{{!empty($data->percentage) ? $data->percentage : old('percentage') }}" />
                                 @error('percentage')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -83,17 +92,8 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Fix Amount</label>
-                                <input id="fix_amount" type="text" class="form-control @error('fix_amount') is-invalid @enderror" name="fix_amount" value="{{!empty($data->fix_amount) ? $data->fix_amount : old('fix_amount') }}" />
+                                <input id="fix_amount" type="text" required class="form-control @error('fix_amount') is-invalid @enderror" name="fix_amount" value="{{!empty($data->fix_amount) ? $data->fix_amount : old('fix_amount') }}" />
                                 @error('fix_amount')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Min Amount</label>
-                                <input id="min_amount" type="text" class="form-control @error('min_amount') is-invalid @enderror" name="min_amount" value="{{!empty($data->min_amount) ? $data->min_amount : old('min_amount') }}" />
-                                @error('min_amount')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -101,9 +101,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label>Voucher Type</label>
-                                <select  type="text" class="form-control @error('voucher_type') is-invalid @enderror" name="voucher_type" >
+                                <select  type="text" required class="form-control @error('voucher_type') is-invalid @enderror" name="voucher_type" >
                                     @foreach($voucher_type as $key => $value)
                                         <option value="{{$key}}" {{ isset($data->voucher_type) && $key == $data->voucher_type ? 'selected' : '' }}>{{$value}}</option>
                                     @endforeach
@@ -114,9 +114,22 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label>Voucher Used</label>
+                                <select  type="text" required class="form-control @error('voucher_used') is-invalid @enderror" name="voucher_used" >
+                                    @foreach($voucher_used as $key => $value)
+                                        <option value="{{$key}}" {{ isset($data->voucher_used) && $key == $data->voucher_used ? 'selected' : '' }}>{{$value}}</option>
+                                    @endforeach
+                                </select>
+                                @error('voucher_used')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label>Status</label>
-                                <select  type="text" class="form-control @error('status') is-invalid @enderror" name="status" >
+                                <select  type="text" required class="form-control @error('status') is-invalid @enderror" name="status" >
                                     @foreach($status as $key => $value)
                                         <option value="{{$key}}" {{ isset($data->status) && $key == $data->status ? 'selected' : '' }}>{{$value}}</option>
                                     @endforeach

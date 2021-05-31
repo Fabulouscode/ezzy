@@ -12,6 +12,7 @@ use App\Repositories\NotificationRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\UserLocationRepository;
 use App\Repositories\ManageFeesRepository;
+use App\Repositories\VoucherCodeRepository;
 use App\Http\Requests\Api\AppointmentRequest;
 use App\Http\Requests\Api\UrgentAppointmentRequest;
 use App\Http\Requests\Api\AppointmentStatusRequest;
@@ -29,7 +30,7 @@ use App\Http\Helpers\Helper;
 
 class AppointmentController extends BaseApiController
 {
-    private $user_location_repo, $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
+    private $user_location_repo, $voucher_code_repo, $appointment_repo, $appointment_service_repo, $user_service_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
 
     public function __construct(
             AppointmentRepository $appointment_repo, 
@@ -39,7 +40,8 @@ class AppointmentController extends BaseApiController
             UserRepository $user_repo,
             UserTransactionRepository $user_transaction_repo,
             ManageFeesRepository $manage_fees_repo,
-            UserLocationRepository $user_location_repo
+            UserLocationRepository $user_location_repo,
+            VoucherCodeRepository $voucher_code_repo
         )
     {
         parent::__construct();
@@ -327,6 +329,27 @@ class AppointmentController extends BaseApiController
             \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Provider is already booked on your selected time.');
         }
+
+        // coupon code check
+        if(!empty($request->voucher_code_id)){
+
+            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
+            if(empty($voucher_code)){
+                return self::sendError('', 'Voucher Code is not available');
+            }
+
+            $voucher_code_used = $this->appointment_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
+            if(!empty($voucher_code_used) && !empty($voucher_code) && !empty($voucher_code->id) && $voucher_code->voucher_used == '0'){
+                return self::sendError('', 'Voucher Code is already used');
+            }
+
+            if(!empty($voucher_code) && !empty($voucher_code->id)){
+                if($voucher_code->min_amount > $appointment_charges){
+                    return self::sendError('', 'Voucher Code is not apply');
+                }
+            }
+
+        }
         
         $appointment_address = "";
         
@@ -432,19 +455,42 @@ class AppointmentController extends BaseApiController
                         }  
                     }
                 } 
-    
+
+                $voucher_amount_apply = 0;
+                if(!empty($request->voucher_code_id)){
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1'); 
+                    if(!empty($voucher_code) && !empty($voucher_code->id)){
+                        
+                        if(!empty($voucher_code->percentage)){
+                            $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                        }
+
+                        if($voucher_code->fix_amount > $voucher_amount_apply){
+                            $voucher_amount_apply = $voucher_amount_apply;
+                        }else {
+                            $voucher_amount_apply = $voucher_code->fix_amount;
+                        }
+
+                        $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity - 1)], $request->voucher_code_id);    
+                    }
+
+                }
+
                 $updateuser = [
                     'hcp_fees'=> $hcp_fees,
                     'home_visit_fees'=> $home_visit_fees,
+                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $home_visit_fees : NULL,
+                    'voucher_amount'=> $voucher_amount_apply,
                 ];
                 $this->appointment_repo->dataCrud($updateuser, $data->id);
             }
 
 
             if(!empty($data)){
+                $transaction_amount = $appointment_charges - $voucher_amount_apply;
                 $add_transaction = [
                         'user_id'=> $data->client_id,
-                        'amount'=> $appointment_charges,
+                        'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '0',
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
@@ -960,6 +1006,9 @@ class AppointmentController extends BaseApiController
                 }
             }
      
+            if(!empty($appointment_details->voucher_code_id)){
+                $transaction_amount = $transaction_amount - $appointment_details->voucher_amount;
+            }
 
             $update = [
                     'status'=> '5',

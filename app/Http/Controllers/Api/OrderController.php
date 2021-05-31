@@ -526,6 +526,38 @@ class OrderController extends BaseApiController
                 }
             }
         }
+
+        // coupon code check
+        if(!empty($request->voucher_code_id)){
+
+            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
+            if(empty($voucher_code)){
+                return self::sendError('', 'Voucher Code is not available');
+            }
+
+            $voucher_code_used = $this->order_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
+            if(!empty($voucher_code_used) && !empty($voucher_code) && !empty($voucher_code->id) && $voucher_code->voucher_used == '0'){
+                return self::sendError('', 'Voucher Code is already used');
+            }
+
+            if(!empty($voucher_code) && !empty($voucher_code->id)){
+                $transaction_amount = 0;
+                foreach ($cart_details as $key => $value) {
+                    $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                    $stock_available_offer_price = 0;
+                    $stock_available_offer_price = !empty($stock_available->offer_price) ? $stock_available->offer_price : $stock_available->mrp_price;
+                    $transaction_amount += $stock_available_offer_price * $value->quantity;    
+                }
+
+                if($voucher_code->min_amount > $transaction_amount){
+                    return self::sendError('', 'Voucher Code is not apply');
+                }
+            }else{
+                return self::sendError('', 'Voucher Code is not available');
+            }
+
+        }
+
         try{
             DB::beginTransaction();
             $order_data = [
@@ -564,13 +596,11 @@ class OrderController extends BaseApiController
                         
                         if(!empty($voucher_code->percentage)){
                             $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
-                        }else{
-                            $voucher_amount_apply = $transaction_amount;
                         }
 
-                        if($voucher_amount_apply <= $voucher_code->min_amount){
-                            $voucher_amount_apply = $voucher_code->min_amount;
-                        }else if($voucher_amount_apply >= $voucher_code->fix_amount){
+                        if($voucher_code->fix_amount > $voucher_amount_apply){
+                            $voucher_amount_apply = $voucher_amount_apply;
+                        }else {
                             $voucher_amount_apply = $voucher_code->fix_amount;
                         }
 

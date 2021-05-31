@@ -139,6 +139,16 @@
                                                     @endif 
                                                 </dd>
                                             </div> 
+                                            @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                            <div class="row">
+                                                <dt class="col-sm-5"><label>Voucher Amount </label></dt>
+                                                <dd class="col-sm-7"> 
+                                                    @if(isset($data->voucher_amount))
+                                                        {{$currency_symbol.$data->voucher_amount}}
+                                                    @endif 
+                                                </dd>
+                                            </div> 
+                                            @endif
                                         @else
                                             @if($data->appointment_type == '1')
                                                 <div class="row">

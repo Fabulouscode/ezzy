@@ -30,6 +30,11 @@ class VoucherCodeRepository extends Repository
         return $this->model->voucher_type_value;
     }
 
+    public function getVoucherUsedValue()
+    {
+        return $this->model->voucher_used_value;
+    }
+
      /**
      * Store a newly created resource in storage.
      *

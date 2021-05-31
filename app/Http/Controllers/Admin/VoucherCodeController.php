@@ -39,7 +39,8 @@ class VoucherCodeController extends Controller
     {
         $status = $this->voucher_code_repo->getStatusValue();
         $voucher_type = $this->voucher_code_repo->getVoucherTypeValue();
-        return view('admin.voucher_code.add',compact('voucher_type','status'));
+        $voucher_used = $this->voucher_code_repo->getVoucherUsedValue();
+        return view('admin.voucher_code.add',compact('voucher_type','status','voucher_used'));
     }
 
     /**
@@ -60,6 +61,7 @@ class VoucherCodeController extends Controller
                     'fix_amount' => $request->fix_amount,
                     'min_amount' => $request->min_amount,
                     'voucher_type' => $request->voucher_type,
+                    'voucher_used' => $request->voucher_used,
                     'status' => $request->status
                 ];
 
@@ -85,9 +87,10 @@ class VoucherCodeController extends Controller
     {
         $status = $this->voucher_code_repo->getStatusValue();
         $voucher_type = $this->voucher_code_repo->getVoucherTypeValue();
+        $voucher_used = $this->voucher_code_repo->getVoucherUsedValue();
         $data = $this->voucher_code_repo->getById($id);
         $data->expiry_date = Carbon::parse($data->expiry_date)->format('Y-m-d\TH:i');
-        return view('admin.voucher_code.add',compact('data','status','voucher_type'));
+        return view('admin.voucher_code.add',compact('data','status','voucher_type','voucher_used'));
     }
 
     /**

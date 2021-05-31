@@ -507,5 +507,10 @@ class OrderRepository extends Repository
     {   			
         return $this->model->where('client_id', $request->user()->id)->where('user_id', $id)->whereIn('status',['1','2'])->first();   
     }
+ 
+    public function checkVoucherCodeUsed($client_id, $voucher_id)
+    {   			
+        return $this->model->where('client_id', $client_id)->where('voucher_code_id', $voucher_id)->first();   
+    }
 
 }
