@@ -463,7 +463,7 @@ class AppointmentController extends BaseApiController
                     if(!empty($voucher_code) && !empty($voucher_code->id)){
                         
                         if(!empty($voucher_code->percentage)){
-                            $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                            $voucher_amount_apply = (($appointment_charges / 100 ) * $voucher_code->percentage);
                         }
 
                         if($voucher_code->fix_amount > $voucher_amount_apply){
@@ -480,7 +480,7 @@ class AppointmentController extends BaseApiController
                 $updateuser = [
                     'hcp_fees'=> $hcp_fees,
                     'home_visit_fees'=> $home_visit_fees,
-                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $home_visit_fees : NULL,
+                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : '',
                     'voucher_amount'=> $voucher_amount_apply,
                 ];
                 $this->appointment_repo->dataCrud($updateuser, $data->id);
