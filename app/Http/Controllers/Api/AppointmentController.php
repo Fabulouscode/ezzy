@@ -480,7 +480,7 @@ class AppointmentController extends BaseApiController
                 $updateuser = [
                     'hcp_fees'=> $hcp_fees,
                     'home_visit_fees'=> $home_visit_fees,
-                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : '',
+                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : null,
                     'voucher_amount'=> $voucher_amount_apply,
                 ];
                 $this->appointment_repo->dataCrud($updateuser, $data->id);
