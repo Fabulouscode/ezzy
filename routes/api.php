@@ -24,6 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('App\Http\Controllers\Api')->group(function(){
    Route::any('/send/offline/push', 'OfflineNotificationController@offlineNotificationSend');
    Route::get('/notification/check', 'DashboardController@checkNotification');
+   //Route::post('/interswitch/initialize_transaction', 'PaymentController@initializeTransactionInterswitch');
+  
+   Route::post('/contact/form_submit', 'UserController@addContactDetails');
 });
 
 Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){

@@ -195,6 +195,12 @@
                     </a>
                 </li>
                 @endcan
+                <li>
+                    <a href="{{url('/contact_form')}}" class="waves-effect">
+                        <i class="dripicons-list"></i>
+                        <span> Contact Form </span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="clearfix"></div>

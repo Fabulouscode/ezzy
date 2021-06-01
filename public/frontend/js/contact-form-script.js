@@ -1,5 +1,76 @@
-(function($){"use strict";$("#contactForm").validator().on("submit",function(event){if(event.isDefaultPrevented()){formError();submitMSG(false,"Did you fill in the form properly?");}else{event.preventDefault();submitForm();}});function submitForm(){var name=$("#name").val();var email=$("#email").val();var msg_subject=$("#msg_subject").val();var phone_number=$("#phone_number").val();var message=$("#message").val();$.ajax({type:"POST",url:"assets/php/form-process.php",data:"name="+name+"&email="+email+"&msg_subject="+msg_subject+"&phone_number="+phone_number+"&message="+message,success:function(text){if(text=="success"){formSuccess();}else{formError();submitMSG(false,text);}}});}
-function formSuccess(){$("#contactForm")[0].reset();submitMSG(true,"Message Submitted!")}
-function formError(){$("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function(){$(this).removeClass();});}
-function submitMSG(valid,msg){if(valid){var msgClasses="h4 tada animated text-success";}else{var msgClasses="h4 text-danger";}
-$("#msgSubmit").removeClass().addClass(msgClasses).text(msg);}}(jQuery));
+$(function () {
+    $("form[name='contactForm']").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    minlength: 3
+                },
+                subject: {
+                    required: true,
+                    minlength: 3
+                },
+                message: {
+                    required: true,
+                    minlength: 10
+                }
+            },
+            messages: {
+                name:  {
+                    required: "Please enter your Name",
+                },
+                email: {
+                    required: "Please enter your Email",
+                    email: "Please enter a valid Email"
+                },
+                subject: {
+                    required: "Please enter Subject",
+                },
+                message: {
+                    required: "Please enter Message",
+                }
+            },
+            submitHandler: function(form) {
+                formSubmit();
+            }
+    });
+
+    
+    function formSubmit() {
+        if (!$('#contactForm').valid()) {
+            formError();
+            return true;
+        }
+        $.ajax({
+            data: $('#contactForm').serialize(),
+            url: SITEURL + "/api/contact/form_submit",
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                formSuccess();
+                toastr.success('Contact form submit success', App_name_global);
+            },
+            error: function (error) {
+                formError();
+                toastr.error(error.responseJSON.msg, App_name_global);
+            }
+        });
+    }
+
+    function formSuccess() {
+        $("#contactForm")[0].reset();
+    }
+
+    function formError() {
+        $("#contactForm")
+            .removeClass()
+            .addClass("shake animated")
+            .one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function () {
+                $(this).removeClass();
+            });
+    }
+});

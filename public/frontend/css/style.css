@@ -3922,6 +3922,17 @@ ul {
     -webkit-animation-delay: -1s;
     animation-delay: -1s;
 }
+
+label.error {
+    color: red;
+}
+input.error {
+    border: 1px solid red;
+}
+textarea.error {
+    border: 1px solid red;
+}
+
 @-webkit-keyframes sk-bounce {
     0%,
     100% {

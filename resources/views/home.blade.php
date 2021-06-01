@@ -18,7 +18,8 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}" />
-        
+        <!-- Toaster Msg -->
+        <link href="{{ asset('css/toastr.css') }}" rel="stylesheet" type="text/css">
     </head>
     <body data-spy="scroll" data-offset="70">
         <div class="loader-content">
@@ -321,7 +322,7 @@
                             <p>If you are on the phone, you have a phone in your home or place of work, so that you can be used by phone. Ezzycare is available on your Android and IOS phone. Get Installation very easily from below links.
                             </p>
                             <div class="why-choose-btn">
-                                <a href="#" class="active">
+                                <a href="https://play.google.com/store/apps/details?id=com.ezzycare" >
                                     <i class="flaticon-play-store"></i>
                                     <p>Get It on</p>
                                     <h5>Google Play</h5>
@@ -355,26 +356,26 @@
                     </div>
                     <div class="row flex-lg-row-reverse">
                         <div class="col-xl-7 col-lg-7">
-                            <form id="contactForm" method="POST" action="contact.php" class="contact-form">
+                            <form id="contactForm" name="contactForm" action="javascript:void(0)" class="contact-form">
                                 <div class="row"> 
                                     <div class="col-xl-6 col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <input type="text" id="name" class="form-control" placeholder="Name">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <input type="email" class="email form-control" id="email" placeholder="Email">
+                                            <input type="email" name="email" class="email form-control" id="email" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <input type="text" id="msg_subject" class="form-control" placeholder="Subject">
+                                            <input type="text" name="subject" id="msg_subject" class="form-control" placeholder="Subject">
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <textarea id="message" rows="5" placeholder="Massage" class="form-control"></textarea>
+                                            <textarea id="message"  name="message" rows="5" placeholder="Massage" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
@@ -514,23 +515,49 @@
             <i class="flaticon-startup"></i>
         </div> -->
         <a href="#" class="top-btn"><i class="fa fa-angle-up"></i></a>
-
+        <script>            
+            var App_name_global =  "{{ config('app.name', 'Laravel') }}";
+            var SITEURL = "{{URL::to('')}}";
+        </script>
         <script src="{{ asset('frontend/js/jquery-2.2.4.min.js') }}"></script>
         <script src="{{ asset('frontend/js/popper.min.js') }}"></script>
         <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('frontend/js/jquery.ajaxchimp.min.js') }}"></script>
         <script src="{{ asset('frontend/js/form-validator.min.js') }}"></script>
-        <script src="{{ asset('frontend/js/contact-form-script.js') }}"></script>
         <script src="{{ asset('frontend/js/slick.min.js') }}"></script>
         <script src="{{ asset('frontend/js/jquery.mixitup.min.js') }}"></script>
         <script src="{{ asset('frontend/js/counter.min.js') }}"></script>
         <script src="{{ asset('frontend/js/waypoint.min.js') }}"></script>
         <script src="{{ asset('frontend/js/wow.min.js') }}"></script>
         <script src="{{ asset('frontend/js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('frontend/js/custom.js') }}"></script>
-        <script type="text/javascript">
-            
-          </script>
+        <script src="{{ asset('admin/js/jquery.validate.js') }}"></script>
+        <script src="{{ asset('frontend/js/custom.js') }}"></script>        
+        <script src="{{ asset('frontend/js/contact-form-script.js') }}"></script>
+        <!-- Toaster Msg -->
+        <script src="{{ asset('js/toastr.js') }}" ></script>
+
+<script type="text/javascript">
+$(function () {
+    toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+});
+
+</script>
     </body>
 </html>

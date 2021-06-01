@@ -72,6 +72,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // User review routes        
         Route::resource('user/review', 'UserReviewController');  
+        
+        // contact form routes        
+        Route::resource('contact_form', 'ContactDetailsController');  
 
         // Users routes
         Route::post('user/change_status', 'UserController@changeStatus');

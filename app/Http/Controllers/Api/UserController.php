@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Repositories\UserDetailsRepository;
 use App\Repositories\AppointmentRepository;
+use App\Repositories\ContactDetailsRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -14,22 +15,25 @@ use App\Http\Requests\Api\UserExperianceDetailsRequest;
 use App\Http\Requests\Api\UploadFileRequest;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Requests\Api\CallNotificationSend;
+use App\Http\Requests\Api\ContactDetailsRequest;
 use App\Http\Helpers\Helper;
 
 class UserController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $appointment_repo;
+    private $user_repo, $user_details_repo, $appointment_repo, $contact_repo;
 
     public function __construct(
         UserRepository $user_repo, 
         UserDetailsRepository $user_details_repo,
-        AppointmentRepository $appointment_repo
+        AppointmentRepository $appointment_repo,
+        ContactDetailsRepository $contact_repo
     )
     {
         parent::__construct();
         $this->user_repo = $user_repo;
         $this->user_details_repo = $user_details_repo;
         $this->appointment_repo = $appointment_repo;
+        $this->contact_repo = $contact_repo;
     }
 
 
@@ -186,5 +190,17 @@ class UserController extends BaseApiController
                                     ];
                                 });
         return self::sendSuccess($user_list, 'User Profile list Successfully');
+    }
+
+    // add contact details
+    public function addContactDetails(ContactDetailsRequest $request)
+    {
+        $data = $request->all();
+        try{
+            $this->contact_repo->dataCrud($data);
+            return self::sendSuccess('', 'Contact Form Add Successfully');
+        }catch(\Exception $e){
+            return self::sendException($e);
+        }
     }
 }
