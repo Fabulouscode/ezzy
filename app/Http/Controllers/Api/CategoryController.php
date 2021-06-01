@@ -40,6 +40,23 @@ class CategoryController extends BaseApiController
         $data = $this->category_repo->getByParentId($id);
         return self::sendSuccess($data);
     }
+ 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTimeoutCheck(Request $request)
+    {
+        $arr = ['1','2','3','4','5'];
+        \Log::info("sleep start ".date('H:i:s'));
+        foreach ($arr as $key => $value) {
+            \Log::info("sleep start ".date('H:i:s'));
+            sleep(30);
+            \Log::info("sleep end ".date('H:i:s'));
+        }
+
+    }
 
    
 }

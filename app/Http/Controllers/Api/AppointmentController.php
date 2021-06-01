@@ -1180,7 +1180,7 @@ class AppointmentController extends BaseApiController
         
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
         if(empty($appointment_det)){
-            return self::sendError('', 'This appointment is already accepted to other doctor');
+            return self::sendError('', 'Request time out');
         }
      
         DB::beginTransaction();

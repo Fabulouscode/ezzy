@@ -26,6 +26,7 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
    Route::get('/notification/check', 'DashboardController@checkNotification');
    //Route::post('/interswitch/initialize_transaction', 'PaymentController@initializeTransactionInterswitch');
   
+   Route::get('/check/request_timeout', 'CategoryController@getTimeoutCheck');
    Route::post('/contact/form_submit', 'UserController@addContactDetails');
 });
 
