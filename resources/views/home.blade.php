@@ -322,7 +322,7 @@
                             <p>If you are on the phone, you have a phone in your home or place of work, so that you can be used by phone. Ezzycare is available on your Android and IOS phone. Get Installation very easily from below links.
                             </p>
                             <div class="why-choose-btn">
-                                <a href="https://play.google.com/store/apps/details?id=com.ezzycare" >
+                                <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
                                     <i class="flaticon-play-store"></i>
                                     <p>Get It on</p>
                                     <h5>Google Play</h5>
