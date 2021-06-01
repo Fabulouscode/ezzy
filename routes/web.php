@@ -13,21 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/admin', function () {
+    return redirect('login');
+});
+Route::get('/admin/login', function () {
+    return redirect('login');
+});
+
 
 // Auth::routes();
 
 Route::namespace('App\Http\Controllers')->group(function(){
 
-     Route::namespace('Auth')->group(function(){
+    Route::namespace('Auth')->group(function(){
         Route::get('/login', 'LoginController@showAdminLoginForm')->name('login');
-        Route::get('/register', 'RegisterController@showAdminRegisterForm')->name('register');
+        // Route::get('/register', 'RegisterController@showAdminRegisterForm')->name('register');
         Route::get('/lockscreen', 'LockScreenController@showAdminLockScreenForm')->name('lockscreen');
 
         Route::post('/admin/login', 'LoginController@adminLogin');
-        Route::post('/admin/register', 'RegisterController@createAdmin');
+        // Route::post('/admin/register', 'RegisterController@createAdmin');
         Route::post('/admin/lockscreen', 'LockScreenController@adminLockscreen');
 
         Route::middleware('auth:admin')->group(function(){
@@ -36,10 +43,11 @@ Route::namespace('App\Http\Controllers')->group(function(){
     });
 
     Route::view('/support_chat', 'admin.support_request.chat');
+    
     Route::namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
        
         // Main Dashoard
-        Route::get('/', 'DashboardController@index');
+        Route::get('/dashboard', 'DashboardController@index');
         Route::post('/chart/revenue', 'DashboardController@getRevenueChartdata');
         Route::post('/chart/income', 'DashboardController@getIncomeChartdata');
         Route::post('/chart/earning', 'DashboardController@getEarningdata');

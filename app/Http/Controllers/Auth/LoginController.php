@@ -47,6 +47,11 @@ class LoginController extends Controller
         return view('auth.login', ['url' => 'admin']);
     }
 
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
+    }
+
     public function adminLogin(Request $request)
     {
         $this->validate($request, [
@@ -60,7 +65,7 @@ class LoginController extends Controller
                         'timezone' => !empty($request->timezone) ? $request->timezone : 'UTC'
                     ];
             $admin->update($data);  
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
         return back()->withInput($request->only('email', 'remember'))->withError('These credentials do not match our records.');
     }

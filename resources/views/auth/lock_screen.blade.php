@@ -11,7 +11,7 @@
                     <div class="card-body">
     
                         <h3 class="text-center mt-0 m-b-15">
-                            <a href="{{ url('/') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
+                            <a href="{{ url('/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
                         </h3>
 
                         <div class="p-3">

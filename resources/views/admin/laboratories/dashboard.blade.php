@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">Main Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Main Dashboard</a></li>
                     <li class="breadcrumb-item active">Laboratories Dashboard</li>
                 </ol>
             </div>

@@ -14,7 +14,7 @@
         <div id="sidebar-menu">
             <ul>
                 <li>
-                    <a href="{{url('/')}}" class="waves-effect">
+                    <a href="{{url('/dashboard')}}" class="waves-effect">
                         <i class="dripicons-home"></i>
                         <span> Dashboard </span>
                     </a>

@@ -16,14 +16,14 @@ class LockScreenController extends Controller
             Session::put('locked', true);
             return view('auth.lock_screen');
         }
-         return redirect('/');
+         return redirect('/login');
     }
 
     public function adminLockscreen(Request $request)
     {
 
         if(!Auth::guard('admin')->check()){            
-            return redirect('/');
+            return redirect('/login');
         }
         $this->validate($request, [
             'password' => 'required|string',
@@ -31,7 +31,7 @@ class LockScreenController extends Controller
 
         if(Hash::check($request->password, Auth::guard('admin')->user()->password)){
             $request->session()->forget('locked');
-            return redirect('/');
+            return redirect('/dashboard');
         }
         return back()->withInput()->withError('Password does not match. Please try again.');
 

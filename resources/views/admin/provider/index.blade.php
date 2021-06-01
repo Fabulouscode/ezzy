@@ -14,7 +14,12 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item">
+                    @if($provider != 'patients')
+                        <a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    @else
+                        <a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    @endif
                     <li class="breadcrumb-item active">
                         @if($provider != 'patients')
                             {{array_key_exists($provider, $provider_names) ? 'Approved '.$provider_names[$provider]: 'Approved '}} 

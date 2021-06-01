@@ -13,7 +13,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{url('/static_pages')}}">Static Page</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>

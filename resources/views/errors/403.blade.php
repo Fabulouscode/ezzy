@@ -16,7 +16,7 @@
                                     <h1 class="text-primary">4<i class="fa fa-smile-o text-warning ml-1 mr-1"></i>3!</h1>
                                     <h3 class="">Sorry, $exception->getMessage() ?: 'Forbidden'</h3><br>
             
-                                    <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('')}}">Back to Dashboard</a>
+                                    <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/dashboard')}}">Back to Dashboard</a>
                                 </div>
             
                             </div>

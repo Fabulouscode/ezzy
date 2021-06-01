@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{url('/category')}}">Admin List</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
