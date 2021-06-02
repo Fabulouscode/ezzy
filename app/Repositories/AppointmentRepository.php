@@ -535,6 +535,35 @@ class AppointmentRepository extends Repository
         return $query;
       
     }
+
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkAcceptTimeUserAvailable($appointment, $user_id)
+    {   
+            // appointment same time not book	
+
+        $start_appointment  = new Carbon($appointment->appointment_time);
+        $end_appointment  = new Carbon($appointment->appointment_end_time);
+        $query = $this->model
+                    ->where(function($query) use ($appointment){
+                        $query->whereBetween('appointment_date', [$appointment->appointment_date, $appointment->appointment_end_date])
+                            ->orWhereBetween('appointment_end_date', [$appointment->appointment_date, $appointment->appointment_end_date]);
+                    })
+                    ->where(function($query) use ($start_appointment, $end_appointment){
+                        $query->orWhere([['appointment_time', '<=', $start_appointment->format('H:i:s')], ['appointment_end_time', '>=', $end_appointment->format('H:i:s')]])
+                            ->orWhereBetween('appointment_time', [$start_appointment->addSeconds(1)->format('H:i:s'), $end_appointment->subSeconds(1)->format('H:i:s')])
+                            ->orWhereBetween('appointment_end_time', [$start_appointment->format('H:i:s'), $end_appointment->format('H:i:s')]);
+                    })
+                ->where('user_id',$user_id)->whereNotIn('status',['0','5','6']);
+   
+        $query = $query->first();
+
+        return $query;
+      
+    }
  
     /**
      * Display a edit of the record.

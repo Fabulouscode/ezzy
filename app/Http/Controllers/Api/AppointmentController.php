@@ -641,7 +641,16 @@ class AppointmentController extends BaseApiController
                     'cancel_user_id'=> !empty($request->cancel_date) && $request->status == '6' ? $request->user()->id : null,
                     'consult_notes'=> !empty($request->consult_notes) ? $request->consult_notes : null,
                   ];
-        if(!empty($request->user()->category_id) && !empty($request->status) && $request->status == '1'){
+
+        if(!empty($request->user()->category_id) && !empty($request->status) && $request->status == '1'){          
+            //user appointment is running
+            $appointment_det = $this->appointment_repo->getById($request->id);
+            $check_appointment = $this->appointment_repo->checkAcceptTimeUserAvailable($appointment_det, $request->user()->id);
+            if(!empty($check_appointment)){
+                \Log::info("Provider is busy ".json_encode($check_appointment));   
+                return self::sendError([], 'Your appointment is running.');
+            }
+
             $update['accepted_date'] =  $this->appointment_repo->getCurrentDateTime();
         }
         
@@ -1182,7 +1191,14 @@ class AppointmentController extends BaseApiController
         if(empty($appointment_det)){
             return self::sendError('', 'Request time out');
         }
-     
+        
+        //user appointment is running
+        $check_appointment = $this->appointment_repo->checkAcceptTimeUserAvailable($appointment_det, $request->user()->id);
+        if(!empty($check_appointment)){
+            \Log::info("Provider is busy ".json_encode($check_appointment));   
+            return self::sendError([], 'Your appointment is running.');
+        }
+
         DB::beginTransaction();
         try{
             $appointmentRequest= $this->appointment_repo->getById($request->id);
