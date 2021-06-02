@@ -154,7 +154,7 @@ class User extends Authenticatable
     }
     
     public function nonUrgentAppointmentDetails() {
-        return $this->hasMany('App\Models\Appointment')->where('urgent','0')->whereIn('status',['2']);
+        return $this->hasMany('App\Models\Appointment')->where('urgent','0')->whereNotIn('status',['0','5','6']);
     }
 
  
