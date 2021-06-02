@@ -212,7 +212,8 @@ class ChatController extends BaseApiController
             $total_amount = 0;
             if(!empty($chat) && !empty($chat->id)){
                 if(!empty($request->medicines) && count($request->medicines)){
-                    foreach ($request->medicines as $key => $value) {
+                    foreach ($request->medicines as $key => $value) {                        
+                        $temp_amount = 0;
                         $add_chat = [
                             'chat_history_id' => $chat->id,
                             'medicine_name'=> (isset($value['item_name'])) ?$value['item_name'] : '',
@@ -220,7 +221,8 @@ class ChatController extends BaseApiController
                             'quanity'=> (isset($value['quantity'])) ?$value['quantity'] : '',
                             'price'=> (isset($value['price'])) ?$value['price'] : ''
                         ];
-                        $total_amount = $value['price'] * $value['quantity'];
+                        $temp_amount = $value['price'] * $value['quantity'];
+                        $total_amount = $total_amount + $temp_amount;
                         $this->chat_service_repo->dataCrud($add_chat);
                     }
                 }
