@@ -671,7 +671,7 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
       
-        if($appointment->urgent == '1' && $request->status == '6'){
+        if(empty($request->user()->category_id) && $appointment->urgent == '1' && $request->status == '6'){
             $old_transaction_cahrges = 0;
             $cancellation_charge_per = 0;
             $cancellation_charge = $this->manage_fees_repo->getbyFeesKey('urgent_cancellation_charges');
