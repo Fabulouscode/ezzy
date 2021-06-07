@@ -958,7 +958,8 @@ class AppointmentController extends BaseApiController
             }else{              
                 $start_appointment  = new Carbon($appointment_details->start_datetime);
                 $end_appointment   = new Carbon($appointment_details->completed_datetime);
-                $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+                $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
+                $appointment_timing = $appointment_timing / 60;
             }
             
             if(!empty($appointment_details->appointmentServices) && count($appointment_details->appointmentServices) > 0){           
@@ -1278,9 +1279,9 @@ class AppointmentController extends BaseApiController
             }else{              
                 $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                 $end_appointment   = new Carbon($appointment_details->appointment_end_date.' '.$appointment_details->appointment_end_time);
-                $appointment_timing =  $start_appointment->diffInMinutes($end_appointment);
+                $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
+                $appointment_timing = $appointment_timing/60;
             }
-            
             if(!empty($appointment_details->user_services) && count($appointment_details->user_services) > 0){           
                 foreach ($appointment_details->user_services as $key => $value) {
                     $appointment_service = $this->user_service_repo->getById($value);
