@@ -112,7 +112,7 @@
                                                 <td class="text-center"><strong>Start Date Time</strong></td>
                                                 <td class="text-center"><strong>End Date Time</strong></td>                                                
                                                 <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
-                                                <td class="text-center"><strong>Time Difference </strong></td>
+                                                <td class="text-center"><strong>Time Difference (H:M:S)</strong></td>
                                                 <td class="text-center"><strong>Charge Amount</strong></td>
                                             </tr>
                                             @endif
