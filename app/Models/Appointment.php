@@ -204,7 +204,7 @@ class Appointment extends Model
             'address'=>$this->address,
             'latitude'=>(!empty($this->client)) ? $this->client->current_latitude : '',
             'longitude'=>(!empty($this->client)) ? $this->client->current_longitude : '',
-            'urgent_fees'=>  (!empty($this->home_visit_fees)) ? strval($this->home_visit_fees) : '',
+            'urgent_fees'=>  (!empty($this->home_visit_fees)) ? strval($this->home_visit_fees) : '0',
             'clinic_consultation_charge'=> (!empty($this->hcp_fees)) ? $this->hcp_fees : 0.0,
             'home_consultation_charge'=> (!empty($this->hcp_fees)) ? $this->hcp_fees : 0.0,
             'video_consultation_charge'=> (!empty($this->hcp_fees)) ? $this->hcp_fees : 0.0,
