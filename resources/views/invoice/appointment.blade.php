@@ -134,10 +134,10 @@
                                                 @if(!empty($data->full_day) &&  $data->full_day == '1')
                                                     <td class="text-center">Full Day</td>
                                                 @else
-                                                    <td class="text-center">{{$data->start_to_end_time_diff}} </td>
+                                                    <td class="text-center">{{round($data->start_to_end_time_diff, 2)}} </td>
                                                 @endif
                                                 
-                                                <td class="text-center currency_symbol">{{$currency_symbol.$appointment_charge}}</td>
+                                                <td class="text-center currency_symbol">{{$currency_symbol.round($appointment_charge, 2)}}</td>
                                             </tr> 
                                             @endif     
                                             <tr>
@@ -148,14 +148,14 @@
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Subtotal</strong></td>
-                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$appointment_charge}}</td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.round($appointment_charge, 2)}}</td>
                                             </tr>
                                             @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
                                             <tr>
                                                 <td class="no-line text-center" colspan="3"></td>
                                                 <td class="thick-line text-center">
                                                     <strong>Voucher Amount (-)</strong></td>
-                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->voucher_amount}}</td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.round($data->voucher_amount, 2)}}</td>
                                             </tr>
                                             @endif
                                             @if($data->appointment_type == '1' && ($data->user->category_id == '8' || $data->user->category_id == '9' || $data->user->category_id == '10'))
@@ -167,7 +167,7 @@
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Home Visit Fees (+)</strong></td>
-                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.round($data->home_visit_fees, 2)}}</td>
                                             </tr>
                                             @endif
                                             @if($data->urgent == '1' && $data->user->category_id == '4')
@@ -179,7 +179,7 @@
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Urgent Care (+)</strong></td>
-                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.$data->home_visit_fees}}</td>
+                                                <td class="thick-line text-center currency_symbol">{{$currency_symbol.round($data->home_visit_fees, 2)}}</td>
                                             </tr>
                                             @endif
                                             <tr>
@@ -190,7 +190,7 @@
                                                 @endif
                                                 <td class="thick-line text-center">
                                                     <strong>Total</strong></td>
-                                                <td class="thick-line text-center currency_symbol" style="font-weight: bold;">{{$currency_symbol.$data->appointment_price}}</td>
+                                                <td class="thick-line text-center currency_symbol" style="font-weight: bold;">{{$currency_symbol.round($data->appointment_price, 2)}}</td>
                                             </tr>
                                             </tbody>
                                         </table>
