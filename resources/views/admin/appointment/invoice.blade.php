@@ -112,7 +112,7 @@
                                                 <td class="text-center"><strong>Start Date Time</strong></td>
                                                 <td class="text-center"><strong>End Date Time</strong></td>                                                
                                                 <td class="text-center"><strong>{{$appointment_charge_text}}</strong></td>
-                                                <td class="text-center"><strong>Time Difference (Minutes)</strong></td>
+                                                <td class="text-center"><strong>Time Difference </strong></td>
                                                 <td class="text-center"><strong>Charge Amount</strong></td>
                                             </tr>
                                             @endif
@@ -138,7 +138,7 @@
                                                 @if(!empty($data->full_day) &&  $data->full_day == '1')
                                                     <td class="text-center">Full Day</td>
                                                 @else
-                                                    <td class="text-center">{{round($data->start_to_end_time_diff, 2)}} </td>
+                                                    <td class="text-center">{{$data->start_to_end_time_diff_format}} </td>
                                                 @endif                                                
                                                 <td class="text-center">{{$currency_symbol.round($appointment_charge, 2)}}</td>
                                             </tr> 

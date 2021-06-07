@@ -99,7 +99,9 @@ class Appointment extends Model
         'start_datetime'
     ];
 
-    protected $appends = ['invoice_no_generate','start_to_end_time_diff','status_name','gender_name','appointment_type_name'];
+    protected $appends = ['invoice_no_generate','start_to_end_time_diff','start_to_end_time_diff_format','status_name','gender_name','appointment_type_name'];
+   
+    protected $hidden = ['start_to_end_time_diff_format'];
 
     public function getStatusNameAttribute() {
         if($this->status == '1'){
@@ -171,6 +173,17 @@ class Appointment extends Model
             $end_appointment   = new Carbon($this->completed_datetime);
             $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
             $appointment_timing = $appointment_timing / 60;
+        }
+       return $appointment_timing;
+    }
+  
+    public function getStartToEndTimeDiffFormatAttribute(){
+        $appointment_timing = '0';
+        if(!empty($this->start_datetime) && !empty($this->completed_datetime)){
+            $start_appointment  = new Carbon($this->start_datetime);
+            $end_appointment   = new Carbon($this->completed_datetime);
+            $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
+            $appointment_timing = gmdate('H:i:s', $appointment_timing);
         }
        return $appointment_timing;
     }
