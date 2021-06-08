@@ -257,6 +257,17 @@ class Repository
     }
 
     /**
+     * get timestamp formate date
+     */  
+    public function getRemainingDays($date)
+    {
+        $date_formate = new Carbon($date);
+        (!empty(Auth::user()) && !empty(Auth::user()->timezone)) ? $date_formate->setTimezone(Auth::user()->timezone) : '' ;        
+        $days = Carbon::now()->diffInDays($date_formate, false);
+        return $days;
+    }
+
+    /**
      * get current date and time
      */  
     public function getCurrentDateTime()

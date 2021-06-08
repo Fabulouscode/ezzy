@@ -109,27 +109,30 @@
                             <div class="section-title">
                                 <span>About Us</span>
                                 <h2>Welcome to Ezzycare</h2>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
+                                <p>Ezzycare is a novel medical solution to the challenges of both healthcare providers and healthcare seekers. It connects health care seekers to the closest providers in their vicinity using their geo location similar to how Uber cab connects drivers to riders.</p>
+                                <p>Healthcare seekers pay providers via this platform. It solves the ever present challenge of getting service in an easy and convenient way.</p>
+                                <p>Health care providers decide their charges for various services.</p>
+                                <p>Connect with the best doctors in  less than 20 seconds via geo location. 100% safe and secure online medical consultation.</p>
                             </div>
                             <div class="media">
                                 <i><img src="{{ asset('frontend/img/ic_healthcare.png') }}" class="img-fluid" alt=""></i>
                                 <div class="media-body">
                                     <h3 class="mt-0">Healthcare Provider</h3>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    Urgent and non-urgent consultations with Doctors of various specialties via video calls. Urgent and non-urgent home and clinic visits between Doctors and care seekers. Home visit by nearby nurses, Physiotherapists and massage therapists at the convenience of care seekers.
                                 </div>
                             </div>
                             <div class="media">
                                 <i><img src="{{ asset('frontend/img/ic_medicine.png') }}" class="img-fluid" alt=""></i>
                                 <div class="media-body">
-                                    <h3 class="mt-0">Medicine</h3>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    <h3 class="mt-0">Medicine/Pharmacy</h3>
+                                    Drug orders from pharmacists and home delivery of drugs. Tracking of drug orders made to pharmacists in real time. Drugs can be delivered at your door step with Ezzycare pharmacy.
                                 </div>
                             </div>
                             <div class="media">
                                 <i><img src="{{ asset('frontend/img/ic_laboratories.png') }}" class="img-fluid" alt=""></i>
                                 <div class="media-body">
-                                    <h3 class="mt-0">Laboratories</h3>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    <h3 class="mt-0">Laboratory</h3>
+                                    Care seekers can request Laboratory tests from anywhere and nearby scientists and pathologists can visit to carry out tests. Care seekers can order various radiological tests like scans and get nearby radiologists and radiographers to do the tests. Home sample collection with utmost safety and neccessary precaution for diagnostic tests when you request lab services from Ezzycare.
                                 </div>
                             </div>
                             <!-- <div class="media">
@@ -149,7 +152,7 @@
             <div class="container">
                 <div class="section-title">
                     <span>App Features</span>
-                    <h2>All in 3 Easy Steps</h2>
+                    <h2>All in 3 Steps</h2>
                     <p>Find and Hire miner near you to get best mining profit with us . Your earning is just a click aways. Create or Join Association on your profitable ratio instantly.</p>
                 </div>
                 <div class="row">
@@ -182,8 +185,8 @@
             <div class="container">
                 <div class="section-title">
                     <span>App Features</span>
-                    <h2>All in 3 Easy Steps</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit perspiciatis aliquam deserunt libero necessitatibus nesciunt repudiandae pariatur officiis quis nemo</p>
+                    <h2>All in 3 Steps</h2>
+                    <!-- <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit perspiciatis aliquam deserunt libero necessitatibus nesciunt repudiandae pariatur officiis quis nemo</p> -->
                 </div>
                 <div class="row align-items-center">
                     <div class="col-lg-6">
@@ -191,32 +194,32 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
                                 <div class="how-use-card how-card-one">
                                     <span>1</span>
-                                    <i class="fas fa-network-wired"></i>
-                                    <h3>Network of 1000+ Doctors </h3>
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <h3>Download from Play Store/App Store</h3>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
-                                <p>Doctors can register and fill his profile and location. So patient can find them and get online appointment. </p>
+                                <!-- <p>Doctors can register and fill his profile and location. So patient can find them and get online appointment. </p> -->
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
-                                <p class="text-lg-right">Specialities & Location </p>
+                                <!-- <p class="text-lg-right">Specialities & Location </p> -->
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
                                 <div class="how-use-card how-card-two">
                                     <span>2</span>
-                                    <i class="fas fa-search-location"></i>
-                                    <h3>Find Professionals Based on</h3>
+                                    <i class="fas fa-users"></i>
+                                    <h3>Signup</h3>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
                                 <div class="how-use-card how-card-three">
                                     <span>3</span>
-                                    <i class="fas fa-users"></i>
-                                    <h3>Discuss with The Experts.</h3>
+                                    <i class="fas fa-search-location"></i>
+                                    <h3>Find Healthcare Providers</h3>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1s">
-                                <p>Communicate via text, voice, or video call.</p>
+                                <!-- <p>Communicate via text, voice, or video call.</p> -->
                             </div>
                         </div>
                     </div>
@@ -242,9 +245,9 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 text-block animate" data-show="fade-in-right" data-vertical_center="true">
                         <div class="video-consultation-left">
-                            <h2 class="heading mb-3">Free Voice & Video Consultation</h2>
-                            <p>Patient can contact and talk with Doctor throughout the world. Capture your current questions, ideas, and thoughts to share with your desired professionals who are connected with you. Free international voice and video calls make it easy to stay connected with your professionals at all times.</p>
-                            <p>Patient can get prescription with in app and can order medicine from application. and he can get medicine at his door step .</p>
+                            <h2 class="heading mb-3">Voice/Video Consultation</h2>
+                            <p>Patient can contact and talk with Doctors within Nigeria. Share your current questions and thoughts with your desired professionals who are connected with you. Affordable voice and video calls make it easy to stay connected with your professionals at all times.</p>
+                            <p>Patients can get prescription within app and can order drugs from the application. The drugs can also be delivered at the patients door step.</p>
                         </div>
                     </div>
                     <div class="col-md-6 img-block animate" data-show="fade-in-left">
@@ -317,10 +320,10 @@
                         <div class="our-apps-text">
                             <div class="section-title text-left">
                                 <span>Our Mobile Apps</span>
-                                <h2>Available on Your Phone</h2>
+                                <h2>Available on Play Store and App Store</h2>
                             </div>
-                            <p>If you are on the phone, you have a phone in your home or place of work, so that you can be used by phone. Ezzycare is available on your Android and IOS phone. Get Installation very easily from below links.
-                            </p>
+                            <p>Ezzycare is available on both Android and IOS platforms.</p>
+                            <!-- <p>If you are on the phone, you have a phone in your home or place of work, so that you can be used by phone. Ezzycare is available on your Android and IOS phone. Get Installation very easily from below links.</p> -->
                             <div class="why-choose-btn">
                                 <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
                                     <i class="flaticon-play-store"></i>

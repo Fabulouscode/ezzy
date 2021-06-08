@@ -329,7 +329,15 @@ class UserRepository extends Repository
                 })
                 
                 ->editColumn('practicing_licence_date',function($selected){
-                    return !empty($selected->userDetails->practicing_licence_date) ? $this->getDateFormate($selected->userDetails->practicing_licence_date) : '-';
+                    if(!empty($selected->userDetails->practicing_licence_date)){
+                        $expiry_days = $this->getRemainingDays($selected->userDetails->practicing_licence_date);
+                        if($expiry_days > 0){
+                            return '<div class="text-success">'.$this->getDateFormate($selected->userDetails->practicing_licence_date).' ('.$expiry_days.' days remains)</div>';
+                        }else{
+                            return '<div class="text-danger">'.$this->getDateFormate($selected->userDetails->practicing_licence_date) .' (License Expired)</div>';
+                        }
+                    } 
+                    return  '-';
                 })
                 ->orderColumn('practicing_licence_date', function ($query, $order) {
                     $query->orderBy('userDetails.practicing_licence_date', $order);

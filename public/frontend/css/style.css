@@ -301,7 +301,7 @@ ul {
     animation: translateY 10s infinite linear;
 }
 .why-choose .section-title {
-    margin: 0 0 60px;
+    margin: 0 0 40px;
     text-align: left;
 }
 .why-choose .section-title p {
@@ -642,7 +642,7 @@ ul {
     color: #17c9ed !important;
 }
 .how-use .how-use-card h3 {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 0;
 }
 .how-use .how-card-one span {
