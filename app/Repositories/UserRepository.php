@@ -182,7 +182,8 @@ class UserRepository extends Repository
         }
 
         $query = $query->leftJoin('categories as categoryParent', 'users.category_id', '=', 'categoryParent.id')
-                        ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id');;
+                        ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id')
+                        ->leftJoin('user_details as userDetails', 'users.id', '=', 'userDetails.user_id');;
         // $query = $query->orderBy('id','desc')->get();
         // print_r(DB::getQueryLog());
         // die;
@@ -327,7 +328,14 @@ class UserRepository extends Repository
                     return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
                 })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type'])
+                ->editColumn('practicing_licence_date',function($selected){
+                    return !empty($selected->userDetails->practicing_licence_date) ? $this->getDateFormate($selected->userDetails->practicing_licence_date) : '-';
+                })
+                ->orderColumn('practicing_licence_date', function ($query, $order) {
+                    $query->orderBy('userDetails.practicing_licence_date', $order);
+                })
+                
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date'])
                 ->make(true);
     }
     

@@ -91,6 +91,7 @@
                                     <th>Mobile No.</th>
                                     <th>HCP Type</th>
                                     <th>Date of Joining</th>
+                                    <th>Licence Expiry Date</th>
                                     <th>Rating</th>
                                     <th>Status</th>
                                     <th>Action</th>

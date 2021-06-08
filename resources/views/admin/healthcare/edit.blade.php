@@ -250,6 +250,12 @@
                                             </div>
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Practicing Licence Expiry Date</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            <input type="date" required class="form-control" name="userDetails[practicing_licence_date]" value="{{$data->userDetails->practicing_licence_date}}">
+                                        </dd>
+                                    </div>
                                 </div>
                             </div>
                         </div>

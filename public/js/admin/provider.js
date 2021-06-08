@@ -37,6 +37,7 @@ $(function () {
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'hcp_type', name: 'hcp_type' },
             { data: 'created_at', name: 'users.created_at', searchable: false },
+            { data: 'practicing_licence_date', name: 'practicing_licence_date', searchable: false },
             {
                 data: '', name: 'Ratings', orderable: false, searchable: false,
                 render: function (data, type, row) {
@@ -75,11 +76,15 @@ $(function () {
             api.columns([0]).visible(showColumn);
             if (data_obj.category_id == '') {
                 api.columns([4]).visible(showColumn);
-                api.columns([6]).visible(showColumn);
+                api.columns([7]).visible(showColumn);
             }
             if (data_obj.status == '1') {
+                api.columns([7]).visible(showColumn);
+            }
+            if (data_obj.provider != "healthcare") {
                 api.columns([6]).visible(showColumn);
             }
+            console.log(data_obj);
         },
         drawCallback: function (settings) {
             $('.rating').each(function () {
