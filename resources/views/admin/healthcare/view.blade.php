@@ -301,16 +301,49 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Qualification Certificate</label></dt>
                                         <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->qualification_certificate))
-                                                <img src="{{$data->userDetails->qualification_certificate}}" width="100px" height="100px">
-                                            @endif 
+                                            <div class="row">
+                                                @if(!empty($data->userDetails->qualification_certificate))
+                                                    @php ($qualification_certificate = json_decode($data->userDetails->qualification_certificate))
+                                                    @if(count($qualification_certificate) > 0)  
+                                                    @foreach($qualification_certificate as $val)  
+                                                        @php ($ext = pathinfo($val, PATHINFO_EXTENSION))
+                                                        @if($ext == 'pdf')
+                                                        <div class="col-sm-3">
+                                                            <a download href="{{$val}}">
+                                                                <img  width="100px" height="100px" src="{{ asset('admin/images/pdf_image.png') }}">
+                                                            </a>
+                                                        </div>
+                                                        @else
+                                                        <div class="col-sm-3">
+                                                            <a download href="{{$val}}">
+                                                                <img src="{{$val}}" width="100px" download height="100px">
+                                                            </a>
+                                                        </div>
+                                                        @endif
+                                                    @endforeach
+                                                    @endif 
+                                                @endif 
+                                            </div>
                                         </dd>
                                     </div>
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Practicing Licence</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(!empty($data->userDetails->practicing_licence))
-                                                <img src="{{$data->userDetails->practicing_licence}}" width="100px" height="100px">
+                                                @php ($ext = pathinfo($data->userDetails->practicing_licence, PATHINFO_EXTENSION))
+                                                @if($ext == 'pdf')
+                                                <div class="row col-sm-3">
+                                                    <a download href="{{$data->userDetails->practicing_licence}}">
+                                                        <img  width="100px" height="100px" src="{{ asset('admin/images/pdf_image.png') }}">
+                                                    </a>
+                                                </div>
+                                                @else
+                                                <div class="row col-sm-3">
+                                                    <a download href="{{$data->userDetails->practicing_licence}}">
+                                                        <img src="{{$data->userDetails->practicing_licence}}" width="100px" download height="100px">
+                                                    </a>
+                                                </div>
+                                                @endif
                                             @endif 
                                         </dd>
                                     </div>
