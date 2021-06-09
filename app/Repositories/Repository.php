@@ -211,7 +211,8 @@ class Repository
      * @param Number $recipients string or array of phone number of recepient
      */  
     public function sendMessage($message, $recipients)
-    {    //twilio
+    {   
+         //twilio
         // try{
         //     $account_sid = config("app.TWILIO_SID");
         //     $auth_token = config("app.TWILIO_AUTH_TOKEN");
@@ -226,20 +227,53 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
+
+        // sms provider
+        // try{
+        //     $sms_provider_url = config("app.SMS_PROVIDER_URL");
+        //     $sms_provider_username = config("app.SMS_PROVIDER_USERNAME");
+        //     $sms_provider_password = config("app.SMS_PROVIDER_PASSWORD");
+        //     $sms_provider_Sender = config("app.SMS_PROVIDER_SENDER");
+        //     $data = [];
+        //    if(!empty($sms_provider_url) && !empty($sms_provider_username) && !empty($sms_provider_password) && !empty($sms_provider_Sender) && !empty($recipients)){
+        //         $smsprovider_url = $sms_provider_url;
+        //         $smsprovider_url .= '?username='.$sms_provider_username;
+        //         $smsprovider_url .= '&password='.$sms_provider_password;
+        //         $smsprovider_url .= '&message='.$message;
+        //         $smsprovider_url .= '&sender='.$sms_provider_Sender;
+        //         $smsprovider_url .= '&mobiles='.$recipients;
+        //         $msg_sent = Helper::sendBULKSMSRequest($smsprovider_url);
+        //         if(!empty($msg_sent) && $msg_sent != 'true'){
+        //             return $msg_sent;
+        //         }
+        //     }else{
+        //         $msg_sent = 'SMS Sending Failed';
+        //         return $msg_sent;
+        //     }
+        //  }catch(\Exception $e){
+        //       throw new HttpResponseException(response()->json([
+        //         'success' => false,
+        //         'errors' => $e->getMessage(),
+        //         'message' => 'The given data was invalid.',
+        //     ], 422));
+        // }
+    
+            // OCTOPUSH sms
         try{
-            $sms_provider_url = config("app.SMS_PROVIDER_URL");
-            $sms_provider_username = config("app.SMS_PROVIDER_USERNAME");
-            $sms_provider_password = config("app.SMS_PROVIDER_PASSWORD");
-            $sms_provider_Sender = config("app.SMS_PROVIDER_SENDER");
-            $data = [];
-           if(!empty($sms_provider_url) && !empty($sms_provider_username) && !empty($sms_provider_password) && !empty($sms_provider_Sender) && !empty($recipients)){
-                $smsprovider_url = $sms_provider_url;
-                $smsprovider_url .= '?username='.$sms_provider_username;
-                $smsprovider_url .= '&password='.$sms_provider_password;
-                $smsprovider_url .= '&message='.$message;
-                $smsprovider_url .= '&sender='.$sms_provider_Sender;
-                $smsprovider_url .= '&mobiles='.$recipients;
-                $msg_sent = Helper::sendBULKSMSRequest($smsprovider_url);
+            $octopush_api_url = config("app.OCTOPUSH_API_URL");
+            $octopush_login_name = config("app.OCTOPUSH_LOGIN_NAME");
+            $octopush_api_key = config("app.OCTOPUSH_API_KEY");
+            if(!empty($octopush_api_url) && !empty($octopush_login_name) && !empty($octopush_api_key) && !empty($recipients)){
+                $url = $octopush_api_url.'/sms-campaign/send';
+                $headers = array( 'Content-Type:application/json', 'api-key:'.$octopush_api_key, 'api-login:'.$octopush_login_name,'cache-control: no-cache');
+                $recipients_obj = (object)["phone_number"=> $recipients];
+                $data = [];
+                $data["recipients"]= [$recipients_obj];                
+                $data["text"]=$message;
+                $data["type"]='sms_premium';
+                $data["purpose"]='alert';
+                $data["sender"]= config("app.name");
+                $msg_sent = Helper::sendBULKSMSRequest($url, $headers, $data);
                 if(!empty($msg_sent) && $msg_sent != 'true'){
                     return $msg_sent;
                 }
@@ -247,13 +281,14 @@ class Repository
                 $msg_sent = 'SMS Sending Failed';
                 return $msg_sent;
             }
-         }catch(\Exception $e){
-              throw new HttpResponseException(response()->json([
+        }catch(\Exception $e){
+                throw new HttpResponseException(response()->json([
                 'success' => false,
                 'errors' => $e->getMessage(),
                 'message' => 'The given data was invalid.',
             ], 422));
         }
+        
     }
 
     /**

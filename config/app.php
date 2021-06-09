@@ -162,6 +162,11 @@ return [
     'PAYSTACK_PUBLIC_KEY'=> env('PAYSTACK_PUBLIC_KEY'),
     'PAYSTACK_PAYMENT_URL'=> env('PAYSTACK_PAYMENT_URL'),
     'MERCHANT_EMAIL'=> env('MERCHANT_EMAIL'),
+ 
+    /* OCTOPUSH integration key (sms) */
+    'OCTOPUSH_API_URL'=> env('OCTOPUSH_API_URL'),
+    'OCTOPUSH_LOGIN_NAME'=> env('OCTOPUSH_LOGIN_NAME'),
+    'OCTOPUSH_API_KEY'=> env('OCTOPUSH_API_KEY'),
 
 
     /*
