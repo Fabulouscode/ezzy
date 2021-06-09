@@ -427,7 +427,7 @@
                             <div class="footer-logo">
                                 <img src="{{ asset('frontend/img/logo.png') }}" alt="logo" />
                             </div>
-                            <p>Our goal is to provide best platform to interact miner and investor in same platform . </p>
+                            <p>Our goal is to be the best platform that connects patients to health care providers.</p>
                             <!-- <div class="footer-link">
                                 <a href="#">
                                     <img src="{{ asset('frontend/img/google-play.png') }}" alt="google image" />
