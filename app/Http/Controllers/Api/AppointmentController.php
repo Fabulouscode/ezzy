@@ -602,7 +602,7 @@ class AppointmentController extends BaseApiController
                         ]; 
                         Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
                         Log::info("Notification send ".date('H:i:s'));
-                        sleep(15);
+                        sleep(40);
                     }else{
                         break;
                     }
