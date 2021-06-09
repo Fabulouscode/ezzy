@@ -708,8 +708,8 @@ class AppointmentController extends BaseApiController
                                 'status'=> '0',
                                 'payout_status' => '1',
                                 'amount' => $transaction_amount,
-                                'payout_amount'=> $user_payout,
-                                'fees_charge'=> $ezzycare_charge,
+                                'payout_amount'=> '0',
+                                'fees_charge'=> $transaction_amount,
                                 'appointment_id' => $appointment->id,
                                 'transaction_msg'=>'Urgent Appointment cancellation charges',
                             ];
@@ -760,8 +760,8 @@ class AppointmentController extends BaseApiController
                                 'status'=> '0',
                                 'payout_status' => '1',
                                 'amount' => $transaction_amount,
-                                'payout_amount'=> $user_payout,
-                                'fees_charge'=> $ezzycare_charge,
+                                'payout_amount'=> 0,
+                                'fees_charge'=> $transaction_amount,
                                 'appointment_id' => $appointment->id,
                                 'transaction_msg'=>'Appointment cancellation charges',
                             ];
@@ -891,8 +891,8 @@ class AppointmentController extends BaseApiController
                         'transaction_type'=> '0',
                         'status'=> '0',
                         'payout_status' => '1',
-                        'payout_amount'=> $user_payout,
-                        'fees_charge'=> $ezzycare_charge,                        
+                        'payout_amount'=> '0',
+                        'fees_charge'=> !empty($reschedule_charges) ? $reschedule_charges : '',                          
                         'appointment_id' => $appointment->id,
                         'transaction_msg'=>'Appointment reschedule charges',
                     ];
