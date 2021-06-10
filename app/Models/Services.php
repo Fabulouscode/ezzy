@@ -59,4 +59,7 @@ class Services extends Model
         return !empty($value) ? explode(',', $value) :'';
     }
 
+    public function category() {
+        return $this->hasOne('App\Models\Category', 'id', 'service_type');
+    }
 }

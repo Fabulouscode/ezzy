@@ -12,6 +12,10 @@ $(function () {
             type: 'get',
             dataType: "json",
             async: true,
+            data: {
+                filter_status: function () { return $('#searchByStatus').val() },               
+                subcategory_id: function () { return $('#searchByHcpType').val() }, 
+            },
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
@@ -26,6 +30,11 @@ $(function () {
             var showColumn = false;
             api.columns([0]).visible(showColumn);
         }
+    });
+
+    $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
+        var oTable = $('#services_datatable').dataTable();
+        oTable.fnDraw(true);
     });
 
 });

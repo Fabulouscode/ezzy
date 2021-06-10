@@ -25,10 +25,11 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
+        $service_type = $this->services_repo->getServiceTypeValue();
         if($request->all()){
             return $this->services_repo->getDatatable($request);
         }
-        return view('admin.services.index');
+        return view('admin.services.index', compact('service_type'));
     }
 
     /**

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\Services;
 use Illuminate\Support\Str;
+use Validator;
+use DB;
 
 class ServicesRepository extends Repository
 {
@@ -47,6 +49,33 @@ class ServicesRepository extends Repository
             }
         }
     }
+
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getWithRelationship($request)
+    {
+        DB::enableQueryLog();
+        $query = $this->model->select('services.*')->with(['category']); 
+
+        if(!empty($request->filter_status) || $request->filter_status == '0'){
+            $query = $query->where('services.status', $request->filter_status);
+        } 
+        
+        if(!empty($request->subcategory_id)){
+            $query = $query->where('services.service_type', $request->subcategory_id);
+        } 
+
+        $query = $query->leftJoin('categories as category', 'services.service_type', '=', 'category.id');
+        // $query = $query->orderBy('id','desc')->get();
+        // print_r(DB::getQueryLog());
+        // die;
+        return $query;
+    }
+
     
     /**
      * Display a listing of the Datatable.
@@ -55,7 +84,7 @@ class ServicesRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -68,10 +97,18 @@ class ServicesRepository extends Repository
                     }
                     return $data;
                 })
+                
                 ->editColumn('service_type',function($selected)
                 {
                     return $selected->service_type_name;
                 })
+                ->filterColumn('service_type', function ($query, $keyword) {
+                    $query->whereRaw("category.name like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('service_type', function ($query, $order) {
+                    $query->orderBy('category.name', $order);
+                })
+
                 ->editColumn('status',function($selected)
                 {
                     //	0-Active, 1-Inactive	
@@ -83,6 +120,13 @@ class ServicesRepository extends Repository
                     }
                     return $data;
                 })
+                ->filterColumn('status', function ($query, $keyword) use ($request) {
+                    if (in_array($request->search['value'], $this->getStatusValue())){
+                        $user_status = array_search($request->search['value'], $this->getStatusValue());
+                        $query->where("services.status", $user_status);                       
+                    }
+                })
+
                 ->rawColumns(['action','status','service_type'])
                 ->make(true);
     }

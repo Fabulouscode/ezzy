@@ -23,6 +23,33 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
+                       <!-- Custom Filter -->
+                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                        <label>Advanced Filter</label>
+                        <div class="row mb-3">  
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>HCP Type</label>
+                                    <select id="searchByHcpType" name="subcategory_id" class="form-control">
+                                        <option value=''>Select Hcp Type</option>
+                                        @foreach($service_type as $key => $value)
+                                            <option value="{{$key}}" >{{$value}}</option>
+                                        @endforeach
+                                    </select>                                
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select id="searchByStatus" name="status" class="form-control">
+                                        <option value=''>Select Status</option>
+                                        <option value="0">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @can('services-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
