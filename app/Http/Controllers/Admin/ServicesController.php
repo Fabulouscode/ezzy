@@ -52,19 +52,37 @@ class ServicesController extends Controller
      */
     public function store(ServicesRequest $request)
     {
-        $data = [
-                    'service_name' => $request->service_name,
-                    'service_type' => $request->service_type,
-                    'sevice_usages' => !empty($request->sevice_usages)  ? implode(',', $request->sevice_usages) : '',
-                    'status' => $request->status,
-                ];
-         if(!empty($request->id)){
+        if(!empty($request->id)){
+            $data = [
+                'service_name' => $request->service_name,
+                'service_type' => $request->service_type,
+                'sevice_usages' => !empty($request->sevice_usages)  ? implode(',', $request->sevice_usages) : '',
+                'status' => $request->status,
+            ];
             $category = $this->services_repo->getById($request->id);
             if(!empty($category)){
                 $this->services_repo->dataCrud($data, $request->id);
             } 
         } else{
-            $this->services_repo->dataCrud($data);
+            if(is_array($request->service_type) && count($request->service_type) > 0){
+                foreach ($request->service_type as $key => $value) {                   
+                    $data = [
+                        'service_name' => $request->service_name,
+                        'service_type' => $value,
+                        'sevice_usages' => !empty($request->sevice_usages)  ? implode(',', $request->sevice_usages) : '',
+                        'status' => $request->status,
+                    ];                  
+                    $this->services_repo->dataCrud($data);
+                }
+            }else if(!is_array($request->service_type)){
+                $data = [
+                    'service_name' => $request->service_name,
+                    'service_type' => $request->service_type,
+                    'sevice_usages' => !empty($request->sevice_usages)  ? implode(',', $request->sevice_usages) : '',
+                    'status' => $request->status,
+                ];                  
+                $this->services_repo->dataCrud($data);   
+            }
         }
 
         return redirect('/services');

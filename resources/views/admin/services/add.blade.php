@@ -42,6 +42,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @if(!empty($data->id))
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Service Type</label>
@@ -58,6 +59,23 @@
                                 @enderror
                             </div>
                         </div>
+                        @else
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Service Type</label>
+                                <select required class="form-control @error('service_type') is-invalid @enderror" name="service_type[]" multiple>
+                                    @foreach($service_type as $key => $value)
+                                        <option value="{{$key}}"  {{ isset($data->service_type) && $key == $data->service_type ? 'selected' : '' }}>{{$value}}</option>
+                                    @endforeach
+                                </select>
+                                @error('service_type')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        @endif
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Service Usage</label>
