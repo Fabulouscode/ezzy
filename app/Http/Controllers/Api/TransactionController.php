@@ -382,7 +382,7 @@ class TransactionController extends BaseApiController
                                     'sender_id' => $request->user()->id,
                                     'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                     'title' => 'Treatment plan',
-                                    'message' => 'Treatment plan payment completed by '. $request->user()->user_name,
+                                    'message' => 'Treatment plan payment made by '. $request->user()->user_name,
                                     'parameter' => json_encode(['treatment_plan'=> $data->id]),
                                     'msg_type' => '0',
                                 ];
