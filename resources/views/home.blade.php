@@ -35,7 +35,7 @@
 
         <nav class="navbar navbar-expand-md navbar-light navbar-area">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="#">
                     <img src="{{ asset('frontend/img/logo.png') }}" class="img-fluid" alt="logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
