@@ -22,6 +22,9 @@ Route::get('/admin', function () {
 Route::get('/admin/login', function () {
     return redirect('login');
 });
+Route::get('/donotezzycaretouch', function () {
+    return redirect('login');
+});
 
 
 // Auth::routes();
