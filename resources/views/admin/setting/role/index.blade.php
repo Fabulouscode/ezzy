@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Role</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     @can('role-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/role/create')}}" class="btn btn-info">Add Role</a>
+                        <a href="{{url('/donotezzycaretouch/role/create')}}" class="btn btn-info">Add Role</a>
                     </div>
                     @endcan
                     <div class="table-responsive">
@@ -50,7 +50,7 @@
 
 @section('script')
 <script>
-    var role_url = "{{url('/role')}}";
+    var role_url = "{{url('/donotezzycaretouch/role')}}";
 </script>
 <script src="{{ asset('js/admin/role.js') }}" ></script>
 @endsection

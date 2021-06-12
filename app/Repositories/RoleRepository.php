@@ -61,7 +61,7 @@ class RoleRepository extends Repository
                 {
                     $data = '';
                     if (Auth::user()->hasPermissionTo('role-edit')) {
-                        $data .= '<a href="'.url('role/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/role/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('role-delete')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';

@@ -15,8 +15,11 @@
                                 <div class="ex-page-content text-center">
                                     <h1 class="text-primary">5<i class="fa fa-smile-o text-warning ml-1 mr-1"></i>3!</h1>
                                     <h3 class="">Sorry, Service Unavailable</h3><br>
-            
-                                    <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/dashboard')}}">Back to Dashboard</a>
+                                    @if(strpos($_SERVER['REQUEST_URI'], "donotezzycaretouch") == true)
+                                        <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/donotezzycaretouch')}}">Back to Dashboard</a>
+                                    @else
+                                        <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/')}}">Back to Homepage</a>
+                                    @endif
                                 </div>
             
                             </div>

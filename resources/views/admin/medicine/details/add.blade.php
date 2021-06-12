@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Add Medicine Details</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
 
                     <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Medicine Details</h4>
        
-                    <form method="POST" action="{{ url('medicine/details') }}" id="medicine_details_form" name="medicine_details_form"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ url('donotezzycaretouch/medicine/details') }}" id="medicine_details_form" name="medicine_details_form"  enctype="multipart/form-data" >
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -151,9 +151,9 @@
 @section('script')
 
 <script>
-    var medicine_details_url = "{{url('/medicine/details')}}";
-    var file_upload_url = "{{url('/image/upload')}}";
-    var file_remove_url = "{{url('/image/remove')}}";
+    var medicine_details_url = "{{url('/donotezzycaretouch/medicine/details')}}";
+    var file_upload_url = "{{url('/donotezzycaretouch/image/upload')}}";
+    var file_remove_url = "{{url('/donotezzycaretouch/image/remove')}}";
     var storage_url = "{{url('/storage')}}";
     var medicine_images = '';
     var medicine_subcategoy_id = '';

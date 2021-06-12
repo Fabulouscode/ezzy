@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Services</li>
                 </ol>
             </div>
@@ -84,7 +84,7 @@
 
 @section('script')
 <script>
-    var service_usage_url = "{{url('/service_usage')}}";
+    var service_usage_url = "{{url('/donotezzycaretouch/service_usage')}}";
 </script>
 <script src="{{ asset('js/admin/service_usage.js') }}" ></script>
 @endsection

@@ -66,7 +66,7 @@ class VoucherCodeRepository extends Repository
                 {
                     $data = '';
                     if (Auth::user()->hasPermissionTo('voucher_code-edit')) {
-                        $data .= '<a href="'.url('voucher_code/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/voucher_code/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('voucher_code-delete')) {
                         $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';

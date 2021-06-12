@@ -16,9 +16,9 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                     @if($provider != 'patients')
-                        <a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                        <a href="{{url('/donotezzycaretouch/'.$provider .'/dashboard')}}">Dashboard</a></li>
                     @else
-                        <a href="{{url('/dashboard')}}">Dashboard</a></li>
+                        <a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     @endif
                     <li class="breadcrumb-item active">
                         @if($provider != 'patients')
@@ -44,7 +44,7 @@
                 <div class="card-body">
                 
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
+                        <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                        <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
@@ -125,7 +125,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';

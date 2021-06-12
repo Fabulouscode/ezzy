@@ -17,7 +17,7 @@ class LockAccount
     public function handle(Request $request, Closure $next)
     {
         if ($request->session()->has('locked')) {
-            return redirect('/lockscreen');
+            return redirect('/donotezzycaretouch/lockscreen');
         }
         return $next($request);
     }

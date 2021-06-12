@@ -275,9 +275,9 @@ class UserTransactionRepository extends Repository
             {
                 $data = '';
                 if(!empty($selected->appointment_id) && !empty($selected->transactionAppointment)){
-                    $data .= '<a href="'.url('appointment/'.$selected->appointment_id).'" target="_blank">Appointment #'.$selected->appointment_id.'</a>';
+                    $data .= '<a href="'.url('donotezzycaretouch/appointment/'.$selected->appointment_id).'" target="_blank">Appointment #'.$selected->appointment_id.'</a>';
                 }else if(!empty($selected->order_id)){
-                    $data .= '<a href="'.url('pharmacy/order/'.$selected->order_id).'" target="_blank">Order #'.$selected->order_id.'</a>';
+                    $data .= '<a href="'.url('donotezzycaretouch/pharmacy/order/'.$selected->order_id).'" target="_blank">Order #'.$selected->order_id.'</a>';
                 }else if(!empty($selected->appointment_id)){
                      $data .= 'Appointment charges';
                 }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '0'){

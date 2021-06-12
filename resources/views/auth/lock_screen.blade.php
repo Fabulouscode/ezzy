@@ -11,11 +11,11 @@
                     <div class="card-body">
     
                         <h3 class="text-center mt-0 m-b-15">
-                            <a href="{{ url('/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
+                            <a href="{{ url('/donotezzycaretouch/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
                         </h3>
 
                         <div class="p-3">
-                             <form class="form-horizontal m-t-20" name="lockscreen_form" method="POST" action="{{ url('/admin/lockscreen') }}" >
+                             <form class="form-horizontal m-t-20" name="lockscreen_form" method="POST" action="{{ url('donotezzycaretouch/admin/lockscreen') }}" >
                                     @csrf
                                 <div class="user-thumb text-center m-b-30">
                                     <img src="{{ asset('admin/images/avatar.jpg')}}" class="rounded-circle img-thumbnail mx-auto d-block" alt="thumbnail">

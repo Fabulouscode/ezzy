@@ -95,7 +95,7 @@ class RoleController extends Controller
 
         }
 
-        return redirect('/role');
+        return redirect('/donotezzycaretouch/role');
     }
 
     /**

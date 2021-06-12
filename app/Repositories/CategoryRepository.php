@@ -93,7 +93,7 @@ class CategoryRepository extends Repository
                     $data = '';
                     if(!empty($selected->parent_id) && !in_array($selected->parent_id,['1','2','3'])){
                         if (Auth::user()->hasPermissionTo('hcp_type-edit')) {
-                            $data .= '<a href="'.url('category/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                            $data .= '<a href="'.url('donotezzycaretouch/category/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                         }
                         if (Auth::user()->hasPermissionTo('hcp_type-delete')) {
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';

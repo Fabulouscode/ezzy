@@ -67,7 +67,7 @@ class AdminNotificationController extends Controller
             $this->admin_notification_repo->dataCrud($data);
         }
         
-        return redirect('notifications');
+        return redirect('/donotezzycaretouch/notifications');
     }
 
     /**

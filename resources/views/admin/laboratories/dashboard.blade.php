@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Main Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Main Dashboard</a></li>
                     <li class="breadcrumb-item active">Laboratories Dashboard</li>
                 </ol>
             </div>
@@ -20,7 +20,7 @@
     <!-- end row -->
     <div class="row">
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user')}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user')}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -40,7 +40,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user/pending')}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user/pending')}}">
             <div class="card d-card-part bg-secondary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -60,7 +60,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-violet mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -80,7 +80,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user').'?hcp_type=Pathologist'}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user').'?hcp_type=Pathologist'}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -100,7 +100,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user').'?hcp_type=Scientists'}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user').'?hcp_type=Scientists'}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -120,7 +120,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/laboratories/user').'?hcp_type=Radiologist'}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user').'?hcp_type=Radiologist'}}">
             <div class="card d-card-part bg-warning mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -140,7 +140,7 @@
             </a>
         </div>       
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-light-green mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -160,7 +160,7 @@
             </a>
         </div>        
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -180,7 +180,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment/cancel')}}">
+            <a href="{{url('/donotezzycaretouch/appointment/cancel')}}">
             <div class="card d-card-part bg-dark mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">

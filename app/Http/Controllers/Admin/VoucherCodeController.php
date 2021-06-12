@@ -74,7 +74,7 @@ class VoucherCodeController extends Controller
             $this->voucher_code_repo->dataCrud($data);
         }
 
-        return redirect('/voucher_code');
+        return redirect('/donotezzycaretouch/voucher_code');
     }
 
     /**

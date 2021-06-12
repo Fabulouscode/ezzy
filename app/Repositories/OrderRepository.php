@@ -244,15 +244,15 @@ class OrderRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    // $data .= '<a href="'.url('pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('donotezzycaretouch/pharmacy/order/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     
                     if (Auth::user()->hasPermissionTo('order-list')) {
-                        $data .= '<a href="'.url('pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-primary title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/pharmacy/order/'.$selected->id).'" class="btn btn-sm btn-primary title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('order-invoice')) {
                         if ($selected->status == '3') {
-                                $data .= '<a href="'.url('pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+                                $data .= '<a href="'.url('donotezzycaretouch/pharmacy/order/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                         }
                     }
                     //  $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
@@ -445,7 +445,7 @@ class OrderRepository extends Repository
 
             ->editColumn('order_no',function($selected)
             {
-                return '<a href="'.url('pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.' Order</a>';
+                return '<a href="'.url('donotezzycaretouch/pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.' Order</a>';
             })
             ->orderColumn('order_no', function ($query, $order) {
                 $query->orderBy('orders.id', $order);

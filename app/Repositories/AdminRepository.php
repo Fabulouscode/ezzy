@@ -64,7 +64,7 @@ class AdminRepository extends Repository
                 {
                     $data = '';
                     if (Auth::user()->hasPermissionTo('admin-edit')) {
-                        $data .= '<a href="'.url('admin/users/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/admin/users/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
 
                     if (Auth::user()->hasPermissionTo('admin-delete')) {

@@ -67,10 +67,10 @@ class SupportRequestRepository extends Repository
                 {
                     $data = '';
                     if (Auth::user()->hasPermissionTo('support_ticket-list')) {
-                    $data .= '<a href="'.url('support_request/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="'.url('donotezzycaretouch/support_request/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('support_ticket-edit')) {
-                        $data .= '<a href="'.url('support_request/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/support_request/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('support_ticket-edit') && $selected->status != '3') {
                         $data .= '<a href="javascript:void(0)" onclick="closeTicketRow('.$selected->id.')" class="btn btn-sm btn-danger" title="Close Ticket"><i class="fa fa-recycle"></i></a>&nbsp;&nbsp;';

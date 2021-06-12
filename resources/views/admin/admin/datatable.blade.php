@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Admin List</li>
                 </ol>
             </div>
@@ -35,7 +35,7 @@
 @section('script')
 {!! $dataTable->scripts() !!}
 <script>
-    var admin_user_url = "{{url('/admin/users')}}";
+    var admin_user_url = "{{url('/donotezzycaretouch/admin/users')}}";
 </script>
 <script src="{{ asset('js/admin/admin_user.js') }}" ></script>
 @endsection

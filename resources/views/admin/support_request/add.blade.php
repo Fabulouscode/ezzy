@@ -14,8 +14,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/support_request')}}">Support Request</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/support_request')}}">Support Request</a></li>
                     <li class="breadcrumb-item active">{{ !empty($data->id) ? 'Edit' : 'Add' }} Support Request</li>
                 </ol>
             </div>
@@ -29,7 +29,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('support_request') }}" id="support_request_form" name="user_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/support_request') }}" id="support_request_form" name="user_form">
                         @csrf
                         <input id="support_id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <input id="id" type="hidden" name="user_id" value="{{ !empty($data->user_id) ? $data->user_id : '' }}">
@@ -133,7 +133,7 @@
 
 @section('script')
 <script>
-    var support_request_url = "{{url('/support_request')}}";
+    var support_request_url = "{{url('/donotezzycaretouch/support_request')}}";
 </script>
 <script src="{{ asset('js/admin/support_request.js') }}" ></script>
 <script>

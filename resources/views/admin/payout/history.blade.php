@@ -10,8 +10,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/payout')}}">Approved Payout</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/payout')}}">Approved Payout</a></li>
                     <li class="breadcrumb-item active">Payout History</li>
                 </ol>
             </div>
@@ -52,7 +52,7 @@
 
 @section('script')
 <script>
-    var payout_url = "{{url('/payout')}}";
+    var payout_url = "{{url('/donotezzycaretouch/payout')}}";
     var payout_obj = {'payout_status':''};    
     var payout_history = {'user_id': {{$id}}};
     var payout_status = '';

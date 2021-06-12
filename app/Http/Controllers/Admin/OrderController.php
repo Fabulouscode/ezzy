@@ -52,7 +52,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect('/pharmacy/orders');
+        return redirect('/donotezzycaretouch/pharmacy/orders');
     }
 
       /**

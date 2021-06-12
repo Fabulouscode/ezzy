@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                     <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Add Medicine Subcategory</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
 
                     <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Medicine Subcategories</h4>
        
-                    <form method="POST" action="{{ url('medicine/subcategories') }}" id="medicine_subcategory_form" name="medicine_subcategory_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/medicine/subcategories') }}" id="medicine_subcategory_form" name="medicine_subcategory_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -94,7 +94,7 @@
 
 @section('script')
 <script>
-    var medicine_subcategory_url = "{{url('/medicine/subcategories')}}";
+    var medicine_subcategory_url = "{{url('/donotezzycaretouch/medicine/subcategories')}}";
 </script>
 <script src="{{ asset('js/admin/medicine_subcategory.js') }}" ></script>
 @endsection

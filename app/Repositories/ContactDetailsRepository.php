@@ -67,7 +67,7 @@ class ContactDetailsRepository extends Repository
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
-                    $data .= '<a href="'.url('/contact_form/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                    $data .= '<a href="'.url('donotezzycaretouch/contact_form/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })

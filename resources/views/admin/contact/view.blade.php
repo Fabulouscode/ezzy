@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>
@@ -66,7 +66,7 @@
                        
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <a href="{{url('/contact_form')}}">
+                                <a href="{{url('/donotezzycaretouch/contact_form')}}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
@@ -84,7 +84,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';

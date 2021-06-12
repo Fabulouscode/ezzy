@@ -73,7 +73,7 @@ class AdminController extends Controller
                 $this->admin_repo->dataCrud($data, $request->id);
                 if($request->password != '**********' && Auth::guard('admin')->user()->id == $request->id){
                     Auth::guard('admin')->logout();
-                    return redirect('/');
+                    return redirect('/donotezzycaretouch');
                 }
             } 
         } else{
@@ -89,8 +89,7 @@ class AdminController extends Controller
             }
             $this->admin_repo->dataCrud($data);
         }
-
-        return redirect('/admin/users');
+        return redirect('/donotezzycaretouch/admin/users');
     }
 
     /**

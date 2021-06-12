@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="auth-content-part">
                             <h3 class="text-center mt-0 m-b-15">
-                                <a href="{{ url('/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
+                                <a href="{{ url('/donotezzycaretouch/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
                             </h3>
 
                             <h4 class="text-muted text-center font-18">{{ isset($url) ? ucwords($url) : ""}} Sign In</h4>

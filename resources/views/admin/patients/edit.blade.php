@@ -9,8 +9,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/customer/patient')}}">Patients</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/customer/patient')}}">Patients</a></li>
                     <li class="breadcrumb-item active">Edit</li>
                 </ol>
             </div>
@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('user') }}"  id="user_form" name="user_form" enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('donotezzycaretouch/user') }}"  id="user_form" name="user_form" enctype="multipart/form-data">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <input type="hidden" required class="form-control" name="category_id" value="{{$data->category_id}}"> 
@@ -145,7 +145,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
      var data_obj = {};
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>

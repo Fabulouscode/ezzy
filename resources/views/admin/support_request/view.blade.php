@@ -9,8 +9,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/support_request')}}">Support Request</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/support_request')}}">Support Request</a></li>
                     <li class="breadcrumb-item active">View Support Request</li>
                 </ol>
             </div>
@@ -129,7 +129,7 @@
 
 @section('script')
 <script>
-    var support_request_url = "{{url('/support_request')}}";
+    var support_request_url = "{{url('/donotezzycaretouch/support_request')}}";
 </script>
 <script src="{{ asset('js/admin/support_request.js') }}" ></script>
 <script>

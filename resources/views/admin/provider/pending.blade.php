@@ -14,7 +14,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/'.$provider .'/dashboard')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">
                         @if($provider != 'patients')
                             {{array_key_exists($provider, $provider_names) ? 'Pending '.$provider_names[$provider]: 'Approved '}}
@@ -39,7 +39,7 @@
                 <div class="card-body">
                 
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
+                        <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
@@ -110,7 +110,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';

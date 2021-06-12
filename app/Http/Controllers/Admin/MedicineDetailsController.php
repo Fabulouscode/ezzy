@@ -108,7 +108,7 @@ class MedicineDetailsController extends Controller
             }
         }
 
-        return redirect('/medicine/details');
+        return redirect('/donotezzycaretouch/medicine/details');
     }
 
     /**

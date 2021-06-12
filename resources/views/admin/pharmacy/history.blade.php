@@ -10,8 +10,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/dashboard')}}">Pharmacy Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/user')}}">Pharmacy</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/pharmacy/dashboard')}}">Pharmacy Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/pharmacy/user')}}">Pharmacy</a></li>
                     <li class="breadcrumb-item active">History</li>
                 </ol>
             </div>
@@ -92,7 +92,7 @@
                 <div class="card-body">
                 
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/user/create')}}" class="btn btn-info">Add User</a>
+                        <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
@@ -145,7 +145,7 @@
 
 @section('script')
 <script>
-    var pharmacy_order_url = "{{url('/pharmacy/order')}}";
+    var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
     var data_user_id = '{{$id}}';
 </script>
 <script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>

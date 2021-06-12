@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Notification</li>
                 </ol>
             </div>
@@ -24,7 +24,7 @@
                 <div class="card-body"> 
                     @can('notification-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/notifications/create')}}" class="btn btn-info">Add Notification</a>
+                        <a href="{{url('/donotezzycaretouch/notifications/create')}}" class="btn btn-info">Add Notification</a>
                     </div>          
                     @endcan                                      
                     <div class="table-responsive">
@@ -50,7 +50,7 @@
 
 @section('script')
 <script>
-    var notification_url = "{{url('/notifications')}}";
+    var notification_url = "{{url('/donotezzycaretouch/notifications')}}";
 </script>
 <script src="{{ asset('js/admin/notification.js') }}" ></script>
 @endsection

@@ -13,8 +13,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/category')}}">Categories</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/category')}}">Categories</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('category') }}" id="category_form" name="category_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/category') }}" id="category_form" name="category_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -83,7 +83,7 @@
 
 @section('script')
 <script>
-    var category_url = "{{url('/category')}}";
+    var category_url = "{{url('/donotezzycaretouch/category')}}";
 </script>
 <script src="{{ asset('js/admin/category.js') }}" ></script>
 @endsection

@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Permissions</li>
                 </ol>
             </div>
@@ -104,7 +104,7 @@
 
 @section('script')
 <script>
-    var permission_url = "{{url('/permission')}}";
+    var permission_url = "{{url('/donotezzycaretouch/permission')}}";
 </script>
 <script src="{{ asset('js/admin/permission.js') }}" ></script>
 @endsection

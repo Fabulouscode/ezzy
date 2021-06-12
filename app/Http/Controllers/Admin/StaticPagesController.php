@@ -64,7 +64,7 @@ class StaticPagesController extends Controller
             $this->static_page_repo->dataCrud($data);
         }
 
-        return redirect('/static_pages');
+        return redirect('/donotezzycaretouch/static_pages');
     }
 
     /**

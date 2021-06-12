@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Main Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Main Dashboard</a></li>
                     <li class="breadcrumb-item active">Health Care Providers Dashboard</li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
     
     <div class="row">
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user')}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user')}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -41,7 +41,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user/pending')}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user/pending')}}">
             <div class="card d-card-part bg-secondary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -61,7 +61,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-violet mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -81,7 +81,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user').'?hcp_type=Doctor'}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user').'?hcp_type=Doctor'}}">
             <div class="card d-card-part bg-info mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -101,7 +101,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user').'?hcp_type=Nurses'}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user').'?hcp_type=Nurses'}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -121,7 +121,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user').'?hcp_type=Massage Therapist'}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user').'?hcp_type=Massage Therapist'}}">
             <div class="card d-card-part bg-warning mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -141,7 +141,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/healthcare/user').'?hcp_type=Physiotherapist'}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user').'?hcp_type=Physiotherapist'}}">
             <div class="card d-card-part bg-primary mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -161,7 +161,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-light-green mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -181,7 +181,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -201,7 +201,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/appointment/cancel')}}">
+            <a href="{{url('/donotezzycaretouch/appointment/cancel')}}">
             <div class="card d-card-part bg-dark mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">

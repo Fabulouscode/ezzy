@@ -13,8 +13,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/voucher_code')}}">Voucher Code</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/voucher_code')}}">Voucher Code</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('voucher_code') }}" id="voucher_code_form" name="voucher_code_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/voucher_code') }}" id="voucher_code_form" name="voucher_code_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -166,7 +166,7 @@
 
 @section('script')
 <script>
-    var voucher_code_url = "{{url('/voucher_code')}}";
+    var voucher_code_url = "{{url('/donotezzycaretouch/voucher_code')}}";
 </script>
 <script src="{{ asset('js/admin/voucher_code.js') }}" ></script>
 @endsection

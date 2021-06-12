@@ -14,7 +14,7 @@
                                 <div class="ex-page-content text-center">
                                     <h1 class="text-primary">401!</h1>
                                     <h3 class="">Sorry, You have no Permission Access</h3><br>
-                                    <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/dashboard')}}">Back to Dashboard</a>
+                                    <a class="btn btn-primary mb-5 waves-effect waves-light" href="{{url('/donotezzycaretouch')}}">Back to Dashboard</a>
                                 </div>
                             </div>
                         </div>

@@ -44,12 +44,12 @@ class LoginController extends Controller
     
     public function showAdminLoginForm()
     {
-        return view('auth.login', ['url' => 'admin']);
+        return view('auth.login', ['url' => 'donotezzycaretouch/admin']);
     }
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/donotezzycaretouch/login');
     }
 
     public function adminLogin(Request $request)
@@ -65,7 +65,7 @@ class LoginController extends Controller
                         'timezone' => !empty($request->timezone) ? $request->timezone : 'UTC'
                     ];
             $admin->update($data);  
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/donotezzycaretouch');
         }
         return back()->withInput($request->only('email', 'remember'))->withError('These credentials do not match our records.');
     }

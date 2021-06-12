@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Services</li>
                 </ol>
             </div>
@@ -52,7 +52,7 @@
                     </div>
                     @can('services-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
+                        <a href="{{url('/donotezzycaretouch/services/create')}}" class="btn btn-info">Add Service</a>
                     </div>
                     @endcan
 
@@ -80,7 +80,7 @@
 
 @section('script')
 <script>
-    var services_url = "{{url('/services')}}";
+    var services_url = "{{url('/donotezzycaretouch/services')}}";
 </script>
 <script src="{{ asset('js/admin/services.js') }}" ></script>
 @endsection

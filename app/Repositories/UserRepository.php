@@ -204,39 +204,39 @@ class UserRepository extends Repository
                     $data = '';
                    
                     // Edit
-                    // $data .= '<a href="'.url('user/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('donotezzycaretouch/user/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
                     if(!empty($request->provider)){
                         if (Auth::user()->hasPermissionTo($request->provider.'-list')) {
                             if (!empty($request->provider) && $request->provider == 'patients') {
-                                $data .= '<a href="'.url('customer/patient/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
-                                $data .= '<a href="'.url('customer/patient/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url('donotezzycaretouch/customer/patient/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url('donotezzycaretouch/customer/patient/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
                             }else{
-                                $data .= '<a href="'.url($request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
-                                $data .= '<a href="'.url($request->provider.'/user/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp';
+                                $data .= '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/edit/'.$selected->id).'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp';
                             }
                         }
                         
                         if (Auth::user()->hasPermissionTo($request->provider.'-transaction')) {
                             if($selected->status == '0' || $selected->status == '2'){
                                 if (!empty($request->provider) && $request->provider == 'patients') {
-                                    $data .=  '<a href="'.url('customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                                    $data .=  '<a href="'.url('donotezzycaretouch/customer/patient/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                                 }else{
-                                    $data .=  '<a href="'.url($request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
-                                    $data .=  '<a href="'.url($request->provider.'/user/info/'.$selected->id).'" class="btn btn-sm btn-info" title="User Info"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;';
+                                    $data .=  '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/account/payment/'.$selected->id).'" class="btn btn-sm btn-success" title="User Transactions"><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                                    $data .=  '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/info/'.$selected->id).'" class="btn btn-sm btn-info" title="User Info"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;';
                                 }
                             }
                         }
 
                         if (Auth::user()->hasPermissionTo($request->provider.'-services')) {
                             if (!empty($selected->categoryParent->parent_id) && $selected->categoryParent->parent_id == '2') {
-                                $data .= '<a href="'.url($request->provider.'/user/medicine/'.$selected->id).'" class="btn btn-sm btn-warning" title="Medicine Details"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
+                                $data .= '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/medicine/'.$selected->id).'" class="btn btn-sm btn-warning" title="Medicine Details"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
                             }
                         }
                         if (Auth::user()->hasPermissionTo($request->provider.'-services')) {
                             if (!empty($selected->categoryParent->parent_id) && $selected->categoryParent->parent_id == '3') {
-                                $data .= '<a href="'.url($request->provider.'/user/services/'.$selected->id).'" class="btn btn-sm btn-warning" title="Laboratories Services"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
+                                $data .= '<a href="'.url('donotezzycaretouch/'.$request->provider.'/user/services/'.$selected->id).'" class="btn btn-sm btn-warning" title="Laboratories Services"><i class="fa fa-shopping-bag"></i></a>&nbsp;&nbsp;';
                             }
                         }
                         // if (Auth::user()->hasPermissionTo($request->provider.'-services')) {
@@ -266,7 +266,7 @@ class UserRepository extends Repository
                         }
                     }
                     // Show Review
-                    // $data .= '<a href="'.url('users/review/'.$selected->id).'" class="btn btn-sm btn-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('donotezzycaretouch/users/review/'.$selected->id).'" class="btn btn-sm btn-info" title="Review"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
           
                     return $data;
                 })

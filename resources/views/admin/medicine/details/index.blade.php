@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Medicine Details</li>
                 </ol>
             </div>
@@ -26,7 +26,7 @@
                     @can('medicine_details-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <!-- <a href="javascript:void(0)" onclick="addImportRow()" class="btn btn-info">Medicine File Import</a> -->
-                        <a href="{{url('/medicine/details/create')}}" class="btn btn-info">Add Medicine Details</a>
+                        <a href="{{url('/donotezzycaretouch/medicine/details/create')}}" class="btn btn-info">Add Medicine Details</a>
                     </div>
                     @endcan
 
@@ -92,10 +92,10 @@
 
 @section('script')
 <script>
-    var medicine_details_url = "{{url('/medicine/details')}}";
-    var file_upload_url = "{{url('/image/upload')}}";
-    var file_remove_url = "{{url('/image/remove')}}";
-    var storage_url = "{{url('/storage')}}";
+    var medicine_details_url = "{{url('/donotezzycaretouch/medicine/details')}}";
+    var file_upload_url = "{{url('/donotezzycaretouch/image/upload')}}";
+    var file_remove_url = "{{url('/donotezzycaretouch/image/remove')}}";
+    var storage_url = "{{url('/donotezzycaretouch/storage')}}";
 </script>
 <script src="{{ asset('js/admin/medicine_details.js') }}" ></script>
 @endsection

@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Contact Form Details</li>
                 </ol>
             </div>
@@ -65,7 +65,7 @@
 
 @section('script')
 <script>
-    var contact_form_url = "{{url('/contact_form')}}";
+    var contact_form_url = "{{url('/donotezzycaretouch/contact_form')}}";
 </script>
 <script src="{{ asset('js/admin/contact_form.js') }}" ></script>
 @endsection

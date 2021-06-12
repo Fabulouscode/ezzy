@@ -3,7 +3,7 @@
     <div class="topbar-left	d-none d-lg-block">
         <div class="text-center">
             
-            <a href="{{url('/dashboard')}}" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="50" style="backgroun:white;" alt="logo"></a>
+            <a href="{{url('/donotezzycaretouch')}}" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="50" style="backgroun:white;" alt="logo"></a>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
                     @can('admin-edit')
                     @if(Auth::guard('admin')->user())
-                        <a class="dropdown-item" href="{{ url('admin/users').'/'.Auth::guard('admin')->user()->id.'/edit' }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
+                        <a class="dropdown-item" href="{{ url('/donotezzycaretouch/admin/users').'/'.Auth::guard('admin')->user()->id.'/edit' }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
                     @endif
                     @endcan
                     <!-- <a class="dropdown-item" href="#"><span class="badge badge-success mt-1 float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> -->

@@ -9,8 +9,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/pharmacy/user')}}">Pharmacy</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/pharmacy/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/pharmacy/user')}}">Pharmacy</a></li>
                     <li class="breadcrumb-item active">View</li>
                 </ol>
             </div>
@@ -351,7 +351,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
      var data_obj = {};
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>

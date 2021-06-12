@@ -10,8 +10,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/'.$provider .'/user')}}">
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/'.$provider .'/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/'.$provider .'/user')}}">
                         {{array_key_exists($provider, $provider_names) ? $provider_names[$provider]: ''}}
                     </a></li>
                     <li class="breadcrumb-item active">Service Details</li>
@@ -51,7 +51,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('/user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
     var data_obj = {'provider': '{{ $provider }}','user_id': '{{$id}}'};
     var data_status = '';
     var data_category_id = '';

@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Voucher Code</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     @can('voucher_code-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/voucher_code/create')}}" class="btn btn-info">Add Voucher Code</a>
+                        <a href="{{url('/donotezzycaretouch/voucher_code/create')}}" class="btn btn-info">Add Voucher Code</a>
                     </div>
                     @endcan
 
@@ -54,7 +54,7 @@
 
 @section('script')
 <script>
-    var voucher_code_url = "{{url('/voucher_code')}}";
+    var voucher_code_url = "{{url('/donotezzycaretouch/voucher_code')}}";
 </script>
 <script src="{{ asset('js/admin/voucher_code.js') }}" ></script>
 @endsection

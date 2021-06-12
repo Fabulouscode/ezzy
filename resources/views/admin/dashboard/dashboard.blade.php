@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/healthcare/user')}}">
+            <a href="{{url('/donotezzycaretouch/healthcare/user')}}">
                 <div class="card d-card-part bg-warning mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -37,7 +37,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/pharmacy/user')}}">
+            <a href="{{url('/donotezzycaretouch/pharmacy/user')}}">
                 <div class="card d-card-part bg-secondary mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -57,7 +57,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/laboratories/user')}}">
+            <a href="{{url('/donotezzycaretouch/laboratories/user')}}">
                 <div class="card d-card-part bg-success mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -77,7 +77,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/customer/patient')}}">
+            <a href="{{url('/donotezzycaretouch/customer/patient')}}">
                 <div class="card d-card-part bg-danger mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -98,7 +98,7 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment')}}">
                 <div class="card d-card-part bg-info mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -118,7 +118,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <a href="{{url('/pharmacy/order')}}">
+            <a href="{{url('/donotezzycaretouch/pharmacy/order')}}">
                 <div class="card d-card-part bg-violet mini-stat m-b-30">
                     <div class="card-d-title text-white">
                         <div class="mini-stat-icon">
@@ -149,13 +149,13 @@
                     <div class="card-body d-card-body">
                         <div class="mt-2 text-muted">
                             <div class="d-flex justify-content-between">
-                                <a href="{{url('/appointment')}}">
+                                <a href="{{url('/donotezzycaretouch/appointment')}}">
                                     <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_appointments']) ? $data['completed_appointments'] : '0'}}</span></h6>
                                 </a>
-                                <a href="{{url('/appointment')}}">
+                                <a href="{{url('/donotezzycaretouch/appointment')}}">
                                     <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_appointments']) ? $data['pending_appointments'] : '0'}}</span> </h6>
                                 </a>
-                                <a href="{{url('/appointment/cancel')}}">
+                                <a href="{{url('/donotezzycaretouch/appointment/cancel')}}">
                                     <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_appointments']) ? $data['cancel_appointments'] : '0'}}</span> </h6>
                                 </a>
                             </div>
@@ -175,13 +175,13 @@
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <a href="{{url('/pharmacy/order')}}">
+                            <a href="{{url('/donotezzycaretouch/pharmacy/order')}}">
                                 <h6>Completed <span class="d-block mb-1 d-number-count">{{ isset($data['completed_orders']) ? $data['completed_orders'] : '0'}}</span></h6>
                             </a>
-                            <a href="{{url('/pharmacy/order')}}">
+                            <a href="{{url('/donotezzycaretouch/pharmacy/order')}}">
                                 <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pending_orders']) ? $data['pending_orders'] : '0'}}</span> </h6>
                             </a>
-                            <a href="{{url('/pharmacy/order')}}">
+                            <a href="{{url('/donotezzycaretouch/pharmacy/order')}}">
                                 <h6>Cancel <span class="d-block mb-1 d-number-count">{{ isset($data['cancel_orders']) ? $data['cancel_orders'] : '0'}}</span> </h6>
                             </a>
                         </div>
@@ -304,11 +304,11 @@
                     <h4 class="mt-0 header-title mb-4">Payout</h4>
 
                     <div class="d-flex justify-content-around mb-3">
-                        <a href="{{url('/payout/pending')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/donotezzycaretouch/payout/pending')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['pending_payout']) ? $data['pending_payout'] : '0'}} </h4>
                             <p class="text-white">Pending Payout</p>
                         </a>
-                        <a href="{{url('/payout')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/donotezzycaretouch/payout')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['approved_payout']) ? $data['approved_payout'] : '0'}} </h4>
                             <p class="text-white">Approved Payout</p>
                         </a>
@@ -316,11 +316,11 @@
 
                     <h4 class="mt-0 header-title mb-4"> Manage Pharmacy </h4>
                     <div class="d-flex justify-content-around">
-                        <a href="{{url('/medicine/categories')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/donotezzycaretouch/medicine/categories')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_categories']) ? $data['medicine_categories'] : '0'}} </h4>
                             <p class="text-white">Medicine Categories</p>
                         </a>
-                        <a href="{{url('/medicine/details')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
+                        <a href="{{url('/donotezzycaretouch/medicine/details')}}" class="small-box bg-info text-center px-5 py-4 mx-3">
                             <h4 class="text-white mb-1 font-weight-bold">{{ isset($data['medicine_details']) ? $data['medicine_details'] : '0'}} </h4>
                             <p class="text-white">Medicine Details</p>
                         </a>
@@ -406,9 +406,9 @@
 @endsection
 @section('script')
 <script>
-    var appointment_url = "{{url('/appointment')}}";
-    var pharmacy_order_url = "{{url('/pharmacy/order')}}";
-    var dashboard_url = "{{url('/')}}";
+    var appointment_url = "{{url('/donotezzycaretouch/appointment')}}";
+    var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
+    var dashboard_url = "{{url('/donotezzycaretouch/')}}";
     var appointment_obj = {'status': '' };
     var pharmacy_order_obj = {'status': ['3','4'] };
     $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));

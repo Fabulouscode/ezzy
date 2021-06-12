@@ -78,7 +78,7 @@ class SupportRequestController extends Controller
             $this->support_request_repo->dataCrud($data);
         }
 
-        return redirect('/support_request');
+        return redirect('/donotezzycaretouch/support_request');
     }
 
     /**

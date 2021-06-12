@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Pending Payout</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                 
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('payout/export')}}" class="btn btn-info">Export</a>
+                        <a href="{{url('/donotezzycaretouch/payout/export')}}" class="btn btn-info">Export</a>
                     </div>
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout & Export</a>
@@ -123,7 +123,7 @@
 
 @section('script')
 <script>
-    var payout_url = "{{url('/payout')}}";
+    var payout_url = "{{url('/donotezzycaretouch/payout')}}";
     var payout_obj = {'payout_status':'1'};
     var payout_status = 1;
     var payout_history = {};

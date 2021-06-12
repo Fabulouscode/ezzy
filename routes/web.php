@@ -16,28 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/login', function () {
-    return redirect('donotezzycaretouch/login');
-});
-Route::get('/admin', function () {
-    return redirect('donotezzycaretouch/login');
-});
-Route::get('/admin/login', function () {
-    return redirect('donotezzycaretouch/login');
-});
-Route::get('/donotezzycaretouch', function () {
-    return redirect('donotezzycaretouch/login');
-});
 
+// Route::get('/donotezzycaretouch', function () {
+//     return redirect('donotezzycaretouch/login');
+// });
 
 // Auth::routes();
 
 Route::namespace('App\Http\Controllers')->group(function(){
 
-    Route::namespace('Auth')->group(function(){
-        Route::get('donotezzycaretouch/login', 'LoginController@showAdminLoginForm')->name('login');
+    Route::prefix('/donotezzycaretouch')->namespace('Auth')->group(function(){
+        Route::get('/login', 'LoginController@showAdminLoginForm')->name('login');
         // Route::get('/register', 'RegisterController@showAdminRegisterForm')->name('register');
-        Route::get('donotezzycaretouch/lockscreen', 'LockScreenController@showAdminLockScreenForm')->name('lockscreen');
+        Route::get('/lockscreen', 'LockScreenController@showAdminLockScreenForm')->name('lockscreen');
 
         Route::post('/admin/login', 'LoginController@adminLogin');
         // Route::post('/admin/register', 'RegisterController@createAdmin');
@@ -50,16 +41,16 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
     Route::view('/support_chat', 'admin.support_request.chat');
     
-    Route::namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
+    Route::prefix('/donotezzycaretouch/')->namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
        
         // Main Dashoard
-        Route::get('/dashboard', 'DashboardController@index')->name('dashboard');;
-        Route::post('/chart/revenue', 'DashboardController@getRevenueChartdata');
-        Route::post('/chart/income', 'DashboardController@getIncomeChartdata');
-        Route::post('/chart/earning', 'DashboardController@getEarningdata');
+        Route::get('', 'DashboardController@index')->name('dashboard');;
+        Route::post('chart/revenue', 'DashboardController@getRevenueChartdata');
+        Route::post('chart/income', 'DashboardController@getIncomeChartdata');
+        Route::post('chart/earning', 'DashboardController@getEarningdata');
 
         // permission No access 
-        Route::get('/permission_not_access', function(){
+        Route::get('permission_not_access', function(){
             return view('errors.permission_access');
         })->name('permission_not_access');
         

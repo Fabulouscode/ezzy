@@ -13,8 +13,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/category')}}">Admin List</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/category')}}">Admin List</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('admin/users') }}" id="user_form" name="user_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/admin/users') }}" id="user_form" name="user_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -116,7 +116,7 @@
 
 @section('script')
 <script>
-    var admin_user_url = "{{url('/admin/users')}}";
+    var admin_user_url = "{{url('/donotezzycaretouch/admin/users')}}";
 </script>
 <script src="{{ asset('js/admin/admin_user.js') }}" ></script>
 @endsection

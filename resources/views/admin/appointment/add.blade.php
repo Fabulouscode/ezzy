@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Add Appointment Details</li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
 
 @section('script')
 <script>
-    var category_url = "{{url('/category')}}";
+    var category_url = "{{url('/donotezzycaretouch/category')}}";
 </script>
 <script src="{{ asset('js/admin/category.js') }}" ></script>
 @endsection

@@ -264,15 +264,15 @@ class AppointmentRepository extends Repository
                 {
                     $data = '';
                     // Edit
-                    // $data .= '<a href="'.url('appointment/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
+                    // $data .= '<a href="'.url('donotezzycaretouch/appointment/'.$selected->id.'/edit').'" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;';
                     
                     // View
                     if (Auth::user()->hasPermissionTo('appointments-list')) {
-                        $data .= '<a href="'.url('appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/appointment/'.$selected->id).'" class="btn btn-sm btn-primary" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;';
                     }
                     if (Auth::user()->hasPermissionTo('appointments-invoice')) {
                         if ($selected->status == '5') {
-                            $data .= '<a href="'.url('appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
+                            $data .= '<a href="'.url('donotezzycaretouch/appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                         }
                     }
                 
@@ -896,7 +896,7 @@ class AppointmentRepository extends Repository
 
             ->editColumn('appointment_no',function($selected)
             {
-                return '<a href="'.url('appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
+                return '<a href="'.url('donotezzycaretouch/appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
             })
             ->orderColumn('appointment_no', function ($query, $order) {
                 $query->orderBy('appointments.id', $order);

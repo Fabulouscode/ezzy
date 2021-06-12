@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Static Pages</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     @can('static_page-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/static_pages/create')}}" class="btn btn-info">Add Static Page</a>
+                        <a href="{{url('/donotezzycaretouch/static_pages/create')}}" class="btn btn-info">Add Static Page</a>
                     </div>
                     @endcan
 
@@ -52,7 +52,7 @@
 
 @section('script')
 <script>
-    var static_pages_url = "{{url('/static_pages')}}";
+    var static_pages_url = "{{url('/donotezzycaretouch/static_pages')}}";
 </script>
 <script src="{{ asset('js/admin/static_page.js') }}" ></script>
 @endsection

@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Add Notification</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
 
                     <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Notification</h4>
        
-                    <form method="POST" action="{{ url('notifications') }}" id="notification_form" name="notification_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/notifications') }}" id="notification_form" name="notification_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -72,7 +72,7 @@
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     {{!empty($data->id) ? 'Update' : 'Submit' }}
                                 </button>
-                                <a href="{{ url('/notifications') }}">
+                                <a href="{{ url('/donotezzycaretouch/notifications') }}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
@@ -90,7 +90,7 @@
 
 @section('script')
 <script>
-    var notification_url = "{{url('/notifications')}}";
+    var notification_url = "{{url('/donotezzycaretouch/notifications')}}";
 </script>
 <script src="{{ asset('js/admin/notification.js') }}" ></script>
 @endsection

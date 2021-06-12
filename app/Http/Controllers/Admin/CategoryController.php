@@ -63,7 +63,7 @@ class CategoryController extends Controller
             $this->category_repo->dataCrud($data);
         }
 
-        return redirect('/category');
+        return redirect('/donotezzycaretouch/category');
     }
 
     /**

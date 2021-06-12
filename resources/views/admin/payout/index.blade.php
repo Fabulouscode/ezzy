@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Approved Payout</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                 
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/services/create')}}" class="btn btn-info">Add Service</a>
+                        <a href="{{url('/donotezzycaretouch/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
@@ -69,7 +69,7 @@
 
 @section('script')
 <script>
-    var payout_url = "{{url('/payout')}}";
+    var payout_url = "{{url('/donotezzycaretouch/payout')}}";
     var payout_obj = {'payout_status':'0'};
     var payout_status = 0;
     var payout_history = {};

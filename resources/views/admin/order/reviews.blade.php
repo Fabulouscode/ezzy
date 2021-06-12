@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Order Reviews</li>
                 </ol>
             </div>
@@ -48,7 +48,7 @@
 
 @section('script')
 <script>
-    var pharmacy_order_url = "{{url('pharmacy/order')}}";
+    var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
     var data_user_id = '';
 </script>
  <!-- Bootstrap rating js -->

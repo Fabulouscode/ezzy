@@ -91,7 +91,7 @@ class PayoutAmountRepository extends Repository
                 ->addColumn('action', function($selected) {   
                      $data = '';
                     // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                        $data .= '<a href="'.url('payout/transaction/'.$selected->user_id).'" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  ><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
+                        $data .= '<a href="'.url('donotezzycaretouch/payout/transaction/'.$selected->user_id).'" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  ><i class="fa fa-money"></i></a>&nbsp;&nbsp;';
                     // }
                     return $data;
                 })

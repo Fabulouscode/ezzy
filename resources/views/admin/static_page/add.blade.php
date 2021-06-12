@@ -13,8 +13,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/static_pages')}}">Static Page</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/static_pages')}}">Static Page</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('static_pages') }}" id="static_page_form" name="static_page_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/static_pages') }}" id="static_page_form" name="static_page_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         
@@ -88,7 +88,7 @@
 
 @section('script')
 <script>
-    var static_pages_url = "{{url('/static_pages')}}";
+    var static_pages_url = "{{url('/donotezzycaretouch/static_pages')}}";
 </script>
 <script src="{{ asset('js/admin/static_page.js') }}" ></script>
 @endsection

@@ -13,8 +13,8 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/role')}}">Role</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/role')}}">Role</a></li>
                     <li class="breadcrumb-item active">{{!empty($data->id) ? 'Edit' : 'Add' }}</li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
        
-                    <form method="POST" action="{{ url('role') }}" id="role_form" name="role_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/role') }}" id="role_form" name="role_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -94,7 +94,7 @@
 
 @section('script')
 <script>
-    var role_url = "{{url('/role')}}";
+    var role_url = "{{url('/donotezzycaretouch/role')}}";
 </script>
 <script src="{{ asset('js/admin/role.js') }}" ></script>
 @endsection

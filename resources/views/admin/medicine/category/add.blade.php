@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Add Medicine Category</li>
                 </ol>
             </div>
@@ -25,7 +25,7 @@
 
                     <h4 class="mt-0 header-title">{{!empty($data->id) ? 'Edit' : 'Add' }} Medicine Categories</h4>
        
-                    <form method="POST" action="{{ url('medicine/categories') }}" id="medicine_category_form" name="medicine_category_form">
+                    <form method="POST" action="{{ url('donotezzycaretouch/medicine/categories') }}" id="medicine_category_form" name="medicine_category_form">
                         @csrf
                         <input id="id" type="hidden" name="id" value="{{ !empty($data->id) ? $data->id : '' }}">
                         <div class="row">
@@ -59,7 +59,7 @@
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     {{!empty($data->id) ? 'Update' : 'Submit' }}
                                 </button>
-                                <a href="{{ url('/medicine/categories') }}">
+                                <a href="{{ url('/donotezzycaretouch/medicine/categories') }}">
                                     <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                         Cancel
                                     </button>
@@ -77,7 +77,7 @@
 
 @section('script')
 <script>
-    var medicine_category_url = "{{url('/medicine/categories')}}";
+    var medicine_category_url = "{{url('/donotezzycaretouch/medicine/categories')}}";
 </script>
 <script src="{{ asset('js/admin/medicine_category.js') }}" ></script>
 @endsection

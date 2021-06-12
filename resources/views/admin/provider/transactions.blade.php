@@ -10,7 +10,7 @@
             <div class="col-sm-12">
                 <div class="float-right page-breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('/'.$provider.'/dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/'.$provider.'/dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Transaction List</li>
                     </ol>
                 </div>
@@ -172,7 +172,7 @@
 
 @section('script')
 <script>
-    var user_url = "{{url('user')}}";
+    var user_url = "{{url('/donotezzycaretouch/user')}}";
     $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
     $('#end_date').val(moment().format("YYYY-MM-DD"));
     var data_obj = {};

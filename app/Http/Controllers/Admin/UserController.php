@@ -141,24 +141,24 @@ class UserController extends Controller
         $user = $this->user_repo->getByID($request->id);
         if(!empty($user->category_id) && in_array($user->category_id, ['4','5','6','42'])){
             if ($user->status == '1') {
-                return redirect('healthcare/user/pending');
+                return redirect('/donotezzycaretouch/healthcare/user/pending');
             }else{
-                return redirect('healthcare/user');
+                return redirect('/donotezzycaretouch/healthcare/user');
             }
         }else if(!empty($user->category_id) && $user->category_id == '7'){
             if ($user->status == '1') {
-                return redirect('pharmacy/user/pending');
+                return redirect('/donotezzycaretouch/pharmacy/user/pending');
             }else{                
-                return redirect('pharmacy/user');
+                return redirect('/donotezzycaretouch/pharmacy/user');
             }
         }else if(!empty($user->category_id) && in_array($user->category_id, ['8','9','10'])){
             if ($user->status == '1') {
-                return redirect('laboratories/user/pending');
+                return redirect('/donotezzycaretouch/laboratories/user/pending');
             }else{
-                return redirect('laboratories/user');
+                return redirect('/donotezzycaretouch/laboratories/user');
             }            
         }else{            
-            return redirect('customer/patient');
+            return redirect('/donotezzycaretouch/customer/patient');
         }
     }
 
