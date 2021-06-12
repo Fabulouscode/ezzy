@@ -94,7 +94,7 @@ class AdminNotificationController extends Controller
     {
         $data = $this->admin_notification_repo->getById($id);
         if(!empty($data)){
-            $this->admin_notification_repo->destroy($id); 
+            $this->admin_notification_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

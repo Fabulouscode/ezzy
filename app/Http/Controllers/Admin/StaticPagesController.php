@@ -90,7 +90,7 @@ class StaticPagesController extends Controller
     {
         $data = $this->static_page_repo->getById($id);
         if(!empty($data)){
-            $this->static_page_repo->destroy($id); 
+            $this->static_page_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

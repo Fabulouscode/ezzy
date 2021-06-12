@@ -95,7 +95,7 @@ class MedicalItemController extends Controller
     {
         $data = $this->medical_item_repo->getById($id);
         if(!empty($data)){
-            $this->medical_item_repo->destroy($id); 
+            $this->medical_item_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

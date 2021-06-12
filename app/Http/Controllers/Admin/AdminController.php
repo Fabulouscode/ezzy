@@ -127,7 +127,7 @@ class AdminController extends Controller
     {
         $data = $this->admin_repo->getById($id);
         if(!empty($data)){
-            $this->admin_repo->destroy($id); 
+            $this->admin_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

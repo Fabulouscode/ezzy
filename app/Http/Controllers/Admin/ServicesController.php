@@ -114,7 +114,7 @@ class ServicesController extends Controller
     {
         $data = $this->services_repo->getById($id);
         if(!empty($data)){
-            $this->services_repo->destroy($id); 
+            $this->services_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

@@ -77,7 +77,7 @@ class ServiceUsageController extends Controller
     {
         $data = $this->service_usage_repo->getById($id);
         if(!empty($data)){
-            $this->service_usage_repo->destroy($id); 
+            $this->service_usage_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         

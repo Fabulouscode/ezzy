@@ -94,7 +94,7 @@ class ManageFeesController extends Controller
     {
         $data = $this->manage_fees_repo->getById($id);
         if(!empty($data)){
-            $this->manage_fees_repo->destroy($id); 
+            $this->manage_fees_repo->forceDelete($id); 
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         
