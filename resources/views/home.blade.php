@@ -330,7 +330,7 @@
                                     <p>Get It on</p>
                                     <h5>Google Play</h5>
                                 </a>
-                                <a href="#">
+                                <a target="_blank" href="https://apps.apple.com/tt/app/ezzycare/id1566288649">
                                     <i class="flaticon-app-store"></i>
                                     <p>Available on the</p>
                                     <h5>App Store</h5>
