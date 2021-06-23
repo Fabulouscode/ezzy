@@ -265,4 +265,10 @@ class ShoppingCartController extends BaseApiController
         return self::sendSuccess([], 'Cart add Success');
     }
 
+    public function getShopingCartItemCount(Request $request)
+    {
+        $data = $this->shop_cart_repo->getUserCart($request->user()->id);
+        return self::sendSuccess(count($data) , 'get Cart data');
+    }
+
 }

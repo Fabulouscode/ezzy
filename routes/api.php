@@ -89,6 +89,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('/current/location/update', 'UserProfileController@updateUserCurrentLocation');
 
             Route::get('/dashboard', 'DashboardController@getDashboardDetails');
+            Route::get('/cart_item/count', 'ShoppingCartController@getShopingCartItemCount');
+
             Route::get('/hcp/types/{id?}', 'DashboardController@getHealthCareTypes');
             Route::post('/hcp/payment/history', 'DashboardController@getHCPPaymentHistory');
             Route::post('/payment/history', 'DashboardController@getPaymentHistory');
