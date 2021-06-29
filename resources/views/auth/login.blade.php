@@ -14,7 +14,7 @@
                                 <a href="{{ url('/donotezzycaretouch/dashboard') }}" class="logo logo-admin"><img src="{{ asset('admin/images/logo-dark.png')}}" height="80" alt="logo"></a>
                             </h3>
 
-                            <h4 class="text-muted text-center font-18">{{ isset($url) ? ucwords($url) : ""}} Sign In</h4>
+                            <h4 class="text-muted text-center font-18"> Sign In</h4>
 
                             <div class="p-2">
                                 @isset($url)
