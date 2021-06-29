@@ -167,6 +167,11 @@ return [
     'OCTOPUSH_API_URL'=> env('OCTOPUSH_API_URL'),
     'OCTOPUSH_LOGIN_NAME'=> env('OCTOPUSH_LOGIN_NAME'),
     'OCTOPUSH_API_KEY'=> env('OCTOPUSH_API_KEY'),
+ 
+    /* MTARGET integration key (sms) */
+    'MTARGET_API_URL'=> env('MTARGET_API_URL'),
+    'MTARGET_USERNAME'=> env('MTARGET_USERNAME'),
+    'MTARGET_PASSWORD'=> env('MTARGET_PASSWORD'),
 
 
     /*
