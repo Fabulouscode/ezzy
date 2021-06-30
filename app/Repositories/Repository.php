@@ -229,34 +229,34 @@ class Repository
         // }
 
         // sms provider
-        try{
-            $sms_provider_url = config("app.SMS_PROVIDER_URL");
-            $sms_provider_username = config("app.SMS_PROVIDER_USERNAME");
-            $sms_provider_password = config("app.SMS_PROVIDER_PASSWORD");
-            $sms_provider_Sender = config("app.SMS_PROVIDER_SENDER");
-            $data = [];
-           if(!empty($sms_provider_url) && !empty($sms_provider_username) && !empty($sms_provider_password) && !empty($sms_provider_Sender) && !empty($recipients)){
-                $smsprovider_url = $sms_provider_url;
-                $smsprovider_url .= '?username='.$sms_provider_username;
-                $smsprovider_url .= '&password='.$sms_provider_password;
-                $smsprovider_url .= '&message='.$message;
-                $smsprovider_url .= '&sender='.$sms_provider_Sender;
-                $smsprovider_url .= '&mobiles='.$recipients;
-                $msg_sent = Helper::sendBULKSMSRequest($smsprovider_url);
-                if(!empty($msg_sent) && $msg_sent != 'true'){
-                    return $msg_sent;
-                }
-            }else{
-                $msg_sent = 'SMS Sending Failed';
-                return $msg_sent;
-            }
-         }catch(\Exception $e){
-              throw new HttpResponseException(response()->json([
-                'success' => false,
-                'errors' => $e->getMessage(),
-                'message' => 'The given data was invalid.',
-            ], 422));
-        }
+        // try{
+        //     $sms_provider_url = config("app.SMS_PROVIDER_URL");
+        //     $sms_provider_username = config("app.SMS_PROVIDER_USERNAME");
+        //     $sms_provider_password = config("app.SMS_PROVIDER_PASSWORD");
+        //     $sms_provider_Sender = config("app.SMS_PROVIDER_SENDER");
+        //     $data = [];
+        //    if(!empty($sms_provider_url) && !empty($sms_provider_username) && !empty($sms_provider_password) && !empty($sms_provider_Sender) && !empty($recipients)){
+        //         $smsprovider_url = $sms_provider_url;
+        //         $smsprovider_url .= '?username='.$sms_provider_username;
+        //         $smsprovider_url .= '&password='.$sms_provider_password;
+        //         $smsprovider_url .= '&message='.$message;
+        //         $smsprovider_url .= '&sender='.$sms_provider_Sender;
+        //         $smsprovider_url .= '&mobiles='.$recipients;
+        //         $msg_sent = Helper::sendBULKSMSRequest($smsprovider_url);
+        //         if(!empty($msg_sent) && $msg_sent != 'true'){
+        //             return $msg_sent;
+        //         }
+        //     }else{
+        //         $msg_sent = 'SMS Sending Failed';
+        //         return $msg_sent;
+        //     }
+        //  }catch(\Exception $e){
+        //       throw new HttpResponseException(response()->json([
+        //         'success' => false,
+        //         'errors' => $e->getMessage(),
+        //         'message' => 'The given data was invalid.',
+        //     ], 422));
+        // }
     
             // OCTOPUSH sms
         // try{
@@ -290,36 +290,33 @@ class Repository
         // }
 
             // MTARGET sms
-        // try{
-        //     $mtarget_api_url = config("app.MTARGET_API_URL");
-        //     $mtarget_login_name = config("app.MTARGET_USERNAME");
-        //     $mtarget_login_password = config("app.MTARGET_PASSWORD");
-        //     if(!empty($mtarget_api_url) && !empty($mtarget_login_name) && !empty($mtarget_login_password) && !empty($recipients)){
-        //         $url = $mtarget_api_url.'messages';
-        //         $headers = array('Accept:application/json','cache-control: no-cache');
-        //         $data = "";
-        //         $data .= "username=".$mtarget_login_name;                
-        //         $data .= "&password=".$mtarget_login_password;                
-        //         $data .= "&msisdn=".urlencode($recipients);                
-        //         $data .= "&msg=".$message;
-        //         $data .= "&allowunicode=".true;
-        //         $data .= "&serviceid=30798";
-        //         $data .= "&sender=".config("app.name");
-        //         $msg_sent = Helper::sendBULKSMSRequest($url, $headers, $data);
-        //         if(!empty($msg_sent) && $msg_sent != 'true'){
-        //             return $msg_sent;
-        //         }
-        //     }else{
-        //         $msg_sent = 'SMS Sending Failed';
-        //         return $msg_sent;
-        //     }
-        // }catch(\Exception $e){
-        //         throw new HttpResponseException(response()->json([
-        //         'success' => false,
-        //         'errors' => $e->getMessage(),
-        //         'message' => 'The given data was invalid.',
-        //     ], 422));
-        // }
+        try{
+            $mtarget_api_url = config("app.MTARGET_API_URL");
+            $mtarget_login_name = config("app.MTARGET_USERNAME");
+            $mtarget_login_password = config("app.MTARGET_PASSWORD");
+            if(!empty($mtarget_api_url) && !empty($mtarget_login_name) && !empty($mtarget_login_password) && !empty($recipients)){
+                $url = $mtarget_api_url;
+                $url .= "?username=".$mtarget_login_name;                
+                $url .= "&password=".$mtarget_login_password;                
+                $url .= "&msisdn=".urlencode($recipients);     
+                $url .= "&serviceid=30798";
+                $url .= "&sender=OneOTP";
+                $url .= "&msg=".urlencode($message);
+                $msg_sent = Helper::sendBULKSMSRequest($url);
+                if(!empty($msg_sent) && $msg_sent != 'true'){
+                    return $msg_sent;
+                }
+            }else{
+                $msg_sent = 'SMS Sending Failed';
+                return $msg_sent;
+            }
+        }catch(\Exception $e){
+                throw new HttpResponseException(response()->json([
+                'success' => false,
+                'errors' => $e->getMessage(),
+                'message' => 'The given data was invalid.',
+            ], 422));
+        }
         
     }
 
