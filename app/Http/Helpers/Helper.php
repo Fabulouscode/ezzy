@@ -360,25 +360,29 @@ class Helper
     /**
      * msg sending curl request
      */ 
-    public static function sendBULKSMSRequest($url, $headers, $data) 
+    // public static function sendBULKSMSRequest($url, $headers, $data) 
+    public static function sendBULKSMSRequest($url) 
     {         
         if(!empty($url)){
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
-            if(!empty($response_arr['results']) && !empty($response_arr['results'][0]) && $response_arr['results'][0]['smscount'] == '0') {
+            // if(!empty($response_arr['results']) && !empty($response_arr['results'][0]) && $response_arr['results'][0]['smscount'] == '0') {
+            if(!empty($response_arr['error'])) {
                 Log::info($response);
                 Log::info('SMS Send Failed');
-                return $response_arr['results'][0]['reason'];
+                return $response_arr['error'];
+                // return $response_arr['results'][0]['reason'];
             }
             return true;
         }
