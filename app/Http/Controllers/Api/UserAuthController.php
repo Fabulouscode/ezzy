@@ -61,7 +61,7 @@ class UserAuthController extends BaseApiController
                 $data = ['otp_code' => $mobile_code];
                 $request->otp_code = $mobile_code;
                 $request->status = '3';
-                $message = 'Your OTP for ['.config('app.name').'] is:'.$mobile_code;
+                $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
                 $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 if(!empty($sent_msg)){
                     return self::sendError('', 'SMS Sending Failed');
@@ -316,7 +316,7 @@ class UserAuthController extends BaseApiController
             $user = $this->user_repo->getbyMobileNo($request); 
             $mobile_code = $this->user_repo->generateOTPCode();
             $data = ['otp_code' => $mobile_code];
-            $message = 'Your OTP for ['.config('app.name').'] is:'.$mobile_code;
+            $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
             $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
             if(!empty($sent_msg)){
                return self::sendError('', 'SMS Sending Failed');
@@ -369,7 +369,7 @@ class UserAuthController extends BaseApiController
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code];
-                $message = 'Your OTP for ['.config('app.name').'] is:'.$mobile_code;
+                $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
                 $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 if(!empty($sent_msg)){
                     return self::sendError('', 'SMS Sending Failed');
