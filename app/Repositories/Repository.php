@@ -301,7 +301,7 @@ class Repository
                 $url .= "&msisdn=".urlencode($recipients);     
                 $url .= "&serviceid=30798";
                 $url .= "&sender=OneOTP";
-                $url .= "&msg=".urlencode($message);
+                $url .= "&msg=".$message;
                 $msg_sent = Helper::sendBULKSMSRequest($url);
                 if(!empty($msg_sent) && $msg_sent != 'true'){
                     return $msg_sent;
