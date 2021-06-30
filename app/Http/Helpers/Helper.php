@@ -363,6 +363,7 @@ class Helper
     // public static function sendBULKSMSRequest($url, $headers, $data) 
     public static function sendBULKSMSRequest($url) 
     {         
+        Log::info($url);
         $headers = array('Accept: application/json', 'Content-Type: application/json');
         if(!empty($url)){
             $ch = curl_init();
@@ -378,6 +379,7 @@ class Helper
             // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
+            Log::info($response_arr);
             if(!empty($response_arr['results']) && !empty($response_arr['results'][0]) && $response_arr['results'][0]['smscount'] == '0') {
             // if(!empty($response_arr['error'])) {
                 Log::info($response);
