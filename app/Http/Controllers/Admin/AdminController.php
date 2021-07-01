@@ -63,8 +63,10 @@ class AdminController extends Controller
                 $data = array();
                 if(!empty($filter)) {
                     foreach ($filter as $key => $value) {
-                        if($key == 'password' && $value != '**********'){
-                            $data[$key] =  Hash::make($value);
+                        if($key == 'password'){
+                            if($value != '**********'){
+                                $data[$key] =  Hash::make($value);
+                            }
                         }else{                    
                             $data[$key] = $value;
                         }
@@ -80,8 +82,10 @@ class AdminController extends Controller
             $data = array();
             if(!empty($filter)) {
                 foreach ($filter as $key => $value) {
-                    if($key == 'password' && $value != '**********'){
-                        $data[$key] =  Hash::make($value);
+                    if($key == 'password'){
+                        if($value != '**********'){
+                            $data[$key] =  Hash::make($value);
+                        }
                     }else{                    
                         $data[$key] = $value;
                     }
