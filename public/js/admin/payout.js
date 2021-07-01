@@ -107,10 +107,45 @@ $(function () {
         }
     });
 
+    $('#transaction_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        // responsive: true,
+        ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: payout_url + '/transaction/data',
+            type: 'post',
+            dataType: "json",
+            data: {
+                category_id :  function () { return $('#searchByHcpTypeTransaction').val() },
+                end_date: function () { return $('#end_date').val() },
+                start_date: function () { return $('#start_date').val() }
+            },
+            async: true
+        },
+        columns: [
+            { data: 'id', name: 'id', searchable:false },
+            { data: 'user_name', name: 'User Name', searchable:false, orderable:false },
+            { data: 'service_provider', name: 'Service Provider', searchable:false, orderable:false },
+            { data: 'transaction_msg', name: 'transaction_msg' },
+            { data: 'transaction_date', name: 'transaction_date' },
+            { data: 'fees_charge', name: 'fees_charge' },
+            { data: 'payout_amount', name: 'payout_amount' },
+            { data: 'amount', name: 'amount' },
+        ],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+        }
+    });
+
     $("#select_all").click(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
-
 
     $(document).on('submit', '#payout_amount_form', function (event) {
         $.ajax({
@@ -144,6 +179,23 @@ $(function () {
         var oTable = $('#payout_paid_datatable').dataTable();
         oTable.fnDraw(true);
         var oTable = $('#payout_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
+
+    $('#searchByHcpTypeTransaction').on('change', function (ev, picker) {
+        var oTable = $('#transaction_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
+
+    $('#user-date-range').daterangepicker({
+        startDate: moment().subtract(1, 'years'),
+        endDate: moment(),
+        maxDate: moment()
+    });
+    $('#user-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        var oTable = $('#transaction_datatable').dataTable();
         oTable.fnDraw(true);
     });
 });

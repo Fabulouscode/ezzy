@@ -12,11 +12,11 @@ use App\Repositories\MedicineSubcategoryRepository;
 use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\ChatHistoryRepository;
-
+use App\Repositories\CategoryRepository;
 
 class DashboardController extends Controller
 {
-    private $user_repo, $order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
+    private $user_repo, $category_repo,$order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -24,6 +24,7 @@ class DashboardController extends Controller
         OrderRepository $order_repo,
         MedicineCategoryRepository $medicine_category_repo,
         MedicineSubcategoryRepository $medicine_subcategory_repo,
+        CategoryRepository $category_repo,
         MedicineDetailsRepository $medicine_details_repo,
         UserTransactionRepository $user_transaction_repo,
         ChatHistoryRepository $chat_history_repo
@@ -36,6 +37,7 @@ class DashboardController extends Controller
         $this->medicine_subcategory_repo = $medicine_subcategory_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->medicine_details_repo = $medicine_details_repo;
+        $this->category_repo = $category_repo;
         $this->chat_history_repo = $chat_history_repo;
     }
      
@@ -48,7 +50,7 @@ class DashboardController extends Controller
     {
         $data = array();
         
-     
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
         $data['patient'] = $this->user_repo->getPatientsCount();
         $data['today_patient'] = $this->user_repo->getPatientsCountToday();
         if($provider == 'healthcare'){
@@ -80,7 +82,7 @@ class DashboardController extends Controller
             $data['today_completed_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount(['5'], '1');
             $data['today_cancel_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount(['6'], '1');    
 
-            return view('admin.healthcare.dashboard', compact('data'));
+            return view('admin.healthcare.dashboard', compact('data', 'categories'));
         }else if($provider == 'pharmacy'){
 
             $data['approved_count'] = $this->user_repo->getUserParentCategoryWiseCount('2','0');
@@ -100,7 +102,7 @@ class DashboardController extends Controller
             $data['today_cancel_orders'] = $this->order_repo->getTodayOrderStatusWiseCount('4');
             $data['today_pending_orders'] = $this->order_repo->getTodayOrderStatusWiseCount(['0','1','2']);
 
-            return view('admin.pharmacy.dashboard', compact('data'));
+            return view('admin.pharmacy.dashboard', compact('data', 'categories'));
         }else if($provider == 'laboratories'){
 
             $data['approved_count'] = $this->user_repo->getUserParentCategoryWiseCount('3', '0');
@@ -128,7 +130,7 @@ class DashboardController extends Controller
             $data['today_completed_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount(['5'], '3');
             $data['today_cancel_appointments'] = $this->appointment_repo->getTodayAppointmentStatusWiseCount(['6'], '3');   
             
-            return view('admin.laboratories.dashboard', compact('data'));
+            return view('admin.laboratories.dashboard', compact('data', 'categories'));
         }else{            
 
             $data['healthcare'] = $this->user_repo->getUserParentCategoryWiseCount('1');
@@ -159,7 +161,7 @@ class DashboardController extends Controller
 
             $currency_symbol = $this->user_transaction_repo->currency_symbol;
             
-            return view('admin.dashboard.dashboard', compact('data','currency_symbol'));
+            return view('admin.dashboard.dashboard', compact('data','currency_symbol','categories'));
         }
     }
    

@@ -169,4 +169,28 @@ class PayoutAmountController extends Controller
     {
        return Excel::download(new UserPayoutExport('1'), 'payout_users.xlsx');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTransactionList(Request $request)
+    {
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
+        return view('admin.payout.transaction_list', compact('categories'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTransactionData(Request $request)
+    {
+        if($request->all()){
+            return $this->user_transaction_repo->getTransactionDatatable($request);
+        }
+    }
+
 }

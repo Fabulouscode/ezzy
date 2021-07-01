@@ -937,7 +937,14 @@ class AppointmentRepository extends Repository
                 });
             });           
         }
-       
+        
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('user', function ($query) use ($request) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                    $query->where('id', $request->category_id);
+                });
+            });           
+        }       
         
         if(!empty($request->start_date) && !empty($request->end_date)){
            $query = $query->whereBetween(DB::raw('DATE(appointment_date)'), array($request->start_date, $request->end_date));
@@ -988,7 +995,15 @@ class AppointmentRepository extends Repository
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereBetween(DB::raw('DATE(appointment_date)'), array($request->start_date, $request->end_date));
         }
-        
+
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('user', function ($query) use ($request) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                    $query->where('id', $request->category_id);
+                });
+            });           
+        }
+
         if(!empty($paid) && $paid != '0'){
             $query = $query->whereNotNull('transaction_id');
         }else{

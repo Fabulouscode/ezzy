@@ -149,6 +149,13 @@ $(function () {
         $(this).peity("pie", $(this).data());
     });
 
+    $('#searchByHcpTypeEarning').on('change', function (ev, picker) {
+        getAppointmentAndOrderEarning();
+    });
+    $('#searchByHcpTypeRevenue').on('change', function (ev, picker) {
+        getBarChart();
+    });
+
 });
 
 function createBarChart(data, xkey, ykeys) {
@@ -181,7 +188,6 @@ function createBarChart(data, xkey, ykeys) {
     }
 }
 
-
 function createAreaChart(data) {
     $("#morris-count-area-chart").empty();
     if (data.length > 0) {
@@ -210,7 +216,6 @@ function createAreaChart(data) {
     }
 }
 
-
 function getAreaChart() {
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
@@ -230,7 +235,6 @@ function getAreaChart() {
     });
 }
 
-
 //bar chart Revanu
 function getBarChart() {
     $.ajax({
@@ -238,7 +242,7 @@ function getBarChart() {
         url: dashboard_url + '/chart/income',
         type: "post",
         dataType: 'json',
-        data: { 'start_date': $('#revenue_start_date').val(), 'end_date': $('#revenue_end_date').val() },
+        data: { 'start_date': $('#revenue_start_date').val(), 'end_date': $('#revenue_end_date').val(), 'category_id' : $('#searchByHcpTypeRevenue').val()  },
         success: function (data) {
             if (data.status) {
                 var response = data.data;
@@ -253,8 +257,6 @@ function getBarChart() {
     });
 }
 
-
-
 //order and appointment wise earning 
 function getAppointmentAndOrderEarning() {
     $.ajax({
@@ -262,7 +264,7 @@ function getAppointmentAndOrderEarning() {
         url: dashboard_url + '/chart/earning',
         type: "post",
         dataType: 'json',
-        data: { 'start_date': $('#earning_start_date').val(), 'end_date': $('#earning_end_date').val() },
+        data: { 'start_date': $('#earning_start_date').val(), 'end_date': $('#earning_end_date').val(), 'category_id' : $('#searchByHcpTypeEarning').val() },
         success: function (data) {
             if (data.status) {
                 var response = data.data;

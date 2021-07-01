@@ -217,8 +217,7 @@
                             <input type="hidden" class="form-control" id="revenue_start_date" name="start_date" />
                             <input type="hidden" class="form-control" id="revenue_end_date" name="end_date"  />
                         </div>
-                    </div>
-                        
+                    </div>   
                     <ul class="list-inline widget-chart m-t-20 text-center">
                         <li>
                             <h4 class="">{{isset($currency_symbol) ? $currency_symbol : ''}}<span id="total_income">0</span></h4>
@@ -242,6 +241,18 @@
                 <div class="card-body">
                     <div class="card-header-flex">
                         <h4 class="mt-0 header-title mb-4">Earning</h4>
+                    </div>
+                    <div class="card-header-flex">
+                        @if(!empty($categories) && count($categories) > 0)
+                            <div class="form-group">
+                                <select id="searchByHcpTypeEarning" name="category_id" class="form-control">
+                                    <option value=''>Select Hcp Type</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>  
+                            </div>
+                        @endif
                         <div class="form-group">
                             <input type="text" class="form-control" name="earning_date_range" id="earning-chart-date-range"  />
                             <input type="hidden" class="form-control" id="earning_start_date" name="start_date" />

@@ -47,7 +47,22 @@ class UserTransactionRepository extends Repository
   
     public function userIncomeCalculate($request, $column_name = 'amount')
     {   
-        return $this->model->where('wallet_transaction','0')->whereBetween(DB::raw('DATE(transaction_date)'), array($request->start_date, $request->end_date))->where('status','0')->sum($column_name);
+        $query = $this->model;  
+        
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('client', function ($query) use ($request) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                    $query->where('id', $request->category_id);
+                });
+            });           
+        }
+
+        $query = $query->where('wallet_transaction','0')
+                            ->whereBetween(DB::raw('DATE(transaction_date)'), array($request->start_date, $request->end_date))
+                            ->where('status','0')
+                            ->sum($column_name);
+
+        return $query;
     }
     
     public function userPayoutIncome($request)
@@ -247,6 +262,29 @@ class UserTransactionRepository extends Repository
         return $query;
     }
   
+    public function getTransactionData($request)
+    {
+        $query = $this->model->with(['users','client']);
+       
+        $query = $query->whereNotNull('client_id');
+        
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('client', function ($query) use ($request) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                    $query->where('id', $request->category_id);
+                });
+            });           
+        }
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
+        }
+        
+        $query = $query->where('mode_of_payment', '1')->where('status', '0');
+
+        return $query;
+    }
+  
     
 
     public function getDatatablebyUserId($request)
@@ -328,6 +366,33 @@ class UserTransactionRepository extends Repository
                 }
             })
             ->rawColumns(['transaction_data','transaction_type','status','payout_amount','fees_charge','payout_status','payment_type'])
+            ->make(true);
+    }
+ 
+    public function getTransactionDatatable($request)
+    {
+        $data = $this->getTransactionData($request); 
+        
+        return Datatables::of($data)
+            ->editColumn('user_name', function($selected) use ($request) {  
+                return $selected->users ? $selected->users->user_name : '-';
+            })
+            ->editColumn('service_provider', function($selected) use ($request) {                 
+                return $selected->client ? $selected->client->user_name : '-'; 
+            })
+            ->editColumn('transaction_date', function($selected) {
+                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
+            })
+            ->editColumn('amount', function($selected) {
+                return $this->currency_symbol.$selected->amount ;
+            })
+            ->editColumn('payout_amount', function($selected) {
+                return $this->currency_symbol.$selected->payout_amount ;
+            })
+            ->editColumn('fees_charge', function($selected) {
+                return $this->currency_symbol.$selected->fees_charge ;
+            })
+            ->rawColumns(['payout_amount','fees_charge'])
             ->make(true);
     }
  

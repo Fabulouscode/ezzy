@@ -119,6 +119,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('payout/export', 'PayoutAmountController@getPayoutExport');
         Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory');
         Route::resource('payout', 'PayoutAmountController');
+
+        //
+        Route::get('transaction/list', 'PayoutAmountController@getTransactionList');
+        Route::post('transaction/data', 'PayoutAmountController@getTransactionData');
      
         // static pages routes 
         Route::resource('voucher_code', 'VoucherCodeController')->middleware('role-permission-resource:voucher_code-list,voucher_code-add,voucher_code-edit,voucher_code-delete');
