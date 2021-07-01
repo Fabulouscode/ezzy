@@ -116,7 +116,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{url('/donotezzycaretouch/payout/pending')}}">Pending Payout</a></li>
                         <li><a href="{{url('/donotezzycaretouch/payout')}}">Approved Payout</a></li>
-                        <li><a href="{{url('/donotezzycaretouch/transaction/list')}}">Transaction List</a></li>
+                        <!-- <li><a href="{{url('/donotezzycaretouch/transaction/list')}}">Transaction List</a></li> -->
                     </ul>
                 </li>
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('medicine_category-list','medicine_subcategory-list','medicine_details-list'))
