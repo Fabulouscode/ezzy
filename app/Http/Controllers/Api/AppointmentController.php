@@ -1213,14 +1213,20 @@ class AppointmentController extends BaseApiController
             $appointment_details = $this->appointment_repo->getById($request->id);
             if($appointment_details->appointment_type == '1'){
                 $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
-                $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;      
+                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;      
             }else if($appointment_details->appointment_type == '2'){
                 $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;     
-                $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
+                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
             }else {
                 $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;    
-                $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
+                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
             }   
+            
+            $home_visit_fees = 0;
+            $urgent_booking_charges = $this->manage_fees_repo->getbyFeesKey('urgent_booking_charges');
+            if(!empty($urgent_booking_charges->fees_percentage)){                    
+                $home_visit_fees = $urgent_booking_charges->fees_percentage;
+            } 
 
             $updateuser = [
                 'hcp_fees'=> $hcp_fees,
@@ -1309,13 +1315,13 @@ class AppointmentController extends BaseApiController
                     if ($appointment_details->urgent == '1') {
                         if($appointment_details->appointment_type == '1'){
                             $transaction_amount = $user->userDetails->home_consultation_charge * $appointment_timing;
-                            $transaction_amount += $user->userDetails->urgent_fees;      
+                            // $transaction_amount += $user->userDetails->urgent_fees;      
                         }else if($appointment_details->appointment_type == '2'){
                             $transaction_amount = $user->userDetails->video_consultation_charge * $appointment_timing; 
-                            $transaction_amount += $user->userDetails->urgent_fees;   
+                            // $transaction_amount += $user->userDetails->urgent_fees;   
                         }else {
                             $transaction_amount = $user->userDetails->clinic_consultation_charge * $appointment_timing; 
-                            $transaction_amount += $user->userDetails->urgent_fees;   
+                            // $transaction_amount += $user->userDetails->urgent_fees;   
                         }  
                     } else {
                         if($appointment_details->appointment_type == '1'){

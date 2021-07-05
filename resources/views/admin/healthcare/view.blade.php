@@ -254,14 +254,6 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>Urgent Fees</label></dt>
-                                        <dd class="col-sm-7"> 
-                                            @if(!empty($data->userDetails->urgent_fees))
-                                                {{$currency_symbol.$data->userDetails->urgent_fees}} 
-                                            @endif 
-                                        </dd>
-                                    </div>
                                     @else
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Clinic Consultation Fees (per Hour)</label></dt>

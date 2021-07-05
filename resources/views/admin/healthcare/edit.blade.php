@@ -192,12 +192,6 @@
                                                 <input type="number" required class="form-control" name="userDetails[video_consultation_charge]" value="{{$data->userDetails->video_consultation_charge}}">
                                             </dd>
                                         </div>
-                                        <div class="row">
-                                            <dt class="col-sm-5"><label>Urgent Fees</label></dt>
-                                            <dd class="col-sm-7"> 
-                                                <input type="number" required class="form-control" name="userDetails[urgent_fees]" value="{{$data->userDetails->urgent_fees}}">
-                                            </dd>
-                                        </div>
                                     @else
                                         <div class="row">
                                             <dt class="col-sm-5"><label>Clinic Consultation Fees (per Hour)</label></dt>

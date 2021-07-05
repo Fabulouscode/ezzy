@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon as Carbon;
+use App\Models\Manage_fees;
 
 class Appointment extends Model
 {
@@ -99,7 +100,7 @@ class Appointment extends Model
         'start_datetime'
     ];
 
-    protected $appends = ['invoice_no_generate','start_to_end_time_diff','start_to_end_time_diff_format','status_name','gender_name','appointment_type_name'];
+    protected $appends = ['invoice_no_generate','start_to_end_time_diff','start_to_end_time_diff_format','status_name','gender_name','appointment_type_name','urgent_appointment_book_charges'];
    
     protected $hidden = ['start_to_end_time_diff_format'];
 
@@ -166,6 +167,14 @@ class Appointment extends Model
         return $this->hasOne('App\Models\Voucher_code', 'id', 'voucher_code_id');
     }
   
+    public function getUrgentAppointmentBookChargesAttribute() {
+        if($this->urgent == '1') {
+            return Manage_fees::where('fees_key','urgent_booking_charges')->pluck('fees_percentage')->first();
+        }else{
+            return 0;
+        }
+    }
+  
     public function getStartToEndTimeDiffAttribute(){
         $appointment_timing = '0';
         if(!empty($this->start_datetime) && !empty($this->completed_datetime)){
@@ -203,6 +212,7 @@ class Appointment extends Model
             'completed_datetime'=>$this->completed_datetime,
             'appointment_price'=>$this->appointment_price,
             'home_visit_fees'=>$this->home_visit_fees,
+            'urgent_appointment_book_charges'=>$this->urgent_appointment_book_charges,
             'total_charge'=>$this->total_charge,
             'invoice_no_generate'=>$this->invoice_no_generate,
             'user_rating'=>$this->user_rating,
