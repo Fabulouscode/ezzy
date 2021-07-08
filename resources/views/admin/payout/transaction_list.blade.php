@@ -56,6 +56,7 @@
                                     <select id="searchByTransactionMSG" name="transaction_msg" class="form-control">
                                         <option value=''>Select Transaction Type</option>
                                         <option value='Appointment'>Appointment</option>
+                                        <option value='Urgent Appointment'>Urgent Appointment</option>
                                         <option value='Treatment plan'>Treatment plan</option>
                                         <option value='Order'>Order</option>
                                         <option value='Appointment cancellation charges'>Appointment Cancel</option>
