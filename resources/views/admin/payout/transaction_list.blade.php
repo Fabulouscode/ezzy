@@ -49,14 +49,30 @@
                                     <input type="hidden" class="form-control" id="user_start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
                                 </div>
-                            </div>                            
-                            <div class="col-xl-2 col-md-4">
+                            </div>    
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Transaction Type</label>
+                                    <select id="searchByTransactionMSG" name="transaction_msg" class="form-control">
+                                        <option value=''>Select Transaction Type</option>
+                                        <option value='Appointment'>Appointment</option>
+                                        <option value='Treatment plan'>Treatment plan</option>
+                                        <option value='Order'>Order</option>
+                                        <option value='Appointment cancellation charges'>Appointment Cancel</option>
+                                        <option value='Urgent Appointment cancellation charges'>Urgent Appointment Cancel</option>
+                                        <option value='Order amount refund'>Order Cancel Refund</option>
+                                    </select>       
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="row mb-3">     
+                            <div class="col-xl-3 col-md-4">
                                 <div class="card d-card-part bg-success mini-stat m-b-30">
                                     <div class="card-d-title text-white">
                                         <div class="mini-stat-icon">
                                             <i class="fa fa-money float-right mb-0"></i>
                                         </div>
-                                        <h6 class="mb-0">Total <br/>EzzyCare Ear.</h6>
+                                        <h6 class="mb-0">Total EzzyCare Ear.</h6>
                                     </div>
                                     <div class="card-body d-card-body">
                                         <div class="mt-2 text-muted">
@@ -67,13 +83,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-2 col-md-4">
+                            <div class="col-xl-3 col-md-4">
                                 <div class="card d-card-part bg-success mini-stat m-b-30">
                                     <div class="card-d-title text-white">
                                         <div class="mini-stat-icon">
                                             <i class="fa fa-money float-right mb-0"></i>
                                         </div>
-                                        <h6 class="mb-0">Total <br/>Payout</h6>
+                                        <h6 class="mb-0">Total Payout</h6>
                                     </div>
                                     <div class="card-body d-card-body">
                                         <div class="mt-2 text-muted">
@@ -84,13 +100,13 @@
                                     </div>
                                 </div>
                             </div>                            
-                            <div class="col-xl-2 col-md-4">
+                            <div class="col-xl-3 col-md-4">
                                 <div class="card d-card-part bg-success mini-stat m-b-30">
                                     <div class="card-d-title text-white">
                                         <div class="mini-stat-icon">
                                             <i class="fa fa-money float-right mb-0"></i>
                                         </div>
-                                        <h6 class="mb-0">Total <br/>Transaction</h6>
+                                        <h6 class="mb-0">Total Transaction</h6>
                                     </div>
                                     <div class="card-body d-card-body">
                                         <div class="mt-2 text-muted">
@@ -100,7 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>   
                         </div>
                     </div>
                     <div class="table-responsive">

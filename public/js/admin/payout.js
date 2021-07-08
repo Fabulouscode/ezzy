@@ -121,7 +121,8 @@ $(function () {
             data: {
                 category_id :  function () { return $('#searchByHcpTypeTransaction').val() },
                 end_date: function () { return $('#end_date').val() },
-                start_date: function () { return $('#start_date').val() }
+                start_date: function () { return $('#start_date').val() },
+                transaction_msg: function () { return $('#searchByTransactionMSG').val() }
             },
             async: true
         },
@@ -186,7 +187,7 @@ $(function () {
         oTable.fnDraw(true);
     });
 
-    $('#searchByHcpTypeTransaction').on('change', function (ev, picker) {
+    $('#searchByHcpTypeTransaction, #searchByTransactionMSG').on('change', function (ev, picker) {
         var oTable = $('#transaction_datatable').dataTable();
         oTable.fnDraw(true);
     });
@@ -294,7 +295,8 @@ function getHealthcareProviders() {
         data: {
             category_id :  function () { return $('#searchByHcpTypeTransaction').val() },
             end_date: function () { return $('#end_date').val() },
-            start_date: function () { return $('#start_date').val() }
+            start_date: function () { return $('#start_date').val() },            
+            transaction_msg: function () { return $('#searchByTransactionMSG').val() }
         },
         async: true,
         success: function (data) {

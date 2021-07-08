@@ -279,6 +279,10 @@ class UserTransactionRepository extends Repository
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
         }
+
+        if(!empty($request->transaction_msg)){
+            $query = $query->where('transaction_msg', $request->transaction_msg);
+        }
         
         $query = $query->where('mode_of_payment', '1')->where('status', '0');
 
@@ -301,6 +305,10 @@ class UserTransactionRepository extends Repository
 
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
+        }
+
+        if(!empty($request->transaction_msg)){
+            $query = $query->where('transaction_msg', $request->transaction_msg);
         }
         
         $query = $query->where('mode_of_payment', '1')->where('status', '0');
