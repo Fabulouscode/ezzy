@@ -140,6 +140,10 @@ $(function () {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             api.columns([0]).visible(showColumn);
+            // getHealthcareProviders();
+        },
+        drawCallback: function (settings) {
+            getHealthcareProviders();
         }
     });
 
@@ -274,6 +278,31 @@ function Export() {
             toastr.success(data.msg, App_name_global);
             var oTable = $('#payout_datatable').dataTable();
             oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function getHealthcareProviders() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: payout_url + '/transaction/payout/calculate',
+        type: 'post',
+        dataType: "json",
+        data: {
+            category_id :  function () { return $('#searchByHcpTypeTransaction').val() },
+            end_date: function () { return $('#end_date').val() },
+            start_date: function () { return $('#start_date').val() }
+        },
+        async: true,
+        success: function (data) {
+            if(data != ''){
+                $('#transactionTotal').text(Number(data.amount).toFixed(2));
+                $('#transactionPayout').text(Number(data.payout_amount).toFixed(2));
+                $('#transactionEzzyCare').text(Number(data.fees_charge).toFixed(2));
+            }
         },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);

@@ -1104,6 +1104,24 @@ class UserRepository extends Repository
         $query = $query->orderBy('appointment_date','desc')->get();
         return $query;
     }
+
+    /**
+     * find nerest healthcare provider.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllHealthcareProvider($category_id = '')
+    {
+        $query = $this->model;   
+        $query = $query->whereNotNull('category_id');
+
+        if(!empty($category_id) && $category_id != '0'){
+            $query = $query->where('category_id', $category_id);
+        }
+
+        $query = $query->orderBy('first_name','asc')->get();
+        return $query;
+    }
    
     public function userWalletUpdate($user_id)
     {

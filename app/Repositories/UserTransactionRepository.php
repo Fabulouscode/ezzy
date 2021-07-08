@@ -284,6 +284,34 @@ class UserTransactionRepository extends Repository
 
         return $query;
     }
+    
+    public function getHCPTransactionCalculate($request)
+    {
+        $query = $this->model;
+       
+        $query = $query->whereNotNull('client_id');
+        
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('client', function ($query) use ($request) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                    $query->where('id', $request->category_id);
+                });
+            });           
+        }
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
+        }
+        
+        $query = $query->where('mode_of_payment', '1')->where('status', '0');
+
+        $data = [];
+        $data['amount'] = $query->sum('amount');
+        $data['payout_amount'] = $query->sum('payout_amount');
+        $data['fees_charge'] = $query->sum('fees_charge');
+
+        return $data;
+    }
   
     
 

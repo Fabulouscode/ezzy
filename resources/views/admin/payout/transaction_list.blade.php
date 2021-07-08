@@ -49,7 +49,58 @@
                                     <input type="hidden" class="form-control" id="user_start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
                                 </div>
-                            </div>  
+                            </div>                            
+                            <div class="col-xl-2 col-md-4">
+                                <div class="card d-card-part bg-success mini-stat m-b-30">
+                                    <div class="card-d-title text-white">
+                                        <div class="mini-stat-icon">
+                                            <i class="fa fa-money float-right mb-0"></i>
+                                        </div>
+                                        <h6 class="mb-0">Total <br/>EzzyCare Ear.</h6>
+                                    </div>
+                                    <div class="card-body d-card-body">
+                                        <div class="mt-2 text-muted">
+                                            <div class="d-flex justify-content-between">
+                                                <h6><span class="d-block mb-1 d-number-count"><span id="transactionEzzyCare">0</span></span></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-4">
+                                <div class="card d-card-part bg-success mini-stat m-b-30">
+                                    <div class="card-d-title text-white">
+                                        <div class="mini-stat-icon">
+                                            <i class="fa fa-money float-right mb-0"></i>
+                                        </div>
+                                        <h6 class="mb-0">Total <br/>Payout</h6>
+                                    </div>
+                                    <div class="card-body d-card-body">
+                                        <div class="mt-2 text-muted">
+                                            <div class="d-flex justify-content-between">
+                                                <h6><span class="d-block mb-1 d-number-count"><span id="transactionPayout">0</span></span></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-xl-2 col-md-4">
+                                <div class="card d-card-part bg-success mini-stat m-b-30">
+                                    <div class="card-d-title text-white">
+                                        <div class="mini-stat-icon">
+                                            <i class="fa fa-money float-right mb-0"></i>
+                                        </div>
+                                        <h6 class="mb-0">Total <br/>Transaction</h6>
+                                    </div>
+                                    <div class="card-body d-card-body">
+                                        <div class="mt-2 text-muted">
+                                            <div class="d-flex justify-content-between">
+                                                <h6><span class="d-block mb-1 d-number-count"><span id="transactionTotal">0</span></span></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive">

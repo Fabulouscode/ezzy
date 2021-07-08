@@ -123,6 +123,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         //
         Route::get('transaction/list', 'PayoutAmountController@getTransactionList');
         Route::post('transaction/data', 'PayoutAmountController@getTransactionData');
+        Route::post('transaction/payout/calculate', 'PayoutAmountController@getHealthcareProvidersCalculate');
      
         // static pages routes 
         Route::resource('voucher_code', 'VoucherCodeController')->middleware('role-permission-resource:voucher_code-list,voucher_code-add,voucher_code-edit,voucher_code-delete');

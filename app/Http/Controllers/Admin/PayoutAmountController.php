@@ -177,15 +177,16 @@ class PayoutAmountController extends Controller
      */
     public function getTransactionList(Request $request)
     {
-        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);
+        $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);  
         return view('admin.payout.transaction_list', compact('categories'));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getHealthcareProvidersCalculate(Request $request)
+    {
+        $transaction_calc = $this->user_transaction_repo->getHCPTransactionCalculate($request);
+        return response()->json($transaction_calc, 200);
+    }
+
     public function getTransactionData(Request $request)
     {
         if($request->all()){
