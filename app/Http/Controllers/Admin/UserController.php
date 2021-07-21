@@ -416,16 +416,20 @@ class UserController extends Controller
         $data = $this->user_repo->getById($request->user_id);
         if(!empty($data)){
             if(isset($request->status) && $data->status == '1' && $request->status == '0'){
-                 $data = ['status' => $request->status, 'approved_date' => $this->user_repo->getCurrentDateTime()];
-                 $send_notification = [
-                                    'sender_id' => NULL,
-                                    'receiver_id' => $request->user_id,
-                                    'title' => 'Profile',
-                                    'message' => 'Congratulations! Your profile has been approved, you can now accept appointments on Ezzycare',
-                                    'parameter' => '',
-                                    'msg_type' => '7',
-                                ];  
-                $this->notification_repo->sendingWithoutSenderNotification($send_notification);    
+                if($data->profile_completed_progress == '100'){
+                    $data = ['status' => $request->status, 'approved_date' => $this->user_repo->getCurrentDateTime()];
+                    $send_notification = [
+                                       'sender_id' => NULL,
+                                       'receiver_id' => $request->user_id,
+                                       'title' => 'Profile',
+                                       'message' => 'Congratulations! Your profile has been approved, you can now accept appointments on Ezzycare',
+                                       'parameter' => '',
+                                       'msg_type' => '7',
+                                   ];  
+                   $this->notification_repo->sendingWithoutSenderNotification($send_notification);       
+                }else{
+                    return response()->json(['msg'=>'Please fill required details after approved.'], 500);
+                }
             }else{
                  $data = ['status' => $request->status];
             }
@@ -433,7 +437,7 @@ class UserController extends Controller
             return response()->json(['msg'=>'Status Change success'], 200);
         }
         
-        return response()->json(['msg'=>'Data Not success'], 500);
+        return response()->json(['msg'=>'Please fill all required details.'], 500);
     }
 
 }
