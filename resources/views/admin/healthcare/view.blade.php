@@ -119,6 +119,14 @@
                                         </dd>
                                     </div>
                                     @endif 
+                                    @if(!empty($data->profile_required_fields) && count($data->profile_required_fields) > 0)
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Required Filed Pending</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            {{implode(", ",$data->profile_required_fields)}}
+                                        </dd>
+                                    </div>
+                                    @endif 
                                 </div>
                             </div>
                         </div>

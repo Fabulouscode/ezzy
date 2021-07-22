@@ -214,7 +214,6 @@ class UserController extends Controller
         $categories = $this->category_repo->get();
         $data = $this->user_repo->getbyIdedit($id);
         $currency_symbol = $this->user_repo->currency_symbol;
-        // dd($data);
         
         // $provider_names = $this->user_repo->provider_name;
         // return view('admin.provider.view', compact('data','categories','days','appointment_types','provider','provider_names'));

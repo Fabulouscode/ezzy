@@ -85,7 +85,7 @@ class User extends Authenticatable
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',
                           'user_order_review','user_order_rating', 'user_completed_order', 'user_cancelled_order', 'user_active_order',
                           'monthly_wallet_balance', 'total_wallet_balance', 'user_name', 'status_name', 'mobile_no_country_code', 'profile_completed_progress',
-                          'user_eduction_details','user_active_product'
+                          'user_eduction_details','user_active_product', 'profile_required_fields'
                         ];
 
     public function getStatusNameAttribute() {
@@ -525,6 +525,273 @@ class User extends Authenticatable
         // dd($required_progress.' '.(count($required_user) + count($required_userDetails)));
         $total_progress_point = round($total_progress_point);
         return $total_progress_point;
+    }
+    
+    public function getProfileRequiredFieldsAttribute() {
+
+        $total_progress_point = 0;
+        $required_progress = 0;
+        $required_progress_array = [];
+        $required_progress_pending = [];
+        $required_user = [];
+        $required_userDetails = [];
+        $required_userDetails_count = 0;
+        $required_userCounts = [];
+        if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '1'){
+            //Heathcare Provider
+            $required_userCounts = [
+                                    'Available Time'=>$this->userAvailableTime, 
+                                    'Education Details'=>$this->userEduction
+                                ];
+            if ($this->categoryParent->id == '5') {     
+                // nurses
+                $required_user = [
+                                  'Profile Image'=>$this->profile_image, 
+                                  'User Name'=>$this->first_name, 
+                                  'Mobile No.'=>$this->mobile_no, 
+                                  'Email'=>$this->email, 
+                                  'Subcategory Name'=>$this->subcategory_id, 
+                                  'Gender'=>$this->gender
+                                ];
+                $required_userDetails = [
+                                            'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                                            'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                                            'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                                            'Clinic Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                                            'Clinic Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '', 
+                                            'Years of Experience'=> !empty($this->userDetails) ? $this->userDetails->total_experiance_year : '', 
+                                            'DOB'=>  !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                            'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                                            'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                                            'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                                            'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                            'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                                            'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                                            'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
+                                            'Home Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
+                                            'Clinic Consultation Fees (per Day)'=> !empty($this->userDetails) ? $this->userDetails->nursing_facility_charge_full_day : '',
+                                            'Home Consultation Fees (per Day)'=> !empty($this->userDetails) ? $this->userDetails->nursing_home_visit_charge_full_day : '',
+                                        ];
+                $required_userDetails_count = count($required_userDetails);
+           
+            }else if ($this->categoryParent->id == '6') {     
+                // Massage Therapist
+                $required_user = [
+                                    'Profile Image'=>$this->profile_image, 
+                                    'User Name'=>$this->first_name, 
+                                    'Mobile No.'=>$this->mobile_no, 
+                                    'Email'=>$this->email, 
+                                    'Gender'=>$this->gender
+                                ];
+                $required_userDetails = [
+                                            'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                                            'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                                            'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                                            'Clinic Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                                            'Clinic Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '', 
+                                            'Years of Experience'=> !empty($this->userDetails) ? $this->userDetails->total_experiance_year : '', 
+                                            'DOB'=>  !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                            'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                                            'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                                            'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                                            'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                            'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                                            'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                                            'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
+                                            'Home Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
+                                        ];
+                $required_userDetails_count = count($required_userDetails);
+
+            }else if ($this->categoryParent->id == '4') {             
+                // Doctor
+                $required_user = [
+                                    'Profile Image'=>$this->profile_image, 
+                                    'User Name'=>$this->first_name, 
+                                    'Mobile No.'=>$this->mobile_no, 
+                                    'Email'=>$this->email, 
+                                    'Subcategory Name'=>$this->subcategory_id, 
+                                    'Gender'=>$this->gender
+                                ];
+                    $required_userDetails = [
+                                                'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                                                'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                                                'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                                                'Clinic Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                                                'Clinic Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '', 
+                                                'Years of Experience'=> !empty($this->userDetails) ? $this->userDetails->total_experiance_year : '', 
+                                                'DOB'=>  !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                                'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                                                'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                                                'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                                                'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                                'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                                                'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                                                'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
+                                                'Home Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
+                                                'Video Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->video_consultation_charge : '',
+                                            ];
+                    $required_userDetails_count = count($required_userDetails);
+
+            }else {               
+                // Physiotherapy
+                $required_user =  [
+                                    'Profile Image'=>$this->profile_image, 
+                                    'User Name'=>$this->first_name, 
+                                    'Mobile No.'=>$this->mobile_no, 
+                                    'Email'=>$this->email, 
+                                    'Gender'=>$this->gender
+                                ];
+                    $required_userDetails = [
+                                                'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                                                'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                                                'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                                                'Clinic Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                                                'Clinic Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '', 
+                                                'Years of Experience'=> !empty($this->userDetails) ? $this->userDetails->total_experiance_year : '', 
+                                                'DOB'=>  !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                                'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                                                'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                                                'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                                                'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                                'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                                                'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                                                'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
+                                                'Home Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
+                                            ];
+                    
+                    $required_userDetails_count = count($required_userDetails);
+            }
+        
+        }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
+            //Medicine 
+            $required_user = [
+                                'Profile Image'=>$this->profile_image, 
+                                'User Name'=>$this->first_name, 
+                                'Mobile No.'=>$this->mobile_no, 
+                                'Email'=>$this->email, 
+                            ];
+
+            $required_userCounts = ['Available Time' => $this->userAvailableTime];
+            $required_userDetails = [
+                    'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                    'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                    'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                    'Pharmacy Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                    'Pharmacy Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '', 
+                    'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                    'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                    'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                    'Delivery Charge'=> !empty($this->userDetails) ? $this->userDetails->delivery_charge : '',
+                    'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                    'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                    'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                ];
+                $required_userDetails_count = count($required_userDetails);
+     
+        }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '3'){
+            //Laboratories 
+            $required_user = [
+                                'Profile Image'=>$this->profile_image, 
+                                'User Name'=>$this->first_name, 
+                                'Mobile No.'=>$this->mobile_no, 
+                                'Email'=>$this->email, 
+                            ];
+            $required_userCounts = [
+                                        'Available Time'=>$this->userAvailableTime, 
+                                        'Education Details'=>$this->userEduction
+                                    ];
+
+            $required_userDetails = [
+                                        'Registration Number'=> !empty($this->userDetails) ? $this->userDetails->registration_no : '', 
+                                        'Registration Council'=> !empty($this->userDetails) ? $this->userDetails->registration_council : '', 
+                                        'Registration Year'=> !empty($this->userDetails) ? $this->userDetails->registration_year : '', 
+                                        'Laboratory Name'=> !empty($this->userDetails) ? $this->userDetails->clinic_name : '', 
+                                        'Laboratory Locality'=> !empty($this->userDetails) ? $this->userDetails->clinic_locality : '',
+                                        'Years of Experience'=>!empty($this->userDetails) ? $this->userDetails->total_experiance_year : '',
+                                        'DOB'=> !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                        'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
+                                        'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
+                                        'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
+                                        'Home Visit Charge'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
+                                        'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                        'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
+                                        'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
+                                    ];
+               $required_userDetails_count = count($required_userDetails);           
+      
+        }else{
+            //client 
+            $required_userCounts = ['User Location'=>$this->userLocation];
+            $required_user = [
+                                'Profile Image'=>$this->profile_image, 
+                                'User Name'=>$this->first_name, 
+                                'Mobile No.'=>$this->mobile_no, 
+                                'Email'=>$this->email, 
+                                'Gender'=>$this->gender
+                            ];
+            $required_userDetails = [
+                                        'Date of Birth'=> !empty($this->userDetails) ? $this->userDetails->dob : '',
+                                        'Blood Group'=> !empty($this->userDetails) ? $this->userDetails->blood_group : '',
+                                        'Marital Status'=> !empty($this->userDetails) ? $this->userDetails->marital_status : '',
+                                        'Height'=>!empty($this->userDetails) ? $this->userDetails->height : '',
+                                        'Weight'=>!empty($this->userDetails) ? $this->userDetails->weight : '',
+                                        'Emergency Contact Name'=>!empty($this->userDetails) ? $this->userDetails->emergency_contact_name : '',
+                                        'Emergency Contact'=>!empty($this->userDetails) ? $this->userDetails->emergency_contact : '',
+                                    ];
+            $required_userDetails_count = count($required_userDetails);
+            
+      
+        }
+
+        if(!empty($required_user) && count($required_user) > 0){
+            foreach ($required_user as $key => $value) {   
+                $required_progress_pending[] = $key;
+                if($key == 'Profile Image' && strpos($value, 'admin/images/avatar.jpg') == false) {
+                    $required_progress_array[] = $key;
+                    $required_progress ++;
+                }else if(isset($value) && ($value != '' || $value == '0')){
+                    $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
+            }
+        }
+
+        if(!empty($required_userDetails) && count($required_userDetails) > 0){
+            foreach ($required_userDetails as $key => $value) {
+                $required_progress_pending[] = $key;
+                if(!empty($this->userDetails) && isset($value) && ($value != '' || $value == '0')){
+                    $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
+            }
+        }
+
+        if(!empty($required_userCounts) && count($required_userCounts) > 0){
+            foreach ($required_userCounts as $key => $value) {                
+                $required_progress_pending[] = $key;
+                if(!empty($value) && count($value) > 0){
+                    $required_progress_array[] = $key;
+                    $required_progress ++;
+                }    
+            }
+        }
+        // dd($required_progress_array, $required_progress_pending);
+        $required_fields_array = [];
+        foreach ($required_progress_pending as $key => $value) {
+            if(!in_array($value, $required_progress_array)){
+                $required_fields_array[] = $value;
+            }
+        }
+        $total_fields_count = (count($required_user) + count($required_userCounts) + $required_userDetails_count);
+        // dd($required_progress.' '.(count($required_user) + count($required_userDetails) + count($required_userCounts)));
+        if($total_fields_count > 0){
+            $total_progress_point = ($required_progress * 100) / $total_fields_count;
+        }else{
+            $total_progress_point = 0;
+        }
+        // dd($required_progress.' '.(count($required_user) + count($required_userDetails)));
+        $total_progress_point = round($total_progress_point);
+        return $required_fields_array;
     }
 
 
