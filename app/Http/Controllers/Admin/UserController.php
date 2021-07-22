@@ -428,7 +428,7 @@ class UserController extends Controller
                                    ];  
                    $this->notification_repo->sendingWithoutSenderNotification($send_notification);       
                 }else{
-                    return response()->json(['msg'=>'Please fill required details after approved.'], 500);
+                    return response()->json(['msg'=>'Please fill required details before approval.'], 500);
                 }
             }else{
                  $data = ['status' => $request->status];
