@@ -112,31 +112,36 @@ class UserController extends Controller
         }
         $this->user_repo->dataCrudUsingData($data, $request->id); 
         if(!empty($request->userDetails)){
+                $user_data = [];
                 if(!empty($request->file('userDetails')['qualification_certificate']) && !empty($user_document)) {          
-                    $file = $request->file('qualification_certificate');
+                    $file = $request->file('userDetails')['qualification_certificate'];
                     $storagePath = 'images/'.$user_document[1];
                     $file_name = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
-                    $data['qualification_certificate'] =  $file_name;
+                    $user_data['qualification_certificate'] =  $file_name;
                 }
                 if(!empty($request->file('userDetails')['practicing_licence']) && !empty($user_document)) {          
-                    $file = $request->file('practicing_licence');
+                    $file = $request->file('userDetails')['practicing_licence'];
                     $storagePath = 'images/'.$user_document[2];
                     $file_name = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
-                    $data['practicing_licence'] =  $file_name;
+                    $user_data['practicing_licence'] =  $file_name;
                 }
                 if(!empty($request->file('userDetails')['regstration_certificate']) && !empty($user_document)) {          
-                    $file = $request->file('regstration_certificate');
+                    $file = $request->file('userDetails')['regstration_certificate'];
                     $storagePath = 'images/'.$user_document[4];
                     $file_name = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
-                    $data['regstration_certificate'] =  $file_name;
+                    $user_data['regstration_certificate'] =  $file_name;
                 }
                 if(!empty($request->file('userDetails')['pharmacist_certificate']) && !empty($user_document)) {          
-                    $file = $request->file('pharmacist_certificate');
+                    $file = $request->file('userDetails')['pharmacist_certificate'];
                     $storagePath = 'images/'.$user_document[5];
                     $file_name = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
-                    $data['pharmacist_certificate'] =  $file_name;
+                    $user_data['pharmacist_certificate'] =  $file_name;
                 }
             $this->user_details_repo->dataCrudUsingData($request->userDetails,$request->userDetails['id']); 
+            if(!empty($user_data) && count($user_data) > 0){
+                $user_data['user_id'] = $request->userDetails['id'];
+                $this->user_details_repo->dataCrudUsingData($user_data,$request->userDetails['id']); 
+            }
         }
         $user = $this->user_repo->getByID($request->id);
         if(!empty($user->category_id) && in_array($user->category_id, ['4','5','6','42'])){
