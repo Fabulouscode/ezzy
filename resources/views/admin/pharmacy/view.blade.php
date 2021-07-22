@@ -98,7 +98,19 @@
                                             {{Helper::getDateTimeFormate($data->approved_date)}}
                                         </dd>
                                     </div>
-                                    @endif                                
+                                    @endif     
+                                    @if(!empty($data->profile_completed_progress))
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Profile Progress</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if($data->profile_completed_progress == '100')
+                                                <div class="badge badge-success">{{$data->profile_completed_progress}}%</div>                                            
+                                            @else
+                                                <div class="badge badge-danger">{{$data->profile_completed_progress}}%</div>
+                                            @endif
+                                        </dd>
+                                    </div>
+                                    @endif                            
                                 </div>
                             </div>
                         </div>
