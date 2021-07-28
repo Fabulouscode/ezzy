@@ -1151,6 +1151,18 @@ class AppointmentRepository extends Repository
     {   			
         return $this->model->where('client_id', $request->user()->id)->where('user_id', $id)->whereIn('status',['1','2','3','4'])->first();   
     }
+   
+    public function checkAppointmentisEndTimeAfterSomeHours($request, $id)
+    {   			
+        $current_time  =  Carbon::now();
+        $current_time = $current_time->format('Y-m-d H:i:s');  
+        $old_current_time  =  Carbon::now();
+        $old_current_time = $old_current_time->subHours(24);
+        $old_current_time = $old_current_time->format('Y-m-d H:i:s'); 
+        // dd($current_time, $old_current_time);
+        // return $this->model->where('client_id', $request->user()->id)->where('user_id', $id)->where('order_date', '>', Carbon::now(), '- interval 24 hour')->first();   
+        return $this->model->where('client_id', 7)->where('user_id', $id)->whereBetween(DB::raw('concat(appointment_end_date," ",appointment_end_time)'), array($old_current_time, $current_time))->first();   
+    }
 
     public function checkVoucherCodeUsed($client_id, $voucher_id)
     {   			

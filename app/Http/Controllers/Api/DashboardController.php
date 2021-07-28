@@ -269,8 +269,9 @@ class DashboardController extends BaseApiController
         $data = array();    
         if(!empty($id)){
             $appointment = $this->appointment_repo->checkAppointmentisRunning($request, $id);
+            $appointment_24hours = $this->appointment_repo->checkAppointmentisEndTimeAfterSomeHours($request, $id);
             $order = $this->order_repo->checkOrderisRunning($request, $id);
-            if(!empty($appointment) || !empty($order)){
+            if(!empty($appointment) || !empty($order) || !empty($appointment_24hours)){
                 return self::sendSuccess(true, 'user chat module show');    
             }
         }    
