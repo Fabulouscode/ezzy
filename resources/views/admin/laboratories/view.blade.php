@@ -298,6 +298,14 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Practicing Licence Expiry Date</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->userDetails->practicing_licence_date))
+                                                {{Helper::getDateFormate($data->userDetails->practicing_licence_date)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
                                 </div>
                             </div>
                         </div>
