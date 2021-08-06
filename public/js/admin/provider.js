@@ -81,10 +81,10 @@ $(function () {
             if (data_obj.status == '1') {
                 api.columns([7]).visible(showColumn);
             }
-            if (data_obj.provider != "healthcare") {
-                api.columns([6]).visible(showColumn);
-            }
-            console.log(data_obj);
+            // if (data_obj.provider != "healthcare") {
+            //     api.columns([6]).visible(showColumn);
+            // }
+            // console.log(data_obj);
         },
         drawCallback: function (settings) {
             $('.rating').each(function () {
