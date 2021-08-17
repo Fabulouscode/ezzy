@@ -56,6 +56,9 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'ezzycare_email' => 'Ezzycaremobapp@gmail.com',
+    'ezzycare_mobile' => '+234 9154571363',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -32,8 +32,8 @@
                                                     <address>
                                                         <h5>{{!empty($data->user) && !empty($data->user->categoryParent)? $data->user->categoryParent->name:''}} Details:</h5>
                                                         <b>Name: </b>{{!empty($data->user) ? $data->user->user_name :''}}<br>
-                                                        <b>Email: </b>{{!empty($data->user) ? $data->user->email :''}}<br>
-                                                        <b>Mobile: </b>{{!empty($data->user) ? $data->user->mobile_no_country_code :''}}<br>
+                                                        <b>Email: </b>{{config('app.ezzycare_email')}}<br>
+                                                        <b>Mobile: </b>{{config('app.ezzycare_mobile')}}<br>
                                                     </address>
                                                 </div>
                                             </td>
