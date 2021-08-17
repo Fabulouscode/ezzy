@@ -15,6 +15,8 @@ return [
     |
     */
 
+    'DB_DUMP_PATH' => env('DB_DUMP_PATH', ''),
+
     'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
