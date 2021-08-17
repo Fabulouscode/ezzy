@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('videoappointment:completed')->everyMinute();  
         // $schedule->command('appointment:elapsed')->everyMinute();  
         $schedule->command('appointment:cancel')->dailyAt('3:00');   
-        // $schedule->command('database:backup')->daily();   
+        $schedule->command('database:backup')->daily();   
     }
 
     /**
