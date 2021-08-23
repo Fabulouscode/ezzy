@@ -80,33 +80,13 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/donotezzycaretouch/laboratories/user').'?hcp_type=Pathologist'}}">
-            <div class="card d-card-part bg-info mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-heart float-right mb-0"></i>
-                    </div>
-                    <h6 class="mb-0">Pathologist</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pathologist']) ? $data['pathologist'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['today_pathologist']) ? $data['today_pathologist'] : '0'}}</span> </h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </a>
-        </div>
-        <div class="col-xl-4 col-md-6">
             <a href="{{url('/donotezzycaretouch/laboratories/user').'?hcp_type=Scientists'}}">
             <div class="card d-card-part bg-danger mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Scientists</h6>
+                    <h6 class="mb-0">Laboratory Tests</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
@@ -126,7 +106,7 @@
                     <div class="mini-stat-icon">
                         <i class="dripicons-heart float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Radiologist (X-Ray & Scan)</h6>
+                    <h6 class="mb-0">Radiology (Scans, X-Ray)</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
