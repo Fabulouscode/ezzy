@@ -224,6 +224,23 @@ function editRow(event) {
     $('#addPayoutAmount').modal();
 }
 
+function payoutUser(user_id) {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: payout_url + '/status/user/'+user_id,
+        type: "get",
+        dataType: 'json',
+        success: function (response, textStatus, request) {
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#payout_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
 function payout() {
     payout_transaction = [];
 
@@ -251,12 +268,6 @@ function payout() {
             dataType: 'json',
             data: { 'transaction_ids': payout_transaction },
             success: function (response, textStatus, request) {
-                var a = document.createElement("a");
-                a.href = response.data.file;
-                a.download = response.data.name;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
                 toastr.success(response.msg, App_name_global);
                 var oTable = $('#payout_datatable').dataTable();
                 oTable.fnDraw(true);
@@ -284,6 +295,41 @@ function Export() {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
     });
+}
+
+function exportExcel() {
+    payout_transaction = [];
+
+    $("input:checkbox").each(function () {
+        if ($(this).is(":checked")) {
+            if ($(this).val()) {
+                payout_transaction.push($(this).val());
+            }
+        }
+    });
+
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: payout_url + '/export',
+        type: "post",
+        dataType: 'json',
+        data: { 'transaction_ids': payout_transaction },
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#payout_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+    
 }
 
 function getHealthcareProviders() {

@@ -468,7 +468,7 @@ class UserTransactionRepository extends Repository
         $query = $query->whereHas('client', function ($query){
             $query->whereNotNull('category_id');
         });
-        $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id')->orderBy('id','desc')->get();
+        $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id','payout_status')->orderBy('id','desc')->get();
 
         return $query;
     }
@@ -528,7 +528,11 @@ class UserTransactionRepository extends Repository
                 $data = '';
                 if($selected->payout_status == '3'){
                 // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout Transaction Details Add" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                }
+                if($selected->payout_status == '1'){
+                // if (Auth::user()->hasPermissionTo('payout-edit')) {
+                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="Payout Approved" id="payout-rows"   onclick="payoutUser('.$selected->client_id.')"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
                 }
                 return $data;
             })

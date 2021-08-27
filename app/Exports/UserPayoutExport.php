@@ -16,11 +16,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use DB;
 
 class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
-    private $status, $user_ids;
+    private $user_ids;
 
-    public function __construct(int $status, array $user_ids = []) 
+    public function __construct(array $user_ids = []) 
     {
-        $this->status = $status;
         $this->user_ids = $user_ids;
     }
 
@@ -41,26 +40,31 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
     
     public function query()
     {
-        $query = User_transaction::query()->with(['client'])->select('id','client_id')
+        $query = User_transaction::query()->with(['client'])->select('id','client_id','payout_status')
         ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
         ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
         ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
       
-        if(isset($this->status)){
-            $query = $query->where('payout_status',$this->status);
-        }
+        // if(!empty($this->status)){
+        //     $query = $query->where('payout_status',$this->status);
+        // }
         if(!empty($this->user_ids) && count($this->user_ids) > 0){
             $query = $query->whereIn('client_id',$this->user_ids);
         }
+
+        $query = $query->whereHas('client', function ($query){
+            $query->whereNotNull('category_id');
+        });
+        $query = $query->where('payout_status', '!=', '0');
         
-        $query = $query->where('status', '0')->groupBy('client_id')->orderBy('id','desc');
+        $query = $query->where('status', '0')->groupBy('client_id','payout_status')->orderBy('id','desc');
 
         return $query;
     }
 
     public function headings(): array
     {
-        return ["User Name", "Service Provider", "Bank Details", "Amount", "Deduction", "Payout Amount"];
+        return ["User Name", "Service Provider", "Bank Details", "Amount", "Deduction", "Payout Amount", "Status"];
     }
 
     public function map($data): array
@@ -72,6 +76,18 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
             $bank_details .= 'Account Name: '.$data->client->userPrimaryBankAccount->name.', ';
             $bank_details .= 'Account No.: '.$data->client->userPrimaryBankAccount->account_number;
         } 
+        $status_details = "";
+        if(isset($data->payout_status)){
+            if($data->payout_status == '0'){
+                $status_details = 'Paid';
+            }else if($data->payout_status == '1'){
+                $status_details = 'Pending';
+            }else if($data->payout_status == '2'){
+                $status_details = 'Cancel';
+            }else if($data->payout_status == '3'){
+                $status_details = 'In-progress';
+            }
+        } 
           
         return [
             !empty($data->client) ? $data->client->user_name : '-',            
@@ -79,7 +95,8 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
             isset($bank_details) ? $bank_details : '',
             isset($data->amount) ? $data->amount : '0',
             isset($data->fees_charge) ? $data->fees_charge : '0',
-            isset($data->payout_total) ? $data->payout_total : '0'
+            isset($data->payout_total) ? $data->payout_total : '0',
+            isset($data->payout_status) ? $status_details : ''
         ];
     }
     

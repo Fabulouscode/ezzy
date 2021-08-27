@@ -98,20 +98,53 @@ class PayoutAmountController extends Controller
                 }
             }
 
-            $payout_file = Excel::raw(new UserPayoutExport('3', $request->transaction_ids), \Maatwebsite\Excel\Excel::XLSX);
-            
-            $response =  array(
-                'name' => "payout_users", //no extention needed
-                'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($payout_file) //mime type of used format
-            );
-
             if($some_user_no_bank == '1'){
                 $notification_msg = 'Some User not Add Bank Account Please Add Bank then to Payout proceed';
             }else{
                 $notification_msg = 'Payout success';
             }
         
-            return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);
+            return response()->json(['msg'=>$notification_msg], 200);
+        }
+
+          return response()->json(['msg'=>'Data Not success'], 500);
+    }
+
+    /**
+     * paid payout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function savePayoutsInprocessByUser($user_id)
+    {
+        if(!empty($user_id)){
+            $some_user_no_bank = 0;
+            $data = ['payout_status' => '3','payout_date' => $this->user_transaction_repo->getCurrentDateTime()];
+            $user_data = $this->user_transaction_repo->userPayoutData([$user_id], '1');
+            if(!empty($user_data) && count($user_data) > 0){
+                foreach ($user_data as $key => $value) {
+                    if(!empty($value->client->userBankAccount) && count($value->client->userBankAccount) > 0){
+                        $user_transaction = $this->user_transaction_repo->getById($value->id);
+                        if(!empty($user_transaction)){
+                            $this->user_transaction_repo->dataCrud($data, $value->id);
+                        } 
+                    }else{
+                         $some_user_no_bank = 1;
+                    }
+                }
+            }
+
+            if($some_user_no_bank == '1'){
+                $notification_msg = 'Please Add Bank Account then to Payout proceed';
+            }else{
+                $notification_msg = 'Payout success';
+            }
+        
+            if($some_user_no_bank == '1'){
+                return response()->json(['msg'=>$notification_msg], 500);
+            }else{
+                return response()->json(['msg'=>$notification_msg], 200);
+            }
         }
 
           return response()->json(['msg'=>'Data Not success'], 500);
@@ -167,7 +200,20 @@ class PayoutAmountController extends Controller
      */
     public function getPayoutExport(Request $request)
     {
-       return Excel::download(new UserPayoutExport('1'), 'payout_users.xlsx');
+        if(!empty($request->transaction_ids)){
+            $payout_file = Excel::raw(new UserPayoutExport($request->transaction_ids), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $payout_file = Excel::raw(new UserPayoutExport(), \Maatwebsite\Excel\Excel::XLSX);
+        }
+
+        $response =  array(
+            'name' => "payout_users", //no extention needed
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($payout_file) //mime type of used format
+        );
+            
+        $notification_msg = 'Payout success';
+    
+        return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);
     }
 
     /**

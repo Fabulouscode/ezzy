@@ -25,10 +25,10 @@
                 <div class="card-body">
                 
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="{{url('/donotezzycaretouch/payout/export')}}" class="btn btn-info">Export</a>
+                        <a href="javascript:void(0)" onclick="exportExcel()" class="btn btn-info">Export</a>
                     </div>
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout & Export</a>
+                        <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout Approved</a>
                     </div>
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">

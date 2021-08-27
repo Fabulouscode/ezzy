@@ -115,8 +115,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('payout/pending', 'PayoutAmountController@getPendingPayout');
         Route::post('payout/data', 'PayoutAmountController@getPayouts');
         Route::post('payout/status', 'PayoutAmountController@savePayoutsInprocess');        
+        Route::get('payout/status/user/{user_id?}', 'PayoutAmountController@savePayoutsInprocessByUser');        
         Route::post('payout/paid', 'PayoutAmountController@savePayoutTransaction');
-        Route::get('payout/export', 'PayoutAmountController@getPayoutExport');
+        Route::post('payout/export', 'PayoutAmountController@getPayoutExport');
         Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory');
         Route::resource('payout', 'PayoutAmountController');
 
