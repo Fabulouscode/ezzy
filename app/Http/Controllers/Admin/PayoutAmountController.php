@@ -87,7 +87,7 @@ class PayoutAmountController extends Controller
             $user_data = $this->user_transaction_repo->userPayoutData($request->transaction_ids, '1');
             if(!empty($user_data) && count($user_data) > 0){
                 foreach ($user_data as $key => $value) {
-                    if(count($value->client->userBankAccount) > 0){
+                    if(!empty($value->client->userBankAccount) && count($value->client->userBankAccount) > 0){
                         $user_transaction = $this->user_transaction_repo->getById($value->id);
                         if(!empty($user_transaction)){
                             $this->user_transaction_repo->dataCrud($data, $value->id);
@@ -98,7 +98,7 @@ class PayoutAmountController extends Controller
                 }
             }
 
-            $payout_file = Excel::raw(new UserPayoutExport('3'), \Maatwebsite\Excel\Excel::XLSX);
+            $payout_file = Excel::raw(new UserPayoutExport('3', $request->transaction_ids), \Maatwebsite\Excel\Excel::XLSX);
             
             $response =  array(
                 'name' => "payout_users", //no extention needed

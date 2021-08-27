@@ -16,11 +16,12 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use DB;
 
 class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
-    private $status;
+    private $status, $user_ids;
 
-    public function __construct(int $status) 
+    public function __construct(int $status, array $user_ids = []) 
     {
         $this->status = $status;
+        $this->user_ids = $user_ids;
     }
 
 
@@ -47,6 +48,9 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
       
         if(isset($this->status)){
             $query = $query->where('payout_status',$this->status);
+        }
+        if(!empty($this->user_ids) && count($this->user_ids) > 0){
+            $query = $query->whereIn('client_id',$this->user_ids);
         }
         
         $query = $query->where('status', '0')->groupBy('client_id')->orderBy('id','desc');

@@ -465,7 +465,9 @@ class UserTransactionRepository extends Repository
                 $query->where('category_id', $request->category_id);
             });
         }
-
+        $query = $query->whereHas('client', function ($query){
+            $query->whereNotNull('category_id');
+        });
         $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id')->orderBy('id','desc')->get();
 
         return $query;
@@ -524,9 +526,10 @@ class UserTransactionRepository extends Repository
             ->addColumn('action',function($selected)
             { 
                 $data = '';
+                if($selected->payout_status == '3'){
                 // if (Auth::user()->hasPermissionTo('payout-edit')) {
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->amount.'" data-deduction="'.$selected->fees_charge.'" data-payout_amount="'.$selected->payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-                // }
+                }
                 return $data;
             })
             ->rawColumns(['checkbox','service_provider','bank_details','amount','fees_charge','payout_amount','payout_status','action'])
