@@ -508,11 +508,22 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <a href="#" onclick="history.go(-1)">
-                                    <button type="button" class="btn btn-secondary waves-effect m-l-5">
-                                        Cancel
+                                @if($data->status == '1')
+                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeStatusRow({{$data->id}}, '0')">
+                                        <i class="fa fa-check"></i> Approve
                                     </button>
-                                </a>
+                                    <a href="{{url('/donotezzycaretouch/healthcare/user/pending')}}">
+                                        <button type="button" class="btn btn-secondary waves-effect m-l-5">
+                                            Cancel
+                                        </button>
+                                    </a>
+                                @else
+                                    <a href="{{url('/donotezzycaretouch/healthcare/user')}}">
+                                        <button type="button" class="btn btn-secondary waves-effect m-l-5">
+                                            Cancel
+                                        </button>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </form>
