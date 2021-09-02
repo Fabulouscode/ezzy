@@ -368,6 +368,114 @@ function changeStatusRow(row_id, status) {
     }
 }
 
+function changeHealthcareStatusRow(row_id, status) {
+    if (row_id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to Change User Status!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            confirmButtonText: 'Yes, Change Status it!'
+        }).then(function () {
+            if (row_id) {
+                $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: user_url + "/change_status",
+                    type: "post",
+                    data: { 'user_id': row_id, 'status': status },
+                    dataType: 'json',
+                    success: function (data) {
+                        swal(
+                            'Status!',
+                            data.msg,
+                            'success'
+                        )                        
+                        toastr.success(data.msg, App_name_global);
+                        window.location.replace(base_url+"/healthcare/user");
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.msg, App_name_global);
+                    }
+                });
+            }
+        });
+    }
+}
+
+function changeLaboratoriesStatusRow(row_id, status) {
+    if (row_id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to Change User Status!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            confirmButtonText: 'Yes, Change Status it!'
+        }).then(function () {
+            if (row_id) {
+                $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: user_url + "/change_status",
+                    type: "post",
+                    data: { 'user_id': row_id, 'status': status },
+                    dataType: 'json',
+                    success: function (data) {
+                        swal(
+                            'Status!',
+                            data.msg,
+                            'success'
+                        )                        
+                        toastr.success(data.msg, App_name_global);
+                        window.location.replace(base_url+"/laboratories/user");
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.msg, App_name_global);
+                    }
+                });
+            }
+        });
+    }
+}
+
+function changePharmacyStatusRow(row_id, status) {
+    if (row_id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to Change User Status!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            confirmButtonText: 'Yes, Change Status it!'
+        }).then(function () {
+            if (row_id) {
+                $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: user_url + "/change_status",
+                    type: "post",
+                    data: { 'user_id': row_id, 'status': status },
+                    dataType: 'json',
+                    success: function (data) {
+                        swal(
+                            'Status!',
+                            data.msg,
+                            'success'
+                        )                        
+                        toastr.success(data.msg, App_name_global);
+                        window.location.replace(base_url+"/pharmacy/user");
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.msg, App_name_global);
+                    }
+                });
+            }
+        });
+    }
+}
+
 function fileValidation(id_name) {
     var fileInput = document.getElementById(id_name);
     var filePath = fileInput.value;

@@ -293,7 +293,7 @@
                                     Update
                                 </button>
                                 @if($data->status == '1')
-                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeStatusRow({{$data->id}}, '0')">
+                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeHealthcareStatusRow({{$data->id}}, '0')">
                                         <i class="fa fa-check"></i> Approve
                                     </button>
                                     <a href="{{url('/donotezzycaretouch/healthcare/user/pending')}}">
@@ -321,8 +321,10 @@
 
 @section('script')
 <script>
+    var base_url = "{{url('/donotezzycaretouch')}}";
     var user_url = "{{url('/donotezzycaretouch/user')}}";
      var data_obj = {};
+     var data_status  = {};
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

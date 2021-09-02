@@ -244,7 +244,7 @@
                                     Update
                                 </button>
                                 @if($data->status == '1')
-                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeStatusRow({{$data->id}}, '0')">
+                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeLaboratoriesStatusRow({{$data->id}}, '0')">
                                         <i class="fa fa-check"></i> Approve
                                     </button>
                                     <a href="{{url('/donotezzycaretouch/laboratories/user/pending')}}">
@@ -272,6 +272,7 @@
 
 @section('script')
 <script>
+        var base_url = "{{url('/donotezzycaretouch')}}";
     var user_url = "{{url('/donotezzycaretouch/user')}}";
      var data_obj = {};
 </script>
