@@ -16,8 +16,8 @@ class AddPayoutColumnUserTransactionTable extends Migration
         Schema::table('user_transactions', function (Blueprint $table) {
             $table->bigInteger('client_id')->after('user_id')->unsigned()->index()->nullable()->comment('debit');   
             $table->integer('payout_status')->after('status')->signed()->default(1)->comment('0-Paid, 1-Pending, 2-Cancel');
-            $table->float('payout_amount')->default(0);
-            $table->float('fees_charge')->default(0);
+            $table->double('payout_amount')->default(0);
+            $table->double('fees_charge')->default(0);
             $table->datetime('payout_date')->nullable();
 
             // Foregin Key add

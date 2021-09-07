@@ -14,7 +14,7 @@ class UserAddColumnWallet extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {  
-           $table->float('lock_wallet_balance')->after('wallet_balance')->default(0);          
+           $table->double('lock_wallet_balance')->after('wallet_balance')->default(0);          
            $table->string('user_timezone')->after('lock_wallet_balance')->nullable();       
         });
     }

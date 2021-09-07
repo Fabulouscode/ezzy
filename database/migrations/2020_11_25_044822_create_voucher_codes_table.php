@@ -20,9 +20,9 @@ class CreateVoucherCodesTable extends Migration
             $table->text('description')->nullable();          
             $table->integer('quantity')->default(0);   
             $table->datetime('expiry_date')->nullable();   
-            $table->float('percentage')->nullable();   
-            $table->float('fix_amount')->nullable();   
-            $table->float('min_amount')->nullable();  
+            $table->double('percentage')->nullable();   
+            $table->double('fix_amount')->nullable();   
+            $table->double('min_amount')->nullable();  
             $table->integer('voucher_type')->signed()->nullable()->comment('0-Common, 1-Appointment, 2-Order'); 
             $table->integer('status')->signed()->default(0)->comment('0-active, 1-inactive'); 
             $table->timestamps();

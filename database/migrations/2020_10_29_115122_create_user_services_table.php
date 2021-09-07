@@ -17,7 +17,7 @@ class CreateUserServicesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('service_id')->unsigned();
-            $table->float('service_charge')->default(0);
+            $table->double('service_charge')->default(0);
             $table->integer('service_charge_type')->signed()->nullable()->comment('1-per Minute, 2-per Hours, 3-per Day');
             $table->integer('status')->signed()->default(0)->comment('0-Active, 1-Inactive');
             $table->timestamps();

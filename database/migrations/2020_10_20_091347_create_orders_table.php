@@ -18,8 +18,8 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('client_id')->unsigned()->comment('patient');
             $table->bigInteger('user_location_id')->unsigned()->nullable();
-            $table->float('total_price')->default(0);
-            $table->float('shipping_price')->default(0);
+            $table->double('total_price')->default(0);
+            $table->double('shipping_price')->default(0);
             $table->text('payment_res')->nullable();
             $table->string('otp_code')->nullable();
             $table->text('cancel_reason')->nullable();

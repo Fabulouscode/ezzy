@@ -21,8 +21,8 @@ class CreateShopMedicineDetailsTable extends Migration
             $table->bigInteger('medicine_detail_id')->unsigned();
             $table->integer('capsual_quantity')->nullable();            
             $table->string('shirap_ml')->nullable();                
-            $table->float('mrp_price')->default(0);
-            $table->float('offer_price')->default(0);
+            $table->double('mrp_price')->default(0);
+            $table->double('offer_price')->default(0);
             $table->integer('medicine_type')->signed()->default(0)->comment('0-Capsules, 1-Bottle');
             $table->integer('status')->signed()->default(0)->comment('0-Active, 1-Inactive');
             $table->timestamps();

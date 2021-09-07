@@ -16,10 +16,10 @@ class AddColumnInAppointmentOrders extends Migration
         Schema::table('appointments', function (Blueprint $table) {
             $table->integer('full_day')->after('status')->default(0)->comment('0-No, 1-Yes');
             $table->bigInteger('voucher_code_id')->after('full_day')->unsigned()->index()->nullable();
-            $table->float('voucher_amount')->after('voucher_code_id')->nullable();
-            $table->float('hcp_fees')->after('voucher_amount')->nullable();
-            $table->float('home_visit_fees')->after('hcp_fees')->nullable();
-            $table->float('total_charge')->after('home_visit_fees')->nullable();
+            $table->double('voucher_amount')->after('voucher_code_id')->nullable();
+            $table->double('hcp_fees')->after('voucher_amount')->nullable();
+            $table->double('home_visit_fees')->after('hcp_fees')->nullable();
+            $table->double('total_charge')->after('home_visit_fees')->nullable();
 
               // Foregin Key add
             $table->foreign('voucher_code_id')
@@ -28,12 +28,12 @@ class AddColumnInAppointmentOrders extends Migration
         });
 
         Schema::table('appointment_services', function (Blueprint $table) {
-            $table->float('service_price')->after('user_service_id')->nullable();
+            $table->double('service_price')->after('user_service_id')->nullable();
         });
 
         Schema::table('orders', function (Blueprint $table) {
             $table->bigInteger('voucher_code_id')->after('status')->unsigned()->index()->nullable();
-            $table->float('voucher_amount')->after('voucher_code_id')->nullable();
+            $table->double('voucher_amount')->after('voucher_code_id')->nullable();
 
               // Foregin Key add
             $table->foreign('voucher_code_id')
@@ -42,7 +42,7 @@ class AddColumnInAppointmentOrders extends Migration
         });
 
         Schema::table('order_products', function (Blueprint $table) {
-            $table->float('medicine_price')->after('quantity')->nullable();
+            $table->double('medicine_price')->after('quantity')->nullable();
         });
     }
 

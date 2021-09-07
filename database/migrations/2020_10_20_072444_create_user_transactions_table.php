@@ -17,7 +17,7 @@ class CreateUserTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned()->comment('credit');            
             $table->datetime('transaction_date')->nullable();
-            $table->float('amount')->default(0);
+            $table->double('amount')->default(0);
             $table->integer('mode_of_payment')->signed()->default(0)->comment('0-debit, 1-credit');
             $table->integer('transaction_type')->signed()->default(0)->comment('0-Wallet,1-Net Banking,2-Debit/Credit Card,3-Paypal');
             $table->integer('status')->signed()->default(0)->comment('0-Success, 1-Unsuccess, 2-Pending');

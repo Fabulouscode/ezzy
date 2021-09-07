@@ -17,9 +17,9 @@ class CreatePayoutAmountsTable extends Migration
             $table->bigIncrements('id');             
             $table->bigInteger('user_id')->unsigned()->signed();        
             $table->bigInteger('user_bank_account_id')->unsigned()->signed()->nullable();    
-            $table->float('amount')->default(0);
-            $table->float('deduction_amount')->default(0);
-            $table->float('payable_amount')->default(0);
+            $table->double('amount')->default(0);
+            $table->double('deduction_amount')->default(0);
+            $table->double('payable_amount')->default(0);
             $table->text('notes')->nullable();
             $table->text('bank_transaction_id')->nullable();
             $table->string('approved_by')->nullable();

@@ -38,7 +38,7 @@ class CreateUsersTable extends Migration
             $table->string('apple_id')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
-            $table->float('wallet_balance')->default(0);
+            $table->double('wallet_balance')->default(0);
             $table->integer('status')->default(0)->signed()->comment('0-Active, 1-Inactive');
             $table->rememberToken();
             $table->timestamps();

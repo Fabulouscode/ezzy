@@ -14,7 +14,7 @@ class ChatHistoryAddAmountfield extends Migration
     public function up()
     {
         Schema::table('chat_histories', function (Blueprint $table) {            
-            $table->float('transaction_amount')->nullable(); 
+            $table->double('transaction_amount')->nullable(); 
             
         });
     }

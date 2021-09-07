@@ -14,11 +14,11 @@ class AddColumnUserDetailsFeesCharge extends Migration
     public function up()
     {
         Schema::table('user_details', function (Blueprint $table) {            
-            $table->float('clinic_consultation_charge')->after('fees_minute')->nullable();
-            $table->float('home_consultation_charge')->after('clinic_consultation_charge')->nullable();
-            $table->float('video_consultation_charge')->after('home_consultation_charge')->nullable();            
-            $table->float('nursing_facility_charge_full_day')->after('video_consultation_charge')->nullable();
-            $table->float('nursing_home_visit_charge_full_day')->after('nursing_facility_charge_full_day')->nullable();
+            $table->double('clinic_consultation_charge')->after('fees_minute')->nullable();
+            $table->double('home_consultation_charge')->after('clinic_consultation_charge')->nullable();
+            $table->double('video_consultation_charge')->after('home_consultation_charge')->nullable();            
+            $table->double('nursing_facility_charge_full_day')->after('video_consultation_charge')->nullable();
+            $table->double('nursing_home_visit_charge_full_day')->after('nursing_facility_charge_full_day')->nullable();
         });
     }
 

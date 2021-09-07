@@ -25,7 +25,7 @@ class CreateAppointmentsTable extends Migration
             $table->text('reason')->nullable();
             $table->date('appointment_date');
             $table->time('appointment_time');
-            $table->float('appointment_price')->default(0);
+            $table->double('appointment_price')->default(0);
             $table->string('otp_code')->nullable();
             $table->text('cancel_reason')->nullable();
             $table->datetime('cancel_date')->nullable();

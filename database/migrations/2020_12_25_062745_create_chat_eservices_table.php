@@ -19,7 +19,7 @@ class CreateChatEservicesTable extends Migration
             $table->bigInteger('shop_medicine_detail_id')->unsigned()->nullable();   
             $table->string('medicine_name')->nullable(); 
             $table->integer('quanity')->nullable(); 
-            $table->float('price')->nullable(); 
+            $table->double('price')->nullable(); 
             $table->date('effective_date')->nullable(); 
             $table->text('patient_direction')->nullable(); 
             $table->string('dispense')->nullable(); 

@@ -16,7 +16,7 @@ class CreateManageFeesTable extends Migration
         Schema::create('manage_fees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('category_id')->unsigned()->signed()->nullable();        
-            $table->float('fees_percentage')->default(0);        
+            $table->double('fees_percentage')->default(0);        
             $table->timestamps();
 
                     // Foregin Key add
