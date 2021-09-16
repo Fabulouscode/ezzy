@@ -20,14 +20,14 @@ $(function () {
         },
         columns: [
             { data: 'checkbox', orderable: false, searchable: false },
-            { data: 'user_name', name: 'User Name' },
-            { data: 'service_provider', name: 'Service Provider' },
-            { data: 'bank_details', name: 'Bank Details' },
-            { data: 'amount', name: 'Amount' },
-            { data: 'fees_charge', name: 'Deduction' },
-            { data: 'payout_amount', name: 'Payout Amount' },
-            { data: 'payout_status', name: 'Status' },
-            { data: 'action', name: 'Action' },
+            { data: 'user_name', name: 'user_name', title:'User Name' },
+            { data: 'service_provider', name: 'service_provider', title: 'Service Provider', orderable: false, searchable: false },
+            { data: 'bank_details', name: 'bank_details', title: 'Bank Details', orderable: false, searchable: false },
+            { data: 'amount', name: 'amount', title: 'Amount', orderable: false, searchable: false  },
+            { data: 'fees_charge', name: 'fees_charge', title: 'Deduction', orderable: false, searchable: false  },
+            { data: 'payout_amount', name: 'payout_amount', title: 'Payout Amount', orderable: false, searchable: false  },
+            { data: 'payout_status', name: 'payout_status', title: 'Status' },
+            { data: 'action', name: 'Action', orderable: false, searchable: false },
         ],
         order: [[1, 'desc']],
         initComplete: function (settings) {
@@ -56,12 +56,12 @@ $(function () {
             },
         },
         columns: [
-            { data: 'user_name', name: 'User Name' },
-            { data: 'service_provider', name: 'Service Provider' },
-            { data: 'amount', name: 'Amount' },
-            { data: 'deduction_amount', name: 'Deduction' },
-            { data: 'payable_amount', name: 'Payout Amount' },
-            { data: 'action', name: 'Action' }
+            { data: 'user_name', name: 'user_name', title: 'User Name' },
+            { data: 'service_provider', name: 'Service Provider', orderable: false, searchable: false },
+            { data: 'amount', name: 'amount', title: 'Amount' },
+            { data: 'deduction_amount', name: 'deduction_amount', title: 'Deduction' },
+            { data: 'payable_amount', name: 'payable_amount', title: 'Payout Amount' },
+            { data: 'action', name: 'Action', orderable: false, searchable: false }
         ],
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
@@ -128,13 +128,13 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id', searchable:false },
-            { data: 'user_name', name: 'User Name', searchable:false, orderable:false },
-            { data: 'service_provider', name: 'Service Provider', searchable:false, orderable:false },
-            { data: 'transaction_msg', name: 'transaction_msg' },
-            { data: 'transaction_date', name: 'transaction_date' },
-            { data: 'fees_charge', name: 'fees_charge' },
-            { data: 'payout_amount', name: 'payout_amount' },
-            { data: 'amount', name: 'amount' },
+            { data: 'user_name', name: 'user_name', title: 'User Name' },
+            { data: 'service_provider', name: 'service_provider', title: 'Service Provider'},
+            { data: 'transaction_msg', name: 'transaction_msg', title: 'transaction_msg' },
+            { data: 'transaction_date', name: 'transaction_date', title: 'transaction_date',searchable:false },
+            { data: 'fees_charge', name: 'fees_charge', title: 'Fees Charge' },
+            { data: 'payout_amount', name: 'payout_amount', title: 'Payout amount' },
+            { data: 'amount', name: 'amount', title: 'Total Charge'},
         ],
         order: [[0, 'desc']],
         initComplete: function (settings) {

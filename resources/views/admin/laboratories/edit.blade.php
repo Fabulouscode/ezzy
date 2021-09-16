@@ -89,6 +89,12 @@
                                 <h4 class="mt-0 mb-0 header-title">User Extra Details</h4>
                                 <div class="card-detail-list">
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Laboratory Name</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            <input type="text" required class="form-control" name="userDetails[clinic_name]" value="{{$data->userDetails->clinic_name}}">
+                                        </dd>
+                                    </div>                                    
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Laboratory Country</label></dt>
                                         <dd class="col-sm-7"> 
                                             <input type="text" required class="form-control" name="userDetails[clinic_country]" value="{{$data->userDetails->clinic_country}}">

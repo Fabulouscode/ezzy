@@ -26,6 +26,11 @@ class UserTransactionRepository extends Repository
     {
         return $this->model->status_value;
     }
+   
+    public function getPayoutStatusValue()
+    {
+        return $this->model->payout_status_value;
+    }
  
     public function getTransactionTypeValue()
     {
@@ -266,8 +271,10 @@ class UserTransactionRepository extends Repository
     {
         $query = $this->model->with(['users','client']);
        
-        $query = $query->whereNotNull('client_id');
-        
+        $query = $query->whereNotNull('client_id')
+            ->select('user_transactions.*')
+            ->leftJoin('users', 'user_transactions.user_id', '=', 'users.id')
+            ->leftJoin('users as client', 'user_transactions.client_id', '=', 'client.id');
         if(!empty($request->category_id)){
             $query = $query->whereHas('client', function ($query) use ($request) {
                 $query = $query->whereHas('categoryParent', function ($query) use ($request) {
@@ -277,14 +284,14 @@ class UserTransactionRepository extends Repository
         }
 
         if(!empty($request->start_date) && !empty($request->end_date)){
-            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
+            $query = $query->whereDate('user_transactions.transaction_date', '>=',$request->start_date)->whereDate('user_transactions.transaction_date' , '<=',$request->end_date);
         }
 
         if(!empty($request->transaction_msg)){
-            $query = $query->where('transaction_msg', $request->transaction_msg);
+            $query = $query->where('user_transactions.transaction_msg', $request->transaction_msg);
         }
         
-        $query = $query->where('mode_of_payment', '1')->where('status', '0');
+        $query = $query->where('user_transactions.mode_of_payment', '1')->where('user_transactions.status', '0');
 
         return $query;
     }
@@ -413,21 +420,39 @@ class UserTransactionRepository extends Repository
             ->editColumn('user_name', function($selected) use ($request) {  
                 return $selected->users ? $selected->users->user_name : '-';
             })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereRaw("concat(users.first_name, ' ', users.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->orderBy('users.first_name', $order);
+            })
+
             ->editColumn('service_provider', function($selected) use ($request) {                 
                 return $selected->client ? $selected->client->user_name : '-'; 
             })
+            ->filterColumn('service_provider', function ($query, $keyword) {
+                $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('service_provider', function ($query, $order) {
+                $query->orderBy('client.first_name', $order);
+            })
+
             ->editColumn('transaction_date', function($selected) {
                 return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
             })
+
             ->editColumn('amount', function($selected) {
                 return $this->currency_symbol.$selected->amount ;
             })
+
             ->editColumn('payout_amount', function($selected) {
                 return $this->currency_symbol.$selected->payout_amount ;
             })
+            
             ->editColumn('fees_charge', function($selected) {
                 return $this->currency_symbol.$selected->fees_charge ;
             })
+
             ->rawColumns(['payout_amount','fees_charge'])
             ->make(true);
     }
@@ -451,13 +476,14 @@ class UserTransactionRepository extends Repository
 
     public function getPayoutsWithRelationship($request)
     {
-        $query = $this->model->with(['client'])->select()
-        ->addSelect(DB::raw('sum(user_transactions.payout_amount) as payout_total'))
-        ->addSelect(DB::raw('sum(user_transactions.amount) as amount'))
-        ->addSelect(DB::raw('sum(user_transactions.fees_charge) as fees_charge'));
-      
+        $query = $this->model->with(['client'])
+        ->select('user_transactions.*')
+        ->addSelect(DB::raw('sum(user_transactions.payout_amount) as sum_payout_total'))
+        ->addSelect(DB::raw('sum(user_transactions.amount) as sum_amount'))
+        ->addSelect(DB::raw('sum(user_transactions.fees_charge) as sum_fees_charge'))
+        ->leftJoin('users as client', 'user_transactions.client_id', '=', 'client.id');
         if(isset($request->payout_status)){
-            $query = $query->where('payout_status', '!=', '0');
+            $query = $query->where('user_transactions.payout_status', '!=', '0');
         }
 
         if(!empty($request->category_id)){
@@ -468,7 +494,11 @@ class UserTransactionRepository extends Repository
         $query = $query->whereHas('client', function ($query){
             $query->whereNotNull('category_id');
         });
-        $query = $query->where('wallet_transaction','0')->whereNotNull('client_id')->where('status', '0')->groupBy('client_id','payout_status')->orderBy('id','desc')->get();
+        $query = $query->where('user_transactions.wallet_transaction','0')
+        ->whereNotNull('user_transactions.client_id')
+        ->where('user_transactions.status', '0')
+        ->groupBy('user_transactions.client_id','payout_status')
+        ->orderBy('user_transactions.id','desc');
 
         return $query;
     }
@@ -503,15 +533,43 @@ class UserTransactionRepository extends Repository
             ->editColumn('user_name', function($selected) { 
                 return $selected->client ? $selected->client->user_name : '-';      
             })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereRaw("concat(client.first_name, ' ', client.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->orderBy('client.first_name', $order);
+            })
+
             ->editColumn('payout_amount', function($selected) {
-                return $this->currency_symbol.$selected->payout_total ;
+                return $this->currency_symbol.$selected->sum_payout_total ;
             })
+            ->filterColumn('payout_amount', function ($query, $keyword) {
+                $query->whereRaw("sum_payout_total like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('payout_amount', function ($query, $order) {
+                $query->orderBy('sum_payout_total', $order);
+            })
+
             ->editColumn('amount', function($selected) {
-                return $this->currency_symbol.$selected->amount ;
+                return $this->currency_symbol.$selected->sum_amount ;
             })
+            ->filterColumn('amount', function ($query, $keyword) {
+                $query->whereRaw("sum_amount like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('amount', function ($query, $order) {
+                $query->orderBy('sum_amount', $order);
+            })
+
             ->editColumn('fees_charge', function($selected) {
-                return $this->currency_symbol.$selected->fees_charge ;
+                return $this->currency_symbol.$selected->sum_fees_charge ;
             })
+            ->filterColumn('fees_charge', function ($query, $keyword) {
+                $query->whereRaw("sum_fees_charge like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('fees_charge', function ($query, $order) {
+                $query->orderBy('sum_fees_charge', $order);
+            })
+
             ->editColumn('payout_status', function($selected) {
                 if($selected->payout_status == '0'){
                     return '<div class="badge badge-success">'.$selected->payout_status_name.'</div>';
@@ -523,6 +581,16 @@ class UserTransactionRepository extends Repository
                     return '<div class="badge badge-info">'.$selected->payout_status_name.'</div>';
                 }
             })
+            ->filterColumn('payout_status', function ($query, $keyword) use ($request) {
+                if (in_array($request->search['value'], $this->getPayoutStatusValue())){
+                    $appointment_status = array_search($request->search['value'], $this->getPayoutStatusValue());
+                    $query->where("user_transactions.payout_status", $appointment_status);                       
+                }
+            })
+            ->orderColumn('status', function ($query, $order) {
+                $query->orderBy('user_transactions.payout_status', $order);
+            })
+
             ->addColumn('action',function($selected)
             { 
                 $data = '';
