@@ -165,6 +165,24 @@ class DashboardController extends Controller
         }
     }
    
+    public function healthcareDashboard(Request $request)
+    {
+        $data = array();        
+        $categories = $this->category_repo->getByParentId('4');
+        if(!empty($categories) && count($categories) > 0){
+            foreach ($categories as $key => $value) {
+                $temp_data = []; 
+                $temp_data['id'] = $value->id;
+                $temp_data['name'] = $value->name;
+                $temp_data['color'] = $this->getRandomColor();
+                $temp_data['total_count'] = $this->user_repo->getUserSubCategoryWiseCount($value->id);
+                $temp_data['approved_count'] = $this->user_repo->getUserSubCategoryWiseCount($value->id, '0');
+                $temp_data['unapproved_count'] = $this->user_repo->getUserSubCategoryWiseCount($value->id, '1');
+                $data[] = $temp_data;
+            }
+        }
+        return view('admin.healthcare.doctor_dashboard', compact('data'));
+    }
     /**
      * area chart data prepared.
      *
@@ -245,6 +263,12 @@ class DashboardController extends Controller
         } 
         
         return response()->json(['msg'=>'Data Not Found'], 500);
+    }
+
+    public function getRandomColor(){
+        $color_codes=array("bg-warning","bg-secondary","bg-success","bg-danger","bg-info","bg-violet","bg-primary","bg-dark");        
+        $rand_keys = array_rand($color_codes, 1);
+        return $color_codes[$rand_keys];
     }
 
 }

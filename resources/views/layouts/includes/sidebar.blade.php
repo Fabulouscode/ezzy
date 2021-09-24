@@ -42,6 +42,9 @@
                         @can('healthcare-dashboard')
                         <li><a href="{{url('/donotezzycaretouch/healthcare/dashboard')}}">Dashboard</a></li>
                         @endcan
+                        @can('healthcare-dashboard')
+                        <li><a href="{{url('/donotezzycaretouch/healthcare/doctor/dashboard')}}">Doctor Dashboard</a></li>
+                        @endcan
                         @can('healthcare-list')
                         <li><a href="{{url('/donotezzycaretouch/healthcare/user/pending')}}">Pending HCP</a></li>
                         @endcan
@@ -164,7 +167,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('permission_category-list','permission-list','role-list'))
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('role-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-gear"></i> <span> Admin Setting </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -176,6 +179,9 @@
                         @endcan
                         @can('role-list')
                         <li><a href="{{url('/donotezzycaretouch/role')}}">Role</a></li>
+                        @endcan                        
+                        @can('app_version-list')
+                        <li><a href="{{url('/donotezzycaretouch/app_version')}}">App Version</a></li>
                         @endcan
                     </ul>
                 </li>

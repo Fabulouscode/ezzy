@@ -11,6 +11,7 @@ use App\Repositories\MedicineImagesRepository;
 use App\Http\Requests\Admin\MedicineDetailsRequest;
 use App\Http\Requests\Admin\MedicineDetailsImportRequest;
 use App\Imports\MedicineDetaisImport;
+use App\Exports\MedicineDetaisExport;
 use Excel;
 
 class MedicineDetailsController extends Controller
@@ -158,4 +159,21 @@ class MedicineDetailsController extends Controller
         }
         return response()->json(['msg'=>'Medicine Not Insert'], 500);
     }
+
+     /**
+     * paid payout.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportMedicine(Request $request)
+    {
+        $medicine_file = Excel::raw(new MedicineDetaisExport, \Maatwebsite\Excel\Excel::XLSX);
+        $response =  array(
+            'name' => "medicine_details", //no extention needed
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($medicine_file) //mime type of used format
+        );
+        $notification_msg = 'Medicine details export success.';
+        return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);
+    }
+
 }

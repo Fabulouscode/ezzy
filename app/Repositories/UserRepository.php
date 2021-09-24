@@ -971,6 +971,28 @@ class UserRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
+    public function getUserSubCategoryWiseCount($subcategory_id, $status = '')
+    {
+        $query = $this->model;    
+        if(!empty($subcategory_id)){
+            $query = $query->whereHas('categoryChild', function ($query) use ($subcategory_id) {
+                $query->where('id', $subcategory_id);
+            });
+        }
+
+        if($status != ''){
+            $query = $query->where('status', $status);
+        }
+
+        $query = $query->whereNotNull('subcategory_id')->orderBy('id','desc')->count();
+        return $query;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getUserParentCategoryWiseCountToday($category_id, $status = '')
     {
 

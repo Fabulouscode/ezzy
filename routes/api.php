@@ -44,6 +44,10 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
     // without auth
     
+    //app version check
+    Route::get('/app_version/android/check/{version}', 'AppVersionController@checkAndroidVersion');
+    Route::get('/app_version/ios/check/{version}', 'AppVersionController@checkIOSVersion');
+
     // HCP MainTypes
     Route::get('/hcp/main_types', 'CategoryController@getHCPMainTypes');
     

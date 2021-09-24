@@ -60,9 +60,13 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
         // Child Dashoard
         Route::get('{provider?}/dashboard', 'DashboardController@index')->middleware('role-permission:{provider}-dashboard');
+        Route::get('healthcare/doctor/dashboard', 'DashboardController@healthcareDashboard')->middleware('role-permission:healthcare-dashboard');
         
         // Category routes(Provider)
         Route::resource('category', 'CategoryController')->middleware('role-permission-resource:hcp_type-list,hcp_type-add,hcp_type-edit,hcp_type-delete');
+       
+        // App Version routes
+        Route::resource('app_version', 'AppVersionController')->middleware('role-permission-resource:app_version-list,app_version-add,app_version-edit,app_version-delete');
        
         // Admin User routes        
         Route::resource('admin/users', 'AdminController')->middleware('role-permission-resource:admin-list,admin-add,admin-edit,admin-delete');
@@ -104,6 +108,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // Medicine Details routes
         Route::post('medicine/details/import', 'MedicineDetailsController@importMedicine');
+        Route::post('medicine/details/export', 'MedicineDetailsController@exportMedicine');
         Route::resource('medicine/details', 'MedicineDetailsController')->middleware('role-permission-resource:medicine_details-list,medicine_details-add,medicine_details-edit,medicine_details-delete');
        
         // pharmacy order Details routes        

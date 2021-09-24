@@ -25,7 +25,7 @@
                 <div class="card-body">
                     @can('medicine_details-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <!-- <a href="javascript:void(0)" onclick="addImportRow()" class="btn btn-info">Medicine File Import</a> -->
+                        <a href="javascript:void(0)" onclick="addExportRows()" class="btn btn-info">Medicine File Exports</a>
                         <a href="{{url('/donotezzycaretouch/medicine/details/create')}}" class="btn btn-info">Add Medicine Details</a>
                     </div>
                     @endcan
