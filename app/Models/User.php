@@ -528,7 +528,6 @@ class User extends Authenticatable
     }
     
     public function getProfileRequiredFieldsAttribute() {
-
         $total_progress_point = 0;
         $required_progress = 0;
         $required_progress_array = [];
@@ -564,7 +563,7 @@ class User extends Authenticatable
                                             'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
                                             'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                                             'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
-                                            'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                            'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                                             'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                                             'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                                             'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
@@ -594,7 +593,7 @@ class User extends Authenticatable
                                             'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
                                             'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                                             'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
-                                            'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                            'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                                             'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                                             'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                                             'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
@@ -623,7 +622,7 @@ class User extends Authenticatable
                                                 'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
                                                 'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                                                 'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
-                                                'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                                'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                                                 'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                                                 'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                                                 'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
@@ -652,7 +651,7 @@ class User extends Authenticatable
                                                 'Country'=> !empty($this->userDetails) ? $this->userDetails->country : '', 
                                                 'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                                                 'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
-                                                'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                                'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                                                 'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                                                 'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                                                 'Clinic Consultation Fees (per Minute)'=> !empty($this->userDetails) ? $this->userDetails->clinic_consultation_charge : '', 
@@ -682,7 +681,7 @@ class User extends Authenticatable
                     'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                     'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
                     'Delivery Charge'=> !empty($this->userDetails) ? $this->userDetails->delivery_charge : '',
-                    'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                    'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                     'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                     'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                 ];
@@ -713,7 +712,7 @@ class User extends Authenticatable
                                         'City'=> !empty($this->userDetails) ? $this->userDetails->city : '',
                                         'Address'=> !empty($this->userDetails) ? $this->userDetails->address : '',
                                         'Home Visit Charge'=> !empty($this->userDetails) ? $this->userDetails->home_consultation_charge : '',
-                                        'Qualification Certificate'=> !empty($this->userDetails) ? $this->userDetails->qualification_certificate : '',
+                                        'Qualification Certificate'=> !empty($this->userDetails) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '',
                                         'Practicing Licence'=> !empty($this->userDetails) ? $this->userDetails->practicing_licence : '',
                                         'About Us'=>!empty($this->userDetails) ? $this->userDetails->about_us : '',
                                     ];
