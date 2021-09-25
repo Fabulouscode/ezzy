@@ -67,6 +67,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // App Version routes
         Route::resource('app_version', 'AppVersionController')->middleware('role-permission-resource:app_version-list,app_version-add,app_version-edit,app_version-delete');
+        
+        //user tracking
+        Route::get('user_trackings', 'UserTrackingController@index');
        
         // Admin User routes        
         Route::resource('admin/users', 'AdminController')->middleware('role-permission-resource:admin-list,admin-add,admin-edit,admin-delete');

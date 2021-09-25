@@ -137,10 +137,10 @@ class UserController extends Controller
                     $file_name = $this->user_repo->uploadFolderWiseFile($file, $storagePath);
                     $user_data['pharmacist_certificate'] =  $file_name;
                 }
-            $this->user_details_repo->dataCrudUsingData($request->userDetails,$request->userDetails['id']); 
+            $this->user_details_repo->dataCrudUsingData($request->userDetails, $request->userDetails['id']); 
             if(!empty($user_data) && count($user_data) > 0){
                 $user_data['user_id'] = $request->userDetails['id'];
-                $this->user_details_repo->dataCrudUsingData($user_data,$request->userDetails['id']); 
+                $this->user_details_repo->dataCrudUsingDataFileUpload($user_data, $request->userDetails['id']); 
             }
         }
         $user = $this->user_repo->getByID($request->id);

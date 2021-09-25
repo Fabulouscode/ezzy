@@ -5,6 +5,7 @@ namespace App\Http\Helpers;
 use Log;
 use App\Repositories\CategoryRepository;
 use App\Models\Category;
+use App\Models\UserTracking;
 use App\Models\User;
 use Carbon\Carbon;
 use Auth;
@@ -32,6 +33,22 @@ class Helper
         return $category_name;
     }
     
+    /**
+     * get timestamp formate date and time
+     */  
+    public static function addUserTracking($user_type, $admin_id, $user_id, $field_name, $field_value)
+    {
+        $data=[            
+            'user_type'=>$user_type, 
+            'admin_id'=>!empty($admin_id) ? $admin_id : null, 
+            'user_id'=>$user_id, 
+            'field_name'=>$field_name, 
+            'field_value'=>$field_value
+        ];
+        
+        return UserTracking::create($data);
+    }
+
     /**
      * get timestamp formate date and time
      */  
