@@ -380,7 +380,8 @@ class User extends Authenticatable
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
+                                    !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                    $this->userDetails->practicing_licence,
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge, $this->userDetails->nursing_facility_charge_full_day,
                                     $this->userDetails->nursing_home_visit_charge_full_day];
@@ -396,7 +397,8 @@ class User extends Authenticatable
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address, 
-                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
+                                    !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                    $this->userDetails->practicing_licence,
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge];
                     $required_userDetails_count = count($required_userDetails);
@@ -412,7 +414,8 @@ class User extends Authenticatable
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name,
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
+                                    !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                    $this->userDetails->practicing_licence, 
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge, $this->userDetails->video_consultation_charge];
                     $required_userDetails_count = count($required_userDetails);
@@ -427,7 +430,8 @@ class User extends Authenticatable
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                     $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                     $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                    $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence, 
+                                    !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                    $this->userDetails->practicing_licence, 
                                     $this->userDetails->about_us, $this->userDetails->clinic_consultation_charge, 
                                     $this->userDetails->home_consultation_charge];
                     $required_userDetails_count = count($required_userDetails);
@@ -445,7 +449,8 @@ class User extends Authenticatable
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                  $this->userDetails->clinic_locality, $this->userDetails->country, $this->userDetails->city,
                                  $this->userDetails->address, $this->userDetails->delivery_charge, $this->userDetails->practicing_licence,
-                                 $this->userDetails->qualification_certificate, $this->userDetails->about_us];
+                                 !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                 $this->userDetails->about_us];
                 $required_userDetails_count = count($required_userDetails);
             }else{
                 $required_userDetails_count = 12;
@@ -461,7 +466,8 @@ class User extends Authenticatable
                                  $this->userDetails->registration_year, $this->userDetails->clinic_name, 
                                  $this->userDetails->clinic_locality, $this->userDetails->total_experiance_year, $this->userDetails->dob,
                                  $this->userDetails->country, $this->userDetails->city, $this->userDetails->address,
-                                 $this->userDetails->qualification_certificate, $this->userDetails->practicing_licence,
+                                 !empty($this->userDetails->qualification_certificate) && (count(json_decode($this->userDetails->qualification_certificate)) > 0) ? $this->userDetails->qualification_certificate : '', 
+                                 $this->userDetails->practicing_licence,
                                  $this->userDetails->about_us, $this->userDetails->home_consultation_charge];
                $required_userDetails_count = count($required_userDetails);
             }else{
