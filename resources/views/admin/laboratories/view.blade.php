@@ -446,9 +446,11 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 @if($data->status == '1')
-                                    <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeLaboratoriesStatusRow({{$data->id}}, '0')">
-                                        <i class="fa fa-check"></i> Approve
-                                    </button>
+                                    @can('laboratories-approval')
+                                        <button type="button" class="btn btn-success waves-effect m-l-5" onclick="changeLaboratoriesStatusRow({{$data->id}}, '0')">
+                                            <i class="fa fa-check"></i> Approve
+                                        </button>
+                                    @endcan
                                     <a href="{{url('/donotezzycaretouch/laboratories/user/pending')}}">
                                         <button type="button" class="btn btn-secondary waves-effect m-l-5">
                                             Cancel

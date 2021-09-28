@@ -246,8 +246,8 @@ class UserRepository extends Repository
                         // }
                     }
 
-                    if (Auth::user()->hasPermissionTo($request->provider.'-edit')) {
-                        // Change Status
+                    // Change Status
+                    if (Auth::user()->hasPermissionTo($request->provider.'-approval')) {                            
                         if (!empty($selected->status == '1')) {
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="User Active" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
                         } elseif (!empty($selected->status == '2')) {
