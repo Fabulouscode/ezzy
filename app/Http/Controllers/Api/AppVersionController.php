@@ -9,14 +9,14 @@ use App\Http\Controllers\Api\BaseApiController;
 
 class AppVersionController extends BaseApiController
 {
-
+     
     public function checkAndroidVersion($version)
     {
         $data = AppVersion::where('android_version',$version)->where('id','1')->first();
         if(!empty($data)){
             return self::sendSuccess(true,'App Version Latest');
         }
-        return self::sendError(false,'App Version outdated');
+        return self::sendSuccess(false,'App Version outdated');
     }
    
     public function checkIOSVersion($version)
@@ -25,7 +25,7 @@ class AppVersionController extends BaseApiController
         if(!empty($data)){
             return self::sendSuccess(true,'App Version Latest');
         }
-        return self::sendError(false,'App Version outdated');
+        return self::sendSuccess(false,'App Version outdated');
     }
 
 }
