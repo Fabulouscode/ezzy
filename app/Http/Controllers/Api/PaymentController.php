@@ -27,6 +27,7 @@ class PaymentController extends BaseApiController
     {
         $data = $request->all();
         try{       
+            \Log::info("makePaymentRequest ".json_encode($data));     
             $response = $this->paystack_integration_repo->makePaymentRequest($data);
             return self::sendSuccess($response, 'Payment initialize');
         }catch(\Exception $e) {
@@ -41,6 +42,7 @@ class PaymentController extends BaseApiController
     public function handleGatewayCallback($refrence)
     {
         try{       
+            \Log::info("handleGatewayCallback ".json_encode($refrence));  
             $response = $this->paystack_integration_repo->handleGatewayCallback($refrence);
             return self::sendSuccess($response, 'Payment verify');
         }catch(\Exception $e) {
