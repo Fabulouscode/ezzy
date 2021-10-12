@@ -41,8 +41,7 @@ class PaymentController extends BaseApiController
      */
     public function handleGatewayCallback($refrence)
     {
-        try{       
-            \Log::info("handleGatewayCallback ".json_encode($refrence));  
+        try{        
             $response = $this->paystack_integration_repo->handleGatewayCallback($refrence);
             return self::sendSuccess($response, 'Payment verify');
         }catch(\Exception $e) {
