@@ -11,6 +11,11 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ShopMedicineDetailsRepository;
 use App\Repositories\UserServiceRepository;
+use App\Repositories\UserAvailableTimeRepository;
+use App\Repositories\UserBankAccountRepository;
+use App\Repositories\UserEductaionRepository;
+use App\Repositories\UserExperianceRepository;
+use App\Repositories\UserLocationRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use Auth;
@@ -20,7 +25,10 @@ use DB;
 class UserController extends Controller
 {
 
-    private $user_repo, $order_repo, $category_repo, $notification_repo, $user_details_repo, $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo;
+    private $user_repo, $order_repo, $category_repo, $notification_repo, $user_details_repo, 
+            $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo,
+            $user_available_time_repo, $user_bank_repo, $user_experiance_repo, $user_education_repo, 
+            $user_location_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -30,6 +38,11 @@ class UserController extends Controller
         UserTransactionRepository $user_trans_repo,
         ShopMedicineDetailsRepository $shop_medicine_repo,
         UserServiceRepository $user_service_repo,
+        UserAvailableTimeRepository $user_available_time_repo,
+        UserBankAccountRepository $user_bank_repo,
+        UserEductaionRepository $user_education_repo,
+        UserExperianceRepository $user_experiance_repo,
+        UserLocationRepository $user_location_repo,
         NotificationRepository $notification_repo,
         OrderRepository $order_repo
         )
@@ -40,6 +53,11 @@ class UserController extends Controller
         $this->user_trans_repo = $user_trans_repo;
         $this->shop_medicine_repo = $shop_medicine_repo;
         $this->user_service_repo = $user_service_repo;
+        $this->user_available_time_repo = $user_available_time_repo;
+        $this->user_bank_repo = $user_bank_repo;
+        $this->user_education_repo = $user_education_repo;
+        $this->user_experiance_repo = $user_experiance_repo;
+        $this->user_location_repo = $user_location_repo;
         $this->user_details_repo = $user_details_repo;
         $this->notification_repo = $notification_repo;
         $this->order_repo = $order_repo;
@@ -392,11 +410,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    { 
         $data = $this->user_repo->getById($id);
         try{
             DB::beginTransaction();
             if(!empty($data)){
+                $this->user_available_time_repo->deleteByUserId($id); 
+                $this->user_location_repo->deleteByUserId($id); 
+                $this->user_experiance_repo->deleteByUserId($id); 
+                $this->user_education_repo->deleteByUserId($id); 
+                $this->user_bank_repo->deleteByUserId($id); 
                 $this->user_details_repo->getbyDelete($id); 
                 $this->user_repo->forceDelete($id); 
                 DB::commit();

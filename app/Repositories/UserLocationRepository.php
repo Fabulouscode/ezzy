@@ -67,4 +67,14 @@ class UserLocationRepository extends Repository
     {
         return $this->model->where('primary_address', '1')->where('user_id', $user_id)->first();
     }
+    
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function deleteByUserId($user_id)
+    {
+        return $this->model->where('user_id', $user_id)->delete();
+    }
 }
