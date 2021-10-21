@@ -241,6 +241,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/completed', 'AppointmentController@getCompletedAppointment');
                 Route::post('/active', 'AppointmentController@getActiveAppointment');
                 Route::post('/add', 'AppointmentController@addAppointment');
+                Route::post('/add_extend_time', 'AppointmentController@addAppointmentTimeExtend');
                 Route::post('/urgent/add', 'AppointmentController@addUrgentAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
                 Route::post('/urgent/accept', 'AppointmentController@acceptAppointment');

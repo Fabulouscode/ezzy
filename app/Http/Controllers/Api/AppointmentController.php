@@ -1080,7 +1080,7 @@ class AppointmentController extends BaseApiController
                 if(!empty($old_transaction) && !empty($transaction) && $transaction_amount > $old_transaction->amount){
                         $send_notification = [
                             'sender_id' => $request->user()->id,
-                            'receiver_id' => $appointment_details->client_id,
+                            'receiver_id' => ($request->user()->id == $appointment_details->client_id) ? $appointment_details->user_id : $appointment_details->client_id,
                             'title' => 'Appointment',
                             'message' => 'Appointment charges is exceeded',
                             'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
@@ -1097,7 +1097,7 @@ class AppointmentController extends BaseApiController
 
                 $send_notification = [
                                         'sender_id' => $request->user()->id,
-                                        'receiver_id' => $appointment_details->client_id,
+                                        'receiver_id' => ($request->user()->id == $appointment_details->client_id) ? $appointment_details->user_id : $appointment_details->client_id,
                                         'title' => 'Appointment',
                                         'message' => 'Appointment completed by '. $request->user()->user_name,
                                         'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
@@ -1344,6 +1344,73 @@ class AppointmentController extends BaseApiController
             }
 
         return $transaction_amount;
+    }
+
+    public function addAppointmentTimeExtend(Request $request){
+
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        $appointment_charges = Self::calculateAppointmentCharges($request);
+        $currency_symbol = $this->user_repo->currency_symbol;
+        if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$appointment_charges.' before booking an appointment.', 402);
+        }
+        
+        //Appointment home care book
+        if(!empty($request->appointment_type) && $request->appointment_type == '1'){
+            $check_user_location = $this->user_repo->checkUserLocation($request);
+            if(empty($check_user_location)){
+                return self::sendError([], 'Please Add Location before Book Appointment.');
+            }
+        }
+        
+        //user timing check
+        $user_available = $this->user_repo->checkUserAvailable($request);
+        if(empty($user_available)){
+            \Log::info("Provider not available ".json_encode($user_available));     
+            return self::sendError([], 'Provider is not available on your selected time.');
+        }
+
+        //user free or not checking
+        $check_appointment = $this->appointment_repo->checkUserAvailable($request);
+        if(!empty($check_appointment)){
+            \Log::info("Provider is busy ".json_encode($check_appointment));   
+            return self::sendError([], 'Provider is already booked on your selected time.');
+        }
+        DB::beginTransaction();
+        try{
+            $data= $this->appointment_repo->getById($request->appointment_id);
+            $update_user = [
+                        'appointment_end_date' => !empty($request->appointment_end_date) ? $request->appointment_end_date : null,
+                        'appointment_end_time' => !empty($request->appointment_end_time) ? $request->appointment_end_time : null,
+                    ];
+            $this->appointment_repo->dataCrud($update_user, $request->appointment_id);
+
+            $update_transaction = [
+                    'amount'=> $appointment_charges,
+                ];                    
+            $this->user_transaction_repo->dataCrud($update_transaction, $data->transaction_id);
+                
+            // update Wallet Balance
+            $this->user_repo->userWalletUpdate($request->user()->id);
+            $user = $this->user_repo->getById($request->user_id);
+
+            $send_notification = [
+                                'sender_id' => $request->user()->id,
+                                'receiver_id' => $request->user_id,
+                                'title' => 'Appointment',
+                                'message' => 'Appointment extend by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user->user_timezone),
+                                'parameter' => json_encode(['appointment_id'=> $data->id]),
+                                'msg_type' => '1',
+                            ];  
+            $this->notification_repo->sendingNotification($send_notification);     
+ 
+            $data = $this->appointment_repo->getById($request->appointment_id);
+            DB::commit();
+            return self::sendSuccess($data, 'Appointment get data');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return Self::sendException($e);
+        }
     }
 
     public function getAllTrackingAppointment(Request $request){
