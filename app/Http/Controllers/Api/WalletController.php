@@ -67,10 +67,6 @@ class WalletController extends BaseApiController
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> $request->amount,                        
                         'payment_gateway_response'=> $request->payment_transaction,
-                        'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'wallet_transaction'=> '1',
-                        'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Add Wallet to online pay',
                     ];
@@ -87,7 +83,7 @@ class WalletController extends BaseApiController
                         'transaction_msg'=>'Wallet Topup',
                     ];
         try {
-            $this->user_transaction_repo->dataCrud($wallet_transaction);
+            $this->user_transaction_repo->dataCrud($wallet_transaction, $request->transaction_id);
             $this->user_transaction_repo->dataCrud($add_transaction);
             $this->user_repo->userWalletUpdate($request->user()->id);        
             return self::sendSuccess([], 'Wallet balance add Successfully');

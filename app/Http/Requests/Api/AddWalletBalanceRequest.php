@@ -28,6 +28,7 @@ class AddWalletBalanceRequest extends FormRequest
         return [
             'amount' => 'required|numeric',
             'payment_transaction' => 'required',
+            'transaction_id' => 'required',
         ];
     }
 

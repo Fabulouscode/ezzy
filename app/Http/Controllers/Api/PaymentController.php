@@ -6,17 +6,23 @@ use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
 use App\Repositories\PaystackIntegrationRepository;
 use App\Http\Requests\api\paystack\CustomerCreateRequest;
+use App\Repositories\UserTransactionRepository;
+use App\Repositories\AppointmentRepository;
 
 class PaymentController extends BaseApiController
 {
-     private $paystack_integration_repo;
+     private $paystack_integration_repo, $user_transaction_repo, $appointment_repo;
 
     public function __construct(
+        AppointmentRepository $appointment_repo, 
+        UserTransactionRepository $user_transaction_repo,
         PaystackIntegrationRepository $paystack_integration_repo
         )
     {
         parent::__construct();
         $this->paystack_integration_repo = $paystack_integration_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
+        $this->appointment_repo = $appointment_repo;
     }
     
     /**
@@ -29,6 +35,19 @@ class PaymentController extends BaseApiController
         try{       
             \Log::info("makePaymentRequest ".json_encode($data));     
             $response = $this->paystack_integration_repo->makePaymentRequest($data);
+            $wallet_transaction = [
+                'user_id'=> $request->user()->id,
+                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                'amount'=> $request->amount,                        
+                'payment_gateway_response'=> (!empty($response['reference'])) ? $response['reference'] : '',
+                'mode_of_payment'=> '1',
+                'transaction_type'=> '1',
+                'wallet_transaction'=> '1',
+                'payout_status'=> '0',
+                'status'=> '2',
+                'transaction_msg'=>'Add Wallet to online pay',
+            ];
+            $response['transaction'] = $this->user_transaction_repo->dataCrud($wallet_transaction);
             return self::sendSuccess($response, 'Payment initialize');
         }catch(\Exception $e) {
             return self::sendException($e);
