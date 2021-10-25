@@ -39,7 +39,7 @@ class PaymentController extends BaseApiController
                 'user_id'=> $request->user()->id,
                 'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                 'amount'=> $request->amount,                        
-                'payment_gateway_response'=> (!empty($response['reference'])) ? $response['reference'] : '',
+                'payment_gateway_response'=> (!empty($response['data']) && !empty($response['data']['reference'])) ? $response['data']['reference'] : '',
                 'mode_of_payment'=> '1',
                 'transaction_type'=> '1',
                 'wallet_transaction'=> '1',

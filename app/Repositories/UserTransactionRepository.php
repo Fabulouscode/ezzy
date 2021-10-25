@@ -608,4 +608,8 @@ class UserTransactionRepository extends Repository
             ->make(true);
     }
 
+    public function getPendingTransaction($user_id, $reference)
+    {
+        return $this->model->where('user_id', $user_id)->where('payment_gateway_response', $reference)->where('status', '2')->orderBy('id','desc')->first();
+    }
 }
