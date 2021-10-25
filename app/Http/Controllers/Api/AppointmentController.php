@@ -145,6 +145,7 @@ class AppointmentController extends BaseApiController
                                         'appointment_time'=>$response->appointment_time,
                                         'appointment_end_date'=>$response->appointment_end_date,
                                         'appointment_end_time'=>$response->appointment_end_time,
+                                        'start_datetime'=>$response->start_datetime,
                                         'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
                                         'client'=>(isset($response->client))?
                                                         [
