@@ -52,6 +52,14 @@ class Helper
     /**
      * get timestamp formate date and time
      */  
+    public static function deleteUserTracking($user_id)
+    {
+        return UserTracking::where('user_id', $user_id)->delete();
+    }
+
+    /**
+     * get timestamp formate date and time
+     */  
     public static function getDateTimeLocalFormate($date_time, $timezone)
     { 
         $date_time_formate = new Carbon($date_time);

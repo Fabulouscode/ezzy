@@ -79,4 +79,14 @@ class SupportChatRepository extends Repository
         
         return $query;
     }
+
+    /**
+     * get Model and return the instance.
+     *
+     * @param int $user_id
+     */
+    public function deleteByUserId($user_id)
+    {
+        return $this->model->where('user_id', $user_id)->delete();
+    }
 }

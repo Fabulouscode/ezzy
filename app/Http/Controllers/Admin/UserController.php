@@ -18,9 +18,12 @@ use App\Repositories\UserExperianceRepository;
 use App\Repositories\UserLocationRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\SupportRequestRepository;
+use App\Repositories\SupportChatRepository;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Helper;
 
 class UserController extends Controller
 {
@@ -28,7 +31,7 @@ class UserController extends Controller
     private $user_repo, $order_repo, $category_repo, $notification_repo, $user_details_repo, 
             $appointment_repo, $user_trans_repo, $shop_medicine_repo, $user_service_repo,
             $user_available_time_repo, $user_bank_repo, $user_experiance_repo, $user_education_repo, 
-            $user_location_repo;
+            $user_location_repo, $support_request_repo, $support_chat_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -44,6 +47,8 @@ class UserController extends Controller
         UserExperianceRepository $user_experiance_repo,
         UserLocationRepository $user_location_repo,
         NotificationRepository $notification_repo,
+        SupportRequestRepository $support_request_repo,
+        SupportChatRepository $support_chat_repo,
         OrderRepository $order_repo
         )
     {
@@ -60,6 +65,8 @@ class UserController extends Controller
         $this->user_location_repo = $user_location_repo;
         $this->user_details_repo = $user_details_repo;
         $this->notification_repo = $notification_repo;
+        $this->support_request_repo = $support_request_repo;
+        $this->support_chat_repo = $support_chat_repo;
         $this->order_repo = $order_repo;
     }
      
@@ -415,12 +422,16 @@ class UserController extends Controller
         try{
             DB::beginTransaction();
             if(!empty($data)){
+                $this->support_chat_repo->deleteByUserId($id); 
+                $this->support_request_repo->deleteByUserId($id); 
                 $this->user_available_time_repo->deleteByUserId($id); 
                 $this->user_location_repo->deleteByUserId($id); 
                 $this->user_experiance_repo->deleteByUserId($id); 
                 $this->user_education_repo->deleteByUserId($id); 
                 $this->user_bank_repo->deleteByUserId($id); 
                 $this->user_details_repo->getbyDelete($id); 
+                $this->user_repo->removeOauthAccessTokens($id); 
+                Helper::deleteUserTracking($id);
                 $this->user_repo->forceDelete($id); 
                 DB::commit();
                 return response()->json(['msg'=>'Deleted success'], 200);
