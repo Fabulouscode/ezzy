@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Support_request;
+use App\Models\Support_chat;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
@@ -179,6 +180,12 @@ class SupportRequestRepository extends Repository
      */
     public function deleteByUserId($user_id)
     {
+        $supprotChat = $this->model->where('user_id', $user_id)->get();
+        if(count($supprotChat) > 0){
+            foreach ($supprotChat as $key => $value) {
+                Support_chat::where('support_request_id', $value->id)->delete();
+            }
+        }
         return $this->model->where('user_id', $user_id)->forceDelete();
     }
 
