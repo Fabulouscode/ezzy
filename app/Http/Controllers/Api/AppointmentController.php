@@ -1355,15 +1355,7 @@ class AppointmentController extends BaseApiController
         if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
             return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$appointment_charges.' before booking an appointment.', 402);
         }
-        
-        //Appointment home care book
-        if(!empty($request->appointment_type) && $request->appointment_type == '1'){
-            $check_user_location = $this->user_repo->checkUserLocation($request);
-            if(empty($check_user_location)){
-                return self::sendError([], 'Please Add Location before Book Appointment.');
-            }
-        }
-        
+                
         //user timing check
         $user_available = $this->user_repo->checkUserAvailable($request);
         if(empty($user_available)){
@@ -1372,7 +1364,7 @@ class AppointmentController extends BaseApiController
         }
 
         //user free or not checking
-        $check_appointment = $this->appointment_repo->checkUserAvailable($request);
+        $check_appointment = $this->appointment_repo->checkUserAvailableExtendtime($request);
         if(!empty($check_appointment)){
             \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Provider is already booked on your selected time.');
