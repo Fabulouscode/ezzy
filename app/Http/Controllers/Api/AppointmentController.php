@@ -1377,12 +1377,15 @@ class AppointmentController extends BaseApiController
                         'appointment_end_time' => !empty($request->appointment_end_time) ? $request->appointment_end_time : null,
                     ];
             $this->appointment_repo->dataCrud($update_user, $request->appointment_id);
+            $old_transaction = $this->user_transaction_repo->getById($data->transaction_id);
 
-            $update_transaction = [
-                    'amount'=> $appointment_charges,
+            if(!empty($old_transaction)){
+                $update_transaction = [
+                    'amount'=> $old_transaction->amount + $appointment_charges,
                 ];                    
-            $this->user_transaction_repo->dataCrud($update_transaction, $data->transaction_id);
-                
+                $this->user_transaction_repo->dataCrud($update_transaction, $data->transaction_id);
+            }
+
             // update Wallet Balance
             $this->user_repo->userWalletUpdate($request->user()->id);
             $user = $this->user_repo->getById($request->user_id);
