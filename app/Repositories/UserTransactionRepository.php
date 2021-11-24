@@ -612,4 +612,13 @@ class UserTransactionRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->where('payment_gateway_response', $reference)->where('status', '2')->orderBy('id','desc')->first();
     }
+ 
+    public function getPendingTransactionCallback($email, $reference)
+    {
+        return $this->model->whereHas('users', function ($query) use ($email) {
+                $query->where('email', $email);
+        })
+        ->where('payment_gateway_response', $reference)
+        ->where('status', '2')->orderBy('id','desc')->first();
+    }
 }

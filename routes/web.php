@@ -39,6 +39,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         });
     });
 
+    Route::namespace('Api')->group(function(){
+        Route::post('/webhook/paystack/payment','CallbackThirdPartyController@getPaystackCallback');
+    });
+    
     Route::view('/support_chat', 'admin.support_request.chat');
     
     Route::prefix('/donotezzycaretouch/')->namespace('Admin')->middleware(['auth:admin','lock'])->group(function(){
