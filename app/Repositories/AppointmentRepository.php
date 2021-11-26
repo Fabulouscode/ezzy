@@ -1146,26 +1146,22 @@ class AppointmentRepository extends Repository
     public function getOldAppointmentPending()
     {   		
         $current_time  =  Carbon::now();
-        $current_time = $current_time->subDays(1);
-        $current_time = $current_time->format('Y-m-d');  
-        return $this->model->whereDate('appointment_date','<=', $current_time)    
-                            ->where('urgent','0') 
-                            // ->where(function ($query) use ($current_time){
-                            //     $query->whereDate('appointment_end_date','<=', $current_time);
-                            //     $query->orWhereNull('appointment_end_date');
-                            // })                            
-                            ->whereIn('status',['0','1'])->get();
-   
+        $currentTime = $current_time->subDays(1);
+        $current_date = $currentTime->format('Y-m-d H:i:s');  
+        return DB::select("select *  from `appointments` where TIMESTAMP(`appointment_date`,`appointment_time`) <= '".$current_date."' and `urgent` = 0 and `status` in (0, 1) and `appointments`.`deleted_at` is null");
+      
     }
 
     public function getOldUrgentAppointmentPending()
     {   		
         $current_time  =  Carbon::now();
-        $current_time = $current_time->subDays(1);
-        $current_time = $current_time->format('Y-m-d');  
-        return $this->model->whereDate('appointment_date','<=', $current_time)    
-                            ->where('urgent','1')                         
-                            ->whereIn('status',['0','1'])->get();
+        $currentTime = $current_time->subDays(1);
+        $current_date = $currentTime->format('Y-m-d H:i:s');  
+        return DB::select("select *  from `appointments` where TIMESTAMP(`appointment_date`,`appointment_time`) <= '".$current_date."' and `urgent` = 1 and `status` in (0, 1) and `appointments`.`deleted_at` is null");
+   
+        // return $this->model->whereDate('appointment_date','<=', $current_date)   
+        //                     ->where('urgent','1')                         
+        //                     ->whereIn('status',['0','1'])->get();
    
     }
 
