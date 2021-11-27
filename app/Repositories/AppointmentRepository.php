@@ -1167,8 +1167,7 @@ class AppointmentRepository extends Repository
 
     public function getInProgressVideoAppointment()
     {   		
-        return $this->model->where('appointment_type','2')                         
-                            ->where('status','2')->get();
+        return $this->model->where('status','2')->get();
    
     }
  

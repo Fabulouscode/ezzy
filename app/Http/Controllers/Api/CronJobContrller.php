@@ -165,7 +165,7 @@ class CronJobContrller extends BaseApiController
                 $urgent_appointment_time = $urgent_appointment_time->addMinute(30);
                 $appointment_end_time = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
                 $url = config('app.url')."api/user/video/appointment/completed";
-                if($value->urgent == '1' && $current_time > $urgent_appointment_time){
+                if($value->urgent == '1' && $value->appointment_type == '2' && $current_time > $urgent_appointment_time){
                     $data = [
                         "id"=> $value->id,
                         "status"=> 4,
