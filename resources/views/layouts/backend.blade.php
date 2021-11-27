@@ -42,8 +42,8 @@
 
         <!-- Bootstrap datepicker -->
         <link href="{{ asset('admin/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/daterangepicker.css') }}" />
-
+        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/daterangepicker.css') }}" /> -->
+        <link href="{{ asset('admin/css/daterangepicker.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/css/icons.css') }}" rel="stylesheet" type="text/css">
@@ -161,7 +161,8 @@
         <!-- Bootstrap datepicker -->
         <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/daterangepicker.js') }}"></script>
+        <!-- <script type="text/javascript" src="{{ asset('js/daterangepicker.js') }}"></script> -->
+        <script type="text/javascript" src="{{ asset('admin/js/daterangepicker.min.js') }}"></script>
 
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>
