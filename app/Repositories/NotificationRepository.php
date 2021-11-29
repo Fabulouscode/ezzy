@@ -104,6 +104,8 @@ class NotificationRepository extends Repository
         }else{
             $query = $query->where('receiver_id',$request->user()->id);
         }
+
+        $query = $query->where('message', '!=','Appointment charges is exceeded');
         
         $query = $query->orderBy('id','desc')->get();
 
