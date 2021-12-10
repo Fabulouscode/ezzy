@@ -9,21 +9,25 @@ use App\Repositories\AppointmentRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\UserServiceRepository;
+use App\Repositories\UserRepository;
 use Auth;
+use DB;
 
 class AppointmentController extends Controller
 {
-    private $appointment_repo, $category_repo, $user_transaction_repo, $user_service_repo;
+    private $appointment_repo, $category_repo, $user_transaction_repo, $user_service_repo, $user_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, CategoryRepository $category_repo, 
-        UserTransactionRepository $user_transaction_repo,UserServiceRepository $user_service_repo
+        UserRepository $user_repo, UserTransactionRepository $user_transaction_repo,
+        UserServiceRepository $user_service_repo
     )
     {
         $this->appointment_repo = $appointment_repo;
         $this->category_repo = $category_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->user_service_repo = $user_service_repo;
+        $this->user_repo = $user_repo;
     }
 
     /**
@@ -170,5 +174,32 @@ class AppointmentController extends Controller
         }  
         return response()->json(['msg'=>'Data Not success'], 500);
 
+    }
+
+    public function updateAppointmentCancel($id){          
+        $appointmentCancel = $this->appointment_repo->getById($id);
+        if(!empty($appointmentCancel) && !empty($appointmentCancel->id)){
+            DB::beginTransaction();
+            try {
+                if(!empty($appointmentCancel->transaction_id)){ 
+                    $this->user_transaction_repo->destroy($appointmentCancel->transaction_id);
+                    $this->user_repo->userWalletUpdate($appointmentCancel->client_id); 
+                }  
+                $update = [
+                    'status' => 6,
+                    'cancel_date' => $this->appointment_repo->getCurrentDateTime(),
+                    'cancel_reason' => 'Appointment Cancelled',
+                    'transaction_id' => NULL,
+                ];
+                
+                $this->appointment_repo->dataCrud($update, $appointmentCancel->id);                
+                DB::commit();  
+                return response()->json(['msg'=>'Appointmrnt Cancel successfully'], 200);
+            } catch(\Throwable $e) {
+                DB::rollBack();
+                return response()->json(['msg'=>'Can not cancel this appointment'], 500);
+            }
+        }
+        return response()->json(['msg'=>'Can not cancel this appointment'], 500);
     }
 }

@@ -275,6 +275,11 @@ class AppointmentRepository extends Repository
                             $data .= '<a href="'.url('donotezzycaretouch/appointment/invoice/'.$selected->id).'" class="btn btn-sm btn-info" title="Invoice"><i class="fa fa-file"></i></a>&nbsp;&nbsp;';
                         }
                     }
+                    if (Auth::user()->hasPermissionTo('appointments-edit')) {
+                        if ($selected->status == '0' || $selected->status == '1') {
+                            $data .= '<a href="javascript:void(0)" onclick="updateAppointmentCancel('.$selected->id.')" class="btn btn-sm btn-danger" title="Cancel Appointment"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                        }
+                    }
                 
                     // Delete
                     // $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
