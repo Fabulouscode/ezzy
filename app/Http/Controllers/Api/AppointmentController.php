@@ -306,7 +306,41 @@ class AppointmentController extends BaseApiController
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
         $appointment_charges = Self::calculateAppointmentCharges($request);
         $currency_symbol = $this->user_repo->currency_symbol;
-        if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
+
+        // coupon code check
+        if(!empty($request->voucher_code_id)){
+            $voucher_amount_apply = 0;
+            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
+            if(empty($voucher_code)){
+                return self::sendError('', 'Voucher Code is not available');
+            }
+
+            $voucher_code_used = $this->appointment_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
+            if(!empty($voucher_code_used) && !empty($voucher_code) && !empty($voucher_code->id) && $voucher_code->voucher_used == '0'){
+                return self::sendError('', 'Voucher Code is already used');
+            }
+
+            if(!empty($voucher_code) && !empty($voucher_code->id)){
+                if($voucher_code->min_amount > $appointment_charges){
+                    return self::sendError('', 'Voucher Code is not apply');
+                }
+            }
+
+            if(!empty($voucher_code) && !empty($voucher_code->id)){
+                if(!empty($voucher_code->percentage)){
+                    $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                }
+                if($voucher_code->fix_amount > $voucher_amount_apply){
+                    $voucher_amount_apply = $voucher_amount_apply;
+                }else {
+                    $voucher_amount_apply = $voucher_code->fix_amount;
+                }
+            }
+            $walletCheck_balance = $appointment_charges - $voucher_amount_apply;
+            if(isset($wallet_balance) && !empty($appointment_charges) && ($walletCheck_balance > $wallet_balance)){
+                return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$walletCheck_balance.' before booking an appointment.', 402);
+            }
+        }else if(isset($wallet_balance) && !empty($appointment_charges) && ($appointment_charges > $wallet_balance)){
             return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$appointment_charges.' before booking an appointment.', 402);
         }
         
@@ -330,27 +364,6 @@ class AppointmentController extends BaseApiController
         if(!empty($check_appointment)){
             \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Provider is already booked on your selected time.');
-        }
-
-        // coupon code check
-        if(!empty($request->voucher_code_id)){
-
-            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
-            if(empty($voucher_code)){
-                return self::sendError('', 'Voucher Code is not available');
-            }
-
-            $voucher_code_used = $this->appointment_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
-            if(!empty($voucher_code_used) && !empty($voucher_code) && !empty($voucher_code->id) && $voucher_code->voucher_used == '0'){
-                return self::sendError('', 'Voucher Code is already used');
-            }
-
-            if(!empty($voucher_code) && !empty($voucher_code->id)){
-                if($voucher_code->min_amount > $appointment_charges){
-                    return self::sendError('', 'Voucher Code is not apply');
-                }
-            }
-
         }
         
         $appointment_address = "";
