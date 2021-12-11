@@ -328,7 +328,7 @@ class AppointmentController extends BaseApiController
 
             if(!empty($voucher_code) && !empty($voucher_code->id)){
                 if(!empty($voucher_code->percentage)){
-                    $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                    $voucher_amount_apply = (($appointment_charges / 100 ) * $voucher_code->percentage);
                 }
                 if($voucher_code->fix_amount > $voucher_amount_apply){
                     $voucher_amount_apply = $voucher_amount_apply;
