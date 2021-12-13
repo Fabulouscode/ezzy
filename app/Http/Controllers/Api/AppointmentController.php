@@ -1233,18 +1233,19 @@ class AppointmentController extends BaseApiController
             }else {
                 $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;    
             }   
-
+            
             $home_visit_fees = 0;
             $urgent_booking_charges = $this->manage_fees_repo->getbyFeesKey('urgent_booking_charges');
             if(!empty($urgent_booking_charges->fees_percentage)){                    
                 $home_visit_fees = $urgent_booking_charges->fees_percentage;
             }
-  
+
             if(!empty($appointment_details->appointment_date) && !empty($appointment_details->appointment_time)){
                 $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($appointment_details->client_id);
                 $currency_symbol = $this->user_repo->currency_symbol;
                 $walletBalanceCalculate = $wallet_balance - $home_visit_fees;
                 $hcp_fees = (!empty($hcp_fees)) ? $hcp_fees : 1;
+                $appointmentTimeCalculate = round($walletBalanceCalculate / $hcp_fees);
                 if($appointmentTimeCalculate <= 60){
                     $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                     $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
