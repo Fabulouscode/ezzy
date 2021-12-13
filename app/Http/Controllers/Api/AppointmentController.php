@@ -1225,26 +1225,46 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update_user, $request->id);
 
             $appointment_details = $this->appointment_repo->getById($request->id);
+           
             if($appointment_details->appointment_type == '1'){
-                $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;      
-                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;      
+                $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;       
             }else if($appointment_details->appointment_type == '2'){
                 $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;     
-                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
             }else {
                 $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;    
-                // $home_visit_fees = $appointment_details->user->userDetails->urgent_fees;    
             }   
-            
+
             $home_visit_fees = 0;
             $urgent_booking_charges = $this->manage_fees_repo->getbyFeesKey('urgent_booking_charges');
             if(!empty($urgent_booking_charges->fees_percentage)){                    
                 $home_visit_fees = $urgent_booking_charges->fees_percentage;
-            } 
+            }
+  
+            if(!empty($appointment_details->appointment_date) && !empty($appointment_details->appointment_time)){
+                $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($appointment_details->client_id);
+                $currency_symbol = $this->user_repo->currency_symbol;
+                $walletBalanceCalculate = $wallet_balance - $home_visit_fees;
+                $hcp_fees = (!empty($hcp_fees)) ? $hcp_fees : 1;
+                if($appointmentTimeCalculate <= 60){
+                    $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = $end_appointment->addMinute($appointmentTimeCalculate);
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');  
+                }else{
+                    $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = $end_appointment->addMinute(60);
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');  
+                }
+            }
 
             $updateuser = [
                 'hcp_fees'=> $hcp_fees,
                 'home_visit_fees'=> $home_visit_fees,
+                'appointment_end_date'=> !empty($end_appointment_date) ?  $end_appointment_date : null,
+                'appointment_end_time'=> !empty($end_appointment_time) ?  $end_appointment_time : null,
             ];
             $this->appointment_repo->dataCrud($updateuser, $request->id);
 

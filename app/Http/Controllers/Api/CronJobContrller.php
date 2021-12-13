@@ -162,10 +162,10 @@ class CronJobContrller extends BaseApiController
             foreach ($video_appointment as $key => $value) {
                 $current_time  =  Carbon::now();
                 $urgent_appointment_time = new Carbon($value->appointment_date.' '.$value->appointment_time);
-                $urgent_appointment_time = $urgent_appointment_time->addMinute(30);
+                $urgent_appointment_time = $urgent_appointment_time->addMinute(60);
                 $appointment_end_time = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
                 $url = config('app.url')."api/user/video/appointment/completed";
-                if($value->urgent == '1' && $value->appointment_type == '2' && $current_time > $urgent_appointment_time){
+                if($value->urgent == '1' && !empty($appointment_end_time) && $current_time > $appointment_end_time){
                     $data = [
                         "id"=> $value->id,
                         "status"=> 4,
@@ -173,7 +173,17 @@ class CronJobContrller extends BaseApiController
                         "consult_notes"=> '',
                     ];
                     self::completedAppointment($data);
-                }else if($value->urgent == '0' && $current_time > $appointment_end_time){
+
+                }else if($value->urgent == '1' && $value->appointment_type == '2' && $current_time > $urgent_appointment_time){
+                    $data = [
+                        "id"=> $value->id,
+                        "status"=> 4,
+                        "completed_datetime"=> $current_time,
+                        "consult_notes"=> '',
+                    ];
+                    self::completedAppointment($data);
+                 
+                }else if($value->urgent == '0' && !empty($appointment_end_time) && $current_time > $appointment_end_time){
                     $data = [
                         "id"=> $value->id,
                         "status"=> 4,
