@@ -162,8 +162,9 @@ class CronJobContrller extends BaseApiController
             foreach ($video_appointment as $key => $value) {
                 $current_time  =  Carbon::now();
                 $urgent_appointment_time = new Carbon($value->appointment_date.' '.$value->appointment_time);
-                $urgent_appointment_time = $urgent_appointment_time->addMinute(60);
+                $urgent_appointment_time = $urgent_appointment_time->addMinute(59);
                 $appointment_end_time = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
+                $appointment_end_time = $appointment_end_time->subMinute(1);
                 $url = config('app.url')."api/user/video/appointment/completed";
                 if($value->urgent == '1' && !empty($appointment_end_time) && $current_time > $appointment_end_time){
                     $data = [
