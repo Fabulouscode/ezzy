@@ -679,9 +679,23 @@ class AppointmentController extends BaseApiController
         }
         
         if($request->status == '2' && !empty($request->start_datetime)){
-            $startappointment = [
+            $start_appointment  = new Carbon($appointment->appointment_date.''.$appointment->appointment_time);
+            $end_appointment   = new Carbon($appointment->appointment_end_date.''.$appointment->appointment_end_time);
+            $appointment_timing_slot =  $start_appointment->diffInMinutes($end_appointment);
+            if(!empty($appointment_timing_slot)){
+                $endAppointmentDateTime = Carbon::parse($request->start_datetime)->addMinute($appointment_timing_slot);
+                $endAppointmentDate = $endAppointmentDateTime->format('Y-m-d');
+                $endAppointmentTime = $endAppointmentDateTime->format('H:i:s');
+                $startappointment = [
+                    'start_datetime'=> Carbon::parse($request->start_datetime)->format('Y-m-d H:i:s'),
+                    'appointment_end_date'=> $endAppointmentDate,
+                    'appointment_end_time'=> $endAppointmentTime,
+                ];
+            }else{
+                $startappointment = [
                     'start_datetime'=> Carbon::parse($request->start_datetime)->format('Y-m-d H:i:s'),
                 ];
+            }
             $this->appointment_repo->dataCrud($startappointment, $request->id);
         }
       
