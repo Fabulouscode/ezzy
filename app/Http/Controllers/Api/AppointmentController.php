@@ -959,6 +959,15 @@ class AppointmentController extends BaseApiController
 
     public function completedAppointment(AppointmentCompletedRequest $request)
     {
+        $appointmentCheck = $this->appointment_repo->getById($request->id);
+        if($appointmentCheck->status == '1'){
+            return self::sendError([], 'Appointment is Pending.');
+        }else if($appointmentCheck->status == '5'){
+            return self::sendError([], 'Appointment already Completed.');
+        }else if($appointmentCheck->status == '6'){
+            return self::sendError([], 'Appointment is Cancelled.');
+        }
+        
         $data = array();
         $update = [
                     'completed_datetime'=> Carbon::parse($request->completed_datetime)->format('Y-m-d H:i:s'),
