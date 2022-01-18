@@ -9,6 +9,7 @@ use App\Repositories\UserTransactionRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\ManageFeesRepository;
+use App\Repositories\VoucherCodeRepository;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 use Log;
@@ -16,13 +17,14 @@ use DB;
 
 class CronJobContrller extends BaseApiController
 {
-    private $appointment_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
+    private $appointment_repo, $voucher_code_repo, $user_repo, $notification_repo, $user_transaction_repo, $manage_fees_repo;
     
     public function __construct(
             AppointmentRepository $appointment_repo, 
             NotificationRepository $notification_repo,
             UserTransactionRepository $user_transaction_repo,
             ManageFeesRepository $manage_fees_repo,
+            VoucherCodeRepository $voucher_code_repo,
             UserRepository $user_repo
         )
     {
@@ -32,6 +34,7 @@ class CronJobContrller extends BaseApiController
         $this->notification_repo = $notification_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->manage_fees_repo = $manage_fees_repo;
+        $this->voucher_code_repo = $voucher_code_repo;
     }
 
     public function sendAppointmentExtendNotification(Request $request){        
@@ -140,7 +143,17 @@ class CronJobContrller extends BaseApiController
                     'cancel_reason' => 'Appointment Cancelled',
                     'transaction_id' => NULL,
                 ];
-                
+                if(!empty($value->voucher_code_id)){
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($value->voucher_code_id, '1'); 
+                    if(!empty($voucher_code)){
+                        $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity + 1)], $value->voucher_code_id);   
+                        $updateVoucher = [
+                            'voucher_code_id'=> NULL,
+                            'voucher_amount'=> NULL,
+                        ];
+                        $this->appointment_repo->dataCrud($updateVoucher, $value->id);   
+                    }
+                }
                 $this->appointment_repo->dataCrud($update, $value->id);       
                 if(!empty($value->transaction_id)){ 
                     $this->user_transaction_repo->destroy($value->transaction_id);

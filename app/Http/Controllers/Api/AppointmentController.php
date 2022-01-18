@@ -756,10 +756,23 @@ class AppointmentController extends BaseApiController
                 if(!empty($old_transaction) && !empty($cancellation_charge_per)){
                     $old_transaction_cahrges = (($old_transaction->amount * $cancellation_charge_per ) / 100);
                 }
+
                 $updaappoint = [
-                        'transaction_id'=> NULL,
-                    ];
-                $this->appointment_repo->dataCrud($updaappoint, $request->id);            
+                    'transaction_id'=> NULL,
+                ];
+                $this->appointment_repo->dataCrud($updaappoint, $request->id);      
+                if(!empty($appointment->voucher_code_id)){
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment->voucher_code_id, '1'); 
+                    if(!empty($voucher_code)){
+                        $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity + 1)], $appointment->voucher_code_id);   
+                        $updateVoucher = [
+                            'voucher_code_id'=> NULL,
+                            'voucher_amount'=> NULL,
+                        ];
+                        $this->appointment_repo->dataCrud($updateVoucher, $request->id);   
+                    }
+                }
+         
                 $this->user_transaction_repo->destroy($appointment->transaction_id);
                 $this->user_repo->userWalletUpdate($appointment->client_id);  
             }    

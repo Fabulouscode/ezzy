@@ -691,6 +691,13 @@ class UserRepository extends Repository
             }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
             $query = $query->orderBy('id','desc');
         }
+ 
+        // country name filter
+        if(!empty($request->country_names) && is_array($request->country_names)){
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                $query->whereIn('country', $request->country_names);
+            });
+        }
         
         if((empty($request->distance) || empty($request->latitude) || empty($request->longitude)) && empty($request->rating)){
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
@@ -896,6 +903,13 @@ class UserRepository extends Repository
                         $query->where('appointment_type', $request->consultation);
                     });
         }                
+        
+        // country name filter
+        if(!empty($request->country_names) && is_array($request->country_names)){
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                $query->whereIn('country', $request->country_names);
+            });            
+        }
         
         // top listing
         if(isset($request->last_id)){
