@@ -299,6 +299,20 @@ class CronJobContrller extends BaseApiController
             }
 
             $voucher_amount_apply = 0;
+            if(!empty($appointment_details->voucher_code_id)){
+                $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment_details->voucher_code_id, '1'); 
+                if(!empty($voucher_code) && !empty($voucher_code->id)){
+                    if(!empty($voucher_code->percentage)){
+                        $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                    }
+                    if($voucher_code->fix_amount > $voucher_amount_apply){
+                        $voucher_amount_apply = $voucher_amount_apply;
+                    }else {
+                        $voucher_amount_apply = $voucher_code->fix_amount;
+                    }
+                }
+                $transaction_amount = $transaction_amount - $voucher_amount_apply;
+            }
 
             $update = [
                     'status'=> '5',
