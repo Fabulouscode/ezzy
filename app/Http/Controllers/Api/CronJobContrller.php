@@ -387,6 +387,16 @@ class CronJobContrller extends BaseApiController
                                     ];
                 $this->notification_repo->sendingNotification($send_notification);
 
+                $sendNotification = [
+                                        'sender_id' => $appointment_details->client_id,
+                                        'receiver_id' => $appointment_details->user_id,
+                                        'title' => 'Appointment',
+                                        'message' => 'Appointment completed',
+                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
+                                        'msg_type' => '2',
+                                    ];
+                $this->notification_repo->sendingNotification($sendNotification);
+
             }
 
             $data = $this->appointment_repo->getById($data['id']);
