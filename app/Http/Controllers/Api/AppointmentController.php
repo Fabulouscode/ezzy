@@ -993,6 +993,7 @@ class AppointmentController extends BaseApiController
             $this->appointment_repo->dataCrud($update, $request->id);
             $appointment_details = $this->appointment_repo->getById($request->id);
             $transaction_amount = 0;
+            $totalTransaction_amount = 0;
             $voucher_amount = 0;
             $hcp_fees = 0;
             $home_visit_fees = 0;
@@ -1068,6 +1069,7 @@ class AppointmentController extends BaseApiController
             }
 
             $voucher_amount_apply = 0;
+            $totalTransaction_amount = $transaction_amount;
             if(!empty($appointment_details->voucher_code_id)){
                 $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment_details->voucher_code_id, '1'); 
                 if(!empty($voucher_code) && !empty($voucher_code->id)){
@@ -1105,8 +1107,8 @@ class AppointmentController extends BaseApiController
                         $ezzycare_fees = $manage_fees->fees_percentage;
                     }
                 }
-                $ezzycare_charge = (($transaction_amount * $ezzycare_fees ) / 100);
-                $user_payout = $transaction_amount - $ezzycare_charge;
+                $ezzycare_charge = (($totalTransaction_amount * $ezzycare_fees ) / 100);
+                $user_payout = $totalTransaction_amount - $ezzycare_charge;
                 $add_transaction = [
                             'user_id'=> $appointment_details->client_id,
                             'client_id'=> $appointment_details->user_id,
