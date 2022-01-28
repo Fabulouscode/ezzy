@@ -1,6 +1,7 @@
 
 $(function () {
     $("form[name='support_request_form']").parsley();
+    $("form[name='support_chat_msg_form']").parsley();
     $('#support_request_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -59,6 +60,84 @@ function getChatMessage() {
             },
             error: function (error) {
                 toastr.error(error.responseJSON.msg, App_name_global);
+            }
+        });
+    }
+}
+
+
+function editChatMessage(chatId) {
+    if (chatId != '') {
+        $.ajax({
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: support_request_url + "/chat_msg/get/"+chatId,
+            type: "post",
+            data: { 'message': reply_msg, 'chat_id': chat_id },
+            dataType: 'json',
+            success: function (data) {
+                $('#editSupportChatMsg').modal();
+                var reply_msg = $('#edit_chat_message').val();
+                var chat_id = $('#edit_chat_id').val();
+            },
+            error: function (error) {
+                toastr.error(error.responseJSON.msg, App_name_global);
+            }
+        });
+    }
+}
+
+function updateChatMessage() {
+    var reply_msg = $('#edit_chat_message').val();
+    var chat_id = $('#edit_chat_id').val();
+    if (reply_msg != '' && chat_id != '') {
+        $.ajax({
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: support_request_url + "/chat_msg/add",
+            type: "post",
+            data: { 'message': reply_msg, 'chat_id': chat_id },
+            dataType: 'json',
+            success: function (data) {
+                toastr.success(data.msg, App_name_global);
+                $('#reply_message').val('');
+                getChatMessage();
+            },
+            error: function (error) {
+                toastr.error(error.responseJSON.msg, App_name_global);
+            }
+        });
+    }
+}
+
+function deleteChatMessage(messageId) {
+    if (messageId) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to delete this chat message!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            if (messageId) {
+                $.ajax({
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    url: support_request_url + "/chat_msg/delete/" + messageId,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (data) {
+                        swal(
+                            'Status Close!',
+                            data.msg,
+                            'success'
+                        )
+                        toastr.success(data.msg, App_name_global);
+                        getChatMessage();
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.msg, App_name_global);
+                    }
+                });
             }
         });
     }

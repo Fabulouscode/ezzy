@@ -100,6 +100,21 @@ class SupportRequestController extends Controller
         return view('admin.support_request.chat',compact('support_chat'));
     }
  
+    public function deleteChatMessage($id)
+    {
+        $data = $this->support_chat_repo->getById($id);
+        try{
+            if(!empty($data)){
+                $this->support_chat_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this support chat msg request'], 500);
+        }  
+
+        return response()->json(['msg'=>'Data Not success'], 500);
+    }
+ 
     public function addChatMessages(SupportChatRequest $request)
     {
         $data = [

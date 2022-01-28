@@ -296,6 +296,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
     font-weight: 500;
     line-height: 20px;
     display: inline-block;
+    position: relative;
     box-shadow: 0px 2px 6px rgba(0,0,0,0.16);
 }
 .order-chat-list-sec {
@@ -384,7 +385,44 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataT
 .order-chat-list-sec.left-chat .msg-time {
 left: 0px;
 }
-
+.chat-actions{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.chat-edit-btn {
+    background-color: #fff;
+    color: #5A8DEE;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+    line-height: initial;
+    padding-top: 3px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.chat-delete-btn{
+    background-color: #fff;
+    color: red;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+    line-height: initial;
+    padding-top: 3px;
+    margin-right: 5px;
+    cursor: pointer;
+}
 .order-chat-list-sec .msg-time {
     position: absolute;
     font-size: 12px;
