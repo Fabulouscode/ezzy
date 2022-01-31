@@ -100,21 +100,6 @@ class SupportRequestController extends Controller
         return view('admin.support_request.chat',compact('support_chat'));
     }
  
-    public function deleteChatMessage($id)
-    {
-        $data = $this->support_chat_repo->getById($id);
-        try{
-            if(!empty($data)){
-                $this->support_chat_repo->forceDelete($id); 
-                return response()->json(['msg'=>'Deleted success'], 200);
-            }
-        }catch(\Exception $e){
-            return response()->json(['msg'=>'Can not delete this support chat msg request'], 500);
-        }  
-
-        return response()->json(['msg'=>'Data Not success'], 500);
-    }
- 
     public function addChatMessages(SupportChatRequest $request)
     {
         $data = [
@@ -138,6 +123,41 @@ class SupportRequestController extends Controller
             Helper::sendOfflineChatNotification($notification_data, $receiver, $sender);
         }
         return response()->json(['msg'=>'Send New Message'], 200);
+    }
+
+    public function getMessage($id)
+    {
+        $data = $this->support_chat_repo->getById($id);
+        return response()->json(['status'=>true,'data'=>$data], 200);
+    }
+  
+    public function updateChatMessage(Request $request)
+    {
+        if(!empty($request->chat_id)){
+            $data = [
+                'message' => json_encode($request->message),
+            ];
+            $chat_add = $this->support_chat_repo->dataCrud($data, $request->chat_id);
+            return response()->json(['status'=>true,'msg'=>'Message is update successfully'], 200);
+        }else{
+            return response()->json(['status'=>false,'msg'=>'Message is not update'], 500);
+        }
+
+    }
+
+    public function deleteChatMessage($id)
+    {
+        $data = $this->support_chat_repo->getById($id);
+        try{
+            if(!empty($data)){
+                $this->support_chat_repo->forceDelete($id); 
+                return response()->json(['msg'=>'Deleted success'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not delete this support chat msg request'], 500);
+        }  
+
+        return response()->json(['msg'=>'Data Not success'], 500);
     }
     
      /**

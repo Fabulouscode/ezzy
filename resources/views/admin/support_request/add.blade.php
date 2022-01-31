@@ -134,7 +134,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mt-0"></h5>
+                <h5 class="modal-title mt-0">Chat Message</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -147,7 +147,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label id="fees_percentage_label">Message</label>
-                            <textarea required placeholder="Chat Message" class="form-control" id="edit_chat_message" name="message"> 
+                            <textarea required rows="5" placeholder="Chat Message" class="form-control" id="edit_chat_message" name="message"> 
                             </textarea>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <button type="submit" id="submit_btn" class="btn btn-primary waves-effect waves-light">
-                               
+                               Update
                             </button>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-secondary waves-effect m-l-5">
                                 Cancel

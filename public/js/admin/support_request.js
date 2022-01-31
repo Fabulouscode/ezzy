@@ -38,6 +38,33 @@ $(function () {
     //         sendReply();
     //     }
     // });
+    $(document).on('submit', '#support_chat_msg_form', function (event) {
+        var reply_msg = $('#edit_chat_message').val();
+        var chat_id = $('#edit_chat_id').val();
+        if (reply_msg != '' && chat_id != '') {
+            $.ajax({
+                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                url: support_request_url + "/chat_msg/update",
+                type: "post",
+                data: { 'message': reply_msg, 'chat_id': chat_id },
+                dataType: 'json',
+                success: function (data) {
+                    toastr.success(data.msg, App_name_global);
+                    $('#edit_chat_message').val('');
+                    $('#edit_chat_id').val('');                    
+                    $('#editSupportChatMsg').modal('hide');
+                    getChatMessage();
+                    return false;
+                },
+                error: function (error) {
+                    toastr.error(error.responseJSON.msg, App_name_global);
+                }
+            });
+        }else{
+            toastr.success('Message is not update', App_name_global);
+        }
+        return false;
+    });
 });
 
 function getChatMessage() {
@@ -66,47 +93,24 @@ function getChatMessage() {
 }
 
 
-// function editChatMessage(chatId) {
-//     if (chatId != '') {
-//         $.ajax({
-//             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-//             url: support_request_url + "/chat_msg/get/"+chatId,
-//             type: "post",
-//             data: { 'message': reply_msg, 'chat_id': chat_id },
-//             dataType: 'json',
-//             success: function (data) {
-//                 $('#editSupportChatMsg').modal();
-//                 var reply_msg = $('#edit_chat_message').val();
-//                 var chat_id = $('#edit_chat_id').val();
-//             },
-//             error: function (error) {
-//                 toastr.error(error.responseJSON.msg, App_name_global);
-//             }
-//         });
-//     }
-// }
-
-// function updateChatMessage() {
-//     var reply_msg = $('#edit_chat_message').val();
-//     var chat_id = $('#edit_chat_id').val();
-//     if (reply_msg != '' && chat_id != '') {
-//         $.ajax({
-//             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-//             url: support_request_url + "/chat_msg/add",
-//             type: "post",
-//             data: { 'message': reply_msg, 'chat_id': chat_id },
-//             dataType: 'json',
-//             success: function (data) {
-//                 toastr.success(data.msg, App_name_global);
-//                 $('#reply_message').val('');
-//                 getChatMessage();
-//             },
-//             error: function (error) {
-//                 toastr.error(error.responseJSON.msg, App_name_global);
-//             }
-//         });
-//     }
-// }
+function editChatMessage(chatId) {
+    if (chatId != '') {
+        $.ajax({
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: support_request_url + "/chat_msg/get/"+chatId,
+            type: "get",
+            dataType: 'json',
+            success: function (data) {
+                $('#editSupportChatMsg').modal();
+                $('#edit_chat_message').val(data.data.message);
+                $('#edit_chat_id').val(data.data.id);
+            },
+            error: function (error) {
+                toastr.error(error.responseJSON.msg, App_name_global);
+            }
+        });
+    }
+}
 
 function deleteChatMessage(messageId) {
     if (messageId) {

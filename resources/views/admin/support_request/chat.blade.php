@@ -14,7 +14,7 @@
 			<div class="order-chat-area">
 				{!! $chat_msg->message !!}   
 				<div class="chat-actions">
-					<!-- <button class="chat-edit-btn" title="Edit Message"><i class="dripicons-pencil"></i></button> -->
+					<button onclick="editChatMessage({{$chat_msg->id}})" class="chat-edit-btn" title="Edit Message"><i class="dripicons-pencil"></i></button>
 					<button onclick="deleteChatMessage({{$chat_msg->id}})" class="chat-delete-btn" title="Delete Message"><i class="dripicons-trash"></i></button>
 				</div>      	    
              </div>
