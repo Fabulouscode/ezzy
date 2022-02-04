@@ -487,6 +487,12 @@ class AppointmentController extends BaseApiController
                         }
 
                         $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity - 1)], $request->voucher_code_id);    
+                        
+                        $updateuserVoucher = [
+                            'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : null,
+                            'voucher_amount'=> $voucher_amount_apply,
+                        ];
+                        $this->appointment_repo->dataCrud($updateuserVoucher, $data->id);
                     }
 
                 }
@@ -494,8 +500,6 @@ class AppointmentController extends BaseApiController
                 $updateuser = [
                     'hcp_fees'=> $hcp_fees,
                     'home_visit_fees'=> $home_visit_fees,
-                    'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : null,
-                    'voucher_amount'=> $voucher_amount_apply,
                 ];
                 $this->appointment_repo->dataCrud($updateuser, $data->id);
             }
@@ -762,7 +766,7 @@ class AppointmentController extends BaseApiController
                 ];
                 $this->appointment_repo->dataCrud($updaappoint, $request->id);      
                 if(!empty($appointment->voucher_code_id)){
-                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment->voucher_code_id, '1'); 
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment->voucher_code_id, '1'); 
                     if(!empty($voucher_code)){
                         $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity + 1)], $appointment->voucher_code_id);   
                         $updateVoucher = [
@@ -1071,7 +1075,7 @@ class AppointmentController extends BaseApiController
             $voucher_amount_apply = 0;
             $totalTransaction_amount = $transaction_amount;
             if(!empty($appointment_details->voucher_code_id)){
-                $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment_details->voucher_code_id, '1'); 
+                $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
                 if(!empty($voucher_code) && !empty($voucher_code->id)){
                     if(!empty($voucher_code->percentage)){
                         $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);

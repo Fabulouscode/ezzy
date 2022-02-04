@@ -144,7 +144,7 @@ class CronJobContrller extends BaseApiController
                     'transaction_id' => NULL,
                 ];
                 if(!empty($value->voucher_code_id)){
-                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($value->voucher_code_id, '1'); 
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($value->voucher_code_id, '1'); 
                     if(!empty($voucher_code)){
                         $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity + 1)], $value->voucher_code_id);   
                         $updateVoucher = [
@@ -302,7 +302,7 @@ class CronJobContrller extends BaseApiController
             $voucher_amount_apply = 0;
             $totalTransaction_amount = $transaction_amount;
             if(!empty($appointment_details->voucher_code_id)){
-                $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($appointment_details->voucher_code_id, '1'); 
+                $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
                 if(!empty($voucher_code) && !empty($voucher_code->id)){
                     if(!empty($voucher_code->percentage)){
                         $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
