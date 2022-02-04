@@ -532,7 +532,7 @@ class OrderController extends BaseApiController
 
             $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
             if(empty($voucher_code)){
-                return self::sendError('', 'Voucher Code is not available');
+                return self::sendError('', 'Voucher code does not exits');
             }
 
             $voucher_code_used = $this->order_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
@@ -550,10 +550,10 @@ class OrderController extends BaseApiController
                 }
 
                 if($voucher_code->min_amount > $transaction_amount){
-                    return self::sendError('', 'Voucher Code is not apply');
+                    return self::sendError('', 'Voucher code does not apply');
                 }
             }else{
-                return self::sendError('', 'Voucher Code is not available');
+                return self::sendError('', 'Voucher code does not exits');
             }
 
         }

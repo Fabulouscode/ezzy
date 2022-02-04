@@ -312,17 +312,17 @@ class AppointmentController extends BaseApiController
             $voucher_amount_apply = 0;
             $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
             if(empty($voucher_code)){
-                return self::sendError('', 'Voucher Code is not available');
+                return self::sendError('', 'Voucher code does not exits');
             }
 
             $voucher_code_used = $this->appointment_repo->checkVoucherCodeUsed($request->user()->id, $request->voucher_code_id); 
             if(!empty($voucher_code_used) && !empty($voucher_code) && !empty($voucher_code->id) && $voucher_code->voucher_used == '0'){
-                return self::sendError('', 'Voucher Code is already used');
+                return self::sendError('', 'Voucher code is already used');
             }
 
             if(!empty($voucher_code) && !empty($voucher_code->id)){
                 if($voucher_code->min_amount > $appointment_charges){
-                    return self::sendError('', 'Voucher Code is not apply');
+                    return self::sendError('', 'Voucher code does not apply');
                 }
             }
 
