@@ -310,7 +310,7 @@ class AppointmentController extends BaseApiController
         // coupon code check
         if(!empty($request->voucher_code_id)){
             $voucher_amount_apply = 0;
-            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '2'); 
+            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1');
             if(empty($voucher_code)){
                 return self::sendError('', 'Voucher code does not apply');
             }
