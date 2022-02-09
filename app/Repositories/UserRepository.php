@@ -837,13 +837,23 @@ class UserRepository extends Repository
         
             $query = $query->has('nonUrgentAppointmentDetails', '=', 0);  
 
-            $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
-                           ->where([
-                                    ['users.current_latitude', '!=', ''],
-                                    ['users.current_longitude', '!=', '']
-                                ])
-                           ->havingRaw('distance <= 200')
-                           ->orderBy('distance','asc');
+            if(!empty($request->distance)){
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                ->where([
+                         ['users.current_latitude', '!=', ''],
+                         ['users.current_longitude', '!=', '']
+                     ])
+                ->havingRaw('distance <= '.$request->distance)
+                ->orderBy('distance','asc');
+            }else{
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                ->where([
+                         ['users.current_latitude', '!=', ''],
+                         ['users.current_longitude', '!=', '']
+                     ])
+                ->havingRaw('distance <= 1200')
+                ->orderBy('distance','asc');
+            }
 
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
                     $query->select(DB::raw('avg(user_rating) as rating'));
@@ -869,7 +879,7 @@ class UserRepository extends Repository
                                         ['users.current_latitude', '!=', ''],
                                         ['users.current_longitude', '!=', '']
                                     ])
-                            ->havingRaw('distance <= 200')
+                            ->havingRaw('distance <= 1200')
                             ->orderBy('distance','asc');
                 
             }else{
