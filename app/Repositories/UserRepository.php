@@ -880,7 +880,7 @@ class UserRepository extends Repository
             $query = $query->has('nonUrgentAppointmentDetails', '=', 0);  
             
              // country name filter
-            if(!empty($request->country_names) && is_array($request->country_names) && isset($request->appointment_type) && $request->appointment_type == '2'){
+            if(!empty($request->country_names) && is_array($request->country_names) && isset($request->consultation) && $request->consultation == '2'){
                 $query = $query->whereHas('userDetails', function($query) use ($request){
                     $query->whereIn('country', $request->country_names);
                 }); 
