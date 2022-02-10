@@ -795,6 +795,13 @@ class UserRepository extends Repository
             }])->havingRaw('rating >= '. $request->rating)->orderBy('rating','desc');
             $query = $query->orderBy('id','desc');
         }   
+
+        // country name filter
+        if(!empty($request->country_names) && is_array($request->country_names)){
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                $query->whereIn('country', $request->country_names);
+            });            
+        }
         
         if((empty($request->distance) || empty($request->latitude) || empty($request->longitude)) && empty($request->rating)){
             $query = $query->withCount(['userAppointmentRating as rating' => function($query){
@@ -871,8 +878,13 @@ class UserRepository extends Repository
             $query = $query->has('urgenAppointmentDetails', '=', 0);  
         
             $query = $query->has('nonUrgentAppointmentDetails', '=', 0);  
-
-            if(!empty($request->user()->latitude) && !empty($request->user()->longitude)){
+            
+            if(!empty($request->country_names) && is_array($request->country_names) && isset($request->appointment_type) && $request->appointment_type == '2'){
+                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
+                $query = $query->orderBy('id','desc');
+            }else if(!empty($request->user()->latitude) && !empty($request->user()->longitude)){
 
                 $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->user()->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->user()->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->user()->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
                             ->where([
