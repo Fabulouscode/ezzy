@@ -35,6 +35,7 @@ $(function () {
             { data: 'user_name', name: 'user_name' },
             { data: 'email', name: 'users.email' },
             { data: 'mobile_no', name: 'mobile_no' },
+            { data: 'wallet_balance', name: 'wallet_balance' },
             { data: 'hcp_type', name: 'hcp_type' },
             { data: 'created_at', name: 'users.created_at', searchable: false },
             { data: 'practicing_licence_date', name: 'practicing_licence_date', searchable: false },
@@ -73,13 +74,16 @@ $(function () {
         initComplete: function (settings) {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
-            api.columns([0]).visible(showColumn);
-            if (data_obj.category_id == '') {
+            api.columns([0]).visible(showColumn);            
+            if (data_obj.category_id != '') {
                 api.columns([4]).visible(showColumn);
-                api.columns([7]).visible(showColumn);
+            }
+            if (data_obj.category_id == '') {
+                api.columns([5]).visible(showColumn);
+                api.columns([8]).visible(showColumn);
             }
             if (data_obj.status == '1') {
-                api.columns([7]).visible(showColumn);
+                api.columns([8]).visible(showColumn);
             }
             // if (data_obj.provider != "healthcare") {
             //     api.columns([6]).visible(showColumn);

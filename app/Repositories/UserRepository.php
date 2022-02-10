@@ -298,6 +298,9 @@ class UserRepository extends Repository
                 ->filterColumn('user_name', function ($query, $keyword) {
                     $query->whereRaw("concat(users.first_name, ' ', users.last_name) like ?", ["%$keyword%"]);
                 })
+                ->orderColumn('user_name', function ($query, $order) {
+                    $query->orderBy('users.first_name', $order)->orderBy('users.last_name', $order);
+                })
 
                 ->addColumn('mobile_no',function($selected)
                 {
@@ -305,6 +308,21 @@ class UserRepository extends Repository
                 })
                 ->filterColumn('mobile_no', function ($query, $keyword) {
                     $query->whereRaw("concat(users.country_code, ' ', users.mobile_no) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('mobile_no', function ($query, $order) {
+                    $query->orderBy('users.mobile_no', $order);
+                })
+
+                //wallet column
+                ->addColumn('wallet_balance',function($selected)
+                {
+                     return $selected->wallet_balance;
+                })
+                ->filterColumn('wallet_balance', function ($query, $keyword) {
+                    $query->whereRaw("users.wallet_balance like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('wallet_balance', function ($query, $order) {
+                    $query->orderBy('users.wallet_balance', $order);
                 })
 
                 ->editColumn('hcp_type',function($selected){
@@ -343,7 +361,7 @@ class UserRepository extends Repository
                     $query->orderBy('userDetails.practicing_licence_date', $order);
                 })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date'])
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance'])
                 ->make(true);
     }
     

@@ -104,6 +104,7 @@
                                     <th>User Name</th>
                                     <th>Email</th>
                                     <th>Mobile No.</th>
+                                    <th>Wallet Amount</th>
                                     <th>HCP Type</th>
                                     <th>Date of Joining</th>
                                     <th>Licence Expiry Date</th>
