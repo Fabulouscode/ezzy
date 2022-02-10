@@ -316,7 +316,7 @@ class UserRepository extends Repository
                 //wallet column
                 ->addColumn('wallet_balance',function($selected)
                 {
-                     return $selected->wallet_balance;
+                     return $this->currency_symbol.$selected->wallet_balance;
                 })
                 ->filterColumn('wallet_balance', function ($query, $keyword) {
                     $query->whereRaw("users.wallet_balance like ?", ["%$keyword%"]);
