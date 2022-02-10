@@ -90,6 +90,9 @@
                                         <option value=''>Select Status</option>
                                         <option value="0">Active</option>
                                         <option value="2">Inactive</option>
+                                        <option value="3">Pending Verify</option>
+                                        <!-- <option value="1">Wait for Approval</option>
+                                        <option value="4">Profile Not Complete</option> -->
                                     </select>       
                                 </div>
                             </div>
