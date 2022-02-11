@@ -107,7 +107,7 @@ class Appointment extends Model
     public function getStatusNameAttribute() {
         if($this->status == '1'){
             $current_time  =  Carbon::now();
-            // $current_time = $current_time->addMinute(1);
+            $current_time = $current_time->addMinute(1);
             if(!empty($this->appointment_end_date) && !empty($this->appointment_end_time) && $current_time > $this->appointment_end_date.' '.$this->appointment_end_time){
                 return array_key_exists($this->status, $this->status_value) ? 'Elapsed': '';
             }else{
