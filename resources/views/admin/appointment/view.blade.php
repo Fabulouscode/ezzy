@@ -165,6 +165,24 @@
                                                 </dd>
                                             </div> 
                                             @endif
+                                            @if(!empty($data->voucher_code_id) && !empty($data->voucherDetails))
+                                            <div class="row">
+                                                <dt class="col-sm-5"><label>Voucher Name </label></dt>
+                                                <dd class="col-sm-7"> 
+                                                    @if(isset($data->voucherDetails->voucher_name))
+                                                        {{$data->voucherDetails->voucher_name}}
+                                                    @endif 
+                                                </dd>
+                                            </div> 
+                                            <div class="row">
+                                                <dt class="col-sm-5"><label>Voucher Code </label></dt>
+                                                <dd class="col-sm-7"> 
+                                                    @if(isset($data->voucherDetails->voucher_code))
+                                                        {{$data->voucherDetails->voucher_code}}
+                                                    @endif 
+                                                </dd>
+                                            </div> 
+                                            @endif
                                         @else
                                             @if($data->appointment_type == '1')
                                                 <div class="row">
