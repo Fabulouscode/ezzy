@@ -72,6 +72,22 @@
                                         </dd>
                                     </div>
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment End Date</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->appointment_end_date))
+                                                {{Helper::getDateFormate($data->appointment_end_date)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment End Time</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->appointment_end_time))
+                                                {{Helper::getTimeFormate($data->appointment_end_time)}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Type of Appointment</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->appointment_type))
