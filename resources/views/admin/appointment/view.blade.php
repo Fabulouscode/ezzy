@@ -137,6 +137,7 @@
                                         </dd>
                                     </div>
                                     @endif
+                                   
                                     @if(!empty($data->completed_datetime))
                                         <div class="row">
                                             <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
@@ -146,7 +147,7 @@
                                                 @endif 
                                             </dd>
                                         </div>
-                                        @if($data->user->category_id != '8' || $data->user->category_id != '9' || $data->user->category_id != '10')
+                                        @if($data->user->category_id != '8' && $data->user->category_id != '9' && $data->user->category_id != '10')
                                             <div class="row">
                                                 <dt class="col-sm-5"><label>Appointment Charge</label></dt>
                                                 <dd class="col-sm-7"> 
@@ -183,7 +184,7 @@
                                                 </dd>
                                             </div> 
                                             @endif
-                                        @else
+                                        @else                                      
                                             @if($data->appointment_type == '1')
                                                 <div class="row">
                                                     <dt class="col-sm-5"><label>Home Visit Charge</label></dt>
