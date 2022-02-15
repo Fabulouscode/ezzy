@@ -92,6 +92,8 @@ class UserServiceRepository extends Repository
                          $data .= '<div class="badge badge-success">per Hours</div>';
                     }else if($selected->service_charge_type == '3'){
                          $data .= '<div class="badge badge-success">per Day</div>';
+                    }else {
+                         $data .= '---';
                     }
                     return $data;
                 })

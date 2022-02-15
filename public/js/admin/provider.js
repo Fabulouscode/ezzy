@@ -208,9 +208,9 @@ $(function () {
             var api = new $.fn.dataTable.Api(settings);
             var showColumn = false;
             api.columns([0]).visible(showColumn);
-            if (data_obj.provider == 'laboratories') {
-                api.columns([2]).visible(showColumn);
-            }
+            // if (data_obj.provider == 'laboratories') {
+            //     api.columns([2]).visible(showColumn);
+            // }
         }
     });
     // var segment_str = window.location.pathname;
