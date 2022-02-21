@@ -26,7 +26,7 @@ class UserRegisterMobileRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|numeric|starts_with: 1,2,3,4,5,6,7,8,9|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
+           'mobile_no' => 'required|numeric|starts_with: 1,1,2,3,4,5,6,7,8,9|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
            'country_code'=> 'required',
         ];
     }
@@ -34,7 +34,7 @@ class UserRegisterMobileRequest extends FormRequest
     protected function failedValidation(Validator $validator) {
         $transformed=[];       
         foreach ($validator->errors()->toArray() as $field => $message) {
-            if(!empty($message) && count($message) > 0 && $field == 'mobile_no' && $message[0] == 'The mobile no must start with one of the following:  1, 2, 3, 4, 5, 6, 7, 8, 9.'){
+            if(!empty($message) && count($message) > 0 && $field == 'mobile_no' && $message[0] == 'The mobile no must start with one of the following:  1, 1, 2, 3, 4, 5, 6, 7, 8, 9.'){
                 $transformed[$field] = 'The mobile no not start to 0.';
             }else{
                 $transformed[$field] = $message[0];
