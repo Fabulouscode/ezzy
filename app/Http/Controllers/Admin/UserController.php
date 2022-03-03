@@ -422,6 +422,7 @@ class UserController extends Controller
         try{
             DB::beginTransaction();
             if(!empty($data)){
+                $this->user_service_repo->deleteByUserId($id); 
                 $this->support_request_repo->deleteByUserId($id); 
                 $this->user_available_time_repo->deleteByUserId($id); 
                 $this->user_location_repo->deleteByUserId($id); 
