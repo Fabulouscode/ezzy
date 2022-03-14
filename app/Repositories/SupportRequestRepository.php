@@ -52,6 +52,7 @@ class SupportRequestRepository extends Repository
     {
         $query = $this->model->with(['userDetails']);    
         $query = $query->orderBy('id','desc')->get();
+
         return $query;
     }
 
@@ -101,7 +102,7 @@ class SupportRequestRepository extends Repository
                 {
                     $data = '';
                     if(!empty($selected->description)){
-                       $data = strlen($selected->description) > 50 ? substr($selected->description,0,50)."..." : $selected->description;
+                       $data = strlen($selected->description) > 50 ? json_encode(substr($selected->description,0,50))."..." : json_encode($selected->description);
                     }
                     return $data;
                 })
