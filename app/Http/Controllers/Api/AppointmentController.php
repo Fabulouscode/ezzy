@@ -307,10 +307,13 @@ class AppointmentController extends BaseApiController
         $appointment_charges = Self::calculateAppointmentCharges($request);
         $currency_symbol = $this->user_repo->currency_symbol;
 
-        // coupon code check
-        if(!empty($request->voucher_code_id)){
+        // coupon code check 1-Healthcare, 3-Lab, 4-Radiologies
+        if(!empty($request->voucher_code_id) && !empty($request->voucher_code_type)){
+
             $voucher_amount_apply = 0;
-            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1');
+            $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, $request->voucher_code_type);
+            // $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1');
+
             if(empty($voucher_code)){
                 return self::sendError('', 'Voucher code does not apply');
             }
@@ -396,6 +399,7 @@ class AppointmentController extends BaseApiController
                         'address' => isset($appointment_address) ? $appointment_address : '',
                         'city' => isset($request->city) ? $request->city : '',
                         'country' => isset($request->country) ? $request->country : '',
+                        'voucher_code_type' => isset($request->voucher_code_type) ? $request->voucher_code_type : 1,
                         'status' => '0',
                     ];
              
@@ -472,8 +476,10 @@ class AppointmentController extends BaseApiController
                 } 
 
                 $voucher_amount_apply = 0;
-                if(!empty($request->voucher_code_id)){
-                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1'); 
+                // coupon code  1-Healthcare, 3-Lab, 4-Radiologies
+                if(!empty($request->voucher_code_id) && !empty($request->voucher_code_type)){
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, $request->voucher_code_type);
+                    // $voucher_code = $this->voucher_code_repo->getbyIdVoucherType($request->voucher_code_id, '1'); 
                     if(!empty($voucher_code) && !empty($voucher_code->id)){
                         
                         if(!empty($voucher_code->percentage)){
@@ -491,6 +497,7 @@ class AppointmentController extends BaseApiController
                         $updateuserVoucher = [
                             'voucher_code_id'=> (!empty($request->voucher_code_id)) ? $request->voucher_code_id : null,
                             'voucher_amount'=> $voucher_amount_apply,
+                            'voucher_code_type' => isset($request->voucher_code_type) ? $request->voucher_code_type : 1,
                         ];
                         $this->appointment_repo->dataCrud($updateuserVoucher, $data->id);
                     }
@@ -765,8 +772,10 @@ class AppointmentController extends BaseApiController
                     'transaction_id'=> NULL,
                 ];
                 $this->appointment_repo->dataCrud($updaappoint, $request->id);      
-                if(!empty($appointment->voucher_code_id)){
-                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment->voucher_code_id, '1'); 
+                if(!empty($appointment->voucher_code_id) && !empty($appointment->voucher_code_type)){
+                    // coupon code  1-Healthcare, 3-Lab, 4-Radiologies
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment->voucher_code_id, $appointment->voucher_code_type);
+                    // $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment->voucher_code_id, '1'); 
                     if(!empty($voucher_code)){
                         $this->voucher_code_repo->dataCrud(['quantity' => ($voucher_code->quantity + 1)], $appointment->voucher_code_id);   
                         $updateVoucher = [
@@ -1074,8 +1083,10 @@ class AppointmentController extends BaseApiController
 
             $voucher_amount_apply = 0;
             $totalTransaction_amount = $transaction_amount;
-            if(!empty($appointment_details->voucher_code_id)){
-                $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
+            if(!empty($appointment_details->voucher_code_id) && !empty($appointment_details->voucher_code_type)){
+                // coupon code  1-Healthcare, 3-Lab, 4-Radiologies
+                $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, $appointment_details->voucher_code_type);
+                // $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
                 if(!empty($voucher_code) && !empty($voucher_code->id)){
                     if(!empty($voucher_code->percentage)){
                         $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);

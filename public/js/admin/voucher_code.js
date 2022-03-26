@@ -15,6 +15,7 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
+            { data: 'voucher_type_name', name: 'voucher_type_name' },
             { data: 'voucher_name', name: 'voucher_name' },
             { data: 'voucher_code', name: 'voucher_code' },
             { data: 'quantity', name: 'quantity' },

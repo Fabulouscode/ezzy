@@ -97,7 +97,8 @@ class Appointment extends Model
         'accepted_date',
         'appointment_end_date',
         'appointment_end_time',
-        'start_datetime'
+        'start_datetime',
+        'voucher_code_type'
     ];
 
     protected $appends = ['invoice_no_generate','start_to_end_time_diff','start_to_end_time_diff_format','status_name','gender_name','appointment_type_name','urgent_appointment_book_charges'];

@@ -18,6 +18,8 @@ class Voucher_code extends Model
         // '0' => 'Common',
         '1' => 'Appointment',
         '2' => 'Order',
+        '3' => 'Laboratory Appointment',
+        '4' => 'Radiology Appointment',
     );
  
     public $voucher_used_value = array(
