@@ -193,9 +193,13 @@ $(function () {
     });
 
     $('#user-date-range').daterangepicker({
-        startDate: moment().subtract(1, 'years'),
-        endDate: moment(),
+        // startDate: moment().subtract(1, 'years'),
+        // endDate: moment(),
         maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
         alwaysShowCalendars: true,
         opens: "right",
         ranges: {
@@ -210,6 +214,7 @@ $(function () {
     $('#user-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#transaction_datatable').dataTable();
         oTable.fnDraw(true);
     });

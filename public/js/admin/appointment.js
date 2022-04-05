@@ -1,8 +1,8 @@
 
 $(function () {
     $("form[name='appointment_form']").parsley();
-    $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
-    $('#end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
+    // $('#end_date').val(moment().format("YYYY-MM-DD"));
 
     $('#appointments_datatable').DataTable({
         lengthChange: true,
@@ -98,9 +98,13 @@ $(function () {
     });
 
     $('#appointment-date-range').daterangepicker({
-        startDate: moment().subtract(3, 'months'),
-        endDate: moment(),
+        // startDate: moment().subtract(3, 'months'),
+        // endDate: moment(),
         maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
         alwaysShowCalendars: true,
         opens: "center",
         ranges: {
@@ -115,6 +119,7 @@ $(function () {
     $('#appointment-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#appointments_datatable').dataTable();
         oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();

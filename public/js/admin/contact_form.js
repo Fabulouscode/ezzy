@@ -1,7 +1,7 @@
 
 $(function () {
-    $('#contact_start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
-    $('#contact_end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#contact_start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
+    // $('#contact_end_date').val(moment().format("YYYY-MM-DD"));
 
     $('#contact_form_datatable').DataTable({
         lengthChange: true,
@@ -38,9 +38,13 @@ $(function () {
     });
 
     $('#contact-date-range').daterangepicker({
-        startDate: moment().subtract(1, 'years'),
-        endDate: moment(),
+        // startDate: moment().subtract(1, 'years'),
+        // endDate: moment(),
         maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
         alwaysShowCalendars: true,
         opens: "right",
         ranges: {
@@ -56,6 +60,7 @@ $(function () {
     $('#contact-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#contact_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#contact_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#contact_form_datatable').dataTable();
         oTable.fnDraw(true);
     });

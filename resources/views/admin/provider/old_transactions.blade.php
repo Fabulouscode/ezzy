@@ -118,8 +118,8 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
-    $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
-    $('#end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
+    // $('#end_date').val(moment().format("YYYY-MM-DD"));
     var data_obj = {};
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>

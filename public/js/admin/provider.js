@@ -4,8 +4,8 @@ $(function () {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var searchHCPtype = url.searchParams.get("hcp_type");
-    $('#user_start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
-    $('#user_end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#user_start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
+    // $('#user_end_date').val(moment().format("YYYY-MM-DD"));
 
     $('#user_datatable').DataTable({
         lengthChange: true,
@@ -248,9 +248,13 @@ $(function () {
     });
 
     $('#user-date-range').daterangepicker({
-        startDate: moment().subtract(1, 'years'),
-        endDate: moment(),
+        // startDate: moment().subtract(1, 'years'),
+        // endDate: moment(),
         maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
         alwaysShowCalendars: true,
         opens: "right",
         ranges: {
@@ -265,14 +269,19 @@ $(function () {
     $('#user-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#user_datatable').dataTable();
         oTable.fnDraw(true);
     });
 
     $('#transaction-date-range').daterangepicker({
-        startDate: moment().subtract(30, 'days'),
-        endDate: moment(),
+        // startDate: moment().subtract(30, 'days'),
+        // endDate: moment(),
         maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
         alwaysShowCalendars: true,
         opens: "right",
         ranges: {
@@ -287,6 +296,7 @@ $(function () {
     $('#transaction-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#user_transaction_datatable').dataTable();
         oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();

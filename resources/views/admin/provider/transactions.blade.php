@@ -173,8 +173,8 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
-    $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
-    $('#end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
+    // $('#end_date').val(moment().format("YYYY-MM-DD"));
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';
