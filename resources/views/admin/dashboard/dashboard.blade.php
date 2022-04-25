@@ -192,6 +192,64 @@
     </div>
 
     <div class="row">
+        <div class="col-xl-4 col-md-6">
+            <div class="card d-card-part bg-primary mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-document float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Patient Wallet</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_total']) ? $data['patient_wallet_total'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_today']) ? $data['patient_wallet_today'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="card d-card-part bg-secondary mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-document float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">HCP Wallet</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_total']) ? $data['hcp_wallet_total'] : '0'}}</span></h6>
+                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_today']) ? $data['hcp_wallet_today'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="card d-card-part bg-success mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-document float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Total Withdraw</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_pending']) ? $data['withdraw_pending'] : '0'}}</span></h6>
+                            <h6>In Progress <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_inprogress']) ? $data['withdraw_inprogress'] : '0'}}</span></h6>
+                            <h6>Confirmed <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_confirmed']) ? $data['withdraw_confirmed'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-xl-8">
             <div class="card m-b-30">
                 <div class="card-body">
