@@ -8,6 +8,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\UserDetailsRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ContactDetailsRepository;
+use App\Repositories\UserTransactionRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -20,13 +21,14 @@ use App\Http\Helpers\Helper;
 
 class UserController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $appointment_repo, $contact_repo;
+    private $user_repo, $user_details_repo, $appointment_repo, $contact_repo, $user_transaction_repo;
 
     public function __construct(
         UserRepository $user_repo, 
         UserDetailsRepository $user_details_repo,
         AppointmentRepository $appointment_repo,
-        ContactDetailsRepository $contact_repo
+        ContactDetailsRepository $contact_repo,
+        UserTransactionRepository $user_transaction_repo
     )
     {
         parent::__construct();
@@ -34,6 +36,7 @@ class UserController extends BaseApiController
         $this->user_details_repo = $user_details_repo;
         $this->appointment_repo = $appointment_repo;
         $this->contact_repo = $contact_repo;
+        $this->user_transaction_repo = $user_transaction_repo;
     }
 
 
@@ -202,5 +205,12 @@ class UserController extends BaseApiController
         }catch(\Exception $e){
             return self::sendException($e);
         }
+    }
+
+    // add payout history
+    public function getPayoutHistory(Request $request)
+    {
+        $payout_list = $this->user_transaction_repo->getHCPPayoutHistory($request);
+        return self::sendSuccess($payout_list, 'User Payout');
     }
 }

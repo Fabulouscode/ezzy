@@ -219,6 +219,11 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/deduction', 'WalletController@deductionWalletBalance');
                 Route::get('/get/balance', 'WalletController@getWalletBalance');
             });
+        
+            // payout request
+            Route::prefix('payout')->group(function(){
+                Route::post('/list', 'UserController@getPayoutHistory');
+            });
 
         });
         

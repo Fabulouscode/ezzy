@@ -621,4 +621,24 @@ class UserTransactionRepository extends Repository
         ->where('payment_gateway_response', $reference)
         ->where('status', '2')->orderBy('id','desc')->first();
     }
+
+    public function getHCPPayoutHistory($request)
+    {
+       
+        $query = $this->model;
+        
+        if(!empty($request->last_id)){
+            $query = $query->where('id', '<', $request->last_id);    
+        }            
+     
+        $query = $query->where('client_id',$request->user()->id);     
+     
+        $query = $query->where('status','0')->orderBy('id','desc');
+
+        $query = $query->limit($this->api_data_limit);
+
+        $query = $query->get();
+        
+        return $query;
+    }
 }
