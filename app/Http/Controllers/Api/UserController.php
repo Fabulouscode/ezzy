@@ -207,10 +207,4 @@ class UserController extends BaseApiController
         }
     }
 
-    // add payout history
-    public function getPayoutHistory(Request $request)
-    {
-        $payout_list = $this->user_transaction_repo->getHCPPayoutHistory($request);
-        return self::sendSuccess($payout_list, 'User Payout');
-    }
 }

@@ -60,6 +60,15 @@ class Helper
     /**
      * get timestamp formate date and time
      */  
+    public static function currncyNumberFormat($amount)
+    {
+        $amount = number_format($amount, 2, ".", ",");
+        return '₦ '.$amount;
+    }
+
+    /**
+     * get timestamp formate date and time
+     */  
     public static function getDateTimeLocalFormate($date_time, $timezone)
     { 
         $date_time_formate = new Carbon($date_time);

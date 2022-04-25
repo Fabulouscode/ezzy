@@ -222,7 +222,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         
             // payout request
             Route::prefix('payout')->group(function(){
-                Route::post('/list', 'UserController@getPayoutHistory');
+                Route::post('/list', 'DashboardController@getPayoutHistory');
+                Route::get('/get', 'DashboardController@getPayoutCompleteAndPending');
             });
 
         });

@@ -139,6 +139,49 @@ class UserTransactionRepository extends Repository
     {
         return $this->model->where('wallet_transaction','1')->where('mode_of_payment', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
     }
+
+    public function getPatientWalletCalculate($today = 0 ,$modeType = 0)
+    {
+        $query = $this->model->where('mode_of_payment', $modeType);
+        if(!empty($today)){
+            $query = $query->whereDate('created_at',Carbon::now());
+        }
+        if(isset($modeType) && $modeType == 0){
+            $query = $query->where('wallet_transaction', 1);
+        }else{
+            $query = $query->where('wallet_transaction', 0);
+        }
+        $query =  $query->where('status', '0')                 
+                    ->sum('amount');
+        return $query;
+    }
+
+    public function getHCPWalletCalculate($today = 0)
+    {
+        $query = $this->model->where('mode_of_payment', 1)->whereNotNull('client_id');
+        if(!empty($today)){
+            $query = $query->whereDate('created_at',Carbon::now());
+        }
+        $query =  $query->where('wallet_transaction','0')                            
+                    ->where('status', '0')                 
+                    ->sum('payout_amount');
+        return $query;
+    }
+ 
+    public function getHCPPayoutWalletCalculate($payoutStatus = 1)
+    {
+        $query = $this->model->where('mode_of_payment', 1)->whereNotNull('client_id');
+
+        if(isset($payoutStatus)){
+            $query = $query->where('payout_status', $payoutStatus);
+        }
+        
+        $query = $query->where('status', '0');
+
+        $data = $query->sum('payout_amount');
+
+        return $data;
+    }
    
     public function getHCPTYPEWalletBalanceDateRange($request)
     {
@@ -327,7 +370,23 @@ class UserTransactionRepository extends Repository
 
         return $data;
     }
-  
+
+    public function getHCPPayoutCalculation($request, $status)
+    {
+        $query = $this->model;
+               
+        $query = $query->where('client_id',$request->user()->id);   
+
+        if(isset($status)){
+            $query = $query->where('payout_status', $status);
+        }
+        
+        $query = $query->where('status', '0');
+
+        $data = $query->sum('payout_amount');
+
+        return $data;
+    } 
     
 
     public function getDatatablebyUserId($request)

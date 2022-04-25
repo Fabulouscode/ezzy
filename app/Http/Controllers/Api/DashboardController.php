@@ -210,7 +210,7 @@ class DashboardController extends BaseApiController
         $data = $this->payout_repo->getPayoutAmoutHistory($request)->map(function ($response){
                                             return [
                                                 'id'=>$response->id,
-                                                'amount'=>$response->amount,
+                                                'amount'=>$response->payable_amount,
                                                 'approved_date'=>$response->approved_date,
                                                 'bank_transaction_id'=>$response->bank_transaction_id,
                                                 'appointment_time'=>$response->appointment_time,
@@ -277,5 +277,22 @@ class DashboardController extends BaseApiController
         }    
         return self::sendSuccess(false, 'user chat module hide');
     }
+
+     // get payout history
+     public function getPayoutHistory(Request $request)
+     {
+         $payout_list = $this->user_trans_repo->getHCPPayoutHistory($request);
+         return self::sendSuccess($payout_list, 'User Payout');
+     }
+ 
+     // get payout history
+     public function getPayoutCompleteAndPending(Request $request)
+     {      
+         $data= [];
+         $data['approved'] = $this->user_trans_repo->getHCPPayoutCalculation($request, 0);
+         $data['pending'] = $this->user_trans_repo->getHCPPayoutCalculation($request, 1);
+         $data['in_progress'] = $this->user_trans_repo->getHCPPayoutCalculation($request, 3);
+         return self::sendSuccess($data, 'User Payout ');
+     }
  
 }
