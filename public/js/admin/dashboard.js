@@ -117,7 +117,11 @@ $(function () {
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
          }
     });
-    getAreaChart();
+
+    if(main_dashboard_permission && main_dashboard_permission == '1'){
+        getAreaChart();
+    }
+
     $('#count-chart-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#count_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#count_end_date').val(picker.endDate.format('YYYY-MM-DD'));
@@ -141,7 +145,10 @@ $(function () {
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
          }
     });
-    getBarChart();
+    if(main_dashboard_permission && main_dashboard_permission == '1'){
+        getBarChart();
+    }
+
     $('#revenue-chart-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#revenue_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#revenue_end_date').val(picker.endDate.format('YYYY-MM-DD'));
@@ -165,7 +172,10 @@ $(function () {
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
          }
     });
-    getAppointmentAndOrderEarning();
+    if(main_dashboard_permission && main_dashboard_permission == '1'){
+        getAppointmentAndOrderEarning();
+    }
+
     $('#earning-chart-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#earning_start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#earning_end_date').val(picker.endDate.format('YYYY-MM-DD'));

@@ -15,6 +15,7 @@
             <h5 class="page-title">Dashboard</h5>
         </div>
     </div>
+
     @can('main-dashboard')
     <div class="row">
         <div class="col-xl-3 col-md-6">
@@ -399,9 +400,11 @@
             </div>
         </div>
     </div>
-
+    
+    @endcan
     <div class="row">
         <div class="col-xl-12">
+           
             @can('appointments-list')
             <div class="card m-b-30">
                 <div class="card-body">
@@ -470,12 +473,13 @@
             @endcan
         </div>
     </div>
-    @endcan
+
 </div><!-- container fluid End -->
 
 @endsection
 @section('script')
 <script>
+    var main_dashboard_permission = "{{(Auth::user()->hasPermissionTo('main-dashboard')) ? true : false}}";
     var appointment_url = "{{url('/donotezzycaretouch/appointment')}}";
     var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
     var dashboard_url = "{{url('/donotezzycaretouch/')}}";
