@@ -114,14 +114,22 @@
                     </ul>
                 </li>
                 @endif
+                @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('payout-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
+                        @can('payout-list')
                         <li><a href="{{url('/donotezzycaretouch/payout/pending')}}">Pending Payout</a></li>
+                        @endcan
+                        @can('payout-list')
                         <li><a href="{{url('/donotezzycaretouch/payout')}}">Approved Payout</a></li>
+                        @endcan
+                        @can('payout-list')
                         <li><a href="{{url('/donotezzycaretouch/transaction/list')}}">Transaction List</a></li>
+                        @endcan
                     </ul>
                 </li>
+                @endif
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('medicine_category-list','medicine_subcategory-list','medicine_details-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-duplicate"></i> <span> Manage Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>

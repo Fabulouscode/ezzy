@@ -663,12 +663,14 @@ class UserTransactionRepository extends Repository
             { 
                 $data = '';
                 if($selected->payout_status == '3'){
-                // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout Transaction Details Add" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->sum_amount.'" data-deduction="'.$selected->sum_fees_charge.'" data-payout_amount="'.$selected->sum_payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    if (Auth::user()->hasPermissionTo('payout-add')) {
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Payout Transaction Details Add" id="payout-rows"  data-user_id="'.$selected->client_id.'" data-amount="'.$selected->sum_amount.'" data-deduction="'.$selected->sum_fees_charge.'" data-payout_amount="'.$selected->sum_payout_total.'" onclick="editRow(this)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+                    }
                 }
                 if($selected->payout_status == '1'){
-                // if (Auth::user()->hasPermissionTo('payout-edit')) {
-                    $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="Payout Approved" id="payout-rows"   onclick="payoutUser('.$selected->client_id.')"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
+                    if (Auth::user()->hasPermissionTo('payout-add')) {
+                        $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="Payout Approved" id="payout-rows"   onclick="payoutUser('.$selected->client_id.')"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
+                    }
                 }
                 return $data;
             })

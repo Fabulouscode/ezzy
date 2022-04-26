@@ -23,13 +23,14 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                
+                    @can('payout-add')
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="exportExcel()" class="btn btn-info">Export</a>
                     </div>
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="payout()" class="btn btn-info">Payout Approved</a>
                     </div>
+                    @endcan
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>

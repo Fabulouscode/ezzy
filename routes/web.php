@@ -124,14 +124,14 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
      
         // payout routes         
-        Route::get('payout/pending', 'PayoutAmountController@getPendingPayout');
-        Route::post('payout/data', 'PayoutAmountController@getPayouts');
-        Route::post('payout/status', 'PayoutAmountController@savePayoutsInprocess');        
-        Route::get('payout/status/user/{user_id?}', 'PayoutAmountController@savePayoutsInprocessByUser');        
-        Route::post('payout/paid', 'PayoutAmountController@savePayoutTransaction');
-        Route::post('payout/export', 'PayoutAmountController@getPayoutExport');
-        Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory');
-        Route::resource('payout', 'PayoutAmountController');
+        Route::get('payout/pending', 'PayoutAmountController@getPendingPayout')->middleware('role-permission:payout-list');
+        Route::post('payout/data', 'PayoutAmountController@getPayouts')->middleware('role-permission:payout-list');
+        Route::post('payout/status', 'PayoutAmountController@savePayoutsInprocess')->middleware('role-permission:payout-add');       
+        Route::get('payout/status/user/{user_id?}', 'PayoutAmountController@savePayoutsInprocessByUser')->middleware('role-permission:payout-add');       
+        Route::post('payout/paid', 'PayoutAmountController@savePayoutTransaction')->middleware('role-permission:payout-add');
+        Route::post('payout/export', 'PayoutAmountController@getPayoutExport')->middleware('role-permission:payout-add');
+        Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory')->middleware('role-permission:payout-list');
+        Route::resource('payout', 'PayoutAmountController')->middleware('role-permission-resource:payout-list,payout-add');
 
         //
         Route::get('transaction/list', 'PayoutAmountController@getTransactionList');
