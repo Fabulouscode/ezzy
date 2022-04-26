@@ -544,6 +544,15 @@ class UserTransactionRepository extends Repository
         if(isset($request->payout_status)){
             $query = $query->where('user_transactions.payout_status', '!=', '0');
         }
+        $query = $query->where(function($query) use ($request){
+            $query = $query->orWhereHas('transactionAppointment', function ($query) use ($request) {
+                $query->whereIn('status', [5,6]);
+            });
+
+            $query = $query->orWhereHas('transactionOrder', function ($query) use ($request) {
+                $query->whereIn('status', [3,4]);
+            });
+        });
 
         if(!empty($request->category_id)){
             $query = $query->whereHas('client', function ($query) use ($request) {
