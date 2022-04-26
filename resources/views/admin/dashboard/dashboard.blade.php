@@ -15,6 +15,7 @@
             <h5 class="page-title">Dashboard</h5>
         </div>
     </div>
+    @can('main-dashboard')
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <a href="{{url('/donotezzycaretouch/healthcare/user')}}">
@@ -469,7 +470,7 @@
             @endcan
         </div>
     </div>
-
+    @endcan
 </div><!-- container fluid End -->
 
 @endsection
