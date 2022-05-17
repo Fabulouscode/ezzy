@@ -399,7 +399,16 @@ class AppointmentRepository extends Repository
                     $query->orderBy('appointments.status', $order);
                 })
 
-                ->rawColumns(['action','hcp_type','appointment_type','status'])
+                
+                ->editColumn('appointment_no',function($selected)
+                {
+                    return '<a href="'.url('donotezzycaretouch/appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
+                })
+                ->orderColumn('appointment_no', function ($query, $order) {
+                    $query->orderBy('appointments.id', $order);
+                })
+
+                ->rawColumns(['action','hcp_type','appointment_type','status','appointment_no'])
                 ->make(true);
     }
 

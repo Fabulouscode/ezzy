@@ -19,6 +19,7 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'appointments.id', searchable: false },
+            { data: 'appointment_no', name: 'appointment_no', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'hcp_type', name: 'hcp_type' },
@@ -53,6 +54,7 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'appointments.id', searchable: false },
+            { data: 'appointment_no', name: 'appointment_no', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'hcp_type', name: 'hcp_type' },
@@ -86,6 +88,7 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'orders.id', searchable: false },
+            { data: 'order_no', name: 'order_no', searchable: false },
             { data: 'user_name', name: 'user_name' },
             { data: 'service_provider', name: 'service_provider' },
             { data: 'status', name: 'status' },

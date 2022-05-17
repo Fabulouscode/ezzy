@@ -414,6 +414,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Appointment Id</th>
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>HCP Type</th>
@@ -437,6 +438,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Order Id</th>
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>Status</th>
@@ -457,6 +459,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Appointment Id</th>
                                     <th>User Name</th>
                                     <th>Service Provider Name</th>
                                     <th>HCP Type</th>

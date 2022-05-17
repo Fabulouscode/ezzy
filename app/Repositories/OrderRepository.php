@@ -292,7 +292,15 @@ class OrderRepository extends Repository
                     $query->orderBy('orders.created_at', $order);
                 })
 
-                ->rawColumns(['action','status','created_at'])
+                ->editColumn('order_no',function($selected)
+                {
+                    return '<a href="'.url('donotezzycaretouch/pharmacy/order/'.$selected->id).'" target="_blank">#'.$selected->id.' Order</a>';
+                })
+                ->orderColumn('order_no', function ($query, $order) {
+                    $query->orderBy('orders.id', $order);
+                })
+
+                ->rawColumns(['action','status','created_at','order_no'])
                 ->make(true);
         
     }
