@@ -156,12 +156,21 @@ class UserTransactionRepository extends Repository
         return $query;
     }
 
-    public function getHCPWalletCalculate($today = 0)
+    public function getHCPWalletCalculate($category_id = 0, $today = 0)
     {
         $query = $this->model->where('mode_of_payment', 1)->whereNotNull('client_id');
         if(!empty($today)){
             $query = $query->whereDate('created_at',Carbon::now());
         }
+
+        if(!empty($category_id)){
+            $query = $query->whereHas('client', function ($query) use ($category_id) {
+                $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                    $query->where('parent_id', $category_id);
+                });
+            });           
+        }
+
         $query =  $query->where('wallet_transaction','0')                            
                     ->where('status', '0')                 
                     ->sum('payout_amount');
@@ -176,7 +185,7 @@ class UserTransactionRepository extends Repository
             $query = $query->where('payout_status', $payoutStatus);
         }
         
-        $query = $query->where('status', '0');
+        $query = $query->where('status', '0')->where('wallet_transaction','0');
 
         $data = $query->sum('payout_amount');
 

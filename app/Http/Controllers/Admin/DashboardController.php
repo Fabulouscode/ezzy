@@ -163,9 +163,15 @@ class DashboardController extends Controller
             $data['patient_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(0, 0) - $this->user_transaction_repo->getPatientWalletCalculate(0, 1)); 
             $data['patient_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(1, 0) - $this->user_transaction_repo->getPatientWalletCalculate(1, 1)); 
 
-            $data['hcp_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(0)); 
-            $data['hcp_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(1)); 
-
+            $data['hcp_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(1,0)); 
+            $data['hcp_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(1,1)); 
+          
+            $data['pharmacy_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(2,0)); 
+            $data['pharmacy_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(2,1)); 
+           
+            $data['laboratories_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(3,0)); 
+            $data['laboratories_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(3,1)); 
+            
             $data['withdraw_pending'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('1')); 
             $data['withdraw_inprogress'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('3')); 
             $data['withdraw_confirmed'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('0')); 
