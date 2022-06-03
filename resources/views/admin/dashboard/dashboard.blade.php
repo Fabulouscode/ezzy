@@ -266,7 +266,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -285,7 +285,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
@@ -304,7 +304,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">
