@@ -172,9 +172,17 @@ class DashboardController extends Controller
             $data['laboratories_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(3,0)); 
             $data['laboratories_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(3,1)); 
             
-            $data['withdraw_pending'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('1')); 
-            $data['withdraw_inprogress'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('3')); 
-            $data['withdraw_confirmed'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate('0')); 
+            $data['hcp_withdraw_pending'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(1, '1')); 
+            $data['hcp_withdraw_inprogress'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(1, '3')); 
+            $data['hcp_withdraw_confirmed'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(1, '0')); 
+           
+            $data['pharmacy_withdraw_pending'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(2, '1')); 
+            $data['pharmacy_withdraw_inprogress'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(2, '3')); 
+            $data['pharmacy_withdraw_confirmed'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(2, '0')); 
+            
+            $data['laboratories_withdraw_pending'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(3, '1')); 
+            $data['laboratories_withdraw_inprogress'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(3, '3')); 
+            $data['laboratories_withdraw_confirmed'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPPayoutWalletCalculate(3, '0')); 
 
             $currency_symbol = $this->user_transaction_repo->currency_symbol;
             

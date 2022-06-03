@@ -272,14 +272,52 @@
                     <div class="mini-stat-icon">
                         <i class="dripicons-document float-right mb-0"></i>
                     </div>
-                    <h6 class="mb-0">Total Withdraw</h6>
+                    <h6 class="mb-0">HCP Total Withdraw</h6>
                 </div>
                 <div class="card-body d-card-body">
                     <div class="mt-2 text-muted">
                         <div class="d-flex justify-content-between">
-                            <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_pending']) ? $data['withdraw_pending'] : '0'}}</span></h6>
-                            <h6>In Progress <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_inprogress']) ? $data['withdraw_inprogress'] : '0'}}</span></h6>
-                            <h6>Confirmed <span class="d-block mb-1 d-number-count">{{ isset($data['withdraw_confirmed']) ? $data['withdraw_confirmed'] : '0'}}</span> </h6>
+                            <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_withdraw_pending']) ? $data['hcp_withdraw_pending'] : '0'}}</span></h6>
+                            <h6>In Progress <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_withdraw_inprogress']) ? $data['hcp_withdraw_inprogress'] : '0'}}</span></h6>
+                            <h6>Confirmed <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_withdraw_confirmed']) ? $data['hcp_withdraw_confirmed'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card d-card-part bg-success mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-document float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Pharmacy Total Withdraw</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_withdraw_pending']) ? $data['pharmacy_withdraw_pending'] : '0'}}</span></h6>
+                            <h6>In Progress <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_withdraw_inprogress']) ? $data['pharmacy_withdraw_inprogress'] : '0'}}</span></h6>
+                            <h6>Confirmed <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_withdraw_confirmed']) ? $data['pharmacy_withdraw_confirmed'] : '0'}}</span> </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card d-card-part bg-success mini-stat m-b-30">
+                <div class="card-d-title text-white">
+                    <div class="mini-stat-icon">
+                        <i class="dripicons-document float-right mb-0"></i>
+                    </div>
+                    <h6 class="mb-0">Laboratories Total Withdraw</h6>
+                </div>
+                <div class="card-body d-card-body">
+                    <div class="mt-2 text-muted">
+                        <div class="d-flex justify-content-between">
+                            <h6>Pending <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_withdraw_pending']) ? $data['laboratories_withdraw_pending'] : '0'}}</span></h6>
+                            <h6>In Progress <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_withdraw_inprogress']) ? $data['laboratories_withdraw_inprogress'] : '0'}}</span></h6>
+                            <h6>Confirmed <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_withdraw_confirmed']) ? $data['laboratories_withdraw_confirmed'] : '0'}}</span> </h6>
                         </div>
                     </div>
                 </div>
