@@ -1083,33 +1083,32 @@ class AppointmentController extends BaseApiController
 
             $voucher_amount_apply = 0;
             $totalTransaction_amount = $transaction_amount;
-            // if(!empty($appointment_details->voucher_code_id) && !empty($appointment_details->voucher_code_type) && empty($appointment_details->voucher_amount)){
-            //     // coupon code  1-Healthcare, 3-Lab, 4-Radiologies
-            //     $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, $appointment_details->voucher_code_type);
-            //     // $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
-            //     if(!empty($voucher_code) && !empty($voucher_code->id)){
-            //         if(!empty($voucher_code->percentage)){
-            //             $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
-            //         }
-            //         if($voucher_code->fix_amount > $voucher_amount_apply){
-            //             $voucher_amount_apply = $voucher_amount_apply;
-            //         }else {
-            //             $voucher_amount_apply = $voucher_code->fix_amount;
-            //         }
-            //     }
-            //     $transaction_amount = $transaction_amount - $voucher_amount_apply;
-            // }else{
-            //     $voucher_amount_apply = $appointment_details->voucher_amount;
-            //     $transaction_amount = $transaction_amount - $voucher_amount_apply;
-            // }
-
             $voucher_amount_apply = $appointment_details->voucher_amount;
-            $transaction_amount = $transaction_amount - $voucher_amount_apply;
+            if($voucher_amount_apply > $transaction_amount){
+                if(!empty($appointment_details->voucher_code_id) && !empty($appointment_details->voucher_code_type)){
+                    // coupon code  1-Healthcare, 3-Lab, 4-Radiologies
+                    $voucher_amount_apply = 0;
+                    $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, $appointment_details->voucher_code_type);
+                    // $voucher_code = $this->voucher_code_repo->getbyIdVoucherTypeget($appointment_details->voucher_code_id, '1'); 
+                    if(!empty($voucher_code) && !empty($voucher_code->id)){
+                        if(!empty($voucher_code->percentage)){
+                            $voucher_amount_apply = (($transaction_amount / 100 ) * $voucher_code->percentage);
+                        }
+                        if($voucher_code->fix_amount > $voucher_amount_apply){
+                            $voucher_amount_apply = $voucher_amount_apply;
+                        }else {
+                            $voucher_amount_apply = $voucher_code->fix_amount;
+                        }
+                    }
+                }
+            }
 
+            $transaction_amount = $transaction_amount - $voucher_amount_apply;
             $update = [
                     'status'=> '5',
                     'full_day'=> $full_day,
                     'appointment_price'=> $transaction_amount,
+                    'voucher_amount'=> $voucher_amount_apply,
                 ];
             $this->appointment_repo->dataCrud($update, $request->id);
             
