@@ -105,8 +105,6 @@ class CallbackThirdPartyController extends BaseApiController
         // }
 
     }
-    
-
 
 
 }

@@ -1213,4 +1213,21 @@ class UserRepository extends Repository
         return true;    
     }
 
+    function genrateInterSwitchRefrenceNo() 
+    {     
+        $interSwitch =  date('ymdhi') . rand(111111111, 999999999);
+        $validator = Validator::make(
+            [
+                'payment_gateway_response' => $interSwitch
+            ],
+            [
+                'payment_gateway_response' => 'required|unique:user_transactions',
+            ]
+        );
+        if ($validator->fails()) {
+           self::genrateInterSwitchRefrenceNo();
+        }
+        return $interSwitch; 
+    } 
+
 }

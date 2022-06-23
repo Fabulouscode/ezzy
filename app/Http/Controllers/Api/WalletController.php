@@ -163,4 +163,40 @@ class WalletController extends BaseApiController
         $data []= ["balance"=> $wallet_balance['lock_wallet_balance'],"balance_type"=> "Locked Balance"];
         return self::sendSuccess($data, 'Wallet balance add Successfully');
     }
+
+    public function addWalletBalanceInterSwitch(AddWalletBalanceRequest $request)
+    {          
+        $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
+        if(!empty($walletBalance)){
+            $wallet_transaction = [
+                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                'amount'=> $request->amount,                        
+                'payment_gateway_response'=> $request->payment_transaction,
+                'status'=> '0',
+                'transaction_msg'=>'Add Wallet to online pay',
+            ]; 
+            $add_transaction = [
+                        'user_id'=> $request->user()->id,
+                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                        'amount'=> $request->amount,                        
+                        'payment_gateway_response'=> $request->payment_transaction,
+                        'mode_of_payment'=> '0',
+                        'transaction_type'=> '0',
+                        'wallet_transaction'=> '1',
+                        'payout_status'=> '0',
+                        'status'=> '0',
+                        'transaction_msg'=>'Wallet Topup',
+                    ];
+            try {
+                $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);
+                $this->user_transaction_repo->dataCrud($add_transaction);
+                $this->user_repo->userWalletUpdate($request->user()->id);        
+                return self::sendSuccess([], 'Wallet balance add Successfully');
+            } catch (\Exception $e) {
+                return self::sendException($e);
+            }
+        }else{
+            return self::sendSuccess([], 'Transaction not completed');
+        }
+    }
 }

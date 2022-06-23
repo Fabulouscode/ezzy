@@ -8,13 +8,15 @@ use App\Repositories\PaystackIntegrationRepository;
 use App\Http\Requests\api\paystack\CustomerCreateRequest;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\AppointmentRepository;
+use App\Repositories\UserRepository;
 
 class PaymentController extends BaseApiController
 {
-     private $paystack_integration_repo, $user_transaction_repo, $appointment_repo;
+     private $paystack_integration_repo, $user_transaction_repo, $appointment_repo, $user_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
+        UserRepository $user_repo, 
         UserTransactionRepository $user_transaction_repo,
         PaystackIntegrationRepository $paystack_integration_repo
         )
@@ -23,6 +25,7 @@ class PaymentController extends BaseApiController
         $this->paystack_integration_repo = $paystack_integration_repo;
         $this->user_transaction_repo = $user_transaction_repo;
         $this->appointment_repo = $appointment_repo;
+        $this->user_repo = $user_repo;
     }
     
     /**
@@ -102,6 +105,33 @@ class PaymentController extends BaseApiController
         }        
     }
     
+
+    public function makeInterSwitchPaymentRequest(Request $request)
+    {
+        $data = $request->all();
+        try{       
+            if(!empty($request->amount) && $request->amount > 0){
+                \Log::info("makePaymentRequest ".json_encode($data));     
+                $wallet_transaction = [
+                    'user_id'=> $request->user()->id,
+                    'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                    'amount'=> $request->amount,                        
+                    'payment_gateway_response'=> $this->user_repo->genrateInterSwitchRefrenceNo(),
+                    'mode_of_payment'=> '1',
+                    'transaction_type'=> '1',
+                    'wallet_transaction'=> '1',
+                    'payout_status'=> '0',
+                    'status'=> '2',
+                    'transaction_msg'=>'Add Wallet to online pay',
+                ];
+                $response['transaction'] = $this->user_transaction_repo->dataCrud($wallet_transaction);
+                return self::sendSuccess($response, 'Payment initialize');
+            }
+            return self::sendError('Payment Not initialize');
+        }catch(\Exception $e) {
+            return self::sendException($e);
+        }        
+    }
 
 
 
