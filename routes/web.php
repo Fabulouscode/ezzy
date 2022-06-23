@@ -41,6 +41,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
     Route::namespace('Api')->group(function(){
         Route::post('/webhook/paystack/payment','CallbackThirdPartyController@getPaystackCallback');
+        Route::post('/webhook/interswitch/payment','CallbackThirdPartyController@getInterswitchCallback');
     });
     
     Route::view('/support_chat', 'admin.support_request.chat');
