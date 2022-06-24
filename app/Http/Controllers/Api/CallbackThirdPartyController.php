@@ -41,6 +41,7 @@ class CallbackThirdPartyController extends BaseApiController
                         'payment_gateway_full_response'=> json_encode($request->all()),
                         'status'=> '0',
                         'transaction_msg'=>'Add Wallet to online pay',
+                        'online_transaction_pay'=>'1',
                     ];  
                     $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);
                     $add_transaction = [
@@ -55,6 +56,7 @@ class CallbackThirdPartyController extends BaseApiController
                         'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Wallet Topup',
+                        'online_transaction_pay'=>'1',
                     ];
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($walletBalance->user_id); 
@@ -81,6 +83,7 @@ class CallbackThirdPartyController extends BaseApiController
                         'payment_gateway_full_response'=> json_encode($request->all()),
                         'status'=> '0',
                         'transaction_msg'=>'Add Wallet to online pay',
+                        'online_transaction_pay'=>'2',
                     ];  
                     $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);
                     $add_transaction = [
@@ -95,6 +98,7 @@ class CallbackThirdPartyController extends BaseApiController
                         'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Wallet Topup',
+                        'online_transaction_pay'=>'2',
                     ];
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($walletBalance->user_id); 

@@ -71,6 +71,7 @@ class WalletController extends BaseApiController
                     'payment_gateway_response'=> $request->payment_transaction,
                     'status'=> '0',
                     'transaction_msg'=>'Add Wallet to online pay',
+                    'online_transaction_pay'=>'1',
                 ];        
             }else{
                 $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
@@ -82,6 +83,7 @@ class WalletController extends BaseApiController
                         'payment_gateway_response'=> $request->payment_transaction,
                         'status'=> '0',
                         'transaction_msg'=>'Add Wallet to online pay',
+                        'online_transaction_pay'=>'1',
                     ];  
                 }else{
                     $wallet_transaction = [
@@ -95,6 +97,7 @@ class WalletController extends BaseApiController
                         'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Add Wallet to online pay',
+                        'online_transaction_pay'=>'1',
                     ];
                 }
 
@@ -110,6 +113,7 @@ class WalletController extends BaseApiController
                         'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Wallet Topup',
+                        'online_transaction_pay'=>'1',
                     ];
         try {
             if(!empty($request->transaction_id)){
@@ -174,6 +178,7 @@ class WalletController extends BaseApiController
                 'payment_gateway_response'=> $request->payment_transaction,
                 'status'=> '0',
                 'transaction_msg'=>'Add Wallet to online pay',
+                'online_transaction_pay'=>'2',
             ]; 
             $add_transaction = [
                         'user_id'=> $request->user()->id,
@@ -186,6 +191,7 @@ class WalletController extends BaseApiController
                         'payout_status'=> '0',
                         'status'=> '0',
                         'transaction_msg'=>'Wallet Topup',
+                        'online_transaction_pay'=>'2',
                     ];
             try {
                 $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);

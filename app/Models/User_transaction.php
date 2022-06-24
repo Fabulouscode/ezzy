@@ -52,7 +52,8 @@ class User_transaction extends Model
         'appointment_id',
         'order_id',
         'transaction_msg',
-        'payment_gateway_full_response'
+        'payment_gateway_full_response',
+        'online_transaction_pay'
     ];
 
     protected $appends = ['status_name','payout_status_name','transaction_type_name'];
