@@ -118,7 +118,7 @@ class PaymentController extends BaseApiController
                     'amount'=> $request->amount,                        
                     'payment_gateway_response'=> $this->user_repo->genrateInterSwitchRefrenceNo(),
                     'mode_of_payment'=> '1',
-                    'transaction_type'=> '1',
+                    'transaction_type'=> '2',
                     'wallet_transaction'=> '1',
                     'payout_status'=> '0',
                     'status'=> '2',
