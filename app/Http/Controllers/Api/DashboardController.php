@@ -146,6 +146,7 @@ class DashboardController extends BaseApiController
                                                         ]:'',
                                                 'status'=> $response->status,
                                                 'status_name'=> $response->status_name,
+                                                'online_transaction_pay'=> $response->online_transaction_pay,
                                             ];
                                         });;
         return self::sendSuccess($data, 'User Transaction History');
