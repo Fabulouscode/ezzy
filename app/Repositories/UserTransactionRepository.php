@@ -255,7 +255,7 @@ class UserTransactionRepository extends Repository
         //             ['wallet_transaction', '!=', '1']
         //         ]);
         $query = $query->where(function($query) use ($request){
-            $query->where('transaction_type','!=', '1');
+            $query->where('transaction_type', '0');
             $query->orWhere('wallet_transaction','!=', '1');
             $query->orWhere('mode_of_payment','!=', '1');
         });
@@ -286,7 +286,7 @@ class UserTransactionRepository extends Repository
         //             ['wallet_transaction', '!=', '1']
         //         ]);
         $query = $query->where(function($query) use ($request){
-            $query->where('transaction_type','!=', '1');
+            $query->where('transaction_type','0');
             $query->orWhere('wallet_transaction','!=', '1');
             $query->orWhere('mode_of_payment','!=', '1');
         });
@@ -439,7 +439,7 @@ class UserTransactionRepository extends Repository
                      $data .= 'Appointment charges';
                 }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '0'){
                      $data .= 'Add in Wallet';
-                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '1' && $selected->transaction_type == '1'){
+                }else if(!empty($selected->wallet_transaction) && $selected->wallet_transaction == '1' && $selected->mode_of_payment == '1' && $selected->transaction_type != '0'){
                      $data .= 'Add in Wallet';
                 }
                 return $data;
@@ -458,7 +458,7 @@ class UserTransactionRepository extends Repository
                 }
             })
             ->editColumn('payment_type', function($selected) {
-                 if($selected->transaction_type == '1'){
+                 if($selected->transaction_type != '0'){
                     return '<div >Online Pay</div>';
                 } else{
                     return '<div >Wallet</div>';

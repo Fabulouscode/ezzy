@@ -25,8 +25,8 @@ class User_transaction extends Model
         
     public $transaction_type_value = array(
         '0' => 'Wallet',
-        '1' => 'Net Banking',
-        '2' => 'Debit/Credit Card',
+        '1' => 'Paystack',
+        '2' => 'InterSwitch',
         '3' => 'Paypal',
     );
 
