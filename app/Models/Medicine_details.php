@@ -26,8 +26,8 @@ class Medicine_details extends Model
         '7' => 'Drops',
         '8' => 'Spray',
         '9' => 'Suppository',
-        '10' => 'Others',
-        '11' => 'Sachets'
+        '11' => 'Sachets',
+        '10' => 'Others'
     );
 
     /**
