@@ -14,6 +14,7 @@ use App\Http\Requests\Api\ShopProductAddRequest;
 use App\Http\Requests\Api\ShopProductEditRequest;
 use App\Http\Requests\Api\ShopProductDeleteRequest;
 use App\Http\Requests\Api\FavoriteRequest;
+use App\Http\Requests\Api\ImportMedicineDetailsRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Exports\MedicineDetaisExport;
@@ -342,7 +343,7 @@ class ShopMedicineDetailsController extends BaseApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function importMedicineDetails(Request $request)
+    public function importMedicineDetails(ImportMedicineDetailsRequest $request)
     {
         if(!empty($request->file('medicine_file'))) {          
             $file = $request->file('medicine_file');
