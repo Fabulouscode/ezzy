@@ -9,6 +9,7 @@ use App\Repositories\UserDetailsRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ContactDetailsRepository;
 use App\Repositories\UserTransactionRepository;
+use App\Repositories\OrderRepository;
 use App\Http\Requests\Api\UserBankAccountRequest;
 use App\Http\Requests\Api\UserAvailableTimesRequest;
 use App\Http\Requests\Api\UserEducationDetailsRequest;
@@ -21,13 +22,14 @@ use App\Http\Helpers\Helper;
 
 class UserController extends BaseApiController
 {
-    private $user_repo, $user_details_repo, $appointment_repo, $contact_repo, $user_transaction_repo;
+    private $user_repo, $user_details_repo, $appointment_repo, $contact_repo, $user_transaction_repo, $order_repo;
 
     public function __construct(
         UserRepository $user_repo, 
         UserDetailsRepository $user_details_repo,
         AppointmentRepository $appointment_repo,
         ContactDetailsRepository $contact_repo,
+        OrderRepository $order_repo,
         UserTransactionRepository $user_transaction_repo
     )
     {
@@ -37,6 +39,7 @@ class UserController extends BaseApiController
         $this->appointment_repo = $appointment_repo;
         $this->contact_repo = $contact_repo;
         $this->user_transaction_repo = $user_transaction_repo;
+        $this->order_repo = $order_repo;
     }
 
 
@@ -205,6 +208,43 @@ class UserController extends BaseApiController
         }catch(\Exception $e){
             return self::sendException($e);
         }
+    }
+
+    // get user review list
+    public function getUserReviewList(Request $request)
+    {
+        $userId = $request->user()->id;
+        if(!empty($request) && !empty($request->query('last_id'))){
+            $lastId = $request->query('last_id');
+        }else{
+            $lastId = 0;
+        }
+
+        $user_list = [];
+        if(!empty($userId) && !empty($request->user()) && !empty($request->user()->categoryParent) && !empty($request->user()->categoryParent->parent_id) && ($request->user()->categoryParent->parent_id == 1 || $request->user()->categoryParent->parent_id == 3)){
+            $user_list = $this->appointment_repo->getAppointmentReviewList($userId, $lastId)->map(function ($response){
+                return [
+                    'id'=>$response->id,
+                    'user_name'=>(isset($response->user))? $response->user->user_name : null,
+                    'profile_image'=>(isset($response->user))? $response->user->profile_image : null,
+                    'user_review'=>$response->user_review,
+                    'user_rating'=>$response->user_rating,
+                ];
+            });
+        }else if(!empty($userId) && !empty($request->user()) && !empty($request->user()->categoryParent) && !empty($request->user()->categoryParent->parent_id) && ($request->user()->categoryParent->parent_id == 2)){
+            $user_list = $this->order_repo->getOrderReviewList($userId, $lastId)->map(function ($response){
+                return [
+                    'id'=>$response->id,
+                    'user_name'=>(isset($response->userDetails))? $response->userDetails->user_name : null,
+                    'profile_image'=>(isset($response->userDetails))? $response->userDetails->profile_image : null,
+                    'user_review'=>$response->user_review,
+                    'user_rating'=>$response->user_rating,
+                ];
+            });
+        }
+
+
+        return self::sendSuccess($user_list, 'Review list Successfully');
     }
 
 }

@@ -1057,6 +1057,34 @@ class AppointmentRepository extends Repository
         return $query;
     }
 
+    /**
+     * appointment review list
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentReviewList($userId, $lastId)
+    {
+        $query = $this->model->with(['user']);   
+        
+        $query = $query->where('user_id', $userId)->where(function($query){
+                        $query->orWhereNotNull('user_review');
+                        $query->orWhereNotNull('user_rating');
+                    });
+
+        $query = $query->where('status', '5')->orderBy('id','desc');
+
+        //pagination        
+        if(isset($lastId)){  
+            if(!empty($lastId)){
+                $query = $query->skip($lastId);    
+            }            
+            $query = $query->limit($this->api_data_limit);    
+        }
+
+        $query = $query->get();
+        return $query;
+    }
+
 
     /**
      * Display a edit of the record.

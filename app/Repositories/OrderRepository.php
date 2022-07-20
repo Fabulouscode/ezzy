@@ -462,6 +462,34 @@ class OrderRepository extends Repository
             ->rawColumns(['order_no'])->make(true);
     }
 
+    /**
+     * order review list
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getOrderReviewList($userId, $lastId)
+    {
+        $query = $this->model->with(['userDetails']);   
+        
+        $query = $query->where('user_id', $userId)->where(function($query){
+                        $query->orWhereNotNull('user_review');
+                        $query->orWhereNotNull('user_rating');
+                    });
+
+        $query = $query->where('status', '3')->orderBy('id','desc');
+
+        //pagination
+        if(isset($lastId)){  
+            if(!empty($lastId)){
+                $query = $query->skip($lastId);    
+            }            
+            $query = $query->limit($this->api_data_limit);    
+        }
+
+        $query = $query->get();
+        return $query;
+    }
+
      /**
      * Dashboard Area Chart.
      *

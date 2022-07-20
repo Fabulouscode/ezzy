@@ -112,6 +112,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
 
             Route::post('/calendar/available_times', 'UserProfileController@getByUserCalendarAvailableTimes');
             Route::post('/calendar/busy_times', 'UserProfileController@getByUserCalendarBusyTimes');
+            Route::get('/review/get', 'UserController@getUserReviewList');
          
             //user profile details
             Route::post('/profile/add', 'UserProfileController@addUserDetails');
