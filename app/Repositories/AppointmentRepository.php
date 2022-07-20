@@ -1064,7 +1064,7 @@ class AppointmentRepository extends Repository
      */
     public function getAppointmentReviewList($userId, $lastId)
     {
-        $query = $this->model->with(['user']);   
+        $query = $this->model->with(['client']);   
         
         $query = $query->where('user_id', $userId)->where(function($query){
                         $query->orWhereNotNull('user_review');

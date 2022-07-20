@@ -469,7 +469,7 @@ class OrderRepository extends Repository
      */
     public function getOrderReviewList($userId, $lastId)
     {
-        $query = $this->model->with(['userDetails']);   
+        $query = $this->model->with(['clientDetails']);   
         
         $query = $query->where('user_id', $userId)->where(function($query){
                         $query->orWhereNotNull('user_review');

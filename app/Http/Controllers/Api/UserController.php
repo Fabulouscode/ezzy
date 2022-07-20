@@ -213,30 +213,36 @@ class UserController extends BaseApiController
     // get user review list
     public function getUserReviewList(Request $request)
     {
-        $userId = $request->user()->id;
+        
+        $userId = '';
         if(!empty($request) && !empty($request->query('last_id'))){
             $lastId = $request->query('last_id');
         }else{
             $lastId = 0;
         }
+       
+        if(!empty($request) && !empty($request->query('user_id'))){
+            $userId = $request->query('user_id');
+            $userDeatils = $this->user_repo->getbyIdUserDetails($userId);
+        }
 
         $user_list = [];
-        if(!empty($userId) && !empty($request->user()) && !empty($request->user()->categoryParent) && !empty($request->user()->categoryParent->parent_id) && ($request->user()->categoryParent->parent_id == 1 || $request->user()->categoryParent->parent_id == 3)){
+        if(!empty($userId) && !empty($userDeatils) && !empty($userDeatils->categoryParent) && !empty($userDeatils->categoryParent->parent_id) && ($userDeatils->categoryParent->parent_id == 1 || $userDeatils->categoryParent->parent_id == 3)){
             $user_list = $this->appointment_repo->getAppointmentReviewList($userId, $lastId)->map(function ($response){
                 return [
                     'id'=>$response->id,
-                    'user_name'=>(isset($response->user))? $response->user->user_name : null,
-                    'profile_image'=>(isset($response->user))? $response->user->profile_image : null,
+                    'user_name'=>(isset($response->client))? $response->client->user_name : null,
+                    'profile_image'=>(isset($response->client))? $response->client->profile_image : null,
                     'user_review'=>$response->user_review,
                     'user_rating'=>$response->user_rating,
                 ];
             });
-        }else if(!empty($userId) && !empty($request->user()) && !empty($request->user()->categoryParent) && !empty($request->user()->categoryParent->parent_id) && ($request->user()->categoryParent->parent_id == 2)){
+        }else if(!empty($userId) && !empty($userDeatils) && !empty($userDeatils->categoryParent) && !empty($userDeatils->categoryParent->parent_id) && ($userDeatils->categoryParent->parent_id == 2)){
             $user_list = $this->order_repo->getOrderReviewList($userId, $lastId)->map(function ($response){
                 return [
                     'id'=>$response->id,
-                    'user_name'=>(isset($response->userDetails))? $response->userDetails->user_name : null,
-                    'profile_image'=>(isset($response->userDetails))? $response->userDetails->profile_image : null,
+                    'user_name'=>(isset($response->clientDetails))? $response->clientDetails->user_name : null,
+                    'profile_image'=>(isset($response->clientDetails))? $response->clientDetails->profile_image : null,
                     'user_review'=>$response->user_review,
                     'user_rating'=>$response->user_rating,
                 ];
