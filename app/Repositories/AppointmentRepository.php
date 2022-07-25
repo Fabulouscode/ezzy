@@ -1076,8 +1076,8 @@ class AppointmentRepository extends Repository
         //pagination        
         if(isset($lastId)){  
             if(!empty($lastId)){
-                $query = $query->skip($lastId);    
-            }            
+                $query = $query->where('id', '<', $lastId);    
+            }
             $query = $query->limit($this->api_data_limit);    
         }
 
