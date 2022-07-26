@@ -458,17 +458,19 @@ class UserTransactionRepository extends Repository
                 }
             })
             ->editColumn('payment_type', function($selected) {
-                 if($selected->transaction_type != '0'){
+                if($selected->transaction_type != '0'){
                     return '<div >Online Pay</div>';
                 } else{
                     return '<div >Wallet</div>';
                 }
             })
             ->editColumn('transaction_type', function($selected) {
-                 if($selected->mode_of_payment == '0'){
-                    return '<div class="badge badge-success">Credit</div>';
-                } else{
-                    return '<div class="badge badge-danger">Debit</div>';
+                if($selected->transaction_type == '0'){
+                    if($selected->mode_of_payment == '0'){
+                        return '<div class="badge badge-success">Credit</div>';
+                    } else{
+                        return '<div class="badge badge-danger">Debit</div>';
+                    }
                 }
             })
             ->editColumn('payout_amount', function($selected) {
