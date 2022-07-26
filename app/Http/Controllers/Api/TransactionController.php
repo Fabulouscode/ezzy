@@ -165,6 +165,9 @@ class TransactionController extends BaseApiController
                         'client_id'=> $order_details->user_id,
                         'order_id' => $order_details->id,
                         'transaction_msg'=>'Order',
+                        'amount'=> $transaction_amount,
+                        'status'=>'0',
+                        'online_transaction_pay'=> isset($request->transaction_type) ? $request->transaction_type : 1,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
@@ -255,12 +258,17 @@ class TransactionController extends BaseApiController
         try {
             DB::beginTransaction();
             if(!empty($request->transaction_id)){
+                $transaction_amount = 0;
+                $transaction_amount = $appointment_details->appointment_price;
                 $updateUserTran = [
                         'payout_status' => '1',
                         'wallet_transaction' => '0',
                         'client_id'=> $appointment_details->user_id,
                         'appointment_id' => $appointment_details->id,
                         'transaction_msg'=>'Appointment',
+                        'amount'=> $transaction_amount,
+                        'status'=>'0',
+                        'online_transaction_pay'=> isset($request->transaction_type) ? $request->transaction_type : 1,
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
