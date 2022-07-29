@@ -35,7 +35,7 @@ class UserRegisterMobileRequest extends FormRequest
         $transformed=[];       
         foreach ($validator->errors()->toArray() as $field => $message) {
             if(!empty($message) && count($message) > 0 && $field == 'mobile_no' && $message[0] == 'The mobile no must start with one of the following:  1, 1, 2, 3, 4, 5, 6, 7, 8, 9.'){
-                $transformed[$field] = 'The mobile no not start to 0.';
+                $transformed[$field] = 'Please do not start with a Zero (0).';
             }else{
                 $transformed[$field] = $message[0];
             }
