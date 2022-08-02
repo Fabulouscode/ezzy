@@ -30,7 +30,7 @@ class CallbackThirdPartyController extends BaseApiController
         \Log::info("============Callback getPaystackCallback=================");
         \Log::info(json_encode($request->all()));
         if(!empty($request->event) && $request->event == "charge.success"){
-            if(!empty($request->data) && !empty($request->data['reference']) && !empty($request->data['gateway_response']) && !empty($request->data['customer']) && !empty($request->data['customer']['email']) && $request->data['gateway_response'] == 'Successful'){
+            if(!empty($request->data) && !empty($request->data['reference']) && !empty($request->data['gateway_response']) && !empty($request->data['customer']) && !empty($request->data['customer']['email']) && $request->data['status'] == 'success'){
                 $walletBalance = $this->user_transaction_repo->getPendingTransactionCallback($request->data['customer']['email'], $request->data['reference']); 
                 if(!empty($walletBalance) && !empty($walletBalance->id)){
                     $wallet_transaction = [
