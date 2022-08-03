@@ -227,7 +227,7 @@ class ChatController extends BaseApiController
                     }
                 }
             }    
-            if(!empty($total_amount)){
+            if(isset($total_amount)){
 
                 $update_data = [
                     'transaction_amount' => $total_amount
