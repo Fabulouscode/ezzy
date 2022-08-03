@@ -311,9 +311,13 @@ class UserTransactionRepository extends Repository
             $query = $query->where(function($query) use ($request){
                 $query->orWhere('user_id',$request->id);
                 $query->orWhere('client_id',$request->id);
-            })->where('transaction_type','0');
+            });
+            $query = $query->where(function($query) use ($request){
+                $query->orWhere('transaction_type' ,'!=', 1);
+                $query->orWhere('wallet_transaction' ,'!=', 1);
+            });
         }else{            
-            $query = $query->where('client_id',$request->id)->where('transaction_type', '0');
+            $query = $query->where('client_id',$request->id)->where('wallet_transaction', '0');
         }
 
 
