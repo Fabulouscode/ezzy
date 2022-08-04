@@ -9,7 +9,7 @@ use App\Models\UserTracking;
 use App\Models\User;
 use Carbon\Carbon;
 use Auth;
- 
+  
 class Helper
 {
     private $category_repo;
