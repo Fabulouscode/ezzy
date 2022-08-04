@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Admin;
+use App\Jobs\AdminActivityJob;
 
 class LoginController extends Controller
 {
@@ -48,7 +49,15 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request) {
+        $admin =  Admin::find(Auth::guard('admin')->user()->id);
         Auth::logout();
+        try{
+            dispatch(new AdminActivityJob($admin , 'Logout', $request->ip(), $request->server('HTTP_USER_AGENT'), $admin->id));
+        }
+        catch (\Throwable $th)
+        {
+            
+        }
         return redirect('/donotezzycaretouch/login');
     }
 
@@ -65,6 +74,13 @@ class LoginController extends Controller
                         'timezone' => !empty($request->timezone) ? $request->timezone : 'UTC'
                     ];
             $admin->update($data);  
+            try{
+                dispatch(new AdminActivityJob($admin , 'Login', $request->ip(), $request->server('HTTP_USER_AGENT'), $admin->id));
+            }
+            catch (\Throwable $th)
+            {
+                
+            }
             return redirect()->intended('/donotezzycaretouch');
         }
         return back()->withInput($request->only('email', 'remember'))->withError('These credentials do not match our records.');

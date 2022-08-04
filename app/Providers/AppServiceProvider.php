@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Admin;
+use App\Observers\AdminObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +33,7 @@ class AppServiceProvider extends ServiceProvider
            $this->app['request']->server->set('HTTPS', true);
            \URL::forceScheme('https');
         }
+
+        Admin::observe(AdminObserver::class);
     }
 }
