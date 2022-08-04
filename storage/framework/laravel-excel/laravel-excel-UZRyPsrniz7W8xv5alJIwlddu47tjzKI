@@ -1,0 +1,488 @@
+﻿Id,Category Name,Medicine Name,Medicine SKU,Medicine Type,Size / Dosage,Description,Quantity,MRP Price,Offer Price
+1,ANTIMALARIA DRUGS,Malanil,MAL,Tablets,250/100,Each tablet contains Atovquone 250mg and Proguanil hydrochloride 100mg,,,
+2,ANTIMALARIA DRUGS,Paludrine,MAL,Tablets,100mg,proguanil hydrochloride,,,
+3,ANTIMALARIA DRUGS,Swidar,MAL,Tablets,500/25mg,Sufadoxine + Pyrimethamine 3 tablets,10,,
+4,ANTIMALARIA DRUGS,M&B Chloroquine 2.2.1,MAL,Capsules,400mg,Each capsule contains Chloroquine Sulphate 400mg. 5 capsules in a pack,,,
+5,ANTIMALARIA DRUGS,Quinoric,MAL,Tablets,200MG,Film coated Tablets Hydroxychloroquine sulfate 200mg. 60 tablets in a pack,,,
+6,ANTIMALARIA DRUGS,Lonart - DS,MAL,Tablets,80/480,Artemether 80 mg + Lumefantrine 480 mg tablets 6 tablets in a pack,7,,
+7,ANTIMALARIA DRUGS,Coartem 80/480,MAL,Tablets,80/480mg,Arthemeter 80mg/ Lumefantrine 480mg  6 tablets in a pack,,,
+8,ANTIMALARIA DRUGS,Artheget Junior 90ml,MAL,Suspension,15+90mg/ml,Arthemeter + Lumefantrine powder for oral suspension 15 mg + 90mg / ml,,,
+9,ANTIMALARIA DRUGS,Lonart 20/120,MAL,Suspension,Arthemeter 240mg+ Lumefantrine 1440mg,powder for oral suspension. Arthemeter 240 mg +Lumefantrine 1440 mg Curative Antimalarial paediatric . 24g/60 ml.,,,
+10,VAGINAL CREAMS AND SUPPOSITORIES,Polygynax,VAG,Capsules,"Neomycin Sulphate 35,000 IU, Polymyxin B Sulphate 35,000 IU,Nystatin 100,000","Neomycin Sulphate 35,000 IU, Polymyxin B Sulphate 35,000 IU,Nystatin 100,000 IU 12 vaginal capsules in a pack",,,
+11,VAGINAL CREAMS AND SUPPOSITORIES,Mycoten,VAG,Cream/lotion,35g,Clotrimazole 1% Vaginal cream with applicator,6,,
+12,VAGINAL CREAMS AND SUPPOSITORIES,MYCOTEN VAGINAL TABLETS,VAG,Tablets,100mg,Clotrimazole 100mg Vaginal tablets with applicator,,,
+13,VAGINAL CREAMS AND SUPPOSITORIES,Mycoten- Plus,VAG,Tablets,200/100,Clotrimazole 200mg + Clindamycin 100mg 7 tablets,,,
+14,VAGINAL CREAMS AND SUPPOSITORIES,Gyno-Tiocosid,VAG,Suppository,100mg,Tioconazole 100 mg 3 Vaginal tablets in pack,,,
+15,VAGINAL CREAMS AND SUPPOSITORIES,Klovinal Vaginal Pessaries,VAG,Suppository,"500/100/150,000,000","vaginal pessaries containing metronidazole, Clotrimazole and Lactobacillus spores",2,,
+16,ANTIFUNGAL DRUGS,Fluconazole 150 mg capsule,FUN,Capsules,150mg,"Fluconazole 150 mg capsule, one capsule in pack",,,
+17,ANTIFUNGAL DRUGS,Diflucan,FUN,Capsules,50mg,fluconazole 50 mg oral antifungal. 3 caps in one pack,,,
+18,ANTIFUNGAL DRUGS,Nizoral,FUN,Cream/lotion,15g,Ketoconazole 20 mg per 1 g topical cream. 15 g in one tube,,,
+19,ANTIFUNGAL DRUGS,Canesten,FUN,Cream/lotion,20g,clotrimazole antifungal cream. 20g in a tube,,,
+20,ANTIFUNGAL DRUGS,Nizoral shampoo,FUN,Cream/lotion,20mg per 1g,Ketoconazole shampoo 20 mg per 1g,,,
+21,ANTIFUNGAL DRUGS,ADAY kit tablets,FUN,Tablets,150mg/1g/1g,"Fluconazole 150mg, Azithromycin 1g, Secnidazole 1g antifungul  oral tablets",,,
+22,ANTIFUNGAL DRUGS,VAZ kit,FUN,Tablets,One combi kit,"Secnidazole, Azithromycin, fluconazole and bacillus coagulans combi kit",2,,
+23,FAMILY PLANNING AND SEXUAL HEALTH,Levofem,FAM,Tablets,0.15mg/0.03mg/75 mg,"Oral contraceptive drugs containing Levonorgestrel, Ethinylestradiol and ferrous fumarate. 28 tablets in a packet.
+Follow your Doctor's prescription.",,,
+24,ANTIULCER DRUGS,POLYFORT CHEWTABS,UCR,Tablets,Tablets,Peppermint flavoured chewtabs 10 by 10 tablets in a pack,8,,
+25,ANTIULCER DRUGS,GLOMEPREX,UCR,Capsules,20mg,"Omeprazole Delayed Release USP 20 mg capsules. 4x7 capsules in a pack.
+Follow your Doctor's prescription",,,
+26,ANTIULCER DRUGS,RIBAZOLE,UCR,Capsules,400mg,"Ribavirin capsules 400mg . 10 capsules in a pack.
+Follow your Doctor's prescription",,,
+27,ANTIULCER DRUGS,DAITEZOLE,UCR,Capsules,20mg,"Omeprazole 20 mg capsules. 2x7 in a pack.
+Follow your Doctor's prescription",,,
+28,ANTIULCER DRUGS,PYROX COMBI,UCR,Others,20/500/1000,"Rabeprazole 20 mg, Clarithromycin 500mg , Amoxicillin 1000mg blisters. 7 blisters in a pack",,,
+29,ANTIULCER DRUGS,GETZOME,UCR,Suspension,40mg,"Omeprazole + Sodium Bicarbnate 40 mg powder for oral suspension. mint flavour. 10 sachets in a pack
+Follow your Doctor's prescription",,,
+31,ANTIULCER DRUGS,ESOFAG-D,UCR,Capsules,40/30/,"Esomeprazole 40mg enteric coated and Domperidone 30 mg Sustained-release capsules. 3x10 capsules in a pack.
+Follow your Doctor's prescription",,,
+32,ANTIULCER DRUGS,ESOFAG,UCR,Tablets,40mg,"Esomeprazole tablets 40 mg. 3x10 tablets in a pack.
+Follow your Doctor's prescription",,,
+33,ANTIULCER DRUGS,PANTOPRAZOLE GASTRO-RESISTANT TABLETS,UCR,Tablets,20mg,Pantoprazole gastro-resistant tablets. 28 tablets in a pack,,,
+34,ANTIULCER DRUGS,OMEPRAZOLE 20MG,UCR,Capsules,20mg,"Omeprazole 20 mg gastro-resistant capsules. 28 capsules
+Follow you Doctor's prescription",5,,
+35,ANTIULCER DRUGS,LANSOPRAZOLE 15 MG,UCR,Capsules,15mg,"Lansoprazole  15 mg gastro-resistant capsules. hard.
+Follow your Doctor's advice",,,
+36,ANTIULCER DRUGS,POLYGEL ANTACID,UCR,Suspension,120ml,"Alumina, Magnesia and Simethicone oral suspension mint flavour 120ml bottle.
+Follow your Doctor's prescription",1,,
+37,ANTIULCER DRUGS,GECROL SUSPENSION,UCR,Suspension,200ml,"Gecrol Suspension Antacid 200ml in a bottle.
+Follow your Doctor's Prescription",,,
+38,ANTIULCER DRUGS,GASIL,UCR,Suspension,200ml,"Alumina, Magnesia and Simethicone oral suspension 200 ml bottle.
+Follow your Doctor's Prescription",,,
+39,ANTIULCER DRUGS,MIST . MAG TRISILICATE ANTACID,UCR,Suspension,250/250/250,"Each 5m contains Magnesium trisilicate 250 mg, Light magnesium carbonate 250mg and Sodium bicarbonate",,,
+40,ANTIULCER DRUGS,MIST MAGNESIUM TRISILICATE,UCR,Suspension,200ml,Mist Magnesium Trisilicate suspension 200 ml bottle.,,,
+41,ANTIULCER DRUGS,ULCEGEL SUSPENSION,UCR,Suspension,200ml,"Aluminium Hydroxide, Magnesium hdroxide, Activated Dimethicone and Liquorice",,,
+42,ANTIULCER DRUGS,AVROCID SUSPENSION,UCR,Suspension,200ml,"Contains Simethicone
+Follow your Doctor's prescription",,,
+43,ANTIULCER DRUGS,MAGCID SUSPENSION,UCR,Suspension,200ml,"Magnesium Trisilicate 250 mg, Light Magnesium Carbonate 250 mg Sodium bicarbonate",,,
+44,ANTIULCER DRUGS,MAGSIL SUSPENSION,UCR,Suspension,190ml,"A brand of mist magnesium trisilicate 190 ml bottle
+Follow your Doctor's Prescription",4,,
+46,ANTIULCER DRUGS,NUGEL -O,UCR,Suspension,200ml,NUGEL-O,,,
+47,ANTIBIOTICS,ZITHROMAX,ABT,Capsules,250mg,Azithromycin,1,,
+48,ANTIBIOTICS,SIVORYL,ABT,Tablets,500MG,Erythromycin,,,
+49,ANTIBIOTICS,OXWIT,ABT,Tablets,500mg,"1 * 3 AZITHROMYCIN Tablets.
+Follow your Doctors prescription.",,,
+50,ANTIBIOTICS,ERYTHROBARI-500,ABT,Tablets,500mg,"10 Tablets of ERYTHROMYCIN 500mg. 
+Follow your Doctor's prescription",,,
+51,ANTIBIOTICS,ZETRO,ABT,Tablets,250MG,"10 capsules of 250mg AZITHROMYCIN.
+Follow your doctors prescription",,,
+52,ANTIBIOTICS,LYSOMAX,ABT,Capsules,250mg,"6 capsules of 250mg AZITHROMYCIN. 
+Follow your doctors prescription",,,
+53,ANTIBIOTICS,ERYTHR-500,ABT,Tablets,500mg,"10 Film coated tablets of ERYTHROMYCIN Stearate.
+Follow your Doctor's prescription.",3,,
+54,LIPID LOWERING DRUGS,ROVISTA,LLD,Tablets,20mg,ROSUVASTATIN,,,
+55,LIPID LOWERING DRUGS,ROVISTA,LLD,Syrup,10mg,ROSUVASTATIN,,,
+56,LIPID LOWERING DRUGS,AURITZ 20,LLD,Tablets,20mg,3* 10 tablets ROSUVASTATIN CALCIUM,,,
+57,LIPID LOWERING DRUGS,ATORVASTATIN,LLD,Tablets,40mg,ATORVASTATIN,,,
+58,ANTIHYPERTENSIVE DRUGS,VALVAS,AHTN,Tablets,10/160,"28 calendar tablets, Film coated tablets Amlodipine 10mg and Valsartan 160mg.
+Follow your Doctor's prescirption.",,,
+59,ANTIHYPERTENSIVE DRUGS,ODIZAT,AHTN,Tablets,10mg/160mg,"3 x10 tablets of Amlodipine 10mg and Valsartan 160mg.
+Follow your Doctor's prescription.",,,
+60,ANTIHYPERTENSIVE DRUGS,Bisoprolol Fumarate,AHTN,Tablets,10mg,28 film coated tablets of Bisoprolol fumarate 10mg.,,,
+61,ANTIHYPERTENSIVE DRUGS,LISINOPRIL 10mg,AHTN,Tablets,10mg,"28 calendar pack tablets of 10mg of Lisinopril. For oral use. 
+Follow your doctors prescription",7,,
+62,MULTIVITAMINS,VITAWIN MAN,MVT,Tablets,1,"60 Capsules of Multivitamin, Multimineral, Multibiofactor of food supplements",,,
+63,MULTIVITAMINS,VITAWIN WOMAN,MVT,Capsules,1,"60 capsules of Multivitamin, Multimineral, Multibiofactor Food supplements",,,
+64,MULTIVITAMINS,Multimax,MVT,Capsules,1,"30 Capsules of Multiviamins, Ginseng, Minerals and Aloe vera capsules",,,
+65,LOZENGES,CUFO Lozenges,LZN,Others,1,2 * 12 Lozenges oranges. For Local infections of  mouth and throat.,,,
+66,MULTIVITAMINS,MONOMIN,MVT,Capsules,1,"3 * 10 Monomin Vitamins, curcuma Xanthorrhiza Extract with Cod Liver oil.",,,
+67,MULTIVITAMINS,Reon,MVT,Capsules,1,"Ginseng, Aloe Vera, Multivitamins , Minerals and Iron.",,,
+68,MULTIVITAMINS,Biomult,MVT,Capsules,1,"Multivitamins , Minerals, Iron Capsules",,,
+69,MULTIVITAMINS,SUPRAMULT,MVT,Capsules,1,"30 capsules of Multivitamins, Minerals and Iron.",,,
+70,MULTIVITAMINS,Revital,MVT,Capsules,1,Vitamins and Minerals,,,
+71,MULTIVITAMINS,Bunto,MVT,Capsules,1,30 capsules of Multivitamins and Minerals,1,,
+72,MULTIVITAMINS,Daravit,MVT,Capsules,1,2 *15 Soft Gelatin Capsules. Multivitamin- Minerals - Iron - Selenium Supplement,,,
+73,MULTIVITAMINS,Cyprodine,MVT,Capsules,1,A food Supplement with an appetitte stimulant including MULT- VITAMINS and ESSENTIAL AMINO ACIDS,,,
+74,MULTIVITAMINS,Vami-Vite,MVT,Syrup,100ml,Vami- Vite Multivitamin,,,
+75,MULTIVITAMINS,Renoga Capsules,MVT,Capsules,1,Multivitamins and minerals capsules,,,
+76,MULTIVITAMINS,MIM Drops,MVT,Syrup,1,Multivitamins Iron Minerals Drops with Pure Natural Orange Flavour.,,,
+77,MULTIVITAMINS,Afrab Vite,MVT,Syrup,100ml,Multivitamin Syrup 100ml,,,
+78,MULTIVITAMINS,Pharmatonic Junior,MVT,Syrup,200ml,Multivitamins and calcium syrup,,,
+79,MULTIVITAMINS,Multivitamin for men,MVT,Tablets,1,Multivitamin for Men. All in a day. 50 capsules,,,
+80,MULTIVITAMINS,FidVite,MVT,Syrup,100ml,Fidvite Multiviamin syrup. Dietary Supplement for children,,,
+81,MULTIVITAMINS,Vamobion,MVT,Syrup,100ml,Vamobion Children's Blood Tonic . Iron + Vitamin B complex + Folic Acid. For Health and Vitality,,,
+82,MULTIVITAMINS,Apetamin,MVT,Syrup,100ml,Cyproheptadine Lysine and Vitamins Syrup.,,,
+83,MULTIVITAMINS,Bunto Blood Tonic,MVT,Syrup,100ml,Iron+ Bcomplex + Zinc,,,
+84,MULTIVITAMINS,Ferrotone,MVT,Capsules,1,Iron + Folic Acid + Vitamin B12 Formula. 1* 10 softgel capsules,,,
+85,MULTIVITAMINS,Immunboost,MVT,Tablets,1 A DAY,Immunboost. 1 a Day. Multivitamin/ Multimineral supplement. Vegetables and fruits blend. 90 tablets + 10 free,,,
+86,MULTIVITAMINS,Reload!,MVT,Tablets,1 A DAY,"Women's 50+ Formula. Multivitamin, Multimineral and Antioxidant. 90 Tablets",,,
+87,MULTIVITAMINS,Vitamin C Sirop,MVT,Syrup,100mg/5ml,"Prévention et traitement du scorbut, rhume et guérison des plaies",20,,
+88,MULTIVITAMINS,B- Complex Syrup,MVT,Tablets,100ml,B complex stimulates appetite and improves general well being,5,,
+90,MULTIVITAMINS,Tacorange,MVT,Syrup,100mg/5ml,Vitamin C Syrup,,,
+91,ANTIHYPERTENSIVE DRUGS,NATRIXAM,AHTN,Tablets,1.5mg/5mg,30 modified released tablets . Indapamide/Amlodipine. Follow your Doctors Prescription,,,
+92,ANTIHYPERTENSIVE DRUGS,Furosemide,AHTN,Tablets,20mg,Furosemide 20mg Tablets. For Oral Use only. 28 Tablets,,,
+93,ANTIHYPERTENSIVE DRUGS,Doxazosin,AHTN,Tablets,4mg,For Oral Use. 28 Calendar Tablets,,,
+94,LIPID LOWERING DRUGS,Auritz 10,AHTN,Tablets,10mg,Rosuvastatin Calcium 10mg. Prescription Drug. Follow your Doctor's prescription,,,
+95,ANTIHYPERTENSIVE DRUGS,Ramipril,AHTN,Capsules,5mg,Ramipril 5mg Capsules. 28 Calendar Tablets. For Oral use. Follow your Doctor's prescription,,,
+96,ANTIHYPERTENSIVE DRUGS,Zisty,AHTN,Tablets,5mg,Lisinopril 5mg. 28 Calendar tablets. Follow your Doctors Prescription,,,
+97,ANTIHYPERTENSIVE DRUGS,AMLODIPINE,AHTN,Tablets,5mg,Amlodipine Besilate 5mg. 28 Calendar Tablets. Follow your doctor's prescription.,,,
+98,ANTIHYPERTENSIVE DRUGS,C0-Dilopril,AHTN,Tablets,5mg/5mg,Amlodipine USP 5mg and Lisinopril USP 5mg. 3* 10 Tablets,,,
+99,ANTIHYPERTENSIVE DRUGS,Allupurinol,AHTN,Tablets,100mg,Allupurinol Tablets 100mg. 28 Calendar Tablets. for Oral use. Follow your Doctor'd prescription,,,
+100,ANTIHYPERTENSIVE DRUGS,Losartan Potassium,AHTN,Tablets,100mg,Losartan Potassium 100mg Film coated Tablets. 28 Calendar Pack. Follow your Doctors prescription,,,
+101,LIPID LOWERING DRUGS,ATORVASTATIN,AHTN,Tablets,20mg,Atorvastatin 20mg Film coated Tablet. 28 Calendar Pack. For Oral use. Follow your Doctors prescription,,,
+102,COUGH DRUGS,Coflin Expectorant,CD,Syrup,100ml,"For Relief of chesty coughs and nasal congestion. Adult, 10ml, 6-12-5ml, 2-5: 2.5ml. Follow your Doctor's prescription",,,
+103,COUGH DRUGS,Cofex Cough Syrup,CD,Syrup,100ml,For Children and Adults. For the Relief of cough and its congestive symptoms. Follow your Doctor's prescription.,,,
+104,COUGH DRUGS,Tuxil-D Expectorant,CD,Syrup,100ml,"Cough, cold and allergy. 2-12yrs. Daytime care. Follow your doctor's prescription.",1,,
+105,COUGH DRUGS,Novalyn for Children,CD,Syrup,100ml,For Infants and Children. Soothing relief of coughs and allergies. 100ml. Follow your Doctor's prescription,,,
+106,COUGH DRUGS,Novalyn Dry Cough,CD,Syrup,100ml,Relieves irritating dry coughs. Children's Formula. Ages 2+. Follow your Doctor's prescription,,,
+107,COUGH DRUGS,Novalyn Cough Syrup,CD,Syrup,100ml,Relieves Irritating dry cough. Adult Formula. Aged 12+,,,
+108,COUGH DRUGS,Children's Tuxil,CD,Syrup,100ml,Runny Nose and Catarrh. 1-12 yrs. All round Care. Follow your Doctor's prescription,3,,
+109,COUGH DRUGS,Tuxil-N,CD,Syrup,100ml,"Expectorant. Cough, Cold and Allergy. Ages 2-12yrs. Nighttime care. Gives Calm and soothing relief. Mild to severe cases",3,,
+110,ANTIBIOTICS,PRIMPEX SUSPENSION,ATB,Suspension,50ml,Co- Trimoxazole Paediatric Suspension. Follow your Doctor's prescription,,,
+111,ANTIBIOTICS,Unitrim,ATB,Suspension,50ml,"Co-trimoxazole Peadiatric Suspension.
+Follow your Doctor's prescription.",,,
+112,COUGH DRUGS,Tutolin Expectorant,CD,Syrup,100ml,"Relieves coughs, runny nose and chest congestion.",,,
+113,COUGH DRUGS,Tutolin Children Cough Syrup,CD,Syrup,100ml,"Relieves Coughs and runny nose and chest congestion. 
+Follow your Doctor's Prescription",2,,
+114,COUGH DRUGS,Broncholyte,CD,Syrup,4mg/5ml,Bromhexine hydrochloride. Bronchial mucolytic 100ml elixir. Follow your Doctor's prescription,6,,
+116,COUGH DRUGS,Neofylin Cough Syrup,CD,Syrup,100ml,"For Cough, Cold, Catarrh. 
+Follow your Doctor's prescription",2,,
+117,COUGH DRUGS,Cofta,CD,Tablets,1,"Ammonium Chloride(30Mg/5Ml), Ipecacuanha Liquid Extract(10Ul)",3,,
+118,LOZENGES,Strepsils Original,LZN,Tablets,1,Dual antibacterial action. Soothing relief for sore throats. 24 Throat lozenges,,,
+119,ANTIBIOTICS,Zotrim 480,ATB,Tablets,480mg,Co-trimoxazole Tablets BP. 480mg. 10*10 tablets. Follow your Doctors prescription,,,
+120,COUGH DRUGS,Tussylin,CD,Syrup,100ml,Cough syrup for adults. Antitussive and Expectorant. Follow your doctors prescription,,,
+121,COUGH DRUGS,Benylin,CD,Syrup,100ml,Chesty coughs. Non-drowsy. Guaifenesin and Levomenthol. Soothing effect and Deep penetrating effect. Follow your Doctor's prescription.,,,
+122,COUGH DRUGS,Coflax,CD,Syrup,100ml,Cough syrup for Children. Cold Cough and Catarrh,,,
+123,COUGH DRUGS,Coflin Cough Linctus,CD,Syrup,100ml/,"Sore throat and chesty coughs.
+  Adults and Children aged over 12 years 5-10ml three times a day.
+Children 6-12 years. 5mls three times a day
+Children 2-5years. 2.5mls three times a day.
+Follow your doctor's prescription.",3,,
+124,COUGH DRUGS,Benylin Children's wet cough Mucus Relief,CD,Syrup,100ml,"Benylin Children's wet cough Mucus relief. Thins and loosens chest mucus. Sugar, alcohol and colourant free. Ages 2-12",,,
+125,COUGH DRUGS,Benylin Mucus cough max.,CD,Syrup,100mg/5ml,Honey and Lemon Flavour. Maximum strength formula. Reduces chest congestion. Follow your Doctor's prescription,,,
+126,COUGH DRUGS,Ascorex,CD,Syrup,100ml,Expectorant. Bronchodilator mucolytic. Follow your Doctor's prescription,,,
+127,COUGH DRUGS,StopCof,CD,Syrup,100ml,Syrup for Children. Follow your Doctor's prescription,,,
+128,COUGH DRUGS,Coflax,CD,Syrup,100ml,Cough syrup for adults. Linctus preparation or cough and bronchitis. Follow your Doctor's prescription,,,
+129,COUGH DRUGS,D-koff,CD,Syrup,100ml,"Cough Expectorant. Cough, Cold and Expectorant. 
+Follow your Doctor's prescription",,,
+130,COUGH DRUGS,Cof 'N' Cold,CD,Syrup,100ml,"Cough and Catarrh. For Children and Adults. 
+Follow your Doctor's Prescription",,,
+131,COUGH DRUGS,Tussylin,CD,Syrup,100ml,"Cough syrup for children. 
+Follow your Doctor's prescription.",,,
+132,COUGH DRUGS,Bronquidiazina,CD,Suspension,100ml,Suspension via oral. Follow your Doctor's prescription,,,
+133,COUGH DRUGS,Kofol Herbal Syrup,CD,Syrup,100ml,"Kofol Herbal syrup. Health forever....... Naturally.
+Follow your Doctor's prescription",,,
+134,COUGH DRUGS,NGC,CD,Syrup,100ml,"Expectorant Cough syrup.
+Follow your Doctor's prescription.",,,
+135,COUGH DRUGS,NGC Children's Cough syrup,CD,Syrup,100ml,"For relief of cough, hay fever and allergies in children. Follow your Doctor's prescription",,,
+136,COUGH DRUGS,Exiplon Cough syrup for Children,CD,Syrup,100ml,"For relief of coughs and nasal congestion.
+Follow your Doctor's prescription",,,
+137,COUGH DRUGS,Piriton Expectorant Linctus,CD,Syrup,100ml,"Triple action. Cough, cold and Catarrh.
+Follow your Doctor's prescription",,,
+138,COUGH DRUGS,Piscof Expectorant,CD,Syrup,100ml,"For relief of cough and Nasal congestion.
+Follow your Doctor's prescription",,,
+139,COUGH DRUGS,Viscof-S,CD,Syrup,100ml,"Expectorant. Syrup of Ambroxol, salbutamol and Guaifenesin.
+Follow your Doctor's prescription",,,
+140,COUGH DRUGS,Uniplex,CD,Syrup,100ml,"Cough Syrup. 
+Follow your Doctor's prescription.",,,
+141,COUGH DRUGS,Nocof Drops,CD,Syrup,15ml,Cough Syrup for Infants,,,
+142,LOZENGES,Strepsils Orange with Vitamin C,LZN,Others,1,Strepsils Orange with Vitamin C. 24 Lozenges,1,,
+143,LOZENGES,Strepsils Intensive,LZN,Others,8.75mg,8.75mg Lozenges Flubiprofen. Honey and Lemon. 16 Lozenges,,,
+144,PAIN MEDICATION ( ANALGESICS},Paracetamol BP,ANAL,Syrup,125mg/5ml,"Paracetamol Syrup for Children. 
+Follow your Doctor's prescription.",10,,
+145,ANTIHYPERTENSIVE DRUGS,Diovan 80,AHTN,Tablets,80mg,"Valsartan tablets. 28 tablets.
+Follow your Doctor's prescription.",,,
+146,ANTIHYPERTENSIVE DRUGS,Co-Diovan,AHTN,Tablets,160mg/12.5mg,"Valsartan/hydrochlorothiazide. 28 Film coated tablets for oral use. 
+Follow your Doctor's prescription",,,
+147,ANTICOAGULANTS,Warfarin,ATC,Tablets,5mg,"28 tablets for oral use.
+For oral use",,,
+148,ANTICOAGULANTS,Clodorel,ATC,Tablets,75mg,"Clopidogrel Tablets USP. 3*10 Tablets.
+Follow your Doctor's prescription",4,,
+149,ANTIHYPERTENSIVE DRUGS,Diovan 160,AHTN,Tablets,160mg,"Valsartan 28 calendar tablets. 
+Follow your Doctor's prescription.",,,
+150,ANTIHYPERTENSIVE DRUGS,Accord Bendroflumethiazide,AHTN,Tablets,5mg,"Bendroflumethiazide tablets. 28 tablets for oral use. 
+Follow your Doctor's prescription.",,,
+151,ANTIHYPERTENSIVE DRUGS,Bendroflumethiazide,AHTN,Tablets,5mg,"Bendroflumethiazide Tablets 5mg. 28mg tablets.
+Follow your Doctor's prescription",,,
+152,ANTIHISTAMINE,Stugeron,AHT,Tablets,25mg,"Cinnarizine 25mg per tablet. 50 oral tablets.
+Follow your Doctor's prescription",3,,
+153,ANTIHYPERTENSIVE DRUGS,Asomex-5,AHTN,Tablets,5mg,"S (-) Amlodipine Besilate 5mg. 3*10 Tablets
+Follow your Doctor's prescription",,,
+154,ANTIDIABETIC DRUGS,GalvusMet,ADM,Tablets,50mg/500mg,"Vildagliptin/Metformin HCL.
+Follow your Doctor's prescription",4,,
+155,ANTIDIABETIC DRUGS,Galvus Met,ADM,Tablets,50mg/1000mg,"Vildagliptin/Metformin HCL.
+Follow your Doctor's prescription",,,
+156,ANTIDIABETIC DRUGS,Galvus,ADM,Tablets,50mg,"Vildagliptin. 28 tablets. 
+Follow your Doctor's prescription",,,
+157,PAIN MEDICATION ( ANALGESICS},Panadol,ANAL,Tablets,500mg,Panadol Advance. Effective pain relief. Gentle on stomach. Faster absorbed. 24 tablets,,,
+158,PAIN MEDICATION ( ANALGESICS},MANTRA PLUS,ANAL,Capsules,500mg/25mg,"Each soft Gelatin capsule contains: Acetaminophen USP 500mg and Caffeine USP 25mg. For Headache, fever and pain, toothache , bodyache.",,,
+159,PAIN MEDICATION ( ANALGESICS},Emzor Paracetamol,ANAL,Tablets,500mg,95 paracetamol tablets. The drug proven to provide quick relief from pain and fever,8,,
+160,PAIN MEDICATION ( ANALGESICS},Brustan Extra Capsules,ANAL,Capsules,325mg/200mg/30mg,"Paracetamol 325mg, Ibuprofen 200mg and Caffeine 30mg
+10 capsules",4,,
+161,PAIN MEDICATION ( ANALGESICS},Emzor Para1000,ANAL,Others,1000mg,"10 Paracetamol Caplets 1000mg. Maximum relief in one caplet. 
+Maximum relief in one caplet. Convenient Dosage and double strenght.",,,
+162,PAIN MEDICATION ( ANALGESICS},M & B Paracetamol,ANAL,Tablets,500mg,"Effective on pains, aches and fever. 
+Gentle on the stomach.
+Quick acting and fast relief.
+8 * 12 tablets",40,,
+163,ANTIBIOTICS,BG AZITHROMYCIN,ATB,Tablets,500mg,BG Azithromycin 500mg 10 tablets,,,
+164,ANTIBIOTICS,DAIZIX,ATB,Tablets,250mg,Azithromycin Tablets 250mg,,,
+165,ANTIBIOTICS,ZITHROHEAL,ATB,Tablets,500mg,Azithromycin Tablets 500mg,,,
+166,ANTIBIOTICS,ZETHRO,ATB,Capsules,250mg,Azithromycin Capsules USP 250mg,,,
+167,ANTIBIOTICS,Suitrox 250mg,ATB,Tablets,250mg,6 Film Coated Tablets of Azithromycin,,,
+168,ANTIBIOTICS,Cetroxol 500,ATB,Tablets,500mg,"3 Film coated tablets of 500mg Azithromycin.
+Follow your Doctor's prescription",,,
+169,ANTIBIOTICS,Mectizan,ATB,Tablets,3mg,"500 tablets of Ivermectin.
+Follow your Doctor's prescription.",,,
+170,PAIN MEDICATION ( ANALGESICS},Panda,ANAL,Tablets,500mg,8 * 12 Tablets of Paracetamol. Analgesic and Antipyretic.,,,
+171,ANTIBIOTICS,LysoMax,ATB,Capsules,250mg,"6 oral capsules of Azithromycin.
+Follow your Doctor's prescription",,,
+172,PAIN MEDICATION ( ANALGESICS},Lapain,ANAL,Capsules,500mg,"10 * 10 capsules of  500mg Acetaminophen for quick relief from Headache, pain and fever.",,,
+173,PAIN MEDICATION ( ANALGESICS},Paracetamol,ANAL,Tablets,500mg,"8 * 12 Tablets of 500mg Paracetamol. For relief from pains , aches and fever.",,,
+174,PAIN MEDICATION ( ANALGESICS},Zamba 500,ANAL,Tablets,1,"1000 tablets of Zamba 500 for Headche, backache, muscular and rheumatic pain, cold and pain.",,,
+175,PAIN MEDICATION ( ANALGESICS},Tumol extra,ANAL,Tablets,500mg/30mg,"200 caplets for fast relief from headache, pains, backache and fever.
+Follow your Doctor's prescription.",,,
+176,PAIN MEDICATION ( ANALGESICS},Novadex,ANAL,Tablets,500mg,96 Tablets of Paracetamol. Easy to swallow for fast effective pain relief.,,,
+177,PAIN MEDICATION ( ANALGESICS},Panadol Extra,ANAL,Capsules,500mg,10 * 10 caplets of Panadol Extra. For extra effective pain relief. Reduces fever. Gentle on the stomach . Easy to swallow caplets.,1,,
+178,PAIN MEDICATION ( ANALGESICS},Easadol,ANAL,Tablets,500mg,"10 * 10 Caplets of Acetaminophen tablets. 
+Fast relief from pains and fever. Gentle on stomach.",30,,
+179,PAIN MEDICATION ( ANALGESICS},Piccan,ATB,Suspension,20mg/ml,"100 mls of Ibuprofen 20mg/ml. For the relief of Children's pain, fever and inflammation troubles.
+Follow your Doctor's prescription",,,
+180,PAIN MEDICATION ( ANALGESICS},Brustan-N,ANAL,Suspension,100ml,"Oral suspension of Ibuprofen.
+Follow your Doctor's prescription.",4,,
+181,EAR DRUGS,Elisca Chloramphenicol 5%,ATB,Drops,10ml,"Chloramphenicol 5% w/v Ear drops. 
+Follow your Doctor's prescription.",4,,
+182,ANTIBIOTICS,Chloramphenicol,ATB,Drops,100ml,Chloramphenicol Ear drops,,,
+183,PAIN MEDICATION ( ANALGESICS},Babuflam,ANAL,Suspension,100mg/5ml,"Babuflam Peadiatric suspension. For rapid relief of pain and fever.
+Follow your Doctor's prescription",,,
+184,ANTIBIOTICS,Derm Gentamycin 80,ATB,Injection,80mg/2ml,Gentamycin injection 80mg/2ml. Each 2ml ampoule contains Gentamycin sulfate equivalent to gentamycin 80mg. 2ml * 10 Ampoules.,,,
+185,MULTIVITAMINS,Nature Care Vitamin E,MVT,Capsules,1,"50 Soft capsules. Vitamin E USP 1,000 I.U. dl-Alpha Tocopheryl Acetate.",,,
+186,FAMILY PLANNING AND SEXUAL HEALTH,Cyclogest 400mg,CON,Others,400mg,15 Cyclogest Progesterone 400mg Pessaries. For Vaginal or rectal use.,,,
+187,MULTIVITAMINS,EVERYMAN,MVT,Tablets,1,"30 Tablets. Complete Multivitamins and Minerals plus Saw Palmetto, Lutein. Formulated to support Healthy heart, eyes and bones. Prostate health, immune health.",,,
+188,MULTIVITAMINS,Every Woman,MVT,Tablets,1,30 Tablets. Capsule Multivitamin and Minerals plus cranberry,,,
+189,EYE CARE ( OPHTALMOLOGY),Visiogain,MVT,Capsules,1,30 capsules. Healthy eyes and Good vision. Nutritional support to maintain and care,,,
+190,MULTIVITAMINS,Calcigain,MVT,Tablets,1,"For high Calcium absorption. Good for bone health. Free from yeast, wheat, corn , soy, Lactose, Gluten",,,
+191,FAMILY PLANNING AND SEXUAL HEALTH,Pregnagain Original,FPSH,Capsules,600ug/10ug/50mg,"20 tablets of vitamins and minerals. Gives maximum care through 1st, 2nd and 3rd trimester of pregnancy. 600micrograms of Folic acid, 10microgram of vitamin D and 50milligrams of Calcium.",,,
+192,MULTIVITAMINS,NattoEnzym,MVT,Capsules,1,"3 * 10 capsules. Nattokinase is an enzyme derived from nattō, a fermented Japanese soybean dish believed to prevent or treat certain cardiovascular diseases.",,,
+193,MULTIVITAMINS,Liveril,MVT,Tablets,1,Nutrients to help maintain healthy Liver function. Advanced formula with High strength Silymarin.,,,
+194,FAMILY PLANNING AND SEXUAL HEALTH,Pregnacare Plus omega3,MVT,Tablets,400uG/10uG,With recommended levels of Folic Acid 400uG and Vit.D 10uG plus High purity Omega-3 300mg DHA.,,,
+195,MULTIVITAMINS,Perfectil,MVT,Capsules,1,"15 capsules of Essential nutrients to help maintain healthy skin, hair and nails.",,,
+196,FAMILY PLANNING AND SEXUAL HEALTH,FEROGLOBIN CAPSULES,MVT,Capsules,1,"Haemoglobin and red blood cells. Health, vitality and energy release. Iron, Folic acid, Vitamin B12, B6 and Zinc.",,,
+197,FAMILY PLANNING AND SEXUAL HEALTH,Wellman Conception,FPS,Capsules,1,With Zinc which contributes to normal reproduction and fertility.,,,
+198,MULTIVITAMINS,Jointace Omega 3,MVT,Capsules,1,"30 capsules of Glucosamine omega3. Cod liver oil, Vit. D. Vit C, B12, Folate and minerals.",2,,
+199,MULTIVITAMINS,WellKid,MVT,Capsules,1,Vitabiotics wellkid 4-12 years Multivitamin smart chewables.,,,
+200,MULTIVITAMINS,Ginsomin eve,MVT,Capsules,1,"Korean Panax Ginseng Extract. Multivitamin and Mineral.
+3 * 10 Softgel Capsules",,,
+201,MULTIVITAMINS,Supradyn,MVT,Capsules,1,Multivitamin product containing minerals and trace elements with Coenzyme Q10. Dietary supplement.,1,,
+202,MULTIVITAMINS,ENAT 400,MVT,Capsules,1,"Enat 400. Natural Vitamin E.
+3 * 10 Softgel Capsules",,,
+203,WORM DRUGS ( AntihelmiNthic),Retrax Worm Syrup,AHT,Syrup,40mg/5ml,Levamisole 40mg/ml,,,
+204,COUGH DRUGS,Novalyn Cough Linctus,CD,Syrup,100ml,"Purified Natural Honey, Lemon and Lime. For soothing relief of stubborn coughs. Non Drowsy.",,,
+205,MULTIVITAMINS,Folimop,MVT,Syrup,2.5mg/5ml,Folic acid syrup. 2.5mg/5ml.,,,
+206,PAIN MEDICATION ( ANALGESICS},Dr Vamis Gripe Water,ANAL,Suspension,100ml,Dr Vamis Gripe Water. Fast relief from wind pains. 100ml.,,,
+207,MULTIVITAMINS,Vitamin C Sirop,MVT,Syrup,100mg/5ml,100ml. For the prevention and treatment of scurvy.,,,
+208,COUGH DRUGS,Tuxil-D,CD,Suspension,5ml,"Tuxil-D Expectorant. Relief from cough, cold and allergy.
+100mls",1,,
+209,PAIN MEDICATION ( ANALGESICS},Woodward's Cleberated Gripe water,MVT,Syrup,100ml,Important to Mothers. Woodward's celebrated Gripewater,,,
+210,COUGH DRUGS,Dr Meyer's COFLIN Cough Linctus,CD,Syrup,100ml,For Throat and chesty coughs. 100ml,,,
+211,MULTIVITAMINS,EMVITE,MVT,Syrup,100mg,100ml . Emvite Sirop de Multivitamins.,,,
+212,COUGH DRUGS,CYPRI GOLD,MVT,Syrup,100ml,"Contains Cyproheptadine HCL, L-lysine and fortified with Liquid Glucose. 100ml",,,
+213,COUGH DRUGS,Kofol Herbal Syrup,CD,Syrup,100ml,Kofol Herbal Syrup,,,
+214,MULTIVITAMINS,Abidec,MVT,Syrup,25ml,Multivitamin Drops for Babies.,,,
+215,MULTIVITAMINS,Calcicare,MVT,Syrup,200ml,Calcicare Natural Orange Flavor. Calcium Magnesium Zinc and Vitamin D supplement for all ages. 200ml.,,,
+216,WORM DRUGS ( AntihelmiNthic),Tanzol,WD,Suspension,10ml,Albendazole oral suspension. 40mg/10ml.,,,
+217,COUGH DRUGS,Benylin Peadiatric,CD,Syrup,100ml,"For relief of cough, hayfever and allergies. Diphenhydramine.",,,
+219,PAIN MEDICATION ( ANALGESICS},Uniprof Ibuprofen,ANAL,Suspension,100ml/5ml,Uniprof Ibuprofen Peadiatric suspension. 100mg/5ml. For relief from fever and pains in children. Follow you Doctors prescription,,,
+220,PAIN MEDICATION ( ANALGESICS},Lofnac 100,ANAL,Tablets,100mg,Diclofenac sodium delayed release tablets USP 100mg.,10,,
+221,ANTIBIOTICS,Neo-Penotran Forte,ATB,Tablets,750mg/200mg,"Metronidazole 750mg/ Miconazole 200mg
+7 Tablets",,,
+222,ANTIFUNGAL DRUGS,Fluconazole,AFG,Tablets,150mg,Fluconazole 150mg Capsule. Oral Use. 1 capsule.,,,
+223,FAMILY PLANNING AND SEXUAL HEALTH,Chi-Gynocare,FPSH,Tablets,1,Vaginal Ovules. 2 Blisters * 6 Ovules,,,
+224,ANTIFUNGAL DRUGS,Anti-Fungal Fungkik,AFG,Tablets,200mg,Ketoconazole tablets USP 200mg,,,
+225,VAGINAL CREAMS AND SUPPOSITORIES,Clinival-V,ATB,Suppository,100mg/100mg,Clindamycin and Clotrimazole Vaginal suppositories,,,
+226,VAGINAL CREAMS AND SUPPOSITORIES,Gynaemed,AFG,Cream/lotion,2% w/w,Gynaemed Clotrimazole Vaginal cream USP,,,
+227,ANTIFUNGAL DRUGS,GYNAEMED CLOTRIMAZOLE VAGINAL TABLETS USP,AFG,Tablets,1,Gynaemed Clotrimazole Vaginal Tablets USP. 6 Vaginal Tablets with Applicator,,,
+228,ANTIFUNGAL DRUGS,Biomestatine,AFG,Tablets,"1,000,000 IU",Biomestatine Nystatin Vaginal Tablets. 15 tablets,,,
+229,ANTIFUNGAL DRUGS,MYCOTEN CREAM,AFG,Cream/lotion,1%,Clotrimazole 1% Vaginal cream with Applicator,,,
+230,VAGINAL CREAMS AND SUPPOSITORIES,Gyno-Daktarin,AFG,Cream/lotion,20mg/1g,Miconazole nitrate 20mg per 1g Vaginal cream.,,,
+231,PAIN MEDICATION ( ANALGESICS},VOLTAREN 100 MG,ANAL,Suppository,100mg,Diclofenac 100mg For Adults,,,
+232,PAIN MEDICATION ( ANALGESICS},VOLTAREN 50 MG,ANAL,Suppository,50mg,50mg of diclofenac sodium for adults. Follow your Doctor's prescription,,,
+233,PAIN MEDICATION ( ANALGESICS},VOLTAREN 12.5MG,ANAL,Suppository,12.5mg,12.5mg diclofenac for children. Follow your Doctor's prescription.,,,
+234,ANTIFUNGAL DRUGS,Mycoten-Plus,AFG,Tablets,200mg/100mg,Clotrimazole 200mg/ Clindamycim 100mg. 7 Vaginal tablets with applicator,,,
+235,ANTIFUNGAL DRUGS,Klovinal,AFG,Suppository,500mg/100mg,Each pessary contains Metronidazole 500mg and clotrimazole 100mg and Lactobacillus spores pessaries. 1* 6 vaginal pessaries,2,,
+236,FAMILY PLANNING AND SEXUAL HEALTH,PostPill,FPSH,Tablets,1.5mg,Levonorgestrel 1 tablet,4,,
+237,"BANDAGES,PLASTERS, JOINT APPLIANCES",Cotton Absorbent Gauze,OTHERS,Others,1,Cotton Absorbent Gauze. Hospital Quality,,,
+238,NOSE DRUGS,Pax Nasal Inhaler,OTHERS,Others,1,Nasal Inhaler,,,
+239,ANTIMALARIA DRUGS,Waipa ACT Comprimes,ATM,Tablets,30mg/225mg,Each tablet contains 30mg of Dihydroartemisinin and 225mg of Piperaquine. 12 tablets. Follow your Doctor's prescription.,2,,
+240,FAMILY PLANNING AND SEXUAL HEALTH,Glostinor 2,FPSH,Tablets,0.75mg,Each tablet contains 0.75mg of Levonogestrel. 2Tablets of Levonorgestrel.,8,,
+241,ANTIHISTAMINE,Allergin,ATH,Syrup,2mg/5ml,Chlorpheniramine Maleate B.P 2mg/5ml,2,,
+242,FAMILY PLANNING AND SEXUAL HEALTH,Back up Emergency Contraception,FPSH,Tablets,1.5mg,Levonorgestrel Tablets. 1 tablet for oral use.,,,
+243,ANTIHISTAMINE,Atadyn,ATH,Syrup,10mg,"10mg of Loratidine tablet.
+For  Allergic Rhinitis , Nasal Discharge and itching, Ocular itching, sneezing.",,,
+244,ANTIHISTAMINE,Loratyn-10,ATH,Tablets,10mg,"100 tablets of Non Drowsy micronised Loratidine 10mg. 
+For Allergic Rhinitis, sneezing, nasal discharge and itching, ocular itching and burning.",20,,
+245,LEUKOTRIENE RECEPTOR ANTAGONIST,MONTIGET,LTRA,Tablets,4mg,"4mg of Montelukast Sodium. 14 chewable Tablets.
+Follow your Doctor's prescription",,,
+246,ANTIHISTAMINE,CHLORPHENIRAMINE,ATH,Tablets,4mg,"Chlorpheniramine Maleate 4mg. 10 * 10 Tablets.
+Follow your Doctor's Prescription",,,
+247,COUGH DRUGS,PASTIN COLD AND CATARRH,CD,Tablets,TABLETS,"4 Tablets of Symptomatic treatment of cold and catarrh.
+Follow your Doctor's prescription",,,
+248,ANTIHISTAMINE,ACTINAZA,ATH,Tablets,4mg,"10 strip of 10 tablets of Chlorphenamine tablets 4mg. 
+Follow your Doctor's prescription",,,
+249,LEUKOTRIENE RECEPTOR ANTAGONIST,MONTRAL,LTRA,Tablets,10mg/5mg,"10 tablets of Montelukast 10mg and Levocetirizine Dihydrochloride 5mg tablets.
+Follow your Doctor's prescription.",,,
+250,ANTIHISTAMINE,PIRITON,ATH,Tablets,4mg,"10 tablets of Chlorpheniramine Maleate 4mg.
+Follow your Doctor's prescription",25,,
+251,EAR DRUGS,CERUMOL EAR DROPS,ED,Drops,10ml,"Dual Action Formula. To gently soften and remove ear wax. 
+Follow your Doctor's prescription",,,
+252,EAR DRUGS,CHLORAMPHENICOL EAR DRUGS,ED,Drops,10ml,"Chloramphenicol Ear drops. Antibiotics for external use. 
+Follow your Doctor's prescription",,,
+253,PAIN MEDICATION ( ANALGESICS},ROBAF,ANAL,Tablets,500mg/50mg/325mg,"Each Tablets contains Methocarbamol 500mg, Diclofenac potassium 50mg and Paracetamol 325mg. Effective relief from; Back pain, muscle spasm, tense neck muscle and strains and sprains.
+Follow your Doctor's prescription.",,,
+254,FAMILY PLANNING AND SEXUAL HEALTH,DUPHASTON,FPSH,Tablets,10mg,"20 tablets of 10mg Dydrogesterone. 
+Follow your Doctor's prescription",,,
+255,FAMILY PLANNING AND SEXUAL HEALTH,CYCLOGEST,FPSH,Others,200mg,"Progesterone . 15 Pessaries for Vaginal or rectal use.
+Follow your Doctor's prescription",,,
+256,FAMILY PLANNING AND SEXUAL HEALTH,EllaOne,FPSH,Tablets,30mg,1 Film coated tablet of Ulipristal acetate. Emergency contraception. Take one tablet as soon as possible after unprotected sex or contraceptive failure.,,,
+257,WORM DRUGS ( AntihelmiNthic),PYRANTRIN,WD,Tablets,125mg,"Pyrantel Pamoate 125mg. The effective treatment for the following common worms: Ascaris Lumbricoides (roundworm), Ancylostoma duodenale(hookworm) and Necator americanus(Hookworm).
+No fasting nor purging is necessary.",,,
+258,WORM DRUGS ( AntihelmiNthic),PYRANTRIN ORAL SUSPENSION,WD,Suspension,250mg/5ml,"Pyrantel Pamoate. Oral suspension 15ml.
+Follow your Doctor's prescription",,,
+259,WORM DRUGS ( AntihelmiNthic),RETRAX TABLETS,WD,Tablets,40mg,"3 Tablets of Levamisole 40mg. 
+Follow your Doctor's prescription",,,
+260,ANTIBIOTICS,Zinnat,ATB,Tablets,250mg,"10 Tablets of 250mg of Cefuroxime.
+Follow your Doctor's prescription",,,
+261,ANTIBIOTICS,CEFIXIME,ATB,Bottle,200mg,"10 Tablets of 200mg of Cefuroxime. 
+Follow your Doctor's prescription",,,
+262,ANTIBIOTICS,ZINNAT GSK,ATB,Tablets,500mg,"Each tablet contains 500mg of Cefuroxime. 10 Tablets
+Follow your Doctor's prescription",1,,
+263,ANTIBIOTICS,AUGMENTIN GSK,ATB,Tablets,625mg,"Amoxycillin + Clavulanate potassium 625mg. 2 *7 Tablets.
+Follow your Doctor's prescription",,,
+264,ANTIBIOTICS,PHENOXYMETHYLPENICILLIN,ATB,Tablets,250mg,Each film coated tablet contains Phenoxymethylpenicillin 250mg. 28 tablets in a pack. Follow your Doctor's prescription.,,,
+265,ANTIBIOTICS,ST RACHEAL'S AMPICILLIN/CLOXACILLIN,ATB,Capsules,500mg,"10 * 10 Capsules. Ampicillin/ Cloxacillin 500mg. Follow your Doctor's prescription.
+Follow your Doctor's prescription",,,
+266,ANTIBIOTICS,ACTAVIS DOXYCYCLINE,ATB,Capsules,50mg,"28 Capsules of Doxycycline for oral use.
+Follow your Doctor's Prescription",,,
+267,ANTIBIOTICS,DALACIN C 300mg,ATB,Capsules,300mg,"16 capsules of Clindamycin 300mg. For oral Use.
+Follow your Doctor's prescription",,,
+268,ANTIBIOTICS,TARIVID TABLETS,ATB,Tablets,200mg,"10 Film coated tablets of  200mg Ofloxacin. For Oral Use.
+Follow your Doctor's prescription.",,,
+269,ANTIBIOTICS,SUITROX,ATB,Tablets,500mg,"3 Film coated tablets of Azithromycin 500mg.
+Follow your Doctor's prescription",1,,
+270,ANTIBIOTICS,ZITHROMAX,ATB,Capsules,250mg,"6 Oral capsules of 250mg of Azithromycin.
+Follow your Doctor's prescription",1,,
+271,ANTIBIOTICS,DALACIN C 150mg,ATB,Capsules,150mg,"100 Capsules of 150mg of Clindamycin. For oral use.
+Follow your Doctor's prescription",,,
+272,ANTIBIOTICS,CIPRO-500,ATB,Capsules,500mg,"10 film coated caplets of Ciprofloxacin Caplets 500mg. Broad spectrum antibiotics.
+Follow your Doctor's prescription",,,
+273,ANTIBIOTICS,CIPROFAX 500,ATB,Tablets,500mg,"10 Tablets of Ciprofloxacin 500mg.
+Follow your Doctor's prescription",,,
+274,ANTIBIOTICS,FLAGENTYL,ATB,Tablets,500mg,"4 Film coated scored tablets of 500mg of secnidazole.
+Follow your Doctor's prescription.",,,
+275,ANTIBIOTICS,LOXAGYL,ATB,Tablets,400mg,"10 * 10 Tablets of Metronidazole 400mg. 
+Follow your Doctor's prescription",10,,
+276,ANTIBIOTICS,HETRAC-250,ATB,Capsules,250mg,"10 capsules of 250mg of Tetracycline.
+Follow your Doctor's prescription",,,
+277,ANTIBIOTICS,PRIMPEX TABLETS,ATB,Tablets,80mg/400mg,"10 * 10 Tablets of Co-trimoxazole in a pack
+Follow your Doctor's prescription",5,,
+278,ANTIBIOTICS,AUGMENTIN GSK,ATB,Suspension,228.5mg/5ml,"70ml suspension in powder form. Amoxycillin + Clavulanate potassium.
+Follow your Doctor's prescription",,,
+279,ANTIBIOTICS,LOXAGYL SUSPENSION,ATB,Suspension,60ml,"Metronidazole 60ml Peadiatric solution.
+Follow your Doctor's prescription",10,,
+280,ANTIBIOTICS,FUSIDIN H,ATB,Cream/lotion,30g,Fusidic acid/hydrocortisone cream,,,
+281,ANTIBIOTICS,FUSIBET,ATB,Cream/lotion,30g,"Fusibet cream contains Fusidic acid/betamethasone 30g.
+Follow your Doctor;s prescription",,,
+282,SKIN DRUGS,BETNOVATE CREAM,SD,Cream/lotion,30g,"1g contains 1mg of betamethasone (0.1% w/w) as valerate/
+Follow your Doctor's prescription",,,
+283,SKIN DRUGS,DERMOVATE CREAM,SD,Cream/lotion,30g,"Each 1g of cream contains 0.5mg clobetasol propionate (0.05% w/w).
+Follow your Doctor's prescription",,,
+284,SKIN DRUGS,BACTROBAN 2% OINTMENT,SD,Cream/lotion,15g,Mupirocin cream.,,,
+285,SKIN DRUGS,FUCIDINE 2% CREME,SD,Cream/lotion,15g,Fusidic acid,,,
+286,SKIN DRUGS,DIPROBASE OINTMENT EMOLLIENT,SD,Cream/lotion,50g,For the treatment of eczema and other dry skin conditions. Moisturizes and protective. Relieves and soothes.,,,
+287,SKIN DRUGS,CLOTRIMAZOLE 1% w/w CREAM,SD,Cream/lotion,20g,"Contains Clotrimazole 1% w/w. Treats fungal infection.
+Follow your Doctor's prescription",,,
+288,SKIN DRUGS,AVAMYS FLUTICASONE FUROATE,ND,Spray,27.5 Micrograms/spray,Nasal spray suspension. 1 bottle 120 sprays.,,,
+289,NOSE DRUGS,ASMALYN SIROP,ND,Syrup,2mg/5ml,Salbutamol 100ml,5,,
+290,STEROIDS,XASTEN,STRD,Tablets,1mg,"Dexamethasone Tablets 1mg. 10 * 10 tablets.
+Follow your Doctor's prescription",,,
+291,ANTIBIOTICS,ROCEPHIN,ATB,Injection,1G,"Ceftriaxone 1 vial with 1g active ingredient with 1 ampoule with 10ml solvent.
+Follow your Doctor's prescription",,,
+292,STEROIDS,PERILON,STRD,Tablets,5mg,"Prednisolone Tablets 5mg. 10 Tablets in a pack.
+Follow your Doctor's prescription",5,,
+293,ANTI ASTHMA DRUGS,VENTOLIN EVOHALER,ASTD,Others,100 uG,"Salbutamol Sulfate 200 metered actuations .
+Follow your Doctor's prescription",,,
+294,ANTI ASTHMA DRUGS,VENTOLIN TABLETS,STRD,Tablets,2mg,"500 tablets of 2mg Salbutamol Sulphate.
+Follow your Doctor's prescription",,,
+295,ANTIEMETIC,MECLIZINE,AEMT,Tablets,25mg,For Travel sickness. 100 chewable tablets of Meclizine HCL.,,,
+296,WORM DRUGS ( AntihelmiNthic),WORMTAC,WD,Tablets,400mg,"Albendazole Tablets. 1 Tablet.
+Follow your Doctor's prescription",,,
+297,ANTIHYPERTENSIVE DRUGS,LISINOPRIL 5MG,AHTN,Tablets,5mg,"Lisinopril 5mg Tablets. For oral use. 28 Calendar pack tablets.
+Follow your Doctor's prescription",,,
+298,ANTIULCER DRUGS,MEPRASIL,UCR,Capsules,20mg,"2 * 10 capsules . Omeprazole capsules 20mg.
+Follow your Doctor's prescription",,,
+299,ANTIHYPERTENSIVE DRUGS,NIFECARD XL 30mg,AHTN,Tablets,30mg,"30 Tablets of Nifedipine XL 30mg.
+Follow your Doctor's prescription",,,
+300,ANTIHYPERTENSIVE DRUGS,HYDREX,AHTN,Bottle,25mg,"Hydrochlorothiazide 100 tablets.
+Follow your Doctor's prescription",,,
+301,ANTIHYPERTENSIVE DRUGS,LABET 200,AHTN,Tablets,200mg,"Labetalol Hydrochloride. 3 * 10 Film coated Tablets.
+Follow your Doctor's prescription",,,
+302,ANTIHYPERTENSIVE DRUGS,NIFEDIN DEXCEL,AHTN,Tablets,20mg,"30 sustained release tablets of Nifedipine 20mg. 
+Follow your Doctor's prescription.",,,
+303,ANTIULCER DRUGS,ASPIRIN GASTRO-RESISTANT TABLETS,UCR,Tablets,75mg,"56 Enteric coated Tablets of Aspirin 75mg. 14 tablets in a pack.
+Follow your Doctor's prescription",,,
+305,NOSE DRUGS,CONTAC DUAL RELIEF TABLETS,ND,Tablets,30mg/500mg,18 Tablets. Each Contac Non Drowsy Dual Relief Tablet contains Paracetamol 500 mg and pseudoephedrine hydrochloride 30 mg. Clears nasal and sinus congestion. Relieves headache and pain. Follow your Doctor's prescription.,,,
+306,ANTIHISTAMINE,STUGERON TABLETS,ATH,Tablets,25mg,"50 Oral tablets. 25mg Cinnarizine per tablet.
+Follow your Doctor's prescription",4,,
+307,ANTIDIABETIC DRUGS,AMARYL,ADM,Tablets,2mg,"30 Tablets of 2mg Glimeperide for oral use.
+Follow your Doctor's prescription.",,,
+308,PAIN MEDICATION ( ANALGESICS},PARACETAMOL SUPPOSITORY,ANAL,Suppository,125mg,"5 Suppositories of 125mg Paracetamol. Analgesic/ Antipyretic.
+Follow your Doctor's prescription.",,,
+309,ANTIMOTILITY DRUGS,IMODIUM,AMTY,Capsules,2mg,"6 oral Capsules of 2mg Loperamide.
+Follow your Doctor's prescription",,,
+310,ANTIHYPERTENSIVE DRUGS,THIAPRIL,AHTN,Tablets,5mg/12.5mg,"Each uncoated tablet contains Ramipril 5mg and Hydrochlorothiazide 12.5mg.
+Follow your Doctor's prescription.",,,
+311,ANTIDIABETIC DRUGS,GALVUS,ADM,Tablets,50mg,"28  Tablets of 50mg Vildagliptin. For Oral use.
+Follow your Doctor's prescription",,,
+312,PAIN MEDICATION ( ANALGESICS},CATAFLAM,ANAL,Tablets,50mg,"100 tablets of 50mg Diclofenac. Antiinflammatory and analgesic.
+Follow your Doctor's prescription",3,,
+313,PAIN MEDICATION ( ANALGESICS},NUROFEN TABLETS,ANAL,Tablets,400mg,"12 tablets of 400mg Ibuprofen. 
+Follow your Doctor's prescription",,,
+314,ANTIDIABETIC DRUGS,GALVUS MET,ADM,Tablets,50mg/500mg,"60 Tablets of Vildagliptin/Metformin HCL. For oral use.
+Follow your Doctor's prescription",4,,
+315,ANTIBIOTICS,METROTAB 400,ATB,Tablets,400mg,"10* 10 blistered Tablets of Metronidazole bp 400mg. For oral use.
+Follow your Doctor's prescription.",,,
+316,ANTIBIOTICS,ORELOX 200mg,ATB,Tablets,200mg,"10 Film coated tablets of  200mg CEFPODOXIME PROXETIL. For oral use.
+Follow your Doctor's prescription",,,
+317,ANTIBIOTICS,FLUCAMED,ATB,Capsules,200mg,"10 Capsules of 200mg Fluconazole. For oral use.
+Follow your Doctor's prescription",10,,
+318,PAIN MEDICATION ( ANALGESICS},PARAGOL PARACETAMOL INFUSION,ANAL,Injection,1000mg/100ml,"100ml Paracetamol infusion for IV Administration only.
+Follow your Doctor's prescription",,,
+319,ANTIHISTAMINE,PHILO PROMETHAZINE HYDROCHLORIDE INJECTION,ATH,Injection,50mg,10 ampoules of 2ml Promethazine Hydrochloride 50mg( (IV/IM) . (PRESCRIPTION ONLY MEDICINE),,,
+320,ANTIMALARIA DRUGS,ARTEMETHER INJECTION,ANTML,Injection,80mg/1ml,"6 Ampoules of 80mg/1ml Artemether injection. 
+Follow your Doctor's prescription",,,
+321,ANTIMALARIA DRUGS,ALPHA-BETA ARTEETHER INJECTION,ANTML,Injection,150mg/2ml,"3 Ampoules of 2ml Alpha-Beta Arteether injection.
+Follow your Doctor's prescription",,,
+322,PAIN MEDICATION ( ANALGESICS},PARABETA-P PARACETAMOL INJECTION,ANAL,Injection,300mg/2ml,Each ml contains 150mg of paracetamol.,,,
+323,ANTIULCER DRUGS,GETZOME OMEPRAZOLE IV,UCR,Injection,40mg,40mg IV Ompeprazole. IV Injection / Infusion. 1 Vial + 10ml Sterile water for injection. Follow your Doctor's prescription.,,,
+324,ANTIBIOTICS,KINCEF-S 1.5g,ATB,Injection,1.5g,"Ceftriazone 1g + Sulbactam 0.5g. For Injection. For I.M/I.V Use.
+Follow your Doctor's prescription",,,
+325,ANTIULCER DRUGS,CIMETIDINE INJECTION,UCR,Injection,200mg,"10 ampoules of Cimetidine Injection 200mg I.M/I.V. 
+Follow your Doctor's prescription",,,
+326,PAIN MEDICATION ( ANALGESICS},FITZKING DICLOFENAC INJ,UCR,Injection,75mg/3ml,"Diclofenac sodium Injection. Each 3ml ampoule contains 75mg Diclofenac Soduim.
+Follow your Doctor's prescription.",,,
+327,ANTIHYPERTENSIVE DRUGS,UPERIO VALSARTAN,AHTN,Tablets,100mg,"28 Film coated tablets of 100mg of Valsartan. Oral route.
+Follow your Doctor's prescription",,,
+328,NOSE DRUGS,SINUFED,ND,Tablets,2.5mg/60mg,"Triprolidine 2.5mg/Tablet and Pseudoephedrine 60mg/Tablet.
+Follow your Doctor's prescription",,,
+329,MULTIVITAMINS,HEPAVET COMPLEX,MVT,Capsules,Capsules,"Food Supplement. Taking care of the Liver. Contains Artichoke extract, Choline, Vit B1,B2,B6.",,,
+330,MULTIVITAMINS,WELLROZE,MVT,Capsules,Capsules,"30 Capsules containing vitamins, minerals, Ginseng, Aloe Vera, Biotin",,,
+331,MULTIVITAMINS,MEGAOMEGA3,MVT,Capsules,capsules,60 capsules Sugar free Food supplement.,,,
+332,MULTIVITAMINS,MEDITROL,MVT,Capsules,0.25 micrograms,3 * 10 Softgel Capsules of 0.25 micrograms of Calcitriol. Follow your Doctor's prescription.,,,
+333,"BANDAGES,PLASTERS, JOINT APPLIANCES",MOKO Hydrogen Peroxide,BPJ,Bottle,100ml,"20 Volumes of Hydrogen Peroxide contains 6% w/v of Hydrogen Peroxide with Stabilizer.
+Follow your Doctor's prescription.",2,,
+334,"BANDAGES,PLASTERS, JOINT APPLIANCES",CREPE BANDAGES,BPJ,Others,1,White Crepe Bandage,,,
+335,PAIN MEDICATION ( ANALGESICS},FLOTAC 75mg,ANAL,Capsules,75mg,20 capsules of 75mg Diclofenac-Cholestyramine. Follow your Doctor's prescription.,,,
+336,MULTIVITAMINS,OSTEOCARE ORIGINAL,MVT,Tablets,1,"Vitabiotics Osteocare original. Contains Calcium, Magnesium and Vitamin D3. A complete formula to help maintain. Strong bones for men and women of all ages.",,,
+337,MULTIVITAMINS,ASTYMIN,MVT,Capsules,Capsules,Astymin. Crystalline essential amino acids and multivitamin capsules.,,,
+338,ANTIBIOTICS,CIPROTAB 500,ATB,Tablets,500mg,"10 soflets of 500mg of Ciprofloxacin tablets USP.
+Follow your Doctor's prescription",2,,
+339,ANTIBIOTICS,CIPROTAB-TN,ATB,Tablets,500mg,"10 Soflets of 500mg Ciprofloxacin and Tinidazole tablets.
+Follow your Doctor's prescription",,,
+340,PAIN MEDICATION ( ANALGESICS},IBUCAP COLD AND FLU TABLETS,ND,Tablets,2mg/500mg/5mg/30mg,"25 * 4 Tablets which contains Chlorpheniramine Maleate, Paracetamol, Phenylephrine and caffeine tablets. For treatment of cold, cough and catarrh
+Follow your Doctor's prescription.",,,
+341,COUGH DRUGS,KOLD TIME ANTI COLD TABLETS,ND,Tablets,500mg/25mg/30mg/2mg,"48 * 4 Tablets of Paracetamol, Caffeine (anhydrous), pseudoephedrine HCL and Chlorpheniramine Maleate. Anti-Cold tablets for Headache, Cough, Flu, Bodyache, Cold and Fever.
+Follow your Doctor's prescription.",,,
+342,COUGH DRUGS,PIRITON EXPECTORANT LINCTUS,CD,Syrup,100ml,"Piriton Expectorant linctus for children. Each 5ml contains Chlorpheniramine maleate 1mg, Ammonium Chloride 50mg nand sodium citrate 22mg",,,
+343,ANTIHISTAMINE,GG COLD,ATH,Capsules,4mg/5mg,"10 * 10 Capsules of Chlorpheniramine Maleate 4mg, Phenylephrine Hydrochloride 5mg Capsules. 
+Follow your Doctor's prescription.",,,
+344,COUGH DRUGS,AVROLIN COUGH AND COLD CAPLETS,CD,Tablets,250mg/100mg/5mg,"20 caplets of 250mg of paracetamol, 50mg of Phenylephrine Hydrochloride. Cough and Cold Caplets.
+Follow your Doctor's prescription",,,
