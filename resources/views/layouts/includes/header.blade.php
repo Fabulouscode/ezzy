@@ -1,0 +1,121 @@
+<div class="topbar d-print-none">
+
+    <div class="topbar-left	d-none d-lg-block">
+        <div class="text-center">
+            
+            <a href="{{url('/donotezzycaretouch')}}" class="logo"><img src="{{ asset('admin/images/logo.png') }}" height="50" style="backgroun:white;" alt="logo"></a>
+        </div>
+    </div>
+
+    <nav class="navbar-custom">
+
+        <ul class="list-inline float-right mb-0">
+            <!-- <li class="list-inline-item notification-list dropdown d-none d-sm-inline-block">
+                <form role="search" class="app-search">
+                    <div class="form-group mb-0"> 
+                        <input type="text" class="form-control" placeholder="Search..">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form> 
+            </li> -->
+            <!-- <li class="list-inline-item dropdown notification-list">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="mdi mdi-email-outline noti-icon"></i>
+                    <span class="badge badge-danger badge-pill noti-icon-badge">5</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg">
+                    <div class="dropdown-item noti-title">
+                        <span class="badge badge-danger float-right">367</span>
+                        <h5>Messages</h5>
+                    </div>
+                    <div class="slimscroll" style="max-height: 230px;">
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="{{ asset('admin/images/users/user-2.jpg') }}" alt="user-img" class="img-fluid rounded-circle" /> </div>
+                            <p class="notify-details"><b>Charles M. Jones</b><span class="text-muted">Dummy text of the printing and typesetting industry.</span></p>
+                        </a>
+
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="{{ asset('admin/images/users/user-3.jpg') }}" alt="user-img" class="img-fluid rounded-circle" /> </div>
+                            <p class="notify-details"><b>Thomas J. Mimms</b><span class="text-muted">You have 87 unread messages</span></p>
+                        </a>
+
+                    </div>
+                    
+
+                    <a href="javascript:void(0);" class="dropdown-item notify-all">
+                        View All
+                    </a>
+
+                </div>
+            </li> -->
+
+            <!-- <li class="list-inline-item dropdown notification-list">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="mdi mdi-bell-outline noti-icon"></i>
+                    <span class="badge badge-success badge-pill noti-icon-badge">3</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg">
+                    <div class="dropdown-item noti-title">
+                        <span class="badge badge-danger float-right">84</span>
+                        <h5>Notification</h5>
+                    </div>
+
+                    <div class="slimscroll" style="max-height: 230px;">
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
+                            <p class="notify-details">Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span></p>
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-success"><i class="mdi mdi-message"></i></div>
+                            <p class="notify-details">New Message received<span class="text-muted">You have 87 unread messages</span></p>
+                        </a>
+                    </div>
+
+                    <a href="javascript:void(0);" class="dropdown-item notify-all">
+                        View All
+                    </a>
+
+                </div>
+            </li> -->
+
+            @if(Auth::guard('admin')->user())
+                {{-- <span class="admin-title">{{Auth::guard('admin')->user()->name}}</span> --}}
+            @endif
+            <li class="list-inline-item dropdown notification-list">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="{{ asset('admin/images/avatar.jpg') }}" alt="user" class="rounded-circle">
+                    <span class="admin-title">{{Auth::guard('admin')->user()->name}} <i class="fa fa-angle-down"></i></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
+                    @can('admin-edit')
+                    @if(Auth::guard('admin')->user())
+                        <a class="dropdown-item" href="{{ url('/donotezzycaretouch/admin/users').'/'.Auth::guard('admin')->user()->id.'/edit' }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
+                    @endif
+                    @endcan
+                    <!-- <a class="dropdown-item" href="#"><span class="badge badge-success mt-1 float-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a> -->
+                    <a class="dropdown-item" href="{{ route('lockscreen') }}"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                </div>
+            </li>
+
+        </ul>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+        <ul class="list-inline menu-left mb-0">
+            <li class="list-inline-item">
+                <button type="button" class="button-menu-mobile open-left waves-effect">
+                    <i class="ion-navicon"></i>
+                </button>
+            </li>
+        </ul>
+
+        <div class="clearfix"></div>
+
+    </nav>
+
+</div>

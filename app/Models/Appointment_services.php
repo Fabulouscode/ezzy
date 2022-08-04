@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Appointment_services extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'appointment_id',
+        'user_service_id',
+        'service_report',
+        'service_price'
+    ];
+
+    public function userService() {
+        return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
+    }
+
+    public function getServiceReportAttribute($value) {
+        return !empty($value) ?  url('storage/images/service_report/'.$value) : asset('/admin/images/avatar.jpg');
+    }
+
+}

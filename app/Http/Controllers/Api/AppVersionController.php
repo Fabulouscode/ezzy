@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Models\AppVersion;
+use App\Http\Controllers\Api\BaseApiController;
+
+
+class AppVersionController extends BaseApiController
+{
+     
+    public function checkAndroidVersion($version)
+    {
+        $data = AppVersion::where('id','1')->first();
+        if(!empty($data) && str_replace(".","",$data->android_version) <= str_replace(".","",$version)){
+            return self::sendSuccess(true,'App Version Latest');
+        }
+        return self::sendSuccess(false,'App Version outdated');
+    }
+   
+    public function checkIOSVersion($version)
+    {
+        $data = AppVersion::where('id','1')->first();
+        if(!empty($data) && str_replace(".","",$data->ios_version) <= str_replace(".","",$version)){
+            return self::sendSuccess(true,'App Version Latest');
+        }
+        return self::sendSuccess(false,'App Version outdated');
+    }
+
+}

@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Requests\Api;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+class CalenderUserBusyTimeRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'user_id' => 'required',
+            'start_date' => 'required|date_format:Y-m-d',
+            'end_date' => 'required|date_format:Y-m-d'
+        ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $transformed=[];
+        foreach ($validator->errors()->toArray() as $field => $message) {
+            $transformed[$field] = $message[0];
+        }
+
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'errors' => $transformed,
+            'message' => 'The given data was invalid.',
+        ], 422));
+    }
+}

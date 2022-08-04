@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Chat_eservices extends Model
+{
+    use HasFactory;
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'chat_history_id',
+        'shop_medicine_detail_id',
+        'medicine_name',
+        'quanity',
+        'price',
+        'effective_date',
+        'patient_direction',
+        'dispense',
+        'dispense_unit',
+        'refills',
+        'days_supply',
+        'user_service_id',
+    ];
+
+    public function shopMedicineDetails() {
+        return $this->belongsTo('App\Models\Shop_medicine_details', 'shop_medicine_detail_id','id');
+    }
+    
+    public function userService() {
+        return $this->belongsTo('App\Models\User_services', 'user_service_id','id');
+    }
+    
+    public function chat() {
+        return $this->belongsTo('App\Models\Chat_history', 'chat_history_id','id');
+    }
+}
