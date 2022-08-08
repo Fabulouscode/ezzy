@@ -2,21 +2,21 @@
 
 namespace App\Observers;
 
+use App\Models\AdminNotification;
 use App\Jobs\AdminActivityJob;
-use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 
-class AdminObserver
+class AdminNotificationObserver
 {
     /**
-     * Handle the Admin "created" event.
+     * Handle the Notification "created" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Notification  $notification
      * @return void
      */
-    public function created(Admin $admin)
+    public function created(AdminNotification $notification)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $notification->getDirty();
 
         $newValues = [];
         $oldValues = null;
@@ -27,7 +27,7 @@ class AdminObserver
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Added', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($notification, 'Added', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -38,26 +38,26 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "updated" event.
+     * Handle the Notification "updated" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Notification  $notification
      * @return void
      */
-    public function updated(Admin $admin)
+    public function updated(AdminNotification $notification)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $notification->getDirty();
 
         $newValues = [];
         $oldValues = [];
         if (count($getDirty) > 0) {
             foreach ($getDirty as $key => $value) {
-                $oldValues[$key] = $admin->getOriginal($key);
+                $oldValues[$key] = $notification->getOriginal($key);
                 $newValues[$key] = $value;
             }
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Update', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($notification, 'Update', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -68,18 +68,18 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "deleted" event.
+     * Handle the Notification "deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Notification  $notification
      * @return void
      */
-    public function deleted(Admin $admin)
+    public function deleted(AdminNotification $notification)
     {
         if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
             $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
+            $oldValues = $notification->id;
             try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
+                dispatch(new AdminActivityJob($notification, 'Deleted', null, null, $user_id, $oldValues));
             }
             catch (\Throwable $th)
             {
@@ -89,34 +89,24 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "restored" event.
+     * Handle the Notification "restored" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Notification  $notification
      * @return void
      */
-    public function restored(Admin $admin)
+    public function restored(AdminNotification $notification)
     {
         //
     }
 
     /**
-     * Handle the Admin "force deleted" event.
+     * Handle the Notification "force deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Notification  $notification
      * @return void
      */
-    public function forceDeleted(Admin $admin)
-    {        
-        if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
-            $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
-            try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
-            }
-            catch (\Throwable $th)
-            {
-                
-            }   
-        }
+    public function forceDeleted(AdminNotification $notification)
+    {
+        //
     }
 }

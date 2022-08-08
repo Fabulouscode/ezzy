@@ -2,21 +2,21 @@
 
 namespace App\Observers;
 
+use App\Models\Medicine_details;
 use App\Jobs\AdminActivityJob;
-use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 
-class AdminObserver
+class MedicineDetailsObserver
 {
     /**
-     * Handle the Admin "created" event.
+     * Handle the Medicine_details "created" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Medicine_details  $medicine_details
      * @return void
      */
-    public function created(Admin $admin)
+    public function created(Medicine_details $medicine_details)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $medicine_details->getDirty();
 
         $newValues = [];
         $oldValues = null;
@@ -27,7 +27,7 @@ class AdminObserver
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Added', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($medicine_details, 'Added', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -38,26 +38,26 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "updated" event.
+     * Handle the Medicine_details "updated" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Medicine_details  $medicine_details
      * @return void
      */
-    public function updated(Admin $admin)
+    public function updated(Medicine_details $medicine_details)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $medicine_details->getDirty();
 
         $newValues = [];
         $oldValues = [];
         if (count($getDirty) > 0) {
             foreach ($getDirty as $key => $value) {
-                $oldValues[$key] = $admin->getOriginal($key);
+                $oldValues[$key] = $medicine_details->getOriginal($key);
                 $newValues[$key] = $value;
             }
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Update', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($medicine_details, 'Update', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -68,18 +68,18 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "deleted" event.
+     * Handle the Medicine_details "deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Medicine_details  $medicine_details
      * @return void
      */
-    public function deleted(Admin $admin)
+    public function deleted(Medicine_details $medicine_details)
     {
         if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
             $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
+            $oldValues = $medicine_details->id;
             try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
+                dispatch(new AdminActivityJob($medicine_details, 'Deleted', null, null, $user_id, $oldValues));
             }
             catch (\Throwable $th)
             {
@@ -89,34 +89,24 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "restored" event.
+     * Handle the Medicine_details "restored" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Medicine_details  $medicine_details
      * @return void
      */
-    public function restored(Admin $admin)
+    public function restored(Medicine_details $medicine_details)
     {
         //
     }
 
     /**
-     * Handle the Admin "force deleted" event.
+     * Handle the Medicine_details "force deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Medicine_details  $medicine_details
      * @return void
      */
-    public function forceDeleted(Admin $admin)
-    {        
-        if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
-            $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
-            try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
-            }
-            catch (\Throwable $th)
-            {
-                
-            }   
-        }
+    public function forceDeleted(Medicine_details $medicine_details)
+    {
+        //
     }
 }

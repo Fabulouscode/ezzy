@@ -2,21 +2,21 @@
 
 namespace App\Observers;
 
+use App\Models\Static_pages;
 use App\Jobs\AdminActivityJob;
-use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 
-class AdminObserver
+class StaticPagesObserver
 {
     /**
-     * Handle the Admin "created" event.
+     * Handle the Static_pages "created" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Static_pages  $static_pages
      * @return void
      */
-    public function created(Admin $admin)
+    public function created(Static_pages $static_pages)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $static_pages->getDirty();
 
         $newValues = [];
         $oldValues = null;
@@ -27,7 +27,7 @@ class AdminObserver
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Added', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($static_pages, 'Added', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -38,26 +38,26 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "updated" event.
+     * Handle the Static_pages "updated" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Static_pages  $static_pages
      * @return void
      */
-    public function updated(Admin $admin)
+    public function updated(Static_pages $static_pages)
     {
-        $getDirty = $admin->getDirty();
+        $getDirty = $static_pages->getDirty();
 
         $newValues = [];
         $oldValues = [];
         if (count($getDirty) > 0) {
             foreach ($getDirty as $key => $value) {
-                $oldValues[$key] = $admin->getOriginal($key);
+                $oldValues[$key] = $static_pages->getOriginal($key);
                 $newValues[$key] = $value;
             }
             if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
                 $user_id = Auth::guard('admin')->user()->id;
                 try{
-                    dispatch(new AdminActivityJob($admin, 'Update', null, null, $user_id, $oldValues, $newValues));
+                    dispatch(new AdminActivityJob($static_pages, 'Update', null, null, $user_id, $oldValues, $newValues));
                 }
                 catch (\Throwable $th)
                 {
@@ -68,55 +68,45 @@ class AdminObserver
     }
 
     /**
-     * Handle the Admin "deleted" event.
+     * Handle the Static_pages "deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Static_pages  $static_pages
      * @return void
      */
-    public function deleted(Admin $admin)
+    public function deleted(Static_pages $static_pages)
     {
         if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
             $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
+            $oldValues = $static_pages->id;
             try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
+                dispatch(new AdminActivityJob($static_pages, 'Deleted', null, null, $user_id, $oldValues));
             }
             catch (\Throwable $th)
             {
                 
             }   
-        }
+        }   
     }
 
     /**
-     * Handle the Admin "restored" event.
+     * Handle the Static_pages "restored" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Static_pages  $static_pages
      * @return void
      */
-    public function restored(Admin $admin)
+    public function restored(Static_pages $static_pages)
     {
         //
     }
 
     /**
-     * Handle the Admin "force deleted" event.
+     * Handle the Static_pages "force deleted" event.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Static_pages  $static_pages
      * @return void
      */
-    public function forceDeleted(Admin $admin)
-    {        
-        if (Auth::guard('admin')->check() && !empty(Auth::guard('admin')->user()->id)) {
-            $user_id = Auth::guard('admin')->user()->id;
-            $oldValues = $admin->id;
-            try{
-                dispatch(new AdminActivityJob($admin, 'Deleted', null, null, $user_id, $oldValues));
-            }
-            catch (\Throwable $th)
-            {
-                
-            }   
-        }
+    public function forceDeleted(Static_pages $static_pages)
+    {
+        //
     }
 }
