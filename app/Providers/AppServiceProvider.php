@@ -15,10 +15,13 @@ use App\Models\AdminNotification;
 use App\Models\Appointment;
 use App\Models\AppVersion;
 use App\Models\Manage_fees;
+use App\Models\Permission;
+use App\Models\Permission_category;
 use App\Models\Services;
 use App\Models\Support_request;
 use App\Models\Voucher_code;
 use App\Models\Role;
+use App\Models\Sevice_usage;
 use App\Models\Static_pages;
 use App\Models\User;
 use App\Observers\AdminObserver;
@@ -32,8 +35,11 @@ use App\Observers\AdminNotificationObserver;
 use App\Observers\AppointmentObserver;
 use App\Observers\AppVersionObserver;
 use App\Observers\ManageFeesObserver;
+use App\Observers\PermissionCategoryObserver;
+use App\Observers\PermissionObserver;
 use App\Observers\RoleObserver;
 use App\Observers\ServicesObserver;
+use App\Observers\SeviceUsageObserver;
 use App\Observers\StaticPagesObserver;
 use App\Observers\SupportRequestObserver;
 use App\Observers\UserObserver;
@@ -83,5 +89,8 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Static_pages::observe(StaticPagesObserver::class);
         Manage_fees::observe(ManageFeesObserver::class);
+        Permission::observe(PermissionObserver::class);
+        Permission_category::observe(PermissionCategoryObserver::class);
+        Sevice_usage::observe(SeviceUsageObserver::class);
     }
 }

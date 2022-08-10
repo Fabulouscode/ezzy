@@ -344,6 +344,66 @@ class AdminActivityJob implements ShouldQueue
             $this->oldValues = (!empty($oldValues))?json_encode($oldValues):null;
             $this->newValues = (!empty($newValues))?json_encode($newValues):null;
         }
+        if ($model instanceof  \App\Models\Permission) {
+            if ($type == 'Added') {
+                $this->title = 'Permission Added';
+                $this->description = 'New Permission id :'.$model->id.' created';
+            }
+            if ($type == 'Update') {
+                $this->title = 'Permission Updated';
+                $this->description = 'Details of Permission id :'.$model->id.' updates';
+            }
+            if ($type == 'Deleted') {
+                $this->title = 'Permission Deleted';
+                $this->description = 'Permission id :'.$model->id.' Deleted Following Id : '.$oldValues;
+            }
+
+            $this->admin_id = $admin_id;
+            $this->last_ip_address = $ip;
+            $this->last_user_agent = $agent;
+            $this->oldValues = (!empty($oldValues))?json_encode($oldValues):null;
+            $this->newValues = (!empty($newValues))?json_encode($newValues):null;
+        }
+        if ($model instanceof  \App\Models\Permission_category) {
+            if ($type == 'Added') {
+                $this->title = 'Permission category Added';
+                $this->description = 'New Permission category id :'.$model->id.' created';
+            }
+            if ($type == 'Update') {
+                $this->title = 'Permission category Updated';
+                $this->description = 'Details of Permission category id :'.$model->id.' updates';
+            }
+            if ($type == 'Deleted') {
+                $this->title = 'Permission category Deleted';
+                $this->description = 'Permission category id :'.$model->id.' Deleted Following Id : '.$oldValues;
+            }
+
+            $this->admin_id = $admin_id;
+            $this->last_ip_address = $ip;
+            $this->last_user_agent = $agent;
+            $this->oldValues = (!empty($oldValues))?json_encode($oldValues):null;
+            $this->newValues = (!empty($newValues))?json_encode($newValues):null;
+        }
+        if ($model instanceof  \App\Models\Sevice_usage) {
+            if ($type == 'Added') {
+                $this->title = 'Service Usage Added';
+                $this->description = 'New Service Usage id :'.$model->id.' created';
+            }
+            if ($type == 'Update') {
+                $this->title = 'Service Usage Updated';
+                $this->description = 'Details of Service Usage id :'.$model->id.' updates';
+            }
+            if ($type == 'Deleted') {
+                $this->title = 'Service Usage Deleted';
+                $this->description = 'Service Usage id :'.$model->id.' Deleted Following Id : '.$oldValues;
+            }
+
+            $this->admin_id = $admin_id;
+            $this->last_ip_address = $ip;
+            $this->last_user_agent = $agent;
+            $this->oldValues = (!empty($oldValues))?json_encode($oldValues):null;
+            $this->newValues = (!empty($newValues))?json_encode($newValues):null;
+        }
     }
 
     /**

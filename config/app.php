@@ -52,6 +52,16 @@ return [
     |
     */
 
+    'EJABBERD_PORT' => env('EJABBERD_PORT'),
+
+    'EJABBERD_HOST' => env('EJABBERD_HOST'),
+
+    'EJABBERD_AUTHORIZATION' => env('EJABBERD_AUTHORIZATION'),
+
+    'EJABBERD_PASSWORD' => env('EJABBERD_PASSWORD'),
+
+    'offline_message_token' => env('offline_message_token'),
+
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
