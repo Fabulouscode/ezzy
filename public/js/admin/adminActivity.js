@@ -24,6 +24,8 @@ $(function () {
         },
         columns: [
             { data: 'id', name: 'id' },
+            { data: 'admin.name', name: 'admin.name', title:'Admin Name'  },
+            { data: 'admin.email', name: 'admin.email', title:'Admin Email' },
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
             { data: 'created_at', name: 'created_at' },

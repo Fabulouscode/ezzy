@@ -46,6 +46,8 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>Admin Name</th>
+                                        <th>Admin Email</th>
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Date Time</th>

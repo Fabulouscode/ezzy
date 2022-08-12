@@ -190,7 +190,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('support_request', 'SupportRequestController')->middleware('role-permission-resource:support_ticket-list,support_ticket-add,support_ticket-edit,support_ticket-delete');  
         
         // admin activity
-        Route::resource('admin_activity', 'AdminActivityController');
+        Route::resource('admin_activity', 'AdminActivityController')->middleware('role-permission-resource:admin_activity-list,admin_activity-add,admin_activity-edit,admin_activity-delete');
     
     });
 
