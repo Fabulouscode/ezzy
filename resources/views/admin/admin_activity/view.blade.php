@@ -29,6 +29,22 @@
                                 <h4 class="mt-0 header-title">View Activity Details</h4>
                                 <div class="card-detail-list">
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Admin Name</label></dt>
+                                        <dd class="col-sm-7">
+                                            @if (!empty($data->admin) && !empty($data->admin->name))
+                                                {{ $data->admin->name }}
+                                            @endif
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Admin Email</label></dt>
+                                        <dd class="col-sm-7">
+                                            @if (!empty($data->admin) && !empty($data->admin->email))
+                                                {{ $data->admin->email }}
+                                            @endif
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Title</label></dt>
                                         <dd class="col-sm-7">
                                             @if (!empty($data->title))
@@ -45,22 +61,6 @@
                                         </dd>
                                     </div>
                                     <div class="row">
-                                        <dt class="col-sm-5"><label>Old Values</label></dt>
-                                        <dd class="col-sm-7">
-                                            @if (!empty($data->old_values))
-                                                {{ $data->old_values }}
-                                            @endif
-                                        </dd>
-                                    </div>
-                                    <div class="row">
-                                        <dt class="col-sm-5"><label>New Values</label></dt>
-                                        <dd class="col-sm-7">
-                                            @if (!empty($data->new_values))
-                                                {{ $data->new_values }}
-                                            @endif
-                                        </dd>
-                                    </div>
-                                    <div class="row">
                                         <dt class="col-sm-5"><label>Date Time</label></dt>
                                         <dd class="col-sm-7">
                                             @if (!empty($data->created_at))
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         
-                        <!-- <div class="row">
+                        <div class="row">
                             @if(!empty($data->old_values) && !empty($data->new_values))
                             <div class="col-md-6">
                                 <h6>Old Values</h6>
@@ -81,7 +81,11 @@
                                         @if(!empty($data->old_values))
                                             @foreach(json_decode($data->old_values) as $key=>$value)
                                                 <tr>
-                                                    <th>{{$key}}</th>
+                                                    <th>
+                                                        @if(!empty($value))
+                                                            {{ucfirst(str_replace("_"," ",$key))}}
+                                                        @endif
+                                                    </th>
                                                     <td>
                                                         @if(($value instanceof stdClass))
                                                             {{json_encode($value)}}
@@ -102,7 +106,11 @@
                                         @if(!empty($data->new_values))
                                             @foreach(json_decode($data->new_values) as $key=>$value)
                                                 <tr>
-                                                    <th>{{$key}}</th>
+                                                    <th>
+                                                        @if(!empty($value))
+                                                            {{ucfirst(str_replace("_"," ",$key))}}
+                                                        @endif
+                                                    </th>
                                                     <td>
                                                         @if(($value instanceof stdClass))
                                                             {{json_encode($value)}}
@@ -117,7 +125,7 @@
                                 </table>
                             </div>
                             @endif
-                        </div> -->
+                        </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
