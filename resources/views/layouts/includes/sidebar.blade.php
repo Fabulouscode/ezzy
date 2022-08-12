@@ -219,12 +219,12 @@
                         <span> Contact Form </span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{url('/donotezzycaretouch/admin_activity')}}" class="waves-effect">
                         <i class="dripicons-list"></i>
                         <span> Admin Activity </span>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="clearfix"></div>
