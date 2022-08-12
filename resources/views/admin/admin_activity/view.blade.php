@@ -71,6 +71,53 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- <div class="row">
+                            @if(!empty($data->old_values) && !empty($data->new_values))
+                            <div class="col-md-6">
+                                <h6>Old Values</h6>
+                                <table class="table table-bordered table-nowrap text-table-wrap table-pd-small">
+                                    <tbody>
+                                        @if(!empty($data->old_values))
+                                            @foreach(json_decode($data->old_values) as $key=>$value)
+                                                <tr>
+                                                    <th>{{$key}}</th>
+                                                    <td>
+                                                        @if(($value instanceof stdClass))
+                                                            {{json_encode($value)}}
+                                                        @else
+                                                            {{$value ?? ''}}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>New Values</h6>
+                                <table class="table table-bordered table-nowrap text-table-wrap table-pd-small">
+                                    <tbody>
+                                        @if(!empty($data->new_values))
+                                            @foreach(json_decode($data->new_values) as $key=>$value)
+                                                <tr>
+                                                    <th>{{$key}}</th>
+                                                    <td>
+                                                        @if(($value instanceof stdClass))
+                                                            {{json_encode($value)}}
+                                                        @else
+                                                            {{$value ?? ''}}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            @endif
+                        </div> -->
 
                         <div class="row">
                             <div class="form-group col-md-12">

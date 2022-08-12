@@ -62,72 +62,114 @@ class WalletController extends BaseApiController
 
     public function addWalletBalance(AddWalletBalanceRequest $request)
     {          
-            $walletBalance = '';
-            if(!empty($request->transaction_id)){
-                $wallet_transaction = [
-                    'user_id'=> $request->user()->id,
-                    'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                    'amount'=> $request->amount,                        
-                    'payment_gateway_response'=> $request->payment_transaction,
-                    'status'=> '0',
-                    'transaction_msg'=>'Add Wallet to online pay',
-                    'online_transaction_pay'=>'1',
-                ];        
-            }else{
-                $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
-                if(!empty($walletBalance)){
-                    $wallet_transaction = [
-                        'user_id'=> $request->user()->id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> $request->amount,                        
-                        'payment_gateway_response'=> $request->payment_transaction,
-                        'status'=> '0',
-                        'transaction_msg'=>'Add Wallet to online pay',
-                        'online_transaction_pay'=>'1',
-                    ];  
-                }else{
-                    $wallet_transaction = [
-                        'user_id'=> $request->user()->id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> $request->amount,                        
-                        'payment_gateway_response'=> (!empty($response['reference'])) ? $response['reference'] : '',
-                        'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'wallet_transaction'=> '1',
-                        'payout_status'=> '0',
-                        'status'=> '0',
-                        'transaction_msg'=>'Add Wallet to online pay',
-                        'online_transaction_pay'=>'1',
-                    ];
-                }
+        \Log::info("============mobile to call getPaystackCallback=================");
+        \Log::info(json_encode($request->all()));
+        $walletBalance = '';
+        //     if(!empty($request->transaction_id)){
+        //         $wallet_transaction = [
+        //             'user_id'=> $request->user()->id,
+        //             'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+        //             'amount'=> $request->amount,                        
+        //             'payment_gateway_response'=> $request->payment_transaction,
+        //             'status'=> '0',
+        //             'transaction_msg'=>'Add Wallet to online pay',
+        //             'online_transaction_pay'=>'1',
+        //         ];        
+        //     }else{
+        //         $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
+        //         if(!empty($walletBalance)){
+        //             $wallet_transaction = [
+        //                 'user_id'=> $request->user()->id,
+        //                 'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+        //                 'amount'=> $request->amount,                        
+        //                 'payment_gateway_response'=> $request->payment_transaction,
+        //                 'status'=> '0',
+        //                 'transaction_msg'=>'Add Wallet to online pay',
+        //                 'online_transaction_pay'=>'1',
+        //             ];  
+        //         }else{
+        //             $wallet_transaction = [
+        //                 'user_id'=> $request->user()->id,
+        //                 'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+        //                 'amount'=> $request->amount,                        
+        //                 'payment_gateway_response'=> (!empty($response['reference'])) ? $response['reference'] : '',
+        //                 'mode_of_payment'=> '1',
+        //                 'transaction_type'=> '1',
+        //                 'wallet_transaction'=> '1',
+        //                 'payout_status'=> '0',
+        //                 'status'=> '0',
+        //                 'transaction_msg'=>'Add Wallet to online pay',
+        //                 'online_transaction_pay'=>'1',
+        //             ];
+        //         }
 
-            }
+        //     }
+        //     $add_transaction = [
+        //                 'user_id'=> $request->user()->id,
+        //                 'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+        //                 'amount'=> $request->amount,                        
+        //                 'payment_gateway_response'=> $request->payment_transaction,
+        //                 'mode_of_payment'=> '0',
+        //                 'transaction_type'=> '0',
+        //                 'wallet_transaction'=> '1',
+        //                 'payout_status'=> '0',
+        //                 'status'=> '0',
+        //                 'transaction_msg'=>'Wallet Topup',
+        //                 'online_transaction_pay'=>'1',
+        //             ];
+        // try {
+        //     if(!empty($request->transaction_id)){
+        //         $this->user_transaction_repo->dataCrud($wallet_transaction, $request->transaction_id);
+        //     }else if(!empty($walletBalance)){
+        //         $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);
+        //     }else{
+        //         $this->user_transaction_repo->dataCrud($wallet_transaction);
+        //     }
+        //     $this->user_transaction_repo->dataCrud($add_transaction);
+        //     $this->user_repo->userWalletUpdate($request->user()->id);        
+        //     return self::sendSuccess([], 'Wallet balance add Successfully');
+        // } catch (\Exception $e) {
+        //     return self::sendException($e);
+        // }
+
+        $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
+        if(!empty($walletBalance)){
+            $wallet_transaction = [
+                'user_id'=> $request->user()->id,
+                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                'amount'=> $request->amount,                        
+                'payment_gateway_response'=> $request->payment_transaction,
+                'payment_gateway_full_response'=> $request->payment_transaction,
+                'status'=> '0',
+                'transaction_msg'=>'Add Wallet to online pay',
+                'online_transaction_pay'=>'1',
+            ];  
+
             $add_transaction = [
-                        'user_id'=> $request->user()->id,
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'amount'=> $request->amount,                        
-                        'payment_gateway_response'=> $request->payment_transaction,
-                        'mode_of_payment'=> '0',
-                        'transaction_type'=> '0',
-                        'wallet_transaction'=> '1',
-                        'payout_status'=> '0',
-                        'status'=> '0',
-                        'transaction_msg'=>'Wallet Topup',
-                        'online_transaction_pay'=>'1',
-                    ];
-        try {
-            if(!empty($request->transaction_id)){
-                $this->user_transaction_repo->dataCrud($wallet_transaction, $request->transaction_id);
-            }else if(!empty($walletBalance)){
+                'user_id'=> $request->user()->id,
+                'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
+                'amount'=> $request->amount,                        
+                'payment_gateway_response'=> $request->payment_transaction,
+                'payment_gateway_full_response'=> $request->payment_transaction,
+                'mode_of_payment'=> '0',
+                'transaction_type'=> '0',
+                'wallet_transaction'=> '1',
+                'payout_status'=> '0',
+                'status'=> '0',
+                'transaction_msg'=>'Wallet Topup',
+                'online_transaction_pay'=>'1',
+            ];
+
+            try {
                 $this->user_transaction_repo->dataCrud($wallet_transaction, $walletBalance->id);
-            }else{
-                $this->user_transaction_repo->dataCrud($wallet_transaction);
+                $this->user_transaction_repo->dataCrud($add_transaction);
+                $this->user_repo->userWalletUpdate($request->user()->id);              
+                return self::sendSuccess([], 'Wallet balance add Successfully');
+            } catch (\Exception $e) {
+                return self::sendException($e);
             }
-            $this->user_transaction_repo->dataCrud($add_transaction);
-            $this->user_repo->userWalletUpdate($request->user()->id);        
-            return self::sendSuccess([], 'Wallet balance add Successfully');
-        } catch (\Exception $e) {
-            return self::sendException($e);
+        }else{
+            return self::sendSuccess([], 'Transaction not completed');
         }
     }
 
@@ -170,12 +212,15 @@ class WalletController extends BaseApiController
 
     public function addWalletBalanceInterSwitch(AddWalletBalanceRequest $request)
     {          
+        \Log::info("============mobile to call getInterswitchCallback=================");
+        \Log::info(json_encode($request->all()));
         $walletBalance = $this->user_transaction_repo->getPendingTransaction($request->user()->id, $request->payment_transaction); 
         if(!empty($walletBalance)){
             $wallet_transaction = [
                 'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                 'amount'=> $request->amount,                        
                 'payment_gateway_response'=> $request->payment_transaction,
+                'payment_gateway_full_response'=> $request->payment_transaction,
                 'status'=> '0',
                 'transaction_msg'=>'Add Wallet to online pay',
                 'online_transaction_pay'=>'2',
@@ -185,6 +230,7 @@ class WalletController extends BaseApiController
                         'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
                         'amount'=> $request->amount,                        
                         'payment_gateway_response'=> $request->payment_transaction,
+                        'payment_gateway_full_response'=> $request->payment_transaction,
                         'mode_of_payment'=> '0',
                         'transaction_type'=> '0',
                         'wallet_transaction'=> '1',
