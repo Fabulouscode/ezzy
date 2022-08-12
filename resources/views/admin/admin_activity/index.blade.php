@@ -22,11 +22,23 @@
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">
-                        @can('notification-add')
+                        {{-- @can('notification-add') --}}
                             {{-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/donotezzycaretouch/notifications/create')}}" class="btn btn-info">Add Notification</a>
                     </div> --}}
-                        @endcan
+                        {{-- @endcan --}}
+                        <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                            <div class="row mb-3">                               
+                                <div class="col-md-3">
+                                    <div className="form-group">
+                                        <label>Date Range</label>
+                                        <input type="text" class="form-control" name="date_range" id="order-date-range"  />
+                                        <input type="hidden" class="form-control" id="start_date" name="start_date" />
+                                        <input type="hidden" class="form-control" id="end_date" name="end_date"  />     
+                                    </div>
+                                </div>          
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table id="admin_activity_datatable"
                                 class="table ui-datatable table-striped table-bordered nowrap"

@@ -41,6 +41,16 @@ class AdminActivityRepository extends Repository
         return $this->model->find($id);
     }
 
+    public function getWithRelationship($request)
+    {
+        $query = $this->model;    
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('created_at', '>=',$request->start_date)->whereDate('created_at' , '<=',$request->end_date);
+        }
+        return $query;
+    }
+
     /**
      * Display a listing of the Datatable.
      *
@@ -48,7 +58,7 @@ class AdminActivityRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
             ->addColumn('action', function ($selected) {
                 $data = '';
