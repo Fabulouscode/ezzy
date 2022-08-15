@@ -410,12 +410,14 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::get('/video/appointment/check/wallet/{client_id?}', 'AppointmentController@checkAppointmentClientWallet');
 
 
-
+        // ejabbred request
+        Route::prefix('ejabbred')->group(function(){    
+            Route::post('chat-history', 'EjabbredChatController@chat_history');
+            Route::get('chat-users', 'EjabbredChatController@users');
+            Route::post('chat-history-clear', 'EjabbredChatController@chatHistoryClear');
+        });
 
     });
 
-    Route::post('chat-history', 'EjabbredChatController@chat_history');
-    Route::get('chat-users', 'EjabbredChatController@users');
-    Route::post('chat-history-clear', 'EjabbredChatController@chatHistoryClear');
         
 });

@@ -52,15 +52,6 @@ return [
     |
     */
 
-    'EJABBERD_PORT' => env('EJABBERD_PORT'),
-
-    'EJABBERD_HOST' => env('EJABBERD_HOST'),
-
-    'EJABBERD_AUTHORIZATION' => env('EJABBERD_AUTHORIZATION'),
-
-    'EJABBERD_PASSWORD' => env('EJABBERD_PASSWORD'),
-
-    'offline_message_token' => env('offline_message_token'),
 
     'url' => env('APP_URL', 'http://localhost'),
 
@@ -186,6 +177,11 @@ return [
     'MTARGET_USERNAME'=> env('MTARGET_USERNAME'),
     'MTARGET_PASSWORD'=> env('MTARGET_PASSWORD'),
 
+    /* EJABBERD integration (chat) */
+    'EJABBERD_PORT' => env('EJABBERD_PORT'),
+    'EJABBERD_HOST' => env('EJABBERD_HOST'),
+    'EJABBERD_AUTHORIZATION' => env('EJABBERD_AUTHORIZATION'),
+    'EJABBERD_PASSWORD' => env('EJABBERD_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
