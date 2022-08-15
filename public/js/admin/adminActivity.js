@@ -39,13 +39,16 @@ $(function () {
         }
     });
     $('#order-date-range').daterangepicker({
+        startDate: moment().startOf('month').format('YYYY-MM-DD'),
+        endDate: moment().endOf('month').format('YYYY-MM-DD'),
         // startDate: moment().subtract(3, 'months'),
         // endDate: moment(),
-        maxDate: moment(),
-        autoUpdateInput: false,
+        // maxDate: moment(),
+        // autoUpdateInput: false,
         locale: {
-            cancelLabel: 'Clear'
+            format: 'YYYY-MM-DD'
         },
+       
         alwaysShowCalendars: true,
         opens: "right",
         ranges: {
@@ -60,7 +63,7 @@ $(function () {
     $('#order-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
         $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
-        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        $('#order-date-range').val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
         var oTable = $('#admin_activity_datatable').dataTable();
         oTable.fnDraw(true);
         // $('#user_transaction_datatable').DataTable().ajax.reload();
