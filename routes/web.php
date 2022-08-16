@@ -191,6 +191,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         
         // admin activity
         Route::resource('admin_activity', 'AdminActivityController')->middleware('role-permission-resource:admin_activity-list,admin_activity-add,admin_activity-edit,admin_activity-delete');
+
+        Route::resource('app_setting', 'AppSettingController')->middleware('role-permission-resource:app_setting-list');
     
     });
 

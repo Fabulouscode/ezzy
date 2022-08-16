@@ -191,6 +191,9 @@
                         @can('app_version-list')
                         <li><a href="{{url('/donotezzycaretouch/app_version')}}">App Version</a></li>
                         @endcan
+                        @can('app_setting-list')
+                        <li><a href="{{url('/donotezzycaretouch/app_setting')}}">App Setting</a></li>
+                        @endcan
                         @if(!empty(Auth::user()->role_id == '1'))
                         <li><a href="{{url('/donotezzycaretouch/user_trackings')}}">User Trackings</a></li>
                         @endif
