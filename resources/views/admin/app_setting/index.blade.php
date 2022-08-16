@@ -36,8 +36,8 @@
                                             <dt class="col-sm-5"><label>PayStack</label></dt>
                                             <dd class="col-sm-7">
                                                 <select class="form-control" id="setting[paystack]" name="setting[paystack]" >
-                                                    <option value="1" {{isset($data) && $data['paystack'] == 1 ? 'selected' :""}}>Start</option>
-                                                    <option value="0" {{isset($data) && $data['paystack'] == 0 ? 'selected' :""}}>Stop</option>
+                                                    <option value="1" {{isset($data['paystack']) && $data['paystack'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['paystack']) && $data['paystack'] == 0 ? 'selected' :""}}>Stop</option>
                                                 </select>
                                                 @error('setting[paystack]')
                                                     <span class="invalid-feedback" role="alert">
@@ -50,8 +50,8 @@
                                             <dt class="col-sm-5"><label>InterSwitch</label></dt>
                                             <dd class="col-sm-7">
                                                 <select class="form-control" id="setting[interswitch]" name="setting[interswitch]" >
-                                                    <option value="1" {{isset($data) &&  $data['interswitch'] == 1 ? 'selected' :""}}>Start</option>
-                                                    <option value="0" {{isset($data) && $data['interswitch'] == 0 ? 'selected' :""}}>Stop</option>
+                                                    <option value="1" {{isset($data['interswitch']) &&  $data['interswitch'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['interswitch']) && $data['interswitch'] == 0 ? 'selected' :""}}>Stop</option>
                                                 </select>
                                                 @error('setting[interswitch]')
                                                     <span class="invalid-feedback" role="alert">
