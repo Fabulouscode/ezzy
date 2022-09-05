@@ -183,7 +183,7 @@ class User extends Authenticatable
     public function getMonthlyWalletBalanceAttribute(){
         $total_earning = 0;
         $total_earning = $this->hasOne('App\Models\User_transaction','client_id','id')
-                               ->where([['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->sum('payout_amount'); 
+                               ->where([['status', '=', '0']])->whereMonth('transaction_date', Carbon::now()->format('m'))->whereYear('transaction_date', Carbon::now()->format('Y'))->sum('payout_amount'); 
          return $total_earning;
 
     }
