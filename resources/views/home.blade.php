@@ -378,7 +378,7 @@
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <textarea id="message"  name="message" rows="5" placeholder="Massage" class="form-control"></textarea>
+                                            <textarea id="message"  name="message" rows="5" placeholder="Message" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
