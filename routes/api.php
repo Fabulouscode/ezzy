@@ -28,6 +28,8 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
   
    Route::get('/check/request_timeout', 'CategoryController@getTimeoutCheck');
    Route::post('/contact/form_submit', 'UserController@addContactDetails');
+   Route::get('/app-setting', 'AppSettingController@getAppSetting');
+   
 });
 
 Route::namespace('App\Http\Controllers\Api')->middleware('auth:api')->group(function(){

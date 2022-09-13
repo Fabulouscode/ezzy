@@ -193,6 +193,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('admin_activity', 'AdminActivityController')->middleware('role-permission-resource:admin_activity-list,admin_activity-add,admin_activity-edit,admin_activity-delete');
 
         Route::resource('app_setting', 'AppSettingController')->middleware('role-permission-resource:app_setting-list');
+        Route::resource('user_wallet', 'UserwalletController');
+        Route::post('user_wallet/get-user','UserwalletController@getCategoryUser');
     
     });
 
