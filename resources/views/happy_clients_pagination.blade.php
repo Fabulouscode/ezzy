@@ -1,3 +1,4 @@
+@if($happyClients->isNotEmpty())
 @foreach ($happyClients as $item)
 <div class="col-lg-12">
     <div class="why-choose-text wow fadeInUp mb-4" data-wow-duration="2s">
@@ -20,3 +21,18 @@
 <div class="col-lg-12 js_pagination">
     {{$happyClients->links()}}
 </div>
+@else
+<div class="col-lg-12" style="margin-top: 300px">
+    <div class="why-choose-text wow fadeInUp mb-4" data-wow-duration="2s">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" >                                        
+                    <div class="col-lg-12" >
+                        <h5 class="mt-0">No data found</h5>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
