@@ -33,7 +33,7 @@ class HomeController extends Controller
     public function doctors(Request $request)
     {
         // 4 No is for doctor
-        $doctors = User::with(['userDetails','userEduction'])->where(['category_id'=>4,'status'=>0])->whereNull('deleted_at');
+        $doctors = User::with(['userDetails','userEduction'])->whereNotIn('id',[20,240])->where(['category_id'=>4,'status'=>0])->whereNull('deleted_at');
         
         if (!empty($request->search)) {
             $doctors = $doctors->where('subcategory_id',$request->search);
