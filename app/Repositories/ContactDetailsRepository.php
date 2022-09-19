@@ -44,14 +44,14 @@ class ContactDetailsRepository extends Repository
      */
     public function getWithRelationship($request)
     {
-        $query = $this->model;    
+        $query = $this->model->with('getCountry');    
 
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('created_at', '>=',$request->start_date)->whereDate('created_at' , '<=',$request->end_date);
         }
 
         $query = $query->orderBy('id','desc')->get();
-
+        // dd($query);
         return $query;
     }
 
@@ -64,6 +64,14 @@ class ContactDetailsRepository extends Repository
     {
         $data = $this->getWithRelationship($request);
         return Datatables::of($data) 
+                ->editColumn('country',function($selected)
+                {           
+                    if(!empty($selected->getCountry) && !empty($selected->getCountry->country_name)){
+                        return $selected->getCountry->country_name;
+                    }  
+                    return '';      
+                    
+                })
                 ->addColumn('action',function($selected)
                 {
                     $data = '';

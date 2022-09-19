@@ -48,6 +48,8 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Country</th>
+                                    <th>Mobile</th>
                                     <th>Subject</th>
                                     <th>Action</th>
                                 </tr>

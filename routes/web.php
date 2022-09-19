@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/doctors', 'App\Http\Controllers\HomeController@doctors')->name('doctors');
+Route::get('/happy-clients', 'App\Http\Controllers\HomeController@happyClients')->name('happy_clients');
 
 // Route::get('/donotezzycaretouch', function () {
 //     return redirect('donotezzycaretouch/login');
@@ -174,6 +178,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
        
         // Appointment routes        
         Route::get('appointment/reviews', 'AppointmentController@getAppointmentReviews')->middleware('role-permission:appointments-review');
+        Route::get('appointment/reviews/is_happy_client/{id?}', 'AppointmentController@isHappyClient')->middleware('role-permission:appointments-review');        
         Route::get('appointment/upcoming', 'AppointmentController@getUpcomingAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        

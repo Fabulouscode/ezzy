@@ -2,48 +2,49 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Category;
-use App\Models\ContactDetails;
-use App\Models\Medical_category;
-use App\Models\Medical_item;
-use App\Models\Medicine_category;
-use App\Models\Medicine_details;
-use App\Models\AdminNotification;
-use App\Models\Appointment;
-use App\Models\AppVersion;
-use App\Models\Manage_fees;
-use App\Models\Permission;
-use App\Models\Permission_category;
 use App\Models\Services;
-use App\Models\Support_request;
-use App\Models\Voucher_code;
-use App\Models\Role;
+use App\Models\AppVersion;
+use App\Models\Permission;
+use App\Models\Appointment;
+use App\Models\Manage_fees;
+use App\Models\Medical_item;
 use App\Models\Sevice_usage;
 use App\Models\Static_pages;
-use App\Models\User;
+use App\Models\Voucher_code;
+use App\Models\ContactDetails;
+use App\Models\Support_request;
+use App\Observers\RoleObserver;
+use App\Observers\UserObserver;
+use App\Models\Medical_category;
+use App\Models\Medicine_details;
 use App\Observers\AdminObserver;
+use App\Models\AdminNotification;
+use App\Models\Medicine_category;
+use App\Models\Permission_category;
 use App\Observers\CategoryObserver;
-use App\Observers\ContactDetailsObserver;
-use App\Observers\MedicalCategoryObserver;
-use App\Observers\MedicalItemObserver;
-use App\Observers\MedicineCategoryObserver;
-use App\Observers\MedicineDetailsObserver;
-use App\Observers\AdminNotificationObserver;
-use App\Observers\AppointmentObserver;
+use App\Observers\ServicesObserver;
+use Illuminate\Pagination\Paginator;
 use App\Observers\AppVersionObserver;
 use App\Observers\ManageFeesObserver;
-use App\Observers\PermissionCategoryObserver;
 use App\Observers\PermissionObserver;
-use App\Observers\RoleObserver;
-use App\Observers\ServicesObserver;
+use App\Observers\AppointmentObserver;
+use App\Observers\MedicalItemObserver;
 use App\Observers\SeviceUsageObserver;
 use App\Observers\StaticPagesObserver;
-use App\Observers\SupportRequestObserver;
-use App\Observers\UserObserver;
 use App\Observers\VoucherCodeObserver;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use App\Observers\ContactDetailsObserver;
+use App\Observers\SupportRequestObserver;
+use App\Observers\MedicalCategoryObserver;
+use App\Observers\MedicineDetailsObserver;
+use App\Observers\MedicineCategoryObserver;
+use App\Observers\AdminNotificationObserver;
+use App\Observers\PermissionCategoryObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -71,6 +72,7 @@ class AppServiceProvider extends ServiceProvider
            $this->app['request']->server->set('HTTPS', true);
            \URL::forceScheme('https');
         }
+        Paginator::useBootstrap();
 
         Admin::observe(AdminObserver::class);
         Category::observe(CategoryObserver::class);

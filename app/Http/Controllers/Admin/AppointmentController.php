@@ -175,6 +175,22 @@ class AppointmentController extends Controller
         return response()->json(['msg'=>'Data Not success'], 500);
 
     }
+    public function isHappyClient($id)
+    {
+        $data = $this->appointment_repo->getById($id);
+        try{
+            if(!empty($data)){
+                $status = $data->is_happy_clients ? 0 : 1;
+                $data_arr['is_happy_clients'] = $status;
+                $this->appointment_repo->update($data_arr,$id); 
+                return response()->json(['msg'=>'Status updated successfully'], 200);
+            }
+        }catch(\Exception $e){
+            return response()->json(['msg'=>'Can not change status'], 500);
+        }  
+        return response()->json(['msg'=>'Data Not success'], 500);
+
+    }
 
     public function updateAppointmentCancel($id){          
         $appointmentCancel = $this->appointment_repo->getById($id);

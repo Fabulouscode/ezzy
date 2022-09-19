@@ -44,6 +44,43 @@ $(function () {
         },
     });
 
+    $("body").on('change','.js_happy_client',function(){
+        row_id = $(this).attr('row_id');
+        if (row_id) {
+            swal({
+                title: 'Are you sure?',
+                text: "You can be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger m-l-10',
+                confirmButtonText: 'Yes, change it!'
+            }).then(function () {
+                if (row_id) {
+                    $.ajax({
+                        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                        url: appointment_url + "/reviews/is_happy_client/" + row_id,
+                        type: "get",
+                        dataType: 'json',
+                        success: function (data) {
+                            swal(
+                                'Status Changed',
+                                data.msg,
+                                'success'
+                            )
+                            toastr.success(data.msg, App_name_global);
+                            var oTable = $('#appointment_review_datatable').dataTable();
+                            oTable.fnDraw(true);
+                        },
+                        error: function (error) {
+                            toastr.error(error.responseJSON.msg, App_name_global);
+                        }
+                    });
+                }
+            });
+        }
+    })
+
     $('#appointment_review_datatable').DataTable({
         lengthChange: true,
         processing: true,
@@ -72,6 +109,7 @@ $(function () {
                 }
             },
             { data: 'user_review', name: 'user_review' },
+            { data: 'is_happy_clients', name: 'is_happy_clients' },
         ],
         order: [[0, 'desc']],
         createdRow: function (row, data, dataIndex) {
@@ -199,3 +237,4 @@ function deleteRow(row_id) {
         });
     }
 }
+

@@ -38,7 +38,7 @@ $(function () {
             { data: 'wallet_balance', name: 'wallet_balance' },
             { data: 'hcp_type', name: 'hcp_type' },
             { data: 'created_at', name: 'users.created_at', searchable: false },
-            { data: 'practicing_licence_date', name: 'practicing_licence_date', searchable: false },
+            // { data: 'practicing_licence_date', name: 'practicing_licence_date', searchable: false },
             {
                 data: '', name: 'Ratings', orderable: false, searchable: false,
                 render: function (data, type, row) {

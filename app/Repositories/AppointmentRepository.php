@@ -941,11 +941,17 @@ class AppointmentRepository extends Repository
             {
                 return '<a href="'.url('donotezzycaretouch/appointment/'.$selected->id).'" target="_blank">#'.$selected->id.' Appointment</a>';
             })
+            ->editColumn('is_happy_clients',function($selected)
+            {                
+                $checked = $selected->is_happy_clients ? 'checked' : '';
+                return '<div class="custom-control custom-checkbox">
+                <input class="js_happy_client" type="checkbox" '.$checked.' row_id="'.$selected->id.'" ></div>';
+            })
             ->orderColumn('appointment_no', function ($query, $order) {
                 $query->orderBy('appointments.id', $order);
             })
 
-            ->rawColumns(['appointment_no'])->make(true);
+            ->rawColumns(['appointment_no','is_happy_clients'])->make(true);
     }
 
     

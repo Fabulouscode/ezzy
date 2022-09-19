@@ -30,6 +30,7 @@ class ContactDetailsRequest extends FormRequest
             'email' => 'required|email',
             'subject' => 'required',
             'message' => 'required',
+            'mobile' => 'required',
         ];
     }
 

@@ -19,6 +19,12 @@ class ContactDetails extends Model
         'email',
         'subject',
         'message',
+        'country',
+        'mobile',
     ];
+
+    public function getCountry() {
+        return $this->hasOne('App\Models\Country', 'id', 'country');
+    }
 
 }

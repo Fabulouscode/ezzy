@@ -43,6 +43,12 @@
                                         </dd>
                                     </div>
                                     <div class="row">
+                                        <dt class="col-sm-3"><label>Mobile</label></dt>
+                                        <dd class="col-sm-9"> 
+                                            {{$data->mobile}} 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-3"><label>Subject</label></dt>
                                         <dd class="col-sm-9"> 
                                             {{$data->subject}} 

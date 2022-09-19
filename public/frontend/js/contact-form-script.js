@@ -14,6 +14,10 @@ $(function () {
                     required: true,
                     minlength: 3
                 },
+                mobile: {
+                    required: true,
+                    number: true
+                },
                 message: {
                     required: true,
                     minlength: 10
@@ -29,6 +33,10 @@ $(function () {
                 },
                 subject: {
                     required: "Please enter Subject",
+                },
+                subject: {
+                    required: "Please enter mobile number",
+                    number: "Please enter only numeric value",
                 },
                 message: {
                     required: "Please enter Message",

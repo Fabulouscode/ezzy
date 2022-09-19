@@ -56,6 +56,12 @@
                             <a class="nav-link" href="#screenshots">Screenshots</a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('doctors')}}" class="nav-link" >Doctor list</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('happy_clients')}}">Happy Clients</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#contactus">Contact Us</a>
                         </li>
                     </ul>
@@ -371,11 +377,28 @@
                                             <input type="email" name="email" class="email form-control" id="email" placeholder="Email">
                                         </div>
                                     </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <select name="country" id="msg_country" class="form-control">
+                                                @foreach ($country as $key => $item)
+                                                    @php
+                                                        $selected = $item == 'Nigeria' ? 'selected' : '';  
+                                                    @endphp
+                                                    <option value={{$key}} {{$selected}}>{{$item}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="mobile" id="msg_mobile" class="form-control" placeholder="Mobile Number">
+                                        </div>
+                                    </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <input type="text" name="subject" id="msg_subject" class="form-control" placeholder="Subject">
                                         </div>
-                                    </div>
+                                    </div>                                    
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <textarea id="message"  name="message" rows="5" placeholder="Message" class="form-control"></textarea>

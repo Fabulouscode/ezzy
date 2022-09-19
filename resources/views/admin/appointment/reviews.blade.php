@@ -33,6 +33,7 @@
                                     <th>Patient Name</th>
                                     <th>Rating</th>
                                     <th>Reviews</th>
+                                    <th>Happy Client</th>
                                 </tr>
                             </thead>                        
                         </table>

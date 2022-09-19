@@ -24,6 +24,8 @@ $(function () {
             { data: 'id', name: 'id', searchable: false },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
+            { data: 'country', name: 'country' },
+            { data: 'mobile', name: 'mobile' },
             { data: 'subject', name: 'subject' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
