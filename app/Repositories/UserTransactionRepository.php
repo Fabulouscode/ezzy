@@ -140,6 +140,18 @@ class UserTransactionRepository extends Repository
         return $this->model->where('wallet_transaction','1')->where('mode_of_payment', '0')->where('status', '0')->where('user_id', $user_id)->sum('amount');
     }
 
+    public function getAddWalletBalanceCalculate($today = 0)
+    {
+        $query = $this->model->where('mode_of_payment', 0)->where('wallet_transaction', 1);
+        if(!empty($today)){
+            $query = $query->whereDate('created_at',Carbon::now());
+        }
+       
+        $query =  $query->where('status', '0')                 
+                    ->sum('amount');
+        return $query;
+    }
+
     public function getPatientWalletCalculate($today = 0 ,$modeType = 0)
     {
         $query = $this->model->where('mode_of_payment', $modeType);
