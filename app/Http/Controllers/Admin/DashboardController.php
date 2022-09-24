@@ -161,7 +161,8 @@ class DashboardController extends Controller
             $data['approved_payout'] = $this->user_transaction_repo->getPayoutCount('0'); 
 
             $data['patient_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(0, 0) - $this->user_transaction_repo->getPatientWalletCalculate(0, 1)); 
-            $data['patient_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(1, 0) - $this->user_transaction_repo->getPatientWalletCalculate(1, 1)); 
+            $data['patient_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(1, 0)); 
+            // $data['patient_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getPatientWalletCalculate(1, 0) - $this->user_transaction_repo->getPatientWalletCalculate(1, 1)); 
 
             $data['hcp_wallet_total'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(1,0)); 
             $data['hcp_wallet_today'] = Helper::currncyNumberFormat($this->user_transaction_repo->getHCPWalletCalculate(1,1)); 
