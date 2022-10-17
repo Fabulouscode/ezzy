@@ -108,10 +108,11 @@ ul {
 }
 .navbar .navbar-nav .nav-item .nav-link {
     color: #343d48;
-    margin: 0 10px;
+    margin: 0 8px;
     padding: 5px 0;
     position: relative;
     font-weight: 500;
+    font-size: 14px;
 }
 .navbar .navbar-nav .nav-item .nav-link::before {
     position: absolute;
@@ -133,11 +134,11 @@ ul {
     width: 100%;
 } */
 .navbar .navbar-btn a {
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
-    padding: 10px 30px;
+    padding: 10px 24px;
     border-radius: 80px;
-    margin-left: 30px;
+    margin-left: 24px;
     background: #17c9ed;
     font-weight: 500;
 }

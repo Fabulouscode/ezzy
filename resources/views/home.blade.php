@@ -65,7 +65,7 @@
                             <a class="nav-link" href="#screenshots">Screenshots</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('doctors')}}" class="nav-link" >Doctor list</a>
+                            <a href="{{route('doctors')}}" class="nav-link" >Our Care Providers</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('happy_clients')}}">Happy Clients</a>
@@ -88,8 +88,8 @@
                         <div class="row align-items-center">
                             <div class="col-lg-8 col-xl-7">
                                 <div class="banner-text">
-                                    <h1>Network of 1000+ Medical Professionals</h1>
-                                    <p>Find professionals based on specialities & location. Discuss with the experts. Communicate with Doctor via text, voice, or video call. Get Prescription online and Buy Medicine just a click away .</p>
+                                    <h1>Find thousands of healthcare providers near you</h1>
+                                    <p>Ezzycare Connects you to nearby healthcare providers for urgent or non urgent care.  Find Doctors in any specialty,  do Laboratory tests from your home and get medicines delivered to your address.</p>
                                     {{-- <div class="banner-btn">
                                         <a href="#apps" class="download-appbtn">Download App</a>
                                     </div> --}}
@@ -97,12 +97,12 @@
                                 <div class="why-choose-btn">
                                     <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
                                         <i class="flaticon-play-store"></i>
-                                        <p>Get It on</p>
+                                        <p>Download on</p>
                                         <h5>Google Play</h5>
                                     </a>
                                     <a target="_blank" href="https://apps.apple.com/tt/app/ezzycare/id1566288649">
                                         <i class="flaticon-app-store"></i>
-                                        <p>Available on the</p>
+                                        <p>Download on</p>
                                         <h5>App Store</h5>
                                     </a>
                                 </div>
@@ -354,12 +354,12 @@
                             <div class="why-choose-btn">
                                 <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
                                     <i class="flaticon-play-store"></i>
-                                    <p>Get It on</p>
+                                    <p>Download on</p>
                                     <h5>Google Play</h5>
                                 </a>
                                 <a target="_blank" href="https://apps.apple.com/tt/app/ezzycare/id1566288649">
                                     <i class="flaticon-app-store"></i>
-                                    <p>Available on the</p>
+                                    <p>Download on</p>
                                     <h5>App Store</h5>
                                 </a>
                             </div>

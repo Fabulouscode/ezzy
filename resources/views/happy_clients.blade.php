@@ -61,7 +61,7 @@
                             <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('doctors')}}" class="nav-link" >Doctor list</a>
+                            <a href="{{route('doctors')}}" class="nav-link">Our Care Providers</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('happy_clients')}}">Happy Clients</a>
