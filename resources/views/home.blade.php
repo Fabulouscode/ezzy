@@ -288,14 +288,16 @@
             <div class="container">
                 <div class="section-title">
                     <span>App Journey </span>
-                    <h2>Have Look at Our App Interface</h2>
+                    <h2>Take a look at Our App Interface</h2>
                     <p>Grab a look at our outstanding and stunning Ezzycare App Interfaces which is easy to use and very easily manageable.</p>
                 </div>
                 <div class="screenshot-slider owl-carousel owl-theme">
-                    <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
-                        <img src="{{ asset('frontend/img/app-landing/1.png') }}" alt="app screenshot" />
-                    </div>
-                    <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
+                    @for($i = 1; $i <= 10; $i++)
+                        <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
+                            <img src="{{ asset('frontend/img/app-landing/app-landing-new/'.$i.'.jpeg') }}" alt="app screenshot" />
+                        </div>
+                    @endfor
+                    {{-- <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
                         <img src="{{ asset('frontend/img/app-landing/3.png') }}" alt="app screenshot" />
                     </div>
                     <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
@@ -316,7 +318,7 @@
                     </div>
                     <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
                         <img src="{{ asset('frontend/img/app-landing/12.png') }}" alt="app screenshot" />
-                    </div>
+                    </div> --}}
                     
                     <!-- <div class="screenshoot-img wow fadeInUp" data-wow-duration="1s">
                         <img src="{{ asset('frontend/img/app-landing/1.png') }}" alt="app screenshot" />
