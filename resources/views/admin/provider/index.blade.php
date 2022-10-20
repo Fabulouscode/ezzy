@@ -120,6 +120,7 @@
                                     <th>Wallet Amount</th>
                                     <th>HCP Type</th>
                                     <th>Date of Joining</th>
+                                    <th>Date of Birth</th>
                                     {{-- <th>Licence Expiry Date</th> --}}
                                     <th>Rating</th>
                                     <th>Status</th>

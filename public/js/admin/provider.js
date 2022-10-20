@@ -39,7 +39,8 @@ $(function () {
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'wallet_balance', name: 'wallet_balance' },
             { data: 'hcp_type', name: 'hcp_type' },
-            { data: 'created_at', name: 'users.created_at', searchable: false },
+            { data: 'created_at', name: 'users.created_at', searchable: false },            
+            { data: 'dob', name: 'dob', searchable: false },
             // { data: 'practicing_licence_date', name: 'practicing_licence_date', searchable: false },
             {
                 data: '', name: 'Ratings', orderable: false, searchable: false,
@@ -79,13 +80,14 @@ $(function () {
             api.columns([0]).visible(showColumn);            
             if (data_obj.category_id != '') {
                 api.columns([4]).visible(showColumn);
+                api.columns([7]).visible(showColumn);
             }
             if (data_obj.category_id == '') {
                 api.columns([5]).visible(showColumn);
-                api.columns([8]).visible(showColumn);
+                api.columns([9]).visible(showColumn);
             }
             if (data_obj.status == '1') {
-                api.columns([8]).visible(showColumn);
+                api.columns([9]).visible(showColumn);
             }
             // if (data_obj.provider != "healthcare") {
             //     api.columns([6]).visible(showColumn);

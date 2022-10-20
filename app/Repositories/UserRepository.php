@@ -351,7 +351,14 @@ class UserRepository extends Repository
                 ->editColumn('created_at',function($selected){
                     return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
                 })
-                
+              
+                ->editColumn('dob',function($selected){
+                    return (!empty($selected->userDetails) && !empty($selected->userDetails->dob)) ? $this->getDateTimeFormate($selected->userDetails->dob) : '-';
+                })
+                ->orderColumn('dob', function ($query, $order) {
+                    $query->orderBy('userDetails.dob', $order);
+                })
+
                 ->editColumn('practicing_licence_date',function($selected){
                     if(!empty($selected->userDetails->practicing_licence_date)){
                         $expiry_days = $this->getRemainingDays($selected->userDetails->practicing_licence_date);
@@ -367,7 +374,7 @@ class UserRepository extends Repository
                     $query->orderBy('userDetails.practicing_licence_date', $order);
                 })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance'])
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob'])
                 ->make(true);
     }
     
