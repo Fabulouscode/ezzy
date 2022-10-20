@@ -96,6 +96,16 @@
                                     </select>       
                                 </div>
                             </div>
+                            @if(!empty($provider) && $provider == 'patients')
+                                <div class="col-md-3">
+                                    <div className="form-group">
+                                        <label>Date of Birth</label>
+                                        <input type="text" class="form-control" name="birth_date_range" id="user-birth-date-range"  />
+                                        <input type="hidden" class="form-control" id="user_birth_start_date" name="birth_start_date" />
+                                        <input type="hidden" class="form-control" id="user_birth_end_date" name="birth_end_date"  />     
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
 

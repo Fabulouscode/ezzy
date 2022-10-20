@@ -27,7 +27,9 @@ $(function () {
                 filter_status: function () { return $('#searchByStatus').val() },               
                 subcategory_id: function () { return $('#searchByHcpType').val() }, 
                 start_date: function () { return $('#user_start_date').val() },
-                end_date: function () { return $('#user_end_date').val() }                  
+                end_date: function () { return $('#user_end_date').val() },                
+                birth_start_date: function () { return $('#user_birth_start_date').val() },
+                birth_end_date: function () { return $('#user_birth_end_date').val() }                  
             }
         },
         columns: [
@@ -273,6 +275,36 @@ $(function () {
         var oTable = $('#user_datatable').dataTable();
         oTable.fnDraw(true);
     });
+
+    if($("#user-birth-date-range")){
+        $('#user-birth-date-range').daterangepicker({
+            // startDate: moment().subtract(1, 'years'),
+            // endDate: moment(),
+            maxDate: moment(),
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            },
+            alwaysShowCalendars: true,
+            opens: "right",
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        });
+        $('#user-birth-date-range').on('apply.daterangepicker', function (ev, picker) {
+            $('#user_birth_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+            $('#user_birth_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        });
+    }
+
 
     $('#transaction-date-range').daterangepicker({
         // startDate: moment().subtract(30, 'days'),

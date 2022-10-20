@@ -183,7 +183,13 @@ class UserRepository extends Repository
 
         $query = $query->leftJoin('categories as categoryParent', 'users.category_id', '=', 'categoryParent.id')
                         ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id')
-                        ->leftJoin('user_details as userDetails', 'users.id', '=', 'userDetails.user_id');;
+                        ->leftJoin('user_details as userDetails', 'users.id', '=', 'userDetails.user_id');
+                        
+       
+        if(!empty($request->birth_start_date) && !empty($request->birth_end_date)){
+            $query = $query->whereDate('userDetails.dob', '>=',$request->birth_start_date)->whereDate('userDetails.dob' , '<=',$request->birth_end_date);
+        }
+
         // $query = $query->orderBy('id','desc')->get();
         // print_r(DB::getQueryLog());
         // die;
