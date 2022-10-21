@@ -183,6 +183,11 @@ return [
     'EJABBERD_AUTHORIZATION' => env('EJABBERD_AUTHORIZATION'),
     'EJABBERD_PASSWORD' => env('EJABBERD_PASSWORD'),
 
+    /* webrtc video call */
+    'VIDEOSDK_API_KEY' => env('VIDEOSDK_API_KEY'),
+    'VIDEOSDK_SECRET_KEY' => env('VIDEOSDK_SECRET_KEY'),
+    'VIDEOSDK_API_ENDPOINT' => env('VIDEOSDK_API_ENDPOINT'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

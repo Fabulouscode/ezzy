@@ -87,6 +87,12 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::get('join/{roomName}', 'TwilioController@joinRoom');
             Route::get('create/{user_id?}', 'TwilioController@createRoom');
         });
+ 
+        // webrtc video call
+        Route::prefix('webrtc/video')->group(function() {
+            Route::post('join', 'WebRtcController@joinRoom');
+            Route::get('create/{user_id?}', 'WebRtcController@createRoom');
+        });
          
         // User request
         Route::prefix('user')->group(function(){
