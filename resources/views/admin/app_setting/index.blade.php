@@ -47,6 +47,63 @@
                                             </dd>
                                         </div>
                                         <div class="row">
+                                            <dt class="col-sm-5"><label>PayStack QR Code</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[paystack_qr_code]" name="setting[paystack_qr_code]" >
+                                                    <option value="1" {{isset($data['paystack_qr_code']) && $data['paystack_qr_code'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['paystack_qr_code']) && $data['paystack_qr_code'] == 0 ? 'selected' :""}}>Stop</option>
+                                                </select>
+                                                @error('setting[paystack_qr_code]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
+                                        <div class="row">
+                                             <dt class="col-sm-5"><label>PayStack Card</label></dt>
+                                             <dd class="col-sm-7">
+                                                 <select class="form-control" id="setting[paystack_card]" name="setting[paystack_card]" >
+                                                     <option value="1" {{isset($data['paystack_card']) && $data['paystack_card'] == 1 ? 'selected' :""}}>Start</option>
+                                                     <option value="0" {{isset($data['paystack_card']) && $data['paystack_card'] == 0 ? 'selected' :""}}>Stop</option>
+                                                 </select>
+                                                 @error('setting[paystack_card]')
+                                                     <span class="invalid-feedback" role="alert">
+                                                         <strong>{{ $message }}</strong>
+                                                     </span>
+                                                 @enderror
+                                             </dd>
+                                         </div>
+                                         <div class="row">
+                                             <dt class="col-sm-5"><label>PayStack Bank</label></dt>
+                                             <dd class="col-sm-7">
+                                                 <select class="form-control" id="setting[paystack_bank]" name="setting[paystack_bank]" >
+                                                     <option value="1" {{isset($data['paystack_bank']) && $data['paystack_bank'] == 1 ? 'selected' :""}}>Start</option>
+                                                     <option value="0" {{isset($data['paystack_bank']) && $data['paystack_bank'] == 0 ? 'selected' :""}}>Stop</option>
+                                                 </select>
+                                                 @error('setting[paystack_bank]')
+                                                     <span class="invalid-feedback" role="alert">
+                                                         <strong>{{ $message }}</strong>
+                                                     </span>
+                                                 @enderror
+                                             </dd>
+                                         </div>
+                                         <div class="row">
+                                             <dt class="col-sm-5"><label>PayStack USSD</label></dt>
+                                             <dd class="col-sm-7">
+                                                 <select class="form-control" id="setting[paystack_ussd]" name="setting[paystack_ussd]" >
+                                                     <option value="1" {{isset($data['paystack_ussd']) && $data['paystack_ussd'] == 1 ? 'selected' :""}}>Start</option>
+                                                     <option value="0" {{isset($data['paystack_ussd']) && $data['paystack_ussd'] == 0 ? 'selected' :""}}>Stop</option>
+                                                 </select>
+                                                 @error('setting[paystack_ussd]')
+                                                     <span class="invalid-feedback" role="alert">
+                                                         <strong>{{ $message }}</strong>
+                                                     </span>
+                                                 @enderror
+                                             </dd>
+                                         </div>
+                                        
+                                        <div class="row mt-5">
                                             <dt class="col-sm-5"><label>InterSwitch</label></dt>
                                             <dd class="col-sm-7">
                                                 <select class="form-control" id="setting[interswitch]" name="setting[interswitch]" >
@@ -60,7 +117,7 @@
                                                 @enderror
                                             </dd>
                                         </div>
-                                        <div class="row d-flex justify-content-end mt-3">
+                                        <div class="row d-flex justify-content-end mt-5">
                                             <div class="form-group col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-info waves-effect m-l-5">
                                                     Update
