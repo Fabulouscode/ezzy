@@ -587,6 +587,16 @@ class UserRepository extends Repository
         return $this->model->with(['userEduction'])->find($id);
     }
 
+      /**
+   * Display a edit of the record.
+   *
+   * @return \Illuminate\Http\Response
+   */
+    public function getEmailToUser($email)
+    {   
+        return $this->model->where('email',$email)->first();
+    }
+
     /**
      * Display a list of the record.
      *

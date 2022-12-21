@@ -27,6 +27,7 @@ class CallbackThirdPartyController extends BaseApiController
 
     public function getPaystackCallback(Request $request)
     {
+       
         \Log::info("============Callback getPaystackCallback=================");
         \Log::info(json_encode($request->all()));
         if(!empty($request->event) && $request->event == "charge.success"){
@@ -60,6 +61,46 @@ class CallbackThirdPartyController extends BaseApiController
                     ];
                     $this->user_transaction_repo->dataCrud($add_transaction);
                     $this->user_repo->userWalletUpdate($walletBalance->user_id); 
+                }else{
+                    $userCheck = $this->user_repo->getEmailToUser($request->data['customer']['email']); 
+                    if(!empty($userCheck)){
+                        $transactionCompleted = $this->user_transaction_repo->getTransactionCheck($request->data['customer']['email'], $request->data['reference']); 
+                        if(!empty($transactionCompleted)){
+                            \Log::info("============Callback getPaystackCallback transaction already completed=================");
+                            return true;
+                        }
+                        $addNewTransaction = [
+                            'user_id'=> $userCheck->id,
+                            'transaction_date'=> $this->user_transaction_repo->getCurrentDateTime(),
+                            'amount'=> ($request->data['amount'] / 100),                        
+                            'payment_gateway_response'=> $request->data['reference'],
+                            'payment_gateway_full_response'=> json_encode($request->all()),
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '1',
+                            'wallet_transaction'=> '1',
+                            'payout_status'=> '0',
+                            'status'=> '0',
+                            'transaction_msg'=>'Add Wallet to online pay',
+                            'online_transaction_pay'=>'2',
+                        ];  
+                        $this->user_transaction_repo->dataCrud($addNewTransaction);
+                        $add_transaction = [
+                            'user_id'=> $userCheck->id,
+                            'transaction_date'=> $this->user_transaction_repo->getCurrentDateTime(),
+                            'amount'=> ($request->data['amount'] / 100),                             
+                            'payment_gateway_response'=> $request->data['reference'],
+                            'payment_gateway_full_response'=> json_encode($request->all()),
+                            'mode_of_payment'=> '0',
+                            'transaction_type'=> '0',
+                            'wallet_transaction'=> '1',
+                            'payout_status'=> '0',
+                            'status'=> '0',
+                            'transaction_msg'=>'Wallet Topup',
+                            'online_transaction_pay'=>'2',
+                        ];
+                        $this->user_transaction_repo->dataCrud($add_transaction);
+                        $this->user_repo->userWalletUpdate($userCheck->id); 
+                    }
                 }
                  
             }

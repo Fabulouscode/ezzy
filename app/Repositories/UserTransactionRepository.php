@@ -727,6 +727,14 @@ class UserTransactionRepository extends Repository
         ->where('status', '2')->orderBy('id','desc')->first();
     }
 
+    public function getTransactionCheck($email, $reference)
+    {
+        return $this->model->whereHas('users', function ($query) use ($email) {
+                $query->where('email', $email);
+        })
+        ->where('payment_gateway_response', $reference)->orderBy('id','desc')->first();
+    }
+
     public function getHCPPayoutHistory($request)
     {
        
