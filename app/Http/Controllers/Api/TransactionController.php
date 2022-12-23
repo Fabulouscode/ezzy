@@ -20,12 +20,13 @@ use App\Http\Requests\Api\AppointmentPayStatusRequest;
 use App\Http\Requests\Api\OrderPayStatusRequest;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ChatHistoryRepository;
+use App\Repositories\PaystackIntegrationRepository;
 use Carbon\Carbon as Carbon;
 
 class TransactionController extends BaseApiController
 {
 
-    private $appointment_repo, $chat_history_repo, $fees_repo, $notification_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
+    private $paystack_repo, $appointment_repo, $chat_history_repo, $fees_repo, $notification_repo,  $user_transaction_repo, $user_repo, $shop_medicine_repo, $order_repo, $order_product_repo, $order_tracking_repo;
 
     public function __construct(
         AppointmentRepository $appointment_repo, 
@@ -37,6 +38,7 @@ class TransactionController extends BaseApiController
         OrderProductRepository $order_product_repo,
         OrderTrackingRepository $order_tracking_repo,
         ManageFeesRepository $fees_repo,
+        PaystackIntegrationRepository $paystack_repo,
         NotificationRepository $notification_repo
         )
     {
@@ -51,6 +53,7 @@ class TransactionController extends BaseApiController
         $this->order_tracking_repo = $order_tracking_repo;
         $this->fees_repo = $fees_repo;
         $this->notification_repo = $notification_repo;
+        $this->paystack_repo = $paystack_repo;
     }
 
     public function updateUserWalletBalance($user_id)
@@ -154,6 +157,7 @@ class TransactionController extends BaseApiController
                 }
             }
         }
+        \Log::info(json_encode($request->all()));
         try {
             DB::beginTransaction();
             $transaction_amount = 0;
@@ -171,9 +175,42 @@ class TransactionController extends BaseApiController
                     ];
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
-            }else{              
-
-                $add_transaction = [
+            }else{             
+                \Log::info("============Callback getPaystackCallback transaction already completed=================");
+                if(!empty($request->payment_transaction)){
+                    $transactionCompleted = $this->user_transaction_repo->getTransactionCheck($request->user()->email, $request->payment_transaction);  
+                    if(!empty($transactionCompleted)){
+                        if($transactionCompleted->status == '2' && $transactionCompleted->payout_status == '1'){
+                            $paystackVerify = $this->paystack_repo->handleGatewayCallback($request->payment_transaction); 
+                            if(!empty($paystackVerify) && !empty($paystackVerify['status']) && $paystackVerify['status'] == 'true'){
+                                $walletTransaction = [                  
+                                    'payment_gateway_full_response'=> json_encode($paystackVerify),
+                                    'status'=> '0',
+                                    'order_id' => $order_details->id,
+                                    'transaction_msg'=>'Order',
+                                    'online_transaction_pay'=> isset($request->transaction_type) ? $request->transaction_type : 1
+                                ];  
+                                $this->user_transaction_repo->dataCrud($walletTransaction, $transactionCompleted->id);
+                            }
+                        }                         
+                    }else{
+                        $add_transaction = [
+                            'user_id'=> $request->user()->id,
+                            'client_id'=> $order_details->userDetails->id,
+                            'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
+                            'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                            'amount'=> $transaction_amount,
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '1',
+                            'status'=> '2',
+                            'payout_status' => '1',
+                            'order_id' => $order_details->id,
+                            'transaction_msg'=>'Order',
+                        ];
+                        $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                    }
+                }else{
+                    $add_transaction = [
                         'user_id'=> $request->user()->id,
                         'client_id'=> $order_details->userDetails->id,
                         'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
@@ -181,14 +218,15 @@ class TransactionController extends BaseApiController
                         'amount'=> $transaction_amount,
                         'mode_of_payment'=> '1',
                         'transaction_type'=> '1',
-                        'status'=> '0',
+                        'status'=> '2',
                         'payout_status' => '1',
                         'order_id' => $order_details->id,
                         'transaction_msg'=>'Order',
                     ];
-                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                    $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                }
+             
             }
-
 
             if(!empty($transaction)){
                 $ezzycare_charge = 0;
@@ -273,21 +311,55 @@ class TransactionController extends BaseApiController
                 $this->user_transaction_repo->dataCrud($updateUserTran, $request->transaction_id);               
                 $transaction = $this->user_transaction_repo->getById($request->transaction_id);
             }else{
-                $add_transaction = [
-                        'user_id'=> $appointment_details->client_id,
-                        'client_id'=> $appointment_details->user_id,
-                        'amount'=> $appointment_details->appointment_price,
-                        'mode_of_payment'=> '1',
-                        'transaction_type'=> '1',
-                        'transaction_date'=> $this->appointment_repo->getCurrentDateTime(),
-                        'payment_gateway_response'=> isset($request->payment_transaction) ? $request->payment_transaction : '',
-                        'status'=> $request->status,
-                        'payout_status' => '1',
-                        'appointment_id' => $appointment_details->id,
-                        'transaction_msg'=>'Appointment',
-                    ];
-                    
-                $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                if(!empty($request->payment_transaction)){
+                    $transactionCompleted = $this->user_transaction_repo->getTransactionCheck($request->user()->email, $request->payment_transaction);
+                    if(!empty($transactionCompleted)){
+                        if($transactionCompleted->status == '2' && $transactionCompleted->payout_status == '1'){
+                            $paystackVerify = $this->paystack_repo->handleGatewayCallback($request->payment_transaction); 
+                            if(!empty($paystackVerify) && !empty($paystackVerify['status']) && $paystackVerify['status'] == 'true'){
+                                $walletTransaction = [                  
+                                    'payment_gateway_full_response'=> json_encode($paystackVerify),
+                                    'status'=> '0',
+                                    'appointment_id' => $appointment_details->id,
+                                    'transaction_msg'=>'Appointment',
+                                    'online_transaction_pay'=> isset($request->transaction_type) ? $request->transaction_type : 1
+                                ];  
+                                $this->user_transaction_repo->dataCrud($walletTransaction, $transactionCompleted->id);
+                            }
+                        }                         
+                    }else{
+                        $add_transaction = [
+                            'user_id'=> $request->user()->id,
+                            'client_id'=> $order_details->userDetails->id,
+                            'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
+                            'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                            'amount'=> $transaction_amount,
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '1',
+                            'status'=> '2',
+                            'payout_status' => '1',
+                            'appointment_id' => $appointment_details->id,
+                            'transaction_msg'=>'Appointment',
+                        ];
+                        $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                    }
+                }else{
+                    $add_transaction = [
+                            'user_id'=> $appointment_details->client_id,
+                            'client_id'=> $appointment_details->user_id,
+                            'amount'=> $appointment_details->appointment_price,
+                            'mode_of_payment'=> '1',
+                            'transaction_type'=> '1',
+                            'transaction_date'=> $this->order_repo->getCurrentDateTime(),
+                            'payment_gateway_response'=> isset($request->payment_transaction) ? $request->payment_transaction : '',
+                            'status'=> $request->status,
+                            'payout_status' => '1',
+                            'appointment_id' => $appointment_details->id,
+                            'transaction_msg'=>'Appointment',
+                        ];
+
+                    $transaction = $this->user_transaction_repo->dataCrud($add_transaction);
+                }
             }
                     
             if (!empty($transaction)) {
