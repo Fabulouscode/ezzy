@@ -188,6 +188,10 @@ return [
     'VIDEOSDK_SECRET_KEY' => env('VIDEOSDK_SECRET_KEY'),
     'VIDEOSDK_API_ENDPOINT' => env('VIDEOSDK_API_ENDPOINT'),
 
+    /* AGORA video call */
+    'AGORA_APP_ID' => env('AGORA_APP_ID'),
+    'AGORA_APP_CERTIFICATE' => env('AGORA_APP_CERTIFICATE'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -93,6 +93,12 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('join', 'WebRtcController@joinRoom');
             Route::get('create/{user_id?}', 'WebRtcController@createRoom');
         });
+
+        // Agora video call
+        Route::prefix('agora/video')->group(function() {
+            // Route::post('join', 'AgoraRtcController@joinRoom');
+            Route::get('create/{user_id?}', 'AgoraRtcController@createRoom');
+        });
          
         // User request
         Route::prefix('user')->group(function(){
