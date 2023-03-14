@@ -407,7 +407,7 @@ class UserRepository extends Repository
      * @return \Illuminate\Http\Response
      */
     public function checkUserAvailable($request)
-    {   
+    {  
         $day_arr = ['1','2','3','4','5'];
         $same_timing = $this->getById($request->user_id);
         $appointment_date = new Carbon($request->appointment_date);
@@ -440,6 +440,70 @@ class UserRepository extends Repository
                     });
 
         $query = $query->first();
+        \Log::info("result diff ".json_encode($query));   
+       
+        if(empty($query)){
+            if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+                \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
+                                $query->where('appointment_type', $request->appointment_type);
+                                $query->where('start_time', '<=' ,$request->appointment_time);
+                                $query->where('day', '7');
+                                $query->where('same_timing', '1');
+                                $query->where('user_id', $request->user_id);
+                            });
+            }else{
+                \Log::info("not same timing day ".json_encode($appointment_day));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day){
+                            $query->where('appointment_type', $request->appointment_type);
+                            $query->where('start_time', '<=' ,$request->appointment_time);
+                            $query->where('day', $appointment_day);
+                            $query->where('same_timing', '0');
+                            $query->where('user_id', $request->user_id);
+                        });
+            }
+    
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                            $query->where('availability', '1');
+                        });
+    
+            $query = $query->first();
+           
+            // if(!empty($query) && !empty($query->userAvailableTime) && !empty($request->appointment_time) && !empty($request->appointment_end_time)){
+            //     $available = 0;
+            //     foreach ($query->userAvailableTime as $key => $value) {
+            //         $start_time = strtotime('11:00 pm');
+            //         $end_time = strtotime('06:00 am');
+            //         $check_time_start = strtotime('12:10 am');
+            //         $check_time_end = strtotime('01:00 am');
+                    
+            //         if (($check_time_start >= $start_time && $check_time_start <= $end_time) && ($check_time_end >= $start_time && $check_time_end <= $end_time)) {
+            //             $available = 1;
+            //             break;
+            //             // echo "The time period from 12:10 am to 01:00 am is within the time period that starts at 11:00 pm and ends at 06:00 am.";
+            //         } else {
+            //             // echo "The time period from 12:10 am to 01:00 am is not within the time period that starts at 11:00 pm and ends at 06:00 am.";
+            //         }
+            //         $dataLog = [];
+            //         $dataLog['available'] = $available;
+            //         $dataLog['query_start_time'] = $value->start_time;
+            //         $dataLog['query_end_time'] = $value->end_time;
+            //         $dataLog['appointment_time'] = $request->appointment_time;
+            //         $dataLog['appointment_end_time'] = $request->appointment_end_time; 
+            //         $dataLog['start_time'] = $start_time;
+            //         $dataLog['end_time'] = $end_time;
+            //         $dataLog['check_time_start'] = $check_time_start; 
+            //         $dataLog['check_time_end'] = $check_time_end;
+            //         \Log::info($dataLog);
+                  
+            //    }
+            //    dd($available);
+            //    if($available == 0){
+            //     $query = '';
+            //    }           
+            // }
+        }
+
         \Log::info("result ".json_encode($query));     
         return $query;
     }
@@ -1201,7 +1265,7 @@ class UserRepository extends Repository
     public function findHealthcareProvider($request)
     {
         $query = $this->model;   
-        $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+        $query = $query->whereHas('categoryParent', function ($query) {
                 $query->where('urgent', '1');
             });
 
