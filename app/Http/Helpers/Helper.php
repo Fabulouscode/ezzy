@@ -229,7 +229,7 @@ class Helper
 
         $data = [            
             "to"=> "/topics/".$topic_name,
-            "registration_tokens"=> $notification_tokens
+            "registration_tokens"=> [$notification_tokens]
         ];
         self::sendCurlRequest($url, $data);
     }
@@ -243,7 +243,7 @@ class Helper
 
         $data = [            
             "to"=> "/topics/".$topic_name,
-            "registration_tokens"=> $notification_tokens
+            "registration_tokens"=> [$notification_tokens]
         ];
         self::sendCurlRequest($url, $data);
     }
