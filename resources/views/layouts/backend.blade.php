@@ -186,7 +186,25 @@ $(function () {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
     }
+    getSupportPendingTicket();
 });
+
+function getSupportPendingTicket() {
+     $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: "{{route('support_request_pending_count')}}",
+        type: "get",
+        dataType: 'json',
+        success: function (data) {
+            $('#SupportPendingTicketCount').text(data.data);
+        },
+        error: function (error) {
+
+        }
+    });
+}
+
+
 </script>
 @yield('script')
 

@@ -210,9 +210,10 @@
                 @endcan
                 @can('support_ticket-list')
                 <li>
-                    <a href="{{url('/donotezzycaretouch/support_request')}}" class="waves-effect">
+                    <a href="{{url('/donotezzycaretouch/support_request')}}" class="waves-effect d-flex">
                         <i class="dripicons-headset"></i>
                         <span> Support Ticket </span>
+                        <span id="SupportPendingTicketCount" class="badge_count_side_menu">0</span>
                     </a>
                 </li>
                 @endcan

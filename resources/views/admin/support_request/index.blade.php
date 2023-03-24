@@ -26,6 +26,25 @@
                     <!-- <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
+                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                        <label>Advanced Filter</label>
+                        <div class="row mb-3">                      
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select id="searchByStatus" name="status" class="form-control">
+                                        <option value=''>Select Status</option>
+                                        <option value="0">Pending</option>
+                                        <option value="1">Success</option>
+                                        <option value="2">Cancel</option>
+                                        <option value="3">Close</option>
+                                        <option value="4">User waiting for reply</option>
+                                        <option value="5">User reply</option>
+                                    </select>       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="table-responsive">
                         <table id="support_request_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

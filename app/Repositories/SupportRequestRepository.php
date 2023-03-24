@@ -48,9 +48,12 @@ class SupportRequestRepository extends Repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWithRelationship()
+    public function getWithRelationship($request)
     {
         $query = $this->model->with(['userDetails']);    
+        if(!empty($request->status) || $request->status == '0'){
+            $query = $query->where('status', $request->status);
+        } 
         $query = $query->orderBy('id','desc')->get();
 
         return $query;
@@ -63,7 +66,7 @@ class SupportRequestRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getWithRelationship();
+        $data = $this->getWithRelationship($request);
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
@@ -144,6 +147,16 @@ class SupportRequestRepository extends Repository
     public function getbyIdeditChat($id)
     {   
         return $this->model->with(['userDetails','chatSupport','chatSupport.user','chatSupport.admin'])->find($id);
+    }
+
+    /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSupportRequestPendingCount()
+    {   
+        return $this->model->whereIn('status',[0,4,5])->count();
     }
 
      /**
