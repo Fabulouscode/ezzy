@@ -12,7 +12,10 @@ $(function () {
             url: support_request_url,
             type: 'get',
             dataType: "json",
-            async: true
+            async: true,
+            data: {
+                status : function () { return $('#searchByStatus').val() },              
+            }
         },
         columns: [
             { data: 'id', name: 'id', searchable: false },
@@ -65,6 +68,12 @@ $(function () {
         }
         return false;
     });
+
+    $('#searchByStatus').on('change', function (ev, picker) {
+        var oTable = $('#support_request_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
+
 });
 
 function getChatMessage() {

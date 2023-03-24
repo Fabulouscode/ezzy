@@ -191,7 +191,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('support_request/chat_msg/{id?}', 'SupportRequestController@getChatMessages')->middleware('role-permission:support_ticket-edit');
         Route::get('support_request/chat_msg/get/{id?}', 'SupportRequestController@getMessage')->middleware('role-permission:support_ticket-edit');
         Route::get('support_request/chat_msg/delete/{id?}', 'SupportRequestController@deleteChatMessage')->middleware('role-permission:support_ticket-edit');
-        Route::get('support_request/close_request/{id?}', 'SupportRequestController@closeSupportRequest')->middleware('role-permission:support_ticket-edit');
+        Route::get('support_request/close_request/{id?}', 'SupportRequestController@closeSupportRequest')->middleware('role-permission:support_ticket-edit');        
+        Route::get('support_request/pending/count', 'SupportRequestController@getSupportRequestPendingCount')->name('support_request_pending_count');
         Route::resource('support_request', 'SupportRequestController')->middleware('role-permission-resource:support_ticket-list,support_ticket-add,support_ticket-edit,support_ticket-delete');  
         
         // admin activity

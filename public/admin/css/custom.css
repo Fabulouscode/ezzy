@@ -449,3 +449,19 @@ left: 0px;
     width: 120px;
     height: 120px;
 }
+
+.badge_count_side_menu{
+    background-color: #e72113;
+    padding: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-left: auto;
+    line-height: 1;
+}

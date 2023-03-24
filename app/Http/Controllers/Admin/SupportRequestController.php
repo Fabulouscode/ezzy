@@ -218,4 +218,10 @@ class SupportRequestController extends Controller
 
         return response()->json(['msg'=>'Data Not success'], 500);
     }
+
+    public function getSupportRequestPendingCount(Request $request)
+    {
+        $pendingCount = $this->support_request_repo->getSupportRequestPendingCount();
+        return response()->json(['status'=>true,'data'=>$pendingCount], 200);
+    }
 }
