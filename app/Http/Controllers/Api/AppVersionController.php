@@ -12,9 +12,13 @@ class AppVersionController extends BaseApiController
      
     public function checkAndroidVersion($version)
     {
-        $data = AppVersion::where('id','1')->first();
-        if(!empty($data) && str_replace(".","",$data->android_version) <= str_replace(".","",$version)){
-            return self::sendSuccess(true,'App Version Latest');
+        $data = AppVersion::where('id','1')->first();   
+        if(!empty($data) && !empty($data->android_version) && !empty($version)){
+            if(version_compare($data->android_version, $version, '>')){
+                return self::sendSuccess(false,'App Version outdated');
+            }else{
+                return self::sendSuccess(true,'App Version Latest');
+            }
         }
         return self::sendSuccess(false,'App Version outdated');
     }
@@ -22,8 +26,12 @@ class AppVersionController extends BaseApiController
     public function checkIOSVersion($version)
     {
         $data = AppVersion::where('id','1')->first();
-        if(!empty($data) && str_replace(".","",$data->ios_version) <= str_replace(".","",$version)){
-            return self::sendSuccess(true,'App Version Latest');
+        if(!empty($data) && !empty($data->ios_version) && !empty($version)){
+            if(version_compare($data->ios_version, $version, '>')){
+                return self::sendSuccess(false,'App Version outdated');
+            }else{
+                return self::sendSuccess(true,'App Version Latest');
+            }
         }
         return self::sendSuccess(false,'App Version outdated');
     }
