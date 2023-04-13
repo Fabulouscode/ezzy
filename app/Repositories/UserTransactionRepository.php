@@ -579,6 +579,7 @@ class UserTransactionRepository extends Repository
         if(isset($request->payout_status)){
             $query = $query->where('user_transactions.payout_status', '!=', '0');
         }
+
         $query = $query->where(function($query) use ($request){
             $query = $query->orWhereHas('transactionAppointment', function ($query) use ($request) {
                 $query->whereIn('status', [5,6]);
@@ -587,6 +588,8 @@ class UserTransactionRepository extends Repository
             $query = $query->orWhereHas('transactionOrder', function ($query) use ($request) {
                 $query->whereIn('status', [3,4]);
             });
+         
+            $query = $query->orWhere('transaction_msg', 'Treatment plan');
         });
 
         if(!empty($request->category_id)){
