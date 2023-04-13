@@ -200,20 +200,23 @@ class Helper
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverApiKey = config('app.FCM_KEY');
- 
+
         $message = [
-            'title' => $notification['title'],
-            'message' => $notification['message'],
             'type' => $notification['type'],
         ];
+    
+        $dataTemp = [
+            'click_action' => "FLUTTER_NOTIFICATION_CLICK",
+            'object' => $message
+        ];
 
-        $data = [            
-            "to"=> "/topics/".$topic_name,
+        $data = [
+            "to" => "/topics/" . $topic_name,
             'notification' => [
-                    'title' => config('app.name'),
-                    'data' => $message
-                ],
-
+                'title' => $notification['title'],
+                'body' => $notification['message'],
+            ],
+            'data' => $dataTemp,
         ];
 
         self::sendCurlRequest($url, $data);
@@ -383,6 +386,15 @@ class Helper
             $response = curl_exec($ch);
             $response_arr =  json_decode($response, true);
             // Log::info('sendCurlRequest '.$response);
+            $error_msg = '';
+            if (curl_errno($ch)) {
+                $error_msg = curl_error($ch);
+            }
+            // Log::info('sendCurlRequest start');
+            // Log::info($url);
+            // Log::info($data);
+            // Log::info($response);
+            // Log::info($error_msg);
             if(isset($response_arr['success']) && $response_arr['success'] == 0) {
                 // Log::info($response);
                 // Log::info('Push Notification Send Failed');

@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminNotificationRequest;
 use App\Repositories\AdminNotificationRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\CategoryRepository;
 
 class AdminNotificationController extends Controller
 {
-    private $admin_notification_repo, $category_repo;
+    private $admin_notification_repo, $category_repo, $notification_repo;
 
-    public function __construct(AdminNotificationRepository $admin_notification_repo, CategoryRepository $category_repo)
+    public function __construct(AdminNotificationRepository $admin_notification_repo, CategoryRepository $category_repo, NotificationRepository $notification_repo)
     {
         $this->admin_notification_repo = $admin_notification_repo;
         $this->category_repo = $category_repo;
+        $this->notification_repo = $notification_repo;
     }
 
     /**
@@ -57,14 +59,39 @@ class AdminNotificationController extends Controller
             'send_category' => json_encode($request->send_category),
         ];
 
+        $notificationData = [
+            'title' => $request->title,
+            'message' => $request->message,
+            'type' => '0',
+        ];
+        
         if(!empty($request->id)){
             $category = $this->admin_notification_repo->getById($request->id);
             if(!empty($category)){
-
                 $this->admin_notification_repo->dataCrud($data, $request->id);
+                $notification_topic = $this->notification_repo->getNotificationTopic();
+                if(!empty($request->send_category)){
+                    foreach ($notification_topic as $key => $value) {
+                        if(in_array($key,$request->send_category)){
+                            $this->notification_repo->sendNotificationTopicWise($notificationData, $value);
+                        }
+                    }
+                }else{
+                    $this->notification_repo->sendNotificationTopicWise($notificationData, 'Ezzycare');
+                }
             }
         } else{
+            $notification_topic = $this->notification_repo->getNotificationTopic();
             $this->admin_notification_repo->dataCrud($data);
+            if(!empty($request->send_category)){
+                foreach ($notification_topic as $key => $value) {
+                    if(in_array($key,$request->send_category)){
+                        $this->notification_repo->sendNotificationTopicWise($notificationData, $value);
+                    }
+                }
+            }else{
+                $this->notification_repo->sendNotificationTopicWise($notificationData, 'Ezzycare');
+            }
         }
         
         return redirect('/donotezzycaretouch/notifications');
