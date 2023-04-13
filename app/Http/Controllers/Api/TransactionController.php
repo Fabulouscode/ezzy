@@ -62,7 +62,7 @@ class TransactionController extends BaseApiController
             $wallet_balance = $this->user_transaction_repo->getUserbyWalletBalance($user_id); 
             $update = ['wallet_balance'=> $wallet_balance];
             $this->user_repo->dataCrudUsingData($update, $user_id);             
-            return self::sendSuccess($data, 'Transaction Completed');
+            return self::sendSuccess('', 'Transaction Completed');
         } catch (\Exception $e) {
             return self::sendException($e);
         }
@@ -328,9 +328,11 @@ class TransactionController extends BaseApiController
                             }
                         }                         
                     }else{
+                        $transaction_amount = 0;
+                        $transaction_amount = $appointment_details->appointment_price;
                         $add_transaction = [
                             'user_id'=> $request->user()->id,
-                            'client_id'=> $order_details->userDetails->id,
+                            'client_id'=> $appointment_details->userDetails->id,
                             'payment_gateway_response'=> !empty($request->payment_transaction) ? $request->payment_transaction : '',
                             'transaction_date'=> $this->order_repo->getCurrentDateTime(),
                             'amount'=> $transaction_amount,
@@ -462,7 +464,7 @@ class TransactionController extends BaseApiController
                                     'sender_id' => $request->user()->id,
                                     'receiver_id' => ($request->user()->id == $data->user_id) ? $data->client_id : $data->user_id,
                                     'title' => 'Treatment plan',
-                                    'message' => 'Treatment plan payment made by '. $request->user()->user_name,
+                                    'message' => 'Treatment Plan Payed by '. $request->user()->user_name,
                                     'parameter' => json_encode(['treatment_plan'=> $data->id]),
                                     'msg_type' => '0',
                                 ];
