@@ -69,28 +69,73 @@ class AdminNotificationController extends Controller
             $category = $this->admin_notification_repo->getById($request->id);
             if(!empty($category)){
                 $this->admin_notification_repo->dataCrud($data, $request->id);
+           
                 $notification_topic = $this->notification_repo->getNotificationTopic();
                 if(!empty($request->send_category)){
                     foreach ($notification_topic as $key => $value) {
                         if(in_array($key,$request->send_category)){
                             $this->notification_repo->sendNotificationTopicWise($notificationData, $value);
+                            $send_notification = [
+                                'sender_id' => NULL,
+                                'receiver_id' => NULL,
+                                'title' => $request->title,
+                                'message' => $request->message,
+                                'general_notification_type' => $key,
+                                'msg_type' => '0',
+                                'read' => '0',
+                                'is_admin_send' => 1,
+                            ];  
+                            $this->notification_repo->dataCrud($send_notification); 
                         }
                     }
                 }else{
                     $this->notification_repo->sendNotificationTopicWise($notificationData, 'Ezzycare');
+                    $send_notification = [
+                        'sender_id' => NULL,
+                        'receiver_id' => NULL,
+                        'title' => $request->title,
+                        'message' => $request->message,
+                        'general_notification_type' => 100,
+                        'msg_type' => '0',
+                        'read' => '0',
+                        'is_admin_send' => 1,
+                    ];  
+                    $this->notification_repo->dataCrud($send_notification); 
                 }
             }
         } else{
             $notification_topic = $this->notification_repo->getNotificationTopic();
-            $this->admin_notification_repo->dataCrud($data);
+            $this->admin_notification_repo->dataCrud($data);  
             if(!empty($request->send_category)){
                 foreach ($notification_topic as $key => $value) {
                     if(in_array($key,$request->send_category)){
                         $this->notification_repo->sendNotificationTopicWise($notificationData, $value);
+                        $send_notification = [
+                            'sender_id' => NULL,
+                            'receiver_id' => NULL,
+                            'title' => $request->title,
+                            'message' => $request->message,
+                            'general_notification_type' => $key,
+                            'msg_type' => '0',
+                            'read' => '0',
+                            'is_admin_send' => 1,
+                        ];  
+                        $this->notification_repo->dataCrud($send_notification); 
                     }
                 }
             }else{
                 $this->notification_repo->sendNotificationTopicWise($notificationData, 'Ezzycare');
+                $send_notification = [
+                    'sender_id' => NULL,
+                    'receiver_id' => NULL,
+                    'title' => $request->title,
+                    'message' => $request->message,
+                    'general_notification_type' => 100,
+                    'msg_type' => '0',
+                    'read' => '0',
+                    'is_admin_send' => 1,
+                ];  
+                $this->notification_repo->dataCrud($send_notification); 
             }
         }
         

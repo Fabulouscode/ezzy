@@ -100,9 +100,24 @@ class NotificationRepository extends Repository
         $query = $query->limit($this->api_data_limit);     
         
         if(!empty($request->user()->category_id)){
-            $query = $query->where('receiver_id',$request->user()->id);
+            $userId = $request->user()->id;
+            $categoryId = $request->user()->category_id;
+            $query = $query->where(function($query) use ($userId, $categoryId){
+                $query->where('receiver_id',$userId)
+                ->orWhere(function ($query) use ($categoryId) {
+                    $query->where('is_admin_send', 1)->where('general_notification_type', $categoryId);
+                });  
+            });  
+            // $query = $query->where('receiver_id',$request->user()->id);
         }else{
-            $query = $query->where('receiver_id',$request->user()->id);
+            $userId = $request->user()->id;
+            $query = $query->where(function($query) use ($userId){
+                $query->where('receiver_id',$userId)
+                ->orWhere(function ($query) {
+                    $query->where('is_admin_send', 1)->where('general_notification_type', '1');
+                });  
+            });  
+            // $query = $query->where('receiver_id',$request->user()->id);
         }
 
         $query = $query->where('message', '!=','Appointment charges is exceeded');

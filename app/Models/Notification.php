@@ -46,6 +46,8 @@ class Notification extends Model
         'parameter',
         'msg_type',
         'read',
+        'is_admin_send',
+        'general_notification_type'
     ];
 
     

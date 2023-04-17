@@ -34,18 +34,19 @@ class NotificationController extends BaseApiController
                                         'msg_type_name'=>$response->msg_type_name,
                                         'read'=>$response->read,
                                         'created_at'=>$response->created_at,
+                                        'is_admin_send'=>$response->is_admin_send,
                                         'sender'=>(isset($response->getSender))?
                                                         [
                                                             'id'=>$response->getSender->id,
                                                             'user_name'=>$response->getSender->user_name,
                                                             'profile_image'=>$response->getSender->profile_image
-                                                        ]:'',
+                                                        ]:null,
                                         'receiver'=>(isset($response->getReceiver))?
                                                     [
                                                         'id'=>$response->getReceiver->id,
                                                         'user_name'=>$response->getReceiver->user_name,
                                                         'profile_image'=>$response->getReceiver->profile_image
-                                                    ]:'',
+                                                    ]:null,
                                     ];
                                 });;
         return self::sendSuccess($data, 'Notification List');
