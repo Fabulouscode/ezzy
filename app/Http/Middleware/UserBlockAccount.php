@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
+use DB;
 
 class UserBlockAccount
 {
@@ -20,6 +21,7 @@ class UserBlockAccount
     {
         if (Auth::check()) {
             if(!empty(Auth::user()) && Auth::user()->status == 2) {
+                DB::table('oauth_access_tokens')->where('user_id', Auth::user()->id)->delete();
                 return Response::json(['success' => 'false', 'message' => 'You have been deactivated please wait to be activated'], 422);
             }
         }
