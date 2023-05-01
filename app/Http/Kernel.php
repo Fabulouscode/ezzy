@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'decrypt_req' => \App\Http\Middleware\DecryptRequest::class,
         'lock' => \App\Http\Middleware\LockAccount::class,
+        'user_block' => \App\Http\Middleware\UserBlockAccount::class,
         'role-permission' => \App\Http\Middleware\UserRolePermissionMiddleware::class,
         'role-permission-resource' => \App\Http\Middleware\UserRolePermissionResourceMiddleware::class,
     ];

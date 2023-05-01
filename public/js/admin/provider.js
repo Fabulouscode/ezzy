@@ -84,7 +84,6 @@ $(function () {
             }
             if (data_obj.category_id == '') {
                 api.columns([5]).visible(showColumn);
-                api.columns([9]).visible(showColumn);
             }
             if (data_obj.status == '1') {
                 api.columns([9]).visible(showColumn);
