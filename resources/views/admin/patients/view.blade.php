@@ -91,6 +91,18 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Status</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if($data->status == '2')
+                                                <div class="badge badge-danger">{{$data->status_name}}</div>
+                                            @elseif($data->status == '1')
+                                                <div class="badge badge-danger">{{$data->status_name}}</div>
+                                            @else                       
+                                                <div class="badge badge-success">{{$data->status_name}}</div>
+                                            @endif
+                                        </dd>
+                                    </div>
                                     @if(!empty($data->approved_date))
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Date of Approval</label></dt>

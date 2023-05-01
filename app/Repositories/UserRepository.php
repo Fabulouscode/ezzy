@@ -262,6 +262,15 @@ class UserRepository extends Repository
                             $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="User Block" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-close"></i></a>&nbsp;&nbsp;';
                         }
                     }
+              
+                    //Block and unblock
+                    if (Auth::user()->hasPermissionTo($request->provider.'-edit') && !empty($request->provider) && $request->provider == 'patients') {
+                        if (!empty($selected->status == '2')) {
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-success" title="User UnBlock" id="status-rows" onclick="changeStatusRow('.$selected->id.',0)"><i class="fa fa-check"></i></a>&nbsp;&nbsp;';
+                        } else {
+                            $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="User Block" id="status-rows" onclick="changeStatusRow('.$selected->id.',2)"><i class="fa fa-close"></i></a>&nbsp;&nbsp;';
+                        }
+                    }
 
                     //Delete
                     if (Auth::user()->hasPermissionTo($request->provider.'-delete')) {
