@@ -61,8 +61,8 @@
                                 @endforeach
                                 @endif
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="send_category[]" value="1" id="patients_1" {{ isset($data->send_category) && in_array('0', $data->send_category) ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="patients_0">Patients</label>
+                                    <input type="checkbox" class="custom-control-input" name="send_category[]" value="1" id="patients_1" {{ isset($data->send_category) && in_array('1', $data->send_category) ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="patients_1">Patients</label>
                                 </div>
                             </div>
                         </div>
