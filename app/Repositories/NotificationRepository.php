@@ -106,6 +106,9 @@ class NotificationRepository extends Repository
                 $query->where('receiver_id',$userId)
                 ->orWhere(function ($query) use ($categoryId) {
                     $query->where('is_admin_send', 1)->where('general_notification_type', $categoryId);
+                })
+                ->orWhere(function ($query) use ($categoryId) {
+                    $query->where('is_admin_send', 1)->where('general_notification_type', '100');
                 });  
             });  
             // $query = $query->where('receiver_id',$request->user()->id);
@@ -115,6 +118,9 @@ class NotificationRepository extends Repository
                 $query->where('receiver_id',$userId)
                 ->orWhere(function ($query) {
                     $query->where('is_admin_send', 1)->where('general_notification_type', '1');
+                })
+                ->orWhere(function ($query) {
+                    $query->where('is_admin_send', 1)->where('general_notification_type', '100');
                 });  
             });  
             // $query = $query->where('receiver_id',$request->user()->id);
