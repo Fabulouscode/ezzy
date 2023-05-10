@@ -30,6 +30,13 @@ class UserReviewRepository extends Repository
     {   
         if(!empty($request)){
             if(!empty($id)){
+                $data = array();
+                if(!empty($request)){
+                    $filter = $request->all();
+                    foreach ($filter as $key => $value) {
+                        $data[$key] = $value;
+                    }
+                }
                 return $this->update($data, $id);
             } else {
                 return $this->model->updateOrCreate([

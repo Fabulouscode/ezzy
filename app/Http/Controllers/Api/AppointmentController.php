@@ -62,7 +62,7 @@ class AppointmentController extends BaseApiController
             $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($user_id); 
             $update = ['wallet_balance'=> $wallet_balance];
             $this->user_repo->dataCrudUsingData($update, $user_id);             
-            return self::sendSuccess($data, 'Wallet Update');
+            return self::sendSuccess('', 'Wallet Update');
         } catch (\Exception $e) {
             return self::sendException($e);
         }
