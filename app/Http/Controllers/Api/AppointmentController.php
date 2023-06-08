@@ -1252,7 +1252,7 @@ class AppointmentController extends BaseApiController
         if(!empty($data)){
             return self::sendSuccess($data->format(), 'Appointment get');
         }
-        return self::sendSuccess('', 'Appointment Not Found');
+        return self::sendSuccess($data, 'Appointment Not Found');
     }
 
     public function generateInvoice($appointment_id)
