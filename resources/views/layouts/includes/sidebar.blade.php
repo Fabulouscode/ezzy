@@ -97,10 +97,21 @@
                 @endif
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('appointments-list','appointments-review'))
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> <span> Appointments </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> 
+                        <span> Appointments </span> 
+                        <span class="menu-arrow float-right">
+                            <i class="mdi mdi-chevron-right"></i>
+                        </span>                        
+                        <span id="AppointmentPendingCount" class="badge_count_side_menu_with_sub float-right">0</span>
+                    </a>
                     <ul class="list-unstyled">
                         @can('appointments-list')
-                        <li><a href="{{url('/donotezzycaretouch/appointment/upcoming')}}">Upcoming</a></li>
+                        <li class="d-flex">
+                            <a href="{{url('/donotezzycaretouch/appointment/upcoming')}}">
+                                Upcoming
+                            </a>                            
+                            <!-- <span id="AppointmentPendingCount" class="badge_count_side_menu_child">0</span> -->
+                        </li>
                         @endcan
                         @can('appointments-list')
                         <li><a href="{{url('/donotezzycaretouch/appointment')}}">Completed</a></li>

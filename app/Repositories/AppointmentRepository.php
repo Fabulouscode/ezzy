@@ -1241,5 +1241,38 @@ class AppointmentRepository extends Repository
         return $this->model->where('client_id', $client_id)->where('voucher_code_id', $voucher_id)->first();   
     }
 
+    
+    public function getCurrentlyUpcomingAppointmentByUserId($userId)
+    {   
+        $current_time  =  Carbon::now();
+        $current_time = $current_time->addMinute(2);
+        $current_time = $current_time->format('H:i');   
+          // \Log::info("current_time ".json_encode($current_time)); 
+        // return $this->model->whereDate('appointment_date', Carbon::now())
+        //                     ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59'])
+        //                     ->where('status',1)->get(); 
+                            
+        $query = $this->model->whereDate('appointment_date', Carbon::now()) 
+                ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59']) 
+                ->where(function ($query) use ($userId) {
+                    $query->orWhere('user_id', $userId);
+                    $query->orWhere('client_id', $userId);
+                })->where('status',1)->first();    
+
+        return $query;
+                            
+    }
+  
+    public function getAppointmentPendingCount()
+    {   
+        $query = $this->model;
+        
+        $query = $query->whereNotIn('status',['5','6'])->count();
+        
+        return $query;
+
+                            
+    }
+
 }
 

@@ -218,4 +218,10 @@ class AppointmentController extends Controller
         }
         return response()->json(['msg'=>'Can not cancel this appointment'], 500);
     }
+
+    public function getAppointmentPendingCount(Request $request)
+    {
+        $pendingCount = $this->appointment_repo->getAppointmentPendingCount();
+        return response()->json(['status'=>true,'data'=>$pendingCount], 200);
+    }
 }

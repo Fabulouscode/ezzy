@@ -187,6 +187,7 @@ $(function () {
     "hideMethod": "fadeOut"
     }
     getSupportPendingTicket();
+    getAppointmentPendingCount();
 });
 
 function getSupportPendingTicket() {
@@ -197,6 +198,21 @@ function getSupportPendingTicket() {
         dataType: 'json',
         success: function (data) {
             $('#SupportPendingTicketCount').text(data.data);
+        },
+        error: function (error) {
+
+        }
+    });
+}
+
+function getAppointmentPendingCount() {
+     $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: "{{route('appointments_pending_count')}}",
+        type: "get",
+        dataType: 'json',
+        success: function (data) {
+            $('#AppointmentPendingCount').text(data.data);
         },
         error: function (error) {
 
