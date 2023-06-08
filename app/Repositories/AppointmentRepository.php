@@ -1242,7 +1242,7 @@ class AppointmentRepository extends Repository
     }
 
     
-    public function getCurrentlyUpcomingAppointmentByUserId($userId)
+    public function getCurrentlyUpcomingAppointmentByUserId($userId, $clientId)
     {   
         $current_time  =  Carbon::now();
         $current_time = $current_time->addMinute(2);
@@ -1257,6 +1257,10 @@ class AppointmentRepository extends Repository
                 ->where(function ($query) use ($userId) {
                     $query->orWhere('user_id', $userId);
                     $query->orWhere('client_id', $userId);
+                })    
+                ->where(function ($query) use ($clientId) {
+                    $query->orWhere('user_id', $clientId);
+                    $query->orWhere('client_id', $clientId);
                 })->where('status',1)->first();    
 
         return $query;
