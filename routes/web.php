@@ -182,7 +182,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('appointment/upcoming', 'AppointmentController@getUpcomingAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
-        Route::get('appointment/edit/cancel/{id?}', 'AppointmentController@updateAppointmentCancel')->middleware('role-permission:appointments-edit');        
+        Route::get('appointment/edit/cancel/{id?}', 'AppointmentController@updateAppointmentCancel')->middleware('role-permission:appointments-edit');  
+        Route::get('appointment/pending/count', 'AppointmentController@getAppointmentPendingCount')->name('appointments_pending_count');      
         Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
         // Support request  routes       

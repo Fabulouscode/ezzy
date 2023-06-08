@@ -1246,6 +1246,14 @@ class AppointmentController extends BaseApiController
         }
         return self::sendError($data, 'Appointment Timeout!');
     }
+    public function checkUserAppointment(Request $request)
+    {
+        $data = $this->appointment_repo->getCurrentlyUpcomingAppointmentByUserId($request->user()->id); 
+        if(!empty($data)){
+            return self::sendSuccess($data->format(), 'Appointment get');
+        }
+        return self::sendError($data, 'Appointment Timeout!');
+    }
 
     public function generateInvoice($appointment_id)
     {
