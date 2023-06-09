@@ -1253,7 +1253,7 @@ class AppointmentRepository extends Repository
         //                     ->where('status',1)->get(); 
                             
         $query = $this->model->whereDate('appointment_date', Carbon::now()) 
-                ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59']) 
+                // ->whereBetween('appointment_time', [$current_time.':00', $current_time.':59']) 
                 ->where(function ($query) use ($userId) {
                     $query->orWhere('user_id', $userId);
                     $query->orWhere('client_id', $userId);
@@ -1261,7 +1261,7 @@ class AppointmentRepository extends Repository
                 ->where(function ($query) use ($clientId) {
                     $query->orWhere('user_id', $clientId);
                     $query->orWhere('client_id', $clientId);
-                })->whereIn('status',[1,2])->first();    
+                })->whereIn('status',[2])->first();    
 
         return $query;
                             
