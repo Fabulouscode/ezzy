@@ -1261,7 +1261,7 @@ class AppointmentRepository extends Repository
                 ->where(function ($query) use ($clientId) {
                     $query->orWhere('user_id', $clientId);
                     $query->orWhere('client_id', $clientId);
-                })->where('status',1)->first();    
+                })->whereIn('status',[1,2])->first();    
 
         return $query;
                             
