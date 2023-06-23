@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Messaging\RawMessage;
 
 class Helper
 {
@@ -157,7 +159,7 @@ class Helper
 
         if (!empty($notification->msg_type) && in_array($notification->msg_type, ['1', '2', '3'])) {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -168,7 +170,7 @@ class Helper
             );
         } else if (!empty($notification->msg_type) && in_array($notification->msg_type, ['4', '5', '6'])) {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -179,7 +181,7 @@ class Helper
             );
         } else {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -212,7 +214,7 @@ class Helper
 
         $dataTemp = [
             'click_action' => "FLUTTER_NOTIFICATION_CLICK",
-            'object' => $message
+            'object' => json_encode($message)
         ];
 
         // $data = [
@@ -300,7 +302,27 @@ class Helper
         ];
 
         if (!empty($data)) {
-            self::sendNotificationWithAdminSDK($data, 1);
+            self::sendNotificationWithAdminSDK($data, 2);
+        }
+    }
+
+    public static function unsubscribeAllNotificationTopic($notification_tokens)
+    {
+        // $url = 'https://iid.googleapis.com/iid/v1:batchRemove';
+
+        // $data = [
+        //     "to" => "/topics/" . $topic_name,
+        //     "registration_tokens" => [$notification_tokens]
+        // ];
+
+        // self::sendCurlRequest($url, $data);
+
+        $data = [
+            "registration_tokens" => [$notification_tokens]
+        ];
+
+        if (!empty($data)) {
+            self::sendNotificationWithAdminSDK($data, 3);
         }
     }
 
@@ -336,7 +358,7 @@ class Helper
 
         if (!empty($notification['msg_type']) && in_array($notification['msg_type'], ['1', '2', '3'])) {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -347,7 +369,7 @@ class Helper
             );
         } else if (!empty($notification['msg_type']) && in_array($notification['msg_type'], ['4', '5', '6'])) {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -358,7 +380,7 @@ class Helper
             );
         } else {
             $data = array(
-                'to' => $receiver->device_token,
+                'token' => $receiver->device_token,
                 'data' => $dataTemp,
                 'notification' => array(
                     'title' => config('app.name'),
@@ -386,7 +408,7 @@ class Helper
      */
     public static function checkNotification()
     {
-        $notification_token = "dR3b-2AH7UhZqnsZ1zpva9:APA91bFX5lh0Dc5qcyQq6PbeIUXaibGmuu7FdvZgGLsVcKXPVdL7BrxXFT_eqqSqZV6tmayTqd1MVx_j-bk2dWsGorJllFoQdEHo_AFpB2GkkdQDmqHXJXxBTX4HMFq63lRMGaFtBGEY";
+        $notification_token = "cYTr7i8IO0xXpK4ONrZJC1:APA91bHIk9ebOq-Vme7mYLhQpxbeD4_TYLc4A5eaFSOoEigf-75jmsh6Pwen8ciLrKAulZSr-mzW4ycKv774lK0iPAsMkthF79vkZg5rjuIxQBoH0F72_QfmT7r2b_hEIFGGYa6PZxuK";
         $url = 'https://fcm.googleapis.com/fcm/send';
 
         $message = [
@@ -412,7 +434,7 @@ class Helper
 
 
         $data = array(
-            'to' => $notification_token,
+            'token' => $notification_token,
             'data' => $dataTemp,
             'notification' => array(
                 'title' => config('app.name'),
@@ -428,10 +450,64 @@ class Helper
         }
     }
 
+    public static function checkNotificationTopicWise($notification, $topic_name = 'ezzycare')
+    {
+        // $url = 'https://fcm.googleapis.com/fcm/send';
+        // $serverApiKey = config('app.FCM_KEY');
+
+        $message = [
+            'type' => '0',
+        ];
+
+        $dataTemp = [
+            'click_action' => "FLUTTER_NOTIFICATION_CLICK",
+            'object' => json_encode($message)
+        ];
+
+        // $data = [
+        //     "to" => "/topics/" . $topic_name,
+        //     'notification' => [
+        //         'title' => $notification['title'],
+        //         'body' => $notification['message'],
+        //     ],
+        //     'data' => $dataTemp,
+        // ];
+
+        $data = [
+            "topic" => $topic_name,
+            'notification' => [
+                'title' => 'This is test Notificationas',
+                'body' => 'This is test Notificationas',
+            ],
+            'data' => $dataTemp,
+            "android" => [
+                "notification" => [
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                ]
+            ],
+            "apns" => [
+                "payload" => [
+                    "aps" => [
+                        "mutable-content" => 1
+                    ]
+                ],
+                "fcm_options" => [
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                ]
+            ],
+        ];
+
+        // self::sendCurlRequest($url, $data);
+        if (!empty($data)) {
+            self::sendNotificationWithAdminSDK($data, 4);
+        }
+    
+    }
+
 
     public static function sendNotificationWithAdminSDK($notificationData, $type = 0)
     {
-        // type 0-notification send, 1-subscribe topic, 2-unsubscribe topic,, 3-unsubscribe all topic
+        // type 0-notification send, 1-subscribe topic, 2-unsubscribe topic, 3-unsubscribe all topic,  3-topic wise notification
         try {
 
             $service_account = [
@@ -449,29 +525,39 @@ class Helper
             ];
 
             $factory = (new Factory)->withServiceAccount($service_account);
+            $recipient = 'device_token_or_topic_name';
             if($type == '1'){
                 // subscribe topic
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
                 $messaging->subscribeToTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
-                Log::info('notification sended');
+                Log::info('subscribeToTopic');
             }else if($type == '2'){
                 // unsubscribe topic
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
-                Log::info('notification sended');
+                Log::info('unsubscribeFromTopic');
             }else if($type == '3'){
                 // unsubscribe all topic
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromAllTopics($notificationData['registration_tokens']);
-                Log::info('notification sended');
+                Log::info('unsubscribeFromAllTopics');
+            }else if($type == '4'){
+                // topic wise send notification
+                $messaging = $factory->createMessaging();
+                Log::info(['notificationData', $notificationData]);
+                $cloudMessage = CloudMessage::fromArray($notificationData);
+                Log::info(['cloudMessage', json_encode($cloudMessage)]);
+                $messaging->send($cloudMessage);
+                Log::info('topic notification sended');
             }else{
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
                 $cloudMessage = CloudMessage::fromArray($notificationData);
                 Log::info(['cloudMessage', json_encode($cloudMessage)]);
+                // $messaging->withNotificationToken('device_token');
                 $messaging->send($cloudMessage);
                 Log::info('notification sended');
             } 
