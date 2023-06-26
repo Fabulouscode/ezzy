@@ -255,7 +255,13 @@ class DashboardController extends BaseApiController
 
     public function checkNotification(Request $request)
     {
-        Helper::checkNotification();
+        // $notification_tokens = 'cYTr7i8IO0xXpK4ONrZJC1:APA91bHIk9ebOq-Vme7mYLhQpxbeD4_TYLc4A5eaFSOoEigf-75jmsh6Pwen8ciLrKAulZSr-mzW4ycKv774lK0iPAsMkthF79vkZg5rjuIxQBoH0F72_QfmT7r2b_hEIFGGYa6PZxuK';
+        // Helper::unsubscribeNotificationTopic($notification_tokens,'ezzycare_test');
+        // Helper::unsubscribeAllNotificationTopic($notification_tokens);
+        // Helper::subscribeNotificationTopic($notification_tokens,'ezzycare_test');
+        // Helper::checkNotificationTopicWise($notification_tokens, 'ezzycare_test');
+        // Helper::checkNotification();
+        return true;
     }
 
     public function getBankDetails(Request $request)

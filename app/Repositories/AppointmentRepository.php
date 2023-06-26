@@ -701,10 +701,14 @@ class AppointmentRepository extends Repository
                         });
             }
         }else{
-            if(!empty($request->last_id)){
-                $query = $query->where('id', '<', $request->last_id);    
+            if(!empty($request->page_no)){
+
+            }else{
+                if(!empty($request->last_id)){
+                    $query = $query->where('id', '<', $request->last_id);    
+                }
+                $query = $query->limit($this->api_data_limit); 
             }
-            $query = $query->limit($this->api_data_limit); 
         }
 
         if(!empty($request->status)){
@@ -719,8 +723,12 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
-        $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
-        
+        if(!empty($request->page_no)){
+            $skip_data = $this->api_data_limit * ($request->page_no - 1);
+            $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
+        }else{
+            $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
+        }        
         return $query;
        
     }
