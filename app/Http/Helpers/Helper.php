@@ -194,7 +194,7 @@ class Helper
         // if (!empty($data)) {
         //     self::sendCurlRequest($url, $data);
         // }
-        if (!empty($data)) {
+        if (!empty($data) && !empty($receiver) && !empty($receiver->device_token)) {
             self::sendNotificationWithAdminSDK($data);
         }
         return true;
@@ -395,7 +395,7 @@ class Helper
         //      self::sendCurlRequest($url, $data);
         // }
 
-        if (!empty($data)) {
+        if (!empty($data) && !empty($receiver) && !empty($receiver->device_token)) {
             self::sendNotificationWithAdminSDK($data);
         }
 
