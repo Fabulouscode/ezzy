@@ -674,7 +674,7 @@ class AppointmentRepository extends Repository
         
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
-            $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','asc')->skip($skip_data)->limit($this->api_data_limit)->get();
+            $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
         }else{
             $query = $query->orderBy('id','desc')->get();
         }
@@ -794,7 +794,7 @@ class AppointmentRepository extends Repository
 
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
-            $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','asc')->skip($skip_data)->limit($this->api_data_limit)->get();
+            $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
         }else{
             $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         }
@@ -896,7 +896,7 @@ class AppointmentRepository extends Repository
 
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
-            $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','asc')->skip($skip_data)->limit($this->api_data_limit)->get();
+            $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
         }else{
             $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         }
@@ -952,7 +952,7 @@ class AppointmentRepository extends Repository
         
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
-            $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','asc')->skip($skip_data)->limit($this->api_data_limit)->get();
+            $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
         }else{
             $query = $query->orderBy('id','desc')->orderBy('urgent','desc')->get();
         }
