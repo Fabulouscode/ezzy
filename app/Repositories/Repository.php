@@ -212,22 +212,6 @@ class Repository
      */  
     public function sendMessage($message, $recipients)
     {   
-         //twilio
-        // try{
-        //     $account_sid = config("app.TWILIO_SID");
-        //     $auth_token = config("app.TWILIO_AUTH_TOKEN");
-        //     $twilio_number = config("app.TWILIO_NUMBER");
-        //     $client = new Client($account_sid, $auth_token);
-        //     $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
-        //     return '';
-        //  }catch(\Exception $e){
-        //       throw new HttpResponseException(response()->json([
-        //         'success' => false,
-        //         'errors' => $e->getMessage(),
-        //         'message' => 'The given data was invalid.',
-        //     ], 422));
-        // }
-
         // sms provider
         // try{
         //     $sms_provider_url = config("app.SMS_PROVIDER_URL");
@@ -288,36 +272,52 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
-
+        if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
+             //twilio
+            try{
+                $account_sid = config("app.TWILIO_SID");
+                $auth_token = config("app.TWILIO_AUTH_TOKEN");
+                $twilio_number = config("app.TWILIO_NUMBER");
+                $client = new Client($account_sid, $auth_token);
+                $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+                return '';
+             }catch(\Exception $e){
+                  throw new HttpResponseException(response()->json([
+                    'success' => false,
+                    'errors' => $e->getMessage(),
+                    'message' => 'The given data was invalid.',
+                ], 422));
+            }
+        }else{
             // MTARGET sms
-        try{
-            $mtarget_api_url = config("app.MTARGET_API_URL");
-            $mtarget_login_name = config("app.MTARGET_USERNAME");
-            $mtarget_login_password = config("app.MTARGET_PASSWORD");
-            if(!empty($mtarget_api_url) && !empty($mtarget_login_name) && !empty($mtarget_login_password) && !empty($recipients)){
-                $url = $mtarget_api_url;
-                $url .= "?username=".$mtarget_login_name;                
-                $url .= "&password=".$mtarget_login_password;                
-                $url .= "&msisdn=".urlencode($recipients);     
-                $url .= "&serviceid=30798";
-                $url .= "&sender=OneOTP";
-                $url .= "&msg=".urlencode($message);
-                $msg_sent = Helper::sendBULKSMSRequest($url);
-                if(!empty($msg_sent) && $msg_sent != 'true'){
+            try{
+                $mtarget_api_url = config("app.MTARGET_API_URL");
+                $mtarget_login_name = config("app.MTARGET_USERNAME");
+                $mtarget_login_password = config("app.MTARGET_PASSWORD");
+                if(!empty($mtarget_api_url) && !empty($mtarget_login_name) && !empty($mtarget_login_password) && !empty($recipients)){
+                    $url = $mtarget_api_url;
+                    $url .= "?username=".$mtarget_login_name;                
+                    $url .= "&password=".$mtarget_login_password;                
+                    $url .= "&msisdn=".urlencode($recipients);     
+                    $url .= "&serviceid=30798";
+                    $url .= "&sender=OneOTP";
+                    $url .= "&msg=".urlencode($message);
+                    $msg_sent = Helper::sendBULKSMSRequest($url);
+                    if(!empty($msg_sent) && $msg_sent != 'true'){
+                        return $msg_sent;
+                    }
+                }else{
+                    $msg_sent = 'SMS Sending Failed';
                     return $msg_sent;
                 }
-            }else{
-                $msg_sent = 'SMS Sending Failed';
-                return $msg_sent;
+            }catch(\Exception $e){
+                    throw new HttpResponseException(response()->json([
+                    'success' => false,
+                    'errors' => $e->getMessage(),
+                    'message' => 'The given data was invalid.',
+                ], 422));
             }
-        }catch(\Exception $e){
-                throw new HttpResponseException(response()->json([
-                'success' => false,
-                'errors' => $e->getMessage(),
-                'message' => 'The given data was invalid.',
-            ], 422));
-        }
-        
+        }        
     }
 
     /**
