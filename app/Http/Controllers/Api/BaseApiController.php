@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\CustomEncrypt;
 use Carbon\Carbon;
-
+use Log;
 class BaseApiController extends Controller
 {
     private $ecnrypter;
@@ -34,11 +34,17 @@ class BaseApiController extends Controller
     
     public function sendException($ex) 
     {
+        Log::info('---------- sendException start --------------');
+        Log::info($ex->getMessage());
+        Log::info($ex);
+        Log::info('---------- sendException end --------------');
+
         return response()->json([
             'success' => false,
             'error' => config('app.debug') ? $ex->getMessage().' at '.$ex->getLine() : 'Oops! Something went wrong, Try Again after sometime',
             'message' => 'Oops! Something went wrong, Try Again after sometime'
         ], 500);
+
     }
     
    
