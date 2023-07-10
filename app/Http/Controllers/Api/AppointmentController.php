@@ -544,7 +544,13 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $data->id]),
                                         'msg_type' => '1',
                                     ];  
-                $this->notification_repo->sendingNotification($send_notification);          
+                                 
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);    
+                }catch(\Exception $e){
+
+                }
+      
             }
             DB::commit();
             return self::sendSuccess($data);
@@ -859,7 +865,12 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);     
+                }catch(\Exception $e){
+                    
+                }  
+           
             }
             DB::commit();
             if(!empty($data)){
@@ -970,7 +981,12 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);   
+                }catch(\Exception $e){
+                    
+                }  
+            
             }
             DB::commit();
             if(!empty($data)){
@@ -1161,7 +1177,13 @@ class AppointmentController extends BaseApiController
                             'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                             'msg_type' => '2',
                         ];
-                        $this->notification_repo->sendingNotification($send_notification);
+                        
+                        try{
+                            $this->notification_repo->sendingNotification($send_notification);
+                        }catch(\Exception $e){
+                            
+                        }
+                      
                 }     
                 if(!empty($old_transaction->id)){                    
                     $this->user_transaction_repo->destroy($old_transaction->id);
@@ -1178,7 +1200,12 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);  
+                }catch(\Exception $e){
+                    
+                }  
+             
 
                 // if(!empty($extra_charges) && $extra_charges != '0'){
                 //         $send_notification = [
@@ -1227,7 +1254,12 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $data->id, 'status'=>$data->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);
+                }catch(\Exception $e){
+                    
+                }  
+       
             }
             DB::commit();
             return self::sendSuccess($data, 'Appointment Add Review');
@@ -1347,7 +1379,12 @@ class AppointmentController extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                         'msg_type' => '2',
                                     ];  
-                $this->notification_repo->sendingNotification($send_notification);          
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);     
+                }catch(\Exception $e){
+                    
+                }  
+                   
             }
             Log::info("Appointment Request Accepted".date('H:i:s'));
             DB::commit();
@@ -1500,8 +1537,13 @@ class AppointmentController extends BaseApiController
                                 'message' => 'Appointment extend by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $user->user_timezone),
                                 'parameter' => json_encode(['appointment_id'=> $data->id]),
                                 'msg_type' => '1',
-                            ];  
-            $this->notification_repo->sendingNotification($send_notification);     
+                            ];
+            try{
+                $this->notification_repo->sendingNotification($send_notification);  
+            }catch(\Exception $e){
+                
+            }  
+           
  
             $data = $this->appointment_repo->getById($request->appointment_id);
             DB::commit();

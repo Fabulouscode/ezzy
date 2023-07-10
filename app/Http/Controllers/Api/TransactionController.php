@@ -272,7 +272,12 @@ class TransactionController extends BaseApiController
                                             'parameter' => json_encode(['order_id'=> $data->id]),
                                             'msg_type' => '6',
                                         ];
-                    $this->notification_repo->sendingNotification($send_notification);
+                    try{
+                        $this->notification_repo->sendingNotification($send_notification);  
+                    }catch(\Exception $e){
+                        
+                    }
+           
                 }
                  DB::commit();
                 return self::sendSuccess($data, 'Transaction Completed');
@@ -399,7 +404,12 @@ class TransactionController extends BaseApiController
                                     'parameter' => json_encode(['appointment_id'=> $data->id]),
                                     'msg_type' => '3',
                                 ];
-                    $this->notification_repo->sendingNotification($send_notification);
+                    try{
+                        $this->notification_repo->sendingNotification($send_notification);   
+                    }catch(\Exception $e){
+                        
+                    }
+              
                 }
                 
                 DB::commit();
@@ -468,7 +478,12 @@ class TransactionController extends BaseApiController
                                     'parameter' => json_encode(['treatment_plan'=> $data->id]),
                                     'msg_type' => '0',
                                 ];
-                    $this->notification_repo->sendingNotification($send_notification);
+                    try{
+                        $this->notification_repo->sendingNotification($send_notification);    
+                    }catch(\Exception $e){
+                        
+                    }
+                
                 }
                 
                 DB::commit();

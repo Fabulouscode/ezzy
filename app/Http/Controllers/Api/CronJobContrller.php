@@ -369,7 +369,12 @@ class CronJobContrller extends BaseApiController
                             'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                             'msg_type' => '2',
                         ];
+                    try{
                         $this->notification_repo->sendingNotification($send_notification);
+                    }catch(\Exception $e){
+                        
+                    }
+                       
                 }     
                 if(!empty($old_transaction->id)){                    
                     $this->user_transaction_repo->destroy($old_transaction->id);
@@ -387,7 +392,12 @@ class CronJobContrller extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+               
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);
+                }catch(\Exception $e){
+                    
+                }
 
                 $sendNotification = [
                                         'sender_id' => $appointment_details->client_id,
@@ -397,7 +407,12 @@ class CronJobContrller extends BaseApiController
                                         'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status]),
                                         'msg_type' => '2',
                                     ];
-                $this->notification_repo->sendingNotification($sendNotification);
+                try{
+                    $this->notification_repo->sendingNotification($sendNotification);
+                }catch(\Exception $e){
+                    
+                }
+              
 
             }
 

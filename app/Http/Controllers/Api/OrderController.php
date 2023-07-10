@@ -355,7 +355,12 @@ class OrderController extends BaseApiController
                                         'parameter' => json_encode(['order_id'=> $data->id]),
                                         'msg_type' => '5',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);
+                }catch(\Exception $e){
+                    
+                }
+          
             }
             DB::commit();            
             $data = $this->order_repo->getById($request->id);
@@ -417,7 +422,12 @@ class OrderController extends BaseApiController
                                         'parameter' => json_encode(['order_id'=> $data->id]),
                                         'msg_type' => '5',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);
+                }catch(\Exception $e){
+                    
+                }
+              
             }
             $data = $this->order_repo->getById($request->order_id);
             if(!empty($data)){
@@ -498,7 +508,12 @@ class OrderController extends BaseApiController
                                         'parameter' => json_encode(['order_id'=> $data->id]),
                                         'msg_type' => '5',
                                     ];
-                $this->notification_repo->sendingNotification($send_notification);
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);
+                }catch(\Exception $e){
+                    
+                }
+            
             }
             DB::commit();
             return self::sendSuccess($data, 'Order Add Review');
