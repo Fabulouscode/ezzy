@@ -65,8 +65,8 @@ class Handler extends ExceptionHandler
                 Log::info('stop AccessDeniedHttpException, AuthorizationException');
                 return response()->json([
                     'success' => false,
-                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops ! Something went wrong, Try Again after sometime',
-                    'message' => 'Oops ! Something went wrong, Try Again after sometime'
+                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops! Something went wrong, Try Again after sometime',
+                    'message' => 'Oops! Something went wrong, Try Again after sometime'
                 ], 500);
             }
 
@@ -83,8 +83,8 @@ class Handler extends ExceptionHandler
                 Log::info('stop MethodNotAllowedHttpException, ModelNotFoundException, NotFoundHttpException');
                 return response()->json([
                     'success' => false,
-                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops ! Something went wrong, Try Again after sometime',
-                    'message' => 'Oops ! Something went wrong, Try Again after sometime'
+                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops! Something went wrong, Try Again after sometime',
+                    'message' => 'Oops! Something went wrong, Try Again after sometime'
                 ], 500);
             }
             if ($exception instanceof ThrottleRequestsException) {
@@ -100,8 +100,8 @@ class Handler extends ExceptionHandler
                 Log::info('stop ThrottleRequestsException');
                 return response()->json([
                     'success' => false,
-                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops ! Something went wrong, Try Again after sometime',
-                    'message' => 'Oops ! Something went wrong, Try Again after sometime'
+                    'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops! Something went wrong, Try Again after sometime',
+                    'message' => 'Oops! Something went wrong, Try Again after sometime'
                 ], 500);
             }
         }
@@ -118,8 +118,8 @@ class Handler extends ExceptionHandler
             Log::info('stop OAuthServerException');
             return response()->json([
                 'success' => false,
-                'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops ! Something went wrong, Try Again after sometime',
-                'message' => 'Oops ! Something went wrong, Try Again after sometime'
+                'error' => config('app.debug') ? $exception->getMessage().' at '.$exception->getLine() : 'Oops! Something went wrong, Try Again after sometime',
+                'message' => 'Oops! Something went wrong, Try Again after sometime'
             ], 500);
         }
 
