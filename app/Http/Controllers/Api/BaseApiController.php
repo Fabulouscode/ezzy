@@ -36,8 +36,8 @@ class BaseApiController extends Controller
     {
         return response()->json([
             'success' => false,
-            'error' => config('app.debug') ? $ex->getMessage().' at '.$ex->getLine() : 'Some Internal Server Error',
-            'message' => 'Some Internal Server Error'
+            'error' => config('app.debug') ? $ex->getMessage().' at '.$ex->getLine() : 'Oops ! Something went wrong, Try Again after sometime',
+            'message' => 'Oops ! Something went wrong, Try Again after sometime'
         ], 500);
     }
     
