@@ -282,7 +282,16 @@ class Repository
                 $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
                 return '';
              }catch(\Exception $e){
-                  throw new HttpResponseException(response()->json([
+                Log::info('twili sms send');
+                $data = array(
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                );
+                Log::info($data);
+                throw new HttpResponseException(response()->json([
                     'success' => false,
                     'errors' => $e->getMessage(),
                     'message' => 'The given data was invalid.',
@@ -311,7 +320,16 @@ class Repository
                     return $msg_sent;
                 }
             }catch(\Exception $e){
-                    throw new HttpResponseException(response()->json([
+                Log::info('MTARGET sms send');
+                $data = array(
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                );
+                Log::info($data);
+                throw new HttpResponseException(response()->json([
                     'success' => false,
                     'errors' => $e->getMessage(),
                     'message' => 'The given data was invalid.',

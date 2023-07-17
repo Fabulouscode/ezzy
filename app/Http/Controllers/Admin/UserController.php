@@ -464,7 +464,12 @@ class UserController extends Controller
                                        'parameter' => '',
                                        'msg_type' => '7',
                                    ];  
-                   $this->notification_repo->sendingWithoutSenderNotification($send_notification);       
+                    try{
+                        $this->notification_repo->sendingWithoutSenderNotification($send_notification);     
+                    }catch(\Exception $e){
+    
+                    }
+               
                 }else{
                     return response()->json(['msg'=>'Please fill required details before approval.'], 500);
                 }
