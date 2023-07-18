@@ -96,6 +96,16 @@
                                         </dd>
                                     </div>
                                     <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment Urgent</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(!empty($data->urgent) && $data->urgent == 1)
+                                                <div class="badge badge-info">Urgent</div>
+                                            @else
+                                                <div class="badge badge-success">Not Urgent</div>
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
                                         <dt class="col-sm-5"><label>Age</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->age))
