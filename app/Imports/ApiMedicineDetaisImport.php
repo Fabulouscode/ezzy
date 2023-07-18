@@ -37,7 +37,13 @@ class ApiMedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunk
                                     ->where('medicine_sku', $row['medicine_sku'])
                                     ->first();
               
-                if(!empty($medicine_detail) && !empty($medicine_detail->id) && (!empty($row['quantity']) || !empty($row['mrp_price']) || !empty($row['offer_price']))){
+                if(!empty($medicine_detail) && !empty($medicine_detail->id) && !empty($row['quantity']) && (!empty($row['mrp_price']) || !empty($row['offer_price']))){
+                    if(!empty($row['mrp_price'])){
+                        $mrp_price = $row['mrp_price'];
+                    }else if(!empty($row['offer_price'])){
+                        $mrp_price = $row['offer_price'];
+                    }
+
                     Shop_medicine_details::updateOrCreate(
                     [
                         'user_id' => $this->user_id,
@@ -46,7 +52,7 @@ class ApiMedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunk
                     ], 
                     [
                         'capsual_quantity' => $row['quantity'],
-                        'mrp_price' => $row['mrp_price'],
+                        'mrp_price' => $mrp_price,
                         'offer_price' => !empty($row['offer_price']) ? $row['offer_price'] : 0,
                         'status'=>'0'
                     ]);    
