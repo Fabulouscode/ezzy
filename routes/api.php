@@ -58,7 +58,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
     Route::get('/hcp/sub_types/{id?}', 'CategoryController@getHCPSubTypes');
 
     Route::post('/login', 'UserAuthController@login');
-    Route::post('/register_mobile', 'UserAuthController@saveRegisterwithMobile');
+    Route::post('/register_mobile', 'UserAuthController@saveRegisterwithMobile')->middleware('throttle:RegisterThrottle');
     Route::post('/forget/password', 'UserAuthController@forgetPassword');
     Route::post('/social/login', 'UserAuthController@socialLogin');    
     Route::post('/otp/resend', 'UserAuthController@resendSMS');
@@ -68,8 +68,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
         Route::get('/logout', 'UserAuthController@userLogout');
         Route::post('/otp/verify', 'UserAuthController@verifyOTP');
         Route::post('/reset/password', 'UserAuthController@recoverPassword');
-        Route::post('/register', 'UserAuthController@saveRegister');    
-        Route::post('/patient/register', 'UserAuthController@saveRegisterPatient');
+        Route::post('/register', 'UserAuthController@saveRegister')->middleware('throttle:RegisterThrottle');  
+        Route::post('/patient/register', 'UserAuthController@saveRegisterPatient')->middleware('throttle:RegisterThrottle');
         Route::post('/password/change', 'UserAuthController@userChangePassword');
     });
     

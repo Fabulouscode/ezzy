@@ -669,6 +669,15 @@ class Helper
         }
         return true;
     }
+    public static function countryCodeRestriction($countryCode)
+    {         
+        $retrictCountryCode = ['+992','992'];
+        if(!empty($countryCode) && in_array($countryCode, $retrictCountryCode)){
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

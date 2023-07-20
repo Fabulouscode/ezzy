@@ -58,7 +58,8 @@ class User extends Authenticatable
         'current_latitude',
         'current_longitude',
         'lock_wallet_balance',
-        'user_timezone'
+        'user_timezone',
+        'user_ip'
     ];
 
     /**

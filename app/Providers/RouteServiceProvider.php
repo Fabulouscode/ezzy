@@ -47,6 +47,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        RateLimiter::for('RegisterThrottle', function (Request $request) {
+            return Limit::perMinute(3)->by($request->ip());
+        });
     }
 
     /**

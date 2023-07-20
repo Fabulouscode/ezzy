@@ -117,6 +117,21 @@
                                                 @enderror
                                             </dd>
                                         </div>
+                                       
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>Registration (Start/Stop)</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[registration_start]" name="setting[registration_start]" >
+                                                    <option value="1" {{isset($data['registration_start']) &&  $data['registration_start'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['registration_start']) && $data['registration_start'] == 0 ? 'selected' :""}}>Stop</option>
+                                                </select>
+                                                @error('setting[registration_start]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
                                         <div class="row d-flex justify-content-end mt-5">
                                             <div class="form-group col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-info waves-effect m-l-5">

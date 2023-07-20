@@ -55,6 +55,7 @@ class UserRepository extends Repository
         $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'otp_code' => $request->otp_code,
                 'status' => $request->status,
+                'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
                 'deleted_at' => NULL
             ])->restore();    
     
@@ -89,6 +90,7 @@ class UserRepository extends Repository
                 'google_id'=>!empty($request->google_id) ? $request->google_id : NULL,
                 'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
                 'user_timezone'=> !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '',
+                'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
                 'deleted_at' => NULL
             ])->restore();    
     
@@ -1324,6 +1326,13 @@ class UserRepository extends Repository
            self::genrateInterSwitchRefrenceNo();
         }
         return $interSwitch; 
+    } 
+
+    function getIpRegisterdAndLoginIp($ip) 
+    {     
+        $query = $this->model->where('user_ip', $ip);
+        $query = $query->orderBy('id','desc')->count();
+        return $query;
     } 
 
 }

@@ -21,6 +21,8 @@ use App\Http\Requests\Api\Auth\UserRegisterMobileRequest;
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\AppSetting;
+use Helper;
 
 class UserAuthController extends BaseApiController
 {
@@ -47,6 +49,11 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
+        $registerStop = AppSetting::where('key_name', 'registration_start')->first();
+        if(isset($registerStop) && $registerStop == 0){             
+            return self::sendError('', 'For the time being registration is closed. Please try later.');
+        }
+
         $user = $this->user_repo->checkbyMobileNo($request);
         if (!empty($request->email)) {
             $user_email = $this->user_repo->checkbyEmailId($request);
@@ -54,6 +61,23 @@ class UserAuthController extends BaseApiController
                 return self::sendError('', 'Email ID Already Registered.');
             }
         }
+
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+                $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
+                if(!empty($userIpCheck) && $userIpCheck > 3){
+                    return self::sendError('', 'You have not access.');
+                }
+            }
+        }
+
+
+
         if(empty($user)){
             try{
                 DB::beginTransaction();
@@ -62,14 +86,14 @@ class UserAuthController extends BaseApiController
                 $request->otp_code = $mobile_code;
                 $request->status = '3';
                 $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
-                try{
-                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
-                }catch(\Exception $e){
-                    return self::sendError('', 'SMS Sending Failed');
-                }                
-                if(!empty($sent_msg)){
-                    return self::sendError('', 'SMS Sending Failed');
-                }
+                // try{
+                //     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                // }catch(\Exception $e){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }                
+                // if(!empty($sent_msg)){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }
                 $user = $this->user_repo->registerWithMobileno($request);
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
@@ -97,8 +121,27 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterPatient(UserAuthRequest $request)
     {
-              
+        $registerStop = AppSetting::where('key_name', 'registration_start')->first();
+        if(isset($registerStop) && $registerStop == 0){             
+            return self::sendError('', 'For the time being registration is closed. Please try later.');
+        }
+
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
+
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+                $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
+                if(!empty($userIpCheck) && $userIpCheck > 3){
+                    return self::sendError('', 'You have not access.');
+                }
+            }
+        }
+
         if(!empty($user)){      
             try{
                 DB::beginTransaction();
@@ -143,7 +186,27 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegister(UserProviderAuthRequest $request)
     {
+        $registerStop = AppSetting::where('key_name', 'registration_start')->first();
+        if(isset($registerStop) && $registerStop == 0){             
+            return self::sendError('', 'For the time being registration is closed. Please try later.');
+        }
+        
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
+
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+                $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
+                if(!empty($userIpCheck) && $userIpCheck > 3){
+                    return self::sendError('', 'You have not access.');
+                }
+            }
+        }
+
         if(!empty($user)){
             try{
                 DB::beginTransaction();
@@ -188,6 +251,14 @@ class UserAuthController extends BaseApiController
     public function socialLogin(SocialLoginRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNoAndEmail($request);
+        if(!empty($request->ip())){
+            $request->merge(['user_ip' => $request->ip()]); 
+            $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
+            if(!empty($userIpCheck) && $userIpCheck > 3){
+                return self::sendError('', 'You have not access.');
+            }
+        }
+
         if(!empty($user)){
             if($request->hcp_type == '0'){
                 if(!empty($user->category_id)){
@@ -208,7 +279,8 @@ class UserAuthController extends BaseApiController
                                 'social_type'=> $request->social_type,
                                 'facebook_id'=> $request->facebook_id,
                                 'google_id'=> $request->google_id,
-                                'apple_id'=> $request->apple_id
+                                'apple_id'=> $request->apple_id,
+                                'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
                             ];
                     $this->user_repo->dataCrudUsingData($data, $user->id);
 
@@ -254,6 +326,17 @@ class UserAuthController extends BaseApiController
      */
     public function login(UserLoginRequest $request)
     {
+
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+            }
+        }
+
         if(Auth::attempt(['country_code' => $request->country_code, 'mobile_no' => $request->mobile_no, 'password' => $request->password])){
             $user = $this->user_repo->getById(Auth::user()->id);
             if($request->hcp_type == '0'){
@@ -269,7 +352,7 @@ class UserAuthController extends BaseApiController
             if(isset($user) && in_array($user->status, ['0','1'])){
                 try{
                     $this->user_repo->removeOauthAccessTokens($user->id);
-                    $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token,'user_timezone' => !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : ''];
+                    $data = ['device_type' => $request->device_type,'device_token'=> $request->device_token,'user_timezone' => !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '','user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
                     $this->user_repo->dataCrudUsingData($data, $user->id);
                     $user = $this->user_repo->getById(Auth::user()->id);
                     if(!empty($request->env)){
@@ -316,10 +399,20 @@ class UserAuthController extends BaseApiController
      */
     public function resendSMS(UserResendSMSRequest $request)
     {
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+            }
+        }
+
         try{
             $user = $this->user_repo->getbyMobileNo($request); 
             $mobile_code = $this->user_repo->generateOTPCode();
-            $data = ['otp_code' => $mobile_code];
+            $data = ['otp_code' => $mobile_code, 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
             $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
             try{
                 $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
@@ -372,11 +465,20 @@ class UserAuthController extends BaseApiController
     public function forgetPassword(UserForgetPasswordRequest $request)
     {
         $user = $this->user_repo->checkbyMobileNo($request);   
+        if (!empty($request->country_code)) {
+            $restracted = Helper::countryCodeRestriction($request->country_code);
+            if(isset($restracted) && $restracted == true){
+                return self::sendError('', 'You have not access.');
+            }
+            if(!empty($request->ip())){
+                $request->merge(['user_ip' => $request->ip()]); 
+            }
+        }
         if(!empty($user)){   
             try{
                 $user = $this->user_repo->getbyMobileNo($request); 
                 $mobile_code = $this->user_repo->generateOTPCode();
-                $data = ['otp_code' => $mobile_code];
+                $data = ['otp_code' => $mobile_code,'user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
                 $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
                 try{
                     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
