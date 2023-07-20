@@ -54,6 +54,23 @@ class UserAuthController extends BaseApiController
             return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
 
+        if (!empty($request->g_recaptcha_response)) {
+            //your site secret key
+            $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
+            //get verify response data
+            $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
+            $responseData = json_decode($verifyResponse);
+            \Log::info('google verify data');
+            \Log::info(json_encode($responseData));
+            if ($responseData->success) {
+                //contact form submission code goes here
+            } else {
+                return self::sendError('', 'Robot verification failed, please try again.');
+            }
+        }else{
+            return self::sendError('', 'You have not access.'); 
+        }
+
         $user = $this->user_repo->checkbyMobileNo($request);
         if (!empty($request->email)) {
             $user_email = $this->user_repo->checkbyEmailId($request);
@@ -464,6 +481,23 @@ class UserAuthController extends BaseApiController
      */
     public function forgetPassword(UserForgetPasswordRequest $request)
     {
+        if (!empty($request->g_recaptcha_response)) {
+            //your site secret key
+            $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
+            //get verify response data
+            $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
+            $responseData = json_decode($verifyResponse);
+            \Log::info('google verify data');
+            \Log::info(json_encode($responseData));
+            if ($responseData->success) {
+                //contact form submission code goes here
+            } else {
+                return self::sendError('', 'Robot verification failed, please try again.');
+            }
+        }else{
+            return self::sendError('', 'You have not access.'); 
+        }
+        
         $user = $this->user_repo->checkbyMobileNo($request);   
         if (!empty($request->country_code)) {
             $restracted = Helper::countryCodeRestriction($request->country_code);

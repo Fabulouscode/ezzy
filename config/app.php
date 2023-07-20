@@ -192,6 +192,10 @@ return [
     'AGORA_APP_ID' => env('AGORA_APP_ID'),
     'AGORA_APP_CERTIFICATE' => env('AGORA_APP_CERTIFICATE'),
 
+    /* google recaptch call */
+    'GOOGLE_RECAPTCH_URL' => env('GOOGLE_RECAPTCH_URL'),
+    'GOOGLE_RECAPTCH_SECRET_KEY' => env('GOOGLE_RECAPTCH_SECRET_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
