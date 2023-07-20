@@ -86,14 +86,14 @@ class UserAuthController extends BaseApiController
                 $request->otp_code = $mobile_code;
                 $request->status = '3';
                 $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
-                // try{
-                //     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
-                // }catch(\Exception $e){
-                //     return self::sendError('', 'SMS Sending Failed');
-                // }                
-                // if(!empty($sent_msg)){
-                //     return self::sendError('', 'SMS Sending Failed');
-                // }
+                try{
+                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                }catch(\Exception $e){
+                    return self::sendError('', 'SMS Sending Failed');
+                }                
+                if(!empty($sent_msg)){
+                    return self::sendError('', 'SMS Sending Failed');
+                }
                 $user = $this->user_repo->registerWithMobileno($request);
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
