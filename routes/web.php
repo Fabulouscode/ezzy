@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/doctors', 'App\Http\Controllers\HomeController@doctors')->name('doctors');
 Route::get('/happy-clients', 'App\Http\Controllers\HomeController@happyClients')->name('happy_clients');
+Route::get('/google-captcha', 'App\Http\Controllers\HomeController@googleRecaptcha');
 
 // Route::get('/donotezzycaretouch', function () {
 //     return redirect('donotezzycaretouch/login');

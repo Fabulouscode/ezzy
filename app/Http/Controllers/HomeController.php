@@ -54,4 +54,9 @@ class HomeController extends Controller
         }
         return view('happy_clients',compact('happyClients'));
     }
+
+    public function googleRecaptcha(Request $request)
+    {
+        return view('googleRecaptcha');
+    }
 }

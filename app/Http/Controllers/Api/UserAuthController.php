@@ -49,10 +49,6 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
-        $registerStop = AppSetting::where('key_name', 'registration_start')->first();
-        if(isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0){             
-            return self::sendError('', 'For the time being registration is closed. Please try later.');
-        }
 
         if (!empty($request->g_recaptcha_response)) {
             //your site secret key
@@ -68,7 +64,12 @@ class UserAuthController extends BaseApiController
                 return self::sendError('', 'Robot verification failed, please try again.');
             }
         }else{
-            return self::sendError('', 'You have not access.'); 
+            return self::sendError('', 'Currently, the regstration feature is temporarily disabled. Please wait for a few days.'); 
+        }
+
+        $registerStop = AppSetting::where('key_name', 'registration_start')->first();
+        if(isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0){             
+            return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
 
         $user = $this->user_repo->checkbyMobileNo($request);
@@ -495,7 +496,7 @@ class UserAuthController extends BaseApiController
                 return self::sendError('', 'Robot verification failed, please try again.');
             }
         }else{
-            return self::sendError('', 'You have not access.'); 
+            return self::sendError('', 'Currently, the forget password feature is temporarily disabled. Please wait for a few days.'); 
         }
         
         $user = $this->user_repo->checkbyMobileNo($request);   
