@@ -50,7 +50,7 @@ class UserAuthController extends BaseApiController
     public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
-        if(isset($registerStop) && $registerStop == 0){             
+        if(isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0){             
             return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
 
@@ -122,7 +122,7 @@ class UserAuthController extends BaseApiController
     public function saveRegisterPatient(UserAuthRequest $request)
     {
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
-        if(isset($registerStop) && $registerStop == 0){             
+        if(isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0){             
             return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
 
@@ -187,10 +187,10 @@ class UserAuthController extends BaseApiController
     public function saveRegister(UserProviderAuthRequest $request)
     {
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
-        if(isset($registerStop) && $registerStop == 0){             
+        if(isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0){             
             return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
-        
+
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
 
         if (!empty($request->country_code)) {
