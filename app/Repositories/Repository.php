@@ -305,7 +305,8 @@ class Repository
                 // Check if the account balance is negative or below the threshold
                 if ($accountBalance < 0 || $accountBalance < $threshold) {
                     // Display a message to the user indicating insufficient balance
-                    Log::info('twili sms check balance curl error');
+                    Log::info('twili sms check balance');
+                    Log::info($accountBalance);
                     $msg_sent = 'SMS Sending Failed';
                     return $msg_sent;
                 }
