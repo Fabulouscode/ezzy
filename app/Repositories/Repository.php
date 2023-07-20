@@ -274,11 +274,46 @@ class Repository
         // }
         if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
              //twilio 
-            try{
-                $account_sid = config("app.TWILIO_SID");
-                $auth_token = config("app.TWILIO_AUTH_TOKEN");
-                $twilio_number = config("app.TWILIO_NUMBER");
+             
+            $account_sid = config("app.TWILIO_SID");
+            $auth_token = config("app.TWILIO_AUTH_TOKEN");
+            $twilio_number = config("app.TWILIO_NUMBER");
+
+            try {
+                // Get the account balance
                 $client = new Client($account_sid, $auth_token);
+                $account = $client->api->v2010->accounts($account_sid)->fetch();
+                $accountBalance = (float) $account->balance;
+
+                // Set your desired threshold value
+                $threshold = 10.0;
+                // Check if the account balance is negative or below the threshold
+                if ($accountBalance < 0 || $accountBalance < $threshold) {
+                    Log::info('twili sms check balance');
+                    Log::info($accountBalance);
+                    $msg_sent = 'SMS Sending Failed';
+                    return $msg_sent;
+                }
+            }catch(\Exception $e){
+                Log::info('twili sms check balance error');
+                $data = array(
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                );
+                Log::info($data);
+                throw new HttpResponseException(response()->json([
+                    'success' => false,
+                    'errors' => $e->getMessage(),
+                    'message' => 'The given data was invalid.',
+                ], 422));
+            }
+
+            try{
+                $client = new Client($account_sid, $auth_token);
+
                 $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
                 return '';
              }catch(\Exception $e){
