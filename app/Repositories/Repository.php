@@ -278,22 +278,40 @@ class Repository
             $account_sid = config("app.TWILIO_SID");
             $auth_token = config("app.TWILIO_AUTH_TOKEN");
             $twilio_number = config("app.TWILIO_NUMBER");
-
+            $endpoint = "https://api.twilio.com/2010-04-01/Accounts/".$account_sid."/Balance.json";
             try {
                 // Get the account balance
-                $client = new Client($account_sid, $auth_token);
-                $account = $client->api->v2010->accounts($account_sid)->fetch();
-                $accountBalance = (float) $account->balance;
-
+                $ch = curl_init();
+                // Set cURL options
+                curl_setopt($ch, CURLOPT_URL, "https://api.twilio.com/2010-04-01/Accounts/{$account_sid}");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_USERPWD, "{$account_sid}:{$auth_token}");                
+                // Execute cURL request
+                $response = curl_exec($ch);                
+                // Check if the cURL request was successful
+                if ($response === false) {
+                    // Handle cURL error
+                    Log::info('twili sms check balance curl error');
+                    $msg_sent = 'SMS Sending Failed';
+                    return $msg_sent;
+                }                
+                // Parse the JSON response
+                $data = json_decode($response, true);
+                // Get the account balance
+                $accountBalance = (float) $data['balance'];
                 // Set your desired threshold value
                 $threshold = 10.0;
+
                 // Check if the account balance is negative or below the threshold
                 if ($accountBalance < 0 || $accountBalance < $threshold) {
-                    Log::info('twili sms check balance');
-                    Log::info($accountBalance);
+                    // Display a message to the user indicating insufficient balance
+                    Log::info('twili sms check balance curl error');
                     $msg_sent = 'SMS Sending Failed';
                     return $msg_sent;
                 }
+                // Close cURL session
+                curl_close($ch);
+       
             }catch(\Exception $e){
                 Log::info('twili sms check balance error');
                 $data = array(
