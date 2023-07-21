@@ -64,7 +64,7 @@ class UserAuthController extends BaseApiController
                 return self::sendError('', 'Robot verification failed, please try again.');
             }
         }else{
-            return self::sendError('', 'Currently, the regstration feature is temporarily disabled. Please wait for a few days.'); 
+            return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
         }
 
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
