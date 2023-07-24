@@ -22,6 +22,7 @@ use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\AppSetting;
+use App\Models\OtpDetails;
 use Helper;
 
 class UserAuthController extends BaseApiController
@@ -50,18 +51,27 @@ class UserAuthController extends BaseApiController
     public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
 
-        if (!empty($request->g_recaptcha_response)) {
-            //your site secret key
-            $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
-            //get verify response data
-            $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
-            $responseData = json_decode($verifyResponse);
-            \Log::info('google verify data');
-            \Log::info(json_encode($responseData));
-            if ($responseData->success) {
-                //contact form submission code goes here
-            } else {
-                return self::sendError('', 'Robot verification failed, please try again.');
+        // if (!empty($request->g_recaptcha_response)) {
+        //     //your site secret key
+        //     $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
+        //     //get verify response data
+        //     $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
+        //     $responseData = json_decode($verifyResponse);
+        //     \Log::info('google verify data');
+        //     \Log::info(json_encode($responseData));
+        //     if ($responseData->success) {
+        //         //contact form submission code goes here
+        //     } else {
+        //         return self::sendError('', 'Robot verification failed, please try again.');
+        //     }
+        // }else{
+        //     return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
+        // }
+       
+        if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
+            $otpDetails = OtpDetails::where('device_type',$request->header('device_type'))->where('device_id',$request->header('device_id'))->whereDate('start_date_time',Carbon::now()->format('Y-m-d'))->count();
+            if(!empty($otpDetails) && $otpDetails >= 3){
+                return self::sendError('', 'I apologize, but it seems that the request to send the OTP has exceeded the allowed limit.');
             }
         }else{
             return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
@@ -104,14 +114,32 @@ class UserAuthController extends BaseApiController
                 $request->otp_code = $mobile_code;
                 $request->status = '3';
                 $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
+
                 try{
-                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                    $currentDateTime = Carbon::now();
+                    $TwoMinutesAfter = $currentDateTime->addMinutes(2)->format('Y-m-d H:i:s');
+                    OtpDetails::create([
+                        'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                        'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                        'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                        'mobile' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                        'email' => !empty($request->email) ? $request->email : null,
+                        'otp' => $mobile_code,
+                        'start_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'expiry_date_time' => $TwoMinutesAfter,
+                    ]);
                 }catch(\Exception $e){
                     return self::sendError('', 'SMS Sending Failed');
-                }                
-                if(!empty($sent_msg)){
-                    return self::sendError('', 'SMS Sending Failed');
-                }
+                } 
+
+                // try{
+                //     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                // }catch(\Exception $e){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }                
+                // if(!empty($sent_msg)){
+                //     return self::sendError('', 'SMS Sending Failed');
+                // }
                 $user = $this->user_repo->registerWithMobileno($request);
                 if(!empty($user) && !empty($user->id)){
                     $this->user_details_repo->dataCrudByArray(['user_id' => $user->id, 'urgent'=>'1', 'urgent_criteria'=>'0,1,2'], $user->id);
@@ -417,6 +445,15 @@ class UserAuthController extends BaseApiController
      */
     public function resendSMS(UserResendSMSRequest $request)
     {
+        if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
+            $otpDetails = OtpDetails::where('device_type',$request->header('device_type'))->where('device_id',$request->header('device_id'))->whereDate('start_date_time',Carbon::now()->format('Y-m-d'))->count();
+            if(!empty($otpDetails) && $otpDetails >= 3){
+                return self::sendError('', 'I apologize, but it seems that the request to send the OTP has exceeded the allowed limit.');
+            }
+        }else{
+            return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
+        }
+
         if (!empty($request->country_code)) {
             $restracted = Helper::countryCodeRestriction($request->country_code);
             if(isset($restracted) && $restracted == true){
@@ -432,6 +469,24 @@ class UserAuthController extends BaseApiController
             $mobile_code = $this->user_repo->generateOTPCode();
             $data = ['otp_code' => $mobile_code, 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
             $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
+
+            try{
+                $currentDateTime = Carbon::now();
+                $TwoMinutesAfter = $currentDateTime->addMinutes(2)->format('Y-m-d H:i:s');
+                OtpDetails::create([
+                    'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                    'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                    'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                    'mobile' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                    'email' => !empty($request->email) ? $request->email : null,
+                    'otp' => $mobile_code,
+                    'start_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'expiry_date_time' => $TwoMinutesAfter,
+                ]);
+            }catch(\Exception $e){
+                return self::sendError('', 'SMS Sending Failed');
+            } 
+
             try{
                 $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
             }catch(\Exception $e){
@@ -482,21 +537,30 @@ class UserAuthController extends BaseApiController
      */
     public function forgetPassword(UserForgetPasswordRequest $request)
     {
-        if (!empty($request->g_recaptcha_response)) {
-            //your site secret key
-            $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
-            //get verify response data
-            $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
-            $responseData = json_decode($verifyResponse);
-            \Log::info('google verify data');
-            \Log::info(json_encode($responseData));
-            if ($responseData->success) {
-                //contact form submission code goes here
-            } else {
-                return self::sendError('', 'Robot verification failed, please try again.');
+        // if (!empty($request->g_recaptcha_response)) {
+        //     //your site secret key
+        //     $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
+        //     //get verify response data
+        //     $verifyResponse = file_get_contents(config('app.GOOGLE_RECAPTCH_URL') . '?secret=' . $secret . '&response=' . $request->g_recaptcha_response);
+        //     $responseData = json_decode($verifyResponse);
+        //     \Log::info('google verify data');
+        //     \Log::info(json_encode($responseData));
+        //     if ($responseData->success) {
+        //         //contact form submission code goes here
+        //     } else {
+        //         return self::sendError('', 'Robot verification failed, please try again.');
+        //     }
+        // }else{
+        //     return self::sendError('', 'Currently, the forget password feature is temporarily disabled. Please wait for a few days.'); 
+        // }
+
+        if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
+            $otpDetails = OtpDetails::where('device_type',$request->header('device_type'))->where('device_id',$request->header('device_id'))->whereDate('start_date_time',Carbon::now()->format('Y-m-d'))->count();
+            if(!empty($otpDetails) && $otpDetails >= 3){
+                return self::sendError('', 'I apologize, but it seems that the request to send the OTP has exceeded the allowed limit.');
             }
         }else{
-            return self::sendError('', 'Currently, the forget password feature is temporarily disabled. Please wait for a few days.'); 
+            return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
         }
         
         $user = $this->user_repo->checkbyMobileNo($request);   
@@ -515,6 +579,24 @@ class UserAuthController extends BaseApiController
                 $mobile_code = $this->user_repo->generateOTPCode();
                 $data = ['otp_code' => $mobile_code,'user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
                 $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
+
+                try{
+                    $currentDateTime = Carbon::now();
+                    $TwoMinutesAfter = $currentDateTime->addMinutes(2)->format('Y-m-d H:i:s');
+                    OtpDetails::create([
+                        'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                        'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                        'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                        'mobile' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                        'email' => !empty($request->email) ? $request->email : null,
+                        'otp' => $mobile_code,
+                        'start_date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'expiry_date_time' => $TwoMinutesAfter,
+                    ]);
+                }catch(\Exception $e){
+                    return self::sendError('', 'SMS Sending Failed');
+                } 
+
                 try{
                     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
                 }catch(\Exception $e){
