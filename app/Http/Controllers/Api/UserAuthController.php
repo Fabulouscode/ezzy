@@ -73,6 +73,13 @@ class UserAuthController extends BaseApiController
             if(!empty($otpDetails) && $otpDetails >= 3){
                 return self::sendError('', 'I am sorry, it appears you have exceeded the OTP request limit for today, please try again after 24 hrs.');
             }
+            $check_valid_number = Helper::mobileNoVerify($request->mobile_no, $request->country_code);
+            \Log::info($check_valid_number);
+            if (!empty($check_valid_number) && !empty($check_valid_number['valid']) && !empty($check_valid_number['line_type']) && $check_valid_number['valid'] == true && $check_valid_number['line_type'] == 'mobile') {
+
+            }else{
+                return self::sendError('', 'This phone number is not valid please try again.');
+            }
         }else{
             return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
         }
