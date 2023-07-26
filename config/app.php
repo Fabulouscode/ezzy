@@ -192,9 +192,13 @@ return [
     'AGORA_APP_ID' => env('AGORA_APP_ID'),
     'AGORA_APP_CERTIFICATE' => env('AGORA_APP_CERTIFICATE'),
 
-    /* google recaptch call */
+    /* google recaptch */
     'GOOGLE_RECAPTCH_URL' => env('GOOGLE_RECAPTCH_URL'),
     'GOOGLE_RECAPTCH_SECRET_KEY' => env('GOOGLE_RECAPTCH_SECRET_KEY'),
+ 
+    /* mobile no verification */
+    'MOBILE_VERIFICATION_API_URL' => env('MOBILE_VERIFICATION_API_URL'),
+    'MOBILE_VERIFICATION_API_KEY' => env('MOBILE_VERIFICATION_API_KEY'),
 
     /*
     |--------------------------------------------------------------------------
