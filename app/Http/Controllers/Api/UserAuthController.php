@@ -98,16 +98,16 @@ class UserAuthController extends BaseApiController
         }
 
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
                 $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
-                if(!empty($userIpCheck) && $userIpCheck > 3){
-                    return self::sendError('', 'You have not access.');
-                }
+                // if(!empty($userIpCheck) && $userIpCheck > 3){
+                //     return self::sendError('', 'You ip limit is our.');
+                // }
             }
         }
 
@@ -182,16 +182,16 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
 
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
                 $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
-                if(!empty($userIpCheck) && $userIpCheck > 3){
-                    return self::sendError('', 'You have not access.');
-                }
+                // if(!empty($userIpCheck) && $userIpCheck > 3){
+                //     return self::sendError('', 'You have not access.');
+                // }
             }
         }
 
@@ -247,16 +247,16 @@ class UserAuthController extends BaseApiController
         $user = $this->user_repo->checkbyMobileNoVerify($request);   
 
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
                 $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
-                if(!empty($userIpCheck) && $userIpCheck > 3){
-                    return self::sendError('', 'You have not access.');
-                }
+                // if(!empty($userIpCheck) && $userIpCheck > 3){
+                //     return self::sendError('', 'You have not access.');
+                // }
             }
         }
 
@@ -307,9 +307,9 @@ class UserAuthController extends BaseApiController
         if(!empty($request->ip())){
             $request->merge(['user_ip' => $request->ip()]); 
             $userIpCheck = $this->user_repo->getIpRegisterdAndLoginIp($request->ip());
-            if(!empty($userIpCheck) && $userIpCheck > 3){
-                return self::sendError('', 'You have not access.');
-            }
+            // if(!empty($userIpCheck) && $userIpCheck > 3){
+            //     return self::sendError('', 'You have not access.');
+            // }
         }
 
         if(!empty($user)){
@@ -381,10 +381,10 @@ class UserAuthController extends BaseApiController
     {
 
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
             }
@@ -462,10 +462,10 @@ class UserAuthController extends BaseApiController
         }
 
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
             }
@@ -572,10 +572,10 @@ class UserAuthController extends BaseApiController
         
         $user = $this->user_repo->checkbyMobileNo($request);   
         if (!empty($request->country_code)) {
-            $restracted = Helper::countryCodeRestriction($request->country_code);
-            if(isset($restracted) && $restracted == true){
-                return self::sendError('', 'You have not access.');
-            }
+            // $restracted = Helper::countryCodeRestriction($request->country_code);
+            // if(isset($restracted) && $restracted == true){
+            //     return self::sendError('', 'You have not access.');
+            // }
             if(!empty($request->ip())){
                 $request->merge(['user_ip' => $request->ip()]); 
             }
