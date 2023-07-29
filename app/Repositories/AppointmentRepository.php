@@ -672,6 +672,8 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
+
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
             $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
@@ -732,6 +734,8 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
         
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
+
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
             $query = $query->orderBy('appointment_date','asc')->orderBy('appointment_time','asc')->skip($skip_data)->limit($this->api_data_limit)->get();
@@ -792,6 +796,8 @@ class AppointmentRepository extends Repository
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
 
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
+
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
             $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
@@ -841,6 +847,8 @@ class AppointmentRepository extends Repository
         }else{
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
+
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
         
         $query = $query->whereIn('status',['0'])->orderBy('id','desc')->orderBy('urgent','desc')->get();
         
@@ -891,6 +899,8 @@ class AppointmentRepository extends Repository
         }else{
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
+
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
         
         $query = $query->whereIn('status',['6']);
 
@@ -947,6 +957,8 @@ class AppointmentRepository extends Repository
         }else{
             $query = $query->with(['user'])->where('client_id',$request->user()->id);
         }
+
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
 
         $query = $query->whereIn('status',['5']);
         
