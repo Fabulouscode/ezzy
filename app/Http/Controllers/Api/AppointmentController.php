@@ -351,7 +351,7 @@ class AppointmentController extends BaseApiController
         if(!empty($request->appointment_type) && $request->appointment_type == '1'){
             $check_user_location = $this->user_repo->checkUserLocation($request);
             if(empty($check_user_location)){
-                return self::sendError([], 'Please Add Location before Book Appointment.');
+                return self::sendError([], 'Please add the location before booking the appointment.');
             }
         }
         
@@ -359,14 +359,14 @@ class AppointmentController extends BaseApiController
         $user_available = $this->user_repo->checkUserAvailable($request);
         if(empty($user_available)){
             \Log::info("Provider not available ".json_encode($user_available));     
-            return self::sendError([], 'Provider is not available on your selected time.');
+            return self::sendError([], 'Please change the appointment time. The provider is not available.');
         }
 
         //user free or not checking
         $check_appointment = $this->appointment_repo->checkUserAvailable($request);
         if(!empty($check_appointment)){
             \Log::info("Provider is busy ".json_encode($check_appointment));   
-            return self::sendError([], 'Provider is already booked on your selected time.');
+            return self::sendError([], 'Please change the appointment time. The provider is busy.');
         }
         
         $appointment_address = "";
@@ -576,7 +576,7 @@ class AppointmentController extends BaseApiController
              //Appointment home care book
             $check_user_location = $this->user_repo->checkUserLocation($request);
             if(empty($check_user_location)){
-                return self::sendError([], 'Please Add Location before Book Appointment.');
+                return self::sendError([], 'Please add the location before booking the appointment.');
             }
         }
         
@@ -891,14 +891,14 @@ class AppointmentController extends BaseApiController
         $user_available = $this->user_repo->checkRescheduleAppointmentUserAvailable($request, $appointment);
         if(empty($user_available)){
             \Log::info("Provider not available ".json_encode($user_available));     
-            return self::sendError([], 'Please Change Appointment Time Provider not available.');
+            return self::sendError([], 'Please change the appointment time. The provider is not available.');
         }
 
         //user free or not checking
         $check_appointment = $this->appointment_repo->checkRescheduleAppointmentUserAvailable($request, $appointment);
         if(!empty($check_appointment)){
             \Log::info("Provider is busy ".json_encode($check_appointment));   
-            return self::sendError([], 'Please Change Appointment Time Provider is busy.');
+            return self::sendError([], 'Please change the appointment time. The provider is busy.');
         }
 
         $data = array();
