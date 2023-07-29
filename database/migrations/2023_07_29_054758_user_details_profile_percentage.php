@@ -14,7 +14,7 @@ class UserDetailsProfilePercentage extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('completed_percentage')->default(0)->after('remember_token');
+            $table->integer('completed_percentage')->default(0)->after('remember_token');
         });
     }
 
