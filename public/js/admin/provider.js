@@ -26,6 +26,7 @@ $(function () {
                 provider : data_provider, 
                 filter_status: function () { return $('#searchByStatus').val() },               
                 subcategory_id: function () { return $('#searchByHcpType').val() }, 
+                profile_completed_progress: function () { return $('#searchByHcpTypeProgress').val() }, 
                 start_date: function () { return $('#user_start_date').val() },
                 end_date: function () { return $('#user_end_date').val() },                
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
@@ -86,7 +87,7 @@ $(function () {
                 api.columns([5]).visible(showColumn);
             }
             if (data_obj.status == '1') {
-                api.columns([9]).visible(showColumn);
+                api.columns([8]).visible(showColumn);
             }
             // if (data_obj.provider != "healthcare") {
             //     api.columns([6]).visible(showColumn);
@@ -245,7 +246,7 @@ $(function () {
     //     order: [[0, 'desc']]
     // });
 
-    $('#searchByHcpType, #searchByStatus').on('change', function (ev, picker) {
+    $('#searchByHcpType, #searchByStatus, #searchByHcpTypeProgress').on('change', function (ev, picker) {
         var oTable = $('#user_datatable').dataTable();
         oTable.fnDraw(true);
     });
