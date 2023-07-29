@@ -1419,7 +1419,7 @@ class UserRepository extends Repository
             });
         }
 
-        $query = $query->where('status','!=' , 0);
+        $query = $query->where('status', 1);
 
         $query = $query->where('completed_percentage', 100);
 
