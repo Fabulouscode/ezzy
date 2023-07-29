@@ -525,7 +525,15 @@ class UserRepository extends Repository
 
         $appointment_date = new Carbon($request->appointment_date);
         $appointment_day = $appointment_date->dayOfWeek;
+        
+        $start_appointment  = new Carbon($appointment->appointment_time);
+        $end_appointment   = new Carbon($appointment->appointment_end_time);
+        $appointment_timing_slot =  $start_appointment->diffInMinutes($end_appointment);
+        $appointment_end_time_calculate = Carbon::parse($request->appointment_time)->addMinute($appointment_timing_slot)->format('H:i:s');
+        $request->merge(['appointment_end_time' => $appointment_end_time_calculate]);
+
         \Log::info("request send ".json_encode($request->all()));              
+        // \Log::info("appointment ".json_encode($appointment));              
         if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
         \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
             $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment){
@@ -553,7 +561,63 @@ class UserRepository extends Repository
                     });
 
         $query = $query->first();
-        \Log::info("result ".json_encode($query));     
+        \Log::info("result diff".json_encode($query));  
+        if(empty($query)){
+            if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+            \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment){
+                                $query->where('appointment_type', $appointment->appointment_type);
+                                $query->where('start_time', '<=' ,$request->appointment_time);
+                                $query->where('day', '7');
+                                $query->where('same_timing', '1');
+                                $query->where('user_id', $appointment->user_id);
+                            });
+            }else{
+                    \Log::info("not same timing day ".json_encode($appointment_day));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day, $appointment){
+                            $query->where('appointment_type', $appointment->appointment_type);
+                            $query->where('start_time', '<=' ,$request->appointment_time);
+                            $query->where('day', $appointment_day);
+                            $query->where('same_timing', '0');
+                            $query->where('user_id', $appointment->user_id);
+                        });
+            }
+    
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                            $query->where('availability', '1');
+                        });
+    
+            $query = $query->first();     
+        }
+
+        if(empty($query) && !empty($request->appointment_end_time)){
+            if(in_array($appointment_day, $day_arr) && !empty($same_timing->userDetails->same_timing) && $same_timing->userDetails->same_timing != '0'){
+            \Log::info("same timing ".json_encode($same_timing->userDetails->same_timing));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment){
+                                $query->where('appointment_type', $appointment->appointment_type);
+                                $query->where('end_time', '>=' ,$request->appointment_end_time);
+                                $query->where('day', '7');
+                                $query->where('same_timing', '1');
+                                $query->where('user_id', $appointment->user_id);
+                            });
+            }else{
+                    \Log::info("not same timing day ".json_encode($appointment_day));   
+                $query = $this->model->whereHas('userAvailableTime', function($query) use ($request, $appointment_day, $appointment){
+                            $query->where('appointment_type', $appointment->appointment_type);
+                            $query->where('end_time', '>=' , $request->appointment_end_time);
+                            $query->where('day', $appointment_day);
+                            $query->where('same_timing', '0');
+                            $query->where('user_id', $appointment->user_id);
+                        });
+            }
+    
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                            $query->where('availability', '1');
+                        });
+    
+            $query = $query->first();     
+        }
+        \Log::info("result ".json_encode($query));  
         return $query;
     }
 
@@ -1329,4 +1393,28 @@ class UserRepository extends Repository
         return $query;
     } 
 
+    public function getCompletedProfileUserParentCategoryWiseCount($category_id)
+    {
+        $query = User::query();  
+        if(!empty($category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($category_id) {
+                $query->where('parent_id', $category_id);
+            });
+        }
+
+        $query = $query->where('status','!=' , 0);
+
+        $query = $query->orderBy('id','desc')->get();
+
+        $filteredUsers = $query->filter(function ($user) use ($category_id) {
+            if (!empty($user->profile_completed_progress) && $user->profile_completed_progress == 100) {
+                return true;
+            }
+        });
+        
+        // Count the filtered users
+        $count = $filteredUsers->count();
+
+        return $count;
+    }
 }
