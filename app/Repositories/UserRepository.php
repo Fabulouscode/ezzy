@@ -192,6 +192,13 @@ class UserRepository extends Repository
             $query = $query->whereDate('userDetails.dob', '>=',$request->birth_start_date)->whereDate('userDetails.dob' , '<=',$request->birth_end_date);
         }
 
+        if(!empty($request->completed_progress)){
+            if($request->completed_progress == 100){
+                $query = $query->where('users.completed_percentage', $request->completed_progress);
+            }else{
+                $query = $query->where('users.completed_percentage' , '>=',$request->completed_progress);
+            }    
+        }
         // $query = $query->orderBy('id','desc')->get();
         // print_r(DB::getQueryLog());
         // die;
@@ -384,8 +391,18 @@ class UserRepository extends Repository
                 ->orderColumn('practicing_licence_date', function ($query, $order) {
                     $query->orderBy('userDetails.practicing_licence_date', $order);
                 })
+
+                ->editColumn('completed_percentage',function($selected){
+                    $data = '';
+                    if(!empty($selected->completed_percentage) && $selected->completed_percentage == '100'){
+                        $data .='<div class="badge badge-success"><strong>'. $selected->completed_percentage.'%</strong></div>';
+                    }else{
+                        $data .='<div class="badge badge-warning"><strong>'. $selected->completed_percentage.'%</strong></div>';
+                    }                            
+                    return $data;                          
+                })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob'])
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob','completed_percentage'])
                 ->make(true);
     }
     
@@ -1404,17 +1421,10 @@ class UserRepository extends Repository
 
         $query = $query->where('status','!=' , 0);
 
-        $query = $query->orderBy('id','desc')->get();
+        $query = $query->where('completed_percentage', 100);
 
-        $filteredUsers = $query->filter(function ($user) use ($category_id) {
-            if (!empty($user->profile_completed_progress) && $user->profile_completed_progress == 100) {
-                return true;
-            }
-        });
-        
-        // Count the filtered users
-        $count = $filteredUsers->count();
+        $query = $query->orderBy('id','desc')->count();
 
-        return $count;
+        return $query;
     }
 }

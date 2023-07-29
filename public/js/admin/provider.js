@@ -26,7 +26,7 @@ $(function () {
                 provider : data_provider, 
                 filter_status: function () { return $('#searchByStatus').val() },               
                 subcategory_id: function () { return $('#searchByHcpType').val() }, 
-                profile_completed_progress: function () { return $('#searchByHcpTypeProgress').val() }, 
+                completed_progress: function () { return $('#searchByHcpTypeProgress').val() }, 
                 start_date: function () { return $('#user_start_date').val() },
                 end_date: function () { return $('#user_end_date').val() },                
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
@@ -66,6 +66,7 @@ $(function () {
                     return '<input type="hidden" class="rating" data-filled="mdi mdi-star font-20 text-primary" data-empty="mdi mdi-star-outline font-20 text-muted" data-readonly value = "' + rating_count + '" />';
                 }
             },
+            { data: 'completed_percentage', name: 'completed_percentage' },
             { data: 'status', name: 'status' },
             // { data: 'actiondetails', name: 'actiondetails', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false },
@@ -88,6 +89,9 @@ $(function () {
             }
             if (data_obj.status == '1') {
                 api.columns([8]).visible(showColumn);
+            }
+            if (data_obj.status != '1') {
+                api.columns([9]).visible(showColumn);
             }
             // if (data_obj.provider != "healthcare") {
             //     api.columns([6]).visible(showColumn);

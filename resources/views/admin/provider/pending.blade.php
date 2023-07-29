@@ -77,7 +77,21 @@
                                     <input type="hidden" class="form-control" id="user_start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
                                 </div>
-                            </div>       
+                            </div>    
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Profile Completed Percentage</label>
+                                    <select id="searchByHcpTypeProgress" name="completed_percentage" class="form-control">
+                                        <option value=''>Select Profile Completed Percentage</option>
+                                        <option value="100">100 %</option>
+                                        <option value="90">90 %</option>
+                                        <option value="80">80 %</option>
+                                        <option value="70">70 %</option>
+                                        <option value="60">60 %</option>
+                                        <option value="50">50 %</option>
+                                    </select>                                
+                                </div>
+                            </div>   
                         </div>
                     </div>
 
@@ -94,6 +108,7 @@
                                     <th>Date of Joining</th>
                                     <th>Licence Expiry Date</th>
                                     <th>Rating</th>
+                                    <th>Profile (%)</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

@@ -123,6 +123,7 @@
                                     <th>Date of Birth</th>
                                     {{-- <th>Licence Expiry Date</th> --}}
                                     <th>Rating</th>
+                                    <th>Profile (%)</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
