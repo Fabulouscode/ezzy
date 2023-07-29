@@ -57,7 +57,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('', 'DashboardController@index')->name('dashboard');;
         Route::post('chart/revenue', 'DashboardController@getRevenueChartdata');
         Route::post('chart/income', 'DashboardController@getIncomeChartdata');
-        Route::post('chart/earning', 'DashboardController@getEarningdata');
+        Route::post('chart/earning', 'DashboardController@getEarningdata');  
+        Route::get('sidebar/pending/count', 'DashboardController@getSidebarPendingCount')->name('sidebar_pending_count');
 
         // permission No access 
         Route::get('permission_not_access', function(){
@@ -184,7 +185,6 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
         Route::get('appointment/edit/cancel/{id?}', 'AppointmentController@updateAppointmentCancel')->middleware('role-permission:appointments-edit');  
-        Route::get('appointment/pending/count', 'AppointmentController@getAppointmentPendingCount')->name('appointments_pending_count');      
         Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
         // Support request  routes       
@@ -193,8 +193,9 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('support_request/chat_msg/{id?}', 'SupportRequestController@getChatMessages')->middleware('role-permission:support_ticket-edit');
         Route::get('support_request/chat_msg/get/{id?}', 'SupportRequestController@getMessage')->middleware('role-permission:support_ticket-edit');
         Route::get('support_request/chat_msg/delete/{id?}', 'SupportRequestController@deleteChatMessage')->middleware('role-permission:support_ticket-edit');
-        Route::get('support_request/close_request/{id?}', 'SupportRequestController@closeSupportRequest')->middleware('role-permission:support_ticket-edit');        
-        Route::get('support_request/pending/count', 'SupportRequestController@getSupportRequestPendingCount')->name('support_request_pending_count');
+        Route::get('support_request/close_request/{id?}', 'SupportRequestController@closeSupportRequest')->middleware('role-permission:support_ticket-edit');       
+
+
         Route::resource('support_request', 'SupportRequestController')->middleware('role-permission-resource:support_ticket-list,support_ticket-add,support_ticket-edit,support_ticket-delete');  
         
         // admin activity

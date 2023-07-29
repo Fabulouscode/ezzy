@@ -13,11 +13,12 @@ use App\Repositories\MedicineDetailsRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\ChatHistoryRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\SupportRequestRepository;
 use Helper;
 
 class DashboardController extends Controller
 {
-    private $user_repo, $category_repo,$order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
+    private $support_request_repo,$user_repo, $category_repo,$order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -28,6 +29,7 @@ class DashboardController extends Controller
         CategoryRepository $category_repo,
         MedicineDetailsRepository $medicine_details_repo,
         UserTransactionRepository $user_transaction_repo,
+        SupportRequestRepository $support_request_repo,
         ChatHistoryRepository $chat_history_repo
         )
     {
@@ -39,6 +41,7 @@ class DashboardController extends Controller
         $this->user_transaction_repo = $user_transaction_repo;
         $this->medicine_details_repo = $medicine_details_repo;
         $this->category_repo = $category_repo;
+        $this->support_request_repo = $support_request_repo;
         $this->chat_history_repo = $chat_history_repo;
     }
      
@@ -295,6 +298,17 @@ class DashboardController extends Controller
         $color_codes=array("bg-warning","bg-secondary","bg-success","bg-danger","bg-info","bg-violet","bg-primary","bg-dark");        
         $rand_keys = array_rand($color_codes, 1);
         return $color_codes[$rand_keys];
+    }
+
+    public function getSidebarPendingCount(Request $request)
+    {
+        $data = [];
+        $data['pending_support_ticket'] = $this->support_request_repo->getSupportRequestPendingCount();
+        $data['pending_appointment_count'] = $this->appointment_repo->getAppointmentPendingCount();
+        $data['pending_healthcare_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(1);
+        $data['pending_pharmacy_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(2);
+        $data['pending_laboratories_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(3);
+        return response()->json(['status'=>true,'data'=>$data], 200);
     }
 
 }

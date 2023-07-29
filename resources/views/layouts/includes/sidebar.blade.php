@@ -37,7 +37,10 @@
                 @endcan
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('healthcare-dashboard','healthcare-list'))
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-heart"></i> <span>Health Care Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect">
+                        <i class="dripicons-heart"></i> <span>Healthcare Provider</span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span>
+                        <span id="HealthcareProviderPendingCount" class="badge_count_side_menu_with_sub float-right">0</span>
+                    </a>
                     <ul class="list-unstyled">
                         @can('healthcare-dashboard')
                         <li><a href="{{url('/donotezzycaretouch/healthcare/dashboard')}}">Dashboard</a></li>
@@ -56,7 +59,10 @@
                 @endif
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('pharmacy-list','pharmacy-list','order-list','order-review'))
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-box"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect">
+                        <i class="dripicons-box"></i> <span> Pharmacy </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span>
+                        <span id="PharmacyPendingCount" class="badge_count_side_menu_with_sub float-right">0</span>
+                    </a>
                     <ul class="list-unstyled">
                         @can('pharmacy-dashboard')
                         <li><a href="{{url('/donotezzycaretouch/pharmacy/dashboard')}}">Dashboard</a></li>
@@ -78,7 +84,10 @@
                 @endif
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('laboratories-dashboard','laboratories-list'))
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-medical"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript:void(0);" class="waves-effect">
+                        <i class="dripicons-medical"></i> <span> Laboratories </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span>
+                        <span id="LaboratoriesPendingCount" class="badge_count_side_menu_with_sub float-right">0</span>
+                    </a>
                     <ul class="list-unstyled">
                         @can('laboratories-dashboard')
                         <li><a href="{{url('/donotezzycaretouch/laboratories/dashboard')}}">Dashboard</a></li>

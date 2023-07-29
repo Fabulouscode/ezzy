@@ -464,6 +464,7 @@ left: 0px;
     border-radius: 50%;
     margin-left: auto;
     line-height: 1;
+    margin-right: 5px;
 }
 .badge_count_side_menu_child{
     background-color: #e72113;
@@ -497,4 +498,5 @@ left: 0px;
     border-radius: 50%;
     margin-left: auto;
     line-height: 1;
+    margin-right: 0px;
 }

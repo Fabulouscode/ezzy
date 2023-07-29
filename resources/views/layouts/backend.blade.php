@@ -186,33 +186,31 @@ $(function () {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
     }
-    getSupportPendingTicket();
-    getAppointmentPendingCount();
+    getSidebarPendingTicket();
 });
 
-function getSupportPendingTicket() {
+function getSidebarPendingTicket() {
      $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        url: "{{route('support_request_pending_count')}}",
+        url: "{{route('sidebar_pending_count')}}",
         type: "get",
         dataType: 'json',
         success: function (data) {
-            $('#SupportPendingTicketCount').text(data.data);
-        },
-        error: function (error) {
+            // console.log(data);
+            if(data.data){
+                $('#SupportPendingTicketCount').text(data.data.pending_support_ticket);
+                $('#AppointmentPendingCount').text(data.data.pending_appointment_count);
+                $('#HealthcareProviderPendingCount').text(data.data.pending_healthcare_count);
+                $('#LaboratoriesPendingCount').text(data.data.pending_laboratories_count);
+                $('#PharmacyPendingCount').text(data.data.pending_pharmacy_count);
+            }else{
+                $('#SupportPendingTicketCount').text(0);
+                $('#AppointmentPendingCount').text(0);
+                $('#HealthcareProviderPendingCount').text(0);
+                $('#LaboratoriesPendingCount').text(0);
+                $('#PharmacyPendingCount').text(0);
+            }
 
-        }
-    });
-}
-
-function getAppointmentPendingCount() {
-     $.ajax({
-        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        url: "{{route('appointments_pending_count')}}",
-        type: "get",
-        dataType: 'json',
-        success: function (data) {
-            $('#AppointmentPendingCount').text(data.data);
         },
         error: function (error) {
 
