@@ -1334,7 +1334,7 @@ class AppointmentRepository extends Repository
     {   
         $query = $this->model;
         
-        $query = $query->whereNotIn('status',['5','6'])->count();
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id')->whereNotIn('status',['5','6'])->count();
         
         return $query;
 
