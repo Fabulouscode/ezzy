@@ -283,7 +283,7 @@ class Repository
                 // Get the account balance
                 $ch = curl_init();
                 // Set cURL options
-                curl_setopt($ch, CURLOPT_URL, "https://api.twilio.com/2010-04-01/Accounts/{$account_sid}");
+                curl_setopt($ch, CURLOPT_URL, $endpoint);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_USERPWD, "{$account_sid}:{$auth_token}");                
                 // Execute cURL request
@@ -301,7 +301,9 @@ class Repository
                 $accountBalance = (float) $data['balance'];
                 // Set your desired threshold value
                 $threshold = 10.0;
-
+                Log::info('twili sms balance');
+                Log::info($accountBalance);
+                Log::info($threshold);
                 // Check if the account balance is negative or below the threshold
                 if ($accountBalance < 0 || $accountBalance < $threshold) {
                     // Display a message to the user indicating insufficient balance
