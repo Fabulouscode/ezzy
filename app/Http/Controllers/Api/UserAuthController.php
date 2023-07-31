@@ -81,7 +81,7 @@ class UserAuthController extends BaseApiController
                 if (!empty($check_valid_number) && !empty($check_valid_number['valid']) && !empty($check_valid_number['line_type']) && $check_valid_number['valid'] == true && $check_valid_number['line_type'] == 'mobile') {
 
                 }else{
-                    return self::sendError('', 'This phone number is not valid please try again.');
+                    return self::sendError('', 'Please try again, as the provided phone number is not valid.');
                 }
             }
         }else{
