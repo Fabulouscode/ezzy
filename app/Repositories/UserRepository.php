@@ -781,9 +781,10 @@ class UserRepository extends Repository
         // search filter
         if(isset($request->search)){
             $query = $query->where(function($query) use($request){
-                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".strtolower($request->search)."%"]);
+                $searchTerm = strtolower($request->search);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
         
@@ -871,9 +872,10 @@ class UserRepository extends Repository
         // search filter
         if(isset($request->search)){
             $query = $query->where(function($query) use($request){
-                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".strtolower($request->search)."%"]);
+                $searchTerm = strtolower($request->search);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
         
@@ -976,9 +978,10 @@ class UserRepository extends Repository
         // search filter
         if(isset($request->search)){
             $query = $query->where(function($query) use($request){
-                $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
-                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".strtolower($request->search)."%"]);
+                $searchTerm = strtolower($request->search);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
         
