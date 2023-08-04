@@ -783,7 +783,7 @@ class UserRepository extends Repository
             $query = $query->where(function($query) use($request){
                 $searchTerm = strtolower($request->search);
                 $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
-                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . $searchTerm . '%']);
                 $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
@@ -874,7 +874,7 @@ class UserRepository extends Repository
             $query = $query->where(function($query) use($request){
                 $searchTerm = strtolower($request->search);
                 $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
-                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . $searchTerm . '%']);
                 $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
@@ -980,7 +980,7 @@ class UserRepository extends Repository
             $query = $query->where(function($query) use($request){
                 $searchTerm = strtolower($request->search);
                 $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
-                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                $query->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . $searchTerm . '%']);
                 $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
             });
         }          
