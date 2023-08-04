@@ -640,6 +640,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -648,6 +649,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }
@@ -700,6 +702,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -708,6 +711,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }
@@ -761,6 +765,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -769,6 +774,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }
@@ -824,6 +830,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -832,6 +839,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }
@@ -871,6 +879,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -879,6 +888,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }
@@ -929,6 +939,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
   
@@ -937,6 +948,7 @@ class AppointmentRepository extends Repository
                             $query->where(function ($query) use ($request) {
                                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
                             });
                         });
             }

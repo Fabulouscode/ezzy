@@ -783,6 +783,7 @@ class UserRepository extends Repository
             $query = $query->where(function($query) use($request){
                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
             });
         }          
         
@@ -866,12 +867,14 @@ class UserRepository extends Repository
                         $query->where('appointment_type', $request->consultation);
                     });
         }          
-        
+        // dd($request->all());
         // search filter
         if(isset($request->search)){
             $query = $query->where(function($query) use($request){
+                $searchTerm = strtolower($request->search);
                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
             });
         }          
         
@@ -976,6 +979,7 @@ class UserRepository extends Repository
             $query = $query->where(function($query) use($request){
                 $query->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
                 $query->orWhere('last_name', 'LIKE', '%'.$request->search.'%');
+                $query->orWhereRaw("concat(first_name, ' ', last_name) like ?", ["%$request->search%"]);
             });
         }          
         
