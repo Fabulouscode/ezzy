@@ -363,7 +363,8 @@ class User extends Authenticatable
     }
 
     public function getProfileCompletedProgressAttribute() {
-
+        $imageStaticValue = "/admin/images/avatar.jpg";
+        $userProfileImage = ((strpos($this->profile_image, $imageStaticValue) !== false)) ? '' : $this->profile_image;
         $total_progress_point = 0;
         $required_progress = 0;
         $required_progress_array = [];
@@ -376,7 +377,7 @@ class User extends Authenticatable
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
             if ($this->categoryParent->id == '5') {     
                 // nurses
-                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+                $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
@@ -393,7 +394,7 @@ class User extends Authenticatable
                 }
             }else if ($this->categoryParent->id == '6') {     
                 // Massage Therapist
-                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
+                $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
@@ -410,7 +411,7 @@ class User extends Authenticatable
 
             }else if ($this->categoryParent->id == '4') {             
                 // Doctor
-                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
+                $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email, $this->subcategory_id, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name,
@@ -426,7 +427,7 @@ class User extends Authenticatable
                 }
             }else {               
                 // Physiotherapy
-                $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
+                $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email, $this->gender];
                 if (!empty($this->userDetails)) {
                 $required_userDetails = [$this->userDetails->registration_no, $this->userDetails->registration_council,
                                     $this->userDetails->registration_year, $this->userDetails->clinic_name, 
@@ -444,7 +445,7 @@ class User extends Authenticatable
         
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
             //Medicine 
-            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email];
             $required_userCounts = [$this->userAvailableTime];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [ $this->userDetails->registration_no, $this->userDetails->registration_council,
@@ -461,7 +462,7 @@ class User extends Authenticatable
      
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '3'){
             //Laboratories 
-            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email];
+            $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email];
             $required_userCounts = [$this->userAvailableTime, $this->userEduction];
             if (!empty($this->userDetails)) {
                 $required_userDetails = [ $this->userDetails->registration_no, $this->userDetails->registration_council,
@@ -480,7 +481,7 @@ class User extends Authenticatable
         }else{
             //client 
             $required_userCounts = [$this->userLocation];
-            $required_user = [$this->profile_image, $this->first_name, $this->mobile_no, $this->email, $this->gender];
+            $required_user = [$userProfileImage, $this->first_name, $this->mobile_no, $this->email, $this->gender];
             if (!empty($this->userDetails)) {
                  $required_userDetails = [$this->userDetails->dob, $this->userDetails->blood_group, $this->userDetails->marital_status,
                                  $this->userDetails->height, $this->userDetails->weight, $this->userDetails->emergency_contact,
@@ -536,6 +537,8 @@ class User extends Authenticatable
     }
     
     public function getProfileRequiredFieldsAttribute() {
+        $imageStaticValue = "/admin/images/avatar.jpg";
+        $userProfileImage = ((strpos($this->profile_image, $imageStaticValue) !== false)) ? '' : $this->profile_image;
         $total_progress_point = 0;
         $required_progress = 0;
         $required_progress_array = [];
@@ -553,7 +556,7 @@ class User extends Authenticatable
             if ($this->categoryParent->id == '5') {     
                 // nurses
                 $required_user = [
-                                  'Profile Image'=>$this->profile_image, 
+                                  'Profile Image'=>$userProfileImage, 
                                   'User Name'=>$this->first_name, 
                                   'Mobile No.'=>$this->mobile_no, 
                                   'Email'=>$this->email, 
@@ -584,7 +587,7 @@ class User extends Authenticatable
             }else if ($this->categoryParent->id == '6') {     
                 // Massage Therapist
                 $required_user = [
-                                    'Profile Image'=>$this->profile_image, 
+                                    'Profile Image'=>$userProfileImage, 
                                     'User Name'=>$this->first_name, 
                                     'Mobile No.'=>$this->mobile_no, 
                                     'Email'=>$this->email, 
@@ -612,7 +615,7 @@ class User extends Authenticatable
             }else if ($this->categoryParent->id == '4') {             
                 // Doctor
                 $required_user = [
-                                    'Profile Image'=>$this->profile_image, 
+                                    'Profile Image'=>$userProfileImage, 
                                     'User Name'=>$this->first_name, 
                                     'Mobile No.'=>$this->mobile_no, 
                                     'Email'=>$this->email, 
@@ -642,7 +645,7 @@ class User extends Authenticatable
             }else {               
                 // Physiotherapy
                 $required_user =  [
-                                    'Profile Image'=>$this->profile_image, 
+                                    'Profile Image'=>$userProfileImage, 
                                     'User Name'=>$this->first_name, 
                                     'Mobile No.'=>$this->mobile_no, 
                                     'Email'=>$this->email, 
@@ -672,7 +675,7 @@ class User extends Authenticatable
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '2'){
             //Medicine 
             $required_user = [
-                                'Profile Image'=>$this->profile_image, 
+                                'Profile Image'=>$userProfileImage, 
                                 'User Name'=>$this->first_name, 
                                 'Mobile No.'=>$this->mobile_no, 
                                 'Email'=>$this->email, 
@@ -698,7 +701,7 @@ class User extends Authenticatable
         }else if(!empty($this->categoryParent) && $this->categoryParent->parent_id == '3'){
             //Laboratories 
             $required_user = [
-                                'Profile Image'=>$this->profile_image, 
+                                'Profile Image'=>$userProfileImage, 
                                 'User Name'=>$this->first_name, 
                                 'Mobile No.'=>$this->mobile_no, 
                                 'Email'=>$this->email, 
@@ -730,7 +733,7 @@ class User extends Authenticatable
             //client 
             $required_userCounts = ['User Location'=>$this->userLocation];
             $required_user = [
-                                'Profile Image'=>$this->profile_image, 
+                                'Profile Image'=>$userProfileImage, 
                                 'User Name'=>$this->first_name, 
                                 'Mobile No.'=>$this->mobile_no, 
                                 'Email'=>$this->email, 
