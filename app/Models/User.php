@@ -492,12 +492,17 @@ class User extends Authenticatable
             }
       
         }
-
         if(!empty($required_user) && count($required_user) > 0){
             foreach ($required_user as $key => $value) {
-                if($key == '0' && strpos($value, 'admin/images/avatar.jpg') == false) {
+                if($key == '0') {
                     // $required_progress_array[] = $key;
-                    $required_progress ++;
+                    if((strpos($this->profile_image, $imageStaticValue) !== false)){
+
+                    }else{
+                        if(!empty($value)){
+                            $required_progress ++;
+                        }
+                    }
                 }else if(isset($value) && ($value != '' || $value == '0')){
                     // $required_progress_array[] = $key;
                     $required_progress ++;
@@ -752,13 +757,19 @@ class User extends Authenticatable
             
       
         }
-
         if(!empty($required_user) && count($required_user) > 0){
             foreach ($required_user as $key => $value) {   
                 $required_progress_pending[] = $key;
-                if($key == 'Profile Image' && strpos($value, 'admin/images/avatar.jpg') == false) {
+                if($key == 'Profile Image') {
                     $required_progress_array[] = $key;
-                    $required_progress ++;
+                    if((strpos($this->profile_image, $imageStaticValue) !== false)){
+
+                    }else{
+                        if(!empty($value)){
+                            $required_progress ++;
+                        }
+                    }
+   
                 }else if(isset($value) && ($value != '' || $value == '0')){
                     $required_progress_array[] = $key;
                     $required_progress ++;
