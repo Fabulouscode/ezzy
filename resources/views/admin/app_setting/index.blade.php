@@ -132,6 +132,18 @@
                                                 @enderror
                                             </dd>
                                         </div>
+                                        
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>Top up Popup Amount</label></dt>
+                                            <dd class="col-sm-7">
+                                            <input type="number" required placeholder="Top up Popup Amount" class="form-control @error('setting[top_up_popup_amount]') is-invalid @enderror" name="setting[top_up_popup_amount]" value="{{!empty($data['top_up_popup_amount']) ? $data['top_up_popup_amount'] : 0 }}">
+                                                @error('setting[top_up_popup_amount]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
                                         <div class="row d-flex justify-content-end mt-5">
                                             <div class="form-group col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-info waves-effect m-l-5">
