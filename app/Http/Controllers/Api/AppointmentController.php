@@ -1324,6 +1324,9 @@ class AppointmentController extends BaseApiController
                 'status' => (!empty($appointmentRequest) && $appointmentRequest->appointment_type == '2') ? '2': '1',
                 'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
             ];
+            if(!empty($appointmentRequest) && $appointmentRequest->appointment_type == '2'){
+                $update_user['start_datetime'] = $this->appointment_repo->getCurrentDateTime();
+            }
             $this->appointment_repo->dataCrud($update_user, $request->id);
 
             $appointment_details = $this->appointment_repo->getById($request->id);
