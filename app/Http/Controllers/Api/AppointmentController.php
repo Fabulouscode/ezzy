@@ -1318,15 +1318,16 @@ class AppointmentController extends BaseApiController
         DB::beginTransaction();
         try{
             $appointmentRequest= $this->appointment_repo->getById($request->id);
+
             $update_user = [
-                        'user_id' => $request->user()->id,
-                        'status' => '1',
-                        'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
-                    ];
+                'user_id' => $request->user()->id,
+                'status' => (!empty($appointmentRequest) && $appointmentRequest->appointment_type == '2') ? '2': '1',
+                'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
+            ];
             $this->appointment_repo->dataCrud($update_user, $request->id);
 
             $appointment_details = $this->appointment_repo->getById($request->id);
-           
+
             if($appointment_details->appointment_type == '1'){
                 $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;       
             }else if($appointment_details->appointment_type == '2'){
