@@ -107,7 +107,7 @@ class Appointment extends Model
     protected $hidden = ['start_to_end_time_diff_format'];
 
     public function getStatusNameAttribute() {
-        if($this->status == '1'){
+        if($this->status == '1' && $this->urgent != '1'){
             $current_time  =  Carbon::now();
             $current_time = $current_time->addMinute(1);
             if(!empty($this->appointment_end_date) && !empty($this->appointment_end_time) && $current_time > $this->appointment_end_date.' '.$this->appointment_end_time){
