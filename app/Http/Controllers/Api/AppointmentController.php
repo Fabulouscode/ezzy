@@ -611,6 +611,8 @@ class AppointmentController extends BaseApiController
             DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
             $healthcare_providers = $this->user_repo->getHealthcareProvidersUrgent($request);
+            Log::info("HealthcareProvidersUrgent user list ");
+            Log::info(json_encode($healthcare_providers));
             
             DB::commit();
             $healthcare_provider_assign = 0;
