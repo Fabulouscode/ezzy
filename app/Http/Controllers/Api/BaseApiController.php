@@ -19,7 +19,8 @@ class BaseApiController extends Controller
 
     public function sendSuccess($result, $message = '') 
     {
-       return response()->json($this->ecnrypter->encrypt($result), 200);
+    //    return response()->json($this->ecnrypter->encrypt($result), 200);
+       return response()->json((request('env') != "test") ? $this->ecnrypter->encrypt($result) : $result, 200);
     }
 
     public function sendError($errors, $errorMessage='', $code = 500) 
