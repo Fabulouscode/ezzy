@@ -672,7 +672,7 @@ class AppointmentController extends BaseApiController
             return self::sendException($e);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::info("response Exception ");
+            Log::info("response Throwable ");
             Log::info($th);
             return self::sendException($th);
         }
