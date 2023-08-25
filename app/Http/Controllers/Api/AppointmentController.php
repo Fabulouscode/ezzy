@@ -631,8 +631,15 @@ class AppointmentController extends BaseApiController
                             'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                             'msg_type' => '1',
                         ]; 
-                        Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
-                        Log::info("Notification send ".date('H:i:s'));
+
+                        try{
+                            Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
+                            Log::info("Notification send ".date('H:i:s'));
+                        }catch(\Exception $e){
+                            Log::info("Notification not send ".date('H:i:s'));
+                            Log::info($e);
+                        }
+                        
                         sleep(40);
                     }else{
                         break;
