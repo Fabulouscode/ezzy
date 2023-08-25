@@ -1055,7 +1055,7 @@ class UserRepository extends Repository
                          ['users.current_latitude', '!=', ''],
                          ['users.current_longitude', '!=', '']
                      ])
-                ->havingRaw('distance <= 1200')
+                ->havingRaw('distance <= 200000')
                 ->orderBy('distance','asc');
             }
 
@@ -1149,7 +1149,8 @@ class UserRepository extends Repository
         $current_time = $current_time->subHour(12);
         $current_time = $current_time->format('Y-m-d H:i:s');   
 
-        $query = $query->where('users.status', '0')->where('users.updated_at', '<=', $current_time)->get();
+        // $query = $query->where('users.status', '0')->where('users.updated_at', '<=', $current_time)->get();
+        $query = $query->where('users.status', '0')->get();
         // print_r(DB::getQueryLog());
         // die;
         return $query;
