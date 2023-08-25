@@ -529,29 +529,29 @@ class Helper
             if($type == '1'){
                 // subscribe topic
                 $messaging = $factory->createMessaging();
-                Log::info(['notificationData', $notificationData]);
+                // Log::info(['notificationData', $notificationData]);
                 $messaging->subscribeToTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
-                Log::info('subscribeToTopic');
+                // Log::info('subscribeToTopic');
             }else if($type == '2'){
                 // unsubscribe topic
                 $messaging = $factory->createMessaging();
-                Log::info(['notificationData', $notificationData]);
+                // Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
-                Log::info('unsubscribeFromTopic');
+                // Log::info('unsubscribeFromTopic');
             }else if($type == '3'){
                 // unsubscribe all topic
                 $messaging = $factory->createMessaging();
-                Log::info(['notificationData', $notificationData]);
+                // Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromAllTopics($notificationData['registration_tokens']);
-                Log::info('unsubscribeFromAllTopics');
+                // Log::info('unsubscribeFromAllTopics');
             }else if($type == '4'){
                 // topic wise send notification
                 $messaging = $factory->createMessaging();
-                Log::info(['notificationData', $notificationData]);
+                // Log::info(['notificationData', $notificationData]);
                 $cloudMessage = CloudMessage::fromArray($notificationData);
                 Log::info(['cloudMessage', json_encode($cloudMessage)]);
                 $messaging->send($cloudMessage);
-                Log::info('topic notification sended');
+                // Log::info('topic notification sended');
             }else{
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
@@ -701,11 +701,16 @@ class Helper
             ));
             
             $response = curl_exec($curl);
+            $error_msg = '';
+            if (curl_errno($curl)) {
+                $error_msg = curl_error($curl);
+            }
             curl_close($curl);
             Log::info('mobileNoVerify');
             Log::info($url);
             Log::info($headers);
             Log::info($response);
+            Log::info($error_msg);
             $validationResult = json_decode($response, true);
             Log::info($validationResult);
             return $validationResult;
