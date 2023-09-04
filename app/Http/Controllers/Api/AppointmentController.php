@@ -27,7 +27,6 @@ use App\Http\Controllers\Api\WalletController;
 use PDF;
 use Log;
 use App\Http\Helpers\Helper;
-use App\Jobs\UrgentAppointmentBooking;
 
 class AppointmentController extends BaseApiController
 {
@@ -611,68 +610,60 @@ class AppointmentController extends BaseApiController
         try {
             DB::beginTransaction();
             $data = $this->appointment_repo->dataCrud($add_data);
+            $healthcare_providers = $this->user_repo->getHealthcareProvidersUrgent($request);
             
             DB::commit();
-            try{
-                if(!empty($data)){            
-                    dispatch(new UrgentAppointmentBooking($data->id, $request->user()->id, $request->all()));
-                }                
-            }
-            catch (\Throwable $th)
-            {
-                
-            }
-            // $healthcare_provider_assign = 0;
-            // if(count($healthcare_providers) > 0){
-            //     foreach ($healthcare_providers as $healthcare_provider){
-            //         $healthcare_providerReq = $this->appointment_repo->getById($data->id);
-            //         $healthcare_provider_assign = $healthcare_providerReq->user_id;
-            //         // send notification
-            //         if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
-            //             $user_timezone = $this->user_repo->getById($healthcare_provider->id);
-            //             $receiver_user = $this->user_repo->getById($healthcare_provider->id);
-            //             $sender_user = $this->user_repo->getById($request->user()->id);
-            //             $notification_user = [
-            //                 'sender_id' => $request->user()->id,
-            //                 'receiver_id' => $healthcare_provider->id,
-            //                 'title' => 'Urgent Appointment',
-            //                 'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $receiver_user->user_timezone),
-            //                 'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
-            //                 'msg_type' => '1',
-            //             ]; 
+            $healthcare_provider_assign = 0;
+            if(count($healthcare_providers) > 0){
+                foreach ($healthcare_providers as $healthcare_provider){
+                    $healthcare_providerReq = $this->appointment_repo->getById($data->id);
+                    $healthcare_provider_assign = $healthcare_providerReq->user_id;
+                    // send notification
+                    if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
+                        $user_timezone = $this->user_repo->getById($healthcare_provider->id);
+                        $receiver_user = $this->user_repo->getById($healthcare_provider->id);
+                        $sender_user = $this->user_repo->getById($request->user()->id);
+                        $notification_user = [
+                            'sender_id' => $request->user()->id,
+                            'receiver_id' => $healthcare_provider->id,
+                            'title' => 'Urgent Appointment',
+                            'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.$this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $receiver_user->user_timezone),
+                            'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                            'msg_type' => '1',
+                        ]; 
 
-            //             try{
-            //                 Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
-            //                 Log::info("Notification send ".date('H:i:s'));
-            //             }catch(\Exception $e){
-            //                 Log::info("Notification not send ".date('H:i:s'));
-            //                 Log::info($e);
-            //             }
+                        try{
+                            Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
+                            Log::info("Notification send ".date('H:i:s'));
+                        }catch(\Exception $e){
+                            Log::info("Notification not send ".date('H:i:s'));
+                            Log::info($e);
+                        }
                         
-            //             sleep(40);
-            //         }else{
-            //             break;
-            //         }
-            //     }
-            //     $healthcareProvider = $this->appointment_repo->getById($data->id);
-            //     $healthcare_provider_assign = $healthcareProvider->user_id;
-            //     Log::info($healthcare_provider_assign);
-            //     Log::info("healthcare provider assign time ".date('H:i:s'));
-            //     if(!empty($healthcare_provider_assign)){
-            //         Log::info("healthcare provider assign ".date('H:i:s'));
-            //         return self::sendSuccess($healthcareProvider);
-            //     }else{
-            //         Log::info("healthcare provider not available ".date('H:i:s'));
-            //         $this->appointment_repo->destroy($data->id);
-            //         Log::info("response send ".date('H:i:s'));
-            //         return self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
-            //     }
-            // }else{
-            //     Log::info("healthcare provider not available ".date('H:i:s'));
-            //     $this->appointment_repo->destroy($data->id);
-            //     Log::info("response send ".date('H:i:s'));
-            //     return Self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
-            // }
+                        sleep(40);
+                    }else{
+                        break;
+                    }
+                }
+                $healthcareProvider = $this->appointment_repo->getById($data->id);
+                $healthcare_provider_assign = $healthcareProvider->user_id;
+                Log::info($healthcare_provider_assign);
+                Log::info("healthcare provider assign time ".date('H:i:s'));
+                if(!empty($healthcare_provider_assign)){
+                    Log::info("healthcare provider assign ".date('H:i:s'));
+                    return self::sendSuccess($healthcareProvider);
+                }else{
+                    Log::info("healthcare provider not available ".date('H:i:s'));
+                    $this->appointment_repo->destroy($data->id);
+                    Log::info("response send ".date('H:i:s'));
+                    return self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
+                }
+            }else{
+                Log::info("healthcare provider not available ".date('H:i:s'));
+                $this->appointment_repo->destroy($data->id);
+                Log::info("response send ".date('H:i:s'));
+                return Self::sendError([],"The providers you requested are all currently engaged please expand your search and try again.");
+            }
             return self::sendSuccess($data);
         } catch (\Exception $e) {
             DB::rollBack();
