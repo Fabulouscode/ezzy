@@ -147,6 +147,9 @@
                         @can('payout-list')
                         <li><a href="{{url('/donotezzycaretouch/transaction/list')}}">Transaction List</a></li>
                         @endcan
+                        @can('payout-list')
+                        <li><a href="{{url('/donotezzycaretouch/deposit/wallet/list')}}">Deposit Transaction List</a></li>
+                        @endcan
                     </ul>
                 </li>
                 @endif

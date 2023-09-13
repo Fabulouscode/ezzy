@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\AppSetting;
 use App\Models\OtpDetails;
+use App\Models\UserTempMobileRegister;
 use Helper;
 
 class UserAuthController extends BaseApiController
@@ -140,15 +141,36 @@ class UserAuthController extends BaseApiController
                         'expiry_date_time' => $TwoMinutesAfter,
                     ]);
                 }catch(\Exception $e){
+                    UserTempMobileRegister::create([
+                        'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                        'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                        'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                        'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                        'email' => !empty($request->email) ? $request->email : null,
+                    ]);
                     return self::sendError('', 'SMS Sending Failed');
                 } 
 
                 try{
                     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
                 }catch(\Exception $e){
+                    UserTempMobileRegister::create([
+                        'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                        'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                        'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                        'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                        'email' => !empty($request->email) ? $request->email : null,
+                    ]);
                     return self::sendError('', 'SMS Sending Failed');
                 }                
                 if(!empty($sent_msg)){
+                    UserTempMobileRegister::create([
+                        'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
+                        'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
+                        'country_code' => !empty($request->country_code) ? $request->country_code : null,
+                        'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
+                        'email' => !empty($request->email) ? $request->email : null,
+                    ]);
                     return self::sendError('', 'SMS Sending Failed');
                 }
                 $user = $this->user_repo->registerWithMobileno($request);
@@ -162,6 +184,7 @@ class UserAuthController extends BaseApiController
                 ]);
             }catch(\Exception $e){
                 DB::rollBack();
+                
                 return self::sendException($e);
             }
         } else{

@@ -195,76 +195,84 @@
 
     <div class="row">
         <div class="col-xl-3 col-md-6">
-            <div class="card d-card-part bg-primary mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-document float-right mb-0"></i>
+            <a href="{{url('/donotezzycaretouch/deposit/wallet/list')}}">
+                <div class="card d-card-part bg-primary mini-stat m-b-30">
+                    <div class="card-d-title text-white">
+                        <div class="mini-stat-icon">
+                            <i class="dripicons-document float-right mb-0"></i>
+                        </div>
+                        <h6 class="mb-0">Patient Wallet</h6>
                     </div>
-                    <h6 class="mb-0">Patient Wallet</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_total']) ? $data['patient_wallet_total'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_today']) ? $data['patient_wallet_today'] : '0'}}</span> </h6>
+                    <div class="card-body d-card-body">
+                        <div class="mt-2 text-muted">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_total']) ? $data['patient_wallet_total'] : '0'}}</span></h6>
+                                <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['patient_wallet_today']) ? $data['patient_wallet_today'] : '0'}}</span> </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card d-card-part bg-info mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-document float-right mb-0"></i>
+            <a href="{{url('/donotezzycaretouch/transaction/list')}}">
+                <div class="card d-card-part bg-info mini-stat m-b-30">
+                    <div class="card-d-title text-white">
+                        <div class="mini-stat-icon">
+                            <i class="dripicons-document float-right mb-0"></i>
+                        </div>
+                        <h6 class="mb-0">HCP Wallet</h6>
                     </div>
-                    <h6 class="mb-0">HCP Wallet</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_total']) ? $data['hcp_wallet_total'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_today']) ? $data['hcp_wallet_today'] : '0'}}</span> </h6>
+                    <div class="card-body d-card-body">
+                        <div class="mt-2 text-muted">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_total']) ? $data['hcp_wallet_total'] : '0'}}</span></h6>
+                                <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['hcp_wallet_today']) ? $data['hcp_wallet_today'] : '0'}}</span> </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card d-card-part bg-info mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-document float-right mb-0"></i>
+            <a href="{{url('/donotezzycaretouch/transaction/list')}}">
+                <div class="card d-card-part bg-info mini-stat m-b-30">
+                    <div class="card-d-title text-white">
+                        <div class="mini-stat-icon">
+                            <i class="dripicons-document float-right mb-0"></i>
+                        </div>
+                        <h6 class="mb-0">Pharmacy Wallet</h6>
                     </div>
-                    <h6 class="mb-0">Pharmacy Wallet</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_wallet_total']) ? $data['pharmacy_wallet_total'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_wallet_today']) ? $data['pharmacy_wallet_today'] : '0'}}</span> </h6>
+                    <div class="card-body d-card-body">
+                        <div class="mt-2 text-muted">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_wallet_total']) ? $data['pharmacy_wallet_total'] : '0'}}</span></h6>
+                                <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['pharmacy_wallet_today']) ? $data['pharmacy_wallet_today'] : '0'}}</span> </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card d-card-part bg-info mini-stat m-b-30">
-                <div class="card-d-title text-white">
-                    <div class="mini-stat-icon">
-                        <i class="dripicons-document float-right mb-0"></i>
+            <a href="{{url('/donotezzycaretouch/transaction/list')}}">
+                <div class="card d-card-part bg-info mini-stat m-b-30">
+                    <div class="card-d-title text-white">
+                        <div class="mini-stat-icon">
+                            <i class="dripicons-document float-right mb-0"></i>
+                        </div>
+                        <h6 class="mb-0">Laboratories Wallet</h6>
                     </div>
-                    <h6 class="mb-0">Laboratories Wallet</h6>
-                </div>
-                <div class="card-body d-card-body">
-                    <div class="mt-2 text-muted">
-                        <div class="d-flex justify-content-between">
-                            <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_wallet_total']) ? $data['laboratories_wallet_total'] : '0'}}</span></h6>
-                            <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_wallet_today']) ? $data['laboratories_wallet_today'] : '0'}}</span> </h6>
+                    <div class="card-body d-card-body">
+                        <div class="mt-2 text-muted">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_wallet_total']) ? $data['laboratories_wallet_total'] : '0'}}</span></h6>
+                                <h6>Today <span class="d-block mb-1 d-number-count">{{ isset($data['laboratories_wallet_today']) ? $data['laboratories_wallet_today'] : '0'}}</span> </h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-4 col-md-6">
             <div class="card d-card-part bg-success mini-stat m-b-30">

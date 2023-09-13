@@ -403,6 +403,27 @@ class UserTransactionRepository extends Repository
 
         return $data;
     }
+    
+    public function getUserWalletDepositTransactionCalculate($request)
+    {
+        $query = $this->model;
+       
+        $query = $query->whereNull('client_id');
+        
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
+        }
+        
+        $query = $query->where('transaction_msg','Wallet Topup')->where('mode_of_payment', '0')->where('status', '0');
+
+        $totalQuery = $query;
+        $todayTotalQuery = $query;
+        $data = [];
+        $data['amount'] = $query->sum('amount');
+        $data['today_amount'] = $todayTotalQuery->whereDate('created_at',Carbon::now())->sum('amount');
+       
+        return $data;
+    }
 
     public function getHCPPayoutCalculation($request, $status)
     {
@@ -548,6 +569,77 @@ class UserTransactionRepository extends Repository
             })
 
             ->rawColumns(['payout_amount','fees_charge'])
+            ->make(true);
+    }
+
+    public function getDepositTransactionData($request)
+    {
+        $query = $this->model->with(['users']);
+       
+        $query = $query->whereNull('client_id')
+            ->select('user_transactions.*')
+            ->leftJoin('users', 'user_transactions.user_id', '=', 'users.id')
+            ->where('transaction_msg','Wallet Topup');
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('user_transactions.transaction_date', '>=',$request->start_date)->whereDate('user_transactions.transaction_date' , '<=',$request->end_date);
+        }
+        
+        $query = $query->where('user_transactions.mode_of_payment', '0')->where('user_transactions.status', '0');
+
+        return $query;
+    }
+
+    public function getUserWalletDepositTransactionData($request)
+    {
+        $data = $this->getDepositTransactionData($request); 
+        
+        return Datatables::of($data)
+            ->editColumn('user_name', function($selected) use ($request) {  
+                return $selected->users ? $selected->users->user_name : '-';
+            })
+            ->filterColumn('user_name', function ($query, $keyword) {
+                $query->whereRaw("concat(users.first_name, ' ', users.last_name) like ?", ["%$keyword%"]);
+            })
+            ->orderColumn('user_name', function ($query, $order) {
+                $query->orderBy('users.first_name', $order);
+            })
+
+            ->editColumn('transaction_date', function($selected) {
+                return $selected->transaction_date ? $this->getDateTimeFormate($selected->transaction_date) : '-';
+            })
+
+            ->editColumn('transaction_msg', function($selected) {
+                return 'Add in Wallet';
+            })
+
+            ->editColumn('amount', function($selected) {
+                return $this->currency_symbol.$selected->amount ;
+            })
+
+            ->editColumn('status', function($selected) {
+                 if($selected->status == '0'){
+                    return '<div class="badge badge-success">'.$selected->status_name.'</div>';
+                } else{
+                    return '<div class="badge badge-info">'.$selected->status_name.'</div>';
+                }
+            })
+
+            ->editColumn('payment_type', function($selected) {
+                    return '<div >Online Pay</div>';
+            })
+
+            ->editColumn('transaction_type', function($selected) {
+                if($selected->transaction_type == '0'){
+                    if($selected->mode_of_payment == '0'){
+                        return '<div class="badge badge-success">Credit</div>';
+                    } else{
+                        return '<div class="badge badge-danger">Debit</div>';
+                    }
+                }
+            })
+
+            ->rawColumns(['status','payment_type','transaction_type','transaction_date'])
             ->make(true);
     }
  

@@ -181,7 +181,7 @@
             </a>
         </div>
         <div class="col-xl-4 col-md-6">
-            <a href="{{url('/donotezzycaretouch/appointment')}}">
+            <a href="{{url('/donotezzycaretouch/appointment/upcoming')}}">
             <div class="card d-card-part bg-success mini-stat m-b-30">
                 <div class="card-d-title text-white">
                     <div class="mini-stat-icon">

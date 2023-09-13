@@ -227,6 +227,11 @@ class PayoutAmountController extends Controller
         return view('admin.payout.transaction_list', compact('categories'));
     }
 
+    public function getUserWalletDepositTransactionList(Request $request)
+    {
+        return view('admin.payout.user_depoist_list');
+    }
+
     public function getHealthcareProvidersCalculate(Request $request)
     {
         $transaction_calc = $this->user_transaction_repo->getHCPTransactionCalculate($request);
@@ -238,6 +243,22 @@ class PayoutAmountController extends Controller
         if($request->all()){
             return $this->user_transaction_repo->getTransactionDatatable($request);
         }
+    }
+ 
+    public function getUserWalletDepositTransactionData(Request $request)
+    {
+        if($request->all()){
+            return $this->user_transaction_repo->getUserWalletDepositTransactionData($request);
+        }
+    }
+
+    
+    public function getUserWalletDepositTransactionCalculate(Request $request)
+    {
+        \Log::info('getUserWalletDepositTransactionCalculate');
+        \Log::info($request->all());
+        $transaction_calc = $this->user_transaction_repo->getUserWalletDepositTransactionCalculate($request);
+        return response()->json($transaction_calc, 200);
     }
 
 }

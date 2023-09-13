@@ -148,6 +148,47 @@ $(function () {
         }
     });
 
+    $('#user_deposit_datatable').DataTable({
+        lengthChange: true,
+        processing: true,
+        serverSide: true,
+        bPaginate: true,
+        // responsive: true,
+        ajax: {
+            headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+            url: payout_url + '/deposit/wallet/data',
+            type: 'post',
+            dataType: "json",
+            data: {
+                end_date: function () { return $('#deposit_user_end_date').val() },
+                start_date: function () { return $('#deposit_user_start_date').val() },
+            },
+            async: true
+        },
+        columns: [
+            { data: 'id', name: 'id', searchable:false },
+            { data: 'user_name', name: 'user_name', title: 'User Name' },
+            { data: 'transaction_msg', name: 'transaction_msg', title: 'Transaction Msg' },
+            { data: 'transaction_date', name: 'transaction_date', title: 'Transaction Date',searchable:false },
+            { data: 'transaction_type', name: 'transaction_type', title: 'Transaction Type' },
+            { data: 'amount', name: 'amount', title: 'Deposit Amount'},
+            { data: 'status', name: 'status', title: 'Status' },
+           
+        ],
+        order: [[0, 'desc']],
+        initComplete: function (settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            var showColumn = false;
+            api.columns([0]).visible(showColumn);
+            // getHealthcareProviders();
+        },
+        drawCallback: function (settings) {
+            console.log('hh');
+            getUserDepositCalculate();
+        }
+    });
+
+
     $("#select_all").click(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
@@ -216,6 +257,33 @@ $(function () {
         $('#user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#transaction_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
+
+    $('#deposit-user-date-range').daterangepicker({
+        // startDate: moment().subtract(1, 'years'),
+        // endDate: moment(),
+        maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
+        alwaysShowCalendars: true,
+        opens: "right",
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    });
+    $('#deposit-user-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#deposit_user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#deposit_user_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        var oTable = $('#user_deposit_datatable').dataTable();
         oTable.fnDraw(true);
     });
 });
@@ -365,6 +433,34 @@ function getHealthcareProviders() {
                 $('#transactionTotal').text(Number(data.amount).toFixed(2));
                 $('#transactionPayout').text(Number(data.payout_amount).toFixed(2));
                 $('#transactionEzzyCare').text(Number(data.fees_charge).toFixed(2));
+            }
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function getUserDepositCalculate() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: payout_url + '/deposit/wallet/calculate',
+        type: 'post',
+        dataType: "json",
+        data: {
+            end_date: function () { return $('#deposit_user_end_date').val() },
+            start_date: function () { return $('#deposit_user_start_date').val() },            
+        },
+        async: true,
+        success: function (data) {
+            if(data != ''){
+                $('#transactionTotalDeposit').text(Number(data.amount).toFixed(2));
+                if(data.today_amount){
+                    $('#transactionTodayTotalDeposit').text(Number(data.today_amount).toFixed(2));
+                }else{
+                    $('#transactionTodayTotalDeposit').text(0);
+                }
+
             }
         },
         error: function (error) {
