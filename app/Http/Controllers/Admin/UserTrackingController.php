@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\UserTracking;
+use App\Models\UserTempMobileRegister;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon as Carbon;
@@ -78,5 +79,26 @@ class UserTrackingController extends Controller
                 ->make(true);
         }
         return view('admin.user_tracking.index');
+    }
+    public function userRegisterMobileNoError(Request $request)
+    {
+        if($request->all()){
+            $data = UserTempMobileRegister::groupBy(['mobile_no', 'country_code']);
+            
+            return Datatables::of($data)
+             
+                ->editColumn('created_at',function($selected)
+                {                   
+                    $date_time_formate = new Carbon($selected->created_at);
+                    (!empty(Auth::user()) && !empty(Auth::user()->timezone)) ? $date_time_formate->setTimezone(Auth::user()->timezone) : '' ;
+                    return $date_time_formate->format('d M, Y h:i a');
+                })
+                ->orderColumn('created_at', function ($query, $order) {
+                    $query->orderBy('created_at', $order);
+                })
+                ->rawColumns(['created_at'])
+                ->make(true);
+        }
+        return view('admin.user_register_mobile_error.index');
     }
 }

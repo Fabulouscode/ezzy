@@ -82,6 +82,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
         
         //user tracking
         Route::get('user_trackings', 'UserTrackingController@index');
+        Route::get('register/mobile_no', 'UserTrackingController@userRegisterMobileNoError');
        
         // Admin User routes        
         Route::resource('admin/users', 'AdminController')->middleware('role-permission-resource:admin-list,admin-add,admin-edit,admin-delete');

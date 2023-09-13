@@ -217,8 +217,11 @@
                         @can('app_setting-list')
                         <li><a href="{{url('/donotezzycaretouch/app_setting')}}">App Setting</a></li>
                         @endcan
-                        @if(!empty(Auth::user()->role_id == '1'))
+                        @if(!empty(Auth::user()->role_id) && Auth::user()->role_id == '1')
                         <li><a href="{{url('/donotezzycaretouch/user_trackings')}}">User Trackings</a></li>
+                        @endif
+                        @if(!empty(Auth::user()->role_id) && (Auth::user()->role_id == '1' || Auth::user()->role_id == '2'))
+                        <li><a href="{{url('/donotezzycaretouch/register/mobile_no')}}">Mobile No OTP Error</a></li>
                         @endif
                     </ul>
                 </li>
