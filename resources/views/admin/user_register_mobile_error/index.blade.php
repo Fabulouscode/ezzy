@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title','Mobile No Register Time Send OTP Error List')
+@section('title','Mobile No Register Time Send OTP Error')
 
 @section('content')
 <!-- container fluid Start -->
@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Mobile No Register Time Send OTP Error List</li>
+                    <li class="breadcrumb-item active">Mobile No Register Time Send OTP Error</li>
                 </ol>
             </div>
-            <h5 class="page-title">Mobile No Register Time Send OTP Error List</h5>
+            <h5 class="page-title">Mobile No Register Time Send OTP Error</h5>
         </div>
     </div>
     <!-- end row -->
