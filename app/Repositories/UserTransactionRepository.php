@@ -414,12 +414,12 @@ class UserTransactionRepository extends Repository
             $query = $query->whereDate('transaction_date', '>=',$request->start_date)->whereDate('transaction_date' , '<=',$request->end_date);
         }
         
-        $query = $query->where('transaction_msg','Wallet Topup')->where('mode_of_payment', '0')->where('status', '0');
+        $query = $query->where('wallet_transaction','1')->where('mode_of_payment', '0')->where('status', '0');
 
         $totalQuery = $query;
         $todayTotalQuery = $query;
         $data = [];
-        $data['amount'] = $query->sum('amount');
+        $data['amount'] = $totalQuery->sum('amount');
         $data['today_amount'] = $todayTotalQuery->whereDate('created_at',Carbon::now())->sum('amount');
        
         return $data;
