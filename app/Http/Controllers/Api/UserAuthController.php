@@ -77,13 +77,13 @@ class UserAuthController extends BaseApiController
             if(!empty($request->country_code) && $request->country_code == "+234"){
                
             }else{
-                $check_valid_number = Helper::mobileNoVerify($request->mobile_no, $request->country_code);
-                \Log::info($check_valid_number);
-                if (!empty($check_valid_number) && !empty($check_valid_number['valid']) && !empty($check_valid_number['line_type']) && $check_valid_number['valid'] == true && $check_valid_number['line_type'] == 'mobile') {
+                // $check_valid_number = Helper::mobileNoVerify($request->mobile_no, $request->country_code);
+                // \Log::info($check_valid_number);
+                // if (!empty($check_valid_number) && !empty($check_valid_number['valid']) && !empty($check_valid_number['line_type']) && $check_valid_number['valid'] == true && $check_valid_number['line_type'] == 'mobile') {
 
-                }else{
-                    return self::sendError('', 'Please try again, as the provided phone number is not valid.');
-                }
+                // }else{
+                //     return self::sendError('', 'Please try again, as the provided phone number is not valid.');
+                // }
             }
         }else{
             return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
@@ -141,6 +141,7 @@ class UserAuthController extends BaseApiController
                         'expiry_date_time' => $TwoMinutesAfter,
                     ]);
                 }catch(\Exception $e){
+                    DB::rollBack();
                     UserTempMobileRegister::create([
                         'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
                         'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
@@ -148,12 +149,14 @@ class UserAuthController extends BaseApiController
                         'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
                         'email' => !empty($request->email) ? $request->email : null,
                     ]);
+                    DB::commit();
                     return self::sendError('', 'SMS Sending Failed');
                 } 
 
                 try{
                     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
                 }catch(\Exception $e){
+                    DB::rollBack();
                     UserTempMobileRegister::create([
                         'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
                         'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
@@ -161,16 +164,19 @@ class UserAuthController extends BaseApiController
                         'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
                         'email' => !empty($request->email) ? $request->email : null,
                     ]);
+                    DB::commit();
                     return self::sendError('', 'SMS Sending Failed');
                 }                
                 if(!empty($sent_msg)){
+                    DB::rollBack();
                     UserTempMobileRegister::create([
                         'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,
                         'device_id' => !empty($request->header('device_id')) ? $request->header('device_id') : null,
                         'country_code' => !empty($request->country_code) ? $request->country_code : null,
                         'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : null,
                         'email' => !empty($request->email) ? $request->email : null,
-                    ]);
+                    ]);                    
+                    DB::commit();
                     return self::sendError('', 'SMS Sending Failed');
                 }
                 $user = $this->user_repo->registerWithMobileno($request);
@@ -184,7 +190,7 @@ class UserAuthController extends BaseApiController
                 ]);
             }catch(\Exception $e){
                 DB::rollBack();
-                
+                \Log::info('UserTempMobileRegister4');
                 return self::sendException($e);
             }
         } else{
