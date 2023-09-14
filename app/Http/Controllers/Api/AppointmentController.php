@@ -640,7 +640,7 @@ class AppointmentController extends BaseApiController
                             Log::info($e);
                         }
                         
-                        sleep(40);
+                        sleep(30);
                     }else{
                         break;
                     }
