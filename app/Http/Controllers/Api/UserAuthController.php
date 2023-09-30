@@ -427,12 +427,12 @@ class UserAuthController extends BaseApiController
             $user = $this->user_repo->getById(Auth::user()->id);
             if($request->hcp_type == '0'){
                 if(!empty($user->category_id)){
-                    return self::sendError('', 'This number is registered as a Health Care Provider, please login as a Health Care Provider.');
+                    return self::sendError('', 'This number is registered as a Care Provider, so please log in as a Care Provider.');
                 } 
             }
             if($request->hcp_type == '1'){
                 if(empty($user->category_id)){
-                    return self::sendError('', 'This number is registered as a patient, please login as a patient.');
+                    return self::sendError('', 'This number is registered as a Care Seeker, so please log in as a Care Seeker.');
                 } 
             }
             if(isset($user) && in_array($user->status, ['0','1'])){
