@@ -16,8 +16,9 @@ class AppVersionSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::table('app_versions')->truncate();
-       
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
          $data = [
                     'id'         => 1,
                     'android_version' => '0.1',
