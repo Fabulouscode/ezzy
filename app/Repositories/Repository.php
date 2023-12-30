@@ -277,8 +277,10 @@ class Repository
         if(!empty($recipients) && substr($recipients, 0, 4) == "+234"){
             $currentSmsStart = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
         }
-        
-        
+        Log::info('sms provider start');
+        Log::info($currentSmsStart);
+        Log::info($recipients);
+        Log::info('sms provider stop');
         if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '1'){
              //twilio 
              
