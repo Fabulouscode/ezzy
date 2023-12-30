@@ -273,16 +273,20 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
-        $currentSmsStartQuery = AppSetting::where('key_name', 'current_sms_service_provider')->first();
-        $currentSmsStart = $currentSmsStartQuery->value_txt;
+        $currentSmsStart = 1;
         if(!empty($recipients) && substr($recipients, 0, 4) == "+234"){
             $currentSmsStartQuery = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
             $currentSmsStart = $currentSmsStartQuery->value_txt;
+        }else{
+            $currentSmsStartQuery = AppSetting::where('key_name', 'current_sms_service_provider')->first();
+            $currentSmsStart = $currentSmsStartQuery->value_txt;
         }
+
         Log::info('sms provider start');
         Log::info($currentSmsStart);
         Log::info($recipients);
         Log::info('sms provider stop');
+        
         if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '1'){
              //twilio 
              
