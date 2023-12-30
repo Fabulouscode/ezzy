@@ -273,9 +273,11 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
-        $currentSmsStart = AppSetting::where('key_name', 'current_sms_service_provider')->first();
+        $currentSmsStartQuery = AppSetting::where('key_name', 'current_sms_service_provider')->first();
+        $currentSmsStart = $currentSmsStartQuery->value_txt;
         if(!empty($recipients) && substr($recipients, 0, 4) == "+234"){
-            $currentSmsStart = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
+            $currentSmsStartQuery = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
+            $currentSmsStart = $currentSmsStartQuery->value_txt;
         }
         Log::info('sms provider start');
         Log::info($currentSmsStart);
