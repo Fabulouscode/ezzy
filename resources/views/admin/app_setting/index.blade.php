@@ -165,7 +165,7 @@
                                                 <select class="form-control" id="setting[current_nigeria_sms_service_provider]" name="setting[current_nigeria_sms_service_provider]" >
                                                     <option value="1" {{isset($data['current_nigeria_sms_service_provider']) &&  $data['current_nigeria_sms_service_provider'] == 1 ? 'selected' :""}}>Twilio SMS Provider</option>
                                                     <option value="2" {{isset($data['current_nigeria_sms_service_provider']) && $data['current_nigeria_sms_service_provider'] == 2 ? 'selected' :""}}>Termii SMS Provider</option>
-                                                    <option value="3" {{isset($data['current_nigeria_sms_service_provider']) && $data['current_nigeria_sms_service_provider'] == 2 ? 'selected' :""}}>Mtarget SMS Provider</option>
+                                                    <option value="3" {{isset($data['current_nigeria_sms_service_provider']) && $data['current_nigeria_sms_service_provider'] == 3 ? 'selected' :""}}>Mtarget SMS Provider</option>
                                                 </select>
                                                 @error('setting[current_nigeria_sms_service_provider]')
                                                     <span class="invalid-feedback" role="alert">
