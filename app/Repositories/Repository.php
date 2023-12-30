@@ -274,7 +274,7 @@ class Repository
         //     ], 422));
         // }
         $currentSmsStart = AppSetting::where('key_name', 'current_sms_service_provider')->first();
-        if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
+        if(!empty($recipients) && substr($recipients, 0, 4) == "+234"){
             $currentSmsStart = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
         }
         
