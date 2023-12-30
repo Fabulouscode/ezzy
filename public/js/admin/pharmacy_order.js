@@ -1,8 +1,8 @@
 
 $(function () {
     $("form[name='pharmacy_order_form']").parsley();
-    $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
-    $('#end_date').val(moment().format("YYYY-MM-DD"));
+    // $('#start_date').val(moment().subtract(3, 'months').format("YYYY-MM-DD"));
+    // $('#end_date').val(moment().format("YYYY-MM-DD"));
 
     $('#pharmacy_order_datatable').DataTable({
         lengthChange: true,
