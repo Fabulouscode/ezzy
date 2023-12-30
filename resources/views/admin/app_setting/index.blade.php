@@ -144,6 +144,36 @@
                                                 @enderror
                                             </dd>
                                         </div>
+
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>SMS Gateway</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[current_sms_service_provider]" name="setting[current_sms_service_provider]" >
+                                                    <option value="1" {{isset($data['current_sms_service_provider']) &&  $data['current_sms_service_provider'] == 1 ? 'selected' :""}}>Twilio SMS Provider</option>
+                                                    <option value="2" {{isset($data['current_sms_service_provider']) && $data['current_sms_service_provider'] == 2 ? 'selected' :""}}>Termii SMS Provider</option>
+                                                </select>
+                                                @error('setting[current_sms_service_provider]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>SMS Gateway For Nigeria</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[current_nigeria_sms_service_provider]" name="setting[current_nigeria_sms_service_provider]" >
+                                                    <option value="1" {{isset($data['current_nigeria_sms_service_provider']) &&  $data['current_nigeria_sms_service_provider'] == 1 ? 'selected' :""}}>Twilio SMS Provider</option>
+                                                    <option value="2" {{isset($data['current_nigeria_sms_service_provider']) && $data['current_nigeria_sms_service_provider'] == 2 ? 'selected' :""}}>Termii SMS Provider</option>
+                                                    <option value="3" {{isset($data['current_nigeria_sms_service_provider']) && $data['current_nigeria_sms_service_provider'] == 2 ? 'selected' :""}}>Mtarget SMS Provider</option>
+                                                </select>
+                                                @error('setting[current_nigeria_sms_service_provider]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
                                         <div class="row d-flex justify-content-end mt-5">
                                             <div class="form-group col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-info waves-effect m-l-5">

@@ -16,8 +16,9 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::table('admins')->truncate();
-       
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
          $data = [
                     'id'         => 1,
                     'name'       => 'Super Admin',

@@ -129,6 +129,10 @@ class User_details extends Model
       // return !empty($value) ?  json_decode($value) : '';
       return $value;
     }
+    public function getTotalExperianceYearAttribute($value) {
+      $currentYear = date('Y');
+      return !empty($this->registration_year) ?  $currentYear - $this->registration_year : $value;
+    }
     public function getUrgentCriteriaAttribute($value) {
       $data = [];
       if(isset($value) && $value != '' && $value != 'NULL') {

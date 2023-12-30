@@ -199,6 +199,10 @@ return [
     /* mobile no verification */
     'MOBILE_VERIFICATION_API_URL' => env('MOBILE_VERIFICATION_API_URL'),
     'MOBILE_VERIFICATION_API_KEY' => env('MOBILE_VERIFICATION_API_KEY'),
+ 
+    /* mobile no verification */
+    'TERMII_URL' => env('TERMII_URL'),
+    'TERMII_API_KEY' => env('TERMII_API_KEY'),
 
     /*
     |--------------------------------------------------------------------------

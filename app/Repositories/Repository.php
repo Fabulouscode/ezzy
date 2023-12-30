@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Twilio\Rest\Client;
 use App\Http\Helpers\Helper;
+use App\Models\AppSetting;
 use Carbon\Carbon;
 use Storage;
 use Log;
@@ -272,7 +273,13 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
+        $currentSmsStart = AppSetting::where('key_name', 'current_sms_service_provider')->first();
         if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
+            $currentSmsStart = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
+        }
+        
+        
+        if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '1'){
              //twilio 
              
             $account_sid = config("app.TWILIO_SID");
@@ -353,7 +360,68 @@ class Repository
                     'message' => 'The given data was invalid.',
                 ], 422));
             }
-        }else{
+        }else if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '2'){
+            //termii 
+                        
+            $apiKey = config("app.TERMII_API_KEY");
+            $endpoint = config("app.TERMII_URL");
+            $data = [
+                "api_key" => $apiKey,
+                "to" => str_replace('+', '', $recipients),  
+                "from" => "EZZYCARE",
+                "sms" => $message, 
+                "type" => "plain",  
+                "channel" => "generic" 
+            ];
+            $headers = array('Content-Type: application/json');
+            $postData = json_encode($data);
+            try {
+                // Get the account balance
+                $ch = curl_init();
+                // Set cURL options
+                curl_setopt($ch, CURLOPT_URL, $endpoint);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);            
+                curl_setopt($ch, CURLOPT_ENCODING, '');            
+                curl_setopt($ch, CURLOPT_MAXREDIRS, 10);            
+                curl_setopt($ch, CURLOPT_TIMEOUT, 11);            
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);            
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");            
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);            
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);            
+                // Execute cURL request
+                $response = curl_exec($ch);    
+                $responseArr = json_decode($response, true); 
+                // Close cURL session
+                curl_close($ch);
+                if(!empty($responseArr) && !empty($responseArr['code']) && !empty($responseArr['message']) && $responseArr['message'] == "Successfully Sent"){
+                    Log::info('termii sms send');
+                    Log::info($responseArr);
+                    return '';
+                }else{
+                    Log::info('termii sms not send');
+                    Log::info($responseArr);
+                    $msg_sent = 'SMS Sending Failed';
+                    return $msg_sent;
+                }               
+
+            }catch(\Exception $e){
+                Log::info('termii sms send error');
+                $data = array(
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                );
+                Log::info($data);
+                throw new HttpResponseException(response()->json([
+                    'success' => false,
+                    'errors' => $e->getMessage(),
+                    'message' => 'The given data was invalid.',
+                ], 422));
+            }
+
+        }else if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '3'){
             // MTARGET sms
             try{
                 $mtarget_api_url = config("app.MTARGET_API_URL");
@@ -391,6 +459,9 @@ class Repository
                     'message' => 'The given data was invalid.',
                 ], 422));
             }
+        }else{
+            $msg_sent = 'SMS Sending Failed';
+            return $msg_sent;
         }        
     }
 

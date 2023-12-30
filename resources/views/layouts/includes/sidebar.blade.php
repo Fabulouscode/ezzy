@@ -73,9 +73,6 @@
                         @can('pharmacy-list')
                         <li><a href="{{url('/donotezzycaretouch/pharmacy/user')}}">Approved Pharmacist</a></li>
                         @endcan
-                        @can('order-list')
-                        <li><a href="{{url('/donotezzycaretouch/pharmacy/order')}}">Orders</a></li>
-                        @endcan
                         @can('order-review')
                         <li><a href="{{url('/donotezzycaretouch/pharmacy/order/reviews')}}">Reviews</a></li>
                         @endcan
@@ -134,6 +131,15 @@
                     </ul>
                 </li>
                 @endif
+                @can('order-list')
+                <li>
+                    <a href="{{url('/donotezzycaretouch/pharmacy/order')}}" class="waves-effect d-flex">
+                        <i class="dripicons-clipboard"></i>
+                        <span> Orders </span>
+                        <span id="OrderPendingCount" class="badge_count_side_menu">0</span>
+                    </a>
+                </li>
+                @endcan
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('payout-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
@@ -244,9 +250,10 @@
                 </li>
                 @endcan
                 <li>
-                    <a href="{{url('/donotezzycaretouch/contact_form')}}" class="waves-effect">
+                    <a href="{{url('/donotezzycaretouch/contact_form')}}" class="waves-effect d-flex">
                         <i class="dripicons-list"></i>
                         <span> Contact Form </span>
+                        <span id="ContactFormCount" class="badge_count_side_menu">0</span>
                     </a>
                 </li>
                 @can('admin_activity-list')
