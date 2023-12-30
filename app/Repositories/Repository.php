@@ -273,8 +273,11 @@ class Repository
         //         'message' => 'The given data was invalid.',
         //     ], 422));
         // }
-        // if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
         $currentSmsStart = AppSetting::where('key_name', 'current_sms_service_provider')->first();
+        if(!empty($recipients) && substr($recipients, 0, 4) != "+234"){
+            $currentSmsStart = AppSetting::where('key_name', 'current_nigeria_sms_service_provider')->first();
+        }
+        
         
         if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '1'){
              //twilio 
@@ -418,7 +421,7 @@ class Repository
                 ], 422));
             }
 
-        }else{
+        }else if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '3'){
             // MTARGET sms
             try{
                 $mtarget_api_url = config("app.MTARGET_API_URL");
@@ -456,6 +459,9 @@ class Repository
                     'message' => 'The given data was invalid.',
                 ], 422));
             }
+        }else{
+            $msg_sent = 'SMS Sending Failed';
+            return $msg_sent;
         }        
     }
 
