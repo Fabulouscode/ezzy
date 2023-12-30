@@ -14,11 +14,12 @@ use App\Repositories\UserTransactionRepository;
 use App\Repositories\ChatHistoryRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\SupportRequestRepository;
+use App\Repositories\ContactDetailsRepository;
 use Helper;
 
 class DashboardController extends Controller
 {
-    private $support_request_repo,$user_repo, $category_repo,$order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo;
+    private $support_request_repo,$user_repo, $category_repo,$order_repo, $chat_history_repo, $medicine_details_repo, $appointment_repo, $medicine_category_repo, $medicine_subcategory_repo, $user_transaction_repo, $contact_form_repo;
 
     public function __construct(
         UserRepository $user_repo, 
@@ -30,7 +31,8 @@ class DashboardController extends Controller
         MedicineDetailsRepository $medicine_details_repo,
         UserTransactionRepository $user_transaction_repo,
         SupportRequestRepository $support_request_repo,
-        ChatHistoryRepository $chat_history_repo
+        ChatHistoryRepository $chat_history_repo,
+        ContactDetailsRepository $contact_form_repo
         )
     {
         $this->user_repo = $user_repo;
@@ -43,6 +45,7 @@ class DashboardController extends Controller
         $this->category_repo = $category_repo;
         $this->support_request_repo = $support_request_repo;
         $this->chat_history_repo = $chat_history_repo;
+        $this->contact_form_repo = $contact_form_repo;
     }
      
     /**
@@ -308,6 +311,8 @@ class DashboardController extends Controller
         $data['pending_healthcare_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(1);
         $data['pending_pharmacy_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(2);
         $data['pending_laboratories_count'] = $this->user_repo->getCompletedProfileUserParentCategoryWiseCount(3);
+        $data['pending_order_count'] = $this->order_repo->getOrderPendingCount();
+        $data['pending_contact_form_count'] = $this->contact_form_repo->getContactFormCount();
         return response()->json(['status'=>true,'data'=>$data], 200);
     }
 

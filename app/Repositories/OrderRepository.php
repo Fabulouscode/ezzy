@@ -565,4 +565,13 @@ class OrderRepository extends Repository
         return $this->model->where('client_id', $client_id)->where('voucher_code_id', $voucher_id)->first();   
     }
 
+    public function getOrderPendingCount()
+    {   
+        $query = $this->model;
+        
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id')->whereNotIn('status',['1','2'])->count();
+        
+        return $query; 
+    }
+
 }

@@ -83,4 +83,12 @@ class ContactDetailsRepository extends Repository
                 ->make(true);;
     }
     
+    public function getContactFormCount()
+    {   
+        $query = $this->model;
+        
+        $query = $query->whereDate('created_at',Carbon::now())->count();
+        
+        return $query; 
+    }
 }

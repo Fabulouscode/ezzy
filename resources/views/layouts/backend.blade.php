@@ -203,12 +203,16 @@ function getSidebarPendingTicket() {
                 $('#HealthcareProviderPendingCount').text(data.data.pending_healthcare_count);
                 $('#LaboratoriesPendingCount').text(data.data.pending_laboratories_count);
                 $('#PharmacyPendingCount').text(data.data.pending_pharmacy_count);
+                $('#OrderPendingCount').text(data.data.pending_order_count);
+                $('#ContactFormCount').text(data.data.pending_contact_form_count);
             }else{
                 $('#SupportPendingTicketCount').text(0);
                 $('#AppointmentPendingCount').text(0);
                 $('#HealthcareProviderPendingCount').text(0);
                 $('#LaboratoriesPendingCount').text(0);
                 $('#PharmacyPendingCount').text(0);
+                $('#OrderPendingCount').text(0);
+                $('#ContactFormCount').text(0);
             }
 
         },
