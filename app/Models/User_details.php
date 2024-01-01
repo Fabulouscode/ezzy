@@ -131,7 +131,12 @@ class User_details extends Model
     }
     public function getTotalExperianceYearAttribute($value) {
       $currentYear = date('Y');
-      return !empty($this->registration_year) ?  $currentYear - $this->registration_year : $value;
+      if(!empty($this->registration_year)){
+        $totalYears = $currentYear - $this->registration_year;
+      }else{
+        $totalYears = $value;
+      }
+      return strval($totalYears);
     }
     public function getUrgentCriteriaAttribute($value) {
       $data = [];
