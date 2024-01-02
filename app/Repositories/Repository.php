@@ -375,11 +375,11 @@ class Repository
                     $responseData = json_decode($response, true);
                     if ($responseData['status'] == 'queued') {
                         Log::info('twilio sms send');
-                        Log::info($responseArr);
+                        Log::info($responseData);
                         return '';
                     } else {
                         Log::info('twilio sms not send');
-                        Log::info($responseArr);
+                        Log::info($responseData);
                         $msg_sent = 'SMS Sending Failed';
                         return $msg_sent;
                     }
