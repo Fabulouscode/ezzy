@@ -733,6 +733,7 @@ class UserAuthController extends BaseApiController
         $country_code='+91';
         $mobile_no='80008655549';
         $message = 'Your OTP for ['.config('app.name').'] is: 111111';
+        dd($message);
         $sent_msg = $this->user_repo->sendMessage($message, $country_code.$mobile_no); 
         dd($sent_msg);
     }
