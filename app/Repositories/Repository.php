@@ -353,7 +353,7 @@ class Repository
                 // Initialize cURL
                 $ch = curl_init();
                 // Set cURL options
-                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_URL, $endpoint);
                 curl_setopt($ch, CURLOPT_POST, true);  // Use POST method
                 curl_setopt($ch, CURLOPT_USERPWD, "{$account_sid}:{$auth_token}");  
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
