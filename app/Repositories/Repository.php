@@ -347,46 +347,46 @@ class Repository
                 ], 422));
             }
 
-            $endpoint = "https://api.twilio.com/2010-04-01/Accounts/".$account_sid."/Messages.json";
+            // $endpoint = "https://api.twilio.com/2010-04-01/Accounts/".$account_sid."/Messages.json";
             try{
                 
-                // Initialize cURL
-                $ch = curl_init();
-                // Set cURL options
-                curl_setopt($ch, CURLOPT_URL, $endpoint);
-                curl_setopt($ch, CURLOPT_POST, true);  // Use POST method
-                curl_setopt($ch, CURLOPT_USERPWD, "{$account_sid}:{$auth_token}");  
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
-                    'From' => $twilio_number,
-                    'Body' => $message,
-                    'To' => $recipients
-                )));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Return response as string
-                // Execute the request
-                $response = curl_exec($ch);
+                // // Initialize cURL
+                // $ch = curl_init();
+                // // Set cURL options
+                // curl_setopt($ch, CURLOPT_URL, $endpoint);
+                // curl_setopt($ch, CURLOPT_POST, true);  // Use POST method
+                // curl_setopt($ch, CURLOPT_USERPWD, "{$account_sid}:{$auth_token}");  
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+                //     'From' => $twilio_number,
+                //     'Body' => $message,
+                //     'To' => $recipients
+                // )));
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Return response as string
+                // // Execute the request
+                // $response = curl_exec($ch);
                 
-                if (curl_errno($ch)) {
-                    Log::info('twilio sms not send');
-                    Log::info($ch);
-                    $msg_sent = 'SMS Sending Failed';
-                    return $msg_sent;
-                } else {
-                    // Handle the response
-                    $responseData = json_decode($response, true);
-                    if ($responseData['status'] == 'queued') {
-                        Log::info('twilio sms send');
-                        Log::info($responseData);
-                        return '';
-                    } else {
-                        Log::info('twilio sms not send');
-                        Log::info($responseData);
-                        $msg_sent = 'SMS Sending Failed';
-                        return $msg_sent;
-                    }
-                }
-                // $client = new Client($account_sid, $auth_token);
+                // if (curl_errno($ch)) {
+                //     Log::info('twilio sms not send');
+                //     Log::info($ch);
+                //     $msg_sent = 'SMS Sending Failed';
+                //     return $msg_sent;
+                // } else {
+                //     // Handle the response
+                //     $responseData = json_decode($response, true);
+                //     if ($responseData['status'] == 'queued') {
+                //         Log::info('twilio sms send');
+                //         Log::info($responseData);
+                //         return '';
+                //     } else {
+                //         Log::info('twilio sms not send');
+                //         Log::info($responseData);
+                //         $msg_sent = 'SMS Sending Failed';
+                //         return $msg_sent;
+                //     }
+                // }
+                $client = new Client($account_sid, $auth_token);
 
-                // $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
+                $client->messages->create($recipients,  ['from' => $twilio_number, 'body' => $message] );
                 return '';
              }catch(\Exception $e){
                 Log::info('twilio sms send');
