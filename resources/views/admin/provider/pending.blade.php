@@ -42,6 +42,20 @@
                         <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                     <!-- Custom Filter -->
+                    @if (!@empty($provider) && $provider == 'healthcare')    
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportPendingHCPExcel()" class="btn btn-info">Export</a>
+                    </div>
+                    @elseif (!@empty($provider) && $provider == 'pharmacy')
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportPendingPharmacistExcel()" class="btn btn-info">Export</a>
+                    </div>
+                    @elseif (!@empty($provider) && $provider == 'laboratories')
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportPendingLaboratoriesExcel()" class="btn btn-info">Export</a>
+                    </div>
+                    @endif
+                    
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
@@ -91,9 +105,11 @@
                                         <option value="50">50 %</option>
                                     </select>                                
                                 </div>
-                            </div>   
+                            </div>
+                               
                         </div>
                     </div>
+                    
 
                     <div class="table-responsive">
                         <table id="user_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -127,6 +143,9 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
+    var pending_hcp_url = "{{url('/donotezzycaretouch/healthcare/user/pending')}}";
+    var pending_pharma_url = "{{url('/donotezzycaretouch/pharmacy/user/pending')}}";
+    var pending_lab_url = "{{url('/donotezzycaretouch/pharmacy/user/pending')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';

@@ -28,6 +28,9 @@
                         <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                     <!-- Custom Filter -->
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="pharmacyOrderExportExcel()" class="btn btn-info">Export</a>
+                    </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">                               
@@ -79,6 +82,7 @@
 @section('script')
 <script>
     var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
+    var pharmacy_order_export_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
     var data_user_id = '';
 </script>
 <script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>

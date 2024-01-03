@@ -112,6 +112,7 @@ class UserController extends Controller
      */
     public function getDatatable(Request $request)
     {
+        // dd($request->all());
         if($request->all()){
            return $this->user_repo->getDatatable($request);
         }

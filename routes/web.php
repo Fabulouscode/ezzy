@@ -102,12 +102,19 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::post('user/services/data', 'UserController@showHCPService');
  
         Route::get('customer/patient', 'UserController@index')->middleware('role-permission:patients-list');
+        Route::post('customer/patient/export', 'ExportController@exportPatient');
         Route::get('customer/patient/{id?}', 'UserController@showPatient')->middleware('role-permission:patients-list');
         Route::get('customer/patient/edit/{id?}', 'UserController@editPatient')->middleware('role-permission:patients-edit');
         Route::get('customer/patient/account/payment/{id?}', 'UserController@showPatientTransaction')->middleware('role-permission:patients-list');
         
         Route::get('{provider?}/user', 'UserController@index')->middleware('role-permission:{provider}-list');
+        Route::post('{provider?}/user/hcp_export', 'ExportController@exportApprovedHCPExcel');
+        Route::post('{provider?}/user/pharma_export', 'ExportController@exportApprovedPharmacistExcel');
+        Route::post('{provider?}/user/lab_export', 'ExportController@exportApprovedLaboratoriesExcel');
         Route::get('{provider?}/user/pending', 'UserController@getPending')->middleware('role-permission:{provider}-list');
+        Route::post('{provider?}/user/pending/hcp_export', 'ExportController@exportPendingHCPExcel');
+        Route::post('{provider?}/user/pending/pharma_export', 'ExportController@exportPendingPharmacistExcel');
+        Route::post('{provider?}/user/pending/lab_export', 'ExportController@exportPendingLaboratoriesExcel');
         Route::get('{provider?}/user/{id?}', 'UserController@show')->middleware('role-permission:{provider}-list');
         Route::get('{provider?}/user/edit/{id?}', 'UserController@editUser')->middleware('role-permission:{provider}-edit');
         Route::get('{provider?}/user/account/payment/{id?}', 'UserController@showTransaction')->middleware('role-permission:{provider}-transaction');
@@ -130,7 +137,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // pharmacy order Details routes        
         Route::get('pharmacy/order/invoice/{id?}', 'OrderController@getInvoice')->middleware('role-permission:order-invoice');
         Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews')->middleware('role-permission:order-review');
-        Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');        
+        Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');
+        Route::post('pharmacy/order/export', 'ExportController@pharmacyOrderExportExcel');        
      
         // payout routes         
         Route::get('payout/pending', 'PayoutAmountController@getPendingPayout')->middleware('role-permission:payout-list');
@@ -189,7 +197,10 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('appointment/upcoming', 'AppointmentController@getUpcomingAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/cancel', 'AppointmentController@getCancelAppointments')->middleware('role-permission:appointments-list');
         Route::get('appointment/invoice/{id?}', 'AppointmentController@getInvoice')->middleware('role-permission:appointments-invoice');        
-        Route::get('appointment/edit/cancel/{id?}', 'AppointmentController@updateAppointmentCancel')->middleware('role-permission:appointments-edit');  
+        Route::get('appointment/edit/cancel/{id?}', 'AppointmentController@updateAppointmentCancel')->middleware('role-permission:appointments-edit');
+        Route::post('appointment/upcoming/export', 'ExportController@exportAppointmentUpcomingExcel');
+        Route::post('appointment/export', 'ExportController@exportAppointmentCompletedExcel');
+        Route::post('appointment/cancel/export', 'ExportController@exportAppointmentCancelExcel');  
         Route::resource('appointment', 'AppointmentController')->middleware('role-permission-resource:appointments-list');
 
         // Support request  routes       

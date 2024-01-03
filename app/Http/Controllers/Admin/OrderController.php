@@ -27,6 +27,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->all());
         if($request->all()){
             return $this->order_repo->getDatatable($request);
         }

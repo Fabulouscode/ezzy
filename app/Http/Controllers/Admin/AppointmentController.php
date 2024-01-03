@@ -37,6 +37,7 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->all());
         if ($request->all()) {
             return $this->appointment_repo->getDatatable($request);
         }
@@ -51,6 +52,7 @@ class AppointmentController extends Controller
      */
     public function getUpcomingAppointments()
     {
+                
         $categories = $this->category_repo->getByMultipleParentIds(['1','3']);
         $statuses = $this->appointment_repo->getStatusValue();
         return view('admin.appointment.upcoming', compact('categories','statuses'));
