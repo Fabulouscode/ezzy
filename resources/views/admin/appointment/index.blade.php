@@ -28,6 +28,10 @@
                         <a href="{{url('/donotezzycaretouch/category/create')}}" class="btn btn-info">Add Appointments</a>
                     </div> -->
                     <!-- Custom Filter -->
+
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportAppointmentCompletedExcel()" class="btn btn-info">Export</a>
+                    </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">                       
@@ -102,6 +106,7 @@
 @section('script')
 <script>
     var appointment_url = "{{url('/donotezzycaretouch/appointment')}}";
+    var appointment_completed_url = "{{url('/donotezzycaretouch/appointment')}}";
     var data_obj = {};
     var data_status = '5';
     var data_user_id = '';

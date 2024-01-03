@@ -160,3 +160,26 @@ function deleteRow(row_id) {
     }
 }
 
+function pharmacyOrderExportExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pharmacy_order_export_url + '/export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}

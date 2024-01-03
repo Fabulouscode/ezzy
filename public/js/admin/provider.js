@@ -258,6 +258,7 @@ $(function () {
     $('#user-date-range').daterangepicker({
         // startDate: moment().subtract(1, 'years'),
         // endDate: moment(),
+        
         maxDate: moment(),
         autoUpdateInput: false,
         locale: {
@@ -273,6 +274,7 @@ $(function () {
             'This Month': [moment().startOf('month'), moment().endOf('month')],
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
+        
     });
     $('#user-date-range').on('apply.daterangepicker', function (ev, picker) {
         $('#user_start_date').val(picker.startDate.format('YYYY-MM-DD'));
@@ -347,7 +349,7 @@ $(function () {
 function walletBalanceGet() {
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-        url: user_url + "/wallet_balance",
+        url: pending_hcp_url + "/wallet_balance",
         type: "post",
         dataType: 'json',
         data: {
@@ -572,4 +574,171 @@ function fileValidation(id_name) {
             reader.readAsDataURL(fileInput.files[0]);
         }
     }
+}
+function exportExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: patient_details_url + '/export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportPendingHCPExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pending_hcp_url + '/hcp_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportApprovedHCPExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: approved_details_url + '/hcp_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportPendingPharmacistExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pending_pharma_url + '/pharma_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportApprovedPharmacistExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: approved_pharma_details_url + '/pharma_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportPendingLaboratoriesExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pending_lab_url + '/lab_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportApprovedLaboratoriesExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: approved_lab_details_url + '/lab_export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
 }
