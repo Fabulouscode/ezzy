@@ -17,6 +17,7 @@ trait HasPermissionsTrait {
   }
 
   public function hasPermissionTo($permission) {
+
     foreach ($this->roles->permissions as $key => $value) {
       if (strtolower($value->permission_name) == strtolower($permission)) {
         return true;

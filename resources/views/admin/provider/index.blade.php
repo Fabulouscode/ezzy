@@ -47,7 +47,24 @@
                         <a href="{{url('/donotezzycaretouch/user/create')}}" class="btn btn-info">Add User</a>
                     </div> -->
                        <!-- Custom Filter -->
-                    <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
+                       @if(!empty($provider) && $provider == 'patients')
+                       <div class="block-options-item mb-3 mr-3 float-right">
+                           <a href="javascript:void(0)" onclick="exportExcel()" class="btn btn-info">Export</a>
+                       </div>
+                       @elseif (!empty($provider) && $provider == 'healthcare')
+                        <div class="block-options-item mb-3 mr-3 float-right">
+                           <a href="javascript:void(0)" onclick="exportApprovedHCPExcel()" class="btn btn-info">Export</a>
+                        </div>
+                        @elseif (!empty($provider) && $provider == 'pharmacy')
+                           <div class="block-options-item mb-3 mr-3 float-right">
+                              <a href="javascript:void(0)" onclick="exportApprovedPharmacistExcel()" class="btn btn-info">Export</a>
+                          </div>
+                          @elseif (!empty($provider) && $provider == 'laboratories')
+                          <div class="block-options-item mb-3 mr-3 float-right">
+                             <a href="javascript:void(0)" onclick="exportApprovedLaboratoriesExcel()" class="btn btn-info">Export</a>
+                         </div>  
+                       @endif
+                       <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
                             @if(!empty($provider) && $provider == 'healthcare')                        
@@ -106,6 +123,7 @@
                                     </div>
                                 </div>
                             @endif
+                            
                         </div>
                     </div>
 
@@ -142,6 +160,10 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
+    var patient_details_url = "{{url('/donotezzycaretouch/customer/patient')}}";
+    var approved_details_url = "{{url('/donotezzycaretouch/healthcare/user')}}";
+    var approved_pharma_details_url = "{{url('/donotezzycaretouch/pharmacy/user')}}";
+    var approved_lab_details_url = "{{url('/donotezzycaretouch/laboratories/user')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';
