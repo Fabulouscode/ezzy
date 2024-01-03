@@ -55,7 +55,10 @@
                         <a href="javascript:void(0)" onclick="exportPendingLaboratoriesExcel()" class="btn btn-info">Export</a>
                     </div>
                     @endif
+                    <div id="ajax_loader" class="text-center loader-wrapper">
+                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
                     
+                      </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
