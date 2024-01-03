@@ -50,27 +50,24 @@
                        @if(!empty($provider) && $provider == 'patients')
                        
                         <div class="block-options-item mb-3 mr-3 float-right">
-                            <a href="javascript:void(0)" onclick="exportExcel()" class="btn btn-info">Export</a>
+                            <a href="javascript:void(0)" onclick="exportExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
                         </div>
                         
                        
                        @elseif (!empty($provider) && $provider == 'healthcare')
                         <div class="block-options-item mb-3 mr-3 float-right">
-                           <a href="javascript:void(0)" onclick="exportApprovedHCPExcel()" class="btn btn-info">Export</a>
+                           <a href="javascript:void(0)" onclick="exportApprovedHCPExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
                         </div>
                         @elseif (!empty($provider) && $provider == 'pharmacy')
                            <div class="block-options-item mb-3 mr-3 float-right">
-                              <a href="javascript:void(0)" onclick="exportApprovedPharmacistExcel()" class="btn btn-info">Export</a>
+                              <a href="javascript:void(0)" onclick="exportApprovedPharmacistExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
                           </div>
                           @elseif (!empty($provider) && $provider == 'laboratories')
                           <div class="block-options-item mb-3 mr-3 float-right">
-                             <a href="javascript:void(0)" onclick="exportApprovedLaboratoriesExcel()" class="btn btn-info">Export</a>
+                             <a href="javascript:void(0)" onclick="exportApprovedLaboratoriesExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
                          </div>  
                        @endif
-                       <div id="ajax_loader" class="text-center loader-wrapper">
-                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
-                    
-                      </div>
+                       
                        <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
