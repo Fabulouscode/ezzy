@@ -27,6 +27,9 @@ $(function () {
                 filter_status: function () { return $('#searchByStatus').val() },               
                 subcategory_id: function () { return $('#searchByHcpType').val() }, 
                 completed_progress: function () { return $('#searchByHcpTypeProgress').val() }, 
+                country_id: function () { return $('#searchByCountry').val() }, 
+                city_id: function () { return $('#searchByCity').val() },
+                address: function () { return $('#searchByAddress').val() }, 
                 start_date: function () { return $('#user_start_date').val() },
                 end_date: function () { return $('#user_end_date').val() },                
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
@@ -257,7 +260,7 @@ $(function () {
     //     order: [[0, 'desc']]
     // });
 
-    $('#searchByHcpType, #searchByStatus, #searchByHcpTypeProgress').on('change', function (ev, picker) {
+    $('#searchByHcpType, #searchByStatus, #searchByHcpTypeProgress, #searchByCountry,#searchByCity,#searchByAddress').on('change', function (ev, picker) {
         var oTable = $('#user_datatable').dataTable();
         oTable.fnDraw(true);
     });
@@ -301,6 +304,9 @@ $(function () {
                 cancelLabel: 'Clear'
             },
             alwaysShowCalendars: true,
+            showDropdowns: true,
+            minDate: '1950-01-01',
+            maxDate: moment().endOf('month'),
             opens: "right",
             ranges: {
                 'Today': [moment(), moment()],
@@ -319,6 +325,36 @@ $(function () {
             oTable.fnDraw(true);
         });
     }
+
+    
+//   $(document).ready(function () {
+//     $('#user-birth-date-range').daterangepicker({
+//       autoUpdateInput: false,
+//       locale: {
+//         cancelLabel: 'Clear'
+//       },
+//       showDropdowns: true,
+//       minDate: '1950-01-01',
+//       maxDate: moment().endOf('month')
+//     });
+
+//     $('#user-birth-date-range').on('apply.daterangepicker', function (ev, picker) {
+//       $(this).val(picker.startDate.format('MMMM YYYY'));
+//     });
+
+//     $('#user-birth-date-range').on('cancel.daterangepicker', function () {
+//       $(this).val('');
+//     });
+
+//     $('#searchButton').on('click', function () {
+//       var selectedMonthYear = $('#user-birth-date-range').val();
+      
+//       // You can use the selectedMonthYear value in your search logic
+//       console.log('Search for: ' + selectedMonthYear);
+//     });
+//   });
+
+
 
 
     $('#transaction-date-range').daterangepicker({

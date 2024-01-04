@@ -3,12 +3,15 @@
 namespace App\Repositories;
 
 use App\Events\ForgotPassword;
+use App\Models\City;
+use App\Models\Country;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\User;
+use App\Models\User_details;
 use Illuminate\Support\Str;
 use App\Repositories\UserTransactionRepository;
 use Validator;
@@ -174,7 +177,32 @@ class UserRepository extends Repository
             $query = $query->whereNull('users.category_id');
             $query = $query->whereNull('users.subcategory_id');
         }
+        if(!empty($request->country_id)){
+            $cq = Country::find($request->country_id);
+            if(isset($cq)){
+                $query = $query->whereHas('userDetails', function($query) use($cq){
+                    $query->where('country',$cq->country_name);
+                });
+            }
+            
+        }
+        // dd($request->city_id);
+        if(!empty($request->city_id)){
+            $query = $query->whereHas('userDetails',function($query) use($request){
+                $query->where('city',$request->city_id);
+            });
+            
+        }
+        // dd($request->address);
+        if(!empty($request->address)){
+            $address = User_details::find($request->address);
+            if(isset($address)){
 
+                $query = $query->whereHas('userDetails',function($query) use($address){
+                    $query->where('address',$address->address);
+                });
+            }
+        }
         if(!empty($request->filter_status) || $request->filter_status == '0'){
             $query = $query->where('users.status', $request->filter_status);
         } 

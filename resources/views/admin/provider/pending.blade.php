@@ -55,10 +55,7 @@
                         <a href="javascript:void(0)" onclick="exportPendingLaboratoriesExcel()" class="btn btn-info">Export</a>
                     </div>
                     @endif
-                    <div id="ajax_loader" class="text-center loader-wrapper">
-                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
                     
-                      </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
@@ -109,7 +106,52 @@
                                     </select>                                
                                 </div>
                             </div>
-                               
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Country</label>
+                                    <select id="searchByCountry" name="country_id" class="form-control" required>
+                                        <option value="">Select Country</option>
+                                        @if(count($country))
+                                            @foreach($country as $c)
+                                            <option value="{{ $c->id }}">{{ $c->country_name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <select id="searchByAddress" name="address" class="form-control" required>
+                                        <option value="">Select Address</option>
+                                        @if(count($data))
+                                                    @foreach($data as $add)
+                                                    @if ($add->id && $add->address)
+                                                        
+                                                    <option value="{{ $add->id }}">{{ $add->address }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <select id="searchByCity" name="city_id" class="form-control" required>
+                                        <option value="">Select City</option>
+                                        @if(count($uniqueCities))
+                                            @foreach($uniqueCities as $city)
+                                            @if ($city)
+                                            <option value="{{ $city }}">{{ $city }}</option>    
+                                            @endif
+                                            
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                     
