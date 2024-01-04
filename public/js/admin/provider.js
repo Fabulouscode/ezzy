@@ -32,9 +32,6 @@ $(function () {
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
                 birth_end_date: function () { return $('#user_birth_end_date').val() }                  
             },
-            beforeSend:function(){
-                $('#ajax_loader').show();
-            },
             complete:function(){
                 $('#ajax_loader').hide();
             },

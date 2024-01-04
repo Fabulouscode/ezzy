@@ -25,9 +25,6 @@ $(function () {
                 urgent: function () { return $('#searchByAppointmentUrgent').val() },    
                 user_id: data_user_id   
             },
-            beforeSend:function(){
-                $('#ajax_loader').show();
-            },
             complete:function(){
                 $('#ajax_loader').hide();
             },

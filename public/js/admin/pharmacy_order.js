@@ -22,9 +22,7 @@ $(function () {
                 start_date: function () { return $('#start_date').val() },
                 user_id: data_user_id  
             },
-            beforeSend:function(){
-                $('#ajax_loader').show();
-            },
+            
             complete:function(){
                 $('#ajax_loader').hide();
             },
