@@ -241,8 +241,10 @@ class AppointmentRepository extends Repository
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('appointments.created_at', '>=',$request->start_date)->whereDate('appointments.created_at' , '<=',$request->end_date);
         }
-        dd($request->appointment_completed_start_date.'-'.$request->appointment_completed_end_date );
-
+        
+        if(!empty($request->appointment_completed_start_date) && !empty($request->appointment_completed_end_date)){
+            $query = $query->whereDate('appointments.completed_datetime','>=',$request->appointment_completed_start_date)->whereDate('appointments.completed_datetime','<=',$request->appointment_completed_end_date);
+        }
  
         $query = $query->leftJoin('users as user', 'appointments.user_id', '=', 'user.id')
         ->leftJoin('users as client', 'appointments.client_id', '=', 'client.id')

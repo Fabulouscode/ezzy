@@ -27,12 +27,8 @@ $(function () {
                 urgent: function () { return $('#searchByAppointmentUrgent').val() },    
                 user_id: data_user_id   
             },
-            beforeSend:function(){
-                $('#ajax_loader').show();
-            },
-            complete:function(){
-                $('#ajax_loader').hide();
-            },
+            
+            
         },
         columns: [
             { data: 'id', name: 'appointments.id', searchable: false },
@@ -190,8 +186,8 @@ $(function () {
         
     });
     $('#appointment-completed-date-range').on('apply.daterangepicker', function (ev, picker) {
-        $('#start_date').val(picker.startDate.format('YYYY-MM-DD'));
-        $('#end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $('#appointment_completed_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#appointment_completed_end_date').val(picker.endDate.format('YYYY-MM-DD'));
         $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         var oTable = $('#appointments_datatable').dataTable();
         oTable.fnDraw(true);
@@ -292,12 +288,7 @@ function exportAppointmentUpcomingExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -322,12 +313,7 @@ function exportAppointmentCompletedExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -352,12 +338,7 @@ function exportAppointmentCancelExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }

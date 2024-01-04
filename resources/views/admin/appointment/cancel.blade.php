@@ -31,10 +31,7 @@
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="exportAppointmentCancelExcel()" class="btn btn-info">Export</a>
                     </div>
-                    <div id="ajax_loader" class="text-center loader-wrapper">
-                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
                     
-                      </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">                       

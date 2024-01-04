@@ -211,6 +211,10 @@ class UserRepository extends Repository
             $query = $query->whereDate('users.created_at', '>=',$request->start_date)->whereDate('users.created_at' , '<=',$request->end_date);
         }
 
+        if(!empty($request->user_approved_start_date) && !empty($request->user_approved_end_date)){
+            $query = $query->whereDate('users.approved_date','>=',$request->user_approved_start_date)->whereDate('users.approved_date','<=',$request->user_approved_end_date);
+        }
+
         $query = $query->leftJoin('categories as categoryParent', 'users.category_id', '=', 'categoryParent.id')
                         ->leftJoin('categories as categoryChild', 'users.subcategory_id', '=', 'categoryChild.id')
                         ->leftJoin('user_details as userDetails', 'users.id', '=', 'userDetails.user_id');

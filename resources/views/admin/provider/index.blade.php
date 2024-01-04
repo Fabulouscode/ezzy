@@ -67,10 +67,7 @@
                              <a href="javascript:void(0)" onclick="exportApprovedLaboratoriesExcel()" class="btn btn-info">Export</a>
                          </div>  
                        @endif
-                       <div id="ajax_loader" class="text-center loader-wrapper">
-                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
-                    
-                      </div>
+                       
                        <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">  
@@ -86,6 +83,14 @@
                                         </select>                                
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div className="form-group">    
+                                        <label>HCP Approved Date</label>    
+                                        <input type="text" class="form-control" name="date_range" id="user-approved-date-range"  />
+                                        <input type="hidden" class="form-control" id="user_approved_start_date" name="user_approved_start_date" />
+                                        <input type="hidden" class="form-control" id="user_approved_end_date" name="user_approved_end_date"  />     
+                                    </div>
+                                </div>     
                             @elseif(!empty($provider) && $provider == 'laboratories')
                                 <div class="col-md-3">
                                     <div className="form-group">
@@ -101,7 +106,13 @@
                             @endif
                             <div class="col-md-3">
                                 <div className="form-group">
-                                    <label>Date Range</label>
+                                    {{-- @if(!empty($provider) && $provider == 'healthcare') --}}
+                                    @if (!empty($provider) && $provider == 'healthcare')
+                                    <label>HCP Joining Date</label>    
+                                    @else
+                                    <label>Date Range</label>    
+                                    @endif
+                                    
                                     <input type="text" class="form-control" name="date_range" id="user-date-range"  />
                                     <input type="hidden" class="form-control" id="user_start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
@@ -130,6 +141,7 @@
                                     </div>
                                 </div>
                             @endif
+                            @if (!empty($provider) && $provider == 'healthcare' || $provider == 'pharmacy' || $provider == 'laboratories')
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Country</label>
@@ -174,7 +186,9 @@
                                         @endif
                                     </select>
                                 </div>
-                            </div>
+                            </div>    
+                            @endif
+                            
                         </div>
                     </div>
 

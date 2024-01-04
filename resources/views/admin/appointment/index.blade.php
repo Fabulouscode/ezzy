@@ -32,10 +32,7 @@
                     <div class="block-options-item mb-3 mr-3 float-right">
                         <a href="javascript:void(0)" onclick="exportAppointmentCompletedExcel()" class="btn btn-info">Export</a>
                     </div>
-                    <div id="ajax_loader" class="text-center loader-wrapper">
-                        <img src="{{asset('images/ajax-loader.gif')}}" style="width: 40px" alt="ajax-loader" >
                     
-                      </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">                       
@@ -92,7 +89,7 @@
                                     <label>Appointment Completed Date</label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-completed-date-range"  />
                                     <input type="hidden" class="form-control" id="appointment_completed_start_date" name="appointment_completed_start_date" />
-                                    <input type="hidden" class="form-control" id="appointmnet_completed_end_date" name="appointment_completed_end_date"  />     
+                                    <input type="hidden" class="form-control" id="appointment_completed_end_date" name="appointment_completed_end_date"  />     
                                 </div>
                             </div>
                         </div>

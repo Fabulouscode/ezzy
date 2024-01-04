@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\User_details;
 use App\Repositories\UserTransactionRepository;
@@ -79,10 +78,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($provider = 'patients')
-    {   
+    {           
         $country = Country::get();
+        $data = User_details::get();
         $uniqueCities = User_details::distinct()->pluck('city');
-        $data = User_details::get();        
         $categories = [];
         if($provider == 'healthcare'){
             $categories = $this->category_repo->getByParentId('1');
@@ -90,7 +89,7 @@ class UserController extends Controller
             $categories = $this->category_repo->getByParentId('3');
         }
         $provider_names = $this->user_repo->provider_name;
-        return view('admin.provider.index', compact('provider','provider_names','categories','country','uniqueCities','data'));
+        return view('admin.provider.index', compact('provider','uniqueCities','country','data','provider_names','categories'));
     }
     
     /**
@@ -101,10 +100,8 @@ class UserController extends Controller
     public function getPending($provider = '')
     {
         $country = Country::get();
-        
-        $uniqueCities = User_details::distinct()->pluck('city');
-        // dd($uniqueCities);
         $data = User_details::get();
+        $uniqueCities = User_details::distinct()->pluck('city');
         $categories = [];
         if($provider == 'healthcare'){
             $categories = $this->category_repo->getByParentId('1');
