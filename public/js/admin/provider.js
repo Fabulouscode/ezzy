@@ -37,6 +37,9 @@ $(function () {
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
                 birth_end_date: function () { return $('#user_birth_end_date').val() }                  
             },
+            complete: function() {
+                $('#ajax_loader').hide();
+            },
         },        
         columns: [
             { data: 'id', name: 'users.id', searchable: false },
@@ -660,6 +663,12 @@ function exportExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
@@ -685,7 +694,12 @@ function exportPendingHCPExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -710,7 +724,12 @@ function exportApprovedHCPExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -735,7 +754,12 @@ function exportPendingPharmacistExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -760,7 +784,12 @@ function exportApprovedPharmacistExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -785,7 +814,12 @@ function exportPendingLaboratoriesExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -810,7 +844,12 @@ function exportApprovedLaboratoriesExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },       
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }

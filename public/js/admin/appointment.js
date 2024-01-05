@@ -26,6 +26,10 @@ $(function () {
                 appointment_type: function () { return $('#searchByAppointmentType').val() },    
                 urgent: function () { return $('#searchByAppointmentUrgent').val() },    
                 user_id: data_user_id   
+            },
+            
+            complete: function() {
+                $('#ajax_loader').hide();
             },            
         },
         columns: [
@@ -286,6 +290,12 @@ function exportAppointmentUpcomingExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
         
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
@@ -311,7 +321,13 @@ function exportAppointmentCompletedExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
+
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -336,7 +352,12 @@ function exportAppointmentCancelExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },       
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }

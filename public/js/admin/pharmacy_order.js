@@ -22,7 +22,12 @@ $(function () {
                 start_date: function () { return $('#start_date').val() },
                 user_id: data_user_id  
             },
+            
+            complete: function() {
+                $('#ajax_loader').hide();
+            },
         },
+        
         columns: [
             { data: 'id', name: 'orders.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
@@ -177,6 +182,12 @@ function pharmacyOrderExportExcel() {
             toastr.success(response.msg, App_name_global);
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
+        },
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
         },
         
         error: function (error) {
