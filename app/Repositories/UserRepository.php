@@ -177,6 +177,7 @@ class UserRepository extends Repository
             $query = $query->whereNull('users.category_id');
             $query = $query->whereNull('users.subcategory_id');
         }
+        // dd($request->country_id);
         if(!empty($request->country_id)){
             $cq = Country::find($request->country_id);
             if(isset($cq)){

@@ -109,7 +109,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Country</label>
-                                    <select id="searchByCountry" name="country_id" class="form-control" required>
+                                    <select id="searchByCountry" name="country_id" class="form-control searchByCountry" required>
                                         <option value="">Select Country</option>
                                         @if(count($country))
                                             @foreach($country as $c)

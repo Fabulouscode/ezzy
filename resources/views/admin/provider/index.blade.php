@@ -175,12 +175,12 @@
                                 <div class="form-group">
                                     <label>Address</label>
                                     <select id="searchByAddress" name="address" class="form-control" required>
-                                        <option value="">Select Address</option>
+                                        <option style="width: 240px" value="">Select Address</option>
                                         @if(count($data))
                                                     @foreach($data as $add)
                                                     @if ($add->id && $add->address)
                                                         
-                                                    <option value="{{ $add->id }}">{{ $add->address }}</option>
+                                                    <option style="width: 240px" value="{{ $add->id }}">{{ $add->address }}</option>
                                                     @endif
                                                     @endforeach
                                                 @endif
@@ -273,6 +273,10 @@
         data_provider = 'patients';           
         data_obj = {'status':['0','2'], 'category_id':'', 'provider':'patients'};
     }
+
+    $("#searchByCountry").change(function(){
+        console.log($(this));
+    })
     
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
