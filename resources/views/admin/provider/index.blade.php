@@ -140,6 +140,22 @@
                                         <input type="hidden" class="form-control" id="user_birth_end_date" name="birth_end_date"  />     
                                     </div>
                                 </div>
+                                
+                                <div class="col-md-3">
+                                    <div className="form-group">
+                                        <label>DOB By Month</label>
+                                        <input type="text" id="datepicker-month" name="dob_month" class="form-control" />
+                                             
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div className="form-group">
+                                        <label>DOB By year</label>
+                                        <input type="text" id="datepicker-year" name="dob_year" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                
                             @endif
                             @if (!empty($provider) && $provider == 'healthcare' || $provider == 'pharmacy' || $provider == 'laboratories')
                             <div class="col-md-3">
@@ -211,7 +227,9 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>                        
+                                
                         </table>
+                        
                         
                     </div>
 
@@ -255,6 +273,7 @@
         data_provider = 'patients';           
         data_obj = {'status':['0','2'], 'category_id':'', 'provider':'patients'};
     }
+    
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection
