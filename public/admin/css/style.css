@@ -3016,3 +3016,8 @@ File: Responsive
   }
 }
 /*# sourceMappingURL=style.css.map */
+@media screen and (max-width: 991px) {
+  div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+    justify-content: start;
+  }
+}
