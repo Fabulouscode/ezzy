@@ -83,6 +83,14 @@
                                         </select>                                
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div className="form-group">    
+                                        <label>HCP Approved Date</label>    
+                                        <input type="text" class="form-control" name="date_range" id="user-approved-date-range"  />
+                                        <input type="hidden" class="form-control" id="user_approved_start_date" name="user_approved_start_date" />
+                                        <input type="hidden" class="form-control" id="user_approved_end_date" name="user_approved_end_date"  />     
+                                    </div>
+                                </div>     
                             @elseif(!empty($provider) && $provider == 'laboratories')
                                 <div class="col-md-3">
                                     <div className="form-group">
@@ -98,7 +106,13 @@
                             @endif
                             <div class="col-md-3">
                                 <div className="form-group">
-                                    <label>Date Range</label>
+                                    {{-- @if(!empty($provider) && $provider == 'healthcare') --}}
+                                    @if (!empty($provider) && $provider == 'healthcare')
+                                    <label>HCP Joining Date</label>    
+                                    @else
+                                    <label>Date Range</label>    
+                                    @endif
+                                    
                                     <input type="text" class="form-control" name="date_range" id="user-date-range"  />
                                     <input type="hidden" class="form-control" id="user_start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
@@ -126,6 +140,53 @@
                                         <input type="hidden" class="form-control" id="user_birth_end_date" name="birth_end_date"  />     
                                     </div>
                                 </div>
+                            @endif
+                            @if (!empty($provider) && $provider == 'healthcare' || $provider == 'pharmacy' || $provider == 'laboratories')
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Country</label>
+                                    <select id="searchByCountry" name="country_id" class="form-control" required>
+                                        <option value="">Select Country</option>
+                                        @if(count($country))
+                                            @foreach($country as $c)
+                                            <option value="{{ $c->id }}">{{ $c->country_name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <select id="searchByAddress" name="address" class="form-control" required>
+                                        <option value="">Select Address</option>
+                                        @if(count($data))
+                                                    @foreach($data as $add)
+                                                    @if ($add->id && $add->address)
+                                                        
+                                                    <option value="{{ $add->id }}">{{ $add->address }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <select id="searchByCity" name="city_id" class="form-control" required>
+                                        <option value="">Select City</option>
+                                        @if(count($uniqueCities))
+                                            @foreach($uniqueCities as $city)
+                                            @if ($city)
+                                            <option value="{{ $city }}">{{ $city }}</option>    
+                                            @endif
+                                            
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>    
                             @endif
                             
                         </div>

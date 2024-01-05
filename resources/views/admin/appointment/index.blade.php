@@ -70,14 +70,32 @@
                             </div>
                             <div class="col-md-3">
                                 <div className="form-group">
-                                    <label>Date Range</label>
+                                    <label>Appointment Created Date </label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-date-range"  />
                                     <input type="hidden" class="form-control" id="start_date" name="start_date" />
                                     <input type="hidden" class="form-control" id="end_date" name="end_date"  />     
                                 </div>
                             </div>
+                            {{-- <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Appointment Created Date</label>
+                                    <input type="text" class="form-control" name="date_range" id="appointment-created-date-range"  />
+                                    <input type="hidden" class="form-control" id="appointment_created_start_date" name="start_date" />
+                                    <input type="hidden" class="form-control" id="appointment_created_end_date" name="end_date"  />     
+                                </div>
+                            </div> --}}
+                            <div class="col-md-3">
+                                <div className="form-group">
+                                    <label>Appointment Completed Date</label>
+                                    <input type="text" class="form-control" name="date_range" id="appointment-completed-date-range"  />
+                                    <input type="hidden" class="form-control" id="appointment_completed_start_date" name="appointment_completed_start_date" />
+                                    <input type="hidden" class="form-control" id="appointment_completed_end_date" name="appointment_completed_end_date"  />     
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
+                    
 
                     <div class="table-responsive">
                         <table id="appointments_datatable" class="table ui-datatable table-striped table-bordered nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

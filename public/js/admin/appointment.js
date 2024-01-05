@@ -20,14 +20,13 @@ $(function () {
                 filter_status: function () { return $('#searchByStatus').val() },
                 category_id: function () { return $('#searchByHcpType').val() },     
                 end_date: function () { return $('#end_date').val() },
-                start_date: function () { return $('#start_date').val() },    
+                start_date: function () { return $('#start_date').val() },
+                appointment_completed_start_date: function () { return $('#appointment_completed_start_date').val() },
+                appointment_completed_end_date: function () { return $('#appointment_completed_end_date').val() },    
                 appointment_type: function () { return $('#searchByAppointmentType').val() },    
                 urgent: function () { return $('#searchByAppointmentUrgent').val() },    
                 user_id: data_user_id   
-            },
-            complete:function(){
-                $('#ajax_loader').hide();
-            },
+            },            
         },
         columns: [
             { data: 'id', name: 'appointments.id', searchable: false },
@@ -166,6 +165,34 @@ $(function () {
         // $('#user_transaction_datatable').DataTable().ajax.reload();
     });
 
+    $("#appointment-completed-date-range").daterangepicker({
+        maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
+        alwaysShowCalendars: true,
+        opens: "right",
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+        
+    });
+    $('#appointment-completed-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#appointment_completed_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#appointment_completed_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        var oTable = $('#appointments_datatable').dataTable();
+        oTable.fnDraw(true);
+        // $('#user_transaction_datatable').DataTable().ajax.reload();
+    });
+
+
 });
 
 function updateAppointmentCancel(row_id) {
@@ -259,12 +286,7 @@ function exportAppointmentUpcomingExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -289,12 +311,7 @@ function exportAppointmentCompletedExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -319,12 +336,7 @@ function exportAppointmentCancelExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }

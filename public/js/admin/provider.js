@@ -27,16 +27,17 @@ $(function () {
                 filter_status: function () { return $('#searchByStatus').val() },               
                 subcategory_id: function () { return $('#searchByHcpType').val() }, 
                 completed_progress: function () { return $('#searchByHcpTypeProgress').val() }, 
+                country_id: function () { return $('#searchByCountry').val() }, 
+                city_id: function () { return $('#searchByCity').val() },
+                address: function () { return $('#searchByAddress').val() }, 
                 start_date: function () { return $('#user_start_date').val() },
-                end_date: function () { return $('#user_end_date').val() },                
+                end_date: function () { return $('#user_end_date').val() },
+                user_approved_start_date: function () { return $('#user_approved_start_date').val() },
+                user_approved_end_date: function () { return $('#user_approved_end_date').val() },                
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
                 birth_end_date: function () { return $('#user_birth_end_date').val() }                  
             },
-            complete:function(){
-                $('#ajax_loader').hide();
-            },
-        },
-        
+        },        
         columns: [
             { data: 'id', name: 'users.id', searchable: false },
             { data: 'user_name', name: 'user_name' },
@@ -254,7 +255,7 @@ $(function () {
     //     order: [[0, 'desc']]
     // });
 
-    $('#searchByHcpType, #searchByStatus, #searchByHcpTypeProgress').on('change', function (ev, picker) {
+    $('#searchByHcpType, #searchByStatus, #searchByHcpTypeProgress, #searchByCountry,#searchByCity,#searchByAddress').on('change', function (ev, picker) {
         var oTable = $('#user_datatable').dataTable();
         oTable.fnDraw(true);
     });
@@ -288,6 +289,35 @@ $(function () {
         oTable.fnDraw(true);
     });
 
+    $('#user-approved-date-range').daterangepicker({
+        // startDate: moment().subtract(1, 'years'),
+        // endDate: moment(),
+        
+        maxDate: moment(),
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        },
+        alwaysShowCalendars: true,
+        opens: "right",
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+        
+    });
+    $('#user-approved-date-range').on('apply.daterangepicker', function (ev, picker) {
+        $('#user_approved_start_date').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#user_approved_end_date').val(picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        var oTable = $('#user_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
+
     if($("#user-birth-date-range")){
         $('#user-birth-date-range').daterangepicker({
             // startDate: moment().subtract(1, 'years'),
@@ -298,6 +328,9 @@ $(function () {
                 cancelLabel: 'Clear'
             },
             alwaysShowCalendars: true,
+            showDropdowns: true,
+            minDate: '1950-01-01',
+            maxDate: moment().endOf('month'),
             opens: "right",
             ranges: {
                 'Today': [moment(), moment()],
@@ -316,6 +349,36 @@ $(function () {
             oTable.fnDraw(true);
         });
     }
+
+    
+//   $(document).ready(function () {
+//     $('#user-birth-date-range').daterangepicker({
+//       autoUpdateInput: false,
+//       locale: {
+//         cancelLabel: 'Clear'
+//       },
+//       showDropdowns: true,
+//       minDate: '1950-01-01',
+//       maxDate: moment().endOf('month')
+//     });
+
+//     $('#user-birth-date-range').on('apply.daterangepicker', function (ev, picker) {
+//       $(this).val(picker.startDate.format('MMMM YYYY'));
+//     });
+
+//     $('#user-birth-date-range').on('cancel.daterangepicker', function () {
+//       $(this).val('');
+//     });
+
+//     $('#searchButton').on('click', function () {
+//       var selectedMonthYear = $('#user-birth-date-range').val();
+      
+//       // You can use the selectedMonthYear value in your search logic
+//       console.log('Search for: ' + selectedMonthYear);
+//     });
+//   });
+
+
 
 
     $('#transaction-date-range').daterangepicker({
@@ -597,12 +660,7 @@ function exportExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -627,12 +685,7 @@ function exportPendingHCPExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -657,12 +710,7 @@ function exportApprovedHCPExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -687,12 +735,7 @@ function exportPendingPharmacistExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -717,12 +760,7 @@ function exportApprovedPharmacistExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -747,12 +785,7 @@ function exportPendingLaboratoriesExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
@@ -777,12 +810,7 @@ function exportApprovedLaboratoriesExcel() {
             var oTable = $('#user_datatable').dataTable();
             oTable.fnDraw(true);
         },
-        beforeSend:function(){
-            $('#ajax_loader').show();
-        },
-        complete:function(){
-            $('#ajax_loader').hide();
-        },
+        
         error: function (error) {
             toastr.error(error.responseJSON.msg, App_name_global);
         }
