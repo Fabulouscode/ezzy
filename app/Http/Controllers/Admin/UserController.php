@@ -79,8 +79,10 @@ class UserController extends Controller
      */
     public function index($provider = 'patients')
     {           
-        $country = Country::get();
-        $data = User_details::get();
+        // $country = Country::get();
+        // $data = User_details::get();
+        $country = [];
+        $data = [];
         $uniqueCities = User_details::distinct()->pluck('city');
         $categories = [];
         if($provider == 'healthcare'){
@@ -99,8 +101,10 @@ class UserController extends Controller
      */
     public function getPending($provider = '')
     {
-        $country = Country::get();
-        $data = User_details::get();
+        // $country = Country::get();
+        // $data = User_details::get();
+        $country = [];
+        $data = [];
         $uniqueCities = User_details::distinct()->pluck('city');
         $categories = [];
         if($provider == 'healthcare'){
