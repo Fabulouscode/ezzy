@@ -35,7 +35,9 @@ $(function () {
                 user_approved_start_date: function () { return $('#user_approved_start_date').val() },
                 user_approved_end_date: function () { return $('#user_approved_end_date').val() },                
                 birth_start_date: function () { return $('#user_birth_start_date').val() },
-                birth_end_date: function () { return $('#user_birth_end_date').val() }                  
+                birth_end_date: function () { return $('#user_birth_end_date').val() },  
+                dob_month: function () { return $('#datepicker-month').val() },
+                dob_year: function () { return $('#datepicker-year').val() },                  
             },
             complete: function() {
                 $('#ajax_loader').hide();
@@ -352,8 +354,31 @@ $(function () {
             oTable.fnDraw(true);
         });
     }
-
+    $("#datepicker-month").datepicker({
+        format: "mm",
+        viewMode: "months", 
+        minViewMode: "months",
+        autoclose:true
+    }).on('changeDate',function(){
+        // let month = $
+        $(this).val();
+        var oTable = $('#user_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
     
+
+    $("#datepicker-year").datepicker({
+        format: "yyyy",
+        viewMode: "years", 
+        minViewMode: "years",
+        orientation:"left bottom",
+        autoclose:true
+    }).on('changeDate',function(){
+        // let month = $
+        $(this).val();
+        var oTable = $('#user_datatable').dataTable();
+        oTable.fnDraw(true);
+    });
 //   $(document).ready(function () {
 //     $('#user-birth-date-range').daterangepicker({
 //       autoUpdateInput: false,

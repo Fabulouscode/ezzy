@@ -3101,3 +3101,7 @@ File: Responsive
   background-color:#39f;
   color:white;
 }
+
+#AdvanceFiletrShow .form-group{
+  margin-bottom: 0px !important;
+}

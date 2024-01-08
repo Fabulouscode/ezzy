@@ -35,8 +35,8 @@
                     
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
-                        <div class="row mb-3">                       
-                            <div class="col-md-3">
+                        <div class="row">                       
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Hcp Type</label>
                                     <select id="searchByHcpType" name="category_id" class="form-control">
@@ -47,7 +47,7 @@
                                     </select>       
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Appointment Type</label>
                                     <select id="searchByAppointmentType" name="appointment_type" class="form-control">
@@ -58,7 +58,7 @@
                                     </select>       
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Appointment Urgent</label>
                                     <select id="searchByAppointmentUrgent" name="urgent" class="form-control">
@@ -68,7 +68,7 @@
                                     </select>       
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Appointment Created Date </label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-date-range"  />
@@ -84,7 +84,7 @@
                                     <input type="hidden" class="form-control" id="appointment_created_end_date" name="end_date"  />     
                                 </div>
                             </div> --}}
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Appointment Completed Date</label>
                                     <input type="text" class="form-control" name="date_range" id="appointment-completed-date-range"  />

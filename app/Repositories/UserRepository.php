@@ -241,6 +241,7 @@ class UserRepository extends Repository
         // $query = $query->orderBy('id','desc')->get();
         // print_r(DB::getQueryLog());
         // die;
+        // dd($request->dob_month);
         if(!empty($request->dob_month)){
             $query = $query->whereMonth('userDetails.dob',$request->dob_month);
         }
