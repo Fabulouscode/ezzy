@@ -188,3 +188,4 @@
             //$(".chat-scrollbar").mCustomScrollbar("scrollTo", "bottom");
         }
     }(window.jQuery);
+    

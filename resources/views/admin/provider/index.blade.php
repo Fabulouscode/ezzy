@@ -70,10 +70,10 @@
                        
                        <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
-                        <div class="row mb-3">  
+                        <div class="row">  
                             @if(!empty($provider) && $provider == 'healthcare')                        
-                                <div class="col-md-3">
-                                    <div className="form-group">
+                                <div class="col-md-3 mb-3">
+                                    <div className="form-group ">
                                         <label>HCP Type</label>
                                         <select id="searchByHcpType" name="subcategory_id" class="form-control">
                                             <option value=''>Select Hcp Type</option>
@@ -83,16 +83,16 @@
                                         </select>                                
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <div className="form-group">    
-                                        <label>HCP Approved Date</label>    
+                                        <label> Approved Date</label>    
                                         <input type="text" class="form-control" name="date_range" id="user-approved-date-range"  />
                                         <input type="hidden" class="form-control" id="user_approved_start_date" name="user_approved_start_date" />
                                         <input type="hidden" class="form-control" id="user_approved_end_date" name="user_approved_end_date"  />     
                                     </div>
                                 </div>     
                             @elseif(!empty($provider) && $provider == 'laboratories')
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <div className="form-group">
                                         <label>HCP Type</label>
                                         <select id="searchByHcpType" name="subcategory_id" class="form-control">
@@ -104,11 +104,11 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     {{-- @if(!empty($provider) && $provider == 'healthcare') --}}
                                     @if (!empty($provider) && $provider == 'healthcare')
-                                    <label>HCP Joining Date</label>    
+                                    <label> Joining Date</label>    
                                     @else
                                     <label>Date Range</label>    
                                     @endif
@@ -118,7 +118,7 @@
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
                                 </div>
                             </div>                       
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Status</label>
                                     <select id="searchByStatus" name="status" class="form-control">
@@ -132,7 +132,7 @@
                                 </div>
                             </div>
                             @if(!empty($provider) && $provider == 'patients')
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <div className="form-group">
                                         <label>Date of Birth</label>
                                         <input type="text" class="form-control" name="birth_date_range" id="user-birth-date-range"  />
@@ -140,9 +140,25 @@
                                         <input type="hidden" class="form-control" id="user_birth_end_date" name="birth_end_date"  />     
                                     </div>
                                 </div>
+                                
+                                <div class="col-md-3 mb-3">
+                                    <div className="form-group">
+                                        <label>DOB By Month</label>
+                                        <input type="text" id="datepicker-month" name="dob_month" class="form-control" />
+                                             
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div className="form-group">
+                                        <label>DOB By year</label>
+                                        <input type="text" id="datepicker-year" name="dob_year" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                
                             @endif
                             @if (!empty($provider) && $provider == 'healthcare' || $provider == 'pharmacy' || $provider == 'laboratories')
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>Country</label>
                                     <select id="searchByCountry" name="country_id" class="form-control" required>
@@ -155,23 +171,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>Address</label>
                                     <select id="searchByAddress" name="address" class="form-control" required>
-                                        <option value="">Select Address</option>
+                                        <option style="width: 240px" value="">Select Address</option>
                                         @if(count($data))
                                                     @foreach($data as $add)
                                                     @if ($add->id && $add->address)
                                                         
-                                                    <option value="{{ $add->id }}">{{ $add->address }}</option>
+                                                    <option style="width: 240px" value="{{ $add->id }}">{{ $add->address }}</option>
                                                     @endif
                                                     @endforeach
                                                 @endif
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>City</label>
                                     <select id="searchByCity" name="city_id" class="form-control" required>
@@ -211,7 +227,9 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>                        
+                                
                         </table>
+                        
                         
                     </div>
 
@@ -255,6 +273,11 @@
         data_provider = 'patients';           
         data_obj = {'status':['0','2'], 'category_id':'', 'provider':'patients'};
     }
+
+    $("#searchByCountry").change(function(){
+        console.log($(this));
+    })
+    
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
 @endsection

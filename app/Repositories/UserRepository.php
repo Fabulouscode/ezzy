@@ -177,6 +177,7 @@ class UserRepository extends Repository
             $query = $query->whereNull('users.category_id');
             $query = $query->whereNull('users.subcategory_id');
         }
+        // dd($request->country_id);
         if(!empty($request->country_id)){
             $cq = Country::find($request->country_id);
             if(isset($cq)){
@@ -186,14 +187,14 @@ class UserRepository extends Repository
             }
             
         }
-        // dd($request->city_id);
+        
         if(!empty($request->city_id)){
             $query = $query->whereHas('userDetails',function($query) use($request){
                 $query->where('city',$request->city_id);
             });
             
         }
-        // dd($request->address);
+        
         if(!empty($request->address)){
             $address = User_details::find($request->address);
             if(isset($address)){
@@ -203,6 +204,7 @@ class UserRepository extends Repository
                 });
             }
         }
+        
         if(!empty($request->filter_status) || $request->filter_status == '0'){
             $query = $query->where('users.status', $request->filter_status);
         } 
@@ -231,9 +233,18 @@ class UserRepository extends Repository
                 $query = $query->where('users.completed_percentage' , '>=',$request->completed_progress);
             }    
         }
+
+        if(!empty($request->dob_year)){
+            $query = $query->whereYear('userDetails.dob',$request->dob_year);
+        }
+        
         // $query = $query->orderBy('id','desc')->get();
         // print_r(DB::getQueryLog());
         // die;
+        // dd($request->dob_month);
+        if(!empty($request->dob_month)){
+            $query = $query->whereMonth('userDetails.dob',$request->dob_month);
+        }
         return $query;
     }
     

@@ -59,9 +59,9 @@
                     
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
-                        <div class="row mb-3">  
+                        <div class="row">  
                             @if(!empty($provider) && $provider == 'healthcare')                        
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <div className="form-group">
                                         <label>HCP Type</label>
                                         <select id="searchByHcpType" name="subcategory_id" class="form-control">
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             @elseif(!empty($provider) && $provider == 'laboratories')
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <div className="form-group">
                                         <label>HCP Type</label>
                                         <select id="searchByHcpType" name="subcategory_id" class="form-control">
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Date Range</label>
                                     <input type="text" class="form-control" name="date_range" id="user-date-range"  />
@@ -93,7 +93,7 @@
                                     <input type="hidden" class="form-control" id="user_end_date" name="end_date"  />     
                                 </div>
                             </div>    
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div className="form-group">
                                     <label>Profile Completed Percentage</label>
                                     <select id="searchByHcpTypeProgress" name="completed_percentage" class="form-control">
@@ -107,10 +107,10 @@
                                     </select>                                
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>Country</label>
-                                    <select id="searchByCountry" name="country_id" class="form-control" required>
+                                    <select id="searchByCountry" name="country_id" class="form-control searchByCountry" required>
                                         <option value="">Select Country</option>
                                         @if(count($country))
                                             @foreach($country as $c)
@@ -120,7 +120,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>Address</label>
                                     <select id="searchByAddress" name="address" class="form-control" required>
@@ -136,7 +136,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label>City</label>
                                     <select id="searchByCity" name="city_id" class="form-control" required>
