@@ -16,6 +16,8 @@ use App\Exports\PendingHCPDetailsExport;
 use App\Exports\PendingLaboratoriesDetailsExport;
 use App\Exports\PendingPharmacistDetailsExport;
 use App\Exports\PharmacyOrderDetailsExport;
+use App\Exports\UserApprovedPayoutExport;
+use App\Exports\UserPayoutTransactionListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Svg\Tag\Rect;
 
@@ -130,5 +132,41 @@ class ExportController extends Controller
         );
         $notification_msg = 'Pharmacy Order details export successfully.';
         return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);
+    }
+
+    public function getApprovedPayoutExport(Request $request){
+        // dd($request->category_id);
+        if(!empty($request->category_id)){
+            $approved_payout_file = Excel::raw(new UserApprovedPayoutExport($request->category_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $approved_payout_file = Excel::raw(new UserApprovedPayoutExport, \Maatwebsite\Excel\Excel::XLSX);
+        }
+
+        $response =  array(
+            'name' => "approved_payout_users", //no extention needed
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($approved_payout_file) //mime type of used format
+        );
+            
+        $notification_msg = 'Approved Payout success';
+    
+        return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);        
+    }
+
+    public function getPayoutTransactionListExport(Request $request){
+        // dd($request->category_id);
+        if(!empty($request->category_id)){
+            $payout_transaction_file = Excel::raw(new UserPayoutTransactionListExport, \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $payout_transaction_file = Excel::raw(new UserPayoutTransactionListExport, \Maatwebsite\Excel\Excel::XLSX);
+        }
+
+        $response =  array(
+            'name' => "payout_transaction_list", //no extention needed
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($payout_transaction_file) //mime type of used format
+        );
+            
+        $notification_msg = 'Payout Transaction List success';
+    
+        return response()->json(['data'=>$response, 'msg'=>$notification_msg], 200);        
     }
 }

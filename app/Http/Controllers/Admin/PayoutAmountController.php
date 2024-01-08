@@ -200,6 +200,7 @@ class PayoutAmountController extends Controller
      */
     public function getPayoutExport(Request $request)
     {
+        // dd($request->transaction_ids);
         if(!empty($request->transaction_ids)){
             $payout_file = Excel::raw(new UserPayoutExport($request->transaction_ids), \Maatwebsite\Excel\Excel::XLSX);
         }else{
