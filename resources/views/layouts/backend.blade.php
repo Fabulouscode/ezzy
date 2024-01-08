@@ -166,6 +166,7 @@
 
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>
+        <script src="{{ asset('admin/js/customSelect.js') }}"></script>
 
 <script>
 $(function () {

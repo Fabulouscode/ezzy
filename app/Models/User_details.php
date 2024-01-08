@@ -150,5 +150,6 @@ class User_details extends Model
       }
       return $data;
     }
+    
 
 }
