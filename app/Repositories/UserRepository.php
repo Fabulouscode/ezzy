@@ -223,7 +223,7 @@ class UserRepository extends Repository
                         
        
         if(!empty($request->birth_start_date) && !empty($request->birth_end_date)){
-            $query = $query->whereYear('userDetails.dob', '>=',$request->birth_start_date)->whereDate('userDetails.dob' , '<=',$request->birth_end_date);
+            $query = $query->whereDate('userDetails.dob', '>=',$request->birth_start_date)->whereDate('userDetails.dob' , '<=',$request->birth_end_date);
         }
 
         if(!empty($request->completed_progress)){
