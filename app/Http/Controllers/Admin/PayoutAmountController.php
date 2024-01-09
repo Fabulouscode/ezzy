@@ -224,6 +224,7 @@ class PayoutAmountController extends Controller
      */
     public function getTransactionList(Request $request)
     {
+        // dd($request->category_id);
         $categories = $this->category_repo->getByMultipleParentIds(['1','2','3']);  
         return view('admin.payout.transaction_list', compact('categories'));
     }
@@ -241,6 +242,7 @@ class PayoutAmountController extends Controller
 
     public function getTransactionData(Request $request)
     {
+        // dd($request->start_date);
         if($request->all()){
             return $this->user_transaction_repo->getTransactionDatatable($request);
         }

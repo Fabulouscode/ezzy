@@ -90,13 +90,16 @@ $(function() {
             url: payout_url,
             type: "get",
             dataType: "json",
-            async: true,
             data: {
                 payout_status: payout_status,
                 category_id: function() {
                     return $("#searchByHcpType").val();
                 }
-            }
+            },
+            async: true,
+            complete:function(){
+                $("#ajax_loader").hide();
+            },
         },
         columns: [
             { data: "user_name", name: "user_name", title: "User Name" },
@@ -188,16 +191,19 @@ $(function() {
                     return $("#searchByHcpTypeTransaction").val();
                 },
                 end_date: function() {
-                    return $("#end_date").val();
+                    return $("#user_end_date").val();
                 },
                 start_date: function() {
-                    return $("#start_date").val();
+                    return $("#user_start_date").val();
                 },
                 transaction_msg: function() {
                     return $("#searchByTransactionMSG").val();
                 }
             },
-            async: true
+            async: true,
+            complete:function(){
+                $("#ajax_loader").hide();
+            }
         },
         columns: [
             { data: "id", name: "id", searchable: false },
@@ -259,7 +265,10 @@ $(function() {
                     return $("#deposit_user_start_date").val();
                 }
             },
-            async: true
+            async: true,
+            complete:function(){
+                $("#ajax_loader").hide();
+            }
         },
         columns: [
             { data: "id", name: "id", searchable: false },
@@ -648,17 +657,6 @@ function getUserDepositCalculate() {
 }
 
 function exportApprovedPayoutExcel() {
-    // payout_transaction = '';
-
-    // $("#searchByHcpType").on("change", function() {
-    //     let selectedValue = $(this).val();
-    //     console.log(selectedValue);
-    //     if (selectedValue) {
-    //         payout_transaction.push(selectedValue);
-    //     }
-    //     // console.log(payout_transaction);
-    // });
-
     $.ajax({
         headers: {
             "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
@@ -688,17 +686,6 @@ function exportApprovedPayoutExcel() {
 }
 
 function exportPayoutTransactionListExcel() {
-    // payout_transaction = '';
-
-    // $("#searchByHcpType").on("change", function() {
-    //     let selectedValue = $(this).val();
-    //     console.log(selectedValue);
-    //     if (selectedValue) {
-    //         payout_transaction.push(selectedValue);
-    //     }
-    //     // console.log(payout_transaction);
-    // });
-
     $.ajax({
         headers: {
             "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
@@ -706,7 +693,25 @@ function exportPayoutTransactionListExcel() {
         url: payout_export_url + "/export",
         type: "post",
         dataType: "json",
-        data: {},
+        data: {category_id:function(){
+            return $("#searchByHcpTypeTransaction").val();
+        },
+        start_date:function(){
+            return $("#user_start_date").val();
+        },  
+        end_date:function(){
+            return $("#user_end_date").val();
+        },  
+        transaction_msg:function(){
+            return $("#searchByTransactionMSG").val();
+        },  
+        },
+        beforeSend:function(){
+            $("#ajax_loader").show();
+        },
+        complete:function(){
+            $("#ajax_loader").hide();
+        },  
         success: function(response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -716,6 +721,46 @@ function exportPayoutTransactionListExcel() {
             a.remove();
             toastr.success(response.msg, App_name_global);
             var oTable = $("#transaction_datatable").dataTable();
+            oTable.fnDraw(true);
+        },
+
+        error: function(error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function exportPayoutDepositTransactionListExcel() {
+    $.ajax({
+        headers: {
+            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
+        },
+        url: payout_deposit_export_url + "/export",
+        type: "post",
+        dataType: "json",
+        data: {
+            start_date:function(){
+                return $("#deposit_user_start_date").val();
+            },
+            end_date:function(){
+                return $("#deposit_user_end_date").val();
+            }
+        },
+        beforeSend:function(){
+            $("#ajax_loader").show();
+        },
+        complete:function(){
+            $("#ajax_loader").hide();
+        },
+        success: function(response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $("#user_deposit_datatable").dataTable();
             oTable.fnDraw(true);
         },
 

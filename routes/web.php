@@ -153,6 +153,7 @@ Route::namespace('App\Http\Controllers')->group(function(){
 
         //
         Route::get('deposit/wallet/list', 'PayoutAmountController@getUserWalletDepositTransactionList');
+        Route::post('deposit/wallet/list/export','ExportController@getPayoutDepositTransactionListExport');
         Route::post('deposit/wallet/data', 'PayoutAmountController@getUserWalletDepositTransactionData');
         Route::post('deposit/wallet/calculate', 'PayoutAmountController@getUserWalletDepositTransactionCalculate');
         Route::get('transaction/list', 'PayoutAmountController@getTransactionList');

@@ -359,13 +359,37 @@ class UserTransactionRepository extends Repository
             });           
         }
 
+        
+
+
+        
+
+
+        // $transaction_msg_without_underscore = explode('_',$request->transaction_msg);
+        // $transaction_with_space = implode(' ',$transaction_msg_without_underscore);
+        // dd($transaction_with_space);
+        // // dd($request->start_date.'-'.$request->end_date);
         if(!empty($request->start_date) && !empty($request->end_date)){
             $query = $query->whereDate('user_transactions.transaction_date', '>=',$request->start_date)->whereDate('user_transactions.transaction_date' , '<=',$request->end_date);
         }
 
-        if(!empty($request->transaction_msg)){
-            $query = $query->where('user_transactions.transaction_msg', $request->transaction_msg);
+        if (strpos($request->transaction_msg, '_') !== false) {
+            
+            $explodedArray = explode("_", $request->transaction_msg);
+            $resultString = implode(" ", $explodedArray);
+            
+            if(!empty($resultString)){
+                $query = $query->where('user_transactions.transaction_msg', $resultString);
+            }
+            
+        } else {
+            if($request->transaction_msg){
+
+                $query = $query->where('user_transactions.transaction_msg',$request->transaction_msg);
+            }
         }
+        // dd($request->transaction_msg);
+        
         
         $query = $query->where('user_transactions.mode_of_payment', '1')->where('user_transactions.status', '0');
 

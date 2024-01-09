@@ -28,7 +28,7 @@
                         <a href="{{url('/donotezzycaretouch/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="javascript:void(0)" onclick="exportApprovedPayoutExcel()" class="btn btn-info">Export</a>
+                        <a href="javascript:void(0)" onclick="exportApprovedPayoutExcel()" class="btn  btn-info">Export </a>
                     </div>
                     <!-- Custom Filter -->
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
