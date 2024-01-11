@@ -147,14 +147,17 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('payout/status/user/{user_id?}', 'PayoutAmountController@savePayoutsInprocessByUser')->middleware('role-permission:payout-add');       
         Route::post('payout/paid', 'PayoutAmountController@savePayoutTransaction')->middleware('role-permission:payout-add');
         Route::post('payout/export', 'PayoutAmountController@getPayoutExport')->middleware('role-permission:payout-add');
+        Route::post('payout/approved/export', 'ExportController@getApprovedPayoutExport');
         Route::get('payout/transaction/{id?}', 'PayoutAmountController@getPayoutHistory')->middleware('role-permission:payout-list');
         Route::resource('payout', 'PayoutAmountController')->middleware('role-permission-resource:payout-list,payout-add');
 
         //
         Route::get('deposit/wallet/list', 'PayoutAmountController@getUserWalletDepositTransactionList');
+        Route::post('deposit/wallet/list/export','ExportController@getPayoutDepositTransactionListExport');
         Route::post('deposit/wallet/data', 'PayoutAmountController@getUserWalletDepositTransactionData');
         Route::post('deposit/wallet/calculate', 'PayoutAmountController@getUserWalletDepositTransactionCalculate');
         Route::get('transaction/list', 'PayoutAmountController@getTransactionList');
+        Route::post('transaction/list/export', 'ExportController@getPayoutTransactionListExport');
         Route::post('transaction/data', 'PayoutAmountController@getTransactionData');
         Route::post('transaction/payout/calculate', 'PayoutAmountController@getHealthcareProvidersCalculate');
      

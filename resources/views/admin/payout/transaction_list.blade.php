@@ -28,6 +28,9 @@
                         <a href="{{url('/donotezzycaretouch/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
                     <!-- Custom Filter -->
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportPayoutTransactionListExcel()" class="btn d-flex align-items-center btn-info">Export<span id="ajax_loader" class="ml-2"></span></a>
+                    </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">                       
@@ -56,12 +59,12 @@
                                     <select id="searchByTransactionMSG" name="transaction_msg" class="form-control">
                                         <option value=''>Select Transaction Type</option>
                                         <option value='Appointment'>Appointment</option>
-                                        <option value='Urgent Appointment'>Urgent Appointment</option>
-                                        <option value='Treatment plan'>Treatment plan</option>
+                                        <option value="Urgent_Appointment">Urgent Appointment</option>
+                                        <option value='Treatment_plan'>Treatment plan</option>
                                         <option value='Order'>Order</option>
-                                        <option value='Appointment cancellation charges'>Appointment Cancel</option>
-                                        <option value='Urgent Appointment cancellation charges'>Urgent Appointment Cancel</option>
-                                        <option value='Order amount refund'>Order Cancel Refund</option>
+                                        <option value='Appointment_cancellation_charges'>Appointment Cancel</option>
+                                        <option value='Urgent_Appointment_cancellation_charges'>Urgent Appointment Cancel</option>
+                                        <option value='Order_amount_refund'>Order Cancel Refund</option>
                                     </select>       
                                 </div>
                             </div>    
@@ -148,6 +151,7 @@
 @section('script')
 <script>
     var payout_url = "{{url('/donotezzycaretouch')}}";
+    var payout_export_url = "{{url('/donotezzycaretouch/transaction/list')}}";
     var payout_obj = '';
     var payout_status = '';
     var payout_history = {};

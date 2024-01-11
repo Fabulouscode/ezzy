@@ -28,6 +28,9 @@
                         <a href="{{url('/donotezzycaretouch/services/create')}}" class="btn btn-info">Add Service</a>
                     </div> -->
                     <!-- Custom Filter -->
+                    <div class="block-options-item mb-3 mr-3 float-right">
+                        <a href="javascript:void(0)" onclick="exportPayoutDepositTransactionListExcel()" class="btn d-flex align-items-center btn-info">Export<span id="ajax_loader" class="ml-2"></span></a>
+                    </div>
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
                         <label>Advanced Filter</label>
                         <div class="row mb-3">      
@@ -104,6 +107,7 @@
 @section('script')
 <script>
     var payout_url = "{{url('/donotezzycaretouch')}}";
+    var payout_deposit_export_url = "{{url('/donotezzycaretouch/deposit/wallet/list')}}";
     var payout_obj = '';
     var payout_status = '';
     var payout_history = {};
