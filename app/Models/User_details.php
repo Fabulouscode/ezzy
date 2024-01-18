@@ -76,80 +76,96 @@ class User_details extends Model
         'clinic_country',
         'clinic_state',
         'address_type',
-        'practicing_licence_date'
+        'practicing_licence_date',
     ];
 
-
-    public function getQualificationCertificateAttribute($value) {
-      $data = json_decode($value);
-      $temp_arr = [];
-      if(!empty($data) && is_array($data)){        
-        foreach ($data as $k => $v) {
-          $temp_arr[] = url('storage/'.$v);
-        }        
-      }else if(!empty($value) && $value != '[]'){
-        $temp_arr[] = !empty($value) ? url('storage/'.$value) : '';
-      }
-      return json_encode($temp_arr);
-    }
-    public function getPracticingLicenceAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : '';
-    }
-    public function getHealthFacilityCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : '';
-    }
-    public function getRegstrationCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : '';
-    }
-    public function getPharmacistCertificateAttribute($value) {
-        return !empty($value) ?  url('storage/'.$value) : '';
-    }
-
-    public function getAllergiesAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getCurrentMedicationsAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getPastMedicationsAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getChronicDiseaseAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getInjuriesAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getSurgeriesAttribute($value) {
-      // return !empty($value) ?  json_decode($value) : '';
-      return $value;
-    }
-    public function getTotalExperianceYearAttribute($value) {
-      $currentYear = date('Y');
-      if(!empty($this->registration_year)){
-        $totalYears = $currentYear - $this->registration_year;
-      }else{
-        $totalYears = $value;
-      }
-      return strval($totalYears);
-    }
-    public function getUrgentCriteriaAttribute($value) {
-      $data = [];
-      if(isset($value) && $value != '' && $value != 'NULL') {
-        $tmp_data = explode(',', $value);
-        foreach ($tmp_data as $k => $v) {
-          $data[] = (int)$v;
+    public function getQualificationCertificateAttribute($value)
+    {
+        $data = json_decode($value);
+        $temp_arr = [];
+        if (!empty($data) && is_array($data)) {
+            foreach ($data as $k => $v) {
+                $temp_arr[] = url('storage/' . $v);
+            }
+        } else if (!empty($value) && $value != '[]') {
+            $temp_arr[] = !empty($value) ? url('storage/' . $value) : '';
         }
-      }else{
-        $data = [];
-      }
-      return $data;
+        return json_encode($temp_arr);
     }
-    
+    public function getPracticingLicenceAttribute($value)
+    {
+        return !empty($value) ? url('storage/' . $value) : '';
+    }
+    public function getHealthFacilityCertificateAttribute($value)
+    {
+        return !empty($value) ? url('storage/' . $value) : '';
+    }
+    public function getRegstrationCertificateAttribute($value)
+    {
+        return !empty($value) ? url('storage/' . $value) : '';
+    }
+    public function getPharmacistCertificateAttribute($value)
+    {
+        return !empty($value) ? url('storage/' . $value) : '';
+    }
+
+    public function getAllergiesAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getCurrentMedicationsAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getPastMedicationsAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getChronicDiseaseAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getInjuriesAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getSurgeriesAttribute($value)
+    {
+        // return !empty($value) ?  json_decode($value) : '';
+        return $value;
+    }
+    public function getTotalExperianceYearAttribute($value)
+    {
+        $currentYear = date('Y');
+        if (!empty($currentYear)) {
+            $totalYears = User_education::where('user_id', $this->user_id)->orderBy('end_year', 'desc')->first();
+            if(!empty($totalYears)){
+              $totalYears = $currentYear - $totalYears->end_year;
+            }else{
+              $totalYears = $value;
+            }
+        } else {
+            $totalYears = $value;
+        }
+        return strval($totalYears);
+    }
+    public function getUrgentCriteriaAttribute($value)
+    {
+        $data = [];
+        if (isset($value) && $value != '' && $value != 'NULL') {
+            $tmp_data = explode(',', $value);
+            foreach ($tmp_data as $k => $v) {
+                $data[] = (int) $v;
+            }
+        } else {
+            $data = [];
+        }
+        return $data;
+    }
 
 }
