@@ -146,6 +146,8 @@ class User_details extends Model
             $totalYears = User_education::where('user_id', $this->user_id)->orderBy('end_year', 'desc')->first();
             if(!empty($totalYears)){
               $totalYears = $currentYear - $totalYears->end_year;
+            }else{
+              $totalYears = $value;
             }
         } else {
             $totalYears = $value;
