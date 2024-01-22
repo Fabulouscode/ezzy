@@ -45,6 +45,7 @@ class AgoraRtcController extends BaseApiController
             $room_name = self::genrateRoomName();
             $callerGenerateToken = self::createToken($appointment_detail->client_id, $appointment_detail->client_id, $room_name);
             $receiverGenerateToken = self::createToken($appointment_detail->user_id, $appointment_detail->user_id, $room_name);
+            Log::info('Agora createRoom');
             Log::info($callerGenerateToken);
             Log::info($receiverGenerateToken);
             try{
@@ -85,6 +86,8 @@ class AgoraRtcController extends BaseApiController
                         
                 }       
             }catch(\Exception $e){
+                Log::info('Agora Exception');
+                Log::info(json_encode($e));
                 return self::sendException($e);
             }
         }
