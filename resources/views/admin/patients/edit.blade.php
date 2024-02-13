@@ -158,6 +158,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
+    var pending_hcp_url = "{{url('/donotezzycaretouch/healthcare/user/pending')}}";
      var data_obj = {};
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
