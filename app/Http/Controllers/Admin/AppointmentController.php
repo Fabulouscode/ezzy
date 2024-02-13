@@ -212,7 +212,7 @@ class AppointmentController extends Controller
                 
                 $this->appointment_repo->dataCrud($update, $appointmentCancel->id);                
                 DB::commit();  
-                return response()->json(['msg'=>'Appointmrnt Cancel successfully'], 200);
+                return response()->json(['msg'=>'Appointment Cancel successfully'], 200);
             } catch(\Throwable $e) {
                 DB::rollBack();
                 return response()->json(['msg'=>'Can not cancel this appointment'], 500);
