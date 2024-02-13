@@ -163,9 +163,6 @@ $(function () {
                 api.columns([8]).visible(showColumn);
                 api.columns([9]).visible(showColumn);
             }
-        },
-        drawCallback: function (settings) {
-            walletBalanceGet();
         }
     });
 
