@@ -567,10 +567,33 @@ class OrderController extends BaseApiController
                 if($voucher_code->min_amount > $transaction_amount){
                     return self::sendError('', 'Voucher code does not apply');
                 }
+                
+                if($request->delivery_type == '0'){
+                    $transaction_amount += $pharmacy_user->userDetails->delivery_charge;
+                }
+                $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+                if(isset($wallet_balance) && !empty($transaction_amount) && ($transaction_amount > $wallet_balance)){
+                    return self::sendError('insufficient wallet balance', 402);
+                }
             }else{
                 return self::sendError('', 'Voucher code does not apply');
             }
 
+        }else{
+            $transaction_amount = 0;
+            foreach ($cart_details as $key => $value) {
+                $stock_available = $this->shop_medicine_repo->checkMedicineStock($value); 
+                $stock_available_offer_price = 0;
+                $stock_available_offer_price = !empty($stock_available->offer_price) ? $stock_available->offer_price : $stock_available->mrp_price;
+                $transaction_amount += $stock_available_offer_price * $value->quantity;    
+            }
+            if($request->delivery_type == '0'){
+                $transaction_amount += $pharmacy_user->userDetails->delivery_charge;
+            }
+            $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+            if(isset($wallet_balance) && !empty($transaction_amount) && ($transaction_amount > $wallet_balance)){
+                return self::sendError('insufficient wallet balance', 402);
+            }
         }
 
         try{
