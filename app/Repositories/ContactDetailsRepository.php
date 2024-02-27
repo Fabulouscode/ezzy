@@ -72,6 +72,16 @@ class ContactDetailsRepository extends Repository
                     return '';      
                     
                 })
+                ->editColumn('read',function($selected)
+                {
+                    $data = '';
+                    if($selected->read == '1'){
+                        $data .= '<div class="badge badge-info">Unread</div>';
+                    }else {
+                        $data .= '<div class="badge badge-success" >Read</div>';
+                    }
+                    return $data;
+                })
                 ->addColumn('action',function($selected)
                 {
                     $data = '';
@@ -79,7 +89,7 @@ class ContactDetailsRepository extends Repository
                     $data .= '<a href="javascript:void(0)" class="btn btn-sm btn-danger" title="Delete" id="delete-rows" onclick="deleteRow('.$selected->id.')"><i class="fa fa-trash"></i></a>';
                     return $data;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','read'])
                 ->make(true);;
     }
     
@@ -87,7 +97,7 @@ class ContactDetailsRepository extends Repository
     {   
         $query = $this->model;
         
-        $query = $query->whereDate('created_at',Carbon::now())->count();
+        $query = $query->where('read',1)->count();
         
         return $query; 
     }

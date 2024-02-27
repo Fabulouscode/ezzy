@@ -91,10 +91,13 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
+    var contact_form_url = "{{url('/donotezzycaretouch/contact_form')}}";
     var data_obj = {};
     var data_status = '';
     var data_category_id = '';
     var data_provider = '';
+    var contactFormId = '{{ $data->id }}';
 </script>
 <script src="{{ asset('js/admin/provider.js') }}" ></script>
+<script src="{{ asset('js/admin/contact_form.js?v1') }}" ></script>
 @endsection

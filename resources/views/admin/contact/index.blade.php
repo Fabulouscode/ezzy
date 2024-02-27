@@ -51,6 +51,7 @@
                                     <th>Country</th>
                                     <th>Mobile</th>
                                     <th>Subject</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>                        
@@ -68,6 +69,7 @@
 @section('script')
 <script>
     var contact_form_url = "{{url('/donotezzycaretouch/contact_form')}}";
+    var contactFormId = '';
 </script>
-<script src="{{ asset('js/admin/contact_form.js') }}" ></script>
+<script src="{{ asset('js/admin/contact_form.js?v1') }}" ></script>
 @endsection

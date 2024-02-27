@@ -21,6 +21,7 @@ class ContactDetails extends Model
         'message',
         'country',
         'mobile',
+        'read'
     ];
 
     public function getCountry() {

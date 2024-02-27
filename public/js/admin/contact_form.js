@@ -27,6 +27,7 @@ $(function () {
             { data: 'country', name: 'country' },
             { data: 'mobile', name: 'mobile' },
             { data: 'subject', name: 'subject' },
+            { data: 'read', name: 'read' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         order: [[0, 'desc']],
@@ -67,6 +68,11 @@ $(function () {
         oTable.fnDraw(true);
     });
 
+    if(contactFormId && contactFormId != ''){
+        ContactFormRead(contactFormId);
+    }
+
+
 });
 
 
@@ -106,3 +112,24 @@ function deleteRow(row_id) {
     }
 }
 
+
+function ContactFormRead(contactFormID) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        url: contact_form_url + '/' + contactFormID,
+        type: 'put',
+        processData: false,
+        contentType: false,
+        success: function(result) {
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var myArr = jqXHR.responseJSON.errors;
+            $.each(myArr, function(index, value) {
+                toastr.error(value, appName);
+            });
+        }
+    });
+}
