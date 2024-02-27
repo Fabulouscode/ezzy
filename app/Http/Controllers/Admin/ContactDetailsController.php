@@ -57,6 +57,25 @@ class ContactDetailsController extends Controller
     {
     }
 
+  /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\AdminActivity  $adminActivity
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $data = $this->contact_repo->getById($id);
+        if(!empty($data)){
+            $updateData = ['read' => 0];
+            $this->contact_repo->dataCrud($updateData, $id); 
+            return response()->json(['msg'=>''], 200);
+        }
+        
+        return response()->json(['msg'=>''], 500);
+    }
+
     /**
      * Display the specified resource.
      *
