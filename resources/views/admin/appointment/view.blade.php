@@ -152,7 +152,7 @@
                                         <div class="row">
                                             <dt class="col-sm-5">
                                             @if($data->user->category_id != '5' && $data->user->category_id != '6')
-                                                <label>Appointment Ended Date Time</label>
+                                                <label>Appointment End Date Time</label>
                                             @else
                                                 <label>Appointment Completed Date Time</label>
                                             @endif
