@@ -193,8 +193,24 @@ class Appointment extends Model
         if(!empty($this->start_datetime) && !empty($this->completed_datetime)){
             $start_appointment  = new Carbon($this->start_datetime);
             $end_appointment   = new Carbon($this->completed_datetime);
-            $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
-            $appointment_timing = gmdate('H:i:s', $appointment_timing);
+            // $appointment_timing =  $start_appointment->diffInSeconds($end_appointment);
+            // $appointment_timing = gmdate('d M, Y H:i:s', $appointment_timing);
+
+            // Calculate the difference between the dates
+            $diff_seconds = $start_appointment->diffInSeconds($end_appointment);
+
+            if(!empty($diff_seconds)){
+                // Convert seconds to hours, minutes, and seconds
+                $hours = floor($diff_seconds / 3600);
+                $minutes = floor(($diff_seconds % 3600) / 60);
+                $seconds = $diff_seconds % 60;
+
+                // Format the time difference
+                $appointment_timing = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            }else{
+                $appointment_timing = gmdate('d M, Y H:i:s', $appointment_timing);
+            }
+
         }
        return $appointment_timing;
     }
