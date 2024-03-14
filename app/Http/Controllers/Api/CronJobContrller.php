@@ -174,10 +174,29 @@ class CronJobContrller extends BaseApiController
         if(!empty($video_appointment) && count($video_appointment) > 0){
             foreach ($video_appointment as $key => $value) {
                 $current_time  =  Carbon::now();
-                $urgent_appointment_time = new Carbon($value->appointment_date.' '.$value->appointment_time);
-                $urgent_appointment_time = $urgent_appointment_time->addMinute(59);
-                $appointment_end_time = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
-                $appointment_end_time = $appointment_end_time->subMinute(1);
+                if(!empty($value->start_datetime)){      
+                    $urgent_appointment_time = new Carbon($value->start_datetime);
+                    $urgent_appointment_time = $urgent_appointment_time->addMinute(59);
+
+                    $book_appointment_start  = new Carbon($value->appointment_date.' '.$value->appointment_time);
+                    $book_appointment_end  = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
+                    $appointment_timing =  $book_appointment_start->diffInSeconds($book_appointment_end);
+                    $appointment_timing = $appointment_timing / 60;
+                    if($appointment_timing > 1){
+                        $appointment_timing = $appointment_timing - 1;
+                    }else{
+                        $appointment_timing = $appointment_timing;
+                    }
+                    $start_appointment_time = new Carbon($value->start_datetime);
+                    $appointment_end_time = $start_appointment_time->addMinute($appointment_timing);
+                }else{
+                    $urgent_appointment_time = new Carbon($value->appointment_date.' '.$value->appointment_time);
+                    $urgent_appointment_time = $urgent_appointment_time->addMinute(59);
+
+                    $appointment_end_time = new Carbon($value->appointment_end_date.' '.$value->appointment_end_time);
+                    $appointment_end_time = $appointment_end_time->subMinute(1);
+                }
+
                 $url = config('app.url')."api/user/video/appointment/completed";
                 if($value->urgent == '1' && !empty($appointment_end_time) && $current_time > $appointment_end_time){
                     $data = [
