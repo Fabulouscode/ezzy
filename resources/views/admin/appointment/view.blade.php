@@ -150,7 +150,13 @@
                                    
                                     @if(!empty($data->completed_datetime))
                                         <div class="row">
-                                            <dt class="col-sm-5"><label>Appointment Completed Date Time</label></dt>
+                                            <dt class="col-sm-5">
+                                            @if($data->user->category_id != '5' && $data->user->category_id != '6')
+                                                <label>Appointment Ended Date Time</label>
+                                            @else
+                                                <label>Appointment Completed Date Time</label>
+                                            @endif
+                                            </dt>
                                             <dd class="col-sm-7"> 
                                                 @if(isset($data->completed_datetime))
                                                     {{Helper::getDateTimeFormate($data->completed_datetime)}}
