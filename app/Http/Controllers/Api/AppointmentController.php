@@ -1387,7 +1387,7 @@ class AppointmentController extends BaseApiController
                 'home_visit_fees'=> $home_visit_fees,
                 // 'appointment_end_date'=> !empty($end_appointment_date) ?  $end_appointment_date : null,
                 // 'appointment_end_time'=> !empty($end_appointment_time) ?  $end_appointment_time : null,
-                'appointment_end_time'=> !empty($end_appointment_date_time) ?  $end_appointment_date_time : null,
+                'completed_datetime'=> !empty($end_appointment_date_time) ?  $end_appointment_date_time : null,
             ];
             $this->appointment_repo->dataCrud($updateuser, $request->id);
 
