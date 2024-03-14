@@ -187,8 +187,8 @@ class CronJobContrller extends BaseApiController
                     }else{
                         $appointment_timing = $appointment_timing;
                     }
-                    $start_appointment_time = new Carbon($value->start_datetime);
-                    $appointment_end_time = $start_appointment_time->addMinute($appointment_timing);
+                    $appointment_end_time = new Carbon($value->start_datetime);
+                    $appointment_end_time = $appointment_end_time->addMinute($appointment_timing);
                 }else{
                     $urgent_appointment_time = new Carbon($value->appointment_date.' '.$value->appointment_time);
                     $urgent_appointment_time = $urgent_appointment_time->addMinute(59);
