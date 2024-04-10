@@ -2,21 +2,15 @@
 
 namespace App\Exports;
 
-use App\Http\Controllers\Controller;
 use App\Http\Helpers\Helper;
-use App\Models\Medicine_category;
-use App\Models\Medicine_details;
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class PatientDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
@@ -24,11 +18,25 @@ class PatientDetailsExport implements FromQuery, WithHeadings, WithColumnFormatt
     private $category_id;
     private $subcategory_id;
     private $status;
-    public function __construct($category_id, $subcategory_id, array $status = [])
+    private $start_date;
+    private $end_date;
+    private $patient_status;
+    private $birth_start_date;
+    private $birth_end_date;
+    private $dob_by_month;
+    private $dob_by_year;
+    public function __construct($category_id, $subcategory_id, array $status = [], $start_date = '', $end_date = '', $patient_status = '', $birth_start_date = '', $birth_end_date = '', $dob_by_month = '', $dob_by_year = '')
     {
         $this->category_id = $category_id;
         $this->subcategory_id = $subcategory_id;
         $this->status = $status;
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
+        $this->patient_status = $patient_status;
+        $this->birth_start_date = $birth_start_date;
+        $this->birth_end_date = $birth_end_date;
+        $this->dob_by_month = $dob_by_month;
+        $this->dob_by_year = $dob_by_year;
     }
 
     public function getFilename()
@@ -65,6 +73,37 @@ class PatientDetailsExport implements FromQuery, WithHeadings, WithColumnFormatt
             $query = $query->whereNull('users.category_id');
             $query = $query->whereNull('users.subcategory_id');
         }
+
+        if(!empty($this->start_date) && !empty($this->end_date)){
+            $start_date = date('Y-m-d', strtotime(($this->start_date)));
+            $end_date = date('Y-m-d', strtotime($this->end_date));
+            $query = $query->whereBetween(FacadesDB::raw('DATE(created_at)'), array($start_date, $end_date));
+        }
+
+
+        if(!empty($this->patient_status) || $this->patient_status == '0'){
+            $query = $query->where('users.status', $this->patient_status);
+        } 
+
+        if (!empty($this->birth_start_date) && !empty($this->birth_end_date)) {
+            $query->whereHas('userDetails', function($q) {
+                $q->whereDate('dob', '>=', $this->birth_start_date)
+                  ->whereDate('dob', '<=', $this->birth_end_date);
+            });
+        }
+
+        if (!empty($this->dob_by_month)) {
+            $query->whereHas('userDetails', function($q) {
+                $q->whereMonth('dob',$this->dob_by_month);
+            });
+        }
+
+        if (!empty($this->dob_by_year)) {
+            $query->whereHas('userDetails', function($q) {
+                $q->whereYear('dob',$this->dob_by_year);
+            });
+        }
+
         return $query;
     }
 
