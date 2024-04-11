@@ -15,9 +15,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $start_date; 
-    private $end_date;
-    private $status;
+    private $start_date, $end_date, $status;
     public function __construct($start_date = '', $end_date = '', $status = '')
     {
         $this->start_date = $start_date;

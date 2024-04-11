@@ -15,14 +15,7 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 class PendingHCPDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $start_date;
-    private $end_date;
-    private $hcp_type;
-    private $completed_progress;
-    private $city;
+    private $category_id, $subcategory_id, $status, $start_date, $end_date, $hcp_type, $completed_progress, $city;
     public function __construct($category_id, $subcategory_id, $status, $start_date = '', $end_date = '', $hcp_type = '', $completed_progress = '', $city = '')
     {
         $this->category_id = $category_id;

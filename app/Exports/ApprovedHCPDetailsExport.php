@@ -20,16 +20,7 @@ use App\Http\Helpers\Helper;
 class ApprovedHCPDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $user_start_date;
-    private $user_end_date;
-    private $user_approved_start_date;
-    private $user_approved_end_date;
-    private $hcp_type;
-    private $hcp_status;
-    private $city;
+    private $category_id, $subcategory_id, $status, $user_start_date, $user_end_date, $user_approved_start_date, $user_approved_end_date, $hcp_type, $hcp_status, $city;
     public function __construct($category_id, $subcategory_id, array $status = [], $user_start_date = '', $user_end_date = '', $user_approved_start_date = '', $user_approved_end_date = '', $hcp_type = '', $hcp_status = '', $city = '')
     {
         $this->category_id = $category_id;

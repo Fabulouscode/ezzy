@@ -13,13 +13,7 @@ use App\Http\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 
 class ApprovedPharmacistDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $start_date;
-    private $end_date;
-    private $pharmacy_status;
-    private $city;
+    private $category_id, $subcategory_id, $status, $start_date, $end_date, $pharmacy_status, $city;
     public function __construct($category_id, $subcategory_id,array $status = [], $start_date = '', $end_date = '', $pharmacy_status = '', $city = '') 
     {
         $this->category_id = $category_id;

@@ -15,14 +15,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class ApprovedLaboratoriesDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $start_date;
-    private $end_date;
-    private $hcp_type;
-    private $lab_status;
-    private $city;
+    private $category_id, $subcategory_id, $status, $start_date, $end_date, $hcp_type, $lab_status, $city;
     public function __construct($category_id, $subcategory_id, array $status = [], $start_date = '', $end_date = '', $hcp_type = '', $lab_status = '', $city = '')
     {
         $this->category_id = $category_id;

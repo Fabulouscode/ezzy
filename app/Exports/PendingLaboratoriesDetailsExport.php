@@ -15,14 +15,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class PendingLaboratoriesDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $start_date;
-    private $end_date;
-    private $hcp_type;
-    private $profile_completed;
-    private $city;
+    private $category_id, $subcategory_id, $status, $start_date, $end_date, $hcp_type, $profile_completed, $city;
     public function __construct($category_id, $subcategory_id, $status, $start_date = '', $end_date = '', $hcp_type = '', $profile_completed = '', $city = '')
     {
         $this->category_id = $category_id;
