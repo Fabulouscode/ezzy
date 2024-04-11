@@ -2,30 +2,33 @@
 
 namespace App\Exports;
 
-use App\Http\Controllers\Controller;
-use App\Models\Medicine_category;
-use App\Models\Medicine_details;
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use App\Http\Helpers\Helper;
+use Illuminate\Support\Facades\DB;
 
 class ApprovedPharmacistDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
     private $category_id;
     private $subcategory_id;
     private $status;
-    public function __construct($category_id, $subcategory_id,array $status = []) 
+    private $start_date;
+    private $end_date;
+    private $pharmacy_status;
+    private $city;
+    public function __construct($category_id, $subcategory_id,array $status = [], $start_date = '', $end_date = '', $pharmacy_status = '', $city = '') 
     {
         $this->category_id = $category_id;
         $this->subcategory_id = $subcategory_id;
         $this->status = $status;
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
+        $this->pharmacy_status = $pharmacy_status;
+        $this->city = $city;
     }
 
     public function getFilename()
@@ -66,8 +69,21 @@ class ApprovedPharmacistDetailsExport implements FromQuery, WithHeadings, WithCo
             $query = $query->whereNull('users.subcategory_id');
         }
 
+        if(!empty($this->start_date) && !empty($this->end_date)){
+            $start_date = date('Y-m-d', strtotime($this->start_date));
+            $end_date = date('Y-m-d', strtotime($this->end_date));
+            $query = $query->whereBetween(DB::raw('DATE(created_at)'), array($start_date, $end_date));
+        }
         
-        
+        if(!empty($this->pharmacy_status) || $this->pharmacy_status == '0'){
+            $query = $query->where('users.status', $this->pharmacy_status);
+        } 
+
+        if(!empty($this->city)){
+            $query = $query->whereHas('userDetails', function($q){
+                $q->where('city',$this->city);
+            });
+        }
         return $query;
     }
 

@@ -668,12 +668,20 @@ function fileValidation(id_name) {
     }
 }
 function exportExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: patient_details_url + '/export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range: dateRange,
+            filter_status: function () { return $('#searchByStatus').val() },
+            birth_start_date: function () { return $('#user_birth_start_date').val() },
+            birth_end_date: function () { return $('#user_birth_end_date').val() },
+            dob_month: function () { return $('#datepicker-month').val() },
+            dob_year: function () { return $('#datepicker-year').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -699,12 +707,18 @@ function exportExcel() {
 }
 
 function exportPendingHCPExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: pending_hcp_url + '/hcp_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range:dateRange,
+            subcategory_id: function () { return $('#searchByHcpType').val() },
+            completed_progress: function () { return $('#searchByHcpTypeProgress').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -734,7 +748,15 @@ function exportApprovedHCPExcel() {
         url: approved_details_url + '/hcp_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            user_start_date: function () { return $('#user_start_date').val() },
+            user_end_date: function () { return $('#user_end_date').val() },
+            user_approved_start_date: function () { return $('#user_approved_start_date').val() },
+            user_approved_end_date: function () { return $('#user_approved_end_date').val() },
+            subcategory_id: function () { return $('#searchByHcpType').val() },
+            filter_status: function () { return $('#searchByStatus').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -759,12 +781,17 @@ function exportApprovedHCPExcel() {
 }
 
 function exportPendingPharmacistExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: pending_pharma_url + '/pharma_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range: dateRange,
+            completed_progress: function () { return $('#searchByHcpTypeProgress').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -789,12 +816,17 @@ function exportPendingPharmacistExcel() {
 }
 
 function exportApprovedPharmacistExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: approved_pharma_details_url + '/pharma_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range: dateRange,
+            filter_status: function () { return $('#searchByStatus').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -819,12 +851,18 @@ function exportApprovedPharmacistExcel() {
 }
 
 function exportPendingLaboratoriesExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: pending_lab_url + '/lab_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range: dateRange,
+            subcategory_id: function () { return $('#searchByHcpType').val() },
+            completed_progress: function () { return $('#searchByHcpTypeProgress').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -849,12 +887,18 @@ function exportPendingLaboratoriesExcel() {
 }
 
 function exportApprovedLaboratoriesExcel() {
+    let dateRange = $('#user-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: approved_lab_details_url + '/lab_export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            date_range:dateRange,
+            subcategory_id: function () { return $('#searchByHcpType').val() },
+            filter_status: function () { return $('#searchByStatus').val() },
+            city_id: function () { return $('#searchByCity').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;

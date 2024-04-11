@@ -2,30 +2,28 @@
 
 namespace App\Exports;
 
-use App\Http\Controllers\Controller;
 use App\Http\Helpers\Helper;
-use App\Models\Appointment;
-use App\Models\Medicine_category;
-use App\Models\Medicine_details;
 use App\Models\Order;
-use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use DB;
 
 class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-
-    public function __construct()
+    private $start_date; 
+    private $end_date;
+    private $status;
+    public function __construct($start_date = '', $end_date = '', $status = '')
     {
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
+        $this->status = $status;
+
     }
 
     public function getFilename()
@@ -46,6 +44,17 @@ class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnF
     {
         $query = Order::query()->select('orders.*')->with(['clientDetails', 'userDetails']);
         // $query = $query->whereNotIn('status', [5,6]);
+        if(!empty($this->start_date) && !empty($this->end_date)){
+            $start_date = date('Y-m-d', strtotime($this->start_date));
+            $end_date = date('Y-m-d', strtotime($this->end_date));
+            $query = $query->whereBetween(DB::raw('DATE(created_at)'), array($start_date, $end_date));
+        }
+
+        if(is_array($this->status) && count($this->status) > 0){
+            $query = $query->whereNotIn('orders.status', $this->status);       
+        }else if(isset($this->status)){
+            $query = $query->where('orders.status', $this->status);
+        } 
 
         return $query;
     }
