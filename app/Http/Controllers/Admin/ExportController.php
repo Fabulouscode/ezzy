@@ -8,7 +8,6 @@ use App\Exports\AppointmentUpcomingDetailsExport;
 use App\Exports\ApprovedHCPDetailsExport;
 use App\Exports\ApprovedLaboratoriesDetailsExport;
 use App\Exports\ApprovedPharmacistDetailsExport;
-use App\Exports\CompletedAppointmentDetailsExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Exports\PatientDetailsExport;
@@ -21,7 +20,6 @@ use App\Exports\UserPayoutDepositTransactionListExport;
 use App\Exports\UserPayoutTransactionListExport;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-use Svg\Tag\Rect;
 
 class ExportController extends Controller
 {
@@ -36,8 +34,11 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $patient_file = Excel::raw(new PatientDetailsExport('', '', [0, 2], $start, $end), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+
+            $patient_file = Excel::raw(new PatientDetailsExport('', '', [0, 2], '', '',  $request->filter_status, $request->birth_start_date, $request->birth_end_date, $request->dob_month, $request->dob_year), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $patient_file = Excel::raw(new PatientDetailsExport('', '', [0, 2], $start, $end, $request->filter_status, $request->birth_start_date, $request->birth_end_date, $request->dob_month, $request->dob_year), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "patient_details",
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($patient_file)
@@ -56,8 +57,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $pending_hcp_file = Excel::raw(new PendingHCPDetailsExport(1, '', 1, $start, $end, $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $pending_hcp_file = Excel::raw(new PendingHCPDetailsExport(1, '', 1, '', '', $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $pending_hcp_file = Excel::raw(new PendingHCPDetailsExport(1, '', 1, $start, $end, $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "pending_hcp_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pending_hcp_file) 
@@ -88,8 +91,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $pending_pharma_file = Excel::raw(new PendingPharmacistDetailsExport(2, '', 1, $start, $end, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $pending_pharma_file = Excel::raw(new PendingPharmacistDetailsExport(2, '', 1, '', '', $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $pending_pharma_file = Excel::raw(new PendingPharmacistDetailsExport(2, '', 1, $start, $end, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "pending_pharma_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pending_pharma_file) 
@@ -109,8 +114,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $approved_pharma_file = Excel::raw(new ApprovedPharmacistDetailsExport(2, '', [0, 2], $start, $end, $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $approved_pharma_file = Excel::raw(new ApprovedPharmacistDetailsExport(2, '', [0, 2], '', '', $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $approved_pharma_file = Excel::raw(new ApprovedPharmacistDetailsExport(2, '', [0, 2], $start, $end, $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "approved_pharma_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($approved_pharma_file) 
@@ -130,8 +137,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $pending_lab_file = Excel::raw(new PendingLaboratoriesDetailsExport(3, '', 1, $start, $end, $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $pending_lab_file = Excel::raw(new PendingLaboratoriesDetailsExport(3, '', 1, '', '', $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $pending_lab_file = Excel::raw(new PendingLaboratoriesDetailsExport(3, '', 1, $start, $end, $request->subcategory_id, $request->completed_progress, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "pending_lab_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pending_lab_file) 
@@ -150,8 +159,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($date_range[0]));
                 $end = date('Y-m-d', strtotime($date_range[1]));
             }
+            $approved_lab_file = Excel::raw(new ApprovedLaboratoriesDetailsExport(3, '', [0, 2], $start, $end, $request->subcategory_id, $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $approved_lab_file = Excel::raw(new ApprovedLaboratoriesDetailsExport(3, '', [0, 2], '', '', $request->subcategory_id, $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $approved_lab_file = Excel::raw(new ApprovedLaboratoriesDetailsExport(3, '', [0, 2], $start, $end, $request->subcategory_id, $request->filter_status, $request->city_id), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "approved_lab_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($approved_lab_file) 
@@ -162,7 +173,7 @@ class ExportController extends Controller
 
     public function exportAppointmentUpcomingExcel(Request $request)
     {
-        $appointment_upcoming_file = Excel::raw(new AppointmentUpcomingDetailsExport($request->category_id, $request->appointment_type, $request->urgent, $request->filter_status), \Maatwebsite\Excel\Excel::XLSX);
+        $appointment_upcoming_file = Excel::raw(new AppointmentUpcomingDetailsExport($request->category_id, $request->appointment_type, $request->urgent, $request->filter_status, $request->start_date, $request->end_date), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "appointment_upcoming_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($appointment_upcoming_file) 
@@ -181,8 +192,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($appointment_created_date_range[0]));
                 $end = date('Y-m-d', strtotime($appointment_created_date_range[1]));
             }
+            $appointment_completed_file = Excel::raw(new AppointmentCompletedDetailsExport($start, $end, $request->appointment_completed_start_date, $request->appointment_completed_end_date, $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $appointment_completed_file = Excel::raw(new AppointmentCompletedDetailsExport('', '', $request->appointment_completed_start_date, $request->appointment_completed_end_date, $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $appointment_completed_file = Excel::raw(new AppointmentCompletedDetailsExport($start, $end, $request->appointment_completed_start_date, $request->appointment_completed_end_date, $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "appointment_completed_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($appointment_completed_file) 
@@ -201,8 +214,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($appointment_date_range[0]));
                 $end = date('Y-m-d', strtotime($appointment_date_range[1]));
             }
+            $appointment_cancel_file = Excel::raw(new AppointmentCancelDetailsExport($start, $end, $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $appointment_cancel_file = Excel::raw(new AppointmentCancelDetailsExport('', '', $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $appointment_cancel_file = Excel::raw(new AppointmentCancelDetailsExport($start, $end, $request->category_id, $request->appointment_type, $request->urgent), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "appointment_cancel_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($appointment_cancel_file) 
@@ -221,8 +236,10 @@ class ExportController extends Controller
                 $start = date('Y-m-d', strtotime($order_date_range[0]));
                 $end = date('Y-m-d', strtotime($order_date_range[1]));
             }
+            $pharmacy_order_file = Excel::raw(new PharmacyOrderDetailsExport($start, $end, $request->status), \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            $pharmacy_order_file = Excel::raw(new PharmacyOrderDetailsExport('', '', $request->status), \Maatwebsite\Excel\Excel::XLSX);
         }
-        $pharmacy_order_file = Excel::raw(new PharmacyOrderDetailsExport($start, $end, $request->status), \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "pharmacy_order_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pharmacy_order_file) 
