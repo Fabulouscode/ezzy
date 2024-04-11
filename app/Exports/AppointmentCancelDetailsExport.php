@@ -2,31 +2,29 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\Controller;
 use App\Http\Helpers\Helper;
 use App\Models\Appointment;
-use Illuminate\Support\Facades\DB;
+use App\Models\Medicine_category;
+use App\Models\Medicine_details;
+use App\Models\User;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use DB;
 
 class AppointmentCancelDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $start_date;
-    private $end_date;
-    private $hcp_type;
-    private $appointment_type;
-    private $appointment_urgent;
-    public function __construct($start_date = '', $end_date = '', $hcp_type = '', $appointment_type = '', $appointment_urgent = '')
+
+    public function __construct()
     {
-        $this->start_date = $start_date;
-        $this->end_date = $end_date;
-        $this->hcp_type = $hcp_type;
-        $this->appointment_type = $appointment_type;
-        $this->appointment_urgent = $appointment_urgent;
     }
 
     public function getFilename()
@@ -48,28 +46,6 @@ class AppointmentCancelDetailsExport implements FromQuery, WithHeadings, WithCol
     {
         $query = Appointment::query()->select('appointments.*')->with(['user', 'client', 'user.categoryParent', 'user.categoryChild']);
         $query = $query->where('status', 6);
-
-        if(!empty($this->start_date) && !empty($this->end_date)){
-            $start_date = date('Y-m-d', strtotime($this->start_date));
-            $end_date = date('Y-m-d', strtotime($this->end_date));
-            $query = $query->whereBetween(DB::raw('DATE(created_at)'), array($start_date, $end_date));
-        }
-
-
-        if(!empty($this->hcp_type)){
-            $query = $query->whereHas('user', function($query){
-                    $query->where('category_id', $this->hcp_type);
-            });
-        }
-
-
-        if(isset($this->appointment_type) && $this->appointment_type != ''){
-            $query = $query->where('appointments.appointment_type', $this->appointment_type);
-        }
-
-        if(isset($this->appointment_urgent) && $this->appointment_urgent != ''){
-            $query = $query->where('appointments.urgent', $this->appointment_urgent);
-        }
 
         return $query;
     }

@@ -22,16 +22,9 @@ use DB;
 class AppointmentUpcomingDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $hcp_type;
-    private $appointment_type;
-    private $appointment_urgent;
-    private $appointment_status;
-    public function __construct($hcp_type = '', $appointment_type = '', $appointment_urgent = '', $appointment_status = '')
+
+    public function __construct()
     {
-        $this->hcp_type = $hcp_type;
-        $this->appointment_type = $appointment_type;
-        $this->appointment_urgent = $appointment_urgent;
-        $this->appointment_status = $appointment_status;
     }
 
     public function getFilename()
@@ -53,23 +46,6 @@ class AppointmentUpcomingDetailsExport implements FromQuery, WithHeadings, WithC
         $query = Appointment::query()->select('appointments.*')->with(['user', 'client', 'user.categoryParent', 'user.categoryChild']);
         $query = $query->whereNotIn('status', [5, 6]);
 
-        if(!empty($this->hcp_type)){
-            $query = $query->whereHas('user', function($query){
-                    $query->where('category_id', $this->hcp_type);
-            });
-        }
-
-        if(isset($this->appointment_type) && $this->appointment_type != ''){
-            $query = $query->where('appointments.appointment_type', $this->appointment_type);
-        }
-
-        if(isset($this->appointment_urgent) && $this->appointment_urgent != ''){
-            $query = $query->where('appointments.urgent', $this->appointment_urgent);
-        }
-
-        if(isset($this->appointment_status) && $this->appointment_status != ''){
-            $query = $query->where('appointments.status', $this->appointment_status);
-        }
         return $query;
     }
 

@@ -18,27 +18,13 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use DB;
-use Illuminate\Support\Facades\DB as FacadesDB;
 
 class AppointmentCompletedDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $start_date; 
-    private $end_date;
-    private $appointment_completed_start_date;
-    private $appointment_completed_end_date;
-    private $hcp_type;
-    private $appointment_type;
-    private $appointment_urgent;
-    public function __construct($start_date = '', $end_date = '', $appointment_completed_start_date = '', $appointment_completed_end_date = '', $hcp_type = '', $appointment_type = '', $appointment_urgent ='')
+
+    public function __construct()
     {
-        $this->start_date = $start_date;
-        $this->end_date = $end_date;
-        $this->appointment_completed_start_date = $appointment_completed_start_date;
-        $this->appointment_completed_end_date = $appointment_completed_end_date;
-        $this->hcp_type = $hcp_type;
-        $this->appointment_type = $appointment_type;
-        $this->appointment_urgent = $appointment_urgent;
     }
 
     public function getFilename()
@@ -62,31 +48,6 @@ class AppointmentCompletedDetailsExport implements FromQuery, WithHeadings, With
 
         $query = Appointment::query()->select('appointments.*')->with(['user', 'client', 'user.categoryParent', 'user.categoryChild']);
         $query = $query->where('status', 5);
-
-        if(!empty($this->start_date) && !empty($this->end_date)){
-            $start_date = date('Y-m-d', strtotime($this->start_date));
-            $end_date = date('Y-m-d', strtotime($this->end_date));
-            $query = $query->whereBetween(FacadesDB::raw('DATE(created_at)'), array($start_date, $end_date));
-        }
-
-        if(!empty($this->appointment_completed_start_date) && !empty($this->appointment_completed_end_date)){
-            // dd(1);
-            $query = $query->whereDate('appointments.completed_datetime','>=',$this->appointment_completed_start_date)->whereDate('appointments.completed_datetime','<=',$this->appointment_completed_end_date);
-        }
-
-        if(!empty($this->hcp_type)){
-            $query = $query->whereHas('user', function($query){
-                    $query->where('category_id', $this->hcp_type);
-            });
-        }
-
-        if(isset($this->appointment_type) && $this->appointment_type != ''){
-            $query = $query->where('appointments.appointment_type', $this->appointment_type);
-        }
-
-        if(isset($this->appointment_urgent) && $this->appointment_urgent != ''){
-            $query = $query->where('appointments.urgent', $this->appointment_urgent);
-        }
 
         return $query;
     }

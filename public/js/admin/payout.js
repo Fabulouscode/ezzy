@@ -561,12 +561,7 @@ function exportExcel() {
         url: payout_url + "/export",
         type: "post",
         dataType: "json",
-        data: { 
-            transaction_ids: payout_transaction,
-            category_id: function() {
-                return $("#searchByHcpType").val();
-            }
-          },
+        data: { transaction_ids: payout_transaction },
         success: function(response) {
             var a = document.createElement("a");
             a.href = response.data.file;

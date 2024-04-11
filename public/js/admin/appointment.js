@@ -278,12 +278,7 @@ function exportAppointmentUpcomingExcel() {
         url: appointment_completed_url + '/export',
         type: "post",
         dataType: 'json',
-        data: {
-            category_id: function () { return $('#searchByHcpType').val() },
-            appointment_type: function () { return $('#searchByAppointmentType').val() },    
-            urgent: function () { return $('#searchByAppointmentUrgent').val() },
-            filter_status: function () { return $('#searchByStatus').val() },
-        },
+        data: {},
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -309,20 +304,12 @@ function exportAppointmentUpcomingExcel() {
 }
 
 function exportAppointmentCompletedExcel() {
-    let appointmentCreatedDateRange = $('#appointment-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: appointment_completed_url + '/export',
         type: "post",
         dataType: 'json',
-        data: {
-            appointment_created_date_range: appointmentCreatedDateRange,
-            appointment_completed_start_date: function () { return $('#appointment_completed_start_date').val() },
-            appointment_completed_end_date: function () { return $('#appointment_completed_end_date').val() },
-            category_id: function () { return $('#searchByHcpType').val() },
-            appointment_type: function () { return $('#searchByAppointmentType').val() },    
-            urgent: function () { return $('#searchByAppointmentUrgent').val() },
-        },
+        data: {},
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
@@ -348,18 +335,12 @@ function exportAppointmentCompletedExcel() {
 }
 
 function exportAppointmentCancelExcel() {
-    let appointmentDateRange = $('#appointment-date-range').val();
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: appointment_cancel_url + '/export',
         type: "post",
         dataType: 'json',
-        data: {
-            appointment_date_range: appointmentDateRange,
-            category_id: function () { return $('#searchByHcpType').val() },
-            appointment_type: function () { return $('#searchByAppointmentType').val() },    
-            urgent: function () { return $('#searchByAppointmentUrgent').val() },
-        },
+        data: {},
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;
