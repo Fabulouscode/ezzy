@@ -23,11 +23,25 @@ class ApprovedHCPDetailsExport implements FromQuery, WithHeadings, WithColumnFor
     private $category_id;
     private $subcategory_id;
     private $status;
-    public function __construct($category_id, $subcategory_id, array $status = [])
+    private $user_start_date;
+    private $user_end_date;
+    private $user_approved_start_date;
+    private $user_approved_end_date;
+    private $hcp_type;
+    private $hcp_status;
+    private $city;
+    public function __construct($category_id, $subcategory_id, array $status = [], $user_start_date = '', $user_end_date = '', $user_approved_start_date = '', $user_approved_end_date = '', $hcp_type = '', $hcp_status = '', $city = '')
     {
         $this->category_id = $category_id;
         $this->subcategory_id = $subcategory_id;
         $this->status = $status;
+        $this->user_start_date = $user_start_date;
+        $this->user_end_date = $user_end_date;
+        $this->user_approved_start_date = $user_approved_start_date;
+        $this->user_approved_end_date = $user_approved_end_date;
+        $this->hcp_type = $hcp_type;
+        $this->hcp_status = $hcp_status;
+        $this->city = $city;
     }
 
     public function getFilename()
@@ -65,6 +79,28 @@ class ApprovedHCPDetailsExport implements FromQuery, WithHeadings, WithColumnFor
         } else {
             $query = $query->whereNull('users.category_id');
             $query = $query->whereNull('users.subcategory_id');
+        }
+
+        if(!empty($this->user_start_date) && !empty($this->user_end_date)){
+            $query = $query->whereDate('users.created_at', '>=',$this->user_start_date)->whereDate('users.created_at' , '<=',$this->user_end_date);
+        }
+
+        if(!empty($this->user_approved_start_date) && !empty($this->user_approved_end_date)){
+            $query = $query->whereDate('users.approved_date','>=',$this->user_approved_start_date)->whereDate('users.approved_date','<=',$this->user_approved_end_date);
+        }
+
+        if(!empty($this->hcp_type)){
+            $query = $query->where('users.category_id', $this->hcp_type);
+        }
+
+        if(!empty($this->hcp_status) || $this->hcp_status == '0'){
+            $query = $query->where('users.status', $this->hcp_status);
+        } 
+
+        if(!empty($this->city)){
+            $query = $query->whereHas('userDetails', function($q){
+                $q->where('city', $this->city);
+            });
         }
 
         return $query;
