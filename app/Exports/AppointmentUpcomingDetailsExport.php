@@ -26,12 +26,16 @@ class AppointmentUpcomingDetailsExport implements FromQuery, WithHeadings, WithC
     private $appointment_type;
     private $appointment_urgent;
     private $appointment_status;
-    public function __construct($hcp_type = '', $appointment_type = '', $appointment_urgent = '', $appointment_status = '')
+    private $appointment_start_date;
+    private $appointment_end_date;
+    public function __construct($hcp_type = '', $appointment_type = '', $appointment_urgent = '', $appointment_status = '', $appointment_start_date = '', $appointment_end_date = '')
     {
         $this->hcp_type = $hcp_type;
         $this->appointment_type = $appointment_type;
         $this->appointment_urgent = $appointment_urgent;
         $this->appointment_status = $appointment_status;
+        $this->appointment_start_date = $appointment_start_date;
+        $this->appointment_end_date = $appointment_end_date;
     }
 
     public function getFilename()
@@ -69,6 +73,10 @@ class AppointmentUpcomingDetailsExport implements FromQuery, WithHeadings, WithC
 
         if(isset($this->appointment_status) && $this->appointment_status != ''){
             $query = $query->where('appointments.status', $this->appointment_status);
+        }
+
+        if(!empty($this->appointment_start_date) && !empty($this->appointment_end_date)){
+            $query = $query->whereDate('appointments.created_at', '>=',$this->appointment_start_date)->whereDate('appointments.created_at' , '<=',$this->appointment_end_date);
         }
         return $query;
     }

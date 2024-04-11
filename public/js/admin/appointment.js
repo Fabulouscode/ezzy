@@ -283,6 +283,8 @@ function exportAppointmentUpcomingExcel() {
             appointment_type: function () { return $('#searchByAppointmentType').val() },    
             urgent: function () { return $('#searchByAppointmentUrgent').val() },
             filter_status: function () { return $('#searchByStatus').val() },
+            end_date: function () { return $('#end_date').val() },
+            start_date: function () { return $('#start_date').val() },
         },
         success: function (response) {
             var a = document.createElement("a");
