@@ -22,12 +22,7 @@ use DB;
 class AppointmentUpcomingDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $hcp_type;
-    private $appointment_type;
-    private $appointment_urgent;
-    private $appointment_status;
-    private $appointment_start_date;
-    private $appointment_end_date;
+    private $hcp_type, $appointment_type, $appointment_urgent, $appointment_status, $appointment_start_date, $appointment_end_date;
     public function __construct($hcp_type = '', $appointment_type = '', $appointment_urgent = '', $appointment_status = '', $appointment_start_date = '', $appointment_end_date = '')
     {
         $this->hcp_type = $hcp_type;

@@ -15,16 +15,7 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 class PatientDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
-    private $start_date;
-    private $end_date;
-    private $patient_status;
-    private $birth_start_date;
-    private $birth_end_date;
-    private $dob_by_month;
-    private $dob_by_year;
+    private $category_id, $subcategory_id, $status, $start_date, $end_date, $patient_status, $birth_start_date, $birth_end_date, $dob_by_month, $dob_by_year;
     public function __construct($category_id, $subcategory_id, array $status = [], $start_date = '', $end_date = '', $patient_status = '', $birth_start_date = '', $birth_end_date = '', $dob_by_month = '', $dob_by_year = '')
     {
         $this->category_id = $category_id;

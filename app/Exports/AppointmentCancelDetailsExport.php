@@ -15,11 +15,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class AppointmentCancelDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
-    private $start_date;
-    private $end_date;
-    private $hcp_type;
-    private $appointment_type;
-    private $appointment_urgent;
+    private $start_date, $end_date, $hcp_type, $appointment_type, $appointment_urgent;
     public function __construct($start_date = '', $end_date = '', $hcp_type = '', $appointment_type = '', $appointment_urgent = '')
     {
         $this->start_date = $start_date;
