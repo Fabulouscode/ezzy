@@ -147,7 +147,7 @@ class UserTransactionRepository extends Repository
             $query = $query->whereDate('created_at',Carbon::now());
         }
        
-        $query =  $query->where('status', '0')                 
+        $query =  $query->where('status', '0')->where('transaction_msg','Wallet Topup')                 
                     ->sum('amount');
         return $query;
     }
