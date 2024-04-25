@@ -187,10 +187,12 @@ class ShopMedicineDetailsRepository extends Repository
       
         //search filter
         if(!empty($request->search)){
-            $query = $query->whereHas('medicineDetails', function ($query) use ($request) {
-                        $query->where(function ($query) use ($request) {
-                            $query->orWhere('medicine_name', 'LIKE', '%'.$request->search.'%');
-                            $query->orWhere('medicine_sku', 'LIKE', '%'.$request->search.'%');
+            // Remove trailing spaces
+            $search = rtrim($request->search);
+            $query = $query->whereHas('medicineDetails', function ($query) use ($search) {
+                        $query->where(function ($query) use ($search) {
+                            $query->orWhere('medicine_name', 'LIKE', '%'.$search.'%');
+                            $query->orWhere('medicine_sku', 'LIKE', '%'.$search.'%');
                         });
                     });
 
