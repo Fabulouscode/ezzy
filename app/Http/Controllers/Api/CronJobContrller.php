@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserTransactionRepository;
 use App\Repositories\AppointmentRepository;
@@ -227,7 +228,7 @@ class CronJobContrller extends BaseApiController
                 }
             }
         } 
-        return self::sendSuccess([], 'Video appointment complted.');
+        return self::sendSuccess([], 'Video appointment completed.');
     }
 
     public function completedAppointment($data)
@@ -442,5 +443,67 @@ class CronJobContrller extends BaseApiController
             DB::rollBack();
             return false;
         }
+    }
+
+    public function updateUrgentAppointmentComplete(Request $request){          
+        $urgent_appointment = $this->appointment_repo->getInProgressUrgentAppointment();
+        if(!empty($urgent_appointment) && count($urgent_appointment) > 0){
+            foreach ($urgent_appointment as $key => $value) {
+                $current_time  =  Carbon::now();
+                $url = config('app.url')."api/user/video/appointment/completed";
+                $urgent_appointment_completed_datetime = new Carbon($value->completed_datetime);
+                $urgent_appointment_current_time = Carbon::now();
+                if($value->urgent == '1' && !empty($urgent_appointment_current_time) && !empty($urgent_appointment_completed_datetime) && $urgent_appointment_current_time <= $urgent_appointment_completed_datetime){
+                    $data = [
+                        "id"=> $value->id,
+                        "status"=> 4,
+                        "completed_datetime"=> $current_time,
+                        "consult_notes"=> '',
+                    ];
+                    self::completedAppointment($data);
+                }else{
+                    $urgent_appointment_start_time = new Carbon($value->start_datetime);
+                    $urgent_appointment_end_time  =  Carbon::now();
+                    $urgent_appointment_end_time = $urgent_appointment_end_time->addMinute(2);
+                    $appointment_timing =  $urgent_appointment_start_time->diffInSeconds($urgent_appointment_end_time);
+                    $appointment_total_minutes = $appointment_timing / 60;
+                    $transaction_amount = 0;
+                    if($value->appointment_type == '1'){
+                        $transaction_amount = $value->hcp_fees * $appointment_total_minutes;
+                        $transaction_amount += $value->home_visit_fees;        
+                    }else if($value->appointment_type == '2'){
+                        $transaction_amount = $value->hcp_fees * $appointment_total_minutes;
+                        $transaction_amount += $value->home_visit_fees;     
+                    }else {
+                        $transaction_amount = $value->hcp_fees * $appointment_total_minutes; 
+                        $transaction_amount += $value->home_visit_fees;    
+                    } 
+                
+                    $user = User::where('id',$value->client_id)->select('id','wallet_balance')->first();
+                    $walletBalanceCalculate = 0;
+                    if(!empty($user)){
+                        $walletBalanceCalculate = $user->wallet_balance - $transaction_amount;
+                    }
+
+                    if(!empty($walletBalanceCalculate) && $walletBalanceCalculate > 5){
+                  
+                    }else{
+                        //Due to insufficient wallet balance, the appointment will be automatically marked as completed.
+                        if($value->urgent == '1' && isset($walletBalanceCalculate)){
+                            $data = [
+                                "id"=> $value->id,
+                                "status"=> 4,
+                                "completed_datetime"=> $current_time,
+                                "consult_notes"=> 'Due to insufficient wallet balance, the appointment will be automatically marked as completed.',
+                            ];
+                            self::completedAppointment($data);
+                        }
+                    }
+                }
+
+               
+            }
+        } 
+        return self::sendSuccess([], 'Urgent appointment completed.');
     }
 }

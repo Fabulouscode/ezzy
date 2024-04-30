@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('appointment:extend')->everyMinute();   
+        $schedule->command('urgent-appointment:completed')->everyMinute();   
         $schedule->command('appointment:upcoming')->everyMinute();  
         $schedule->command('videoappointment:completed')->everyMinute();  
         $schedule->command('user:profile-percentage-calculate')->everyFiveMinutes();  
