@@ -11,7 +11,7 @@ class UrgentAppointmentWalletBalanceCheck extends Command
      *
      * @var string
      */
-    protected $signature = 'urgent-appointment:wallet-balance-check';
+    protected $signature = 'urgent-appointment:completed';
 
     /**
      * The console command description.
