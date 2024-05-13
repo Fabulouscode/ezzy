@@ -181,5 +181,5 @@
     var data_category_id = '';
     var data_provider = '';
 </script>
-<script src="{{ asset('js/admin/provider.js?v=1') }}" ></script>
+<script src="{{ asset('js/admin/provider.js?v=1.1') }}" ></script>
 @endsection
