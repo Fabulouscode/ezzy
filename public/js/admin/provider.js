@@ -125,7 +125,7 @@ $(function () {
         // responsive: true,
         ajax: {
             headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-            url: "http://64.225.56.223/donotezzycaretouch/user/transaction/data",
+            url: user_url + "/transaction/data",
             type: 'post',
             dataType: "json",
             data: {
