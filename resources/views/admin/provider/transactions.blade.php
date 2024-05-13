@@ -173,7 +173,7 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
-    $('#start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
+    $('#start_date').val(moment().subtract(6, 'months').format("YYYY-MM-DD"));
     $('#end_date').val(moment().format("YYYY-MM-DD"));
     var pending_hcp_url = "{{url('/donotezzycaretouch/healthcare/user/pending')}}";
     var data_obj = {};
@@ -181,5 +181,5 @@
     var data_category_id = '';
     var data_provider = '';
 </script>
-<script src="{{ asset('js/admin/provider.js?v=1.2') }}" ></script>
+<script src="{{ asset('js/admin/provider.js?v=1.4') }}" ></script>
 @endsection

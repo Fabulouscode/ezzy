@@ -407,8 +407,8 @@ $(function () {
 
 
     $('#transaction-date-range').daterangepicker({
-        // startDate: moment().subtract(30, 'days'),
-        // endDate: moment(),
+        startDate: moment().subtract(6, 'months'),
+        endDate: moment(),
         maxDate: moment(),
         autoUpdateInput: false,
         locale: {
