@@ -18,7 +18,7 @@
             </div>
         </div>
         <!-- end row -->
-        
+
         <div class="row">
             @if($provider == 'patients')
             <div class="col-xl-3 col-md-6">
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card d-card-part bg-secondary mini-stat m-b-30">
                     <div class="card-d-title text-white">
@@ -148,7 +148,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>HCP Provider Name</th>
-                                    <th>Patient Name</th>                                    
+                                    <th>Patient Name</th>
                                     <th>Transaction</th>
                                     <th>Transaction date</th>
                                     <th>Transaction Type</th>
@@ -173,8 +173,8 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
-    // $('#start_date').val(moment().subtract(30, 'days').format("YYYY-MM-DD"));
-    // $('#end_date').val(moment().format("YYYY-MM-DD"));
+    $('#start_date').val(moment().subtract(1, 'years').format("YYYY-MM-DD"));
+    $('#end_date').val(moment().format("YYYY-MM-DD"));
     var pending_hcp_url = "{{url('/donotezzycaretouch/healthcare/user/pending')}}";
     var data_obj = {};
     var data_status = '';
