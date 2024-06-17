@@ -40,16 +40,16 @@
 
                 </div>
             </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+        </div>
+    </div>
 </div>
-<!-- container fluid End -->
 @endsection
 
 @section('script')
 <script>
     var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
     var data_user_id = '';
+    var data_status = '';
 </script>
  <!-- Bootstrap rating js -->
 <script src="{{ asset('admin/plugins/bootstrap-rating/bootstrap-rating.min.js') }}"></script>
