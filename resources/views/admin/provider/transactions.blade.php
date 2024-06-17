@@ -173,8 +173,6 @@
 @section('script')
 <script>
     var user_url = "{{url('/donotezzycaretouch/user')}}";
-    $('#start_date').val(moment().subtract(1, 'months').format("YYYY-MM-DD"));
-    $('#end_date').val(moment().format("YYYY-MM-DD"));
     $('#transaction-date-range').val(moment().subtract(1, 'months').format("MM/DD/YYYY") + ' - ' + moment().format("MM/DD/YYYY"));
     var pending_hcp_url = "{{url('/donotezzycaretouch/healthcare/user/pending')}}";
     var data_obj = {};
