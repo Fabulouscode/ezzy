@@ -17,12 +17,11 @@ $(function () {
             dataType: "json",
             async: true,
             data: {
-                status: function () { return $('#searchByStatus').val() },  
+                status: function () { return data_status; },    
                 end_date: function () { return $('#end_date').val() },
                 start_date: function () { return $('#start_date').val() },
                 user_id: data_user_id  
             },
-            
             complete: function() {
                 $('#ajax_loader').hide();
             },
@@ -165,8 +164,69 @@ function deleteRow(row_id) {
     }
 }
 
-function pharmacyOrderExportExcel() {
-    let orderDateRange = $('#order-date-range').val();
+function pharmacyPendingOrderExportExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pharmacy_order_export_url + '/export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
+        
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function pharmacyCompletedOrderExportExcel() {
+    $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        url: pharmacy_order_export_url + '/export',
+        type: "post",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            var a = document.createElement("a");
+            a.href = response.data.file;
+            a.download = response.data.name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toastr.success(response.msg, App_name_global);
+            var oTable = $('#user_datatable').dataTable();
+            oTable.fnDraw(true);
+        },
+        beforeSend: function() {
+            $('#ajax_loader').show();
+        },
+        complete: function() {
+            $('#ajax_loader').hide();
+        },
+        
+        error: function (error) {
+            toastr.error(error.responseJSON.msg, App_name_global);
+        }
+    });
+}
+
+function pharmacyCancelledOrderExportExcel() {
     $.ajax({
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         url: pharmacy_order_export_url + '/export',

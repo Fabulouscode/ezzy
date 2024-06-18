@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
+class PharmacyPendingOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
     private $start_date, $end_date, $status;
@@ -40,7 +40,7 @@ class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnF
 
     public function query()
     {
-        $query = Order::query()->select('orders.*')->with(['clientDetails', 'userDetails']);
+        $query = Order::query()->select('orders.*')->with(['clientDetails', 'userDetails'])->where('status','0');
         // $query = $query->whereNotIn('status', [5,6]);
         if(!empty($this->start_date) && !empty($this->end_date)){
             $start_date = date('Y-m-d', strtotime($this->start_date));

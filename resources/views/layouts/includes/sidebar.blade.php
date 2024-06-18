@@ -131,7 +131,7 @@
                     </ul>
                 </li>
                 @endif
-                @can('order-list')
+                {{-- @can('order-list')
                 <li>
                     <a href="{{url('/donotezzycaretouch/pharmacy/order')}}" class="waves-effect d-flex">
                         <i class="dripicons-clipboard"></i>
@@ -139,7 +139,36 @@
                         <span id="OrderPendingCount" class="badge_count_side_menu">0</span>
                     </a>
                 </li>
-                @endcan
+                @endcan --}}
+                {{-- @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('order-list')) --}}
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-clipboard"></i> 
+                        <span> Orders </span> 
+                        <span class="menu-arrow float-right">
+                            <i class="mdi mdi-chevron-right"></i>
+                        </span>                        
+                        <span id="OrderPendingCount" class="badge_count_side_menu_with_sub float-right">0</span>
+                    </a>
+                    <ul class="list-unstyled">
+                        @can('order-list')
+                        <li><a href="{{url('/donotezzycaretouch/pharmacy/order/pending')}}">Pending</a></li>
+                        @endcan
+                        @can('order-list')
+                        <li class="d-flex">
+                            <a href="{{url('/donotezzycaretouch/pharmacy/order')}}">
+                                Completed
+                            </a>
+                        </li>
+                        @endcan
+                        @can('order-list')
+                        <li><a href="{{url('/donotezzycaretouch/pharmacy/order/cancel')}}">Cancel</a></li>
+                        @endcan
+                        @can('order-review')
+                        <li><a href="{{url('/donotezzycaretouch/pharmacy/order/reviews')}}">Reviews</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                {{-- @endif --}}
                 @if(!empty(Auth::user()) && Auth::user()->hasMultiplePermissionTo('payout-list'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-card"></i> <span> Payout </span> <span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>

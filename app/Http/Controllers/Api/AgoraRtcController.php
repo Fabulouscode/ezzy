@@ -94,24 +94,7 @@ class AgoraRtcController extends BaseApiController
         return self::sendError([], 'Appointment not found');
         
     }
-
-    public function joinRoom(VideoJoinRequest $request)
-    {
-        // // A unique identifier for this user
-        // $identity = $request->user()->id;
-        // $url=config('app.VIDEOSDK_API_ENDPOINT').'/api/meetings/'.$request->meeting_id;
-        // $token = $request->video_token;
-        // $data = [];
-        // $curlResponse = self::sendCurlRequest($url, $token, $data);
-        // if(!empty($curlResponse) && !empty($curlResponse['id'])){
-        //     $responseData = [];
-        //     $responseData['access_token'] = $request->video_token;
-        //     $responseData['meeting_data'] = $curlResponse;
-        //     return self::sendSuccess($responseData, 'Room join');
-        // }
-        return self::sendError([], 'Room not found');
-    }
-
+    
     public function genrateRoomName($length = 12) {     
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&"; 
         $room_name = substr( str_shuffle(sha1(rand() . time()) . $chars ), 0, $length );

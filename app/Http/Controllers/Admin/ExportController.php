@@ -14,7 +14,10 @@ use App\Exports\PatientDetailsExport;
 use App\Exports\PendingHCPDetailsExport;
 use App\Exports\PendingLaboratoriesDetailsExport;
 use App\Exports\PendingPharmacistDetailsExport;
+use App\Exports\PharmacyCancelledOrderDetailsExport;
+use App\Exports\PharmacyCompletedOrderDetailsExport;
 use App\Exports\PharmacyOrderDetailsExport;
+use App\Exports\PharmacyPendingOrderDetailsExport;
 use App\Exports\UserApprovedPayoutExport;
 use App\Exports\UserPayoutDepositTransactionListExport;
 use App\Exports\UserPayoutTransactionListExport;
@@ -226,25 +229,36 @@ class ExportController extends Controller
         return response()->json(['data' => $response, 'msg' => $notification_msg], 200);
     }
 
-    public function pharmacyOrderExportExcel(Request $request)
+    public function pharmacyPendingOrderExportExcel()
     {
-        $start = new Carbon();
-        $end = new Carbon();
-        if(!empty($request->order_date_range)){
-            $order_date_range = explode(' -',$request->order_date_range);
-            if($order_date_range){
-                $start = date('Y-m-d', strtotime($order_date_range[0]));
-                $end = date('Y-m-d', strtotime($order_date_range[1]));
-            }
-            $pharmacy_order_file = Excel::raw(new PharmacyOrderDetailsExport($start, $end, $request->status), \Maatwebsite\Excel\Excel::XLSX);
-        }else{
-            $pharmacy_order_file = Excel::raw(new PharmacyOrderDetailsExport('', '', $request->status), \Maatwebsite\Excel\Excel::XLSX);
-        }
+        $pharmacy_order_file = Excel::raw(new PharmacyPendingOrderDetailsExport, \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
-            'name' => "pharmacy_order_details", 
+            'name' => "pharmacy_pending_order_details", 
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pharmacy_order_file) 
         );
-        $notification_msg = 'Pharmacy Order details export successfully.';
+        $notification_msg = 'Pharmacy Pending Order details export successfully.';
+        return response()->json(['data' => $response, 'msg' => $notification_msg], 200);
+    }
+
+    public function pharmacyCompletedOrderExportExcel()
+    {
+        $pharmacy_order_file = Excel::raw(new PharmacyCompletedOrderDetailsExport, \Maatwebsite\Excel\Excel::XLSX);
+        $response =  array(
+            'name' => "pharmacy_completed_order_details", 
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pharmacy_order_file) 
+        );
+        $notification_msg = 'Pharmacy Completed Order details export successfully.';
+        return response()->json(['data' => $response, 'msg' => $notification_msg], 200);
+    }
+
+    public function pharmacyCancelledOrderExportExcel()
+    {
+        $pharmacy_order_file = Excel::raw(new PharmacyCancelledOrderDetailsExport, \Maatwebsite\Excel\Excel::XLSX);
+        $response =  array(
+            'name' => "pharmacy_cancelled_order_details", 
+            'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($pharmacy_order_file) 
+        );
+        $notification_msg = 'Pharmacy Cancelled Order details export successfully.';
         return response()->json(['data' => $response, 'msg' => $notification_msg], 200);
     }
 
