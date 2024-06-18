@@ -123,4 +123,13 @@ class OrderController extends Controller
         }
         return view('admin.order.reviews');
     }
+
+    public function getCancelOrders()
+    {
+        return view('admin.order.cancel');
+    }
+
+    public function getPendingOrders(){
+        return view('admin.order.pending');
+    }
 }

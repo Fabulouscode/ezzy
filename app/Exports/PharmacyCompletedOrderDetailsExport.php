@@ -20,7 +20,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use DB;
 
-class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
+class PharmacyCompletedOrderDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles
 {
 
 
@@ -44,7 +44,7 @@ class PharmacyOrderDetailsExport implements FromQuery, WithHeadings, WithColumnF
 
     public function query()
     {
-        $query = Order::query()->select('orders.*')->with(['clientDetails', 'userDetails']);
+        $query = Order::query()->select('orders.*')->with(['clientDetails', 'userDetails'])->where('status','3');
         // $query = $query->whereNotIn('status', [5,6]);
 
         return $query;

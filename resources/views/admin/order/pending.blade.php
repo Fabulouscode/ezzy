@@ -11,10 +11,10 @@
             <div class="float-right page-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/donotezzycaretouch/pharmacy/dashboard')}}">Pharmacy Dashboard</a></li>
-                    <li class="breadcrumb-item active">Orders List</li>
+                    <li class="breadcrumb-item active">Orders Pending</li>
                 </ol>
             </div>
-            <h5 class="page-title">Orders List</h5>
+            <h5 class="page-title">Orders Pending</h5>
         </div>
     </div>
     <!-- end row -->
@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <div class="block-options-item mb-3 mr-3 float-right">
-                        <a href="javascript:void(0)" onclick="pharmacyCompletedOrderExportExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
+                        <a href="javascript:void(0)" onclick="pharmacyPendingOrderExportExcel()" class="btn d-flex align-items-center btn-info">Export <span id="ajax_loader" class="ml-2"></span></a>
                     </div>
                     
                     <div id="AdvanceFiletrShow" class="mb-4 ml-3 justify-content-start">
@@ -68,18 +68,17 @@
 
                 </div>
             </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+        </div>
+    </div>
 </div>
-<!-- container fluid End -->
 @endsection
 
 @section('script')
 <script>
     var pharmacy_order_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
-    var pharmacy_order_export_url = "{{url('/donotezzycaretouch/pharmacy/order')}}";
+    var pharmacy_order_export_url = "{{url('/donotezzycaretouch/pharmacy/order/pending')}}";
     var data_user_id = '';
-    var data_status = '3';
+    var data_status = '0'; // Example of multiple statuses
 </script>
 <script src="{{ asset('js/admin/pharmacy_order.js') }}" ></script>
 @endsection

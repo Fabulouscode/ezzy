@@ -137,8 +137,12 @@ Route::namespace('App\Http\Controllers')->group(function(){
         // pharmacy order Details routes        
         Route::get('pharmacy/order/invoice/{id?}', 'OrderController@getInvoice')->middleware('role-permission:order-invoice');
         Route::get('pharmacy/order/reviews', 'OrderController@getOrderReviews')->middleware('role-permission:order-review');
+        Route::get('pharmacy/order/cancel', 'OrderController@getCancelOrders')->middleware('role-permission:order-list');
+        Route::get('pharmacy/order/pending', 'OrderController@getPendingOrders')->middleware('role-permission:order-list');
         Route::resource('pharmacy/order', 'OrderController')->middleware('role-permission-resource:order-list');
-        Route::post('pharmacy/order/export', 'ExportController@pharmacyOrderExportExcel');        
+        Route::post('pharmacy/order/pending/export', 'ExportController@pharmacyPendingOrderExportExcel');
+        Route::post('pharmacy/order/export', 'ExportController@pharmacyCompletedOrderExportExcel');
+        Route::post('pharmacy/order/cancel/export', 'ExportController@pharmacyCancelledOrderExportExcel');        
      
         // payout routes         
         Route::get('payout/pending', 'PayoutAmountController@getPendingPayout')->middleware('role-permission:payout-list');
