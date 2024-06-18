@@ -17,10 +17,11 @@ use DB;
 
 class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
     private $user_ids;
-
-    public function __construct(array $user_ids = []) 
+    private $hcp_type;
+    public function __construct( $user_ids = [], $hcp_type = '') 
     {
         $this->user_ids = $user_ids;
+        $this->hcp_type = $hcp_type;
     }
 
 
@@ -58,7 +59,12 @@ class UserPayoutExport implements FromQuery, WithHeadings, WithColumnFormatting,
         $query = $query->where('payout_status', '!=', '0');
         
         $query = $query->where('status', '0')->groupBy('client_id','payout_status')->orderBy('id','desc');
-
+        if (!empty($this->hcp_type)) {
+            $category = $this->hcp_type;
+            $query = $query->whereHas('client', function ($query) use ($category) {
+                $query->where('category_id', $category);
+            });
+        }
         return $query;
     }
 

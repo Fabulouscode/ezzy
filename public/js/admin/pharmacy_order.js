@@ -232,7 +232,10 @@ function pharmacyCancelledOrderExportExcel() {
         url: pharmacy_order_export_url + '/export',
         type: "post",
         dataType: 'json',
-        data: {},
+        data: {
+            order_date_range:orderDateRange,
+            status: function () { return $('#searchByStatus').val() },
+        },
         success: function (response) {
             var a = document.createElement("a");
             a.href = response.data.file;

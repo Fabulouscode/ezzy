@@ -20,9 +20,7 @@ use DB;
 
 class UpcomingAppointmentDetailsExport implements FromQuery, WithHeadings, WithColumnFormatting, WithMapping, WithStyles {
 
-    private $category_id;
-    private $subcategory_id;
-    private $status;
+    private $category_id, $subcategory_id, $status;
     public function __construct($category_id, $subcategory_id, $status) 
     {
       $this->category_id = $category_id;
