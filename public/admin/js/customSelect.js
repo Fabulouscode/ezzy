@@ -22,7 +22,8 @@ $('select').each(function () {
     var $styledSelect = $this.next('div.select');
 
     // Show the first select option in the styled div
-    $styledSelect.text($this.children('option').eq(0).text());
+    var selectedOption = $this.find('option:selected');
+    $styledSelect.text(selectedOption.text());
 
     // Insert an unordered list after the styled div and also cache the list
     var $list = $('<ul />', {
