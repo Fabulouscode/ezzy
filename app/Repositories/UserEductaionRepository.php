@@ -57,5 +57,10 @@ class UserEductaionRepository extends Repository
     {
         return $this->model->where('user_id', $user_id)->delete();
     }
+
+    public function deleteByEducationId($id)
+    {
+        return $this->model->where('id', $id)->delete();
+    }
     
 }
