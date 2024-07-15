@@ -496,4 +496,9 @@ class UserController extends Controller
         return response()->json(['msg'=>'Please fill all required details.'], 500);
     }
 
+    public function destroyEducation($usereducationid)
+    {
+        $this->user_education_repo->deleteByEducationId($usereducationid);
+        return redirect()->back()->with('success', 'Record deleted Successfully');
+    }
 }

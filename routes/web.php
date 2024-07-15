@@ -122,6 +122,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::get('pharmacy/user/medicine/{id?}', 'UserController@showMedicineDetails')->middleware('role-permission:pharmacy-services');
         Route::get('{provider?}/user/info/{id?}', 'UserController@showUserInfoDetails')->middleware('role-permission:{provider}-list');
         Route::resource('user', 'UserController');
+        Route::get('education/{usereducationid}', 'UserController@destroyEducation')->name('education.delete')->middleware('role-permission:healthcare-edit');
+
 
         // Medicine Category routes
         Route::resource('medicine/categories', 'MedicineCategoryController')->middleware('role-permission-resource:medicine_category-list,medicine_category-add,medicine_category-edit,medicine_category-delete');

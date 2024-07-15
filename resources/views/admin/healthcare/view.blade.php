@@ -411,7 +411,6 @@
                             </div>
                         </div>
                         @endif
-                      
                         @if(count($data->userExperiance) > 0)
                         <div class="border border-light rounded mb-3">
                             <div class="card-detail-view">
@@ -457,15 +456,21 @@
                                                     <th>Degree Name</th>
                                                     <th>Start Year</th>
                                                     <th>End Year</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($data->userEduction as $user_eduction) 
+                                            {{-- @dd($user_eduction->id) --}}
                                                 <tr>
                                                     <td>{{$user_eduction->college_name}}</td>
                                                     <td>{{$user_eduction->degree_name}}</td>
                                                     <td>{{$user_eduction->start_year}}</td>
                                                     <td>{{$user_eduction->currently_work == '1'? 'Current Pursuing':$user_eduction->end_year}}</td>
+                                                    <td>    
+                                                        <a href="{{ route('education.delete', ['usereducationid' => $user_eduction->id]) }}"
+                                                            class="btn btn-danger" title="Delete"><i class="fa fa-trash"></i></a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
