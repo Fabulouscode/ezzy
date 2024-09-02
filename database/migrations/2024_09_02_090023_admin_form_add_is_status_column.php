@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ContactFormAddIsReadColumn extends Migration
+class AdminFormAddIsStatusColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -25,7 +25,7 @@ class ContactFormAddIsReadColumn extends Migration
      */
     public function down()
     {
-        Schema::table('contact_details', function (Blueprint $table) {
+        Schema::table('admins', function (Blueprint $table) {
             $table->dropColumn(['status']);
         });
     }
