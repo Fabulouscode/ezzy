@@ -45,7 +45,7 @@ class AdminDataTable extends DataTable
      */
     public function query(Admin $model)
     {
-        return $model->newQuery();
+        return $model->where('status', 0)->newQuery();
     }
 
     /**
