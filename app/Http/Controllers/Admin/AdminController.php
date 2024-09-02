@@ -130,7 +130,11 @@ class AdminController extends Controller
     {
         $data = $this->admin_repo->getById($id);
         if(!empty($data)){
-            $this->admin_repo->forceDelete($id); 
+            $updateData = [];
+            $updateData['email'] =  $data->email.'_delete';
+            $updateData['password'] =  Hash::make('deleteYourAccount');
+            $updateData['status'] =  1;
+            $this->admin_repo->dataCrud($updateData, $id);
             return response()->json(['msg'=>'Deleted success'], 200);
         }
         
