@@ -58,7 +58,7 @@ class AdminRepository extends Repository
      */
     public function getDatatable($request)
     {
-        $data = $this->getAll();
+        $data = $this->model->where('status', 0)->get();
         return Datatables::of($data)
                 ->addColumn('action',function($selected)
                 {
