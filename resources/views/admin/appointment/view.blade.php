@@ -113,14 +113,14 @@
                                             @endif 
                                         </dd>
                                     </div>
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <dt class="col-sm-5"><label>Reason</label></dt>
                                         <dd class="col-sm-7"> 
                                             @if(isset($data->reason))
                                                 {{$data->reason}}
                                             @endif 
                                         </dd>
-                                    </div>
+                                    </div> --}}
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Appointment Created Date</label></dt>
                                         <dd class="col-sm-7"> 
