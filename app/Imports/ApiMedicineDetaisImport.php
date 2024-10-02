@@ -53,7 +53,7 @@ class ApiMedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunk
                     [
                         'capsual_quantity' => $row['quantity'],
                         'mrp_price' => $mrp_price,
-                        'offer_price' => !empty($row['offer_price']) ? $row['offer_price'] : 0,
+                        'offer_price' => !empty($row['offer_price']) ? $row['offer_price'] : $mrp_price,
                         'status'=>'0'
                     ]);    
                 } 
