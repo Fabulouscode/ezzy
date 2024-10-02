@@ -1383,24 +1383,24 @@ class AppointmentController extends BaseApiController
                     $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                     $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                     $end_appointment   = $end_appointment->addMinute($appointmentTimeCalculate);
-                    // $end_appointment_date = $end_appointment->format('Y-m-d');  
-                    // $end_appointment_time = $end_appointment->format('H:i:s');  
                     $end_appointment_date_time = $end_appointment->format('Y-m-d H:i:s');  
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');  
                 }else{
                     $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                     $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
                     $end_appointment   = $end_appointment->addMinute(60);
-                    // $end_appointment_date = $end_appointment->format('Y-m-d');  
-                    // $end_appointment_time = $end_appointment->format('H:i:s');  
                     $end_appointment_date_time = $end_appointment->format('Y-m-d H:i:s'); 
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');       
                 }
             }
 
             $updateuser = [
                 'hcp_fees'=> $hcp_fees,
                 'home_visit_fees'=> $home_visit_fees,
-                // 'appointment_end_date'=> !empty($end_appointment_date) ?  $end_appointment_date : null,
-                // 'appointment_end_time'=> !empty($end_appointment_time) ?  $end_appointment_time : null,
+                'appointment_end_date'=> !empty($end_appointment_date) ?  $end_appointment_date : null,
+                'appointment_end_time'=> !empty($end_appointment_time) ?  $end_appointment_time : null,
                 'completed_datetime'=> !empty($end_appointment_date_time) ?  $end_appointment_date_time : null,
             ];
             $this->appointment_repo->dataCrud($updateuser, $request->id);
