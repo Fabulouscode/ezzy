@@ -41,12 +41,12 @@ class PharmacyMedicineAdd implements ShouldQueue
                 [
                     'user_id' => $this->user_id, 
                     'medicine_category_id' => $value->medicine_category_id,
-                    'medicine_detail_id' => $value->medicine_detail_id
+                    'medicine_detail_id' => $value->id
                 ], 
                 [
-                    'capsual_quantity' => !empty($value->quantity) ? $value->quantity : NULL,
-                    'mrp_price' => !empty($value->mrp_price) ? $value->mrp_price : NULL,
-                    'offer_price' => !empty($value->mrp_price) ? $value->mrp_price : NULL,
+                    'capsual_quantity' => !empty($value->quantity) ? $value->quantity : 0,
+                    'mrp_price' => !empty($value->mrp_price) ? $value->mrp_price : 0,
+                    'offer_price' => !empty($value->mrp_price) ? $value->mrp_price : 0,
                     'status' => 1,
                 ]
             );
