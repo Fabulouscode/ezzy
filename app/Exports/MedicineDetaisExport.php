@@ -66,9 +66,9 @@ class MedicineDetaisExport implements FromQuery, WithHeadings, WithColumnFormatt
             isset($data->medicine_type_name) ? $data->medicine_type_name : '',
             isset($data->size_dosage) ? $data->size_dosage : '',
             isset($data->description) ? $data->description : '',
-            '',
-            '',
-            '',
+            isset($data->quantity) ? $data->quantity : '',
+            isset($data->mrp_price) ? $data->mrp_price : '',
+            isset($data->mrp_price) ? $data->mrp_price : '',
         ];
     }
     
