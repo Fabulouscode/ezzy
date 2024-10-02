@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Models\User;
 use App\Models\User_details;
+use App\Jobs\PharmacyMedicineAdd;
 use Illuminate\Support\Str;
 use App\Repositories\UserTransactionRepository;
 use Validator;
@@ -100,6 +101,16 @@ class UserRepository extends Repository
         $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->whereNull('ezzycare_card');
         if(!empty($user)){
             $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->update(['ezzycare_card'=> $card_number]);
+        }
+
+        if(!empty($user) && !empty($user->category_id) && $user->category_id == 7){
+            try{
+                dispatch(new PharmacyMedicineAdd($user->id));
+            }
+            catch (\Throwable $th)
+            {
+                
+            }
         }
     }
     

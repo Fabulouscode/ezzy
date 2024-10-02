@@ -29,7 +29,7 @@ class MedicineDetailsRequest extends FormRequest
            'medicine_sku'=>'required|unique:medicine_details,medicine_sku,'.$this->id.',id,medicine_subcategoy_id,'.$this->medicine_subcategoy_id,
            'medicine_type'=>'required',
            'status'=>'required',
-           'mrp_price'=>'required|integer|min:0',
+           'mrp_price'=>'required|numeric|min:0',
            'quantity'=>'required|integer|min:0',
         ];
     }
