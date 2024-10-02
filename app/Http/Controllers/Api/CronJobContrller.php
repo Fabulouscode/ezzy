@@ -453,7 +453,7 @@ class CronJobContrller extends BaseApiController
                 $url = config('app.url')."api/user/video/appointment/completed";
                 $urgent_appointment_completed_datetime = new Carbon($value->completed_datetime);
                 $urgent_appointment_current_time = Carbon::now();
-                if($value->urgent == '1' && !empty($urgent_appointment_current_time) && !empty($urgent_appointment_completed_datetime) && $urgent_appointment_current_time <= $urgent_appointment_completed_datetime){
+                if($value->urgent == '1' && !empty($urgent_appointment_current_time) && !empty($urgent_appointment_completed_datetime) && $urgent_appointment_current_time > $urgent_appointment_completed_datetime){
                     $data = [
                         "id"=> $value->id,
                         "status"=> 4,
