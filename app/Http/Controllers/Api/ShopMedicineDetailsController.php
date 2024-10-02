@@ -106,6 +106,8 @@ class ShopMedicineDetailsController extends BaseApiController
                                         'medicine_type'=> $response->medicine_type,
                                         'medicine_type_name'=> $response->medicine_type_name,
                                         'shirap_ml'=> $response->size_dosage,
+                                        'mrp_price'=> $response->mrp_price,
+                                        'quantity'=> $response->quantity,
                                     ];
                                 });
         return self::sendSuccess($data);   
