@@ -81,6 +81,27 @@
 
                         <div class="row">
                              <div class="form-group col-md-6">
+                                <label>Mrp Price</label>
+                                <input id="mrp_price" type="text" required class="form-control @error('mrp_price') is-invalid @enderror" name="mrp_price" value="{{!empty($data->mrp_price) ? $data->mrp_price : old('mrp_price') }}" />
+                                @error('mrp_price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Quantity</label>
+                                <input id="quantity" type="text" required class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{!empty($data->quantity) ? $data->quantity : old('quantity') }}" />
+                                @error('quantity')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                             <div class="form-group col-md-6">
                                 <label>Size / Dosage</label>
                                 <input id="size_dosage" type="text" required class="form-control @error('size_dosage') is-invalid @enderror" name="size_dosage" value="{{!empty($data->size_dosage) ? $data->size_dosage : old('size_dosage') }}" />
                                 @error('size_dosage')

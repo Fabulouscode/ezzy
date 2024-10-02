@@ -44,7 +44,9 @@ class Medicine_details extends Model
         'medicine_image',
         'medicine_type',
         'status',
-        'size_dosage'
+        'size_dosage',
+        'mrp_price',
+        'quantity'
     ];
 
     protected $appends = ['medicine_multiple_images','status_name','medicine_type_name'];

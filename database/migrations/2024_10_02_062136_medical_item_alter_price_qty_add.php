@@ -13,7 +13,10 @@ class MedicalItemAlterPriceQtyAdd extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('medicine_details', function (Blueprint $table) {
+            $table->integer('mrp_price')->after('medicine_type')->signed()->default(0);
+            $table->integer('quantity')->after('mrp_price')->signed()->default(0);
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class MedicalItemAlterPriceQtyAdd extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('medicine_details', function (Blueprint $table) {
+            $table->dropColumn(['mrp_price','quantity']);
+        });
     }
 }
