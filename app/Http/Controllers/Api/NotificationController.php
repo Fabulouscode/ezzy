@@ -120,4 +120,8 @@ class NotificationController extends BaseApiController
         }
         return self::sendError($data, 'User Notification Status not change');
     }
+
+    public function sendingNotification($data){
+        return $this->notification_repo->sendingWithoutSenderNotification($data);
+    }
 }
