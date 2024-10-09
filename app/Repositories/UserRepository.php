@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Events\ForgotPassword;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\AppSetting;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\User;
 use App\Models\User_details;
 use App\Jobs\PharmacyMedicineAdd;
+use App\Jobs\UserRegistrationBonusQueue;
 use Illuminate\Support\Str;
 use App\Repositories\UserTransactionRepository;
 use Validator;
@@ -102,14 +104,30 @@ class UserRepository extends Repository
         if(!empty($user)){
             $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->update(['ezzycare_card'=> $card_number]);
         }
-
+        $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
+        \Log::info($user);
         if(!empty($user) && !empty($user->category_id) && $user->category_id == 7){
+            //pharmacy side all medicine added
             try{
                 dispatch(new PharmacyMedicineAdd($user->id));
             }
             catch (\Throwable $th)
             {
                 
+            }
+        }else if(!empty($user) && empty($user->category_id)){
+            //patients side welcome bonus given
+            
+            $bonusActive = AppSetting::where('key_name','bonus_active')->first();
+            $bonusAddCheck = User::whereNotNull('welcome_bonus')->where('id', $user->id)->first();
+            if(empty($bonusAddCheck) && !empty($bonusActive) && !empty($bonusActive->value_txt)){
+                try{
+                    dispatch(new UserRegistrationBonusQueue($user->id));
+                }
+                catch (\Throwable $th)
+                {
+                    
+                }
             }
         }
     }
@@ -1210,6 +1228,146 @@ class UserRepository extends Repository
         return $query;
     }
 
+        /**
+     * Display a list of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHealthcareProvidersUrgentInQueue($request)
+    {   
+        // DB::enableQueryLog();
+        \Log::info("HealthcareProvidersUrgent request ".json_encode($request->all()));
+        $query = $this->model->select('users.*'); 
+
+        // distance filter
+        if(!empty($request->latitude) && !empty($request->longitude)){
+    
+            if(isset($request->appointment_type)){
+                $query = $query->whereHas('userDetails', function ($query) use ($request) {
+                    $query->whereRaw("FIND_IN_SET('".$request->appointment_type."', urgent_criteria)");
+                });
+            }
+
+            $query = $query->where('category_id', '4');
+
+            $query = $query->has('urgenAppointmentDetails', '=', 0);  
+        
+            $query = $query->has('nonUrgentAppointmentDetails', '=', 0);  
+
+            if(!empty($request->distance)){
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                ->where([
+                         ['users.current_latitude', '!=', ''],
+                         ['users.current_longitude', '!=', '']
+                     ])
+                ->havingRaw('distance <= '.$request->distance)
+                ->orderBy('distance','asc');
+            }else{
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                ->where([
+                         ['users.current_latitude', '!=', ''],
+                         ['users.current_longitude', '!=', '']
+                     ])
+                ->havingRaw('distance <= 200000')
+                ->orderBy('distance','asc');
+            }
+
+            $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
+        } else{
+
+            if(isset($request->appointment_type)){
+                $query = $query->whereHas('userDetails', function ($query) use ($request) {
+                    $query->whereRaw("FIND_IN_SET('".$request->appointment_type."', urgent_criteria)");
+                });
+            }
+
+            $query = $query->where('category_id', '4');
+
+            $query = $query->has('urgenAppointmentDetails', '=', 0);  
+        
+            $query = $query->has('nonUrgentAppointmentDetails', '=', 0);  
+            
+             // country name filter
+            if(!empty($request->country_names) && is_array($request->country_names) && isset($request->consultation) && $request->consultation == '2'){
+                $query = $query->whereHas('userDetails', function($query) use ($request){
+                    $query->whereIn('country', $request->country_names);
+                }); 
+                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
+                $query = $query->orderBy('id','desc');
+        
+            }else if(!empty($request->user()->latitude) && !empty($request->user()->longitude)){
+
+                $query = $query->addSelect(DB::raw('((ACOS(SIN('.$request->user()->latitude.' * PI() / 180) * SIN(`users`.`current_latitude` * PI() / 180) + COS('.$request->user()->latitude.' * PI() / 180) * COS(`users`.`current_latitude` * PI() / 180) * COS(('.$request->user()->longitude.' - `users`.`current_longitude`) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance '))
+                            ->where([
+                                        ['users.current_latitude', '!=', ''],
+                                        ['users.current_longitude', '!=', '']
+                                    ])
+                            ->havingRaw('distance <= 200000')
+                            ->orderBy('distance','asc');
+                
+            }else{
+                $query = $query->withCount(['userAppointmentRating as rating' => function($query){
+                    $query->select(DB::raw('avg(user_rating) as rating'));
+                }])->orderBy('rating','desc');
+                $query = $query->orderBy('id','desc');
+            }
+       
+        }         
+        
+        
+        // urgent and not urgent filter
+        $query = $query->whereHas('userDetails', function($query) use ($request){
+                        $query->where('urgent', '1');
+                    });
+        
+         // category filter
+        if(!empty($request->category_id)){
+            $query = $query->where('category_id', $request->category_id);
+        }      
+        
+         // subcategory filter
+        if(!empty($request->subcategory_id)){
+            $query = $query->where('subcategory_id', $request->subcategory_id);
+        }  
+        
+         // consultation filter
+        if(isset($request->consultation)){
+            $query = $query->whereHas('userAvailableTime', function($query) use ($request){
+                        $query->where('appointment_type', $request->consultation);
+                    });
+        }                
+        
+        // country name filter
+        if(!empty($request->country_names) && is_array($request->country_names)){
+            $query = $query->whereHas('userDetails', function($query) use ($request){
+                $query->whereIn('country', $request->country_names);
+            });            
+        }
+        
+        // top listing
+        if(isset($request->last_id)){
+            if(!empty($request->last_id)){
+                $query = $query->where('id', '<', $request->last_id);    
+            }            
+            $query = $query->limit($this->api_data_limit);    
+        } else{
+            $query = $query->offset(0)->limit(20);  
+        }    
+
+        $current_time  =  Carbon::now();
+        $current_time = $current_time->subHour(12);
+        $current_time = $current_time->format('Y-m-d H:i:s');   
+
+        // $query = $query->where('users.status', '0')->where('users.updated_at', '<=', $current_time)->get();
+        $query = $query->where('users.status', '0')->get();
+        // print_r(DB::getQueryLog());
+        // die;
+        return $query;
+    }
     /**
      * generate card no for ezzy care card.
      *

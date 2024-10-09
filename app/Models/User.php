@@ -60,7 +60,8 @@ class User extends Authenticatable
         'lock_wallet_balance',
         'user_timezone',
         'user_ip',
-        'completed_percentage'
+        'completed_percentage',
+        'welcome_bonus'
     ];
 
     /**

@@ -68,7 +68,7 @@ class UserAuthController extends BaseApiController
         // }else{
         //     return self::sendError('', 'Currently, the registration feature is temporarily disabled. Please wait for a few days.'); 
         // }
-       
+     
         if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
             $otpDetails = OtpDetails::where('device_type',$request->header('device_type'))->where('device_id',$request->header('device_id'))->whereDate('start_date_time',Carbon::now()->format('Y-m-d'))->count();
             if(!empty($otpDetails) && $otpDetails >= 3){
@@ -167,7 +167,8 @@ class UserAuthController extends BaseApiController
                     DB::commit();
                     return self::sendError('', 'SMS Sending Failed');
                 }                
-                if(!empty($sent_msg)){
+
+                if(!empty($sent_msg) && $sent_msg === "SMS Sending Failed"){
                     DB::rollBack();
                     UserTempMobileRegister::create([
                         'device_type' => !empty($request->header('device_type')) ? $request->header('device_type') : null,

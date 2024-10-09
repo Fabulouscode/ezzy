@@ -174,6 +174,34 @@
                                                 @enderror
                                             </dd>
                                         </div>
+
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>Registration Bonus (Active/Inactive)</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[bonus_active]" name="setting[bonus_active]" >
+                                                    <option value="1" {{isset($data['bonus_active']) &&  $data['bonus_active'] == 1 ? 'selected' :""}}>Active</option>
+                                                    <option value="0" {{isset($data['bonus_active']) && $data['bonus_active'] == 0 ? 'selected' :""}}>Inactive</option>
+                                                </select>
+                                                @error('setting[bonus_active]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-sm-5"><label>Registration Bonus Amount</label></dt>
+                                            <dd class="col-sm-7">
+                                            <input type="number" required placeholder="Registration Bonus Amount" class="form-control @error('setting[bonus_amount]') is-invalid @enderror" name="setting[bonus_amount]" value="{{!empty($data['bonus_amount']) ? $data['bonus_amount'] : 0 }}">
+                                                @error('setting[bonus_amount]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
+
+                                        
                                         <div class="row d-flex justify-content-end mt-5">
                                             <div class="form-group col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-info waves-effect m-l-5">

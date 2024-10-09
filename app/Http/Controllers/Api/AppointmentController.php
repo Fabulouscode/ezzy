@@ -21,6 +21,7 @@ use App\Http\Requests\Api\AppointmentLaboratoryRequest;
 use App\Http\Requests\Api\AppointmentCompletedRequest;
 use App\Http\Requests\Api\AppointmentCheckRequest;
 use App\Http\Requests\Api\ReviewRequest;
+use App\Jobs\UrgentAppointmentAcceptSendQueue;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon as Carbon;
 use App\Http\Controllers\Api\WalletController;
@@ -615,13 +616,12 @@ class AppointmentController extends BaseApiController
             
             DB::commit();
             $healthcare_provider_assign = 0;
-            if(count($healthcare_providers) > 0){
+            if(isset($healthcare_providers) && count($healthcare_providers) > 0){
                 foreach ($healthcare_providers as $healthcare_provider){
                     $healthcare_providerReq = $this->appointment_repo->getById($data->id);
                     $healthcare_provider_assign = $healthcare_providerReq->user_id;
                     // send notification
                     if(empty($healthcare_provider_assign) || $healthcare_provider_assign == '0'){
-                        $user_timezone = $this->user_repo->getById($healthcare_provider->id);
                         $receiver_user = $this->user_repo->getById($healthcare_provider->id);
                         $sender_user = $this->user_repo->getById($request->user()->id);
                         $notification_user = [
@@ -659,6 +659,122 @@ class AppointmentController extends BaseApiController
                         break;
                     }
                 }
+                $healthcareProvider = $this->appointment_repo->getById($data->id);
+                $healthcare_provider_assign = $healthcareProvider->user_id;
+                Log::info($healthcare_provider_assign);
+                Log::info("healthcare provider assign time ".date('H:i:s'));
+                if(!empty($healthcare_provider_assign)){
+                    Log::info("healthcare provider assign ".date('H:i:s'));
+                    return self::sendSuccess($healthcareProvider);
+                }else{
+                    Log::info("healthcare provider not available ".date('H:i:s'));
+                    $this->appointment_repo->destroy($data->id);
+                    Log::info("response send ".date('H:i:s'));
+                    return self::sendError([],"The providers you requested are all currently engaged. Kindly use non-urgent care to book.");
+                }
+            }else{
+                Log::info("healthcare provider not available ".date('H:i:s'));
+                $this->appointment_repo->destroy($data->id);
+                Log::info("response send ".date('H:i:s'));
+                return Self::sendError([],"The providers you requested are all currently engaged. Kindly use non-urgent care to book.");
+            }
+            return self::sendSuccess($data);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info("response Exception ");
+            Log::info($e);
+            return self::sendException($e);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::info("response Throwable ");
+            Log::info($th);
+            return self::sendException($th);
+        }
+    }
+
+    public function addUrgentAppointmentNewCode(UrgentAppointmentRequest $request)
+    {
+        $data = array();
+        
+        //Appointment book check user wallet balance
+        $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
+        $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
+        $currency_symbol = $this->user_repo->currency_symbol;
+        if(isset($wallet_balance) && !empty($minimum_balance) && !empty($minimum_balance->fees_percentage) && ($minimum_balance->fees_percentage > $wallet_balance)){
+            return self::sendError(['data' => 'no_minimum_balance'], 'Please Top up your wallet with a minimum of '.$currency_symbol.$minimum_balance->fees_percentage.' before booking an appointment.', 402);
+        }
+        
+        if(!empty($request->appointment_type) && $request->appointment_type == '1'){
+             //Appointment home care book
+            $check_user_location = $this->user_repo->checkUserLocation($request);
+            if(empty($check_user_location)){
+                return self::sendError([], 'Please add the location before booking the appointment.');
+            }
+        }
+      
+        $add_data = [
+                        'client_id' => $request->user()->id,
+                        'appointment_type' => $request->appointment_type,
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'mobile_no' => $request->mobile_no,
+                        'gender' => $request->gender,
+                        'age' => isset($request->age) ? $request->age : '',
+                        'urgent' => 1,
+                        'appointment_date' => $request->appointment_date,
+                        'appointment_time' => $request->appointment_time,
+                        'full_day' => isset($request->full_day) ? $request->full_day : 0,
+                        'status' => '0'
+                    ];
+             
+        try {
+            DB::beginTransaction();
+            $data = $this->appointment_repo->dataCrud($add_data);
+            $healthcare_providers = $this->user_repo->getHealthcareProvidersUrgentInQueue($request);
+            
+            DB::commit();
+            $healthcare_provider_assign = 0;
+            if(isset($healthcare_providers) && count($healthcare_providers) > 0){
+                // Break healthcare providers into chunks of 5
+                $providerChunks = array_chunk($healthcare_providers, 5);
+                $sender_user = $this->user_repo->getById($request->user()->id);
+                foreach ($providerChunks as $chunkIndex => $providerChunk) {
+                    foreach ($providerChunk as $healthcare_provider) {
+                        $healthcare_providerReq = $this->appointment_repo->getById($data->id);
+                        $healthcare_provider_assign = $healthcare_providerReq->user_id;
+
+                        // Send notification if not assigned
+                        if (empty($healthcare_provider_assign) || $healthcare_provider_assign == '0') {
+                            $receiver_user = $this->user_repo->getById($healthcare_provider->id);
+                            $notification_user = [
+                                'sender_id' => $request->user()->id,
+                                'receiver_id' => $healthcare_provider->id,
+                                'title' => 'Urgent Appointment',
+                                'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.
+                                            $this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $receiver_user->user_timezone),
+                                'parameter' => json_encode(['appointment_id'=> $data->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                'msg_type' => '1',
+                            ];
+
+                            try {
+                                Helper::sendOfflineChatNotification($notification_user, $receiver_user, $sender_user); 
+                                Log::info("Notification sent at " . date('H:i:s'));
+                            } catch (\Exception $e) {
+                                Log::info("Notification failed to send at " . date('H:i:s'));
+                                Log::info($e);
+                            }
+
+                        } else {
+                            break; // Exit loop if already assigned
+                        }
+                    }
+
+                    // Wait 30 seconds before processing the next batch of 5 providers
+                    if ($chunkIndex < count($providerChunks) - 1) {
+                        sleep(30);
+                    }
+                }
+
                 $healthcareProvider = $this->appointment_repo->getById($data->id);
                 $healthcare_provider_assign = $healthcareProvider->user_id;
                 Log::info($healthcare_provider_assign);
@@ -1419,6 +1535,144 @@ class AppointmentController extends BaseApiController
                 }catch(\Exception $e){
                     
                 }  
+                   
+            }
+            Log::info("Appointment Request Accepted".date('H:i:s'));
+            DB::commit();
+            $data = $this->appointment_repo->getById($request->id);
+            if(!empty($data)){
+                return self::sendSuccess($data->format(), 'Appointment Request Accepted Successfully');
+            }
+            return self::sendSuccess($data, 'Appointment Request Accepted Successfully');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return Self::sendException($e);
+        }
+    }
+
+    public function acceptAppointmentNewCode(AppointmentStatusRequest $request){
+        $request->merge(['user_id'=>$request->user()->id]);
+        $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
+        if(empty($appointment_det)){
+            return self::sendError('', 'Request time out');
+        }
+
+        try{
+            $data = $request->all();
+            dispatch(new UrgentAppointmentAcceptSendQueue($data));
+        }
+        catch (\Throwable $th)
+        {
+            
+        }
+        return self::sendSuccess('', 'Appointment Accept in queue');
+    }
+
+    public function acceptAppointmentQueue($data){
+        $request = (object) $data;
+        $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
+        if(empty($appointment_det)){
+            return self::sendError('', 'Request time out');
+        }
+        
+        //user appointment is running
+        $check_appointment = $this->appointment_repo->checkAcceptTimeUserAvailable($appointment_det, $request->user_id);
+        if(!empty($check_appointment)){
+            \Log::info("Provider is busy ".json_encode($check_appointment));   
+            return self::sendError([], 'Your appointment is running.');
+        }
+
+        DB::beginTransaction();
+        try{
+            $appointmentRequest= $this->appointment_repo->getById($request->id);
+
+            $update_user = [
+                'user_id' => $request->user_id,
+                'status' => (!empty($appointmentRequest) && $appointmentRequest->appointment_type == '2') ? '2': '1',
+                'accepted_date' => $this->appointment_repo->getCurrentDateTime(),
+            ];
+            if(!empty($appointmentRequest) && $appointmentRequest->appointment_type == '2'){
+                $update_user['start_datetime'] = $this->appointment_repo->getCurrentDateTime();
+            }
+            $this->appointment_repo->dataCrud($update_user, $request->id);
+
+            $appointment_details = $this->appointment_repo->getById($request->id);
+
+            if($appointment_details->appointment_type == '1'){
+                $hcp_fees = $appointment_details->user->userDetails->home_consultation_charge;       
+            }else if($appointment_details->appointment_type == '2'){
+                $hcp_fees = $appointment_details->user->userDetails->video_consultation_charge;     
+            }else {
+                $hcp_fees = $appointment_details->user->userDetails->clinic_consultation_charge;    
+            }   
+            
+            $home_visit_fees = 0;
+            $urgent_booking_charges = $this->manage_fees_repo->getbyFeesKey('urgent_booking_charges');
+            if(!empty($urgent_booking_charges->fees_percentage)){                    
+                $home_visit_fees = $urgent_booking_charges->fees_percentage;
+            }
+
+            if(!empty($appointment_details->appointment_date) && !empty($appointment_details->appointment_time)){
+                $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($appointment_details->client_id);
+                $currency_symbol = $this->user_repo->currency_symbol;
+                $walletBalanceCalculate = $wallet_balance - $home_visit_fees;
+                $hcp_fees = (!empty($hcp_fees)) ? $hcp_fees : 1;
+                $appointmentTimeCalculate = round($walletBalanceCalculate / $hcp_fees);
+                if($appointmentTimeCalculate <= 60){
+                    $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = $end_appointment->addMinute($appointmentTimeCalculate);
+                    $end_appointment_date_time = $end_appointment->format('Y-m-d H:i:s');  
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');  
+                }else{
+                    $start_appointment  = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = new Carbon($appointment_details->appointment_date.' '.$appointment_details->appointment_time);
+                    $end_appointment   = $end_appointment->addMinute(60);
+                    $end_appointment_date_time = $end_appointment->format('Y-m-d H:i:s'); 
+                    $end_appointment_date = $end_appointment->format('Y-m-d');  
+                    $end_appointment_time = $end_appointment->format('H:i:s');       
+                }
+            }
+
+            $updateuser = [
+                'hcp_fees'=> $hcp_fees,
+                'home_visit_fees'=> $home_visit_fees,
+                'appointment_end_date'=> !empty($end_appointment_date) ?  $end_appointment_date : null,
+                'appointment_end_time'=> !empty($end_appointment_time) ?  $end_appointment_time : null,
+                'completed_datetime'=> !empty($end_appointment_date_time) ?  $end_appointment_date_time : null,
+            ];
+            $this->appointment_repo->dataCrud($updateuser, $request->id);
+
+            if(!empty($data)){
+                $doctorUser = $this->user_repo->getById($request->user_id);
+                $send_notification = [
+                                        'sender_id' => $request->user_id,
+                                        'receiver_id' => $appointmentRequest->client_id,
+                                        'title' => 'Urgent Appointment',
+                                        'message' => 'Urgent appointment request accepted by '.$doctorUser->user_name,
+                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                        'msg_type' => '2',
+                                    ];  
+                try{
+                    $this->notification_repo->sendingNotification($send_notification);     
+                }catch(\Exception $e){
+                    
+                }  
+
+                $patient_send_notification = [
+                                        'sender_id' => $appointmentRequest->client_id,
+                                        'receiver_id' => $request->user_id,
+                                        'title' => 'Urgent Appointment',
+                                        'message' => 'Urgent appointment request approve',
+                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
+                                        'msg_type' => '2',
+                                    ];  
+                try{
+                    $this->notification_repo->sendingNotification($patient_send_notification);     
+                }catch(\Exception $e){
+                    
+                } 
                    
             }
             Log::info("Appointment Request Accepted".date('H:i:s'));

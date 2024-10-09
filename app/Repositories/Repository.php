@@ -286,7 +286,7 @@ class Repository
         Log::info($currentSmsStart);
         Log::info($recipients);
         Log::info('sms provider stop');
-        
+
         if(!empty($recipients) && !empty($currentSmsStart) && $currentSmsStart == '1'){
              //twilio 
              
