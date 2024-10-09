@@ -25,7 +25,6 @@ class PharmacyMedicineAdd implements ShouldQueue
     public function __construct($user_id)
     {
         $this->user_id = $user_id;
-        $this->onQueue('pharmacyMedicineAdd');
     }
 
     /**

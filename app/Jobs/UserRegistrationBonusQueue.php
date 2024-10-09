@@ -27,7 +27,6 @@ class UserRegistrationBonusQueue implements ShouldQueue
     public function __construct($user_id)
     {
         $this->user_id = $user_id;
-        $this->onQueue('userRegistrationBonus');
     }
 
     /**
@@ -58,7 +57,7 @@ class UserRegistrationBonusQueue implements ShouldQueue
         try {
             User_transaction::create($add_transaction);
             app('App\Http\Controllers\Api\UserController')->userWalletUpdate($this->user_id);
-            User::where('id', $this->user_id)->update(['welcome_bonus', Carbon::now()]);
+            User::where('id', $this->user_id)->update(['welcome_bonus' => Carbon::now()]);
             Log::info('Wallet balance add Successfully');            
             return true;
         } catch (\Exception $e) {
