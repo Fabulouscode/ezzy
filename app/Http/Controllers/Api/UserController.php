@@ -253,4 +253,9 @@ class UserController extends BaseApiController
         return self::sendSuccess($user_list, 'Review list Successfully');
     }
 
+    // add contact details
+    public function userWalletUpdate($patientId)
+    {
+        return $this->user_repo->userWalletUpdate($patientId);  
+    }
 }
