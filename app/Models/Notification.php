@@ -18,7 +18,8 @@ class Notification extends Model
         '4' => 'Order Placed',
         '5' => 'Order Status',
         '6' => 'Order Payment Completed',
-        '7' => 'User Approved'
+        '7' => 'User Approved',
+        '8' => 'User Welcome Bonus'
     );
  
     public $notification_topic = array(
