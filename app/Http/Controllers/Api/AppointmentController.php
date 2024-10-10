@@ -1554,7 +1554,7 @@ class AppointmentController extends BaseApiController
         $request->merge(['user_id'=>$request->user()->id]);
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
         if(empty($appointment_det)){
-            return self::sendError('', 'Request time out');
+            return self::sendError('', 'Urgent appointment accepted by another doctor');
         }
 
         try{
@@ -1570,10 +1570,11 @@ class AppointmentController extends BaseApiController
 
     public function acceptAppointmentQueue($data){
         $request = (object) $data;
-        $healthcare_providerReq = $this->appointment_repo->getById($request->id);
-        if(!empty($healthcare_providerReq) && !empty($healthcare_providerReq->user_id)){
+
+        $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
+        if(empty($appointment_det)){
             $declineNotification = [
-                'sender_id' => NULL,
+                'sender_id' => '',
                 'receiver_id' => $request->user_id,
                 'title' => 'Urgent Appointment',
                 'message' => 'Urgent appointment request declined',
@@ -1581,16 +1582,11 @@ class AppointmentController extends BaseApiController
                 'msg_type' => '2',
             ];  
             try{
-                $this->notification_repo->sendingNotification($declineNotification);     
+                $this->notification_repo->sendingWithoutSenderNotification($declineNotification);     
             }catch(\Exception $e){
 
-            }  
-            return self::sendError('', 'Request time out');
-        }
-
-        $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
-        if(empty($appointment_det)){
-            return self::sendError('', 'Request time out');
+            } 
+            return self::sendError('', 'Urgent appointment accepted by another doctor');
         }
         
         //user appointment is running
