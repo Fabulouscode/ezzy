@@ -1570,6 +1570,24 @@ class AppointmentController extends BaseApiController
 
     public function acceptAppointmentQueue($data){
         $request = (object) $data;
+        $healthcare_providerReq = $this->appointment_repo->getById($request->id);
+        if(!empty($healthcare_providerReq) && !empty($healthcare_providerReq->user_id)){
+            $declineNotification = [
+                'sender_id' => NULL,
+                'receiver_id' => $request->user_id,
+                'title' => 'Urgent Appointment',
+                'message' => 'Urgent appointment request declined',
+                'parameter' => '',
+                'msg_type' => '2',
+            ];  
+            try{
+                $this->notification_repo->sendingNotification($declineNotification);     
+            }catch(\Exception $e){
+
+            }  
+            return self::sendError('', 'Request time out');
+        }
+
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
         if(empty($appointment_det)){
             return self::sendError('', 'Request time out');
@@ -1664,7 +1682,7 @@ class AppointmentController extends BaseApiController
                                         'sender_id' => $appointmentRequest->client_id,
                                         'receiver_id' => $request->user_id,
                                         'title' => 'Urgent Appointment',
-                                        'message' => 'Urgent appointment request approve',
+                                        'message' => 'Urgent appointment request accepted',
                                         'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                                         'msg_type' => '2',
                                     ];  
