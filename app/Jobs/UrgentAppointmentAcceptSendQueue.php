@@ -42,7 +42,7 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
             if(empty($appointment_det)){
                 Log::info('UrgentAppointmentAccept if');
                 $declineNotification = [
-                    'sender_id' => '',
+                    'sender_id' => NULL,
                     'receiver_id' => $this->data['user_id'],
                     'title' => 'Urgent Appointment',
                     'message' => 'Urgent appointment request declined',
