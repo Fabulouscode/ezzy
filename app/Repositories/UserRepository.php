@@ -1236,7 +1236,7 @@ class UserRepository extends Repository
     public function getHealthcareProvidersUrgentInQueue($request)
     {   
         // DB::enableQueryLog();
-        \Log::info("HealthcareProvidersUrgent request ".json_encode($request->all()));
+        \Log::info("getHealthcareProvidersUrgentInQueue request ".json_encode($request->all()));
         $query = $this->model->select('users.*'); 
 
         // distance filter

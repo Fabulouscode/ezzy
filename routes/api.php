@@ -267,8 +267,8 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::post('/urgent/add', 'AppointmentController@addUrgentAppointment');
                 Route::post('/change/status', 'AppointmentController@changeAppointmentStatus');
                 Route::post('/urgent/accept', 'AppointmentController@acceptAppointment');
-                Route::post('/urgent/add/new_queue', 'AppointmentController@addUrgentAppointmentNewCode');
-                Route::post('/urgent/accept/new_queue', 'AppointmentController@acceptAppointmentNewCode');
+                Route::post('/queue/urgent/add', 'AppointmentController@addUrgentAppointmentQueue');
+                Route::post('/queue/urgent/accept', 'AppointmentController@acceptAppointmentQueue');
                 Route::post('/reschedule', 'AppointmentController@rescheduleAppointment');
                 Route::post('/change/completed', 'AppointmentController@completedAppointment');                
                 Route::post('/review/add', 'AppointmentController@addAppointmentReview');    

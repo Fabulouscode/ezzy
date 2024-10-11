@@ -692,10 +692,10 @@ class AppointmentController extends BaseApiController
         }
     }
 
-    public function addUrgentAppointmentNewCode(UrgentAppointmentRequest $request)
+    public function addUrgentAppointmentQueue(UrgentAppointmentRequest $request)
     {
         $data = array();
-        Log::info("addUrgentAppointmentNewCode start ");
+        Log::info("addUrgentAppointmentQueue start ");
         //Appointment book check user wallet balance
         $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($request->user()->id);
         $minimum_balance = $this->manage_fees_repo->getbyFeesKey('minimum_wallet_balance');
@@ -796,12 +796,12 @@ class AppointmentController extends BaseApiController
             return self::sendSuccess($data);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::info("response Exception ");
+            Log::info("addUrgentAppointmentQueue response Exception ");
             Log::info($e);
             return self::sendException($e);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::info("response Throwable ");
+            Log::info("addUrgentAppointmentQueue response Throwable ");
             Log::info($th);
             return self::sendException($th);
         }
@@ -1549,7 +1549,7 @@ class AppointmentController extends BaseApiController
         }
     }
 
-    public function acceptAppointmentNewCode(AppointmentStatusRequest $request){
+    public function acceptAppointmentQueue(AppointmentStatusRequest $request){
         $request->merge(['user_id'=>$request->user()->id]);
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
         if(empty($appointment_det)){
@@ -1558,19 +1558,19 @@ class AppointmentController extends BaseApiController
 
         try{
             $data = $request->all();
-            \Log::info("Provider is acceptAppointmentNewCode ".json_encode($data));  
+            \Log::info("Provider is acceptAppointmentQueue ".json_encode($data));  
             dispatch(new UrgentAppointmentAcceptSendQueue($data));
         }
         catch (\Throwable $th)
         {
-            \Log::info("Provider is acceptAppointmentNewCode Throwable");  
+            \Log::info("Provider is acceptAppointmentQueue Throwable");  
             \Log::info($th);  
         }
         return self::sendSuccess('', 'Appointment Accept in queue');
     }
 
-    public function acceptAppointmentQueue($data){
-        \Log::info("Provider is acceptAppointmentQueue ".json_encode($data));   
+    public function acceptAppointmentQueueWise($data){
+        \Log::info("Provider is acceptAppointmentQueueWise ".json_encode($data));   
         $request = (object) $data;
 
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 

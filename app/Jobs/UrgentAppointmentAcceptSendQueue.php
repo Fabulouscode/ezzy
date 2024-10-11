@@ -58,7 +58,7 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
                 } 
             }else{
                 Log::info('UrgentAppointmentAccept else');
-                app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueue($this->data);
+                app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueueWise($this->data);
             }
         }
        
