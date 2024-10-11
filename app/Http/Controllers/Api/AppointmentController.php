@@ -1559,16 +1559,19 @@ class AppointmentController extends BaseApiController
 
         try{
             $data = $request->all();
+            \Log::info("Provider is acceptAppointmentNewCode ".json_encode($data));  
             dispatch(new UrgentAppointmentAcceptSendQueue($data));
         }
         catch (\Throwable $th)
         {
-            
+            \Log::info("Provider is acceptAppointmentNewCode Throwable");  
+            \Log::info($th);  
         }
         return self::sendSuccess('', 'Appointment Accept in queue');
     }
 
     public function acceptAppointmentQueue($data){
+        \Log::info("Provider is acceptAppointmentQueue ".json_encode($data));   
         $request = (object) $data;
 
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
@@ -1583,8 +1586,9 @@ class AppointmentController extends BaseApiController
             ];  
             try{
                 $this->notification_repo->sendingWithoutSenderNotification($declineNotification);     
-            }catch(\Exception $e){
-
+            }catch(\Throwable $th){
+                \Log::info("Provider is acceptAppointmentQueue Throwable");  
+                \Log::info($th);  
             } 
             return self::sendError('', 'Urgent appointment accepted by another doctor');
         }
@@ -1696,7 +1700,9 @@ class AppointmentController extends BaseApiController
                 return self::sendSuccess($data->format(), 'Appointment Request Accepted Successfully');
             }
             return self::sendSuccess($data, 'Appointment Request Accepted Successfully');
-        }catch(\Exception $e){
+        }catch(\Throwable $th){
+            \Log::info("acceptAppointmentQueue Throwable");  
+            \Log::info($th);  
             DB::rollBack();
             return Self::sendException($e);
         }

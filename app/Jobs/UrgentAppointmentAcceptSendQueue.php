@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use App\Models\Appointment;
 
 class UrgentAppointmentAcceptSendQueue implements ShouldQueue
 {
@@ -33,7 +34,31 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
     public function handle()
     {
         Log::info('UrgentAppointmentAccept start');
-        app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueue($this->data);
+        Log::info($this->data);
+        if(!empty($this->data) && !empty($this->data['id'])){
+            Log::info('UrgentAppointmentAccept if');
+            $appointment_det = Appointment::where('id', $this->data['id'])->where('urgent','1')->where('status','0')->first(); 
+            if(empty($appointment_det)){
+                $declineNotification = [
+                    'sender_id' => '',
+                    'receiver_id' => $this->data['user_id'],
+                    'title' => 'Urgent Appointment',
+                    'message' => 'Urgent appointment request declined',
+                    'parameter' => '',
+                    'msg_type' => '2',
+                ];  
+                try{
+                    app('App\Http\Controllers\Api\NotificationController')->sendingNotification($declineNotification);
+                }catch(\Throwable $th){
+                    Log::info('UrgentAppointmentAccept end');
+                    Log::info($th);
+                } 
+            }
+        }else{
+            Log::info('UrgentAppointmentAccept else');
+            app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueue($this->data);
+        }
+       
         Log::info('UrgentAppointmentAccept end');
     }
 }
