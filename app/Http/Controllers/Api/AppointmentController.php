@@ -1580,7 +1580,7 @@ class AppointmentController extends BaseApiController
         $appointment_det = $this->appointment_repo->checkUrgentAppointmentAccepted($request->id); 
         if(empty($appointment_det)){
             $declineNotification = [
-                'sender_id' => '',
+                'sender_id' => NULL,
                 'receiver_id' => $request->user_id,
                 'title' => 'Urgent Appointment',
                 'message' => 'Urgent appointment request declined',
