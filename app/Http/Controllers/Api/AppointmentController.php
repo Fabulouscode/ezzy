@@ -1584,7 +1584,7 @@ class AppointmentController extends BaseApiController
                 'receiver_id' => $request->user_id,
                 'title' => 'Urgent Appointment',
                 'message' => 'Urgent appointment request declined',
-                'parameter' => '',
+                'parameter' => json_encode(['appointment_id'=> $request->id,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                 'msg_type' => '2',
             ];  
             try{
