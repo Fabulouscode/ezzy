@@ -734,24 +734,20 @@ class AppointmentController extends BaseApiController
             
             DB::commit();
             $healthcare_provider_assign = 0;
-            Log::info(json_encode($healthcare_providers));
             if(isset($healthcare_providers) && count($healthcare_providers) > 0){
                 // Break healthcare providers into chunks of 5
-                $providerChunks = array_chunk($healthcare_providers, 5);
+                $providerChunks = array_chunk($healthcare_providers->toArray(), 5);
                 $sender_user = $this->user_repo->getById($request->user()->id);
                 foreach ($providerChunks as $chunkIndex => $providerChunk) {
-                    Log::info("Notification chunkIndex at " . date('H:i:s'));
                     foreach ($providerChunk as $healthcare_provider) {
                         $healthcare_providerReq = $this->appointment_repo->getById($data->id);
                         $healthcare_provider_assign = $healthcare_providerReq->user_id;
-                        Log::info("Notification providerChunk at " . date('H:i:s'));
-                        Log::info(json_encode($healthcare_provider));
                         // Send notification if not assigned
                         if (empty($healthcare_provider_assign) || $healthcare_provider_assign == '0') {
-                            $receiver_user = $this->user_repo->getById($healthcare_provider->id);
+                            $receiver_user = $this->user_repo->getById($healthcare_provider['id']);
                             $notification_user = [
                                 'sender_id' => $request->user()->id,
-                                'receiver_id' => $healthcare_provider->id,
+                                'receiver_id' => $healthcare_provider['id'],
                                 'title' => 'Urgent Appointment',
                                 'message' => 'Urgent appointment booked by '.$request->user()->user_name.' on '.
                                             $this->appointment_repo->getConvertLocalTimezoneDateTime($request->appointment_date.''.$request->appointment_time, $receiver_user->user_timezone),
