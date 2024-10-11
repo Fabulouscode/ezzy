@@ -36,9 +36,11 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
         Log::info('UrgentAppointmentAccept start');
         Log::info($this->data);
         if(!empty($this->data) && !empty($this->data['id'])){
-            Log::info('UrgentAppointmentAccept if');
+            Log::info('UrgentAppointmentAccept data if');
             $appointment_det = Appointment::where('id', $this->data['id'])->where('urgent','1')->where('status','0')->first(); 
+            Log::info($appointment_det);
             if(empty($appointment_det)){
+                Log::info('UrgentAppointmentAccept if');
                 $declineNotification = [
                     'sender_id' => '',
                     'receiver_id' => $this->data['user_id'],
@@ -53,10 +55,10 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
                     Log::info('UrgentAppointmentAccept end');
                     Log::info($th);
                 } 
+            }else{
+                Log::info('UrgentAppointmentAccept else');
+                app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueue($this->data);
             }
-        }else{
-            Log::info('UrgentAppointmentAccept else');
-            app('App\Http\Controllers\Api\AppointmentController')->acceptAppointmentQueue($this->data);
         }
        
         Log::info('UrgentAppointmentAccept end');
