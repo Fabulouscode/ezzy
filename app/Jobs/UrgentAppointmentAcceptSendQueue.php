@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use App\Models\Appointment;
+use Carbon\Carbon as Carbon;
 
 class UrgentAppointmentAcceptSendQueue implements ShouldQueue
 {
@@ -46,7 +47,7 @@ class UrgentAppointmentAcceptSendQueue implements ShouldQueue
                     'receiver_id' => $this->data['user_id'],
                     'title' => 'Urgent Appointment',
                     'message' => 'Urgent appointment request declined',
-                    'parameter' => '',
+                    'parameter' => json_encode(['appointment_id'=> $this->data['id'],'notification_time'=>Carbon::now()->format('Y-m-d H:i:s')]),
                     'msg_type' => '2',
                 ];  
                 try{
