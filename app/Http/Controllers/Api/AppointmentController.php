@@ -734,7 +734,6 @@ class AppointmentController extends BaseApiController
             
             DB::commit();
             $healthcare_provider_assign = 0;
-            Log::info(json_encode($healthcare_providers));
             if(isset($healthcare_providers) && count($healthcare_providers) > 0){
                 // Break healthcare providers into chunks of 5
                 $providerChunks = array_chunk($healthcare_providers->toArray(), 5);
