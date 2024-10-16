@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
+use App\Repositories\MedicineDetailsRepository;
 
 class MedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunkReading, ShouldQueue
 {
@@ -27,26 +27,35 @@ class MedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunkRea
                 }
             }
             
-            if(!empty($row['subcategory_name']) && !empty($medical_category) && !empty($medical_category->id)){
-                $medicine_subcategory = Medicine_subcategory::where('name', $row['subcategory_name'])->where('medicine_category_id', $medical_category->id)->first();
-                if(empty($medicine_subcategory)){                    
-                    $medicine_subcategory = Medicine_subcategory::create([
-                        'medicine_category_id' => $medical_category->id,
-                        'name' => $row['subcategory_name'],
-                    ]);
+            if(!empty($row['medicine_type']) && !empty($medical_category) && !empty($medical_category->id)){
+                $userDetailsService = new MedicineDetailsRepository();
+                $medicineTypes = $userDetailsService->getMedicineTypeValue();
+                $medicine_type_key = array_search($row['medicine_type'], $medicineTypes);
+                $medicine_type_get = 0;
+                if ($medicine_type_key !== false) {
+                    $medicine_type_get = $medicine_type_key;
                 }
             }
-           
-            if(!empty($row['medicine_name']) && !empty($medical_category) && !empty($medical_category->id) && !empty($medicine_subcategory) && !empty($medicine_subcategory->id)){
-                Medicine_details::create([
-                    'medicine_category_id' => $medical_category->id,
-                    'medicine_subcategoy_id' => $medicine_subcategory->id,
-                    'medicine_name' => $row['medicine_name'],
-                    'medicine_sku' => $row['medicine_sku'],
-                    'medicine_type' => $row['medicine_type'],
-                    'size_dosage' => $row['size_dosage'],
-                    'description' => $row['description'],
-                ]);    
+
+            if(!empty($row['medicine_name']) && !empty($medical_category) && !empty($medical_category->id) && isset($medicine_type_get)){
+                $medicine = Medicine_details::where('medicine_name', $row['medicine_name'])->where('medicine_sku', $row['medicine_sku'])->where('medicine_type', $medicine_type_get)->where('medicine_category_id', $medical_category->id)->first();
+                if(!empty($medicine)){                    
+                    $medicine->quantity = $row['quantity'];
+                    $medicine->mrp_price = $row['mrp_price'];
+                    $medicine->save();
+                }else{
+                    Medicine_details::create([
+                        'medicine_category_id' => $medical_category->id,
+                        'medicine_name' => $row['medicine_name'],
+                        'medicine_sku' => $row['medicine_sku'],
+                        'medicine_type' => (isset($medicine_type_get)) ? $medicine_type_get : 0,
+                        'size_dosage' => $row['size_dosage'],
+                        'description' => $row['description'],
+                        'quantity' => $row['quantity'],
+                        'mrp_price' => $row['mrp_price'],
+                        'status'=>'0'
+                    ]);  
+                }  
             }       
         }
     }
