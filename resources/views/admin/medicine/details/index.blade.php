@@ -68,6 +68,9 @@
                         <div class="form-group col-md-12">
                             <label>Medicine File Import</label>
                             <input required id="medicine_file" type="file" required class="form-control" name="medicine_file" />
+                            <div class="mt-2" >
+                                <a href="{{ asset('admin/medicine_details_sample.xlsx') }}" target="_blank">Medicine Details Import Sample File</a>
+                            </div>
                         </div>
                     </div>
                     
