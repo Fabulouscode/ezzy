@@ -11,7 +11,7 @@ use App\Repositories\MedicineImagesRepository;
 use App\Http\Requests\Admin\MedicineDetailsRequest;
 use App\Http\Requests\Admin\MedicineDetailsImportRequest;
 use App\Imports\MedicineDetaisImport;
-use App\Exports\MedicineDetaisExport;
+use App\Exports\AdminMedicineDetaisExport;
 use Excel;
 
 class MedicineDetailsController extends Controller
@@ -167,7 +167,7 @@ class MedicineDetailsController extends Controller
      */
     public function exportMedicine(Request $request)
     {
-        $medicine_file = Excel::raw(new MedicineDetaisExport, \Maatwebsite\Excel\Excel::XLSX);
+        $medicine_file = Excel::raw(new AdminMedicineDetaisExport, \Maatwebsite\Excel\Excel::XLSX);
         $response =  array(
             'name' => "medicine_details", //no extention needed
             'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($medicine_file) //mime type of used format
