@@ -106,16 +106,17 @@ class UserRepository extends Repository
         }
         $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
         \Log::info($user);
-        if(!empty($user) && !empty($user->category_id) && $user->category_id == 7){
-            //pharmacy side all medicine added
-            try{
-                dispatch(new PharmacyMedicineAdd($user->id));
-            }
-            catch (\Throwable $th)
-            {
+        // if(!empty($user) && !empty($user->category_id) && $user->category_id == 7){
+        //     //pharmacy side all medicine added
+        //     try{
+        //         dispatch(new PharmacyMedicineAdd($user->id));
+        //     }
+        //     catch (\Throwable $th)
+        //     {
                 
-            }
-        }else if(!empty($user) && empty($user->category_id)){
+        //     }
+        // }
+        if(!empty($user) && empty($user->category_id)){
             //patients side welcome bonus given
             
             $bonusActive = AppSetting::where('key_name','bonus_active')->first();
