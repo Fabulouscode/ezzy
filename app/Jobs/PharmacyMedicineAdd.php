@@ -48,7 +48,7 @@ class PharmacyMedicineAdd implements ShouldQueue
                     'capsual_quantity' => !empty($value->quantity) ? $value->quantity : 0,
                     'mrp_price' => !empty($value->mrp_price) ? $value->mrp_price : 0,
                     'offer_price' => !empty($value->mrp_price) ? $value->mrp_price : 0,
-                    'status' => 1,
+                    'status' => 0,
                 ]
             );
         }
