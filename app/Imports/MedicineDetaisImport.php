@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Repositories\MedicineDetailsRepository;
+use App\Jobs\NewShopMedicineAddQueue;
 
 class MedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunkReading, ShouldQueue
 {
@@ -44,17 +45,21 @@ class MedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunkRea
                     $medicine->mrp_price = $row['mrp_price'];
                     $medicine->save();
                 }else{
-                    Medicine_details::create([
-                        'medicine_category_id' => $medical_category->id,
-                        'medicine_name' => $row['medicine_name'],
-                        'medicine_sku' => $row['medicine_sku'],
-                        'medicine_type' => (isset($medicine_type_get)) ? $medicine_type_get : 0,
-                        'size_dosage' => $row['size_dosage'],
-                        'description' => $row['description'],
-                        'quantity' => $row['quantity'],
-                        'mrp_price' => $row['mrp_price'],
-                        'status'=>'0'
-                    ]);  
+                    $medicineAdd = Medicine_details::create([
+                                        'medicine_category_id' => $medical_category->id,
+                                        'medicine_name' => $row['medicine_name'],
+                                        'medicine_sku' => $row['medicine_sku'],
+                                        'medicine_type' => (isset($medicine_type_get)) ? $medicine_type_get : 0,
+                                        'size_dosage' => $row['size_dosage'],
+                                        'description' => $row['description'],
+                                        'quantity' => $row['quantity'],
+                                        'mrp_price' => $row['mrp_price'],
+                                        'status'=>'0'
+                                    ]);  
+                    if(!empty($medicineAdd) && !empty($medicineAdd->id)){
+                        dispatch(new NewShopMedicineAddQueue($medicineAdd->id));
+                    }
+
                 }  
             }       
         }
