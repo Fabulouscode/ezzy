@@ -12,6 +12,7 @@ use App\Http\Requests\Admin\MedicineDetailsRequest;
 use App\Http\Requests\Admin\MedicineDetailsImportRequest;
 use App\Imports\MedicineDetaisImport;
 use App\Exports\AdminMedicineDetaisExport;
+use App\Jobs\NewShopMedicineAddQueue;
 use Excel;
 
 class MedicineDetailsController extends Controller
@@ -106,6 +107,10 @@ class MedicineDetailsController extends Controller
                                 ];
                     $this->medicine_images_repo->dataCrud($temp_data);
                 }
+            }
+
+            if(!empty($medicine) && !empty($medicine->id)){
+                dispatch(new NewShopMedicineAddQueue($medicine->id));
             }
         }
 

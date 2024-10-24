@@ -41,7 +41,7 @@ class ShopPharmacyMedicineAdd extends Command
     public function handle()
     {
         \Log::info('ShopPharmacyMedicineAdd start');
-        $userList = User::where('category_id', 7)->get();
+        $userList = User::where('category_id', 7)->where('id', 8459)->get();
         $medicineList = Medicine_details::where('status', 0)->get();
         foreach ($userList as $userKey => $userValue) {
             foreach ($medicineList as $key => $value) {
@@ -60,6 +60,18 @@ class ShopPharmacyMedicineAdd extends Command
                             'status' => 0,
                         ]
                     );
+                }else{
+                    if(!empty($shopMedicineExit) && empty($shopMedicineExit->capsual_quantity) && empty($shopMedicineExit->mrp_price)){
+                            $shopMedicineExit->capsual_quantity = !empty($value->quantity) ? $value->quantity : 0;
+                            $shopMedicineExit->mrp_price = !empty($value->mrp_price) ? $value->mrp_price : 0;
+                            $shopMedicineExit->offer_price = !empty($value->mrp_price) ? $value->mrp_price : 0;
+                            $shopMedicineExit->status = 0;
+                            $shopMedicineExit->save();
+                    }else{
+                        \Log::info('$shopMedicineExit');
+                        \Log::info(json_encode($shopMedicineExit));
+                    }
+
                 }
              
             }

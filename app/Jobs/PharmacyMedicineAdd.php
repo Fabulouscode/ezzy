@@ -34,7 +34,7 @@ class PharmacyMedicineAdd implements ShouldQueue
      */
     public function handle()
     {
-        \Log::info('PharmacyMedicineAdd start');
+        Log::info('PharmacyMedicineAdd start');
         $medicineList = Medicine_details::where('status', 0)->get();
         foreach ($medicineList as $key => $value) {
 
@@ -52,6 +52,6 @@ class PharmacyMedicineAdd implements ShouldQueue
                 ]
             );
         }
-        \Log::info('PharmacyMedicineAdd end');
+        Log::info('PharmacyMedicineAdd end');
     }
 }
