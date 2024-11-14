@@ -100,8 +100,20 @@ class UserProfileController extends BaseApiController
     // user add details
     public function addUserDetails(Request $request)
     {
+        
         if(!empty($request->user()) && $request->user()->status == '0'){
-            return self::sendError('', 'You can not update your profile', 500);
+            $notupdateField = ['first_name', 'last_name', 'subcategory_id', 'gender'];
+            $requestData = $request->all();
+
+            $existingKey = array_filter($notupdateField, function ($key) use ($requestData) {
+                return array_key_exists($key, $requestData) && !empty($requestData[$key]);
+            });
+
+            if (!empty($existingKey)) {
+                return self::sendError('', 'Once approved, you cannot update your profile.', 500);
+            } else {
+                // Continue processing
+            }
         }
         try{
             $user = $this->user_repo->dataCrud($request, $request->user()->id);
