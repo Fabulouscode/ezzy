@@ -100,6 +100,9 @@ class UserProfileController extends BaseApiController
     // user add details
     public function addUserDetails(Request $request)
     {
+        if(!empty($request->user()) && $request->user()->status == '0'){
+            return self::sendError('', 'You can not update your profile', 500);
+        }
         try{
             $user = $this->user_repo->dataCrud($request, $request->user()->id);
             $this->user_details_repo->dataCrud($request);
