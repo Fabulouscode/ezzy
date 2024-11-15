@@ -101,7 +101,7 @@ class UserProfileController extends BaseApiController
     public function addUserDetails(Request $request)
     {
         
-        if(!empty($request->user()) && $request->user()->status == '0'){
+        if(!empty($request->user()) && !empty($request->user()->category_id) && $request->user()->status == '0'){
             $notupdateField = ['first_name', 'last_name', 'subcategory_id', 'gender'];
             $requestData = $request->all();
 
