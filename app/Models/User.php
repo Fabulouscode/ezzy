@@ -61,7 +61,8 @@ class User extends Authenticatable
         'user_timezone',
         'user_ip',
         'completed_percentage',
-        'welcome_bonus'
+        'welcome_bonus',
+        'is_register_type'
     ];
 
     /**

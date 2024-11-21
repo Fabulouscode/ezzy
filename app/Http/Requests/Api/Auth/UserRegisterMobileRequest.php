@@ -26,8 +26,10 @@ class UserRegisterMobileRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|numeric|starts_with: 1,1,2,3,4,5,6,7,8,9|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
-           'country_code'=> 'required',
+           'register_type' => 'required|in:1,2',
+           'mobile_no' => 'required_without:email|nullable|numeric|starts_with: 1,1,2,3,4,5,6,7,8,9|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
+           'country_code'=> 'required_without:email|nullable',
+           'email' => 'required_without:phone_no|nullable|email:rfc,dns|unique:users,email',
         ];
     }
 

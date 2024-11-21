@@ -57,15 +57,28 @@ class UserRepository extends Repository
         // $mobile_code = $this->generateOTPCode();
         // $message = 'The OTP is '.$mobile_code.' to verify '.config('app.name').' Account.';
         // $this->sendMessage($mobile_code, $request->country_code.$request->mobile_no);
-
-        $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
+        if(!empty($request->register_type) && $request->register_type == '2'){
+            $this->model->withTrashed()->updateOrCreate(['email' => $request->email], [
                 'otp_code' => $request->otp_code,
                 'status' => $request->status,
                 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
+                'register_type' => $request->register_type,
                 'deleted_at' => NULL
             ])->restore();    
     
-        return $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
+            return $this->model->where('email', $request->email)->first();
+        }else{
+            $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
+                'otp_code' => $request->otp_code,
+                'status' => $request->status,
+                'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
+                'register_type' => !empty($request->register_type) ? $request->register_type : 1,
+                'deleted_at' => NULL
+            ])->restore();    
+    
+            return $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
+        }
+
         // if(!empty($user)){
         //     $this->model->where('mobile_no', $request->mobile_no)->update(['ezzycare_card'=> $card_number]);
         // }
@@ -777,6 +790,16 @@ class UserRepository extends Repository
     public function getbyMobileNo($request)
     {   
         return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->first();
+    }
+
+        /**
+     * Display a edit of the record.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getbyEmail($request)
+    {   
+        return $this->model->where('email',$request->email)->first();
     }
     
     /**

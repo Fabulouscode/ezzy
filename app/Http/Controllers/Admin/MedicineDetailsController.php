@@ -109,9 +109,6 @@ class MedicineDetailsController extends Controller
                 }
             }
 
-            if(!empty($medicine) && !empty($medicine->id)){
-                dispatch(new NewShopMedicineAddQueue($medicine->id));
-            }
         }
 
         return redirect('/donotezzycaretouch/medicine/details');

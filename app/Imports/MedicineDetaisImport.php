@@ -56,9 +56,6 @@ class MedicineDetaisImport implements ToCollection, WithHeadingRow, WithChunkRea
                                         'mrp_price' => $row['mrp_price'],
                                         'status'=>'0'
                                     ]);  
-                    if(!empty($medicineAdd) && !empty($medicineAdd->id)){
-                        dispatch(new NewShopMedicineAddQueue($medicineAdd->id));
-                    }
 
                 }  
             }       

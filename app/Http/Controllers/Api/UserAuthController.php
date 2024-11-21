@@ -25,6 +25,9 @@ use App\Models\AppSetting;
 use App\Models\OtpDetails;
 use App\Models\UserTempMobileRegister;
 use Helper;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationOtp;
+use App\Mail\ForgetPasswordOtp;
 
 class UserAuthController extends BaseApiController
 {
@@ -94,11 +97,27 @@ class UserAuthController extends BaseApiController
             return self::sendError('', 'For the time being registration is closed. Please try later.');
         }
 
-        $user = $this->user_repo->checkbyMobileNo($request);
+        $registerEmailStop = AppSetting::where('key_name', 'registration_email_start')->first();
+        if(!empty($request->email) && isset($registerEmailStop) && isset($registerEmailStop->value_txt) && $registerEmailStop->value_txt == 0){             
+            return self::sendError('', 'For the time being email registration is closed. Please try later.');
+        }
+
+        $registerPhoneStop = AppSetting::where('key_name', 'registration_phone_start')->first();
+        if(!empty($request->mobile_no) && isset($registerPhoneStop) && isset($registerPhoneStop->value_txt) && $registerPhoneStop->value_txt == 0){             
+            return self::sendError('', 'For the time being phone no registration is closed. Please try later.');
+        }
+
         if (!empty($request->email)) {
-            $user_email = $this->user_repo->checkbyEmailId($request);
-            if (!empty($user_email)) {
+            $user = $this->user_repo->checkbyEmailId($request);
+            if (!empty($user)) {
                 return self::sendError('', 'Email ID Already Registered.');
+            }
+        }
+
+        if (!empty($request->mobile_no)) {
+            $user = $this->user_repo->checkbyMobileNo($request);
+            if (!empty($user)) {
+                return self::sendError('', 'Mobile No. Already Registered.');
             }
         }
 
@@ -154,7 +173,12 @@ class UserAuthController extends BaseApiController
                 } 
 
                 try{
-                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                    if(!empty($request->register_type) && $request->register_type == '2'){
+                        Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
+                    }else{
+                        $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no); 
+                    }
+
                 }catch(\Exception $e){
                     DB::rollBack();
                     UserTempMobileRegister::create([
@@ -507,6 +531,14 @@ class UserAuthController extends BaseApiController
 
         try{
             $user = $this->user_repo->getbyMobileNo($request); 
+            if(empty($user)){
+                $user = $this->user_repo->getbyEmail($request); 
+            }  
+
+            if(empty($user)){
+                return self::sendError('', 'The user is not registered. Kindly verify your details.');
+            }
+
             $mobile_code = $this->user_repo->generateOTPCode();
             $data = ['otp_code' => $mobile_code, 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null];
             $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
@@ -529,7 +561,11 @@ class UserAuthController extends BaseApiController
             } 
 
             try{
-                $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                if(!empty($request->register_type) && $request->register_type == '2'){
+                    Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
+                }else{
+                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                }
             }catch(\Exception $e){
                 return self::sendError('', 'SMS Sending Failed');
             }               
@@ -639,7 +675,11 @@ class UserAuthController extends BaseApiController
                 } 
 
                 try{
-                    $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                    if(!empty($request->register_type) && $request->register_type == '2'){
+                        Mail::to($request->email)->send(new ForgetPasswordOtp($mobile_code));
+                    }else{
+                        $sent_msg = $this->user_repo->sendMessage($message, $request->country_code.$request->mobile_no);
+                    }
                 }catch(\Exception $e){
                     return self::sendError('', 'SMS Sending Failed');
                 }    
@@ -733,9 +773,11 @@ class UserAuthController extends BaseApiController
     {
         $country_code='+91';
         $mobile_no='80008655549';
-        $message = 'Your OTP for ['.config('app.name').'] is: 111111';
+        $mobile_code = 111111;
+        $message = 'Your OTP for ['.config('app.name').'] is: '.$mobile_code;
         dd($message);
         $sent_msg = $this->user_repo->sendMessage($message, $country_code.$mobile_no); 
+        Mail::to('parth.cears@gmail.com')->send(new RegistrationOtp($mobile_code));
         dd($sent_msg);
     }
 
