@@ -26,14 +26,17 @@ class UserVerifySMSRequest extends FormRequest
     public function rules()
     {
         return [
-           'mobile_no' => 'required|numeric',
-           'country_code'=> 'required',
-           'otp_code'=> 'required',
+            'register_type' => 'required|in:1,2',
+            'mobile_no' => 'required_without:email|nullable|numeric',
+            'country_code' => 'required_without:email|nullable',
+            'email' => 'required_without:phone_no|nullable|email:rfc,dns|unique:users,email',
+            'otp_code' => 'required',
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
-        $transformed=[];
+    protected function failedValidation(Validator $validator)
+    {
+        $transformed = [];
         foreach ($validator->errors()->toArray() as $field => $message) {
             $transformed[$field] = $message[0];
         }
