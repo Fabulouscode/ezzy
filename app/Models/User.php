@@ -33,6 +33,7 @@ class User extends Authenticatable
         'subcategory_id',
         'ezzycare_card',
         'mobile_verified_at',
+        'email_verified_at',
         'first_name',
         'last_name',
         'email',
@@ -76,14 +77,14 @@ class User extends Authenticatable
         'approved_date'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // /**
+    //  * The attributes that should be cast to native types.
+    //  *
+    //  * @var array
+    //  */
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     protected $appends = ['user_appointment_review','user_appointment_rating','user_completed_appointment', 'user_cancelled_appointment', 'user_pending_appointment',
                           'client_completed_appointment', 'client_cancelled_appointment', 'client_pending_appointment',

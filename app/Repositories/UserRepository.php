@@ -110,6 +110,7 @@ class UserRepository extends Repository
                 'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
                 'user_timezone'=> !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '',
                 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
+                'register_type' => !empty($request->register_type) ? $request->register_type : null,
                 'deleted_at' => NULL
             ])->restore();    
     
@@ -780,6 +781,11 @@ class UserRepository extends Repository
     public function checkbyMobileNoVerify($request)
     {   
         return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->where('status','3')->whereNotNull('mobile_verified_at')->first();
+    }
+
+    public function checkbyEmailVerify($request)
+    {   
+        return $this->model->where('email',$request->email)->where('status','3')->whereNotNull('email_verified_at')->first();
     }
 
     /**
