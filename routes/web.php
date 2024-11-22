@@ -229,6 +229,8 @@ Route::namespace('App\Http\Controllers')->group(function(){
         Route::resource('app_setting', 'AppSettingController')->middleware('role-permission-resource:app_setting-list');
         Route::resource('user_wallet', 'UserwalletController');
         Route::post('user_wallet/get-user','UserwalletController@getCategoryUser');
+        
+        Route::get('patient-details', 'PatientDetailController@getPatientDetails');
     
     });
 

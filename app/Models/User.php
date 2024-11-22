@@ -815,5 +815,16 @@ class User extends Authenticatable
         return $required_fields_array;
     }
 
+    public function clientAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'client_id'); 
+    }
+
+    public function clientOrders()
+    {
+        return $this->hasMany(Order::class, 'client_id'); 
+    }
+
+
 
 }
