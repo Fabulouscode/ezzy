@@ -201,7 +201,8 @@ class UserRepository extends Repository
     public function getWithRelationship($request)
     {
         DB::enableQueryLog();
-        $query = $this->model->select('users.*')->with(['categoryChild','categoryParent']);    
+        $query = User::with(['categoryParent', 'categoryChild'])
+                    ->withCount(['clientAppointments', 'clientOrders']);   
         if(!empty($request->category_id)){
             $query = $query->whereHas('categoryParent', function ($query) use ($request) {
                 $query->where('parent_id', $request->category_id);
@@ -451,6 +452,7 @@ class UserRepository extends Repository
                 ->orderColumn('hcp_type', function ($query, $order) {
                     $query->orderBy('categoryParent.name', $order);
                 })
+                
 
                 ->editColumn('created_at',function($selected){
                     return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
@@ -487,8 +489,15 @@ class UserRepository extends Repository
                     }                            
                     return $data;                          
                 })
+
+                ->addColumn('total_appointments', function ($selected) {
+                    return $selected->client_appointments_count; 
+                })
+                ->addColumn('total_orders', function ($selected) {
+                    return $selected->client_orders_count; 
+                })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob','completed_percentage'])
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob','completed_percentage', 'total_appointments', 'total_orders'])
                 ->make(true);
     }
     
