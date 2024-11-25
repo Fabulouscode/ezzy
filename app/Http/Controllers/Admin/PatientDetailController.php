@@ -17,7 +17,7 @@ class PatientDetailController extends Controller
 
     public function getPatientDetails(Request $request){
         if($request->all()){
-            return $this->user_repo->getDatatable($request);
+            return $this->user_repo->getPatientDatatable($request);
          }
         return view('admin.appointment.patient_detail');
     }

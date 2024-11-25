@@ -159,10 +159,7 @@ class UserRepository extends Repository
     {
         DB::enableQueryLog();
         $query = User::query()
-        ->select('users.*', DB::raw('
-            (SELECT COUNT(*) FROM appointments WHERE client_id = users.id) AS client_appointments_count,
-            (SELECT COUNT(*) FROM orders WHERE client_id = users.id) AS client_orders_count
-        '))
+        ->select('users.*')
         ->with(['categoryParent', 'categoryChild']);
 
         if(!empty($request->category_id)){
@@ -451,15 +448,8 @@ class UserRepository extends Repository
                     }                            
                     return $data;                          
                 })
-
-                ->addColumn('total_appointments', function ($selected) {
-                    return $selected->client_appointments_count; 
-                })
-                ->addColumn('total_orders', function ($selected) {
-                    return $selected->client_orders_count; 
-                })
                 
-                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob','completed_percentage', 'total_appointments', 'total_orders'])
+                ->rawColumns(['action','categoryParent','status','hcp_type','practicing_licence_date','wallet_balance','dob','completed_percentage'])
                 ->make(true);
     }
     
@@ -1490,5 +1480,82 @@ class UserRepository extends Repository
         $query = $query->orderBy('id','desc')->count();
 
         return $query;
+    }
+
+    public function getPatientDetailWithRelationship($request)
+    {
+        DB::enableQueryLog();
+        $query = User::query()
+        ->select('users.*', DB::raw('
+            (SELECT COUNT(*) FROM appointments WHERE client_id = users.id) AS client_appointments_count,
+            (SELECT COUNT(*) FROM orders WHERE client_id = users.id) AS client_orders_count
+        '))
+        ->with(['categoryParent', 'categoryChild']);
+
+        if(!empty($request->category_id)){
+            $query = $query->whereHas('categoryParent', function ($query) use ($request) {
+                $query->where('parent_id', $request->category_id);
+            });
+            
+            if(!empty($request->subcategory_id)){
+                $query = $query->where('users.category_id', $request->subcategory_id);
+            }
+            
+            if(is_array($request->status)){
+                $query = $query->whereIn('users.status', $request->status);
+            }else{
+                $query = $query->where('users.status', $request->status);
+            }
+        }else{
+            $query = $query->whereNull('users.category_id');
+            $query = $query->whereNull('users.subcategory_id');
+        }
+
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $query = $query->whereDate('users.created_at', '>=',$request->start_date)->whereDate('users.created_at' , '<=',$request->end_date);
+        }
+        return $query;
+    }
+
+    public function getPatientDatatable($request)
+    {   
+        $data = $this->getPatientDetailWithRelationship($request);
+        return Datatables::of($data)
+                ->addColumn('user_name',function($selected)
+                {
+                     return $selected->user_name;
+                })                
+                ->filterColumn('user_name', function ($query, $keyword) {
+                    $query->whereRaw("concat(users.first_name, ' ', users.last_name) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('user_name', function ($query, $order) {
+                    $query->orderBy('users.first_name', $order)->orderBy('users.last_name', $order);
+                })
+
+                ->addColumn('mobile_no',function($selected)
+                {
+                     return $selected->mobile_no_country_code;
+                })
+                ->filterColumn('mobile_no', function ($query, $keyword) {
+                    $query->whereRaw("concat(users.country_code, ' ', users.mobile_no) like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('mobile_no', function ($query, $order) {
+                    $query->orderBy('users.mobile_no', $order);
+                })
+                
+
+                ->editColumn('created_at',function($selected){
+                    return !empty($selected->created_at) ? $this->getDateTimeFormate($selected->created_at) : '-';
+                })
+
+                ->addColumn('total_appointments', function ($selected) {
+                    return $selected->client_appointments_count; 
+                })
+                ->addColumn('total_orders', function ($selected) {
+                    return $selected->client_orders_count; 
+                })
+                
+                ->rawColumns(['total_appointments', 'total_orders'])
+                ->make(true);
     }
 }
