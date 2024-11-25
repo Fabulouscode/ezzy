@@ -201,8 +201,13 @@ class UserRepository extends Repository
     public function getWithRelationship($request)
     {
         DB::enableQueryLog();
-        $query = User::with(['categoryParent', 'categoryChild'])
-                    ->withCount(['clientAppointments', 'clientOrders']);   
+        $query = User::query()
+        ->select('users.*', DB::raw('
+            (SELECT COUNT(*) FROM appointments WHERE client_id = users.id) AS client_appointments_count,
+            (SELECT COUNT(*) FROM orders WHERE client_id = users.id) AS client_orders_count
+        '))
+        ->with(['categoryParent', 'categoryChild']);
+
         if(!empty($request->category_id)){
             $query = $query->whereHas('categoryParent', function ($query) use ($request) {
                 $query->where('parent_id', $request->category_id);
