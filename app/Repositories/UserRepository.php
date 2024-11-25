@@ -1749,8 +1749,14 @@ class UserRepository extends Repository
                 ->addColumn('total_appointments', function ($selected) {
                     return $selected->client_appointments_count; 
                 })
+                ->orderColumn('total_appointments', function ($query, $order) {
+                    $query->orderBy('client_appointments_count', $order);
+                })
                 ->addColumn('total_orders', function ($selected) {
                     return $selected->client_orders_count; 
+                })
+                ->orderColumn('total_orders', function ($query, $order) {
+                    $query->orderBy('client_orders_count', $order);
                 })
                 
                 ->rawColumns(['total_appointments', 'total_orders'])
