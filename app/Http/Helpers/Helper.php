@@ -500,6 +500,7 @@ class Helper
             self::sendNotificationWithAdminSDK($data, 4);
         }
     }
+    
     public static function getEmailVerification($email)
     {
         $url = config('app.EMAIL_VERIFICATION_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');

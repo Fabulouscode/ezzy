@@ -24,10 +24,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\AppSetting;
 use App\Models\OtpDetails;
 use App\Models\UserTempMobileRegister;
-use Helper;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegistrationOtp;
 use App\Mail\ForgetPasswordOtp;
+use App\Http\Helpers\Helper;
 
 class UserAuthController extends BaseApiController
 {
@@ -106,6 +106,10 @@ class UserAuthController extends BaseApiController
         }
 
         if (!empty($request->register_type) && $request->register_type == '2') {
+            $emailVerification = Helper::getEmailVerification($request->email);
+            if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+                return self::sendError('', $emailVerification['msg']);
+            }
             $user = $this->user_repo->checkbyEmailId($request);
             if (!empty($user)) {
                 return self::sendError('', 'Email ID Already Registered.');
@@ -232,6 +236,10 @@ class UserAuthController extends BaseApiController
         }
 
         if (!empty($request->register_type) && $request->register_type == '2') {
+            $emailVerification = Helper::getEmailVerification($request->email);
+            if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+                return self::sendError('', $emailVerification['msg']);
+            }
             $user = $this->user_repo->checkbyEmailVerify($request);
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
@@ -325,6 +333,10 @@ class UserAuthController extends BaseApiController
                 DB::beginTransaction();
                 $this->user_repo->registerWithRestore($request);
                 if (!empty($request->register_type) && $request->register_type == '2') {
+                    $emailVerification = Helper::getEmailVerification($request->email);
+                    if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+                        return self::sendError('', $emailVerification['msg']);
+                    }
                     $user = $this->user_repo->getbyEmail($request);
                 } else {
                     $user = $this->user_repo->getbyMobileNo($request);
