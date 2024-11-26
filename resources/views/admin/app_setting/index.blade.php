@@ -132,6 +132,36 @@
                                                 @enderror
                                             </dd>
                                         </div>
+
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>Email Registration (Start/Stop)</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[registration_email_start]" name="setting[registration_email_start]" >
+                                                    <option value="1" {{isset($data['registration_email_start']) &&  $data['registration_email_start'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['registration_email_start']) && $data['registration_email_start'] == 0 ? 'selected' :""}}>Stop</option>
+                                                </select>
+                                                @error('setting[registration_email_start]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
+
+                                        <div class="row mt-5">
+                                            <dt class="col-sm-5"><label>Mobile Registration (Start/Stop)</label></dt>
+                                            <dd class="col-sm-7">
+                                                <select class="form-control" id="setting[registration_phone_start]" name="setting[registration_phone_start]" >
+                                                    <option value="1" {{isset($data['registration_phone_start']) &&  $data['registration_phone_start'] == 1 ? 'selected' :""}}>Start</option>
+                                                    <option value="0" {{isset($data['registration_phone_start']) && $data['registration_phone_start'] == 0 ? 'selected' :""}}>Stop</option>
+                                                </select>
+                                                @error('setting[registration_phone_start]')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </dd>
+                                        </div>
                                         
                                         <div class="row mt-5">
                                             <dt class="col-sm-5"><label>Top up Popup Amount</label></dt>
