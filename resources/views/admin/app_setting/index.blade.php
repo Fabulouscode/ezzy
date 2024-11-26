@@ -133,7 +133,7 @@
                                             </dd>
                                         </div>
 
-                                        <div class="row mt-5">
+                                        <div class="row">
                                             <dt class="col-sm-5"><label>Email Registration (Start/Stop)</label></dt>
                                             <dd class="col-sm-7">
                                                 <select class="form-control" id="setting[registration_email_start]" name="setting[registration_email_start]" >
@@ -148,7 +148,7 @@
                                             </dd>
                                         </div>
 
-                                        <div class="row mt-5">
+                                        <div class="row">
                                             <dt class="col-sm-5"><label>Mobile Registration (Start/Stop)</label></dt>
                                             <dd class="col-sm-7">
                                                 <select class="form-control" id="setting[registration_phone_start]" name="setting[registration_phone_start]" >
