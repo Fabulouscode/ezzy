@@ -204,6 +204,10 @@ return [
     'TERMII_URL' => env('TERMII_URL'),
     'TERMII_API_KEY' => env('TERMII_API_KEY'),
 
+    /* email verification */
+    'EMAIL_VERIFICATION_API_URL' => env('EMAIL_VERIFICATION_API_URL'),
+    'EMAIL_VERIFICATION_API_KEY' => env('EMAIL_VERIFICATION_API_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -2,13 +2,13 @@
 
 namespace App\Http\Helpers;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\CategoryRepository;
 use App\Models\Category;
 use App\Models\UserTracking;
 use App\Models\User;
 use Carbon\Carbon;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -21,7 +21,6 @@ class Helper
     public function __construct(CategoryRepository $category_repo)
     {
         $this->category_repo = $category_repo;
-
     }
 
     public static function getCategoryName($id)
@@ -235,7 +234,7 @@ class Helper
             'data' => $dataTemp,
             "android" => [
                 "notification" => [
-                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl'] : ''
                 ]
             ],
             "apns" => [
@@ -245,7 +244,7 @@ class Helper
                     ]
                 ],
                 "fcm_options" => [
-                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl'] : ''
                 ]
             ],
         ];
@@ -254,7 +253,6 @@ class Helper
         if (!empty($data)) {
             self::sendNotificationWithAdminSDK($data);
         }
-    
     }
 
 
@@ -276,7 +274,7 @@ class Helper
             "topic_name" => $topic_name,
             "registration_tokens" => [$notification_tokens]
         ];
-        
+
         if (!empty($data)) {
             self::sendNotificationWithAdminSDK($data, 1);
         }
@@ -482,7 +480,7 @@ class Helper
             'data' => $dataTemp,
             "android" => [
                 "notification" => [
-                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl'] : ''
                 ]
             ],
             "apns" => [
@@ -492,7 +490,7 @@ class Helper
                     ]
                 ],
                 "fcm_options" => [
-                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl']: ''
+                    "image" => (!empty($notification['imageUrl'])) ? $notification['imageUrl'] : ''
                 ]
             ],
         ];
@@ -501,7 +499,25 @@ class Helper
         if (!empty($data)) {
             self::sendNotificationWithAdminSDK($data, 4);
         }
-    
+    }
+    public static function getEmailVerification($email)
+    {
+        $url = config('app.EMAIL_VERIFICATION_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');
+        $response = self::sendCurlRequestPaystack($url, '', 'GET');
+        Log::info('getEmailVerification');
+        Log::info($url);
+        Log::info($response);
+        if (!empty($response) && !empty($response['result']) && $response['result'] != 'valid') {
+            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+        } else if (!empty($response) && !empty($response['disposable']) && $response['disposable'] == 'true') {
+            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+        } else if (!empty($response) && !empty($response['safe_to_send']) && $response['safe_to_send'] != 'true') {
+            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+        } else if (!empty($response) && !empty($response['success']) && $response['success'] == 'false') {
+            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+        }else{
+            return ['status' => true, 'data' => $response];
+        }
     }
 
 
@@ -526,25 +542,25 @@ class Helper
 
             $factory = (new Factory)->withServiceAccount($service_account);
             $recipient = 'device_token_or_topic_name';
-            if($type == '1'){
+            if ($type == '1') {
                 // subscribe topic
                 $messaging = $factory->createMessaging();
                 // Log::info(['notificationData', $notificationData]);
                 $messaging->subscribeToTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
                 // Log::info('subscribeToTopic');
-            }else if($type == '2'){
+            } else if ($type == '2') {
                 // unsubscribe topic
                 $messaging = $factory->createMessaging();
                 // Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromTopic($notificationData['topic_name'], $notificationData['registration_tokens']);
                 // Log::info('unsubscribeFromTopic');
-            }else if($type == '3'){
+            } else if ($type == '3') {
                 // unsubscribe all topic
                 $messaging = $factory->createMessaging();
                 // Log::info(['notificationData', $notificationData]);
                 $messaging->unsubscribeFromAllTopics($notificationData['registration_tokens']);
                 // Log::info('unsubscribeFromAllTopics');
-            }else if($type == '4'){
+            } else if ($type == '4') {
                 // topic wise send notification
                 $messaging = $factory->createMessaging();
                 // Log::info(['notificationData', $notificationData]);
@@ -552,7 +568,7 @@ class Helper
                 Log::info(['cloudMessage', json_encode($cloudMessage)]);
                 $messaging->send($cloudMessage);
                 // Log::info('topic notification sended');
-            }else{
+            } else {
                 $messaging = $factory->createMessaging();
                 Log::info(['notificationData', $notificationData]);
                 $cloudMessage = CloudMessage::fromArray($notificationData);
@@ -560,7 +576,7 @@ class Helper
                 // $messaging->withNotificationToken('device_token');
                 $messaging->send($cloudMessage);
                 Log::info('notification sended');
-            } 
+            }
 
             return true;
         } catch (Throwable $th) {
@@ -665,14 +681,13 @@ class Helper
             $response = curl_exec($ch);
             $response_arr = json_decode($response, true);
             return $response_arr;
-
         }
         return true;
     }
     public static function countryCodeRestriction($countryCode)
-    {         
-        $retrictCountryCode = ['+992','992'];
-        if(!empty($countryCode) && in_array($countryCode, $retrictCountryCode)){
+    {
+        $retrictCountryCode = ['+992', '992'];
+        if (!empty($countryCode) && in_array($countryCode, $retrictCountryCode)) {
             return true;
         }
         return false;
@@ -684,22 +699,22 @@ class Helper
             // Remove the plus sign and country code
             $countryCode = str_replace('+', '', $country_code);
             $access_key = config('app.MOBILE_VERIFICATION_API_KEY');
-            $url = config('app.MOBILE_VERIFICATION_API_URL') . '/number_verification/validate?number=' . $countryCode.$number;
-            $headers = array('apikey:'.$access_key);
+            $url = config('app.MOBILE_VERIFICATION_API_URL') . '/number_verification/validate?number=' . $countryCode . $number;
+            $headers = array('apikey:' . $access_key);
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-              CURLOPT_URL => $url,
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => '',
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 0,
-              CURLOPT_FOLLOWLOCATION => true,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => 'GET',
-              CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => $headers,
             ));
-            
+
             $response = curl_exec($curl);
             $error_msg = '';
             if (curl_errno($curl)) {
@@ -716,6 +731,4 @@ class Helper
             return $validationResult;
         }
     }
-
-
 }
