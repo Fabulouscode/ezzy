@@ -879,8 +879,8 @@ class UserAuthController extends BaseApiController
             $mobile_no = '80008655549';
             $mobile_code = 111111;
             $message = 'Your OTP for [' . config('app.name') . '] is: ' . $mobile_code;
-            dd($message);
-            $sent_msg = $this->user_repo->sendMessage($message, $country_code . $mobile_no);
+            // dd($message);
+            // $sent_msg = $this->user_repo->sendMessage($message, $country_code . $mobile_no);
             $subject = 'Registration OTP Verification' .' | '.config('app.name');
             $toMail = 'parth.cears@gmail.com';
             $toName = '';
@@ -888,9 +888,10 @@ class UserAuthController extends BaseApiController
             $templateData = $mobile_code;
             $controller = new CustomEmailController();
             // Call the sendEmail method with the necessary data
-            $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+            $re = $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+            dd($re);
             // Mail::to('parth.cears@gmail.com')->send(new RegistrationOtp($mobile_code));
-            dd($sent_msg);
+            // dd($sent_msg);
         } catch (\Exception $e) {
             dd($e);
         }
