@@ -208,6 +208,9 @@ return [
     'EMAIL_VERIFICATION_API_URL' => env('EMAIL_VERIFICATION_API_URL'),
     'EMAIL_VERIFICATION_API_KEY' => env('EMAIL_VERIFICATION_API_KEY'),
 
+    /* mail api */
+    'MAIL_API' => env('MAIL_API'),
+    'MAIL_AUTHORIZATION' => env('MAIL_AUTHORIZATION'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

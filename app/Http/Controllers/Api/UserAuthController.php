@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Controllers\CustomEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\UserRepository;
@@ -174,7 +175,15 @@ class UserAuthController extends BaseApiController
 
                 try {
                     if (!empty($request->register_type) && $request->register_type == '2') {
-                        Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
+                        $subject = 'Registration OTP Verification' .' | '.config('app.name');
+                        $toMail = $request->email;
+                        $toName = '';
+                        $templateName = 'register_otp';
+                        $templateData = $mobile_code;
+                        $controller = new CustomEmailController();
+                        // Call the sendEmail method with the necessary data
+                        $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+                        // Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
                     } else {
                         $sent_msg = $this->user_repo->sendMessage($message, $request->country_code . $request->mobile_no);
                     }
@@ -609,7 +618,15 @@ class UserAuthController extends BaseApiController
 
             try {
                 if (!empty($request->register_type) && $request->register_type == '2') {
-                    Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
+                    $subject = 'Registration OTP Verification' .' | '.config('app.name');
+                    $toMail = $request->email;
+                    $toName = '';
+                    $templateName = 'register_otp';
+                    $templateData = $mobile_code;
+                    $controller = new CustomEmailController();
+                    // Call the sendEmail method with the necessary data
+                    $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+                    // Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
                 } else {
                     $sent_msg = $this->user_repo->sendMessage($message, $request->country_code . $request->mobile_no);
                 }
@@ -737,7 +754,15 @@ class UserAuthController extends BaseApiController
 
                 try {
                     if (!empty($request->register_type) && $request->register_type == '2') {
-                        Mail::to($request->email)->send(new ForgetPasswordOtp($mobile_code));
+                        $subject = 'Forgot Password OTP Verification' .' | '.config('app.name');
+                        $toMail = $request->email;
+                        $toName = '';
+                        $templateName = 'forget_otp';
+                        $templateData = $mobile_code;
+                        $controller = new CustomEmailController();
+                        // Call the sendEmail method with the necessary data
+                        $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+                        // Mail::to($request->email)->send(new ForgetPasswordOtp($mobile_code));
                     } else {
                         $sent_msg = $this->user_repo->sendMessage($message, $request->country_code . $request->mobile_no);
                     }
@@ -855,7 +880,15 @@ class UserAuthController extends BaseApiController
         $message = 'Your OTP for [' . config('app.name') . '] is: ' . $mobile_code;
         dd($message);
         $sent_msg = $this->user_repo->sendMessage($message, $country_code . $mobile_no);
-        Mail::to('parth.cears@gmail.com')->send(new RegistrationOtp($mobile_code));
+        $subject = 'Registration OTP Verification' .' | '.config('app.name');
+        $toMail = $request->email;
+        $toName = '';
+        $templateName = 'register_otp';
+        $templateData = $mobile_code;
+        $controller = new CustomEmailController();
+        // Call the sendEmail method with the necessary data
+        $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+        // Mail::to('parth.cears@gmail.com')->send(new RegistrationOtp($mobile_code));
         dd($sent_msg);
     }
 }
