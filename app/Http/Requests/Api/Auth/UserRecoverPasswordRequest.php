@@ -29,7 +29,7 @@ class UserRecoverPasswordRequest extends FormRequest
             'register_type' => 'required|in:1,2',
             'mobile_no' => 'required_without:email|nullable|numeric',
             'country_code' => 'required_without:email|nullable',
-            'email' => 'required_without:mobile_no|nullable|email:rfc,dns|unique:users,email',
+            'email' => 'required_without:mobile_no|nullable|email:rfc,dns',
             'password' => 'required|string|min:8',
         ];
     }
