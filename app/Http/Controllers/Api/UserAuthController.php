@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Controllers\CustomEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\UserRepository;
@@ -729,14 +730,30 @@ class UserAuthController extends BaseApiController
         }
     }
 
-    public function testingFunction(Request $request) 
+    public function testingFunction(Request $request)
     {
-        $country_code='+91';
-        $mobile_no='80008655549';
-        $message = 'Your OTP for ['.config('app.name').'] is: 111111';
-        dd($message);
-        $sent_msg = $this->user_repo->sendMessage($message, $country_code.$mobile_no); 
-        dd($sent_msg);
+        try {
+            $country_code = '+91';
+            $mobile_no = '80008655549';
+            $mobile_code = 111111;
+            $message = 'Your OTP for [' . config('app.name') . '] is: ' . $mobile_code;
+            // dd($message);
+            // $sent_msg = $this->user_repo->sendMessage($message, $country_code . $mobile_no);
+            $subject = 'Registration OTP Verification' .' | '.config('app.name');
+            $toMail = 'parth.cears@gmail.com';
+            $toName = '';
+            $templateName = 'register_otp';
+            $templateData = $mobile_code;
+            $controller = new CustomEmailController();
+            // Call the sendEmail method with the necessary data
+            $re = $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+            dd($re);
+            // Mail::to('parth.cears@gmail.com')->send(new RegistrationOtp($mobile_code));
+            // dd($sent_msg);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+     
     }
 
 }
