@@ -33,7 +33,7 @@
                                                                 <div style="display: block;">
                                                                     <h1 style="font-size: 26px; font-weight: 700; color: #000000; margin: 0; margin-bottom: 30px; text-align: center; ">Registration OTP Verification</h1>
                                                                     <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #1363df; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
-                                                                        We have received registration request from EzzyCare.
+                                                                        Thank you for joining us at Ezzycare ! We're thrilled to have you on board. Please enter below OTP to complete the signup process!
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -52,9 +52,21 @@
                                                         </tr>
                                                         <tr>
                                                             <td style="padding-bottom: 30px;">
+                                                                <div style="display: block;">
+                                                                    <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #1363df; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
+                                                                        Ensure the accuracy of the verification code to complete the activation process successfully.
+                                                                    </p>
+                                                                    <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #1363df; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
+                                                                        If you have any questions or need assistance, feel free to submit a request from our support page.
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding-bottom: 30px;">
                                                                 <div style="display: block; ">
                                                                     <p style="font-size: 14px;  font-weight: 400; line-height: 20px; color: #637b96;margin: 0; letter-spacing: 0.5px; line-height: 24px;">
-                                                                        Regards,
+                                                                        Best Regards,
                                                                     </p>
                                                                     <h6 style="margin:0;font-size: 15px; font-weight: 600; color: #1e2e50;">EzzyCare Team</h6>
                                                                 </div>
