@@ -218,7 +218,12 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-            return self::sendError('', 'Mobile No. Already Registered.');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'Email Id Already Registered.');
+            }else{
+                return self::sendError('', 'Mobile No. Already Registered.');
+            }
+
         }
     }
 
@@ -289,8 +294,11 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-
-            return self::sendError('', 'Mobile No. Already Registered.');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'Email Id Already Registered.');
+            }else{
+                return self::sendError('', 'Mobile No. Already Registered.');
+            }
         }
     }
 
@@ -366,7 +374,11 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-            return self::sendError('', 'Mobile No. Already Registered.');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'Email Id Already Registered.');
+            }else{
+                return self::sendError('', 'Mobile No. Already Registered.');
+            }
         }
     }
 
@@ -477,12 +489,20 @@ class UserAuthController extends BaseApiController
             $user = $this->user_repo->getById(Auth::user()->id);
             if ($request->hcp_type == '0') {
                 if (!empty($user->category_id)) {
-                    return self::sendError('', 'This number is registered as a Care Provider, so please log in as a Care Provider.');
+                    if (!empty($request->register_type) && $request->register_type == '2') {
+                        return self::sendError('', 'This email is registered as a Care Provider, so please log in as a Care Provider.');
+                    }else{
+                        return self::sendError('', 'This number is registered as a Care Provider, so please log in as a Care Provider.');
+                    }
                 }
             }
             if ($request->hcp_type == '1') {
                 if (empty($user->category_id)) {
-                    return self::sendError('', 'This number is registered as a Care Seeker, so please log in as a Care Seeker.');
+                    if (!empty($request->register_type) && $request->register_type == '2') {
+                        return self::sendError('', 'This email is registered as a Care Seeker, so please log in as a Care Seeker.');
+                    }else{
+                        return self::sendError('', 'This number is registered as a Care Seeker, so please log in as a Care Seeker.');
+                    }
                 }
             }
             if (isset($user) && in_array($user->status, ['0', '1'])) {
@@ -516,7 +536,11 @@ class UserAuthController extends BaseApiController
             } else if (isset($user) && $user->status == '2') {
                 return self::sendError('', 'You have been deactivated please wait to be activated');
             } else if (isset($user) && $user->status == '3') {
-                return self::sendError('', 'Please Verify mobile number');
+                if (!empty($request->register_type) && $request->register_type == '2') {
+                    return self::sendError('', 'Please Verify email id');
+                }else{
+                    return self::sendError('', 'Please Verify mobile number');
+                }
             } else {
                 return self::sendError('', 'Please Fill up register details');
             }
@@ -733,7 +757,12 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-            return self::sendError('', 'User Mobile No. Not Registered');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'User Email Id Not Registered.');
+            }else{
+                return self::sendError('', 'User Mobile No. Not Registered');
+            }
+
         }
     }
 
@@ -761,7 +790,11 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-            return self::sendError('', 'User Mobile No. Not Registered');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'User Email Id Not Registered.');
+            }else{
+                return self::sendError('', 'User Mobile No. Not Registered');
+            }
         }
     }
 
@@ -787,7 +820,11 @@ class UserAuthController extends BaseApiController
                 return self::sendException($e);
             }
         } else {
-            return self::sendError('', 'User Mobile No. Not Registered');
+            if (!empty($request->register_type) && $request->register_type == '2') {
+                return self::sendError('', 'User Email Id Not Registered.');
+            }else{
+                return self::sendError('', 'User Mobile No. Not Registered');
+            }
         }
     }
 
