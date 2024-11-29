@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('home');
+// });
+
+// Route::get('/send-test-email', function () {
+//     // Send the email to a specified address
+//     $mobile_code ="11111";
+//     try {
+//         Mail::to('parth.cears@gmail.com')->send(new App\Mail\RegistrationOtp($mobile_code));
+//         Mail::to('parth.cears@gmail.com')->send(new App\Mail\ForgetPasswordOtp($mobile_code));
+//     } catch (\Exception $e) {
+//        dd($e);
+//     }
+
+//     return 'Email sent!';
 // });
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
