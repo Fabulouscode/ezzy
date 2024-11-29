@@ -204,6 +204,9 @@ return [
     'TERMII_URL' => env('TERMII_URL'),
     'TERMII_API_KEY' => env('TERMII_API_KEY'),
 
+     /* mail api */
+     'MAIL_API' => env('MAIL_API'),
+     'MAIL_AUTHORIZATION' => env('MAIL_AUTHORIZATION'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
