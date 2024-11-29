@@ -29,7 +29,7 @@ class UserLoginRequest extends FormRequest
             'register_type' => 'required|in:1,2',
             'mobile_no' => 'required_without:email|nullable|numeric',
             'country_code' => 'required_without:email|nullable',
-            'email' => 'required_without:phone_no|nullable|email:rfc,dns|unique:users,email',
+            'email' => 'required_without:mobile_no|nullable|email:rfc,dns|unique:users,email',
             'password' => 'required|string|min:8',
             'device_type' => 'required',
             'device_token' => 'required',
