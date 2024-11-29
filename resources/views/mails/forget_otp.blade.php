@@ -22,7 +22,7 @@
                                         <tbody>
                                             <tr>
                                                 <td style="text-align: center; vertical-align: middle; height: 100px;">
-                                                    <img src="{{ asset('frontend/img/logo.png') }}" style="height:100px;width:250px;margin-top:10px;" alt="" />
+                                                    <img src="{{ asset('frontend/img/logo.png') }}" style="height:60px;width:200px;margin-top:10px;" alt="" />
                                                 </td>
                                             </tr>
                                             <tr>
