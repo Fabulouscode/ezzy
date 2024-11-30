@@ -94,7 +94,29 @@ class UserRepository extends Repository
     {   
        
         $card_number = $this->genrateCardNumber();
-        $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
+        if (!empty($request->register_type) && $request->register_type == '2') {
+            $this->model->withTrashed()->updateOrCreate(['email' => $request->email], [
+                'mobile_no' => !empty($request->mobile_no) ? $request->mobile_no : NULL,
+                'country_code' => !empty($request->country_code) ? $request->country_code : NULL,
+                'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
+                'last_name' => !empty($request->last_name) ? $request->last_name : NULL,    
+                'password' => isset($request->password) ? Hash::make($request->password) : NULL,
+                'category_id' => isset($request->category_id) ? $request->category_id : NULL,
+                'subcategory_id' => isset($request->subcategory_id) ? $request->subcategory_id : NULL,
+                'status' => !empty($request->category_id) ? 1 : 0,
+                'device_type' => isset($request->device_type) ? $request->device_type : NULL,
+                'device_token' => !empty($request->device_token) ? $request->device_token : NULL,
+                'social_type'=> isset($request->social_type) ? $request->social_type : NULL,
+                'facebook_id'=> !empty($request->facebook_id) ? $request->facebook_id : NULL,
+                'google_id'=>!empty($request->google_id) ? $request->google_id : NULL,
+                'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
+                'user_timezone'=> !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '',
+                'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
+                'register_type' => !empty($request->register_type) ? $request->register_type : 2,
+                'deleted_at' => NULL
+            ])->restore();    
+        }else{
+            $this->model->withTrashed()->updateOrCreate(['mobile_no' => $request->mobile_no,'country_code' => $request->country_code], [
                 'first_name' => !empty($request->first_name) ? $request->first_name : NULL,
                 'last_name' => !empty($request->last_name) ? $request->last_name : NULL,    
                 'email' => isset($request->email) ? $request->email : NULL,
@@ -110,15 +132,24 @@ class UserRepository extends Repository
                 'apple_id'=> !empty($request->apple_id) ? $request->apple_id : NULL,
                 'user_timezone'=> !empty(request()->header('X-TimeZone')) ? request()->header('X-TimeZone') : '',
                 'user_ip' => !empty($request->user_ip) ? $request->user_ip : null,
-                'register_type' => !empty($request->register_type) ? $request->register_type : null,
+                'register_type' => !empty($request->register_type) ? $request->register_type : 1,
                 'deleted_at' => NULL
             ])->restore();    
-    
-        $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->whereNull('ezzycare_card');
-        if(!empty($user)){
-            $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->update(['ezzycare_card'=> $card_number]);
         }
-        $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
+
+        if (!empty($request->register_type) && $request->register_type == '2') {
+            $user = $this->model->where('email', $request->email)->whereNull('ezzycare_card');
+            if(!empty($user)){
+                $this->model->where('email', $request->email)->update(['ezzycare_card'=> $card_number]);
+            }
+            $user = $this->model->where('email', $request->email)->first();
+        }else{
+            $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->whereNull('ezzycare_card');
+            if(!empty($user)){
+                $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->update(['ezzycare_card'=> $card_number]);
+            }
+            $user = $this->model->where('mobile_no', $request->mobile_no)->where('country_code', $request->country_code)->first();
+        }
         \Log::info($user);
         if(!empty($user) && !empty($user->category_id) && $user->category_id == 7){
             //pharmacy side all medicine added
