@@ -1423,8 +1423,7 @@ class AppointmentRepository extends Repository
         $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
 
         $query = $query->where(function ($query){
-            $query->whereNotNull('user_rating')
-            ->orWhereNotNull('user_review');
+            $query->whereNotNull('user_rating')->orWhereNotNull('user_review');
         });    
 
         if(!empty($request->page_no)){
