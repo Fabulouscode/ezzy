@@ -33,7 +33,7 @@ use App\Http\Helpers\Helper;
 class UserAuthController extends BaseApiController
 {
 
-    private $user_repo, $notification_repo, $user_details_repo;
+    private $user_repo, $notification_repo, $user_details_repo, $otpSendLimit = 100;
 
     public function __construct(
         UserRepository $user_repo,
@@ -74,7 +74,7 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
             $otpDetails = OtpDetails::where('device_type', $request->header('device_type'))->where('device_id', $request->header('device_id'))->whereDate('start_date_time', Carbon::now()->format('Y-m-d'))->count();
-            if (!empty($otpDetails) && $otpDetails >= 3) {
+            if (!empty($otpDetails) && $otpDetails >= $this->otpSendLimit) {
                 return self::sendError('', 'I am sorry, it appears you have exceeded the OTP request limit for today, please try again after 24 hrs.');
             }
             if (!empty($request->country_code) && $request->country_code == "+234") {
@@ -567,7 +567,7 @@ class UserAuthController extends BaseApiController
     {
         if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
             $otpDetails = OtpDetails::where('device_type', $request->header('device_type'))->where('device_id', $request->header('device_id'))->whereDate('start_date_time', Carbon::now()->format('Y-m-d'))->count();
-            if (!empty($otpDetails) && $otpDetails >= 3) {
+            if (!empty($otpDetails) && $otpDetails >= $this->otpSendLimit) {
                 return self::sendError('', 'I am sorry, it appears you have exceeded the OTP request limit for today, please try again after 24 hrs.');
             }
         } else {
@@ -701,7 +701,7 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->header('device_type')) && !empty($request->header('device_id'))) {
             $otpDetails = OtpDetails::where('device_type', $request->header('device_type'))->where('device_id', $request->header('device_id'))->whereDate('start_date_time', Carbon::now()->format('Y-m-d'))->count();
-            if (!empty($otpDetails) && $otpDetails >= 3) {
+            if (!empty($otpDetails) && $otpDetails >= $this->otpSendLimit) {
                 return self::sendError('', 'I am sorry, it appears you have exceeded the OTP request limit for today, please try again after 24 hrs.');
             }
         } else {
