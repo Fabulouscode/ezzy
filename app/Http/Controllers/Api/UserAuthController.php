@@ -325,9 +325,9 @@ class UserAuthController extends BaseApiController
         }
 
         if (!empty($request->register_type) && $request->register_type == '2') {
-            $user = $this->user_repo->checkbyEmailId($request);
-        } else {
             $user = $this->user_repo->checkbyEmailVerify($request);
+        } else {
+            $user = $this->user_repo->checkbyMobileNoVerify($request);
         }
 
 
