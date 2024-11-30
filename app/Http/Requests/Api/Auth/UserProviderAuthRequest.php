@@ -27,7 +27,7 @@ class UserProviderAuthRequest extends FormRequest
     {
         return [
            'register_type' => 'required|in:1,2',
-           'email' => 'required_without:mobile_no|nullable|string|email|max:255|email:rfc,dns',
+           'email' => 'required_without:mobile_no|nullable|string|email|max:255|email:rfc,dns|unique:users,email,NOTNULL,password,deleted_at,NULL',
            'mobile_no' => 'required_without:email|nullable|numeric|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
            'country_code' => 'required_without:email|nullable|numeric',
            'password' => 'required|string|min:8',
