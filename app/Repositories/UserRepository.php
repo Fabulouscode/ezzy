@@ -762,7 +762,7 @@ class UserRepository extends Repository
      */
     public function checkbyEmailId($request)
     {   
-        return $this->model->where('email',$request->email)->first();
+        return $this->model->where('email',$request->email)->whereIn('status',['0','1','2'])->first();
     }
  
     /**
