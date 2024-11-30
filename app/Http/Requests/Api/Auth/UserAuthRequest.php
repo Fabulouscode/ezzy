@@ -27,7 +27,7 @@ class UserAuthRequest extends FormRequest
     {
         return [
            'register_type' => 'required|in:1,2',
-           'email' => 'required|string|email|max:255|unique:users,email',
+           'email' => 'required|string|email|max:255|unique:users,email,NOTNULL,password,deleted_at,NULL',
            'mobile_no' => 'required|numeric|starts_with: 1,1,2,3,4,5,6,7,8,9|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
            'country_code' => 'required',
            'password' => 'required|string|min:8',
