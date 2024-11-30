@@ -277,6 +277,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
                 Route::get('/check/current/{userId?}', 'AppointmentController@checkUserAppointment'); 
                 Route::get('/get/{appointment_id?}', 'AppointmentController@getAppointmentById'); 
                 Route::get('/invoice/{appointment_id?}', 'AppointmentController@generateInvoice'); 
+                Route::post('/review', 'AppointmentController@getReviewAppointment');
             });
         });
 

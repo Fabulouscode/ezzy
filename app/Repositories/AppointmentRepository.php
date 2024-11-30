@@ -1374,5 +1374,64 @@ class AppointmentRepository extends Repository
                             
     }
 
+    public function getReviewAppointment($request)
+    {   
+        $query = $this->model;
+        
+        if(!empty($request->search)){
+            if(!empty($request->user()->category_id)){
+                $query = $query->whereHas('client', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $searchTerm = strtolower($request->search);
+                                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                                $query->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . $searchTerm . '%']);
+                                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
+                            });
+                        });
+  
+            }else{
+                $query = $query->whereHas('user', function ($query) use ($request) {
+                            $query->where(function ($query) use ($request) {
+                                $searchTerm = strtolower($request->search);
+                                $query->orWhereRaw('LOWER(first_name) LIKE ?', ['%' . $searchTerm . '%']);
+                                $query->orWhereRaw('LOWER(last_name) LIKE ?', ['%' . $searchTerm . '%']);
+                                $query->orWhereRaw("concat(LOWER(first_name), ' ', LOWER(last_name)) like ?", ["%".$searchTerm."%"]);
+                            });
+                        });
+            }
+        }else{
+            if(!empty($request->page_no)){
+
+            }else{
+                if(!empty($request->last_id)){
+                    $query = $query->where('id', '<', $request->last_id);    
+                }
+                $query = $query->limit($this->api_data_limit); 
+            }
+        }
+
+        if(!empty($request->status)){
+            $query = $query->where('status',$request->status);
+        }
+        
+        if(!empty($request->user()->category_id)){
+            $query = $query->with(['client'])->where('user_id',$request->user()->id);
+        }else{
+            $query = $query->with(['user'])->where('client_id',$request->user()->id);
+        }
+        
+        $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
+
+        if(!empty($request->page_no)){
+            $skip_data = $this->api_data_limit * ($request->page_no - 1);
+            $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
+        }else{
+            $query = $query->orderBy('id','desc')->get();
+        }
+        
+        return $query;
+       
+    }
+
 }
 

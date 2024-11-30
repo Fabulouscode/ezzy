@@ -299,6 +299,40 @@ class AppointmentController extends BaseApiController
         return self::sendSuccess($data);
     }
     
+    public function getReviewAppointment(Request $request)
+    {
+        $data = array();
+        $data= $this->appointment_repo->getReviewAppointment($request)->map(function ($response){
+                                    return [
+                                        'id'=>$response->id,
+                                        'appointment_type'=>$response->appointment_type,
+                                        'appointment_type_name'=>$response->appointment_type_name,
+                                        'appointment_date'=>$response->appointment_date,
+                                        'appointment_time'=>$response->appointment_time,
+                                        'appointment_end_date'=>$response->appointment_end_date,
+                                        'appointment_end_time'=>$response->appointment_end_time,
+                                        'user_rating'=>$response->user_rating,
+                                        'user_review'=>$response->user_review,
+                                        'urgent'=>!empty($response->urgent) ? $response->urgent : 0,
+                                        'client'=>(isset($response->client))?
+                                                        [
+                                                            'id'=>$response->client->id,
+                                                            'user_name'=>$response->client->user_name,
+                                                            'profile_image'=>$response->client->profile_image
+                                                        ]:'',
+                                        'user'=>(isset($response->user))?
+                                                    [
+                                                        'id'=>$response->user->id,
+                                                        'user_name'=>$response->user->user_name,
+                                                        'profile_image'=>$response->user->profile_image
+                                                    ]:'',
+                                        'status'=>$response->status,
+                                        'status_name'=>$response->status_name,
+                                    ];
+                                });
+        return self::sendSuccess($data);
+    }
+
     public function addAppointment(AppointmentRequest $request)
     {
         $data = array();
