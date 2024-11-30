@@ -1422,6 +1422,11 @@ class AppointmentRepository extends Repository
         
         $query = $query->whereNotNull('client_id')->whereNotNull('user_id');
 
+        $query = $query->where(function ($query){
+            $query->whereNotNull('user_rating')
+            ->orWhereNotNull('user_review');
+        });    
+
         if(!empty($request->page_no)){
             $skip_data = $this->api_data_limit * ($request->page_no - 1);
             $query = $query->orderBy('appointment_date','desc')->orderBy('appointment_time','desc')->skip($skip_data)->limit($this->api_data_limit)->get();
