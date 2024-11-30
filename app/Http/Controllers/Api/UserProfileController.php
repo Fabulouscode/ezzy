@@ -105,6 +105,20 @@ class UserProfileController extends BaseApiController
             $notupdateField = ['first_name', 'last_name', 'subcategory_id', 'gender'];
             $requestData = $request->all();
 
+            if (!empty($request->user()->register_type) && $request->user()->register_type == '2') {
+                $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
+                if (!empty($user)) {
+                    return self::sendError('', 'Mobile No. Already Registered.', 500);
+                }
+            } else {
+                $user = $this->user_repo->checkbyEmailAlredyVerify($requestData, $request->user()->id);
+                if (!empty($user)) {
+                    return self::sendError('', 'Email Id Already Registered.', 500);
+                }
+            }
+
+
+
             $existingKey = array_filter($notupdateField, function ($key) use ($requestData) {
                 return array_key_exists($key, $requestData) && !empty($requestData[$key]);
             });

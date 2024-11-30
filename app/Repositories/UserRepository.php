@@ -823,6 +823,16 @@ class UserRepository extends Repository
         return $this->model->where('email',$request->email)->where('status','3')->whereNotNull('email_verified_at')->first();
     }
 
+    public function checkbyEmailAlredyVerify($request, $userId)
+    {   
+        return $this->model->where('email',$request->email)->where('id', '!=' ,$userId)->first();
+    }
+
+    public function checkbyMobilNoAlredyVerify($request, $userId)
+    {   
+        return $this->model->where('mobile_no',$request->mobile_no)->where('country_code',$request->country_code)->where('id', '!=' ,$userId)->first();
+    }
+
     /**
      * Display a edit of the record.
      *
