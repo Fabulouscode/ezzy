@@ -21,8 +21,8 @@
                                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                                         <tbody>
                                             <tr>
-                                                <td style="text-align: center; vertical-align: middle; height: 100px;">
-                                                    <img src="{{ asset('frontend/img/logo.png') }}" style="height:60px;width:200px;margin-top:10px;" alt="" />
+                                                <td>
+                                                    <img src="{{ asset('frontend/img/logo.png') }}" style="width: 100%;" alt="" />
                                                 </td>
                                             </tr>
                                             <tr>

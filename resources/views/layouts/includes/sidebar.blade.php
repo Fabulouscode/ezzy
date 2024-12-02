@@ -128,7 +128,9 @@
                         @can('appointments-review')
                         <li><a href="{{url('/donotezzycaretouch/appointment/reviews')}}">Reviews</a></li>
                         @endcan
-                        <li><a href="{{url('/donotezzycaretouch/patient-details')}}">Patient Details</a></li>
+                        @can('patients-list')
+                        <li><a href="{{url('/donotezzycaretouch/patient-details')}}">Care Seeker Details</a></li>
+                        @endcan
                     </ul>
                 </li>
                 @endif
