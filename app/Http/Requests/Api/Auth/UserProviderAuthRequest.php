@@ -26,7 +26,7 @@ class UserProviderAuthRequest extends FormRequest
     public function rules()
     {
         return [
-           'register_type' => 'required|in:1,2',
+           'register_type' => 'required_without:mobile_no|in:1,2',
            'email' => 'required_without:mobile_no|nullable|string|email|max:255|email:rfc,dns|unique:users,email,NOTNULL,password,deleted_at,NULL',
            'mobile_no' => 'required_without:email|nullable|numeric|unique:users,mobile_no,NOTNULL,password,deleted_at,NULL,country_code,'.$this->country_code,
            'country_code' => 'required_without:email|nullable|numeric',

@@ -26,7 +26,7 @@ class UserForgetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'register_type' => 'required|in:1,2',
+            'register_type' => 'required_without:mobile_no|in:1,2',
             'mobile_no' => 'required_without:email|nullable|numeric',
             'email' => 'required_without:mobile_no|nullable|email:rfc,dns',
             'country_code' => 'required_without:email|nullable|numeric'
