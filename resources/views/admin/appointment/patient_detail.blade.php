@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title', 'Patient Detail')
+@section('title', 'Care Seeker Details')
 
 @section('content')
     <div class="container-fluid">
@@ -9,10 +9,10 @@
                 <div class="float-right page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('/donotezzycaretouch') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Patient Detail</li>
+                        <li class="breadcrumb-item active">Care Seeker Details</li>
                     </ol>
                 </div>
-                <h5 class="page-title">Patient Detail</h5>
+                <h5 class="page-title">Care Seeker Details</h5>
             </div>
         </div>
 
