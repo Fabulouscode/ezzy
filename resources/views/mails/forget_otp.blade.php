@@ -33,32 +33,20 @@
                                                                 <div style="display: block;">
                                                                     <h1 style="font-size: 26px; font-weight: 700; color: #000000; margin: 0; margin-bottom: 30px; text-align: center; ">Forget Password OTP Verification</h1>
                                                                     <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
-                                                                        We have received forget password request from EzzyCare.
+                                                                        Welcome back to EzzyCare, 
                                                                     </p>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="padding-bottom: 30px;">
-                                                                <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; margin-bottom: 20px; line-height: 24px;">If this was legitimate activity, Here is your Forget Password Verification code:</p>
+                                                                <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; margin-bottom: 20px; line-height: 24px;">Kindly use this 6 degit code to Reset your password.</p>
                                                                 <div style="text-align: center;">
                                                                     <div style="text-align: center;font-size: 20px;padding: 10px 40px;border: 2px solid #f78125;border-radius: 27px;display: inline-block;margin: 0 auto;font-weight: 600;color: #28282c;background-color: #e1e1e1;">
                                                                         <strong>
                                                                             {{ $otp_code }}
                                                                         </strong>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="padding-bottom: 30px;">
-                                                                <div style="display: block;">
-                                                                    <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
-                                                                        Ensure the accuracy of the verification code to complete the activation process successfully.
-                                                                    </p>
-                                                                    <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
-                                                                        If you have any questions or need assistance, feel free to submit a request from our support page.
-                                                                    </p>
                                                                 </div>
                                                             </td>
                                                         </tr>
