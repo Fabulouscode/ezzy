@@ -106,14 +106,14 @@ class UserProfileController extends BaseApiController
             $requestData = $request->all();
 
             if (!empty($request->user()->register_type) && $request->user()->register_type == '2') {
-                $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
-                if (!empty($user)) {
-                    return self::sendError('', 'Mobile No. Already Registered.', 500);
-                }
-            } else {
                 $user = $this->user_repo->checkbyEmailAlredyVerify($requestData, $request->user()->id);
                 if (!empty($user)) {
                     return self::sendError('', 'Email Id Already Registered.', 500);
+                }
+            } else {
+                $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
+                if (!empty($user)) {
+                    return self::sendError('', 'Mobile No. Already Registered.', 500);
                 }
             }
 
