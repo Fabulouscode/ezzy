@@ -40,7 +40,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td style="padding-bottom: 30px;">
-                                                                <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; margin-bottom: 20px; line-height: 24px;">Kindly use this 6 degit code to Reset your password.</p>
+                                                                <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; margin-bottom: 20px; line-height: 24px;">Kindly use this 6 digit code to Reset your password.</p>
                                                                 <div style="text-align: center;">
                                                                     <div style="text-align: center;font-size: 20px;padding: 10px 40px;border: 2px solid #f78125;border-radius: 27px;display: inline-block;margin: 0 auto;font-weight: 600;color: #28282c;background-color: #e1e1e1;">
                                                                         <strong>
