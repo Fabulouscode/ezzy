@@ -31,7 +31,7 @@
                                                         <tr>
                                                             <td style="padding-bottom: 30px;">
                                                                 <div style="display: block;">
-                                                                    <h1 style="font-size: 26px; font-weight: 700; color: #000000; margin: 0; margin-bottom: 30px; text-align: center; ">Registration OTP Verification</h1>
+                                                                    <h1 style="font-size: 26px; font-weight: 700; color: #000000; margin: 0; margin-bottom: 30px; text-align: center; ">OTP Verification</h1>
                                                                     <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #637b96; margin: 0; letter-spacing: 0.5px; line-height: 24px;">
                                                                         Welcome to EzzyCare, 
                                                                     </p>
