@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" href="">
-    <title>Forget Password OTP Verification</title>
+    <title>OTP Verification</title>
 </head>
 
 
