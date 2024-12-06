@@ -503,7 +503,7 @@ class Helper
     
     public static function getEmailVerification($email)
     {
-        $url = config('app.EMAIL_VERIFICATION_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');
+        $url = config('app.EMAIL_VERIFICATION_API_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');
         $response = self::sendCurlRequestPaystack($url, '', 'GET');
         Log::info('getEmailVerification');
         Log::info($url);
