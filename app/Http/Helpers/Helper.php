@@ -666,6 +666,10 @@ class Helper
      */
     public static function sendCurlRequestPaystack($url, $headers, $method = 'GET', $data = '')
     {
+        if (empty($headers)) {
+            $headers = array('Content-Type:application/json');
+        }
+        
         if (!empty($url) && !empty($headers)) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -734,4 +738,6 @@ class Helper
             return $validationResult;
         }
     }
+
+    
 }
