@@ -108,9 +108,14 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+            if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+            } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
+            } else {
+                return self::sendError('', 'Invaliid Email');
             }
+
+
             $user = $this->user_repo->checkbyEmailId($request);
             if (!empty($user)) {
                 return self::sendError('', 'Email ID Already Registered.');
@@ -175,7 +180,7 @@ class UserAuthController extends BaseApiController
 
                 try {
                     if (!empty($request->register_type) && $request->register_type == '2') {
-                        $subject = 'Registration OTP Verification' .' | '.config('app.name');
+                        $subject = 'Registration OTP Verification' . ' | ' . config('app.name');
                         $toMail = $request->email;
                         $toName = '';
                         $templateName = 'register_otp';
@@ -229,10 +234,9 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'Email Id Already Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'Mobile No. Already Registered.');
             }
-
         }
     }
 
@@ -251,8 +255,11 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+            if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+            } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
+            } else {
+                return self::sendError('', 'Invaliid Email');
             }
             $user = $this->user_repo->checkbyEmailVerify($request);
         } else {
@@ -305,7 +312,7 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'Email Id Already Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'Mobile No. Already Registered.');
             }
         }
@@ -351,8 +358,11 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->registerWithRestore($request);
                 if (!empty($request->register_type) && $request->register_type == '2') {
                     $emailVerification = Helper::getEmailVerification($request->email);
-                    if(!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false){
+                    if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+                    } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                         return self::sendError('', $emailVerification['msg']);
+                    } else {
+                        return self::sendError('', 'Invaliid Email');
                     }
                     $user = $this->user_repo->getbyEmail($request);
                 } else {
@@ -385,7 +395,7 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'Email Id Already Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'Mobile No. Already Registered.');
             }
         }
@@ -500,7 +510,7 @@ class UserAuthController extends BaseApiController
                 if (!empty($user->category_id)) {
                     if (!empty($request->register_type) && $request->register_type == '2') {
                         return self::sendError('', 'This email is registered as a Care Provider, so please log in as a Care Provider.');
-                    }else{
+                    } else {
                         return self::sendError('', 'This number is registered as a Care Provider, so please log in as a Care Provider.');
                     }
                 }
@@ -509,7 +519,7 @@ class UserAuthController extends BaseApiController
                 if (empty($user->category_id)) {
                     if (!empty($request->register_type) && $request->register_type == '2') {
                         return self::sendError('', 'This email is registered as a Care Seeker, so please log in as a Care Seeker.');
-                    }else{
+                    } else {
                         return self::sendError('', 'This number is registered as a Care Seeker, so please log in as a Care Seeker.');
                     }
                 }
@@ -547,7 +557,7 @@ class UserAuthController extends BaseApiController
             } else if (isset($user) && $user->status == '3') {
                 if (!empty($request->register_type) && $request->register_type == '2') {
                     return self::sendError('', 'Please Verify email id');
-                }else{
+                } else {
                     return self::sendError('', 'Please Verify mobile number');
                 }
             } else {
@@ -618,7 +628,7 @@ class UserAuthController extends BaseApiController
 
             try {
                 if (!empty($request->register_type) && $request->register_type == '2') {
-                    $subject = 'Registration OTP Verification' .' | '.config('app.name');
+                    $subject = 'Registration OTP Verification' . ' | ' . config('app.name');
                     $toMail = $request->email;
                     $toName = '';
                     $templateName = 'register_otp';
@@ -754,7 +764,7 @@ class UserAuthController extends BaseApiController
 
                 try {
                     if (!empty($request->register_type) && $request->register_type == '2') {
-                        $subject = 'Forgot Password OTP Verification' .' | '.config('app.name');
+                        $subject = 'Forgot Password OTP Verification' . ' | ' . config('app.name');
                         $toMail = $request->email;
                         $toName = '';
                         $templateName = 'forget_otp';
@@ -784,10 +794,9 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'User Email Id Not Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'User Mobile No. Not Registered');
             }
-
         }
     }
 
@@ -817,7 +826,7 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'User Email Id Not Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'User Mobile No. Not Registered');
             }
         }
@@ -847,7 +856,7 @@ class UserAuthController extends BaseApiController
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
                 return self::sendError('', 'User Email Id Not Registered.');
-            }else{
+            } else {
                 return self::sendError('', 'User Mobile No. Not Registered');
             }
         }
@@ -881,7 +890,7 @@ class UserAuthController extends BaseApiController
             $message = 'Your OTP for [' . config('app.name') . '] is: ' . $mobile_code;
             // dd($message);
             // $sent_msg = $this->user_repo->sendMessage($message, $country_code . $mobile_no);
-            $subject = 'Registration OTP Verification' .' | '.config('app.name');
+            $subject = 'Registration OTP Verification' . ' | ' . config('app.name');
             $toMail = 'parth.cears@gmail.com';
             $toName = '';
             $templateName = 'register_otp';
@@ -895,6 +904,5 @@ class UserAuthController extends BaseApiController
         } catch (\Exception $e) {
             dd($e);
         }
-     
     }
 }
