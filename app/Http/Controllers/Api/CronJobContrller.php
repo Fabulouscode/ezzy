@@ -468,6 +468,7 @@ class CronJobContrller extends BaseApiController
                     $appointment_timing =  $urgent_appointment_start_time->diffInSeconds($urgent_appointment_end_time);
                     $appointment_total_minutes = $appointment_timing / 60;
                     $transaction_amount = 0;
+                    $hcpFees = 0;
                     if($value->appointment_type == '1'){
                         $transaction_amount = $value->hcp_fees * $appointment_total_minutes;
                         $transaction_amount += $value->home_visit_fees;        
@@ -478,14 +479,14 @@ class CronJobContrller extends BaseApiController
                         $transaction_amount = $value->hcp_fees * $appointment_total_minutes; 
                         $transaction_amount += $value->home_visit_fees;    
                     } 
-                
+                    $hcpFees = $value->hcp_fees + 50;
                     $user = User::where('id',$value->client_id)->select('id','wallet_balance')->first();
                     $walletBalanceCalculate = 0;
                     if(!empty($user)){
                         $walletBalanceCalculate = $user->wallet_balance - $transaction_amount;
                     }
 
-                    if(!empty($walletBalanceCalculate) && $walletBalanceCalculate > 5){
+                    if(!empty($walletBalanceCalculate) && $walletBalanceCalculate > $hcpFees){
                   
                     }else{
                         //Due to insufficient wallet balance, the appointment will be automatically marked as completed.
