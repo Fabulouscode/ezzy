@@ -509,13 +509,13 @@ class Helper
         Log::info($url);
         Log::info($response);
         if (!empty($response) && !empty($response['result']) && $response['result'] != 'valid') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
         } else if (!empty($response) && !empty($response['disposable']) && $response['disposable'] == 'true') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
         } else if (!empty($response) && !empty($response['safe_to_send']) && $response['safe_to_send'] != 'true') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
         } else if (!empty($response) && !empty($response['success']) && $response['success'] == 'false') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
         }else{
             return ['status' => true, 'data' => $response];
         }

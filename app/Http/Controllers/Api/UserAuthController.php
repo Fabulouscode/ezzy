@@ -108,13 +108,12 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
             } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
             } else {
-                return self::sendError('', 'Invaliid Email');
+                return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
             }
-
 
             $user = $this->user_repo->checkbyEmailId($request);
             if (!empty($user)) {
@@ -255,12 +254,13 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
             } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
             } else {
-                return self::sendError('', 'Invaliid Email');
+                return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
             }
+
             $user = $this->user_repo->checkbyEmailVerify($request);
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
@@ -358,12 +358,13 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->registerWithRestore($request);
                 if (!empty($request->register_type) && $request->register_type == '2') {
                     $emailVerification = Helper::getEmailVerification($request->email);
-                    if (!empty($emailVerification) && !empty($emailVerification['result']) && !empty($emailVerification['safe_to_send']) && !empty($emailVerification['success']) && $emailVerification['result'] == 'valid' && $emailVerification['safe_to_send'] == 'true' && $emailVerification['success'] == 'true') {
+                    if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
                     } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                         return self::sendError('', $emailVerification['msg']);
                     } else {
-                        return self::sendError('', 'Invaliid Email');
+                        return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
                     }
+
                     $user = $this->user_repo->getbyEmail($request);
                 } else {
                     $user = $this->user_repo->getbyMobileNo($request);
