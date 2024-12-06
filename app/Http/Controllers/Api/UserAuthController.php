@@ -108,7 +108,7 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
+            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
             } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
             } else {
@@ -254,7 +254,7 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $emailVerification = Helper::getEmailVerification($request->email);
-            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
+            if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
             } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                 return self::sendError('', $emailVerification['msg']);
             } else {
@@ -358,7 +358,7 @@ class UserAuthController extends BaseApiController
                 $this->user_repo->registerWithRestore($request);
                 if (!empty($request->register_type) && $request->register_type == '2') {
                     $emailVerification = Helper::getEmailVerification($request->email);
-                    if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['success'] == 'true') {
+                    if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
                     } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                         return self::sendError('', $emailVerification['msg']);
                     } else {
