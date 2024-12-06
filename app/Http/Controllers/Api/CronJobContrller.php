@@ -479,7 +479,7 @@ class CronJobContrller extends BaseApiController
                         $transaction_amount = $value->hcp_fees * $appointment_total_minutes; 
                         $transaction_amount += $value->home_visit_fees;    
                     } 
-                    $hcpFees = $value->hcp_fees + 50;
+                    $hcpFees = 50 + (int)$value->hcp_fees;
                     $user = User::where('id',$value->client_id)->select('id','wallet_balance')->first();
                     $walletBalanceCalculate = 0;
                     if(!empty($user)){
