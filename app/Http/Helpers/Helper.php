@@ -503,21 +503,23 @@ class Helper
     
     public static function getEmailVerification($email)
     {
-        $url = config('app.EMAIL_VERIFICATION_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');
+        $url = config('app.EMAIL_VERIFICATION_API_URL') . "/v1/verify?email=" . $email . "&apikey=" . config('app.EMAIL_VERIFICATION_API_KEY');
         $response = self::sendCurlRequestPaystack($url, '', 'GET');
         Log::info('getEmailVerification');
         Log::info($url);
-        Log::info($response);
-        if (!empty($response) && !empty($response['result']) && $response['result'] != 'valid') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
-        } else if (!empty($response) && !empty($response['disposable']) && $response['disposable'] == 'true') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
-        } else if (!empty($response) && !empty($response['safe_to_send']) && $response['safe_to_send'] != 'true') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
-        } else if (!empty($response) && !empty($response['success']) && $response['success'] == 'false') {
-            return ['status' => false, 'msg' => "This Email Id is not valid please try again."];
-        }else{
+        Log::info(json_encode($response));
+        if (!empty($response) && isset($response['result']) && $response['result'] != 'valid') {
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
+        } else if (!empty($response) && isset($response['disposable']) && $response['disposable'] == 'true') {
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
+        } else if (!empty($response) && isset($response['safe_to_send']) && $response['safe_to_send'] != 'true') {
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
+        } else if (!empty($response) && isset($response['success']) && $response['success'] == 'false') {
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
+        }else  if (!empty($response) && isset($response['success']) && $response['success'] == 'true') {
             return ['status' => true, 'data' => $response];
+        }else {
+            return ['status' => false, 'msg' => "This email ID is not valid. Please use a different email ID."];
         }
     }
 
@@ -664,6 +666,10 @@ class Helper
      */
     public static function sendCurlRequestPaystack($url, $headers, $method = 'GET', $data = '')
     {
+        if (empty($headers)) {
+            $headers = array('Content-Type:application/json');
+        }
+        
         if (!empty($url) && !empty($headers)) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -732,4 +738,6 @@ class Helper
             return $validationResult;
         }
     }
+
+    
 }

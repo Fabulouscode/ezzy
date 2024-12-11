@@ -110,10 +110,15 @@ class UserAuthController extends BaseApiController
             if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
             } else {
                 $emailVerification = Helper::getEmailVerification($request->email);
-                if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false) {
+                if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
+                } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                     return self::sendError('', $emailVerification['msg']);
+                } else {
+                    return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
                 }
             }
+
+
             $user = $this->user_repo->checkbyEmailId($request);
             if (!empty($user)) {
                 return self::sendError('', 'Email ID Already Registered.');
@@ -260,11 +265,16 @@ class UserAuthController extends BaseApiController
         if (!empty($request->register_type) && $request->register_type == '2') {
             if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
             } else {
+
                 $emailVerification = Helper::getEmailVerification($request->email);
-                if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false) {
+                if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
+                } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                     return self::sendError('', $emailVerification['msg']);
+                } else {
+                    return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
                 }
             }
+
             $user = $this->user_repo->checkbyEmailVerify($request);
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
@@ -364,10 +374,14 @@ class UserAuthController extends BaseApiController
                     if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
                     } else {
                         $emailVerification = Helper::getEmailVerification($request->email);
-                        if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg']) && $emailVerification['status'] == false) {
+                        if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
+                        } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
                             return self::sendError('', $emailVerification['msg']);
+                        } else {
+                            return self::sendError('', 'This email ID is not valid. Please use a different email ID.');
                         }
                     }
+
                     $user = $this->user_repo->getbyEmail($request);
                 } else {
                     $user = $this->user_repo->getbyMobileNo($request);

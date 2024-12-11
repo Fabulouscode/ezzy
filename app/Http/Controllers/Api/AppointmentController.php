@@ -1525,7 +1525,8 @@ class AppointmentController extends BaseApiController
             if(!empty($appointment_details->appointment_date) && !empty($appointment_details->appointment_time)){
                 $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($appointment_details->client_id);
                 $currency_symbol = $this->user_repo->currency_symbol;
-                $walletBalanceCalculate = $wallet_balance - $home_visit_fees;
+                $minimumWalletBalance = ($hcp_fees*5);
+                $walletBalanceCalculate = $wallet_balance - $home_visit_fees - $minimumWalletBalance;
                 $hcp_fees = (!empty($hcp_fees)) ? $hcp_fees : 1;
                 $appointmentTimeCalculate = round($walletBalanceCalculate / $hcp_fees);
                 if($appointmentTimeCalculate <= 60){
@@ -1666,7 +1667,8 @@ class AppointmentController extends BaseApiController
             if(!empty($appointment_details->appointment_date) && !empty($appointment_details->appointment_time)){
                 $wallet_balance = $this->user_transaction_repo->checkPatientWalletBalance($appointment_details->client_id);
                 $currency_symbol = $this->user_repo->currency_symbol;
-                $walletBalanceCalculate = $wallet_balance - $home_visit_fees;
+                $minimumWalletBalance = ($hcp_fees*5);
+                $walletBalanceCalculate = $wallet_balance - $home_visit_fees - $minimumWalletBalance;
                 $hcp_fees = (!empty($hcp_fees)) ? $hcp_fees : 1;
                 $appointmentTimeCalculate = round($walletBalanceCalculate / $hcp_fees);
                 if($appointmentTimeCalculate <= 60){
