@@ -265,7 +265,6 @@ class UserAuthController extends BaseApiController
         if (!empty($request->register_type) && $request->register_type == '2') {
             if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
             } else {
-
                 $emailVerification = Helper::getEmailVerification($request->email);
                 if (!empty($emailVerification) && !empty($emailVerification['status']) && $emailVerification['status'] == 'true') {
                 } else  if (!empty($emailVerification) && isset($emailVerification['status']) && !empty($emailVerification['msg'])) {
