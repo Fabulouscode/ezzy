@@ -13,7 +13,7 @@ use App\Repositories\ManageFeesRepository;
 use App\Repositories\VoucherCodeRepository;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
-use Log;
+use Illuminate\Support\Facades\Log;
 use DB;
 
 class CronJobContrller extends BaseApiController
@@ -477,15 +477,30 @@ class CronJobContrller extends BaseApiController
                     }
                     $hcpFees = 50 + ((int)$value->hcp_fees * 2);
                     $user = User::where('id', $value->client_id)->select('id', 'wallet_balance')->first();
+                    Log::info("urgnet appoinetment calc start");     
+                    Log::info($value->id);     
+                    Log::info($transaction_amount);       
+                    Log::info($transaction_amount);       
                     $walletBalanceCalculate = 0;
                     if (!empty($user)) {
                         $walletBalanceCalculate = $user->wallet_balance - $transaction_amount;
+                        Log::info("urgnet appoinetment wallet calc");
+                        Log::info($user->wallet_balance);     
+                        Log::info($transaction_amount);     
+                        Log::info($walletBalanceCalculate);     
                     }
-
+                    Log::info("urgnet appoinetment walletBalanceCalculate hcpFees");
+                    Log::info($walletBalanceCalculate);       
+                    Log::info($hcpFees);           
                     if (!empty($walletBalanceCalculate) && $walletBalanceCalculate > $hcpFees) {
+                       Log::info("urgnet appoinetment walletBalanceCalculate availbale");
+                       Log::info($walletBalanceCalculate);       
+                       Log::info($hcpFees);    
                     } else {
                         //Due to insufficient wallet balance, the appointment will be automatically marked as completed.
                         if ($value->urgent == '1' && isset($walletBalanceCalculate)) {
+                            Log::info("urgnet appoinetment walletBalanceCalculate insufficient");
+                            Log::info($value->id);
                             $data = [
                                 "id" => $value->id,
                                 "status" => 4,
@@ -495,6 +510,7 @@ class CronJobContrller extends BaseApiController
                             self::completedAppointment($data);
                         }
                     }
+                    Log::info("urgnet appoinetment calc end"); 
                 }
             }
         }
