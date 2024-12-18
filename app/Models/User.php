@@ -63,7 +63,7 @@ class User extends Authenticatable
         'user_ip',
         'completed_percentage',
         'welcome_bonus',
-        'is_register_type'
+        'register_type'
     ];
 
     /**
