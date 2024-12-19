@@ -102,20 +102,21 @@ class UserProfileController extends BaseApiController
     {
         \Log::info('addUserDetails');
         \Log::info(json_encode($request->all()));
+        $requestData = $request->all();
+        $user = $this->user_repo->checkbyEmailAlredyVerify($requestData, $request->user()->id);
+        if (!empty($user)) {
+            return self::sendError('', 'Email Id Already Registered.', 500);
+        }
+
+        $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
+        if (!empty($user)) {
+            return self::sendError('', 'Mobile No. Already Registered.', 500);
+        }
+        
         if(!empty($request->user()) && !empty($request->user()->category_id) && $request->user()->status == '0'){
             $notupdateField = ['first_name', 'last_name', 'subcategory_id', 'gender'];
             $requestData = $request->all();
-
-            $user = $this->user_repo->checkbyEmailAlredyVerify($requestData, $request->user()->id);
-            if (!empty($user)) {
-                return self::sendError('', 'Email Id Already Registered.', 500);
-            }
-
-            $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
-            if (!empty($user)) {
-                return self::sendError('', 'Mobile No. Already Registered.', 500);
-            }
-
+            
             $existingKey = array_filter($notupdateField, function ($key) use ($requestData) {
                 return array_key_exists($key, $requestData) && !empty($requestData[$key]);
             });
