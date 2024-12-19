@@ -14,7 +14,7 @@ class UserRegisterTypeAdd extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('is_register_type')->after('user_ip')->signed()->default(1)->comment('1-Mobile, 2-Email');
+            $table->integer('register_type')->after('user_ip')->signed()->default(1)->comment('1-Mobile, 2-Email');
         });
     }
 
@@ -26,7 +26,7 @@ class UserRegisterTypeAdd extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['is_register_type']);
+            $table->dropColumn(['register_type']);
         });
     }
 }

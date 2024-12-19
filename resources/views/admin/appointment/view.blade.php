@@ -137,6 +137,22 @@
                                             @endif 
                                         </dd>
                                     </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment Review</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->user_review))
+                                                {{$data->user_review}}
+                                            @endif 
+                                        </dd>
+                                    </div>
+                                    <div class="row">
+                                        <dt class="col-sm-5"><label>Appointment Rating</label></dt>
+                                        <dd class="col-sm-7"> 
+                                            @if(isset($data->user_rating))
+                                            <input type="hidden" class="rating" data-filled="mdi mdi-star font-32 text-primary" data-empty="mdi mdi-star-outline font-32 text-muted" data-readonly value="{{$data->user_rating}}" />  
+                                            @endif 
+                                        </dd>
+                                    </div>
                                     @if(!empty($data->start_datetime))
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Appointment Started Date Time</label></dt>
