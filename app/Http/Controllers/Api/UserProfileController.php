@@ -102,15 +102,19 @@ class UserProfileController extends BaseApiController
     {
         \Log::info('addUserDetails');
         \Log::info(json_encode($request->all()));
-        $requestData = $request->all();
-        $user = $this->user_repo->checkbyEmailAlredyVerify($requestData, $request->user()->id);
-        if (!empty($user)) {
-            return self::sendError('', 'Email Id Already Registered.', 500);
+       
+        if(!empty($request->email)){
+            $user = $this->user_repo->checkbyEmailAlredyVerify($request, $request->user()->id);
+            if (!empty($user)) {
+                return self::sendError('', 'Email Id Already Registered.', 500);
+            }
         }
 
-        $user = $this->user_repo->checkbyMobilNoAlredyVerify($requestData, $request->user()->id);
-        if (!empty($user)) {
-            return self::sendError('', 'Mobile No. Already Registered.', 500);
+        if(!empty($request->mobile_no) && !empty($request->country_code)){
+            $user = $this->user_repo->checkbyMobilNoAlredyVerify($request, $request->user()->id);
+            if (!empty($user)) {
+                return self::sendError('', 'Mobile No. Already Registered.', 500);
+            }
         }
         
         if(!empty($request->user()) && !empty($request->user()->category_id) && $request->user()->status == '0'){
