@@ -54,7 +54,8 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterwithMobile(UserRegisterMobileRequest $request)
     {
-
+        \Log::info('saveRegisterwithMobile');
+        \Log::info(json_encode($request->all()));
         // if (!empty($request->g_recaptcha_response)) {
         //     //your site secret key
         //     $secret = config('app.GOOGLE_RECAPTCH_SECRET_KEY');
@@ -247,6 +248,8 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegisterPatient(UserAuthRequest $request)
     {
+        \Log::info('saveRegisterPatient');
+        \Log::info(json_encode($request->all()));
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
         if (isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0) {
             return self::sendError('', 'For the time being registration is closed. Please try later.');
@@ -262,8 +265,20 @@ class UserAuthController extends BaseApiController
             }
 
             $user = $this->user_repo->checkbyEmailVerify($request);
+            if (!empty($request->country_code) && !empty($request->mobile_no)) {
+                $user = $this->user_repo->getbyMobileNo($request);
+                if (!empty($user)) {
+                    return self::sendError('', 'Mobile No. Already Registered.', 500);
+                }
+            }
         } else {
-            $user = $this->user_repo->checkbyMobileNoVerify($request);
+            $user = $this->user_repo->checkbyMobileNoVerify($request);            
+            if (!empty($request->email)) {
+                $user = $this->user_repo->getbyEmail($request);
+                if (!empty($user)) {
+                    return self::sendError('', 'Email Id Already Registered.', 500);
+                }
+            }
         }
 
 
@@ -326,6 +341,8 @@ class UserAuthController extends BaseApiController
      */
     public function saveRegister(UserProviderAuthRequest $request)
     {
+        \Log::info('saveRegister');
+        \Log::info(json_encode($request->all()));
         $registerStop = AppSetting::where('key_name', 'registration_start')->first();
         if (isset($registerStop) && isset($registerStop->value_txt) && $registerStop->value_txt == 0) {
             return self::sendError('', 'For the time being registration is closed. Please try later.');
@@ -333,8 +350,20 @@ class UserAuthController extends BaseApiController
 
         if (!empty($request->register_type) && $request->register_type == '2') {
             $user = $this->user_repo->checkbyEmailVerify($request);
+            if (!empty($request->country_code) && !empty($request->mobile_no)) {
+                $user = $this->user_repo->getbyMobileNo($request);
+                if (!empty($user)) {
+                    return self::sendError('', 'Mobile No. Already Registered.', 500);
+                }
+            }
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
+            if (!empty($request->email)) {
+                $user = $this->user_repo->getbyEmail($request);
+                if (!empty($user)) {
+                    return self::sendError('', 'Email Id Already Registered.', 500);
+                }
+            }
         }
 
 
@@ -410,6 +439,8 @@ class UserAuthController extends BaseApiController
      */
     public function socialLogin(SocialLoginRequest $request)
     {
+        \Log::info('socialLogin');
+        \Log::info(json_encode($request->all()));
         $user = $this->user_repo->checkbyMobileNoAndEmail($request);
         if (!empty($request->ip())) {
             $request->merge(['user_ip' => $request->ip()]);
@@ -665,6 +696,8 @@ class UserAuthController extends BaseApiController
      */
     public function verifyOTP(UserVerifySMSRequest $request)
     {
+        \Log::info('verifyOTP');
+        \Log::info(json_encode($request->all()));
         if (!empty($request->register_type) && $request->register_type == '2') {
             $user = $this->user_repo->getbyEmail($request);
         } else {
