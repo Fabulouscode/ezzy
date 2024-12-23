@@ -135,47 +135,47 @@ return [
     'API_DEC_VI_KEY' => env('API_DECRYPT_VI_KEY'),
 
     /* Twilio sms */
-    'TWILIO_SID'=> env('TWILIO_SID'),
-    'TWILIO_AUTH_TOKEN'=> env('TWILIO_AUTH_TOKEN'),
-    'TWILIO_NUMBER'=> env('TWILIO_NUMBER'),
+    'TWILIO_SID' => env('TWILIO_SID'),
+    'TWILIO_AUTH_TOKEN' => env('TWILIO_AUTH_TOKEN'),
+    'TWILIO_NUMBER' => env('TWILIO_NUMBER'),
 
     /* NEXEMO sms */
-    'NEXEMO_URL'=> env('NEXEMO_URL'),
-    'NEXEMO_API_KEY'=> env('NEXEMO_API_KEY'),
-    'NEXEMO_API_SECRET'=> env('NEXEMO_API_SECRET'),
+    'NEXEMO_URL' => env('NEXEMO_URL'),
+    'NEXEMO_API_KEY' => env('NEXEMO_API_KEY'),
+    'NEXEMO_API_SECRET' => env('NEXEMO_API_SECRET'),
 
     /* bulksmsnigeria sms */
-    'BULKSMS_URL'=> env('BULKSMS_URL'),
-    'BULKSMS_TOKEN'=> env('BULKSMS_TOKEN'),
- 
-    
+    'BULKSMS_URL' => env('BULKSMS_URL'),
+    'BULKSMS_TOKEN' => env('BULKSMS_TOKEN'),
+
+
     /* SMS_PROVIDER integration key (otp sms) */
-    'SMS_PROVIDER_URL'=> env('SMS_PROVIDER_URL'),
-    'SMS_PROVIDER_USERNAME'=> env('SMS_PROVIDER_USERNAME'),
-    'SMS_PROVIDER_PASSWORD'=> env('SMS_PROVIDER_PASSWORD'),
-    'SMS_PROVIDER_SENDER'=> env('SMS_PROVIDER_SENDER'),
+    'SMS_PROVIDER_URL' => env('SMS_PROVIDER_URL'),
+    'SMS_PROVIDER_USERNAME' => env('SMS_PROVIDER_USERNAME'),
+    'SMS_PROVIDER_PASSWORD' => env('SMS_PROVIDER_PASSWORD'),
+    'SMS_PROVIDER_SENDER' => env('SMS_PROVIDER_SENDER'),
 
     /* Firebase notification */
-    'FCM_KEY'=> env('FCM_KEY'),
+    'FCM_KEY' => env('FCM_KEY'),
 
     /* Firebase notification */
-    'offline_message_token'=> env('OFFLINE_MESSAGE_TOKEN'),
- 
+    'offline_message_token' => env('OFFLINE_MESSAGE_TOKEN'),
+
     /* PAYSTACK integration key (payment) */
-    'PAYSTACK_SECRET_KEY'=> env('PAYSTACK_SECRET_KEY'),
-    'PAYSTACK_PUBLIC_KEY'=> env('PAYSTACK_PUBLIC_KEY'),
-    'PAYSTACK_PAYMENT_URL'=> env('PAYSTACK_PAYMENT_URL'),
-    'MERCHANT_EMAIL'=> env('MERCHANT_EMAIL'),
- 
+    'PAYSTACK_SECRET_KEY' => env('PAYSTACK_SECRET_KEY'),
+    'PAYSTACK_PUBLIC_KEY' => env('PAYSTACK_PUBLIC_KEY'),
+    'PAYSTACK_PAYMENT_URL' => env('PAYSTACK_PAYMENT_URL'),
+    'MERCHANT_EMAIL' => env('MERCHANT_EMAIL'),
+
     /* OCTOPUSH integration key (sms) */
-    'OCTOPUSH_API_URL'=> env('OCTOPUSH_API_URL'),
-    'OCTOPUSH_LOGIN_NAME'=> env('OCTOPUSH_LOGIN_NAME'),
-    'OCTOPUSH_API_KEY'=> env('OCTOPUSH_API_KEY'),
- 
+    'OCTOPUSH_API_URL' => env('OCTOPUSH_API_URL'),
+    'OCTOPUSH_LOGIN_NAME' => env('OCTOPUSH_LOGIN_NAME'),
+    'OCTOPUSH_API_KEY' => env('OCTOPUSH_API_KEY'),
+
     /* MTARGET integration key (sms) */
-    'MTARGET_API_URL'=> env('MTARGET_API_URL'),
-    'MTARGET_USERNAME'=> env('MTARGET_USERNAME'),
-    'MTARGET_PASSWORD'=> env('MTARGET_PASSWORD'),
+    'MTARGET_API_URL' => env('MTARGET_API_URL'),
+    'MTARGET_USERNAME' => env('MTARGET_USERNAME'),
+    'MTARGET_PASSWORD' => env('MTARGET_PASSWORD'),
 
     /* EJABBERD integration (chat) */
     'EJABBERD_PORT' => env('EJABBERD_PORT'),
@@ -195,11 +195,11 @@ return [
     /* google recaptch */
     'GOOGLE_RECAPTCH_URL' => env('GOOGLE_RECAPTCH_URL'),
     'GOOGLE_RECAPTCH_SECRET_KEY' => env('GOOGLE_RECAPTCH_SECRET_KEY'),
- 
+
     /* mobile no verification */
     'MOBILE_VERIFICATION_API_URL' => env('MOBILE_VERIFICATION_API_URL'),
     'MOBILE_VERIFICATION_API_KEY' => env('MOBILE_VERIFICATION_API_KEY'),
- 
+
     /* mobile no verification */
     'TERMII_URL' => env('TERMII_URL'),
     'TERMII_API_KEY' => env('TERMII_API_KEY'),
@@ -211,6 +211,14 @@ return [
     /* mail api */
     'MAIL_API' => env('MAIL_API'),
     'MAIL_AUTHORIZATION' => env('MAIL_AUTHORIZATION'),
+
+    /* Web Api response decrypt */
+    'WEB_API_ENC_KEY' => env('WEB_API_KEY_ENC'),
+    'WEB_API_ENC_VI_KEY' => env('WEB_API_ENCRYPT_VI_KEY'),
+
+    'WEB_API_DEC_KEY' => env('WEB_API_KEY_DEC'),
+    'WEB_API_DEC_VI_KEY' => env('WEB_API_DECRYPT_VI_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

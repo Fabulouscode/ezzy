@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected $namespace_web = 'App\\Http\\Controllers\\WebApi';
     public function boot()
     {
         $this->configureRateLimiting();
@@ -46,6 +47,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            Route::prefix('webApi')
+                ->as('web_api.')
+                ->namespace($this->namespace_web)
+                ->group(base_path('routes/webApi.php'));
         });
 
         RateLimiter::for('RegisterThrottle', function (Request $request) {
