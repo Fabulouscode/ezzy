@@ -35,18 +35,10 @@ class WebCustomEncrypt implements EncrypterContract
 	public function __construct()
 	{
 
-		if (Str::startsWith($key = config('app.WEB_API_ENC_KEY'), 'base64:')) {
-			$encryption_key = base64_decode(substr($key, 7));
-		}
-
-		if (Str::startsWith($key = config('app.WEB_API_DEC_KEY'), 'base64:')) {
-			$decryption_key = base64_decode(substr($key, 7));
-		}
-
 		$cipher = config('app.cipher', 'AES-128-CBC');
 
-		$encryption_key = (string) $encryption_key;
-		$decryption_key = (string) $decryption_key;
+		$encryption_key = (string) config('app.WEB_API_ENC_KEY');
+		$decryption_key = (string) config('app.WEB_API_DEC_KEY');
 
 		if (static::supported($encryption_key, $cipher) && static::supported($decryption_key, $cipher)) {
 			$this->encryption_key = $encryption_key;
@@ -125,7 +117,7 @@ class WebCustomEncrypt implements EncrypterContract
 		}
 
 		if (!empty(config('app.debug'))) {
-			return compact('value', 'mac', 'data');
+			return compact('value', 'mac');
 		} else {
 			return compact('value', 'mac');
 		}
@@ -252,7 +244,7 @@ class WebCustomEncrypt implements EncrypterContract
 	 */
 	protected function validMac(array $payload)
 	{
-		$calculated = $this->calculateMac($payload, $bytes = random_bytes(16), config('app.API_DEC_VI_KEY'));
+		$calculated = $this->calculateMac($payload, $bytes = random_bytes(16), config('app.WEB_API_DEC_VI_KEY'));
 
 		return hash_equals(
 			hash_hmac('sha256', $payload['mac'], $bytes, true),

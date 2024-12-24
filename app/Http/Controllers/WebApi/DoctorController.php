@@ -21,4 +21,16 @@ class DoctorController extends BaseController
             return $this->sendError("Something went wrong please try again!");
         }
     }
+
+    public function getAllDoctor(Request $request)
+    {
+        try {
+            $logs = User::with("categoryChild")->where("category_id", 4)->where("status", 0)->select("profile_image", "subcategory_id", "first_name", "last_name")
+                ->paginate($request->per_page ?? 10, ['*'], 'page', $request->page ?? 1);
+            return $this->sendSuccess($logs);
+        } catch (Exception $e) {
+            Log::info($e);
+            return $this->sendError("Something went wrong please try again!");
+        }
+    }
 }
