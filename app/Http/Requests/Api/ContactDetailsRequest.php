@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ContactDetailsRequest extends FormRequest
 {
-      /**
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -34,8 +34,9 @@ class ContactDetailsRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
-        $transformed=[];
+    protected function failedValidation(Validator $validator)
+    {
+        $transformed = [];
         foreach ($validator->errors()->toArray() as $field => $message) {
             $transformed[$field] = $message[0];
         }
