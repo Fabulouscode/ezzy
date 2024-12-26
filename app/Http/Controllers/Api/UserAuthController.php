@@ -194,8 +194,8 @@ class UserAuthController extends BaseApiController
                             $controller = new CustomEmailController();
                             // Call the sendEmail method with the necessary data
                             $controller->sendEmail($subject, $toMail, $toName, $templateName, $templateData);
+                            // Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
                         }
-                        // Mail::to($request->email)->send(new RegistrationOtp($mobile_code));
                     } else {
                         if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
                         } else {
@@ -279,16 +279,16 @@ class UserAuthController extends BaseApiController
 
             $user = $this->user_repo->checkbyEmailVerify($request);
             if (!empty($request->country_code) && !empty($request->mobile_no)) {
-                $user = $this->user_repo->getbyMobileNo($request);
-                if (!empty($user)) {
+                $userCheck = $this->user_repo->getbyMobileNo($request);
+                if (!empty($userCheck)) {
                     return self::sendError('', 'Mobile No. Already Registered.', 500);
                 }
             }
         } else {
-            $user = $this->user_repo->checkbyMobileNoVerify($request);            
+            $user = $this->user_repo->checkbyMobileNoVerify($request);
             if (!empty($request->email)) {
-                $user = $this->user_repo->getbyEmail($request);
-                if (!empty($user)) {
+                $userCheck = $this->user_repo->getbyEmail($request);
+                if (!empty($userCheck)) {
                     return self::sendError('', 'Email Id Already Registered.', 500);
                 }
             }
@@ -364,16 +364,16 @@ class UserAuthController extends BaseApiController
         if (!empty($request->register_type) && $request->register_type == '2') {
             $user = $this->user_repo->checkbyEmailVerify($request);
             if (!empty($request->country_code) && !empty($request->mobile_no)) {
-                $user = $this->user_repo->getbyMobileNo($request);
-                if (!empty($user)) {
+                $userCheck = $this->user_repo->getbyMobileNo($request);
+                if (!empty($userCheck)) {
                     return self::sendError('', 'Mobile No. Already Registered.', 500);
                 }
             }
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
             if (!empty($request->email)) {
-                $user = $this->user_repo->getbyEmail($request);
-                if (!empty($user)) {
+                $userCheck = $this->user_repo->getbyEmail($request);
+                if (!empty($userCheck)) {
                     return self::sendError('', 'Email Id Already Registered.', 500);
                 }
             }
