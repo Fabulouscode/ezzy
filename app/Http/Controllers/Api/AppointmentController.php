@@ -403,6 +403,21 @@ class AppointmentController extends BaseApiController
             \Log::info("Provider is busy ".json_encode($check_appointment));   
             return self::sendError([], 'Please change the appointment time. The provider is busy.');
         }
+
+        //urgent appiointment any start check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemt($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemt ".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
+        }
+        
+
+        //urgent appiointment any running check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemtRunning($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemtRunning ".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
+        }
         
         $appointment_address = "";
         
@@ -614,6 +629,21 @@ class AppointmentController extends BaseApiController
             if(empty($check_user_location)){
                 return self::sendError([], 'Please add the location before booking the appointment.');
             }
+        }
+
+        //urgent appiointment any start check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemt($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemt urgent".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
+        }
+        
+
+        //urgent appiointment any running check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemtRunning($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemtRunning urgent".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
         
         // //user timing check
