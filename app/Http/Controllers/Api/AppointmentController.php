@@ -419,6 +419,21 @@ class AppointmentController extends BaseApiController
             return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
         
+        //urgent appiointment any start check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemt($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemt ".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
+        }
+        
+
+        //urgent appiointment any running check
+        $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemtRunning($request);
+        if(!empty($check_appointment)){
+            \Log::info("checkUserUrgentAppointmemtRunning ".json_encode($check_appointment));   
+            return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
+        }
+        
         $appointment_address = "";
         
         $check_user_location = $this->user_location_repo->getbyUserPrimaryAddress($request->user()->id);
@@ -634,7 +649,7 @@ class AppointmentController extends BaseApiController
         //urgent appiointment any start check
         $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemt($request);
         if(!empty($check_appointment)){
-            \Log::info("checkUserUrgentAppointmemt urgent".json_encode($check_appointment));   
+            \Log::info("checkUserUrgentAppointmemt urgent ".json_encode($check_appointment));   
             return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
         
@@ -642,7 +657,7 @@ class AppointmentController extends BaseApiController
         //urgent appiointment any running check
         $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemtRunning($request);
         if(!empty($check_appointment)){
-            \Log::info("checkUserUrgentAppointmemtRunning urgent".json_encode($check_appointment));   
+            \Log::info("checkUserUrgentAppointmemtRunning urgent ".json_encode($check_appointment));   
             return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
         
@@ -779,7 +794,7 @@ class AppointmentController extends BaseApiController
         //urgent appiointment any start check
         $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemt($request);
         if(!empty($check_appointment)){
-            \Log::info("checkUserUrgentAppointmemt urgent".json_encode($check_appointment));   
+            \Log::info("checkUserUrgentAppointmemt urgent ".json_encode($check_appointment));   
             return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
         
@@ -787,7 +802,7 @@ class AppointmentController extends BaseApiController
         //urgent appiointment any running check
         $check_appointment = $this->appointment_repo->checkUserUrgentAppointmemtRunning($request);
         if(!empty($check_appointment)){
-            \Log::info("checkUserUrgentAppointmemtRunning urgent".json_encode($check_appointment));   
+            \Log::info("checkUserUrgentAppointmemtRunning urgent ".json_encode($check_appointment));   
             return self::sendError([], 'Please complete the urgent appointment first, and then book a new appointment.');
         }
       
