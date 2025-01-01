@@ -127,6 +127,11 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    /* ezzycare host */
+    'EZZYCARE_HOST' => env('EZZYCARE_HOST'),
+    'EZZYCARE_ADMIN_HOST' => env('EZZYCARE_ADMIN_HOST'),
+    'EZZYCARE_API_HOST' => env('EZZYCARE_API_HOST'),
+
     /* Api response decrypt */
     'API_ENC_KEY' => env('API_KEY_ENC'),
     'API_ENC_VI_KEY' => env('API_ENCRYPT_VI_KEY'),
