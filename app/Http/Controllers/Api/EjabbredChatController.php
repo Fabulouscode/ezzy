@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChatHistory;
+use App\Models\ChatLastActivity;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DB;
@@ -113,6 +114,15 @@ class EjabbredChatController extends BaseApiController
                 return self::sendSuccess([], 'Chat Users listing');
             else
                 return self::sendSuccess([], 'Not Clear Chat History');
+        } else
+            return self::sendSuccess([], 'Must be required user id');
+    }
+ 
+    public function getLastActivity(Request $request)
+    {
+        if ($request->user_id != '') {
+            $query = ChatLastActivity::where('username', $request->user_id)->first();
+            return self::sendSuccess($query, 'user last activity');
         } else
             return self::sendSuccess([], 'Must be required user id');
     }
