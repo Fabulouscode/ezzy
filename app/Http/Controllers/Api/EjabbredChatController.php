@@ -118,10 +118,10 @@ class EjabbredChatController extends BaseApiController
             return self::sendSuccess([], 'Must be required user id');
     }
  
-    public function getLastActivity(Request $request)
+    public function getLastActivity($user_id)
     {
-        if ($request->user_id != '') {
-            $query = ChatLastActivity::where('username', $request->user_id)->first();
+        if ($user_id != '') {
+            $query = ChatLastActivity::where('username', $user_id)->first();
             return self::sendSuccess($query, 'user last activity');
         } else
             return self::sendSuccess([], 'Must be required user id');
