@@ -15,7 +15,7 @@
                             </div> --}}
                         </div>
                         <div class="why-choose-btn">
-                            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
+                            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare.app" >
                                 <i class="flaticon-play-store"></i>
                                 <p>Download on</p>
                                 <h5>Google Play</h5>
@@ -274,7 +274,7 @@
                     <p>Ezzycare is available on both Android and IOS platforms.</p>
                     <!-- <p>If you are on the phone, you have a phone in your home or place of work, so that you can be used by phone. Ezzycare is available on your Android and IOS phone. Get Installation very easily from below links.</p> -->
                     <div class="why-choose-btn">
-                        <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare" >
+                        <a target="_blank" href="https://play.google.com/store/apps/details?id=com.ezzycare.app" >
                             <i class="flaticon-play-store"></i>
                             <p>Download on</p>
                             <h5>Google Play</h5>
