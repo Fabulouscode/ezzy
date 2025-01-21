@@ -54,15 +54,22 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace_web)
                     ->group(base_path('routes/webApi.php'));
             } else {
-                Route::domain(config('app.EZZYCARE_ADMIN_HOST'))
+                Route::domain(config('app.EZZYCARE_HOST'))
                     ->middleware('web')
                     ->namespace($this->namespace)
                     ->group(base_path('routes/web.php'));
+
+                Route::domain(config('app.EZZYCARE_HOST'))
+                    ->prefix('api')
+                    ->middleware('api')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/api.php'));
 
                 Route::domain(config('app.EZZYCARE_API_HOST'))
                     ->middleware('api')
                     ->namespace($this->namespace)
                     ->group(base_path('routes/api.php'));
+
 
                 Route::domain(config('app.EZZYCARE_API_HOST'))
                     ->prefix('web-api')
