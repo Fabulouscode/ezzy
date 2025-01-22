@@ -266,16 +266,16 @@ class UserAuthController extends BaseApiController
 
             $user = $this->user_repo->checkbyEmailVerify($request);
             if (!empty($request->country_code) && !empty($request->mobile_no)) {
-                $user = $this->user_repo->getbyMobileNo($request);
-                if (!empty($user)) {
+                $userMobile = $this->user_repo->getbyMobileNo($request);
+                if (!empty($userMobile)) {
                     return self::sendError('', 'Mobile No. Already Registered.', 500);
                 }
             }
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);            
             if (!empty($request->email)) {
-                $user = $this->user_repo->getbyEmail($request);
-                if (!empty($user)) {
+                $userEmail = $this->user_repo->getbyEmail($request);
+                if (!empty($userEmail)) {
                     return self::sendError('', 'Email Id Already Registered.', 500);
                 }
             }
@@ -351,16 +351,16 @@ class UserAuthController extends BaseApiController
         if (!empty($request->register_type) && $request->register_type == '2') {
             $user = $this->user_repo->checkbyEmailVerify($request);
             if (!empty($request->country_code) && !empty($request->mobile_no)) {
-                $user = $this->user_repo->getbyMobileNo($request);
-                if (!empty($user)) {
+                $userMobile = $this->user_repo->getbyMobileNo($request);
+                if (!empty($userMobile)) {
                     return self::sendError('', 'Mobile No. Already Registered.', 500);
                 }
             }
         } else {
             $user = $this->user_repo->checkbyMobileNoVerify($request);
             if (!empty($request->email)) {
-                $user = $this->user_repo->getbyEmail($request);
-                if (!empty($user)) {
+                $userEmail = $this->user_repo->getbyEmail($request);
+                if (!empty($userEmail)) {
                     return self::sendError('', 'Email Id Already Registered.', 500);
                 }
             }
