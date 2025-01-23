@@ -47,13 +47,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://ezzycare.com/terms.html">
+                            <a href="https://admin.ezzycare.com/terms.html">
                                 <i class="flaticon-right-arrow"></i>
                                 Terms and Conditions
                             </a>
                         </li>
                         <li>
-                            <a href="https://ezzycare.com/privacy.html">
+                            <a href="https://admin.ezzycare.com/privacy.html">
                                 <i class="flaticon-right-arrow"></i>
                                 Privacy Policy
                             </a>
