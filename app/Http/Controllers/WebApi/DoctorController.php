@@ -14,7 +14,7 @@ class DoctorController extends BaseController
     public function getRandomDoctor(Request $request)
     {
         try {
-            $doctor = User::with("categoryChild")->where("category_id", 4)->where("status", 0)->select("profile_image", "subcategory_id", "first_name", "last_name")->inRandomOrder()->take(4)->get()->append(["user_name"]);
+            $doctor = User::with("categoryChild")->where("category_id", 4)->where('mobile_no', 'not like', '90000000%')->where("status", 0)->select("profile_image", "subcategory_id", "first_name", "last_name")->inRandomOrder()->take(4)->get()->append(["user_name"]);
             return $this->sendSuccess($doctor);
         } catch (Exception $e) {
             Log::info($e);
@@ -25,7 +25,7 @@ class DoctorController extends BaseController
     public function getAllDoctor(Request $request)
     {
         try {
-            $logs = User::with("categoryChild")->where("category_id", 4)->where("status", 0)->select("profile_image", "subcategory_id", "first_name", "last_name")
+            $logs = User::with("categoryChild")->where("category_id", 4)->where('mobile_no', 'not like', '90000000%')->where("status", 0)->select("profile_image", "subcategory_id", "first_name", "last_name")
                 ->paginate($request->per_page ?? 10, ['*'], 'page', $request->page ?? 1);
             return $this->sendSuccess($logs);
         } catch (Exception $e) {
