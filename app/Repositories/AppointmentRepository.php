@@ -1330,7 +1330,7 @@ class AppointmentRepository extends Repository
     public function getOldAppointmentPending()
     {   		
         $current_time  =  Carbon::now();
-        $currentTime = $current_time->subDays(1);
+        $currentTime = $current_time->subMinutes(31);
         $current_date = $currentTime->format('Y-m-d H:i:s');  
         return DB::select("select *  from `appointments` where TIMESTAMP(`appointment_date`,`appointment_time`) <= '".$current_date."' and `urgent` = 0 and `status` in (0, 1) and `appointments`.`deleted_at` is null");
       
