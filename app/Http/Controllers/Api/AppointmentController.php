@@ -1750,7 +1750,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $appointmentRequest->client_id,
                                         'title' => 'Urgent Appointment',
                                         'message' => 'Urgent appointment request accepted by '.$doctorUser->user_name,
-                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s'), 'urgent' => $appointment_details->urgent]),
+                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s'), 'urgent' => $appointment_details->urgent]),
                                         'msg_type' => '2',
                                     ];  
                 try{
@@ -1764,7 +1764,7 @@ class AppointmentController extends BaseApiController
                                         'receiver_id' => $request->user_id,
                                         'title' => 'Urgent Appointment',
                                         'message' => 'Urgent appointment request accepted',
-                                        'parameter' => json_encode(['appointment_id'=> $appointmentRequest->id, 'status'=>$appointmentRequest->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s'), 'urgent' => $appointment_details->urgent]),
+                                        'parameter' => json_encode(['appointment_id'=> $appointment_details->id, 'status'=>$appointment_details->status,'notification_time'=>Carbon::now()->format('Y-m-d H:i:s'), 'urgent' => $appointment_details->urgent]),
                                         'msg_type' => '2',
                                     ];  
                 try{
