@@ -434,6 +434,7 @@ Route::namespace('App\Http\Controllers\Api')->middleware('decrypt_req')->group(f
             Route::post('chat-history', 'EjabbredChatController@chat_history');
             Route::get('chat-users', 'EjabbredChatController@users');
             Route::post('chat-history-clear', 'EjabbredChatController@chatHistoryClear');
+            Route::get('user-last-activity/{user_id?}', 'EjabbredChatController@getLastActivity');
         });
 
     });

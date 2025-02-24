@@ -34,23 +34,46 @@ class RouteServiceProvider extends ServiceProvider
      * @return void
      */
     protected $namespace_web = 'App\\Http\\Controllers\\WebApi';
+
     public function boot()
     {
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+            if (!empty(config('app.env')) && config('app.env') == 'staging' || config('app.env') == 'local') {
+                Route::prefix('api')
+                    ->middleware('api')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+                Route::middleware('web')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/web.php'));
 
-            Route::prefix('web-api')
-                ->namespace($this->namespace_web)
-                ->group(base_path('routes/webApi.php'));
+                Route::prefix('web-api')
+                    ->namespace($this->namespace_web)
+                    ->group(base_path('routes/webApi.php'));
+            } else {
+                Route::domain(config('app.EZZYCARE_ADMIN_HOST'))
+                    ->middleware('web')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/web.php'));
+
+                Route::domain(config('app.EZZYCARE_API_HOST'))
+                    ->middleware('api')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/api.php'));
+
+                Route::domain(config('app.EZZYCARE_API_HOST'))
+                    ->prefix('web-api')
+                    ->namespace($this->namespace_web)
+                    ->group(base_path('routes/webApi.php'));
+
+                Route::prefix('api')
+                    ->middleware('api')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/api.php'));
+            }
         });
 
         RateLimiter::for('RegisterThrottle', function (Request $request) {

@@ -200,9 +200,9 @@ class CronJobContrller extends BaseApiController
                     $appointment_end_time = new Carbon($value->appointment_end_date . ' ' . $value->appointment_end_time);
                     $appointment_end_time = $appointment_end_time->subMinute(1);
                 }
-
                 $url = config('app.url') . "api/user/video/appointment/completed";
-                if ($value->urgent == '1' && !empty($appointment_end_time) && $current_time > $appointment_end_time) {
+
+                if ($value->urgent == '0' && !empty($value->start_datetime) && !empty($value->completed_datetime) && $current_time >= $value->completed_datetime) {
                     $data = [
                         "id" => $value->id,
                         "status" => 4,
@@ -210,22 +210,32 @@ class CronJobContrller extends BaseApiController
                         "consult_notes" => '',
                     ];
                     self::completedAppointment($data);
-                } else if ($value->urgent == '1' && $value->appointment_type == '2' && $current_time > $urgent_appointment_time) {
-                    $data = [
-                        "id" => $value->id,
-                        "status" => 4,
-                        "completed_datetime" => $current_time,
-                        "consult_notes" => '',
-                    ];
-                    self::completedAppointment($data);
-                } else if ($value->urgent == '0' && !empty($appointment_end_time) && $current_time > $appointment_end_time) {
-                    $data = [
-                        "id" => $value->id,
-                        "status" => 4,
-                        "completed_datetime" => $current_time,
-                        "consult_notes" => '',
-                    ];
-                    self::completedAppointment($data);
+                } else {
+                    if ($value->urgent == '1' && !empty($appointment_end_time) && $current_time > $appointment_end_time) {
+                        $data = [
+                            "id" => $value->id,
+                            "status" => 4,
+                            "completed_datetime" => $current_time,
+                            "consult_notes" => '',
+                        ];
+                        self::completedAppointment($data);
+                    } else if ($value->urgent == '1' && $value->appointment_type == '2' && $current_time > $urgent_appointment_time) {
+                        $data = [
+                            "id" => $value->id,
+                            "status" => 4,
+                            "completed_datetime" => $current_time,
+                            "consult_notes" => '',
+                        ];
+                        self::completedAppointment($data);
+                    } else if ($value->urgent == '0' && !empty($appointment_end_time) && $current_time > $appointment_end_time) {
+                        $data = [
+                            "id" => $value->id,
+                            "status" => 4,
+                            "completed_datetime" => $current_time,
+                            "consult_notes" => '',
+                        ];
+                        self::completedAppointment($data);
+                    }
                 }
             }
         }
@@ -477,25 +487,25 @@ class CronJobContrller extends BaseApiController
                     }
                     $hcpFees = 50 + ((int)$value->hcp_fees * 2);
                     $user = User::where('id', $value->client_id)->select('id', 'wallet_balance')->first();
-                    Log::info("urgnet appoinetment calc start");     
-                    Log::info($value->id);     
-                    Log::info($transaction_amount);       
-                    Log::info($transaction_amount);       
+                    Log::info("urgnet appoinetment calc start");
+                    Log::info($value->id);
+                    Log::info($transaction_amount);
+                    Log::info($transaction_amount);
                     $walletBalanceCalculate = 0;
                     if (!empty($user)) {
                         $walletBalanceCalculate = $user->wallet_balance - $transaction_amount;
                         Log::info("urgnet appoinetment wallet calc");
-                        Log::info($user->wallet_balance);     
-                        Log::info($transaction_amount);     
-                        Log::info($walletBalanceCalculate);     
+                        Log::info($user->wallet_balance);
+                        Log::info($transaction_amount);
+                        Log::info($walletBalanceCalculate);
                     }
                     Log::info("urgnet appoinetment walletBalanceCalculate hcpFees");
-                    Log::info($walletBalanceCalculate);       
-                    Log::info($hcpFees);           
+                    Log::info($walletBalanceCalculate);
+                    Log::info($hcpFees);
                     if (!empty($walletBalanceCalculate) && $walletBalanceCalculate > $hcpFees) {
-                       Log::info("urgnet appoinetment walletBalanceCalculate availbale");
-                       Log::info($walletBalanceCalculate);       
-                       Log::info($hcpFees);    
+                        Log::info("urgnet appoinetment walletBalanceCalculate availbale");
+                        Log::info($walletBalanceCalculate);
+                        Log::info($hcpFees);
                     } else {
                         //Due to insufficient wallet balance, the appointment will be automatically marked as completed.
                         if ($value->urgent == '1' && isset($walletBalanceCalculate)) {
@@ -510,7 +520,7 @@ class CronJobContrller extends BaseApiController
                             self::completedAppointment($data);
                         }
                     }
-                    Log::info("urgnet appoinetment calc end"); 
+                    Log::info("urgnet appoinetment calc end");
                 }
             }
         }

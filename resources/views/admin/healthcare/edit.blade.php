@@ -139,7 +139,7 @@
                                     <div class="row">
                                         <dt class="col-sm-5"><label>Years of Experience</label></dt>
                                         <dd class="col-sm-7"> 
-                                            <input type="text" required class="form-control" name="userDetails[total_experiance_year]" value="{{$data->userDetails->total_experiance_year}}">
+                                            <input type="text" readonly class="form-control" name="userDetails[total_experiance_year]" value="{{$data->userDetails->total_experiance_year}}">
                                         </dd>
                                     </div>
                                     
