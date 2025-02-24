@@ -1758,6 +1758,8 @@ class AppointmentController extends BaseApiController
                 }catch(\Exception $e){
                     
                 }  
+                Log::info('send_notification');
+                Log::info(json_encode($send_notification));
 
                 $patient_send_notification = [
                                         'sender_id' => $appointmentRequest->client_id,
@@ -1772,7 +1774,8 @@ class AppointmentController extends BaseApiController
                 }catch(\Exception $e){
                     
                 } 
-                   
+                Log::info('patient_send_notification');
+                Log::info(json_encode($patient_send_notification));
             }
             Log::info("Appointment Request Accepted".date('H:i:s'));
             DB::commit();
