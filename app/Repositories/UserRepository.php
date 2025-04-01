@@ -1726,8 +1726,8 @@ class UserRepository extends Repository
         DB::enableQueryLog();
         $query = User::query()
         ->select('users.*', DB::raw('
-            (SELECT COUNT(*) FROM appointments WHERE client_id = users.id) AS client_appointments_count,
-            (SELECT COUNT(*) FROM orders WHERE client_id = users.id) AS client_orders_count
+            (SELECT COUNT(*) FROM appointments WHERE client_id = users.id and status = 5) AS client_appointments_count,
+            (SELECT COUNT(*) FROM orders WHERE client_id = users.id and status = 3) AS client_orders_count
         '))
         ->with(['categoryParent', 'categoryChild']);
 
