@@ -14,12 +14,14 @@ $("#patient_detail_datatable").DataTable({
         async: true,
         data: {
             status: data_status,
-            category_id: data_category_id,
-            start_date: function() {
-                return $("#user_start_date").val();
+            category_id: function () { return $('#searchByHcpType').val() },     
+            appointment_type: function () { return $('#searchByAppointmentType').val() },    
+            urgent: function () { return $('#searchByAppointmentUrgent').val() },  
+            appointment_start_date: function() {
+                return $("#appointment_start_date").val();
             },
-            end_date: function() {
-                return $("#user_end_date").val();
+            appointment_end_date: function() {
+                return $("#appointment_end_date").val();
             }
         },
         error: function(xhr, status, error) {
@@ -46,7 +48,7 @@ $("#patient_detail_datatable").DataTable({
         api.columns([0]).visible(showColumn);
     }
 });
-$("#user-date-range").daterangepicker({
+$("#appointment-date-range").daterangepicker({
     maxDate: moment(),
     autoUpdateInput: false,
     locale: {
@@ -70,14 +72,19 @@ $("#user-date-range").daterangepicker({
         ]
     }
 });
-$("#user-date-range").on("apply.daterangepicker", function(ev, picker) {
-    $("#user_start_date").val(picker.startDate.format("YYYY-MM-DD"));
-    $("#user_end_date").val(picker.endDate.format("YYYY-MM-DD"));
+$("#appointment-date-range").on("apply.daterangepicker", function(ev, picker) {
+    $("#appointment_start_date").val(picker.startDate.format("YYYY-MM-DD"));
+    $("#appointment_end_date").val(picker.endDate.format("YYYY-MM-DD"));
     $(this).val(
         picker.startDate.format("MM/DD/YYYY") +
             " - " +
             picker.endDate.format("MM/DD/YYYY")
     );
     var oTable = $("#patient_detail_datatable").dataTable();
+    oTable.fnDraw(true);
+});
+
+$('#searchByHcpType,  #searchByAppointmentType, #searchByAppointmentUrgent').on('change', function (ev, picker) {
+    var oTable = $('#patient_detail_datatable').dataTable();
     oTable.fnDraw(true);
 });
