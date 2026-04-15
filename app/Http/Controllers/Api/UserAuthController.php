@@ -393,7 +393,6 @@ class UserAuthController extends BaseApiController
                 // }
             }
         }
-
         if (!empty($user)) {
             try {
                 DB::beginTransaction();
@@ -440,9 +439,9 @@ class UserAuthController extends BaseApiController
             }
         } else {
             if (!empty($request->register_type) && $request->register_type == '2') {
-                return self::sendError('', 'Email Id Already Registered.');
+                return self::sendError('', 'Email.Id Already Registered.');
             } else {
-                return self::sendError('', 'Mobile No. Already Registered.');
+                return self::sendError('', 'Mobile_No. Already Registered.');
             }
         }
     }
